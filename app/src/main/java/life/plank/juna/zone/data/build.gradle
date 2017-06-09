@@ -24,7 +24,6 @@ dependencies {
     compile dataDependencies.javaxInject
     compile dataDependencies.okHttp
     compile dataDependencies.gson
-    compile dataDependencies.rxJava
     compile dataDependencies.rxJavaAdapter
     compile dataDependencies.rxAndroid
     compile dataDependencies.androidAnnotations

@@ -14,9 +14,8 @@ ext {
     //Libraries
     butterKnifeVersion = '8.4.0'
     recyclerViewVersion = '25.0.0'
-    rxJavaVersion = '2.0.1'
-    rxJavaAdapterVersion = '1.0.0'
-    rxAndroidVersion = '2.0.1'
+    rxJavaAdapterVersion = '2.1.0'
+    rxAndroidVersion = '1.2.1'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     gsonVersion = '2.1.0'
@@ -45,8 +44,8 @@ ext {
             butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler  : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             recyclerView         : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
-            rxJava               : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxAndroid            : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            rxJavaAdapter     : "com.squareup.retrofit2:adapter-rxjava:${rxJavaAdapterVersion}",
             javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             materialSearchView   : "com.miguelcatalan:materialsearchview:${materialSearchViewVersion}",
             materialDesignDimens : "com.dmitrymalkovich.android:material-design-dimens:${materialDesignDimensVersion}",
@@ -68,8 +67,7 @@ ext {
 
     domainDependencies = [
             javaxAnnotation: "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}",
-            rxJava         : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
+            javaxInject    : "javax.inject:javax.inject:${javaxInjectVersion}"
     ]
 
     domainTestDependencies = [
@@ -81,9 +79,8 @@ ext {
             okHttp            : "com.squareup.okhttp3:okhttp:${okHttpVersion}",
             retrofit          : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
             gson              : "com.squareup.retrofit2:converter-gson:${gsonVersion}",
-            rxJava            : "io.reactivex.rxjava2:rxjava:${rxJavaVersion}",
-            rxJavaAdapter     : "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${rxJavaAdapterVersion}",
-            rxAndroid         : "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}",
+            rxJavaAdapter     : "com.squareup.retrofit2:adapter-rxjava:${rxJavaAdapterVersion}",
+            rxAndroid         : "io.reactivex:rxandroid:${rxAndroidVersion}",
             javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"
