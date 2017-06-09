@@ -1,7 +1,9 @@
-package life.plank.juna.zone;
+package life.plank.juna.zone.presentation.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import life.plank.juna.zone.R;
 
 /**
  * Created by dhamini-poorna-chandra on 6/6/2017.

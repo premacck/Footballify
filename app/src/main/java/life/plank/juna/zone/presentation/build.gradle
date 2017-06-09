@@ -33,7 +33,6 @@ dependencies {
 
     compile presentationDependencies.butterKnife
     compile presentationDependencies.recyclerView
-    compile presentationDependencies.rxJava
     compile presentationDependencies.rxAndroid
     compile presentationDependencies.materialSearchView
     compile presentationDependencies.materialDesignDimens
