@@ -13,9 +13,10 @@ node('master') {
 
     stage 'Code Quality Analysis'
 
-    stage 'Running Integration Test cases'
+    // sh "./gradlew sonarqube"
 
     stage 'Uploading artifact to Nexus'
+    // sh "./gradlew upload"
 
     /*-------------END OF DEV AUTOMATION PROCESS */
 
