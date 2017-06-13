@@ -6,7 +6,6 @@ node('master') {
 
     stage 'Build'
     sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
-    sh '$HOME/automation/scripts-android/accept-sdk-licenses'
     sh "./gradlew clean build"
     echo '********************************************************************************'
 
