@@ -45,6 +45,7 @@ node('master') {
     try {
         timeout(time: 24, unit: 'HOURS') {
             input 'Have you finished your setup checklist and are ready to test?'
+            
 
         }
     } catch (err) {
