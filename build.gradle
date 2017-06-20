@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply from: "app/src/main/java/life/plank/juna/zone/buildsystem/dependency.gradle"
 
+
 buildscript {
     repositories {
         maven { url "https://jitpack.io" }
