@@ -21,3 +21,5 @@ app/*.iml
 *.pro
 *.stackdump
 
+*.prefs
+.vscode/

@@ -18,6 +18,8 @@ allprojects {
     repositories {
         maven { url "https://jitpack.io" }
         jcenter()
+            url nexusUrl + "/content/repositories/rc"
+        maven { url nexusUrl + "/content/groups/public" }
     }
     ext {
         androidApplicationId = 'life.plank.juna.zone'
@@ -30,4 +32,9 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+        property "sonar.host.url", sonarUrl
+            snapshotRepository(url: nexusUrl+"/content/repositories/snapshots") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            repository(url: nexusUrl+"/content/repositories/rc") {
+                authentication(userName: nexusUsername, password: nexusPassword)
 }
