@@ -1,23 +1,42 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 apply from: "app/src/main/java/life/plank/juna/zone/buildsystem/dependency.gradle"
+apply plugin: 'org.sonarqube'
+apply plugin: 'java'
+apply plugin: 'maven'
 
+//TODO: Inject version from external file
+//TODO: Move custom scripts to a new build.gradle file
 buildscript {
     repositories {
-        maven { url "https://jitpack.io" }
+        maven {
+            url "https://jitpack.io"
+        }
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.2'
-
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-
 allprojects {
     repositories {
-        maven { url "https://jitpack.io" }
+        maven {
+            url "https://jitpack.io"
+        }
         jcenter()
+        maven {
+            url nexusUrl + "/content/repositories/rc"
+        }
+        maven {
+            url "http://repository.excilys.com/content/groups/public"
+        }
+        maven {
+            url nexusUrl + "/content/groups/public"
+        }
+        mavenCentral()
+        mavenLocal()
     }
     ext {
         androidApplicationId = 'life.plank.juna.zone'
@@ -27,7 +46,30 @@ allprojects {
         testApplicationId = 'life.plank.juna.zone.test'
     }
 }
-
-task clean(type: Delete) {
-    delete rootProject.buildDir
+sonarqube {
+    properties {
+        property "sonar.projectName", "Plank Juna Zone Android App"
+        property "sonar.projectKey", "org.sonarqube:java-gradle-battery-android-app"
+        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
+        property "sonar.host.url", sonarUrl
+        property "sonar.java.binaries", "build"
+        property "sonar.sources", "src"
+    }
+}
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            snapshotRepository(url: nexusUrl + "/content/repositories/snapshots") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+            repository(url: nexusUrl + "/content/repositories/rc") {
+                authentication(userName: nexusUsername, password: nexusPassword)
+            }
+            pom.version = "0.0.1"
+            println 'Version being uploaded is:' + pom.version
+            pom.artifactId = 'PlankJunaZoneAndroidApp'
+            pom.groupId = 'life.plank'
+            pom.name = 'PlankJunaZoneAndroidApp'
+        }
+    }
 }
