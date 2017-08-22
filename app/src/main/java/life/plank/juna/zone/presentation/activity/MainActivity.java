@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import life.plank.juna.zone.R;
 
 /**
- * Created by dhamini-poorna-chandra on 6/6/2017.
+ * Created by dhamini-poorna-chandra on 6/6/2017
  */
 
 public class MainActivity extends AppCompatActivity {
