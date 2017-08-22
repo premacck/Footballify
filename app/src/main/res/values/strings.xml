@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Zone</string>
+    <string name="user_name">Username</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_up_here">Haven\'t registered yet? Click here</string>
 </resources>
