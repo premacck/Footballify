@@ -5,4 +5,9 @@
     <string name="remember_me">Remember me</string>
     <string name="sign_in">SIGN IN</string>
     <string name="sign_up_here">Haven\'t registered yet? Click here</string>
+    <string name="signup_first_name">First Name</string>
+    <string name="signup_last_name">Last Name</string>
+    <string name="sign_up_confirm_password">Confirm Password</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="sign_in_here">Already have an account? Sign In</string>
 </resources>
