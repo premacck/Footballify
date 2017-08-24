@@ -92,7 +92,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_sign_up)
     public void signUp() {
-        if (validateSignUp(userNameTextInput, firstNameTextInput, lastNameTextInput, passwordTextInput, confirmPasswordTextInput)) {
+        if (validateUserDetails(userNameTextInput, firstNameTextInput, lastNameTextInput, passwordTextInput, confirmPasswordTextInput)) {
             Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
         }
     }
@@ -102,7 +102,7 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    private boolean validateSignUp(TextInputLayout mTextInput_userName, TextInputLayout mTextInput_firstName, TextInputLayout mTextInput_lastName, TextInputLayout mTextInput_password, TextInputLayout mTextInput_confirmPassword) {
+    private boolean validateUserDetails(TextInputLayout mTextInput_userName, TextInputLayout mTextInput_firstName, TextInputLayout mTextInput_lastName, TextInputLayout mTextInput_password, TextInputLayout mTextInput_confirmPassword) {
         boolean isSuccess = false;
         String userNameText = this.userName.getText().toString().trim();
         String firstNameText = firstName.getText().toString().trim();
@@ -118,21 +118,26 @@ public class SignUpActivity extends AppCompatActivity {
         if (userNameText.isEmpty()) {
             mTextInput_userName.setError(getString(R.string.enter_valid_user_name));
             isSuccess = false;
+            return isSuccess;
         } else if (firstNameText.isEmpty() || !firstNameText.matches(getString(R.string.name_regex))) {
             mTextInput_firstName.setError(getString(R.string.enter_valid_name));
             isSuccess = false;
+            return isSuccess;
         } else if (lastNameText.isEmpty() || !lastNameText.matches(getString(R.string.name_regex))) {
             mTextInput_lastName.setError(getString(R.string.enter_valid_name));
             isSuccess = false;
+            return isSuccess;
         } else if (passwordText.isEmpty()) {
             mTextInput_password.setError(getString(R.string.enter_password));
             isSuccess = false;
+            return isSuccess;
         } else if (confirmPasswordText.isEmpty()) {
             mTextInput_confirmPassword.setError(getString(R.string.confirm_password));
             isSuccess = false;
+            return isSuccess;
         } else {
             isSuccess = true;
+            return isSuccess;
         }
-        return isSuccess;
     }
 }
