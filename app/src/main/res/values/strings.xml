@@ -10,4 +10,11 @@
     <string name="sign_up_confirm_password">Confirm Password</string>
     <string name="sign_up">SIGN UP</string>
     <string name="sign_in_here">Already have an account? Sign In</string>
+    <string name="enter_valid_user_name">Please enter valid user name</string>
+    <string name="enter_valid_name">Please enter valid name</string>
+    <string name="enter_password">Please enter a password</string>
+    <string name="name_regex">^[A-Za-z]*$</string>
+    <string name="confirm_password">Please confirm password</string>
+    <string name="passwords_mismtch">Passwords don\'t match</string>
+    <string name="login_successful">SignUp Successful</string>
 </resources>

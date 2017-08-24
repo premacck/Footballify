@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -16,25 +17,25 @@ import life.plank.juna.zone.R;
 public class SignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.text_input_user_name)
-    TextInputLayout mTextInput_UserName;
+    TextInputLayout userNameTextInput;
     @BindView(R.id.text_input_first_name)
-    TextInputLayout mTextInput_FirstName;
+    TextInputLayout firstNameTextInput;
     @BindView(R.id.text_input_last_name)
-    TextInputLayout mTextInput_LastName;
+    TextInputLayout lastNameTextInput;
     @BindView(R.id.text_input_password)
-    TextInputLayout mTextInput_Password;
+    TextInputLayout passwordTextInput;
     @BindView(R.id.text_input_confirm_password)
-    TextInputLayout mTextInput_ConfirmPassword;
+    TextInputLayout confirmPasswordTextInput;
     @BindView(R.id.input_user_name)
-    EditText mUserName;
+    EditText userName;
     @BindView(R.id.input_first_name)
-    EditText mFirstName;
+    EditText firstName;
     @BindView(R.id.input_last_name)
-    EditText mLastName;
+    EditText lastName;
     @BindView(R.id.input_password)
-    EditText mPassword;
+    EditText password;
     @BindView(R.id.input_confirm_password)
-    EditText mConfirmPassword;
+    EditText confirmPassword;
 
 
     @Override
@@ -42,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_signup_activity);
         ButterKnife.bind(this);
-        mPassword.addTextChangedListener(new TextWatcher() {
+        password.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 setPasswordsErrorToEmpty();
@@ -54,15 +55,15 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                mTextInput_ConfirmPassword.setError("Please confirm password");
-                if (mPassword.getText().toString().isEmpty()) {
+                confirmPasswordTextInput.setError(getString(R.string.confirm_password));
+                if (password.getText().toString().isEmpty()) {
                     setPasswordsErrorToEmpty();
                 }
             }
         });
 
 
-        mConfirmPassword.addTextChangedListener(new TextWatcher() {
+        confirmPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -73,26 +74,26 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mConfirmPassword.getText().toString().trim().equals(mPassword.getText().toString().trim())) {
-                    mTextInput_ConfirmPassword.setError(null);
-                } else if (mConfirmPassword.getText().toString().isEmpty()) {
-                    mTextInput_ConfirmPassword.setError("Please confirm password");
+                if (confirmPassword.getText().toString().trim().equals(password.getText().toString().trim())) {
+                    confirmPasswordTextInput.setError(null);
+                } else if (confirmPassword.getText().toString().isEmpty()) {
+                    confirmPasswordTextInput.setError(getString(R.string.confirm_password));
                 } else {
-                    mTextInput_ConfirmPassword.setError("Passwords don't match");
+                    confirmPasswordTextInput.setError(getString(R.string.passwords_mismtch));
                 }
             }
         });
     }
 
     private void setPasswordsErrorToEmpty() {
-        mTextInput_Password.setError(null);
-        mTextInput_ConfirmPassword.setError(null);
+        passwordTextInput.setError(null);
+        confirmPasswordTextInput.setError(null);
     }
 
     @OnClick(R.id.button_sign_up)
     public void signUp() {
-        if (validateSignUp(mTextInput_UserName, mTextInput_FirstName, mTextInput_LastName, mTextInput_Password, mTextInput_ConfirmPassword)) {
-            Toast.makeText(this, "Successful", Toast.LENGTH_SHORT).show();
+        if (validateSignUp(userNameTextInput, firstNameTextInput, lastNameTextInput, passwordTextInput, confirmPasswordTextInput)) {
+            Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -103,31 +104,31 @@ public class SignUpActivity extends AppCompatActivity {
 
     private boolean validateSignUp(TextInputLayout mTextInput_userName, TextInputLayout mTextInput_firstName, TextInputLayout mTextInput_lastName, TextInputLayout mTextInput_password, TextInputLayout mTextInput_confirmPassword) {
         boolean isSuccess = false;
-        String userNameVal = mUserName.getText().toString().trim();
-        String firstNameVal = mFirstName.getText().toString().trim();
-        String lastNameVal = mLastName.getText().toString().trim();
-        String passwordVal = mPassword.getText().toString().trim();
-        String confirmPasswordVal = mConfirmPassword.getText().toString().trim();
+        String userNameText = this.userName.getText().toString().trim();
+        String firstNameText = firstName.getText().toString().trim();
+        String lastNameText = lastName.getText().toString().trim();
+        String passwordText = password.getText().toString().trim();
+        String confirmPasswordText = confirmPassword.getText().toString().trim();
 
         mTextInput_userName.setError(null);
         mTextInput_firstName.setError(null);
         mTextInput_lastName.setError(null);
         mTextInput_password.setError(null);
         mTextInput_confirmPassword.setError(null);
-        if (userNameVal.isEmpty()) {
-            mTextInput_userName.setError("Please enter valid user name");
+        if (userNameText.isEmpty()) {
+            mTextInput_userName.setError(getString(R.string.enter_valid_user_name));
             isSuccess = false;
-        } else if (firstNameVal.isEmpty() || !firstNameVal.matches("^[A-Za-z]*$")) {
-            mTextInput_firstName.setError("Please enter valid name");
+        } else if (firstNameText.isEmpty() || !firstNameText.matches(getString(R.string.name_regex))) {
+            mTextInput_firstName.setError(getString(R.string.enter_valid_name));
             isSuccess = false;
-        } else if (lastNameVal.isEmpty() || !lastNameVal.matches("^[A-Za-z]*$")) {
-            mTextInput_lastName.setError("Please enter valid name");
+        } else if (lastNameText.isEmpty() || !lastNameText.matches(getString(R.string.name_regex))) {
+            mTextInput_lastName.setError(getString(R.string.enter_valid_name));
             isSuccess = false;
-        } else if (passwordVal.isEmpty()) {
-            mTextInput_password.setError("Please enter a password");
+        } else if (passwordText.isEmpty()) {
+            mTextInput_password.setError(getString(R.string.enter_password));
             isSuccess = false;
-        } else if (confirmPasswordVal.isEmpty()) {
-            mTextInput_confirmPassword.setError("Please confirm password");
+        } else if (confirmPasswordText.isEmpty()) {
+            mTextInput_confirmPassword.setError(getString(R.string.confirm_password));
             isSuccess = false;
         } else {
             isSuccess = true;
