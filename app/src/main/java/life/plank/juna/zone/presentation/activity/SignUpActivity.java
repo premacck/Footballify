@@ -43,47 +43,40 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_signup_activity);
         ButterKnife.bind(this);
-        password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                setPasswordsErrorToEmpty();
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                confirmPasswordTextInput.setError(getString(R.string.confirm_password));
-                if (password.getText().toString().isEmpty()) {
-                    setPasswordsErrorToEmpty();
-                }
-            }
-        });
-
-
-        confirmPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (confirmPassword.getText().toString().trim().equals(password.getText().toString().trim())) {
-                    confirmPasswordTextInput.setError(null);
-                } else if (confirmPassword.getText().toString().isEmpty()) {
-                    confirmPasswordTextInput.setError(getString(R.string.confirm_password));
-                } else {
-                    confirmPasswordTextInput.setError(getString(R.string.passwords_mismtch));
-                }
-            }
-        });
+        userName.addTextChangedListener(textWatcher);
+        firstName.addTextChangedListener(textWatcher);
+        lastName.addTextChangedListener(textWatcher);
+        password.addTextChangedListener(textWatcher);
+        confirmPassword.addTextChangedListener(textWatcher);
     }
+
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            userNameTextInput.setError(null);
+            firstNameTextInput.setError(null);
+            lastNameTextInput.setError(null);
+            passwordTextInput.setError(null);
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (password.getText().toString().isEmpty()) {
+                setPasswordsErrorToEmpty();
+            } else if (confirmPassword.getText().toString().trim().equals(password.getText().toString().trim())) {
+                confirmPasswordTextInput.setError(null);
+            } else if (confirmPassword.getText().toString().isEmpty()) {
+                confirmPasswordTextInput.setError(getString(R.string.confirm_password));
+            } else {
+                confirmPasswordTextInput.setError(getString(R.string.passwords_mismtch));
+            }
+        }
+    };
 
     private void setPasswordsErrorToEmpty() {
         passwordTextInput.setError(null);
@@ -102,42 +95,33 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    private boolean validateUserDetails(TextInputLayout mTextInput_userName, TextInputLayout mTextInput_firstName, TextInputLayout mTextInput_lastName, TextInputLayout mTextInput_password, TextInputLayout mTextInput_confirmPassword) {
-        boolean isSuccess = false;
+    private boolean validateUserDetails(TextInputLayout userNameTextInput, TextInputLayout firstNameTextInput, TextInputLayout lastNameTextInput, TextInputLayout passwordTextInput, TextInputLayout confirmPasswordTextInput) {
         String userNameText = this.userName.getText().toString().trim();
         String firstNameText = firstName.getText().toString().trim();
         String lastNameText = lastName.getText().toString().trim();
         String passwordText = password.getText().toString().trim();
         String confirmPasswordText = confirmPassword.getText().toString().trim();
 
-        mTextInput_userName.setError(null);
-        mTextInput_firstName.setError(null);
-        mTextInput_lastName.setError(null);
-        mTextInput_password.setError(null);
-        mTextInput_confirmPassword.setError(null);
         if (userNameText.isEmpty()) {
-            mTextInput_userName.setError(getString(R.string.enter_valid_user_name));
-            isSuccess = false;
-            return isSuccess;
+            userNameTextInput.setError(getString(R.string.enter_valid_user_name));
+            return false;
         } else if (firstNameText.isEmpty() || !firstNameText.matches(getString(R.string.name_regex))) {
-            mTextInput_firstName.setError(getString(R.string.enter_valid_name));
-            isSuccess = false;
-            return isSuccess;
+            firstNameTextInput.setError(getString(R.string.enter_valid_name));
+            return false;
         } else if (lastNameText.isEmpty() || !lastNameText.matches(getString(R.string.name_regex))) {
-            mTextInput_lastName.setError(getString(R.string.enter_valid_name));
-            isSuccess = false;
-            return isSuccess;
+            lastNameTextInput.setError(getString(R.string.enter_valid_name));
+            return false;
         } else if (passwordText.isEmpty()) {
-            mTextInput_password.setError(getString(R.string.enter_password));
-            isSuccess = false;
-            return isSuccess;
+            passwordTextInput.setError(getString(R.string.enter_password));
+            return false;
         } else if (confirmPasswordText.isEmpty()) {
-            mTextInput_confirmPassword.setError(getString(R.string.confirm_password));
-            isSuccess = false;
-            return isSuccess;
+            confirmPasswordTextInput.setError(getString(R.string.confirm_password));
+            return false;
+        } else if (!confirmPasswordText.equals(password.getText().toString().trim())) {
+            confirmPasswordTextInput.setError(getString(R.string.passwords_mismtch));
+            return false;
         } else {
-            isSuccess = true;
-            return isSuccess;
+            return true;
         }
     }
 }
