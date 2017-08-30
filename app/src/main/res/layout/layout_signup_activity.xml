@@ -42,7 +42,8 @@
                     android:drawableStart="@drawable/ic_username"
                     android:hint="@string/user_name"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/White"
+                    android:textCursorDrawable="@drawable/cutom_cursor_drawable"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +66,8 @@
                     android:drawableStart="@drawable/ic_username"
                     android:hint="@string/signup_first_name"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/White"
+                    android:textCursorDrawable="@drawable/cutom_cursor_drawable"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -88,7 +90,8 @@
                     android:drawableStart="@drawable/ic_username"
                     android:hint="@string/signup_last_name"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/White"
+                    android:textCursorDrawable="@drawable/cutom_cursor_drawable"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -111,7 +114,8 @@
                     android:drawableStart="@drawable/ic_password"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/White"
+                    android:textCursorDrawable="@drawable/cutom_cursor_drawable"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -134,7 +138,8 @@
                     android:drawableStart="@drawable/ic_password"
                     android:hint="@string/sign_up_confirm_password"
                     android:inputType="textPassword"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/White"
+                    android:textCursorDrawable="@drawable/cutom_cursor_drawable"/>
 
             </android.support.design.widget.TextInputLayout>
 

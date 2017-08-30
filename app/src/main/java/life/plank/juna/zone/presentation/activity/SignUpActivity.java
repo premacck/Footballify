@@ -1,21 +1,35 @@
 package life.plank.juna.zone.presentation.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.ValidationResult;
+import life.plank.juna.zone.util.ValidationUtil;
+import life.plank.juna.zone.util.helper.RxHelper;
+import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.functions.Func5;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    private static final String TAG = "SignUpActivity";
     @BindView(R.id.text_input_user_name)
     TextInputLayout userNameTextInput;
     @BindView(R.id.text_input_first_name)
@@ -36,57 +50,33 @@ public class SignUpActivity extends AppCompatActivity {
     EditText password;
     @BindView(R.id.input_confirm_password)
     EditText confirmPassword;
+    @BindView(R.id.button_sign_up)
+    Button signupButton;
 
+    Subscription subscription;
+    String passwordText;
+    Boolean validUserDetails = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_signup_activity);
         ButterKnife.bind(this);
-        userName.addTextChangedListener(textWatcher);
-        firstName.addTextChangedListener(textWatcher);
-        lastName.addTextChangedListener(textWatcher);
-        password.addTextChangedListener(textWatcher);
-        confirmPassword.addTextChangedListener(textWatcher);
+        ValidateUserDetails();
     }
 
-    TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            userNameTextInput.setError(null);
-            firstNameTextInput.setError(null);
-            lastNameTextInput.setError(null);
-            passwordTextInput.setError(null);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (subscription != null) {
+            subscription.unsubscribe();
         }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (password.getText().toString().isEmpty()) {
-                setPasswordsErrorToEmpty();
-            } else if (confirmPassword.getText().toString().trim().equals(password.getText().toString().trim())) {
-                confirmPasswordTextInput.setError(null);
-            } else if (confirmPassword.getText().toString().isEmpty()) {
-                confirmPasswordTextInput.setError(getString(R.string.confirm_password));
-            } else {
-                confirmPasswordTextInput.setError(getString(R.string.passwords_mismtch));
-            }
-        }
-    };
-
-    private void setPasswordsErrorToEmpty() {
-        passwordTextInput.setError(null);
-        confirmPasswordTextInput.setError(null);
     }
 
     @OnClick(R.id.button_sign_up)
     public void signUp() {
-        if (validateUserDetails(userNameTextInput, firstNameTextInput, lastNameTextInput, passwordTextInput, confirmPasswordTextInput)) {
-            Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
+        if (validUserDetails) {
+            Toast.makeText(this, "SignUp Successful", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -95,33 +85,102 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    private boolean validateUserDetails(TextInputLayout userNameTextInput, TextInputLayout firstNameTextInput, TextInputLayout lastNameTextInput, TextInputLayout passwordTextInput, TextInputLayout confirmPasswordTextInput) {
-        String userNameText = this.userName.getText().toString().trim();
-        String firstNameText = firstName.getText().toString().trim();
-        String lastNameText = lastName.getText().toString().trim();
-        String passwordText = password.getText().toString().trim();
-        String confirmPasswordText = confirmPassword.getText().toString().trim();
+    private void ValidateUserDetails() {
+        Observable<Boolean> userNameObservable = RxHelper.getTextWatcherObservable(userName)
+                .debounce(800, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        ValidationResult result = validateUserName(s);
+                        userNameTextInput.setError(result.getReason());
+                        return result.isValid();
+                    }
+                });
 
-        if (userNameText.isEmpty()) {
-            userNameTextInput.setError(getString(R.string.enter_valid_user_name));
-            return false;
-        } else if (firstNameText.isEmpty() || !firstNameText.matches(getString(R.string.name_regex))) {
-            firstNameTextInput.setError(getString(R.string.enter_valid_name));
-            return false;
-        } else if (lastNameText.isEmpty() || !lastNameText.matches(getString(R.string.name_regex))) {
-            lastNameTextInput.setError(getString(R.string.enter_valid_name));
-            return false;
-        } else if (passwordText.isEmpty()) {
-            passwordTextInput.setError(getString(R.string.enter_password));
-            return false;
-        } else if (confirmPasswordText.isEmpty()) {
-            confirmPasswordTextInput.setError(getString(R.string.confirm_password));
-            return false;
-        } else if (!confirmPasswordText.equals(password.getText().toString().trim())) {
-            confirmPasswordTextInput.setError(getString(R.string.passwords_mismtch));
-            return false;
-        } else {
-            return true;
-        }
+        Observable<Boolean> firstNameObservable = RxHelper.getTextWatcherObservable(firstName)
+                .debounce(800, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        ValidationResult result = validateName(s);
+                        firstNameTextInput.setError(result.getReason());
+                        return result.isValid();
+                    }
+                });
+
+        Observable<Boolean> lastNameObservable = RxHelper.getTextWatcherObservable(lastName)
+                .debounce(800, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        ValidationResult result = validateName(s);
+                        lastNameTextInput.setError(result.getReason());
+                        return result.isValid();
+                    }
+                });
+
+        Observable<Boolean> passwordObservable = RxHelper.getTextWatcherObservable(password)
+                .debounce(800, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        ValidationResult result = validatePassword(s);
+                        passwordTextInput.setError(result.getReason());
+                        return result.isValid();
+                    }
+                });
+
+
+        Observable<Boolean> confirmPasswordObservable = RxHelper.getTextWatcherObservable(confirmPassword)
+                .debounce(800, TimeUnit.MILLISECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .map(new Func1<String, Boolean>() {
+                    @Override
+                    public Boolean call(String s) {
+                        passwordText = password.getText().toString().trim();
+                        ValidationResult result = validateConfirmPassword(s);
+                        confirmPasswordTextInput.setError(result.getReason());
+                        return result.isValid();
+                    }
+                });
+
+        subscription = Observable.combineLatest(userNameObservable, firstNameObservable, lastNameObservable, passwordObservable, confirmPasswordObservable, new Func5<Boolean, Boolean, Boolean, Boolean, Boolean, Boolean>() {
+            @Override
+            public Boolean call(Boolean validUserName, Boolean validFirstName, Boolean validLastName, Boolean validPassword, Boolean validConfirmPassword) {
+                Log.i(TAG, "username: " + validUserName + ", firstname: " + validFirstName + ", lastname: " + validLastName + ", password: " + validPassword + ",confirmpassword: " + validConfirmPassword);
+                return validUserName && validFirstName && validLastName && validPassword && validConfirmPassword;
+            }
+        }).subscribe(new Action1<Boolean>() {
+            @Override
+            public void call(Boolean aBoolean) {
+                signupButton.setEnabled(aBoolean);
+                validUserDetails = true;
+            }
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Log.e(TAG, throwable.getMessage());
+            }
+        });
+    }
+
+    private ValidationResult<String> validateUserName(@NonNull String username) {
+        return ValidationUtil.isValidUsername(username, getApplicationContext());
+    }
+
+    private ValidationResult validateName(@NonNull String name) {
+        return ValidationUtil.isValidName(name, getApplicationContext());
+    }
+
+    private ValidationResult validatePassword(@NonNull String password) {
+        return ValidationUtil.isValidPassword(password, getApplicationContext());
+    }
+
+    private ValidationResult validateConfirmPassword(@NonNull String confirmPassword) {
+        return ValidationUtil.isValidConfirmPassword(passwordText, confirmPassword, getApplicationContext());
     }
 }
