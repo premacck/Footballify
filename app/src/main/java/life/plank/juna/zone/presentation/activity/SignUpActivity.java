@@ -1,6 +1,5 @@
 package life.plank.juna.zone.presentation.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -51,18 +50,18 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.input_confirm_password)
     EditText confirmPassword;
     @BindView(R.id.button_sign_up)
-    Button signupButton;
+    Button signUpButton;
 
-    Subscription subscription;
-    String passwordText;
-    Boolean validUserDetails = false;
+    private Subscription subscription;
+    private String passwordText;
+    private Boolean validUserDetails = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_signup_activity);
         ButterKnife.bind(this);
-        ValidateUserDetails();
+        validateUserDetails();
     }
 
     @Override
@@ -76,7 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_up)
     public void signUp() {
         if (validUserDetails) {
-            Toast.makeText(this, "SignUp Successful", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -85,9 +84,9 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(new Intent(this, LoginActivity.class));
     }
 
-    private void ValidateUserDetails() {
+    private void validateUserDetails() {
         Observable<Boolean> userNameObservable = RxHelper.getTextWatcherObservable(userName)
-                .debounce(800, TimeUnit.MILLISECONDS)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -99,7 +98,7 @@ public class SignUpActivity extends AppCompatActivity {
                 });
 
         Observable<Boolean> firstNameObservable = RxHelper.getTextWatcherObservable(firstName)
-                .debounce(800, TimeUnit.MILLISECONDS)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -111,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                 });
 
         Observable<Boolean> lastNameObservable = RxHelper.getTextWatcherObservable(lastName)
-                .debounce(800, TimeUnit.MILLISECONDS)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -123,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity {
                 });
 
         Observable<Boolean> passwordObservable = RxHelper.getTextWatcherObservable(password)
-                .debounce(800, TimeUnit.MILLISECONDS)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -134,9 +133,8 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
 
-
         Observable<Boolean> confirmPasswordObservable = RxHelper.getTextWatcherObservable(confirmPassword)
-                .debounce(800, TimeUnit.MILLISECONDS)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(new Func1<String, Boolean>() {
                     @Override
@@ -157,7 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
         }).subscribe(new Action1<Boolean>() {
             @Override
             public void call(Boolean aBoolean) {
-                signupButton.setEnabled(aBoolean);
+                signUpButton.setEnabled(aBoolean);
                 validUserDetails = true;
             }
         }, new Action1<Throwable>() {
@@ -168,7 +166,7 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
-    private ValidationResult<String> validateUserName(@NonNull String username) {
+    private ValidationResult validateUserName(@NonNull String username) {
         return ValidationUtil.isValidUsername(username, getApplicationContext());
     }
 

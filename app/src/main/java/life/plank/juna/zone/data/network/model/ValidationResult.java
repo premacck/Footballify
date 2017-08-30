@@ -6,24 +6,24 @@ import android.support.annotation.NonNull;
  * Created by plank-sobia on 8/29/2017.
  */
 
-public class ValidationResult<T> {
+public class ValidationResult<Data> {
 
     private boolean valid;
     private String reason;
-    private T data;
+    private Data data;
 
-    public ValidationResult(boolean valid, String reason, T t) {
+    public ValidationResult(boolean valid, String reason, Data data) {
         this.valid = valid;
         this.reason = reason;
-        this.data = t;
+        this.data = data;
     }
 
-    public static <T> ValidationResult<T> success(T t) {
-        return new ValidationResult<>(true, null, t);
+    public static <Data> ValidationResult<Data> success(Data data) {
+        return new ValidationResult<>(true, null, data);
     }
 
-    public static <T> ValidationResult<T> failure(@NonNull String reason, T t) {
-        return new ValidationResult<>(false, reason, t);
+    public static <Data> ValidationResult<Data> failure(@NonNull String reason, Data data) {
+        return new ValidationResult<>(false, reason, data);
     }
 
     public boolean isValid() {
@@ -35,7 +35,7 @@ public class ValidationResult<T> {
         return reason;
     }
 
-    public T getData() {
+    public Data getData() {
         return data;
     }
 }

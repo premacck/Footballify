@@ -1,7 +1,6 @@
 package life.plank.juna.zone.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,14 +20,14 @@ public class ValidationUtil {
         }
 
         if (username.contains(" ")) {
-            return ValidationResult.failure(context.getString(R.string.enter_valid_user_name),username);
+            return ValidationResult.failure(context.getString(R.string.enter_valid_user_name), username);
         }
 
         Pattern pattern = Pattern.compile(context.getString(R.string.user_name_regex));
         Matcher matcher = pattern.matcher(username);
         boolean isValid = matcher.find();
 
-        if(isValid) {
+        if (isValid) {
             return ValidationResult.success(username);
         }
 
@@ -37,18 +36,18 @@ public class ValidationUtil {
 
     public static ValidationResult<String> isValidName(String name, Context context) {
         if (name.isEmpty()) {
-            return ValidationResult.failure(context.getString(R.string.enter_valid_name),name);
+            return ValidationResult.failure(context.getString(R.string.enter_valid_name), name);
         }
 
         if (name.contains(" ")) {
-            return ValidationResult.failure(context.getString(R.string.enter_valid_name),name);
+            return ValidationResult.failure(context.getString(R.string.enter_valid_name), name);
         }
 
         Pattern pattern = Pattern.compile(context.getString(R.string.name_regex));
         Matcher matcher = pattern.matcher(name);
         boolean isValid = matcher.find();
 
-        if(isValid) {
+        if (isValid) {
             return ValidationResult.success(name);
         }
 
@@ -61,7 +60,7 @@ public class ValidationUtil {
         }
 
         if (password.contains(" ")) {
-            return ValidationResult.failure(context.getString(R.string.enter_password),password);
+            return ValidationResult.failure(context.getString(R.string.enter_password), password);
         }
 
         return ValidationResult.success(password);
@@ -73,7 +72,7 @@ public class ValidationUtil {
         }
 
         if (!confirmPassword.equals(password)) {
-            return ValidationResult.failure(context.getString(R.string.passwords_mismtch), confirmPassword);
+            return ValidationResult.failure(context.getString(R.string.passwords_mismatch), confirmPassword);
         }
 
         return ValidationResult.success(confirmPassword);
