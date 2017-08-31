@@ -17,5 +17,7 @@
     <string name="user_name_regex">^[A-Za-z][A-Za-z0-9]*$</string>
     <string name="confirm_password">Please confirm password</string>
     <string name="passwords_mismatch">Passwords don\'t match</string>
-    <string name="login_successful">SignUp Successful</string>
+    <string name="login_successful">Login Successful</string>
+    <string name="signup_successful">SignUp Successful</string>
+
 </resources>
