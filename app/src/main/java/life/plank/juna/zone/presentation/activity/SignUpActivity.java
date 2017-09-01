@@ -75,7 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_up)
     public void signUp() {
         if (validUserDetails) {
-            Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.signup_successful), Toast.LENGTH_SHORT).show();
         }
     }
 
