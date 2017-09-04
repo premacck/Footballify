@@ -19,5 +19,8 @@
     <string name="passwords_mismatch">Passwords don\'t match</string>
     <string name="login_successful">Login Successful</string>
     <string name="signup_successful">SignUp Successful</string>
+    <string name="signIn">SignIn</string>
+    <string name="signUp">SignUp</string>
+    <string name="text_or">or</string>
 
 </resources>

@@ -163,7 +163,7 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/sign_in_here"
                 android:textColor="@color/White"
-                android:textSize="15dp" />
+                android:textSize="15sp" />
 
         </RelativeLayout>
 
