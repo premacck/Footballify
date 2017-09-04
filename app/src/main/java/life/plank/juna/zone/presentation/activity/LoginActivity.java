@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @OnClick(R.id.text_sign_up)
     public void signUpHere() {
-        startActivity(new Intent(this, SignUpActivity.class));
+        startActivity(new Intent(this, SocialLoginActivity.class));
     }
 
     private void validateLoginDetails() {
