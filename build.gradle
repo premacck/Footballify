@@ -37,6 +37,7 @@ allprojects {
         }
         mavenCentral()
         mavenLocal()
+
     }
     ext {
         androidApplicationId = 'life.plank.juna.zone'

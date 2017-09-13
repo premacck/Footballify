@@ -22,5 +22,8 @@
     <string name="signIn">SignIn</string>
     <string name="signUp">SignUp</string>
     <string name="text_or">or</string>
+    <string name="zone_home_clubs">Clubs</string>
+    <string name="zone_home_players">Players</string>
+    <string name="zone_home_all">All</string>
 
 </resources>
