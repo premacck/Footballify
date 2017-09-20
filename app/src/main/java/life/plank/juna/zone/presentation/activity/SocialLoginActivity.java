@@ -26,4 +26,9 @@ public class SocialLoginActivity extends AppCompatActivity {
     public void signUpClicked() {
         startActivity(new Intent(this, SignUpActivity.class));
     }
+
+    @OnClick( {R.id.button_facebook, R.id.button_google, R.id.button_instagram, R.id.button_twitter})
+    public void zoneHomeActivity() {
+        startActivity(new Intent(this, ZoneHomeActivity.class));
+    }
 }

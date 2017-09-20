@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/zone_icon"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bar_zone_icon"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/football_icon"
+        android:icon="@drawable/ic_nav_bar_football"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/search_icon"
+        android:icon="@drawable/ic_nav_bar_search"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/engage_icon"
+        android:icon="@drawable/ic_nav_bar_engage"
+        android:title=""
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/more_icon"
+        android:icon="@drawable/ic_nav_bar_more"
+        android:title=""
+        app:showAsAction="ifRoom" />
+
+</menu>
