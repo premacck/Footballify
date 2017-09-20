@@ -88,82 +88,56 @@ public class SignUpActivity extends AppCompatActivity {
         Observable<Boolean> userNameObservable = RxHelper.getTextWatcherObservable(userName)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        ValidationResult result = validateUserName(s);
-                        userNameTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    ValidationResult result = validateUserName(s);
+                    userNameTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
         Observable<Boolean> firstNameObservable = RxHelper.getTextWatcherObservable(firstName)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        ValidationResult result = validateName(s);
-                        firstNameTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    ValidationResult result = validateName(s);
+                    firstNameTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
         Observable<Boolean> lastNameObservable = RxHelper.getTextWatcherObservable(lastName)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        ValidationResult result = validateName(s);
-                        lastNameTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    ValidationResult result = validateName(s);
+                    lastNameTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
         Observable<Boolean> passwordObservable = RxHelper.getTextWatcherObservable(password)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        ValidationResult result = validatePassword(s);
-                        passwordTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    ValidationResult result = validatePassword(s);
+                    passwordTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
         Observable<Boolean> confirmPasswordObservable = RxHelper.getTextWatcherObservable(confirmPassword)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        passwordText = password.getText().toString().trim();
-                        ValidationResult result = validateConfirmPassword(s);
-                        confirmPasswordTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    passwordText = password.getText().toString().trim();
+                    ValidationResult result = validateConfirmPassword(s);
+                    confirmPasswordTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
-        subscription = Observable.combineLatest(userNameObservable, firstNameObservable, lastNameObservable, passwordObservable, confirmPasswordObservable, new Func5<Boolean, Boolean, Boolean, Boolean, Boolean, Boolean>() {
-            @Override
-            public Boolean call(Boolean validUserName, Boolean validFirstName, Boolean validLastName, Boolean validPassword, Boolean validConfirmPassword) {
-                Log.i(TAG, "username: " + validUserName + ", firstname: " + validFirstName + ", lastname: " + validLastName + ", password: " + validPassword + ",confirmpassword: " + validConfirmPassword);
-                return validUserName && validFirstName && validLastName && validPassword && validConfirmPassword;
-            }
-        }).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                signUpButton.setEnabled(aBoolean);
-                validUserDetails = true;
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                Log.e(TAG, throwable.getMessage());
-            }
-        });
+        subscription = Observable.combineLatest(userNameObservable, firstNameObservable, lastNameObservable, passwordObservable, confirmPasswordObservable, (validUserName, validFirstName, validLastName, validPassword, validConfirmPassword) -> {
+            Log.i(TAG, "username: " + validUserName + ", firstname: " + validFirstName + ", lastname: " + validLastName + ", password: " + validPassword + ",confirmpassword: " + validConfirmPassword);
+            return validUserName && validFirstName && validLastName && validPassword && validConfirmPassword;
+        }).subscribe(aBoolean -> {
+            signUpButton.setEnabled(aBoolean);
+            validUserDetails = true;
+        }, throwable -> Log.e(TAG, throwable.getMessage()));
     }
 
     private ValidationResult validateUserName(@NonNull String username) {
