@@ -5,7 +5,7 @@ import java.util.List;
 
 public class NewsFeed {
 
-    public Activity activity;
+    public NewsFeedActivity newsFeedActivity;
     public String title;
     public String summary;
     public String datePublished;
@@ -14,8 +14,8 @@ public class NewsFeed {
     public List<String> links = null;
     public List<String> imageUrls = null;
 
-    public NewsFeed withActivity(Activity activity) {
-        this.activity = activity;
+    public NewsFeed withActivity(NewsFeedActivity newsFeedActivity) {
+        this.newsFeedActivity = newsFeedActivity;
         return this;
     }
 

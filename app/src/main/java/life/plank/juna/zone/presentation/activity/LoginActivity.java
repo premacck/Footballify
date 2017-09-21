@@ -90,12 +90,13 @@ public class LoginActivity extends AppCompatActivity {
                     return result.isValid();
                 });
 
-        subscription = Observable.combineLatest(userNameObservable, passwordObservable, (validUserName, validPassword) -> {
+        subscription = Observable.combineLatest(userNameObservable, passwordObservable,
+                (validUserName, validPassword) -> {
             Log.i(TAG, "username: " + validUserName + ", password: " + validPassword);
             return validUserName && validPassword;
         }).subscribe(aBoolean -> {
             signInButton.setEnabled(aBoolean);
-            validUserDetails = true;
+            validUserDetails = aBoolean;
         }, throwable -> Log.e(TAG, throwable.getMessage()));
     }
 

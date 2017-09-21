@@ -20,8 +20,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.dagger.NewsFeedsCustomApplication;
+import life.plank.juna.zone.util.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.presentation.activity.ZoneHomeActivity;
@@ -45,6 +46,7 @@ public class NewsFeedsFragment extends Fragment {
     private RestApi restApi;
     private NewsFeedsAdapter newsFeedsAdapter = new NewsFeedsAdapter();
     private String date;
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,7 @@ public class NewsFeedsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_feeds, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         date = new SimpleDateFormat(getActivity().getString(R.string.date)).format(new Date());
         initRecyclerView();
         return view;
@@ -64,9 +66,18 @@ public class NewsFeedsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((NewsFeedsCustomApplication) getActivity().getApplication()).getNetworkComponent().inject(this);
+        ((ZoneApplication) getActivity().getApplication()).getNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         loadNewsFeeds(date);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+        unbinder.unbind();
     }
 
     private void initRecyclerView() {
@@ -89,17 +100,10 @@ public class NewsFeedsFragment extends Fragment {
 
                     @Override
                     public void onNext(NewsFeed newsFeed) {
+                        //TODO: Remove toast message before app goes into production
                         Toast.makeText(getActivity(), " Feed clicked: " + newsFeed.getTitle(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
     }
 
     @Override

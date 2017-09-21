@@ -136,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
             return validUserName && validFirstName && validLastName && validPassword && validConfirmPassword;
         }).subscribe(aBoolean -> {
             signUpButton.setEnabled(aBoolean);
-            validUserDetails = true;
+            validUserDetails = aBoolean;
         }, throwable -> Log.e(TAG, throwable.getMessage()));
     }
 
