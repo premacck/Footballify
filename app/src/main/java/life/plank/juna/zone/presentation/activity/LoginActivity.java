@@ -75,45 +75,29 @@ public class LoginActivity extends AppCompatActivity {
         Observable<Boolean> userNameObservable = RxHelper.getTextWatcherObservable(userName)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        ValidationResult result = validateUserName(s);
-                        userNameTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    ValidationResult result = validateUserName(s);
+                    userNameTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
         Observable<Boolean> passwordObservable = RxHelper.getTextWatcherObservable(password)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .map(new Func1<String, Boolean>() {
-                    @Override
-                    public Boolean call(String s) {
-                        ValidationResult result = validatePassword(s);
-                        passwordTextInput.setError(result.getReason());
-                        return result.isValid();
-                    }
+                .map(s -> {
+                    ValidationResult result = validatePassword(s);
+                    passwordTextInput.setError(result.getReason());
+                    return result.isValid();
                 });
 
-        subscription = Observable.combineLatest(userNameObservable, passwordObservable, new Func2<Boolean, Boolean, Boolean>() {
-            @Override
-            public Boolean call(Boolean validUserName, Boolean validPassword) {
-                Log.i(TAG, "username: " + validUserName + ", password: " + validPassword);
-                return validUserName && validPassword;
-            }
-        }).subscribe(new Action1<Boolean>() {
-            @Override
-            public void call(Boolean aBoolean) {
-                signInButton.setEnabled(aBoolean);
-                validUserDetails = true;
-            }
-        }, new Action1<Throwable>() {
-            @Override
-            public void call(Throwable throwable) {
-                Log.e(TAG, throwable.getMessage());
-            }
-        });
+        subscription = Observable.combineLatest(userNameObservable, passwordObservable,
+                (validUserName, validPassword) -> {
+            Log.i(TAG, "username: " + validUserName + ", password: " + validPassword);
+            return validUserName && validPassword;
+        }).subscribe(aBoolean -> {
+            signInButton.setEnabled(aBoolean);
+            validUserDetails = aBoolean;
+        }, throwable -> Log.e(TAG, throwable.getMessage()));
     }
 
     private ValidationResult validateUserName(@NonNull String userName) {

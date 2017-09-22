@@ -77,7 +77,8 @@
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/radio_group" />
+                android:layout_below="@+id/radio_group"
+                android:layout_marginBottom="45dp" />
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottom_navigation"

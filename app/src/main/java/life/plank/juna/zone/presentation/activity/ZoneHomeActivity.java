@@ -1,16 +1,13 @@
 package life.plank.juna.zone.presentation.activity;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,7 +28,7 @@ public class ZoneHomeActivity extends AppCompatActivity {
     Toolbar toolbar;
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
-    private Fragment fragment;
+    private Fragment fragment = new NewsFeedsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +39,11 @@ public class ZoneHomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUpBottomNavigationView();
-        fragment = new NewsFeedsFragment();
-        setUpFragmentView();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.content, fragment)
+                .commit();
     }
 
     private void setUpBottomNavigationView() {
@@ -60,34 +60,31 @@ public class ZoneHomeActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.zone_icon:
-                        fragment = new NewsFeedsFragment();
-                        break;
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.zone_icon:
+                                fragment = new NewsFeedsFragment();
+                                break;
 
-                    case R.id.football_icon:
-                        fragment = new GamesFragment();
-                        break;
+                            case R.id.football_icon:
+                                fragment = new GamesFragment();
+                                break;
 
-                    case R.id.search_icon:
-                        fragment = new SearchFragment();
-                        break;
+                            case R.id.search_icon:
+                                fragment = new SearchFragment();
+                                break;
 
-                    case R.id.engage_icon:
-                        fragment = new EngageFragment();
-                        break;
-                }
-                setUpFragmentView();
-                return true;
-            }
-        });
-    }
-
-    private void setUpFragmentView() {
-        final FragmentManager fragmentManager = getFragmentManager();
-        final FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.content, fragment).commit();
+                            case R.id.engage_icon:
+                                fragment = new EngageFragment();
+                                break;
+                        }
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.content, fragment)
+                                .commit();
+                        return true;
+                    }
+                });
     }
 }
