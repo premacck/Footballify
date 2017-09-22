@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.util.ZoneApplication;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.service.HttpClientService;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
