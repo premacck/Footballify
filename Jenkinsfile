@@ -21,15 +21,6 @@ node('master') {
     /*-------------END OF DEV AUTOMATION PROCESS */
 
     stage 'Ready for QA build?[Manual]'
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Do you want to start QA build?'
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
-
 
     stage 'Download from Nexus and Tagging'
     // TODO: Download from Nexus and add git Tagging
@@ -42,42 +33,15 @@ node('master') {
     //send mail on successful upload to alpha play store
 
     stage 'Verify QA setup checklist[Manual]'
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Have you finished your setup checklist and are ready to test?'
-            
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
-
 
     /*-------- QA EXECUTES TESTS-------------*/
 
     stage 'Quality Gate[Manual]'
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Have all the tests passed?'
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
 
     stage 'Resetting QA Datasets'
     // TODO: Reset Datasets used by QA
 
     stage 'Ready for Staging?[Manual]'
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Do you want to start the staging process?'
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
-
 
     stage 'Deploying to staging environment'
     // TODO: Deploy to staging environment
@@ -86,39 +50,11 @@ node('master') {
     // TODO: Run performance tests
 
     stage 'Quality Gate[Manual]'
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Have all the performance tests passed?'
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
-
 
     stage 'Ready for release?[Manual]'
-
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Do you want to release this build to the appstore?'
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
-
 
     stage 'Deploying to production environment'
     // TODO: Deploy to Google play store
 
     stage 'Start running Smoke tests'
-    try {
-        timeout(time: 24, unit: 'HOURS') {
-            input 'Do you want to start running smoke tests?'
-
-        }
-    } catch (err) {
-        echo "******* THIS BUILD RECEIVED NO USER INPUT FOR THE LAST 24 HOURS, ABBORTING. *******"
-    }
-
 }
