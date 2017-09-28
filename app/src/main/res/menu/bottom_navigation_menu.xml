@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/feeds_icon"
+        android:enabled="true"
+        android:icon="@drawable/ic_nav_bar_feeds_icon"
+        android:title="" />
+    <item
+        android:id="@+id/trending_icon"
+        android:icon="@drawable/ic_nav_bar_trending_icon"
+        android:title="" />
     <item
         android:id="@+id/zone_icon"
-        android:enabled="true"
         android:icon="@drawable/ic_nav_bar_zone_icon"
-        android:title=""
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/football_icon"
-        android:icon="@drawable/ic_nav_bar_football"
-        android:title=""
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/search_icon"
-        android:icon="@drawable/ic_nav_bar_search"
-        android:title=""
-        app:showAsAction="ifRoom" />
+        android:title="" />
     <item
         android:id="@+id/engage_icon"
-        android:icon="@drawable/ic_nav_bar_engage"
-        android:title=""
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/ic_nav_bar_engage_icon"
+        android:title="" />
     <item
-        android:id="@+id/more_icon"
-        android:icon="@drawable/ic_nav_bar_more"
-        android:title=""
-        app:showAsAction="ifRoom" />
+        android:id="@+id/notification_icon"
+        android:icon="@drawable/ic_nav_bar_notification_icon"
+        android:title="" />
 
 </menu>
