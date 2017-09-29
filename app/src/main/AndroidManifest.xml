@@ -38,5 +38,10 @@
         <activity
             android:name=".presentation.activity.WarriorGameActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activity.GameLaunchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
+        <activity android:name=".presentation.activity.GamePickerActivity"></activity>
     </application>
 </manifest>
