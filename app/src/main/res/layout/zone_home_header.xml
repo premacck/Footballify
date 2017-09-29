@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_app_bar_home_icon" />
+        android:src="@drawable/ic_app_bar_user_icon" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/app_toolbar_zone_icon"
@@ -30,6 +30,6 @@
         android:layout_gravity="center_vertical|end"
         android:background="@android:color/transparent"
         android:paddingRight="5dp"
-        android:src="@drawable/ic_app_bar_user_icon" />
+        android:src="@drawable/ic_app_bar_inbox_icon" />
 
 </android.support.v7.widget.Toolbar>
