@@ -33,7 +33,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.activity.ZoneHomeActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
         <activity
             android:name=".presentation.activity.WarriorGameActivity"
             android:screenOrientation="portrait" />

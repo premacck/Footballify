@@ -19,4 +19,8 @@
     </style>
 
     <style name="SpalshScreenTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="statusBarCustomStyle" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 </resources>

@@ -28,11 +28,23 @@
                     layout="@layout/zone_home_header" />
             </android.support.design.widget.AppBarLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_below="@+id/app_bar_layout"
+                android:background="@drawable/shadow" />
+
             <FrameLayout
                 android:id="@+id/content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/app_bar_layout" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_above="@+id/bottom_navigation"
+                android:background="@drawable/shadow" />
 
             <android.support.design.widget.BottomNavigationView
                 android:id="@+id/bottom_navigation"
