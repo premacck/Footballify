@@ -5,4 +5,79 @@
     android:layout_height="match_parent"
     tools:context="life.plank.juna.zone.presentation.activity.GamePickerActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="7dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_game_background" />
+
+    <ImageView
+        android:id="@+id/home_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_home_icon" />
+
+    <ImageView
+        android:id="@+id/points_game_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="200dp"
+        android:src="@drawable/ic_points_game" />
+
+    <ImageView
+        android:id="@+id/points_game_rules_help"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/points_game_image"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:src="@drawable/ic_help_image" />
+
+    <ImageView
+        android:id="@+id/sudden_death_game_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/points_game_image"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_sudden_death_game" />
+
+    <ImageView
+        android:id="@+id/sudden_death_game_rules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/sudden_death_game_image"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:src="@drawable/ic_help_image" />
+
+    <ImageView
+        android:id="@+id/warrior_club_game_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sudden_death_game_image"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_warrior_club_game" />
+
+    <ImageView
+        android:id="@+id/warrior_club_game_rules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/warrior_club_game_image"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:src="@drawable/ic_help_image" />
 </RelativeLayout>
