@@ -1,6 +1,5 @@
 package life.plank.juna.zone.presentation.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -23,6 +22,7 @@ import life.plank.juna.zone.presentation.fragment.NewsFeedsFragment;
 import life.plank.juna.zone.presentation.fragment.NotificationFragment;
 import life.plank.juna.zone.presentation.fragment.TrendingFragment;
 import life.plank.juna.zone.presentation.fragment.ZoneFragment;
+import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.helper.BottomNavigationViewHelper;
 
 public class ZoneHomeActivity extends AppCompatActivity {
@@ -38,15 +38,7 @@ public class ZoneHomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zone_home);
         ButterKnife.bind(this);
-
-        TypedValue typedValue = new TypedValue();
-        getTheme().resolveAttribute(android.R.attr.windowBackground, typedValue, true);
-        if (typedValue.type >= TypedValue.TYPE_FIRST_COLOR_INT && typedValue.type <= TypedValue.TYPE_LAST_COLOR_INT) {
-            int color = typedValue.data;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setStatusBarColor(color);
-            }
-        }
+        CustomizeStatusBar.setTransparentStatusBarColor(getTheme(),getWindow());
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

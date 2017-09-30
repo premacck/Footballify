@@ -42,6 +42,17 @@
             android:name=".presentation.activity.GameLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
-        <activity android:name=".presentation.activity.GamePickerActivity"></activity>
+        <activity
+            android:name=".presentation.activity.GamePickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".presentation.activity.PointsGameRulesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".presentation.activity.SuddenDeathRulesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 </manifest>

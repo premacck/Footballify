@@ -9,23 +9,19 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
-public class GameLaunchActivity extends AppCompatActivity {
+public class PointsGameRulesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_launch);
+        setContentView(R.layout.activity_points_game_rules);
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
     }
 
-    @OnClick(R.id.start_game_image)
-    public void startGameClicked() {
+    @OnClick(R.id.close_icon)
+    public void exitRulesScreen() {
         startActivity(new Intent(this, GamePickerActivity.class));
-    }
-
-    @OnClick(R.id.exit_zone_image)
-    public void exitToZoneClicked() {
-        startActivity(new Intent(this, ZoneHomeActivity.class));
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

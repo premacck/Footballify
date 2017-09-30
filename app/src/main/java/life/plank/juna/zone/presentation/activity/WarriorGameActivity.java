@@ -8,6 +8,7 @@ import android.view.WindowManager;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.CustomizeStatusBar;
 
 public class WarriorGameActivity extends AppCompatActivity {
 
@@ -16,8 +17,7 @@ public class WarriorGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warrior_game);
         ButterKnife.bind(this);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        CustomizeStatusBar.removeStatusBar(getWindow());
     }
 
     @OnClick({R.id.warrior_background_screen, R.id.warrior_logo})
