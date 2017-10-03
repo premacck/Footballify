@@ -66,9 +66,9 @@ public class NewsFeedsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ((ZoneApplication) getActivity().getApplication()).getNetworkComponent().inject(this);
+        ((ZoneApplication) getActivity().getApplication()).getNewsFeedsNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        loadNewsFeeds(date);
+        loadNewsFeeds("21-09-2017");
     }
 
     @Override
