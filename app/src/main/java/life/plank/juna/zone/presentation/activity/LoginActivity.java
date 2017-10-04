@@ -24,6 +24,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.ValidationResult;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.ValidationUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
 import retrofit2.Response;
@@ -79,6 +80,8 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_in)
     public void signIn() {
         if (validUserDetails) {
+            PreferenceManager prefManager = new PreferenceManager(this);
+            prefManager.saveString(getString(R.string.shared_pref_username), userName.getText().toString().trim());
             loginUser(LoginActivity.this, userName.getText().toString().trim(), password.getText().toString().trim());
         }
     }

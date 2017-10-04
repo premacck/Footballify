@@ -2,6 +2,8 @@ package life.plank.juna.zone.data.network.interfaces;
 
 import java.util.List;
 
+import life.plank.juna.zone.data.network.model.Arena;
+import life.plank.juna.zone.data.network.model.ArenaCreationData;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.User;
@@ -30,4 +32,7 @@ public interface RestApi {
 
     @POST("authentication/login/")
     Observable<Response<Void>> loginUser(@Body User user);
+
+    @POST("arenas/")
+    Observable<Arena> getArena(@Body ArenaCreationData arenaData);
 }
