@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
@@ -62,6 +64,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText confirmPassword;
     @BindView(R.id.button_sign_up)
     Button signUpButton;
+    @BindView(R.id.signup_relative_layout)
+    RelativeLayout relativeLayout;
 
     private Subscription subscription;
     private RestApi restApi;
@@ -116,8 +120,11 @@ public class SignUpActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_CREATED) {
                             Log.d(TAG, "Registration Successful");
                             startActivity(new Intent(context, LoginActivity.class));
+                        } //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
+                        else if (response.code() == 422) {
+                            Snackbar.make(relativeLayout, "User name already exists", Snackbar.LENGTH_LONG).show();
                         } else
-                            Log.d(TAG, "Registration Failed. Status Code:" + response.code());
+                            Snackbar.make(relativeLayout, "Signup failed, please retry", Snackbar.LENGTH_LONG).show();
                     }
                 });
     }
