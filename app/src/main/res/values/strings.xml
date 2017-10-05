@@ -40,4 +40,6 @@
     <string name="base_url">https://192.169.1.35:5000</string>
     <string name="secret_code">SECRET CODE</string>
     <string name="share_secret_code">GIVE THIS CODE TO YOUR FRIENDS</string>
+    <string name="shared_pref_username">Username</string>
+    <string name="points_game">Points</string>
 </resources>

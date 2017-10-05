@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/create_arena_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="life.plank.juna.zone.presentation.activity.CreateArenaActivity">
@@ -14,6 +16,17 @@
         android:text="@string/secret_code"
         android:textSize="25sp"
         android:textStyle="bold" />
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_secret_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:visibility="visible"
+        app:indicatorColor="@color/Blue_grey"
+        app:indicatorName="BallSpinFadeLoaderIndicator" />
 
     <TextView
         android:id="@+id/secret_code"
