@@ -24,6 +24,11 @@ public class GamePickerActivity extends AppCompatActivity {
         startActivity(new Intent(this, GameLaunchActivity.class));
     }
 
+    @OnClick(R.id.points_game_image)
+    public void startPointsGame() {
+        startActivity(new Intent(this, CreateArenaActivity.class));
+    }
+
     @OnClick(R.id.points_game_rules_help)
     public void pointsGameHelpClicked() {
         startActivity(new Intent(this, PointsGameRulesActivity.class));

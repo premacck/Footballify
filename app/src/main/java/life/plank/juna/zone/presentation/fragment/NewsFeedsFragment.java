@@ -68,6 +68,7 @@ public class NewsFeedsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         ((ZoneApplication) getActivity().getApplication()).getNewsFeedsNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
+        //Todo: Remove hardcoded value, replace with date String
         loadNewsFeeds("21-09-2017");
     }
 

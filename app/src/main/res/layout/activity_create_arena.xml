@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="life.plank.juna.zone.presentation.activity.CreateArenaActivity">
+
+    <TextView
+        android:id="@+id/text_secret_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/secret_code"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/secret_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_secret_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/Blue_grey"
+        android:textSize="50sp" />
+
+    <TextView
+        android:id="@+id/text_share_secret_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/secret_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/share_secret_code"
+        android:textColor="@color/Blue_grey"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/user_list"
+        android:layout_width="wrap_content"
+        android:layout_height="180dp"
+        android:layout_below="@+id/text_share_secret_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:divider="@color/material_grey_400"
+        android:dividerHeight="2px"
+        android:paddingLeft="100dp"
+        android:paddingRight="100dp"
+        android:scrollbars="none" />
+
+    <ImageView
+        android:id="@+id/button_start_playing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/ic_points_start_playing" />
+</RelativeLayout>
