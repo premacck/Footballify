@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import com.wang.avi.AVLoadingIndicatorView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -23,6 +26,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.ArenaCreationData;
 import life.plank.juna.zone.data.network.model.Creator;
+import life.plank.juna.zone.data.network.model.Player;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.PreferenceManager;
 import retrofit2.Retrofit;
@@ -47,19 +51,13 @@ public class CreateArenaActivity extends AppCompatActivity {
     @BindView(R.id.create_arena_relative_layout)
     RelativeLayout relativeLayout;
 
-    private AVLoadingIndicatorView spinner;
     private static final String TAG = CreateArenaActivity.class.getSimpleName();
+    private AVLoadingIndicatorView spinner;
     private Subscription subscription;
     private RestApi restApi;
+    private String invitationCodeText;
     private Creator creator = new Creator();
-
-    //Todo: Remove dummy data once usernames are retrieved from database on arena creation
-    String[] usersForArena = {
-            "Safari",
-            "Global",
-            "FireFox",
-            "UC Browser",
-    };
+    private List<String> playerList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +72,6 @@ public class CreateArenaActivity extends AppCompatActivity {
         Typeface arsenalFont = Typeface.createFromAsset(getAssets(), "font/arsenal_regular.otf");
         shareSecretCodeText.setTypeface(arsenalFont);
 
-        userListView.setAdapter(new ArrayAdapter<>(
-                this, R.layout.user_list_view_row,
-                R.id.user_name, usersForArena));
 
         PreferenceManager prefManager = new PreferenceManager(this);
         creator.setUsername(prefManager.getPreference(getString(R.string.shared_pref_username)));
@@ -120,9 +115,43 @@ public class CreateArenaActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Arena arena) {
                         Log.d(TAG, "In onNext");
-                        secretCode.setText(arena.getInvitationCode());
+                        invitationCodeText = arena.getInvitationCode();
+                        secretCode.setText(invitationCodeText);
                         spinner.hide();
+                        getArenaByInvitationCode();
                     }
                 });
+    }
+
+    private void getArenaByInvitationCode() {
+        subscription = restApi.getArenaByInvitationCode(invitationCodeText)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Arena>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "In getArenaByInvitationCode onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "In getArenaByInvitationCode onError: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Arena arena) {
+                        Log.d(TAG, "In getArenaByInvitationCode onNext");
+                        for (Player player : arena.getPlayers()) {
+                            playerList.add(player.getUsername());
+                        }
+                        updatePlayerListAdapter();
+                    }
+                });
+    }
+
+    public void updatePlayerListAdapter() {
+        userListView.setAdapter(new ArrayAdapter<>(
+                this, R.layout.user_list_view_row,
+                R.id.user_name, playerList));
     }
 }
