@@ -14,7 +14,7 @@
     <string name="enter_valid_name">Please enter valid name</string>
     <string name="enter_password">Please enter a password</string>
     <string name="name_regex">^[A-Za-z]*$</string>
-    <string name="user_name_regex">^[A-Za-z][A-Za-z0-9]*$</string>
+    <string name="user_name_regex">^[A-Za-z][A-Za-z0-9@.]*$</string>
     <string name="confirm_password">Please confirm password</string>
     <string name="passwords_mismatch">Passwords don\'t match</string>
     <string name="login_successful">Login Successful</string>
@@ -37,5 +37,5 @@
     <string name="zone_talent">Talent</string>
     <string name="zone_games">Games</string>
     <string name="zone_trader">Trader</string>
-    <string name="base_url">https://192.169.1.18:5000</string>
+    <string name="base_url">https://192.169.1.35:5000</string>
 </resources>

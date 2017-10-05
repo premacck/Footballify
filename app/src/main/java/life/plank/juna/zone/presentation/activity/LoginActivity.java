@@ -1,5 +1,6 @@
 package life.plank.juna.zone.presentation.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,27 +10,36 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
+import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.ValidationResult;
 import life.plank.juna.zone.util.ValidationUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
-import rx.functions.Func2;
+import rx.schedulers.Schedulers;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String TAG = "LoginActivity";
+    @Inject
+    Retrofit retrofit;
+
+    private static final String TAG = LoginActivity.class.getSimpleName();
     @BindView(R.id.text_input_user_name)
     TextInputLayout userNameTextInput;
     @BindView(R.id.text_input_password)
@@ -42,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     Button signInButton;
 
     private Subscription subscription;
+    private RestApi restApi;
     private Boolean validUserDetails = false;
 
     @Override
@@ -53,6 +64,8 @@ public class LoginActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(getColor(R.color.Orange));
         }
         validateLoginDetails();
+        ((ZoneApplication) getApplication()).getLoginNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
     }
 
     @Override
@@ -66,8 +79,35 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_in)
     public void signIn() {
         if (validUserDetails) {
-            Toast.makeText(this, getString(R.string.login_successful), Toast.LENGTH_SHORT).show();
+            loginUser(LoginActivity.this, userName.getText().toString().trim(), password.getText().toString().trim());
         }
+    }
+
+    private void loginUser(Context context, String userName, String password) {
+        subscription = restApi.loginUser(User.getInstance().withUsername(userName).withPassword(password))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<Void>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "Error Registering user: " + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Response<Void> response) {
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
+                            Log.d(TAG, "Login Successful. Status Code =" + response.code());
+                            startActivity(new Intent(context, ZoneHomeActivity.class));
+                        } else
+                            Log.d(TAG, "Registration Failed. Status Code:" + response.code());
+                    }
+                });
+
     }
 
     @OnClick(R.id.text_sign_up)
@@ -96,9 +136,9 @@ public class LoginActivity extends AppCompatActivity {
 
         subscription = Observable.combineLatest(userNameObservable, passwordObservable,
                 (validUserName, validPassword) -> {
-            Log.i(TAG, "username: " + validUserName + ", password: " + validPassword);
-            return validUserName && validPassword;
-        }).subscribe(aBoolean -> {
+                    Log.i(TAG, "username: " + validUserName + ", password: " + validPassword);
+                    return validUserName && validPassword;
+                }).subscribe(aBoolean -> {
             signInButton.setEnabled(aBoolean);
             validUserDetails = aBoolean;
         }, throwable -> Log.e(TAG, throwable.getMessage()));
