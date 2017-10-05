@@ -12,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -35,4 +36,7 @@ public interface RestApi {
 
     @POST("arenas/")
     Observable<Arena> getArena(@Body ArenaCreationData arenaData);
+
+    @GET("arenas/")
+    Observable<Arena> getArenaByInvitationCode(@Query("invitationcode") String invitationcode);
 }

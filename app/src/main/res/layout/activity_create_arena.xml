@@ -58,8 +58,8 @@
         android:layout_marginTop="30dp"
         android:divider="@color/material_grey_400"
         android:dividerHeight="2px"
-        android:paddingLeft="100dp"
-        android:paddingRight="100dp"
+        android:paddingLeft="80dp"
+        android:paddingRight="80dp"
         android:scrollbars="none" />
 
     <ImageView
