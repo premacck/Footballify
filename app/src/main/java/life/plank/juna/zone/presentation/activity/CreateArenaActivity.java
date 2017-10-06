@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -55,7 +56,6 @@ public class CreateArenaActivity extends AppCompatActivity {
     private AVLoadingIndicatorView spinner;
     private Subscription subscription;
     private RestApi restApi;
-    private String invitationCodeText;
     private Creator creator = new Creator();
     private List<String> playerList = new ArrayList<>();
 
@@ -92,6 +92,11 @@ public class CreateArenaActivity extends AppCompatActivity {
         }
     }
 
+    @OnClick(R.id.button_start_playing)
+    public void startPlayingPointsGame() {
+        startActivity(new Intent(this, JoinGameActivity.class));
+    }
+
     private void createArena() {
         subscription = restApi.getArena(ArenaCreationData.getInstance()
                 .withCreator(creator)
@@ -115,8 +120,8 @@ public class CreateArenaActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Arena arena) {
                         Log.d(TAG, "In onNext");
-                        invitationCodeText = arena.getInvitationCode();
-                        secretCode.setText(invitationCodeText);
+                        Arena.arena = arena;
+                        secretCode.setText(Arena.arena.getInvitationCode());
                         spinner.hide();
                         getArenaByInvitationCode();
                     }
@@ -124,7 +129,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     }
 
     private void getArenaByInvitationCode() {
-        subscription = restApi.getArenaByInvitationCode(invitationCodeText)
+        subscription = restApi.getArenaByInvitationCode(Arena.arena.getInvitationCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Arena>() {
@@ -141,7 +146,8 @@ public class CreateArenaActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Arena arena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
-                        for (Player player : arena.getPlayers()) {
+                        Arena.arena = arena;
+                        for (Player player : Arena.arena.getPlayers()) {
                             playerList.add(player.getUsername());
                         }
                         updatePlayerListAdapter();
