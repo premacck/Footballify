@@ -19,6 +19,7 @@ import life.plank.juna.zone.data.network.module.RestServiceModule;
 
 public class ZoneApplication extends Application {
 
+    public static Integer roundNumber = 0;
     private static Context context;
     private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
     private LoginUserNetworkComponent loginUserNetworkComponent;
