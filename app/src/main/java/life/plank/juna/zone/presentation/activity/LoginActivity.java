@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     @BindView(R.id.button_sign_in)
     Button signInButton;
+    @BindView(R.id.login_relative_layout)
+    RelativeLayout relativeLayout;
 
     private Subscription subscription;
     private RestApi restApi;
@@ -106,8 +110,10 @@ public class LoginActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             Log.d(TAG, "Login Successful. Status Code =" + response.code());
                             startActivity(new Intent(context, ZoneHomeActivity.class));
+                        } else if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                            Snackbar.make(relativeLayout, "Invalid username and password", Snackbar.LENGTH_LONG).show();
                         } else
-                            Log.d(TAG, "Registration Failed. Status Code:" + response.code());
+                            Snackbar.make(relativeLayout, "Signin failed, please retry", Snackbar.LENGTH_LONG).show();
                     }
                 });
 
