@@ -64,7 +64,8 @@ public class PointsMatchActivity extends AppCompatActivity {
 
         //Todo: replace toast with dialog for on click of match
         pointsMatchAdapter.getViewClickedObservable()
-                .subscribe(footballMatch -> Toast.makeText(this, footballMatch.getHomeTeam().getName(), Toast.LENGTH_SHORT).show());
+                .subscribe(footballMatch ->
+                        Toast.makeText(this, footballMatch.getHomeTeam().getName(), Toast.LENGTH_SHORT).show());
     }
 
     @OnClick(R.id.home_icon)
