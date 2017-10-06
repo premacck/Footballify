@@ -8,11 +8,8 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.jakewharton.rxbinding2.support.v7.widget.RxRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +23,6 @@ import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.presentation.adapter.PointsMatchAdapter;
 import life.plank.juna.zone.util.CustomizeStatusBar;
-import rx.Observer;
 
 public class PointsMatchActivity extends AppCompatActivity {
 
@@ -68,7 +64,7 @@ public class PointsMatchActivity extends AppCompatActivity {
 
         //Todo: replace toast with dialog for on click of match
         pointsMatchAdapter.getViewClickedObservable()
-                .subscribe(startActivity(new Intent(this, GameLaunchActivity.class)));
+                .subscribe(footballMatch -> Toast.makeText(this, footballMatch.getHomeTeam().getName(), Toast.LENGTH_SHORT).show());
     }
 
     @OnClick(R.id.home_icon)
