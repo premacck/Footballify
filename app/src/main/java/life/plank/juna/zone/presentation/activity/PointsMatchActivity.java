@@ -48,7 +48,7 @@ public class PointsMatchActivity extends AppCompatActivity {
                 .get(ZoneApplication.roundNumber)
                 .getFootballMatches();
         pointsMatchAdapter.setFootballMatchList(footballMatchList);
-        Integer leagueStartYear = Arena.arena.getLeagueYearStart();
+        Integer leagueStartYear = Arena.getInstance().getLeagueYearStart();
         Integer previousYear = leagueStartYear - 1;
         yearText.setText(previousYear.toString() + "-" + leagueStartYear.toString());
         roundNumberText.setText((++ZoneApplication.roundNumber).toString());
