@@ -58,5 +58,12 @@
             android:name=".presentation.activity.CreateArenaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".presentation.activity.JoinGameActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".presentation.activity.PointsMatchActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

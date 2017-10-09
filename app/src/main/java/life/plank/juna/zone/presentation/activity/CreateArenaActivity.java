@@ -20,6 +20,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -55,9 +56,9 @@ public class CreateArenaActivity extends AppCompatActivity {
     private AVLoadingIndicatorView spinner;
     private Subscription subscription;
     private RestApi restApi;
-    private String invitationCodeText;
     private Creator creator = new Creator();
     private List<String> playerList = new ArrayList<>();
+    private Arena arena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class CreateArenaActivity extends AppCompatActivity {
 
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
+        arena = Arena.getInstance();
         createArena();
     }
 
@@ -90,6 +92,11 @@ public class CreateArenaActivity extends AppCompatActivity {
         if (subscription != null) {
             subscription.unsubscribe();
         }
+    }
+
+    @OnClick(R.id.button_start_playing)
+    public void startPlayingPointsGame() {
+        startActivity(new Intent(this, JoinGameActivity.class));
     }
 
     private void createArena() {
@@ -113,10 +120,10 @@ public class CreateArenaActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Arena arena) {
+                    public void onNext(Arena responseArena) {
                         Log.d(TAG, "In onNext");
-                        invitationCodeText = arena.getInvitationCode();
-                        secretCode.setText(invitationCodeText);
+                        arena.setArena(responseArena);
+                        secretCode.setText(arena.getInvitationCode());
                         spinner.hide();
                         getArenaByInvitationCode();
                     }
@@ -124,7 +131,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     }
 
     private void getArenaByInvitationCode() {
-        subscription = restApi.getArenaByInvitationCode(invitationCodeText)
+        subscription = restApi.getArenaByInvitationCode(arena.getInvitationCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Arena>() {
@@ -139,8 +146,9 @@ public class CreateArenaActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Arena arena) {
+                    public void onNext(Arena responseArena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
+                        arena.setArena(responseArena);
                         for (Player player : arena.getPlayers()) {
                             playerList.add(player.getUsername());
                         }
