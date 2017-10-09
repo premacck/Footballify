@@ -80,7 +80,7 @@ public class PointsMatchAdapter extends RecyclerView.Adapter<PointsMatchAdapter.
         return footballMatchList.size();
     }
 
-    public void setNewsFeedList(List<FootballMatch> footballMatches) {
+    public void setFootballMatchList(List<FootballMatch> footballMatches) {
         if (footballMatches == null) {
             return;
         }

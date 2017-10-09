@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Arena {
 
-    public static Arena arena = null;
+    private static Arena arena = null;
     private Integer id;
     private String dateCreated;
     private Integer leagueYearStart;
@@ -24,6 +24,10 @@ public class Arena {
         if (arena == null)
             arena = new Arena();
         return arena;
+    }
+
+    public static void setArena(Arena arena) {
+        Arena.arena = arena;
     }
 
     public Integer getId() {
