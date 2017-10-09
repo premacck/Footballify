@@ -15,7 +15,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
-import life.plank.juna.zone.data.network.model.Round;
 import life.plank.juna.zone.presentation.adapter.PointsMatchAdapter;
 
 public class PointsMatchActivity extends AppCompatActivity {
@@ -23,8 +22,8 @@ public class PointsMatchActivity extends AppCompatActivity {
     @BindView(R.id.match_points_recycler_view)
     RecyclerView recyclerView;
 
-    PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
-    List<FootballMatch> footballMatchList = new ArrayList<>();
+    private PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
+    private List<FootballMatch> footballMatchList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +31,11 @@ public class PointsMatchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_points_match);
         ButterKnife.bind(this);
         initRecyclerView();
-        footballMatchList = Arena.arena.getRounds().get(ZoneApplication.roundNumber).getFootballMatches();
-        pointsMatchAdapter.setNewsFeedList(footballMatchList);
+        footballMatchList = Arena.getInstance()
+                .getRounds()
+                .get(ZoneApplication.roundNumber)
+                .getFootballMatches();
+        pointsMatchAdapter.setFootballMatchList(footballMatchList);
     }
 
     private void initRecyclerView() {

@@ -2,20 +2,14 @@ package life.plank.juna.zone.presentation.activity;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.Round;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
 public class JoinGameActivity extends AppCompatActivity {
