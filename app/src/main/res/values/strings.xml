@@ -44,4 +44,5 @@
     <string name="points_game">Points</string>
     <string name="league_name_plank">PLANK LEAGUE</string>
     <string name="match_vs">VS</string>
+    <string name="round_label">Round</string>
 </resources>

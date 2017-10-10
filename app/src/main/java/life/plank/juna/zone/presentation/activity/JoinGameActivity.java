@@ -17,11 +17,6 @@ public class JoinGameActivity extends AppCompatActivity {
     @BindView(R.id.league_name)
     TextView leagueName;
 
-    @OnClick(R.id.button_join_game)
-    public void joinPointsGame() {
-        startActivity(new Intent(this, PointsMatchActivity.class));
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +24,17 @@ public class JoinGameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
 
-        Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), "font/san-frediano.ttf");
-        leagueName.setTypeface(moderneSansFont);
+        Typeface sansFredianoFont = Typeface.createFromAsset(getAssets(), getString(R.string.sans_frediano));
+        leagueName.setTypeface(sansFredianoFont);
+    }
+
+    @OnClick(R.id.button_join_game)
+    public void joinPointsGame() {
+        startActivity(new Intent(this, PointsMatchActivity.class));
+    }
+
+    @OnClick(R.id.home_icon)
+    public void exitPointsGame() {
+        startActivity(new Intent(this, GameLaunchActivity.class));
     }
 }
