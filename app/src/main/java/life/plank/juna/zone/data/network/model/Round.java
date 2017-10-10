@@ -29,6 +29,11 @@ public class Round {
         this.roundNumber = roundNumber;
     }
 
+    public Round withUsername(Integer roundNumber) {
+        this.roundNumber = roundNumber;
+        return this;
+    }
+
     public List<FootballMatch> getFootballMatches() {
         return footballMatches;
     }

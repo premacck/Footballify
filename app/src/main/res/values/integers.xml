@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="debounce_time">800</integer>
+    <integer name="popup_window_dimension">650</integer>
+    <integer name="popup_location_offset">0</integer>
 </resources>

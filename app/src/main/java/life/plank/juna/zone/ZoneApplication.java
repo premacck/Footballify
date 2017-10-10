@@ -7,9 +7,11 @@ import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerPostUserChoiceNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.PostUserChoiceNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 
@@ -25,6 +27,7 @@ public class ZoneApplication extends Application {
     private LoginUserNetworkComponent loginUserNetworkComponent;
     private RegisterUserNetworkComponent registerUserNetworkComponent;
     private CreateArenaNetworkComponent createArenaNetworkComponent;
+    private PostUserChoiceNetworkComponent postUserChoiceNetworkComponent;
 
     @Override
     public void onCreate() {
@@ -43,6 +46,10 @@ public class ZoneApplication extends Application {
                 .build();
 
         createArenaNetworkComponent = DaggerCreateArenaNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .build();
+
+        postUserChoiceNetworkComponent = DaggerPostUserChoiceNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
     }
@@ -65,5 +72,9 @@ public class ZoneApplication extends Application {
 
     public CreateArenaNetworkComponent getCreateArenaNetworkComponent() {
         return createArenaNetworkComponent;
+    }
+
+    public PostUserChoiceNetworkComponent getPostUserChoiceNetworkComponent() {
+        return postUserChoiceNetworkComponent;
     }
 }

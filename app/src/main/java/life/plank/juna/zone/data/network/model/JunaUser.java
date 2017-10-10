@@ -4,21 +4,31 @@ package life.plank.juna.zone.data.network.model;
  * Created by plank-sobia on 10/3/2017.
  */
 
-public class User {
+public class JunaUser {
 
-    private static User user = null;
+    private static JunaUser user = null;
+    private Integer id;
     private String username;
     private String password;
 
-    private User() {
-
-    }
-
-    public static User getInstance() {
+    public static JunaUser getInstance() {
         if (user == null) {
-            user = new User();
+            user = new JunaUser();
         }
         return user;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public JunaUser withId(Integer id) {
+        this.id = id;
+        return this;
     }
 
     public String getUsername() {
@@ -29,7 +39,7 @@ public class User {
         this.username = username;
     }
 
-    public User withUsername(String username) {
+    public JunaUser withUsername(String username) {
         this.username = username;
         return this;
     }
@@ -42,7 +52,7 @@ public class User {
         this.password = password;
     }
 
-    public User withPassword(String password) {
+    public JunaUser withPassword(String password) {
         this.password = password;
         return this;
     }

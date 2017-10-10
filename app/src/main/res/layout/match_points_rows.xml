@@ -22,10 +22,10 @@
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginRight="5dp"
-        android:layout_toLeftOf="@+id/match_vs" />
+        android:layout_toLeftOf="@+id/user_choice_text_vs" />
 
     <TextView
-        android:id="@+id/match_vs"
+        android:id="@+id/user_choice_text_vs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -40,7 +40,7 @@
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/match_vs" />
+        android:layout_toRightOf="@+id/user_choice_text_vs" />
 
     <TextView
         android:id="@+id/visiting_team_name"
