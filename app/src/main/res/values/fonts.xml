@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="moderne_sans">font/moderne_sans.ttf</string>
+    <string name="arsenal_regular">font/arsenal_regular.otf</string>
+    <string name="sans_frediano">font/san-frediano.ttf</string>
+</resources>

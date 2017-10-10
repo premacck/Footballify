@@ -30,7 +30,8 @@ public class PointsMatchAdapter extends RecyclerView.Adapter<PointsMatchAdapter.
 
     private List<FootballMatch> footballMatchList = new ArrayList<>();
     private PublishSubject<FootballMatch> itemViewClickSubject = PublishSubject.create();
-    Typeface moderneSansFont = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "font/moderne_sans.ttf");
+    Typeface moderneSansFont = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(),
+            ZoneApplication.getContext().getString(R.string.moderne_sans));
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.home_team_name)
