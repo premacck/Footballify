@@ -24,8 +24,8 @@ public class JoinGameActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
 
-        Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), "font/san-frediano.ttf");
-        leagueName.setTypeface(moderneSansFont);
+        Typeface sansFredianoFont = Typeface.createFromAsset(getAssets(), getString(R.string.sans_frediano));
+        leagueName.setTypeface(sansFredianoFont);
     }
 
     @OnClick(R.id.button_join_game)

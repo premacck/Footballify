@@ -33,8 +33,8 @@ public class PointsMatchActivity extends AppCompatActivity {
     @BindView(R.id.round_number)
     TextView roundNumberText;
 
-    PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
-    List<FootballMatch> footballMatchList = new ArrayList<>();
+    private PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
+    private List<FootballMatch> footballMatchList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +43,12 @@ public class PointsMatchActivity extends AppCompatActivity {
         CustomizeStatusBar.removeStatusBar(getWindow());
         ButterKnife.bind(this);
         initRecyclerView();
-
-        footballMatchList = Arena.arena.getRounds().get(ZoneApplication.roundNumber).getFootballMatches();
-        pointsMatchAdapter.setNewsFeedList(footballMatchList);
-        Integer leagueStartYear = Arena.arena.getLeagueYearStart();
+        footballMatchList = Arena.getInstance()
+                .getRounds()
+                .get(ZoneApplication.roundNumber)
+                .getFootballMatches();
+        pointsMatchAdapter.setFootballMatchList(footballMatchList);
+        Integer leagueStartYear = Arena.getInstance().getLeagueYearStart();
         Integer previousYear = leagueStartYear - 1;
         yearText.setText(previousYear.toString() + "-" + leagueStartYear.toString());
         roundNumberText.setText((++ZoneApplication.roundNumber).toString());

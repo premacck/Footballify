@@ -58,6 +58,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     private RestApi restApi;
     private Creator creator = new Creator();
     private List<String> playerList = new ArrayList<>();
+    private Arena arena;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +67,11 @@ public class CreateArenaActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
 
-        Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), "font/moderne_sans.ttf");
+        Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), getString(R.string.moderne_sans));
         secretCodeText.setTypeface(moderneSansFont);
         secretCode.setTypeface(moderneSansFont);
-        Typeface arsenalFont = Typeface.createFromAsset(getAssets(), "font/arsenal_regular.otf");
+        Typeface arsenalFont = Typeface.createFromAsset(getAssets(), getString(R.string.arsenal_regular));
         shareSecretCodeText.setTypeface(arsenalFont);
-
 
         PreferenceManager prefManager = new PreferenceManager(this);
         creator.setUsername(prefManager.getPreference(getString(R.string.shared_pref_username)));
@@ -81,6 +81,7 @@ public class CreateArenaActivity extends AppCompatActivity {
 
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
+        arena = Arena.getInstance();
         createArena();
     }
 
@@ -118,10 +119,10 @@ public class CreateArenaActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Arena arena) {
+                    public void onNext(Arena responseArena) {
                         Log.d(TAG, "In onNext");
-                        Arena.arena = arena;
-                        secretCode.setText(Arena.arena.getInvitationCode());
+                        arena.setArena(responseArena);
+                        secretCode.setText(arena.getInvitationCode());
                         spinner.hide();
                         getArenaByInvitationCode();
                     }
@@ -129,7 +130,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     }
 
     private void getArenaByInvitationCode() {
-        subscription = restApi.getArenaByInvitationCode(Arena.arena.getInvitationCode())
+        subscription = restApi.getArenaByInvitationCode(arena.getInvitationCode())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Arena>() {
@@ -144,10 +145,10 @@ public class CreateArenaActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Arena arena) {
+                    public void onNext(Arena responseArena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
-                        Arena.arena = arena;
-                        for (Player player : Arena.arena.getPlayers()) {
+                        arena.setArena(responseArena);
+                        for (Player player : arena.getPlayers()) {
                             playerList.add(player.getUsername());
                         }
                         updatePlayerListAdapter();
