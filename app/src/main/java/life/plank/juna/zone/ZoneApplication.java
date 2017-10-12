@@ -6,10 +6,12 @@ import android.content.Context;
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPostUserChoiceNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PostUserChoiceNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
@@ -28,6 +30,7 @@ public class ZoneApplication extends Application {
     private RegisterUserNetworkComponent registerUserNetworkComponent;
     private CreateArenaNetworkComponent createArenaNetworkComponent;
     private PostUserChoiceNetworkComponent postUserChoiceNetworkComponent;
+    private MultipleUserJoinGameNetworkComponent multipleUserJoinGameNetworkComponent;
 
     @Override
     public void onCreate() {
@@ -50,6 +53,10 @@ public class ZoneApplication extends Application {
                 .build();
 
         postUserChoiceNetworkComponent = DaggerPostUserChoiceNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .build();
+
+        multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
     }
@@ -76,5 +83,9 @@ public class ZoneApplication extends Application {
 
     public PostUserChoiceNetworkComponent getPostUserChoiceNetworkComponent() {
         return postUserChoiceNetworkComponent;
+    }
+
+    public MultipleUserJoinGameNetworkComponent getMultipleUserJoinGameNetworkComponent() {
+        return multipleUserJoinGameNetworkComponent;
     }
 }
