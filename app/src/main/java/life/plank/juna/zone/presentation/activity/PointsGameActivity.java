@@ -35,16 +35,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
+import life.plank.juna.zone.data.network.builder.TeamSelectionBuilder;
+import life.plank.juna.zone.data.network.builder.UserChoiceBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
-import life.plank.juna.zone.data.network.model.JunaUser;
-import life.plank.juna.zone.data.network.model.TeamSelection;
-import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.domain.service.GameService;
 import life.plank.juna.zone.presentation.adapter.PointsMatchAdapter;
 import life.plank.juna.zone.util.CustomizeStatusBar;
-import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.TeamNameMap;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -53,7 +52,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class PointsMatchActivity extends AppCompatActivity {
+public class PointsGameActivity extends AppCompatActivity {
 
     @Inject
     Retrofit retrofit;
@@ -73,13 +72,14 @@ public class PointsMatchActivity extends AppCompatActivity {
     private EditText visitingTeamScore;
     private ImageView submitScoreButton;
 
-    private static final String TAG = PointsMatchActivity.class.getSimpleName();
+    private static final String TAG = PointsGameActivity.class.getSimpleName();
     private PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
     private List<FootballMatch> footballMatchList = new ArrayList<>();
+    private GameService gameService = new GameService();
+    private TeamSelectionBuilder teamSelectionBuilder = new TeamSelectionBuilder();
     private Subscription subscription;
     private RestApi restApi;
-    private UserChoice userChoice = new UserChoice();
-    private PreferenceManager prefManager;
+    private UserChoiceBuilder userChoiceBuilder = new UserChoiceBuilder();
     private PopupWindow popupWindow;
 
     private Integer roundId;
@@ -90,12 +90,11 @@ public class PointsMatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_points_match);
+        setContentView(R.layout.activity_points_game);
         CustomizeStatusBar.removeStatusBar(getWindow());
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getPostUserChoiceNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        prefManager = new PreferenceManager(this);
         initializePointsMatchGamesView();
         initRecyclerView();
     }
@@ -128,7 +127,7 @@ public class PointsMatchActivity extends AppCompatActivity {
     }
 
     private void initiatePopUp(FootballMatch footballMatch) {
-        LayoutInflater inflater = (LayoutInflater) PointsMatchActivity.this
+        LayoutInflater inflater = (LayoutInflater) PointsGameActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.user_choice_layout,
                 (ViewGroup) findViewById(R.id.relative_layout_user_choice));
@@ -173,25 +172,23 @@ public class PointsMatchActivity extends AppCompatActivity {
             selectedTeamId = footballMatch.getVisitingTeam().getId();
         }
 
-        playerScore = GameService.computeScore(footballMatch, selectedTeamName, homeTeamGuessScore, visitingTeamGuessScore, playerScore);
+        playerScore = gameService.computeScore(footballMatch, selectedTeamName, homeTeamGuessScore, visitingTeamGuessScore, playerScore);
         //Todo: Remove toast once the result page is created
         Toast.makeText(this, playerScore.toString(), Toast.LENGTH_SHORT).show();
 
         roundId = Arena.getInstance().getRounds()
                 .get(ZoneApplication.roundNumber - 1).getId();
 
-        userChoice.setId(roundId);
-        userChoice.setHomeTeamScore(homeTeamGuessScore);
-        userChoice.setVisitingTeamScore(visitingTeamGuessScore);
-        userChoice.setPoints(playerScore);
-        userChoice.setFootballMatch(footballMatch);
-        userChoice.setTeamSelection(TeamSelection.getInstance()
-                .withId(selectedTeamId)
-                .withName(selectedTeamName));
-        userChoice.setJunaUser(JunaUser.getInstance().
-                withUsername(prefManager.getPreference(getString(R.string.shared_pref_username))));
-
-        subscription = restApi.postUserChoice(roundId, userChoice)
+        subscription = restApi.postUserChoice(roundId, userChoiceBuilder.withId(roundId)
+                .withHomeTeamScore(homeTeamGuessScore)
+                .withVisitingTeamScore(visitingTeamGuessScore)
+                .withPoints(playerScore)
+                .withFootballMatch(footballMatch)
+                .withTeamSelection(teamSelectionBuilder.withId(selectedTeamId)
+                        .withName(selectedTeamName)
+                        .build())
+                .withJunaUser(JunaUserBuilder.getInstance().build())
+                .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Void>>() {

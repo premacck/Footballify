@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.network.interfaces;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.ArenaCreationData;
+import life.plank.juna.zone.data.network.model.CreateArenaData;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
@@ -36,7 +36,7 @@ public interface RestApi {
     Observable<Response<Void>> loginUser(@Body JunaUser junaUser);
 
     @POST("arenas/")
-    Observable<Arena> getArena(@Body ArenaCreationData arenaData);
+    Observable<Arena> getArena(@Body CreateArenaData arenaData);
 
     @GET("arenas/")
     Observable<Arena> getArenaByInvitationCode(@Query("invitationcode") String invitationcode);

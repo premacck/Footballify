@@ -26,8 +26,17 @@ public class Arena {
         return arena;
     }
 
-    public static void setArena(Arena arena) {
-        Arena.arena = arena;
+    public void setArena(Arena arena) {
+        setId(arena.getId());
+        setDateCreated(arena.getDateCreated());
+        setLeagueYearStart(arena.getLeagueYearStart());
+        setStatus(arena.getStatus());
+        setInvitationCode(arena.getInvitationCode());
+        setGameType(arena.getGameType());
+        setFootballLeague(arena.getFootballLeague());
+        setRounds(arena.getRounds());
+        setPlayers(arena.getPlayers());
+        setCreator(arena.getCreator());
     }
 
     public Integer getId() {

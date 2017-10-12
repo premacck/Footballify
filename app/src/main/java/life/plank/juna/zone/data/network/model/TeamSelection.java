@@ -6,16 +6,8 @@ package life.plank.juna.zone.data.network.model;
 
 public class TeamSelection {
 
-    private static TeamSelection teamSelection = null;
     private Integer id;
     private String name;
-
-    public static TeamSelection getInstance() {
-        if (teamSelection == null) {
-            teamSelection = new TeamSelection();
-        }
-        return teamSelection;
-    }
 
     public Integer getId() {
         return id;
@@ -25,11 +17,6 @@ public class TeamSelection {
         this.id = id;
     }
 
-    public TeamSelection withId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
     public String getName() {
         return name;
     }
@@ -37,11 +24,4 @@ public class TeamSelection {
     public void setName(String name) {
         this.name = name;
     }
-
-    public TeamSelection withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-
 }

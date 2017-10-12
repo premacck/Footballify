@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.presentation.activity.PointsMatchActivity;
+import life.plank.juna.zone.presentation.activity.PointsGameActivity;
 
 /**
  * Created by plank-sobia on 10/10/2017.
@@ -12,5 +12,5 @@ import life.plank.juna.zone.presentation.activity.PointsMatchActivity;
 @Singleton
 @Component(modules = RestServiceModule.class)
 public interface PostUserChoiceNetworkComponent {
-    void inject(PointsMatchActivity pointsMatchActivity);
+    void inject(PointsGameActivity pointsGameActivity);
 }

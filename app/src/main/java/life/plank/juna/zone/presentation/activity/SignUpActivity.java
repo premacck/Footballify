@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.ValidationResult;
 import life.plank.juna.zone.util.ValidationUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
@@ -101,7 +101,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void registerUserCredentials(Context context, String userName, String password) {
-        subscription = restApi.registerUser(JunaUser.getInstance().withUsername(userName).withPassword(password))
+        subscription = restApi.registerUser(JunaUserBuilder.getInstance()
+                .withUserName(userName)
+                .withPassword(password)
+                .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Void>>() {

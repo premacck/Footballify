@@ -6,17 +6,9 @@ package life.plank.juna.zone.data.network.model;
 
 public class JunaUser {
 
-    private static JunaUser user = null;
     private Integer id;
     private String username;
     private String password;
-
-    public static JunaUser getInstance() {
-        if (user == null) {
-            user = new JunaUser();
-        }
-        return user;
-    }
 
     public Integer getId() {
         return id;
@@ -24,11 +16,6 @@ public class JunaUser {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public JunaUser withId(Integer id) {
-        this.id = id;
-        return this;
     }
 
     public String getUsername() {
@@ -39,21 +26,11 @@ public class JunaUser {
         this.username = username;
     }
 
-    public JunaUser withUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public JunaUser withPassword(String password) {
-        this.password = password;
-        return this;
     }
 }

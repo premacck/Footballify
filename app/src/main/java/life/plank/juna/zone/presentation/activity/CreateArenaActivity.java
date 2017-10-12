@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.CreateArenaDataBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.ArenaCreationData;
 import life.plank.juna.zone.data.network.model.Creator;
 import life.plank.juna.zone.data.network.model.Player;
 import life.plank.juna.zone.util.CustomizeStatusBar;
@@ -58,6 +58,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     private RestApi restApi;
     private Creator creator = new Creator();
     private List<String> playerList = new ArrayList<>();
+    private CreateArenaDataBuilder createArenaDataBuilder = new CreateArenaDataBuilder();
     private Arena arena;
 
     @Override
@@ -99,9 +100,9 @@ public class CreateArenaActivity extends AppCompatActivity {
     }
 
     private void createArena() {
-        subscription = restApi.getArena(ArenaCreationData.getInstance()
-                .withCreator(creator)
-                .withGameType(getString(R.string.points_game)))
+        subscription = restApi.getArena(createArenaDataBuilder.withCreator(creator)
+                .withGameType(getString(R.string.points_game))
+                .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Arena>() {

@@ -8,7 +8,7 @@ import life.plank.juna.zone.data.network.model.FootballMatch;
 
 public class GameService {
 
-    public static Integer computeScore(FootballMatch footballMatch, String selectedTeamName, Integer homeTeamGuessScore, Integer visitingTeamGuessScore, Integer playerScore) {
+    public Integer computeScore(FootballMatch footballMatch, String selectedTeamName, Integer homeTeamGuessScore, Integer visitingTeamGuessScore, Integer playerScore) {
         Integer score;
 
         if (footballMatch.getVisitingTeamScore() > footballMatch.getHomeTeamScore()) {
