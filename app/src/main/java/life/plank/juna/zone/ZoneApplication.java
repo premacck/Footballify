@@ -8,14 +8,15 @@ import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponen
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerPostUserChoiceNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.PostUserChoiceNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
+import life.plank.juna.zone.domain.module.GameServiceModule;
 
 /**
  * Created by plank-sobia on 9/19/2017.
@@ -29,7 +30,7 @@ public class ZoneApplication extends Application {
     private LoginUserNetworkComponent loginUserNetworkComponent;
     private RegisterUserNetworkComponent registerUserNetworkComponent;
     private CreateArenaNetworkComponent createArenaNetworkComponent;
-    private PostUserChoiceNetworkComponent postUserChoiceNetworkComponent;
+    private PointsGameComponent pointsGameComponent;
     private MultipleUserJoinGameNetworkComponent multipleUserJoinGameNetworkComponent;
 
     @Override
@@ -52,8 +53,9 @@ public class ZoneApplication extends Application {
                 .restServiceModule(new RestServiceModule())
                 .build();
 
-        postUserChoiceNetworkComponent = DaggerPostUserChoiceNetworkComponent.builder()
+        pointsGameComponent = DaggerPointsGameComponent.builder()
                 .restServiceModule(new RestServiceModule())
+                .gameServiceModule(new GameServiceModule(this))
                 .build();
 
         multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
@@ -81,8 +83,8 @@ public class ZoneApplication extends Application {
         return createArenaNetworkComponent;
     }
 
-    public PostUserChoiceNetworkComponent getPostUserChoiceNetworkComponent() {
-        return postUserChoiceNetworkComponent;
+    public PointsGameComponent getPointsGameComponent() {
+        return pointsGameComponent;
     }
 
     public MultipleUserJoinGameNetworkComponent getMultipleUserJoinGameNetworkComponent() {

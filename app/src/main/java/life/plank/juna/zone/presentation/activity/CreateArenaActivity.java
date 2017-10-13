@@ -23,7 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.builder.CreateArenaDataBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.Creator;
@@ -58,7 +57,6 @@ public class CreateArenaActivity extends AppCompatActivity {
     private RestApi restApi;
     private Creator creator = new Creator();
     private List<String> playerList = new ArrayList<>();
-    private CreateArenaDataBuilder createArenaDataBuilder = new CreateArenaDataBuilder();
     private Arena arena;
 
     @Override
@@ -74,15 +72,17 @@ public class CreateArenaActivity extends AppCompatActivity {
         Typeface arsenalFont = Typeface.createFromAsset(getAssets(), getString(R.string.arsenal_regular));
         shareSecretCodeText.setTypeface(arsenalFont);
 
-        PreferenceManager prefManager = new PreferenceManager(this);
-        creator.setUsername(prefManager.getPreference(getString(R.string.shared_pref_username)));
-
         spinner = (AVLoadingIndicatorView) findViewById(R.id.spinner);
         spinner.show();
 
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         arena = Arena.getInstance();
+
+        PreferenceManager prefManager = new PreferenceManager(this);
+        creator.setUsername(prefManager.getPreference(getString(R.string.shared_pref_username)));
+        arena.setCreator(creator);
+        arena.setGameType(getString(R.string.points_game));
         createArena();
     }
 
@@ -100,9 +100,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     }
 
     private void createArena() {
-        subscription = restApi.getArena(createArenaDataBuilder.withCreator(creator)
-                .withGameType(getString(R.string.points_game))
-                .build())
+        subscription = restApi.getArena(arena)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Arena>() {
@@ -122,7 +120,7 @@ public class CreateArenaActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Arena responseArena) {
                         Log.d(TAG, "In onNext");
-                        arena.setArena(responseArena);
+                        arena.copyArena(responseArena);
                         secretCode.setText(arena.getInvitationCode());
                         spinner.hide();
                         getArenaByInvitationCode();
@@ -148,7 +146,7 @@ public class CreateArenaActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Arena responseArena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
-                        arena.setArena(responseArena);
+                        arena.copyArena(responseArena);
                         for (Player player : arena.getPlayers()) {
                             playerList.add(player.getUsername());
                         }

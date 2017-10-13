@@ -2,7 +2,7 @@ package life.plank.juna.zone.data.network.builder;
 
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
-import life.plank.juna.zone.data.network.model.TeamSelection;
+import life.plank.juna.zone.data.network.model.FootballTeam;
 import life.plank.juna.zone.data.network.model.UserChoice;
 
 /**
@@ -42,8 +42,8 @@ public class UserChoiceBuilder {
         return this;
     }
 
-    public UserChoiceBuilder withTeamSelection(TeamSelection teamSelection) {
-        userChoice.setTeamSelection(teamSelection);
+    public UserChoiceBuilder withFootballTeam(FootballTeam footballTeam) {
+        userChoice.setFootballTeam(footballTeam);
         return this;
     }
 
