@@ -26,7 +26,7 @@ public class Arena {
         return arena;
     }
 
-    public void setArena(Arena arena) {
+    public void copyArena(Arena arena) {
         setId(arena.getId());
         setDateCreated(arena.getDateCreated());
         setLeagueYearStart(arena.getLeagueYearStart());

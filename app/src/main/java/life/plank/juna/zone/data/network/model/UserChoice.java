@@ -12,7 +12,7 @@ public class UserChoice {
     private Integer visitingTeamScore;
     private Integer points;
     private JunaUser junaUser;
-    private TeamSelection teamSelection;
+    private FootballTeam teamSelection;
     private FootballMatch footballMatch;
 
     public Integer getId() {
@@ -55,12 +55,12 @@ public class UserChoice {
         this.junaUser = junaUser;
     }
 
-    public TeamSelection getTeamSelection() {
+    public FootballTeam getFootballTeam() {
         return teamSelection;
     }
 
-    public void setTeamSelection(TeamSelection teamSelection) {
-        this.teamSelection = teamSelection;
+    public void setFootballTeam(FootballTeam footballTeam) {
+        this.teamSelection = footballTeam;
     }
 
     public FootballMatch getFootballMatch() {

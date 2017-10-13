@@ -35,8 +35,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.FootballTeamBuilder;
 import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
-import life.plank.juna.zone.data.network.builder.TeamSelectionBuilder;
 import life.plank.juna.zone.data.network.builder.UserChoiceBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
@@ -56,6 +56,8 @@ public class PointsGameActivity extends AppCompatActivity {
 
     @Inject
     Retrofit retrofit;
+    @Inject
+    GameService gameService;
 
     @BindView(R.id.match_points_recycler_view)
     RecyclerView recyclerView;
@@ -75,8 +77,7 @@ public class PointsGameActivity extends AppCompatActivity {
     private static final String TAG = PointsGameActivity.class.getSimpleName();
     private PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
     private List<FootballMatch> footballMatchList = new ArrayList<>();
-    private GameService gameService = new GameService();
-    private TeamSelectionBuilder teamSelectionBuilder = new TeamSelectionBuilder();
+    private FootballTeamBuilder footballTeamBuilder = new FootballTeamBuilder();
     private Subscription subscription;
     private RestApi restApi;
     private UserChoiceBuilder userChoiceBuilder = new UserChoiceBuilder();
@@ -93,7 +94,7 @@ public class PointsGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_points_game);
         CustomizeStatusBar.removeStatusBar(getWindow());
         ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getPostUserChoiceNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getPointsGameComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         initializePointsMatchGamesView();
         initRecyclerView();
@@ -184,7 +185,7 @@ public class PointsGameActivity extends AppCompatActivity {
                 .withVisitingTeamScore(visitingTeamGuessScore)
                 .withPoints(playerScore)
                 .withFootballMatch(footballMatch)
-                .withTeamSelection(teamSelectionBuilder.withId(selectedTeamId)
+                .withFootballTeam(footballTeamBuilder.withId(selectedTeamId)
                         .withName(selectedTeamName)
                         .build())
                 .withJunaUser(JunaUserBuilder.getInstance().build())
