@@ -3,7 +3,6 @@ package life.plank.juna.zone.data.network.interfaces;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.Creator;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
@@ -46,5 +45,5 @@ public interface RestApi {
     Observable<Response<Void>> postUserChoice(@Path("roundId") Integer roundId, @Body UserChoice userChoice);
 
     @PUT("arenas/{secretCode}/players")
-    Observable<Response<Void>> putJoinArena(@Path("secretCode") String secretCode, @Body Creator creator);
+    Observable<Response<Void>> putJoinArena(@Path("secretCode") String secretCode, @Body JunaUser junaUser);
 }

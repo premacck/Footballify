@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.Creator;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.PreferenceManager;
 import retrofit2.Response;
@@ -54,7 +54,6 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
     private static String invitationCode;
     private Subscription subscription;
     private RestApi restApi;
-    private Creator creator = new Creator();
     private Arena arena;
 
     @Override
@@ -94,9 +93,11 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
                 + invitationCodeLabelFour.getText().toString();
 
         PreferenceManager prefManager = new PreferenceManager(this);
-        creator.setUsername(prefManager.getPreference(getString(R.string.shared_pref_username)));
 
-        subscription = restApi.putJoinArena(invitationCode, creator)
+        subscription = restApi.putJoinArena(invitationCode,
+                JunaUserBuilder.getInstance().
+                        withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
+                        .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Void>>() {

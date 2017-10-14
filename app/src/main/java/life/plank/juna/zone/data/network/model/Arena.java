@@ -18,7 +18,7 @@ public class Arena {
     private FootballLeague footballLeague;
     private List<Round> rounds = null;
     private List<Player> players = null;
-    private Creator creator;
+    private JunaUser creator;
 
     public static Arena getInstance() {
         if (arena == null)
@@ -111,11 +111,11 @@ public class Arena {
         this.players = players;
     }
 
-    public Creator getCreator() {
+    public JunaUser getCreator() {
         return creator;
     }
 
-    public void setCreator(Creator creator) {
+    public void setCreator(JunaUser creator) {
         this.creator = creator;
     }
 }
