@@ -30,7 +30,7 @@ public class JoinGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_join_game)
     public void joinPointsGame() {
-        startActivity(new Intent(this, PointsMatchActivity.class));
+        startActivity(new Intent(this, PointsGameActivity.class));
     }
 
     @OnClick(R.id.home_icon)

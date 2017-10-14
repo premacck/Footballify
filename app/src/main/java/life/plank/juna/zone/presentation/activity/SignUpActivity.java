@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.ValidationResult;
 import life.plank.juna.zone.util.ValidationUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
@@ -101,7 +101,10 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void registerUserCredentials(Context context, String userName, String password) {
-        subscription = restApi.registerUser(User.getInstance().withUsername(userName).withPassword(password))
+        subscription = restApi.registerUser(JunaUserBuilder.getInstance()
+                .withUserName(userName)
+                .withPassword(password)
+                .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Void>>() {
@@ -122,7 +125,7 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(new Intent(context, LoginActivity.class));
                         } //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
                         else if (response.code() == 422) {
-                            Snackbar.make(relativeLayout, "User name already exists", Snackbar.LENGTH_LONG).show();
+                            Snackbar.make(relativeLayout, "JunaUser name already exists", Snackbar.LENGTH_LONG).show();
                         } else
                             Snackbar.make(relativeLayout, "Signup failed, please retry", Snackbar.LENGTH_LONG).show();
                     }

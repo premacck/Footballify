@@ -63,7 +63,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.PointsMatchActivity"
+            android:name=".presentation.activity.PointsGameActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

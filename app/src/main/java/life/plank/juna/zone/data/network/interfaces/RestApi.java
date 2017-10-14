@@ -3,10 +3,10 @@ package life.plank.juna.zone.data.network.interfaces;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.ArenaCreationData;
+import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
-import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.data.network.model.UserChoice;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -29,14 +29,17 @@ public interface RestApi {
     Observable<List<NewsFeed>> getNewsFeed(@Path("date") String date);
 
     @POST("authentication/register/")
-    Observable<Response<Void>> registerUser(@Body User user);
+    Observable<Response<Void>> registerUser(@Body JunaUser junaUser);
 
     @POST("authentication/login/")
-    Observable<Response<Void>> loginUser(@Body User user);
+    Observable<Response<Void>> loginUser(@Body JunaUser junaUser);
 
     @POST("arenas/")
-    Observable<Arena> getArena(@Body ArenaCreationData arenaData);
+    Observable<Arena> getArena(@Body Arena arena);
 
     @GET("arenas/")
     Observable<Arena> getArenaByInvitationCode(@Query("invitationcode") String invitationcode);
+
+    @POST("rounds/{roundId}/userChoices")
+    Observable<Response<Void>> postUserChoice(@Path("roundId") Integer roundId, @Body UserChoice userChoice);
 }
