@@ -137,7 +137,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Arena responseArena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
-                        arena.setArena(responseArena);
+                        arena.copyArena(responseArena);
                     }
                 });
     }
