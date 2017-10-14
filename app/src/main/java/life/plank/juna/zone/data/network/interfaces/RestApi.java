@@ -11,6 +11,7 @@ import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -42,4 +43,7 @@ public interface RestApi {
 
     @POST("rounds/{roundId}/userChoices")
     Observable<Response<Void>> postUserChoice(@Path("roundId") Integer roundId, @Body UserChoice userChoice);
+
+    @PUT("arenas/{secretCode}/players")
+    Observable<Response<Void>> putJoinArena(@Path("secretCode") String secretCode, @Body JunaUser junaUser);
 }

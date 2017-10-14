@@ -23,9 +23,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.Creator;
 import life.plank.juna.zone.data.network.model.Player;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.PreferenceManager;
@@ -55,7 +55,6 @@ public class CreateArenaActivity extends AppCompatActivity {
     private AVLoadingIndicatorView spinner;
     private Subscription subscription;
     private RestApi restApi;
-    private Creator creator = new Creator();
     private List<String> playerList = new ArrayList<>();
     private Arena arena;
 
@@ -78,10 +77,10 @@ public class CreateArenaActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         arena = Arena.getInstance();
-
         PreferenceManager prefManager = new PreferenceManager(this);
-        creator.setUsername(prefManager.getPreference(getString(R.string.shared_pref_username)));
-        arena.setCreator(creator);
+        arena.setCreator(JunaUserBuilder.getInstance()
+                .withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
+                .build());
         arena.setGameType(getString(R.string.points_game));
         createArena();
     }

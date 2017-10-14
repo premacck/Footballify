@@ -24,6 +24,11 @@ public class GameLaunchActivity extends AppCompatActivity {
         startActivity(new Intent(this, GamePickerActivity.class));
     }
 
+    @OnClick(R.id.join_game_image)
+    public void multipleUserJoinGame() {
+        startActivity(new Intent(this, MultipleUserJoinGameActivity.class));
+    }
+
     @OnClick(R.id.exit_zone_image)
     public void exitToZoneClicked() {
         startActivity(new Intent(this, ZoneHomeActivity.class));

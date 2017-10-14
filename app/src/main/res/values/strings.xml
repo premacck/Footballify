@@ -45,4 +45,5 @@
     <string name="league_name_plank">PLANK LEAGUE</string>
     <string name="match_vs">VS</string>
     <string name="round_label">Round</string>
+    <string name="enter_code_label">ENTER CODE</string>
 </resources>
