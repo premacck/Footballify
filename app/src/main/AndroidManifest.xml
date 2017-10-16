@@ -69,5 +69,8 @@
             android:name=".presentation.activity.MultipleUserJoinGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".presentation.activity.PointsGameResultActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

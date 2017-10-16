@@ -1,5 +1,6 @@
 package life.plank.juna.zone.presentation.activity;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -16,13 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jakewharton.rxbinding2.view.RxView;
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.domain.service.GameService;
-import life.plank.juna.zone.presentation.adapter.PointsMatchAdapter;
+import life.plank.juna.zone.presentation.adapter.PointsGameAdapter;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.TeamNameMap;
 import retrofit2.Response;
@@ -75,12 +77,11 @@ public class PointsGameActivity extends AppCompatActivity {
     private ImageView submitScoreButton;
 
     private static final String TAG = PointsGameActivity.class.getSimpleName();
-    private PointsMatchAdapter pointsMatchAdapter = new PointsMatchAdapter();
+    private PointsGameAdapter pointsGameAdapter = new PointsGameAdapter();
     private List<FootballMatch> footballMatchList = new ArrayList<>();
     private FootballTeamBuilder footballTeamBuilder = new FootballTeamBuilder();
     private Subscription subscription;
     private RestApi restApi;
-    private UserChoiceBuilder userChoiceBuilder = new UserChoiceBuilder();
     private PopupWindow popupWindow;
 
     private Integer roundId;
@@ -105,7 +106,7 @@ public class PointsGameActivity extends AppCompatActivity {
                 .getRounds()
                 .get(ZoneApplication.roundNumber)
                 .getFootballMatches();
-        pointsMatchAdapter.setFootballMatchList(footballMatchList);
+        pointsGameAdapter.setFootballMatchList(footballMatchList);
 
         Integer leagueStartYear = Arena.getInstance().getLeagueYearStart();
         Integer previousYear = leagueStartYear - 1;
@@ -121,9 +122,9 @@ public class PointsGameActivity extends AppCompatActivity {
                 DividerItemDecoration.VERTICAL);
         dividerItemDecoration.setDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.horizontal_divider));
         recyclerView.addItemDecoration(dividerItemDecoration);
-        recyclerView.setAdapter(pointsMatchAdapter);
+        recyclerView.setAdapter(pointsGameAdapter);
 
-        pointsMatchAdapter.getViewClickedObservable()
+        pointsGameAdapter.getViewClickedObservable()
                 .subscribe(footballMatch -> initiatePopUp(footballMatch));
     }
 
@@ -133,8 +134,8 @@ public class PointsGameActivity extends AppCompatActivity {
         View layout = inflater.inflate(R.layout.user_choice_layout,
                 (ViewGroup) findViewById(R.id.relative_layout_user_choice));
         popupWindow = new PopupWindow(layout,
-                getResources().getInteger(R.integer.popup_window_dimension),
-                getResources().getInteger(R.integer.popup_window_dimension));
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
         popupWindow.showAtLocation(layout, Gravity.CENTER,
                 getResources().getInteger(R.integer.popup_location_offset),
                 getResources().getInteger(R.integer.popup_location_offset));
@@ -156,6 +157,12 @@ public class PointsGameActivity extends AppCompatActivity {
                 .get(footballMatch.getVisitingTeam().getName()));
         visitingTeamName.setText(footballMatch.getVisitingTeam().getName());
 
+        RxTextView.textChangeEvents(homeTeamScore)
+                .subscribe(event -> shiftCursorFocus(homeTeamScore));
+
+        RxTextView.textChangeEvents(visitingTeamScore)
+                .subscribe(event -> shiftCursorFocus(visitingTeamScore));
+
         submitScoreButton = (ImageView) layout.findViewById(R.id.user_choice_submit_button);
         RxView.clicks(submitScoreButton)
                 .subscribe(v -> computeGamePoints(footballMatch));
@@ -174,13 +181,15 @@ public class PointsGameActivity extends AppCompatActivity {
         }
 
         playerScore = gameService.computeScore(footballMatch, selectedTeamName, homeTeamGuessScore, visitingTeamGuessScore, playerScore);
-        //Todo: Remove toast once the result page is created
-        Toast.makeText(this, playerScore.toString(), Toast.LENGTH_SHORT).show();
+
+        ZoneApplication.pointsGameResultMap.put(JunaUserBuilder.getInstance().build(),
+                gameService.computeWinner(footballMatch, selectedTeamName));
 
         roundId = Arena.getInstance().getRounds()
                 .get(ZoneApplication.roundNumber - 1).getId();
 
-        subscription = restApi.postUserChoice(roundId, userChoiceBuilder.withId(roundId)
+        subscription = restApi.postUserChoice(roundId, UserChoiceBuilder.getInstance()
+                .withId(roundId)
                 .withHomeTeamScore(homeTeamGuessScore)
                 .withVisitingTeamScore(visitingTeamGuessScore)
                 .withPoints(playerScore)
@@ -207,6 +216,7 @@ public class PointsGameActivity extends AppCompatActivity {
                     public void onNext(Response<Void> response) {
                         if (response.code() == HttpURLConnection.HTTP_CREATED) {
                             Log.d(TAG, "User choice posted");
+                            startActivity(new Intent(PointsGameActivity.this, PointsGameResultActivity.class));
                         } else
                             Log.d(TAG, "Error occured onPostUser choice with response code: " + response.code());
                     }
@@ -224,6 +234,16 @@ public class PointsGameActivity extends AppCompatActivity {
     @OnClick(R.id.home_icon)
     public void exitPointsMatchGame() {
         startActivity(new Intent(this, GameLaunchActivity.class));
+    }
+
+    private void shiftCursorFocus(EditText editText) {
+        if (editText.length() == 1) {
+            View next = editText.focusSearch(View.FOCUS_RIGHT);
+            if (next == null) {
+                InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+            } else next.requestFocus();
+        }
     }
 
     public static void dimBehind(PopupWindow popupWindow) {

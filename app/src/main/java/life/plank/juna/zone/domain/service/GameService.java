@@ -15,6 +15,14 @@ public class GameService {
         this.context = context;
     }
 
+    public Boolean computeWinner(FootballMatch footballMatch, String selectedTeamName) {
+        String winningTeam;
+        winningTeam = footballMatch.getHomeTeamScore() < footballMatch.getVisitingTeamScore() ? footballMatch.getVisitingTeam().getName() : footballMatch.getHomeTeam().getName();
+        if (selectedTeamName.equals(winningTeam))
+            return true;
+        else return false;
+    }
+
     public Integer computeScore(FootballMatch footballMatch, String selectedTeamName, Integer homeTeamGuessScore, Integer visitingTeamGuessScore, Integer playerScore) {
         Integer score;
 

@@ -3,4 +3,7 @@
     <string name="moderne_sans">font/moderne_sans.ttf</string>
     <string name="arsenal_regular">font/arsenal_regular.otf</string>
     <string name="sans_frediano">font/san-frediano.ttf</string>
+    <string name="aileron_regular">font/aileron.regular.otf</string>
+    <string name="aileron_semibold">font/aileron.semibold.otf</string>
+    <string name="aileron_bold">font/aileron.bold.otf</string>
 </resources>
