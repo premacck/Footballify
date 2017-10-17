@@ -160,4 +160,9 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
             subscription.unsubscribe();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

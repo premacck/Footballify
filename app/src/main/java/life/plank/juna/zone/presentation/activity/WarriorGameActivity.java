@@ -24,4 +24,9 @@ public class WarriorGameActivity extends AppCompatActivity {
     public void launchScreenClicked() {
         startActivity(new Intent(this, GameLaunchActivity.class));
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

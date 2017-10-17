@@ -39,6 +39,11 @@ public class Arena {
         setCreator(arena.getCreator());
     }
 
+    public static Arena getNullArena() {
+        arena = new Arena();
+        return arena;
+    }
+
     public Integer getId() {
         return id;
     }

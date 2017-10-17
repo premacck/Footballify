@@ -67,6 +67,21 @@ public class PointsGameAdapter extends RecyclerView.Adapter<PointsGameAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final FootballMatch footballMatch = footballMatchList.get(position);
+
+        if (ZoneApplication.selectedTeamsList.contains(footballMatch.getHomeTeam().getName())
+                && ZoneApplication.selectedTeamsList.contains(footballMatch.getVisitingTeam().getName())) {
+            holder.itemView.setEnabled(false);
+            holder.itemView.setAlpha(0.2f);
+        } else {
+            if (ZoneApplication.selectedTeamsList.contains(footballMatch.getHomeTeam().getName())) {
+                holder.homeTeamName.setAlpha(0.2f);
+                holder.homeTeamImage.setAlpha(0.2f);
+            }
+            if (ZoneApplication.selectedTeamsList.contains(footballMatch.getVisitingTeam().getName())) {
+                holder.visitingTeamName.setAlpha(0.2f);
+                holder.visitingTeamImage.setAlpha(0.2f);
+            }
+        }
         holder.homeTeamName.setText(footballMatch.getHomeTeam().getName());
         holder.homeTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getHomeTeam().getName()));
         holder.visitingTeamName.setText(footballMatch.getVisitingTeam().getName());

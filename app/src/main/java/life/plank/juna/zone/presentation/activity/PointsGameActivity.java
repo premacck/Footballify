@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.InitialValueObservable;
 import com.jakewharton.rxbinding2.view.RxView;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -148,6 +149,8 @@ public class PointsGameActivity extends AppCompatActivity {
         homeTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap()
                 .get(footballMatch.getHomeTeam().getName()));
         homeTeamName.setText(footballMatch.getHomeTeam().getName());
+        RxTextView.textChangeEvents(homeTeamScore)
+                .subscribe(event -> shiftCursorFocus(homeTeamScore));
 
         visitingTeamImage = (ImageView) layout.findViewById(R.id.user_choice_visiting_team_image);
         visitingTeamName = (TextView) layout.findViewById(R.id.user_choice_visiting_team_name);
@@ -156,14 +159,23 @@ public class PointsGameActivity extends AppCompatActivity {
         visitingTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap()
                 .get(footballMatch.getVisitingTeam().getName()));
         visitingTeamName.setText(footballMatch.getVisitingTeam().getName());
-
-        RxTextView.textChangeEvents(homeTeamScore)
-                .subscribe(event -> shiftCursorFocus(homeTeamScore));
-
         RxTextView.textChangeEvents(visitingTeamScore)
                 .subscribe(event -> shiftCursorFocus(visitingTeamScore));
 
         submitScoreButton = (ImageView) layout.findViewById(R.id.user_choice_submit_button);
+        submitScoreButton.setEnabled(false);
+
+        InitialValueObservable<CharSequence> homeTeamScoreObservable = RxTextView.textChanges(homeTeamScore);
+        InitialValueObservable<CharSequence> visitingTeamScoreObservable = RxTextView.textChanges(visitingTeamScore);
+
+        InitialValueObservable.combineLatest(homeTeamScoreObservable, visitingTeamScoreObservable, (homeScoreObservable, visitingScoreObservable) -> {
+            boolean homeScoreCheck = homeScoreObservable.toString().length() == 1;
+            boolean visitingScoreCheck = visitingScoreObservable.toString().length() == 1;
+            boolean scoreEqualsCheck = !(homeScoreObservable.toString().equals(visitingScoreObservable.toString()));
+            return homeScoreCheck && visitingScoreCheck && scoreEqualsCheck;
+        }).subscribe(validationBoolean ->
+                submitScoreButton.setEnabled(validationBoolean));
+
         RxView.clicks(submitScoreButton)
                 .subscribe(v -> computeGamePoints(footballMatch));
     }
@@ -184,6 +196,8 @@ public class PointsGameActivity extends AppCompatActivity {
 
         ZoneApplication.pointsGameResultMap.put(JunaUserBuilder.getInstance().build(),
                 gameService.computeWinner(footballMatch, selectedTeamName));
+
+        ZoneApplication.selectedTeamsList.add(selectedTeamName);
 
         roundId = Arena.getInstance().getRounds()
                 .get(ZoneApplication.roundNumber - 1).getId();
@@ -215,7 +229,7 @@ public class PointsGameActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<Void> response) {
                         if (response.code() == HttpURLConnection.HTTP_CREATED) {
-                            Log.d(TAG, "User choice posted");
+                            Log.d(TAG, "User choice posted" + ZoneApplication.roundNumber);
                             startActivity(new Intent(PointsGameActivity.this, PointsGameResultActivity.class));
                         } else
                             Log.d(TAG, "Error occured onPostUser choice with response code: " + response.code());
@@ -267,5 +281,10 @@ public class PointsGameActivity extends AppCompatActivity {
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.9f;
         windowManager.updateViewLayout(container, layoutParams);
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

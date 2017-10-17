@@ -33,6 +33,6 @@ public class SocialLoginActivity extends AppCompatActivity {
 
     @OnClick( {R.id.button_facebook, R.id.button_google, R.id.button_instagram, R.id.button_twitter})
     public void zoneHomeActivity() {
-        startActivity(new Intent(this, ZoneHomeActivity.class));
+        //Todo: Add social login implementation
     }
 }

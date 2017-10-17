@@ -24,4 +24,9 @@ public class SuddenDeathRulesActivity extends AppCompatActivity {
         startActivity(new Intent(this, GamePickerActivity.class));
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
