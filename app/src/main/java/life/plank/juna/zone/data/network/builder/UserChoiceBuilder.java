@@ -12,9 +12,16 @@ import life.plank.juna.zone.data.network.model.UserChoice;
 public class UserChoiceBuilder {
 
     private UserChoice userChoice = null;
+    private static UserChoiceBuilder userChoiceBuilder = null;
 
-    public UserChoiceBuilder() {
+    private UserChoiceBuilder() {
         userChoice = new UserChoice();
+    }
+
+    public static UserChoiceBuilder getInstance() {
+        if(userChoiceBuilder == null )
+            userChoiceBuilder = new UserChoiceBuilder();
+        return userChoiceBuilder;
     }
 
     public UserChoiceBuilder withId(Integer id) {

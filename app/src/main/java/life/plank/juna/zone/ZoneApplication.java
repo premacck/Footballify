@@ -3,6 +3,8 @@ package life.plank.juna.zone;
 import android.app.Application;
 import android.content.Context;
 
+import java.util.HashMap;
+
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
@@ -15,6 +17,7 @@ import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkCompo
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
+import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.domain.module.GameServiceModule;
 
@@ -25,6 +28,7 @@ import life.plank.juna.zone.domain.module.GameServiceModule;
 public class ZoneApplication extends Application {
 
     public static Integer roundNumber = 0;
+    public static HashMap<JunaUser, Boolean> pointsGameResultMap = new HashMap<>();
     private static Context context;
     private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
     private LoginUserNetworkComponent loginUserNetworkComponent;

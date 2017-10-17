@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey"
+    tools:context="life.plank.juna.zone.presentation.activity.PointsGameResultActivity">
+
+    <ImageView
+        android:id="@+id/results_home_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_home_icon" />
+
+    <ImageView
+        android:id="@+id/warrior_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp"
+        android:src="@drawable/ic_warrior_logo_points_game" />
+
+    <TextView
+        android:id="@+id/league_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/warrior_logo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/league_name_plank"
+        android:textColor="@color/White"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/round_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/league_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/round_label"
+        android:textColor="@color/White"
+        android:textSize="15sp"/>
+
+    <TextView
+        android:id="@+id/results_round_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/league_name"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="3dp"
+        android:layout_toEndOf="@+id/round_label"
+        android:layout_toRightOf="@+id/round_label"
+        android:textSize="15sp"
+        android:textColor="@color/White" />
+
+    <RelativeLayout
+        android:id="@+id/linear_layout_label"
+        android:layout_below="@+id/round_label"
+        android:layout_marginTop="40dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/user_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/user_label"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/White"/>
+        <TextView
+            android:id="@+id/points_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/points_label"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/White"/>
+        <TextView
+            android:id="@+id/result_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/result"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/White"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/points_game_result_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/linear_layout_label" />
+
+    <ImageView
+        android:id="@+id/advance_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/points_game_result_recycler_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_advance_image" />
+
+    <TextView
+        android:id="@+id/advance_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/advance_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/advance_label"
+        android:textColor="@color/White" />
+</RelativeLayout>

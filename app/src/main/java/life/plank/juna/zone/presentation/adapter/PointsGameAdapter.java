@@ -26,7 +26,7 @@ import rx.subjects.PublishSubject;
  * Created by plank-sobia on 10/5/2017.
  */
 
-public class PointsMatchAdapter extends RecyclerView.Adapter<PointsMatchAdapter.ViewHolder> {
+public class PointsGameAdapter extends RecyclerView.Adapter<PointsGameAdapter.ViewHolder> {
 
     private List<FootballMatch> footballMatchList = new ArrayList<>();
     private PublishSubject<FootballMatch> itemViewClickSubject = PublishSubject.create();
@@ -58,7 +58,7 @@ public class PointsMatchAdapter extends RecyclerView.Adapter<PointsMatchAdapter.
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.match_points_rows, parent, false);
+                .inflate(R.layout.points_game_rows, parent, false);
         TeamNameMap.HashMaps(parent.getContext());
 
         return new ViewHolder(view);
