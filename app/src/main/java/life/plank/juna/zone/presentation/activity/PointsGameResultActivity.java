@@ -78,4 +78,9 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
     public void startNextRound() {
         startActivity(new Intent(this, PointsGameActivity.class));
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

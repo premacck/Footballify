@@ -33,4 +33,9 @@ public class GameLaunchActivity extends AppCompatActivity {
     public void exitToZoneClicked() {
         startActivity(new Intent(this, ZoneHomeActivity.class));
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }

@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -48,6 +50,8 @@ public class CreateArenaActivity extends AppCompatActivity {
     ListView userListView;
     @BindView(R.id.secret_code)
     TextView secretCode;
+    @BindView(R.id.button_start_playing)
+    ImageView startPlayingButton;
     @BindView(R.id.create_arena_relative_layout)
     RelativeLayout relativeLayout;
 
@@ -76,7 +80,7 @@ public class CreateArenaActivity extends AppCompatActivity {
 
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        arena = Arena.getInstance();
+        arena = Arena.getNullArena();
         PreferenceManager prefManager = new PreferenceManager(this);
         arena.setCreator(JunaUserBuilder.getInstance()
                 .withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
@@ -96,6 +100,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     @OnClick(R.id.button_start_playing)
     public void startPlayingPointsGame() {
         startActivity(new Intent(this, JoinGameActivity.class));
+        subscription.unsubscribe();
     }
 
     private void createArena() {
@@ -129,6 +134,7 @@ public class CreateArenaActivity extends AppCompatActivity {
 
     private void getArenaByInvitationCode() {
         subscription = restApi.getArenaByInvitationCode(arena.getInvitationCode())
+                .repeatWhen(completed -> completed.delay(2000, TimeUnit.MILLISECONDS))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Arena>() {
@@ -146,6 +152,8 @@ public class CreateArenaActivity extends AppCompatActivity {
                     public void onNext(Arena responseArena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
                         arena.copyArena(responseArena);
+                        startPlayingButton.setEnabled(true);
+                        playerList.clear();
                         for (Player player : arena.getPlayers()) {
                             playerList.add(player.getUsername());
                         }
@@ -158,5 +166,10 @@ public class CreateArenaActivity extends AppCompatActivity {
         userListView.setAdapter(new ArrayAdapter<>(
                 this, R.layout.user_list_view_row,
                 R.id.user_name, playerList));
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 }

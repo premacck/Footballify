@@ -37,4 +37,9 @@ public class JoinGameActivity extends AppCompatActivity {
     public void exitPointsGame() {
         startActivity(new Intent(this, GameLaunchActivity.class));
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
