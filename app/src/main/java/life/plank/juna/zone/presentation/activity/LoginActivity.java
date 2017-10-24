@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    ValidationResult result = validateUserName(s);
+                    ValidationResult result = validateUserName(s, getApplicationContext());
                     userNameTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -141,7 +141,7 @@ public class LoginActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    ValidationResult result = validatePassword(s);
+                    ValidationResult result = validatePassword(s, getApplicationContext());
                     passwordTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -156,11 +156,11 @@ public class LoginActivity extends AppCompatActivity {
         }, throwable -> Log.e(TAG, throwable.getMessage()));
     }
 
-    private ValidationResult validateUserName(@NonNull String userName) {
-        return ValidationUtil.isValidUsername(userName, getApplicationContext());
+    public ValidationResult validateUserName(@NonNull String userName, Context context) {
+        return ValidationUtil.isValidUsername(userName, context);
     }
 
-    private ValidationResult validatePassword(@NonNull String password) {
-        return ValidationUtil.isValidPassword(password, getApplicationContext());
+    public ValidationResult validatePassword(@NonNull String password, Context context) {
+        return ValidationUtil.isValidPassword(password, context);
     }
 }

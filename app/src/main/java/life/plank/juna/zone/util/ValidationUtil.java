@@ -69,13 +69,9 @@ public class ValidationUtil {
     public static ValidationResult<String> isValidConfirmPassword(String password, String confirmPassword, Context context) {
         if (confirmPassword.isEmpty()) {
             return ValidationResult.failure(context.getString(R.string.confirm_password), confirmPassword);
-        }
-
-        if (!confirmPassword.equals(password)) {
+        } else if (!confirmPassword.equals(password)) {
             return ValidationResult.failure(context.getString(R.string.passwords_mismatch), confirmPassword);
-        }
-
-        return ValidationResult.success(confirmPassword);
+        } else return ValidationResult.success(confirmPassword);
     }
 }
 
