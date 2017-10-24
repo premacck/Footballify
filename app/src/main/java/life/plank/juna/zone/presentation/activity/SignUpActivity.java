@@ -69,7 +69,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Subscription subscription;
     private RestApi restApi;
-    private String passwordText;
     private Boolean validUserDetails = false;
 
     @Override
@@ -132,7 +131,6 @@ public class SignUpActivity extends AppCompatActivity {
                 });
     }
 
-
     @OnClick(R.id.text_sign_in)
     public void signInHere() {
         startActivity(new Intent(this, LoginActivity.class));
@@ -143,7 +141,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    ValidationResult result = validateUserName(s);
+                    ValidationResult result = validateUserName(s, getApplicationContext());
                     userNameTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -152,7 +150,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    ValidationResult result = validateName(s);
+                    ValidationResult result = validateName(s, getApplicationContext());
                     firstNameTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -161,7 +159,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    ValidationResult result = validateName(s);
+                    ValidationResult result = validateName(s, getApplicationContext());
                     lastNameTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -170,7 +168,7 @@ public class SignUpActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    ValidationResult result = validatePassword(s);
+                    ValidationResult result = validatePassword(s, getApplicationContext());
                     passwordTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -179,8 +177,8 @@ public class SignUpActivity extends AppCompatActivity {
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> {
-                    passwordText = password.getText().toString().trim();
-                    ValidationResult result = validateConfirmPassword(s);
+                    String passwordText = password.getText().toString().trim();
+                    ValidationResult result = validateConfirmPassword(passwordText, s, getApplicationContext());
                     confirmPasswordTextInput.setError(result.getReason());
                     return result.isValid();
                 });
@@ -194,19 +192,19 @@ public class SignUpActivity extends AppCompatActivity {
         }, throwable -> Log.e(TAG, throwable.getMessage()));
     }
 
-    private ValidationResult validateUserName(@NonNull String username) {
-        return ValidationUtil.isValidUsername(username, getApplicationContext());
+    public ValidationResult validateUserName(@NonNull String username, Context context) {
+        return ValidationUtil.isValidUsername(username, context);
     }
 
-    private ValidationResult validateName(@NonNull String name) {
-        return ValidationUtil.isValidName(name, getApplicationContext());
+    public ValidationResult validateName(@NonNull String name, Context context) {
+        return ValidationUtil.isValidName(name, context);
     }
 
-    private ValidationResult validatePassword(@NonNull String password) {
-        return ValidationUtil.isValidPassword(password, getApplicationContext());
+    public ValidationResult validatePassword(@NonNull String password, Context context) {
+        return ValidationUtil.isValidPassword(password, context);
     }
 
-    private ValidationResult validateConfirmPassword(@NonNull String confirmPassword) {
-        return ValidationUtil.isValidConfirmPassword(passwordText, confirmPassword, getApplicationContext());
+    public ValidationResult validateConfirmPassword(String passwordText, @NonNull String confirmPassword, Context context) {
+        return ValidationUtil.isValidConfirmPassword(passwordText, confirmPassword, context);
     }
 }
