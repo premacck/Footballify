@@ -61,6 +61,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     private RestApi restApi;
     private List<String> playerList = new ArrayList<>();
     private Arena arena;
+    private String gameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +69,7 @@ public class CreateArenaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_arena);
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
-
+        gameType = getIntent().getStringExtra(getString(R.string.game_type));
         Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), getString(R.string.moderne_sans));
         secretCodeText.setTypeface(moderneSansFont);
         secretCode.setTypeface(moderneSansFont);
@@ -85,7 +86,7 @@ public class CreateArenaActivity extends AppCompatActivity {
         arena.setCreator(JunaUserBuilder.getInstance()
                 .withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
                 .build());
-        arena.setGameType(getString(R.string.points_game));
+        arena.setGameType(gameType);
         createArena();
     }
 
@@ -99,8 +100,17 @@ public class CreateArenaActivity extends AppCompatActivity {
 
     @OnClick(R.id.button_start_playing)
     public void startPlayingPointsGame() {
-        startActivity(new Intent(this, JoinGameActivity.class));
-        subscription.unsubscribe();
+        if (gameType.equals(getString(R.string.points_game))) {
+            Intent intent = new Intent(this, JoinGameActivity.class);
+            intent.putExtra(getString(R.string.game_type), getString(R.string.points_game));
+            startActivity(intent);
+            subscription.unsubscribe();
+        } else if (gameType.equals(getString(R.string.sudden_death_game))) {
+            Intent intent = new Intent(this, JoinGameActivity.class);
+            intent.putExtra(getString(R.string.game_type), getString(R.string.sudden_death_game));
+            startActivity(intent);
+            subscription.unsubscribe();
+        }
     }
 
     private void createArena() {
