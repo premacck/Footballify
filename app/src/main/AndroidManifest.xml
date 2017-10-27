@@ -72,5 +72,8 @@
         <activity
             android:name=".presentation.activity.PointsGameResultActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.activity.SuddenDeathGameActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

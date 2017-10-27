@@ -26,13 +26,22 @@ public class GamePickerActivity extends AppCompatActivity {
 
     @OnClick(R.id.points_game_image)
     public void startPointsGame() {
-        startActivity(new Intent(this, CreateArenaActivity.class));
+        Intent intent = new Intent(this, CreateArenaActivity.class);
+        intent.putExtra(getString(R.string.game_type), getString(R.string.points_game));
+        startActivity(intent);
     }
 
     @OnClick(R.id.points_game_rules_help)
     public void pointsGameHelpClicked() {
         startActivity(new Intent(this, PointsGameRulesActivity.class));
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+    }
+
+    @OnClick(R.id.sudden_death_game_image)
+    public void startSuddenDeathGame() {
+        Intent intent = new Intent(this, CreateArenaActivity.class);
+        intent.putExtra(getString(R.string.game_type), getString(R.string.sudden_death_game));
+        startActivity(intent);
     }
 
     @OnClick(R.id.sudden_death_game_rules)

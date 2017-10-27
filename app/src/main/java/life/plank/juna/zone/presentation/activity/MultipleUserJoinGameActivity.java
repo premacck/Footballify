@@ -55,6 +55,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
     private Subscription subscription;
     private RestApi restApi;
     private Arena arena;
+    private String gameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +93,33 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
                 + invitationCodeLabelThree.getText().toString()
                 + invitationCodeLabelFour.getText().toString();
 
-        PreferenceManager prefManager = new PreferenceManager(this);
+        subscription = restApi.getArenaByInvitationCode(invitationCode)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Arena>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "In getArenaByInvitationCode onCompleted");
+                    }
 
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "In getArenaByInvitationCode onError: " + e.getMessage());
+                        Snackbar.make(relativeLayout, "Please check internet connection", Snackbar.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Arena responseArena) {
+                        Log.d(TAG, "In getArenaByInvitationCode onNext");
+                        gameType = responseArena.getGameType();
+                        arena.copyArena(responseArena);
+                        joinArena();
+                    }
+                });
+    }
+
+    private void joinArena() {
+        PreferenceManager prefManager = new PreferenceManager(this);
         subscription = restApi.putJoinArena(invitationCode,
                 JunaUserBuilder.getInstance().
                         withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
@@ -115,30 +141,11 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
                     public void onNext(Response<Void> response) {
                         if (response.code() == HttpURLConnection.HTTP_ACCEPTED) {
                             Log.d(TAG, "Put Join Arena request Accepted");
-                            startActivity(new Intent(MultipleUserJoinGameActivity.this, JoinGameActivity.class));
+                            Intent intent = new Intent(MultipleUserJoinGameActivity.this, JoinGameActivity.class);
+                            intent.putExtra(getString(R.string.game_type), gameType);
+                            startActivity(intent);
                         } else
                             Snackbar.make(relativeLayout, "Please enter valid invitation code", Snackbar.LENGTH_LONG).show();
-                    }
-                });
-
-        subscription = restApi.getArenaByInvitationCode(invitationCode)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Arena>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "In getArenaByInvitationCode onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "In getArenaByInvitationCode onError: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Arena responseArena) {
-                        Log.d(TAG, "In getArenaByInvitationCode onNext");
-                        arena.copyArena(responseArena);
                     }
                 });
     }
