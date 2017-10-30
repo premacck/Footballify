@@ -40,12 +40,12 @@ ext {
     espressoVersion = '2.2.2'
     testingSupportLibVersion = '0.1'
 
-    presentationDependencies = [
+    viewDependencies = [
             butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler  : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             recyclerView         : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
             rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
-            rxJavaAdapter     : "com.squareup.retrofit2:adapter-rxjava:${rxJavaAdapterVersion}",
+            rxJavaAdapter        : "com.squareup.retrofit2:adapter-rxjava:${rxJavaAdapterVersion}",
             javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             materialSearchView   : "com.miguelcatalan:materialsearchview:${materialSearchViewVersion}",
             materialDesignDimens : "com.dmitrymalkovich.android:material-design-dimens:${materialDesignDimensVersion}",
@@ -57,7 +57,7 @@ ext {
             materialStyledDialog : "com.github.javiersantos:MaterialStyledDialogs:${materialStyledDialogVersion}",
     ]
 
-    presentationTestDependencies = [
+    viewTestDependencies = [
             mockito          : "org.mockito:mockito-core:${mockitoVersion}",
             dexmaker         : "com.google.dexmaker:dexmaker:${dexmakerVersion}",
             dexmakerMockito  : "com.google.dexmaker:dexmaker-mockito:${dexmakerVersion}",

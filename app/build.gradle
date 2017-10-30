@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply from: "src/main/java/life/plank/juna/zone/data/build.gradle"
 apply from: "src/main/java/life/plank/juna/zone/domain/build.gradle"
-apply from: "src/main/java/life/plank/juna/zone/presentation/build.gradle"
+apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "life.plank.juna.zone"
         minSdkVersion 16
@@ -53,8 +53,8 @@ dependencies {
     compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0'
     compile 'com.jakewharton.rxbinding2:rxbinding-design:2.0.0'
     compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.google.dagger:dagger:2.2'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.2'
+    compile 'com.google.dagger:dagger:2.5'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.5'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.6.8'
 }

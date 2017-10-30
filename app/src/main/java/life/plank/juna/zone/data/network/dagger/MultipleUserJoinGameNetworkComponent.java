@@ -4,8 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.presentation.activity.LoginActivity;
-import life.plank.juna.zone.presentation.activity.MultipleUserJoinGameActivity;
+import life.plank.juna.zone.view.activity.MultipleUserJoinGameActivity;
 
 /**
  * Created by plank-sobia on 10/12/2017.

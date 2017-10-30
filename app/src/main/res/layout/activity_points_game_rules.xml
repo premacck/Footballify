@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="life.plank.juna.zone.presentation.activity.GamePickerActivity">
+    tools:context="life.plank.juna.zone.view.activity.GamePickerActivity">
 
     <ImageView
         android:layout_width="match_parent"
