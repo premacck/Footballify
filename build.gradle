@@ -12,6 +12,7 @@ buildscript {
             url "https://jitpack.io"
         }
         jcenter()
+        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
@@ -37,7 +38,6 @@ allprojects {
         }
         mavenCentral()
         mavenLocal()
-
     }
     ext {
         androidApplicationId = 'life.plank.juna.zone'
