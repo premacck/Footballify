@@ -5,7 +5,7 @@
     android:id="@+id/create_arena_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="life.plank.juna.zone.presentation.activity.CreateArenaActivity">
+    tools:context="life.plank.juna.zone.view.activity.CreateArenaActivity">
 
     <TextView
         android:id="@+id/text_secret_code"

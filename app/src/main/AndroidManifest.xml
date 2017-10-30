@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".presentation.activity.SplashScreenActivity"
+            android:name=".view.activity.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SpalshScreenTheme">
             <intent-filter>
@@ -23,57 +23,57 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.activity.SocialLoginActivity"
+            android:name=".view.activity.SocialLoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activity.SignUpActivity"
+            android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activity.LoginActivity"
+            android:name=".view.activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activity.ZoneHomeActivity"
+            android:name=".view.activity.ZoneHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.WarriorGameActivity"
+            android:name=".view.activity.WarriorGameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activity.GameLaunchActivity"
+            android:name=".view.activity.GameLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.GamePickerActivity"
+            android:name=".view.activity.GamePickerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.PointsGameRulesActivity"
+            android:name=".view.activity.PointsGameRulesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.SuddenDeathRulesActivity"
+            android:name=".view.activity.SuddenDeathRulesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.CreateArenaActivity"
+            android:name=".view.activity.CreateArenaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.JoinGameActivity"
+            android:name=".view.activity.JoinGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.PointsGameActivity"
+            android:name=".view.activity.PointsGameActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activity.MultipleUserJoinGameActivity"
+            android:name=".view.activity.MultipleUserJoinGameActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
         <activity
-            android:name=".presentation.activity.PointsGameResultActivity"
+            android:name=".view.activity.PointsGameResultActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.activity.SuddenDeathGameActivity"
+            android:name=".view.activity.SuddenDeathGameActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

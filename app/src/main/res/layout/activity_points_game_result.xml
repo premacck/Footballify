@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    tools:context="life.plank.juna.zone.presentation.activity.PointsGameResultActivity">
+    tools:context="life.plank.juna.zone.view.activity.PointsGameResultActivity">
 
     <ImageView
         android:id="@+id/results_home_icon"

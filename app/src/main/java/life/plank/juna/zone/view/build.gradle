@@ -1,0 +1,47 @@
+apply plugin: 'com.android.application'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+    }
+}
+
+android {
+    def globalConfiguration = rootProject.extensions.getByName("ext")
+
+    compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+    buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+    defaultConfig {
+        minSdkVersion globalConfiguration["androidMinSdkVersion"]
+        targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+
+        applicationId globalConfiguration["androidApplicationId"]
+        versionCode globalConfiguration["androidVersionCode"]
+        versionName globalConfiguration["androidVersionName"]
+        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+        testApplicationId globalConfiguration["testApplicationId"]
+    }
+}
+
+dependencies {
+    def viewDependencies = rootProject.ext.viewDependencies
+    def viewTestDependencies = rootProject.ext.viewTestDependencies
+
+    compile viewDependencies.butterKnife
+    compile viewDependencies.recyclerView
+    compile viewDependencies.rxAndroid
+    compile viewDependencies.materialSearchView
+    compile viewDependencies.materialDesignDimens
+    compile viewDependencies.materialize
+    compile viewDependencies.circleImageView
+    compile viewDependencies.fabTransitionActivity
+    compile viewDependencies.materialSpinner
+    compile viewDependencies.cardView
+    compile viewDependencies.materialStyledDialog
+    annotationProcessor viewDependencies.butterKnifeCompiler
+    provided viewDependencies.javaxAnnotation
+}
