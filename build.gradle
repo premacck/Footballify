@@ -36,6 +36,9 @@ allprojects {
         maven {
             url nexusUrl + "/content/groups/public"
         }
+        maven {
+            url 'https://maven.google.com'
+        }
         mavenCentral()
         mavenLocal()
     }
@@ -47,22 +50,12 @@ allprojects {
         testApplicationId = 'life.plank.juna.zone.test'
     }
 }
-/*sonarqube {
-    properties {
-        property "sonar.projectName", "Plank Juna Zone Android App"
-        property "sonar.projectKey", "org.sonarqube:java-gradle-zone-android-app"
-        property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.host.url", sonarUrl
-        property "sonar.java.binaries", "build"
-        property "sonar.sources", "src"
-    }
-}*/
 sonarqube {
     properties {
         property "sonar.projectName", "Plank Juna Zone Android App"
         property "sonar.projectKey", "life.plank:java-gradle-zone-android-app"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.host.url", "http://jenkins.plank.life:9000/sonar"
+        property "sonar.host.url", sonarUrl
     }
 }
 uploadArchives {
