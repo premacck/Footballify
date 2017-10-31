@@ -8,10 +8,15 @@ apply plugin: 'maven'
 //TODO: Move custom scripts to a new build.gradle file
 buildscript {
     repositories {
+        maven { url "${nexusUrl}/content/groups/public" }
+        maven { url "${nexusUrl}/content/repositories/snapshots" }
+        maven { url "${nexusUrl}/content/repositories/rc" }
+        maven { url "${nexusUrl}/content/repositories/releases" }
         maven {
             url "https://jitpack.io"
         }
         jcenter()
+        maven { url 'https://maven.google.com' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0'
@@ -24,12 +29,12 @@ allprojects {
     repositories {
         google()
         maven {
+            url nexusUrl + "/content/repositories/rc"
+        }
+        maven {
             url "https://jitpack.io"
         }
         jcenter()
-        maven {
-            url nexusUrl + "/content/repositories/rc"
-        }
         maven {
             url "http://repository.excilys.com/content/groups/public"
         }
@@ -39,8 +44,6 @@ allprojects {
         maven {
             url 'https://maven.google.com'
         }
-        mavenCentral()
-        mavenLocal()
     }
     ext {
         androidApplicationId = 'life.plank.juna.zone'
