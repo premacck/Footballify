@@ -34,6 +34,10 @@ dependencies {
     compile viewDependencies.butterKnife
     compile viewDependencies.recyclerView
     compile viewDependencies.rxAndroid
+    compile viewDependencies.rxJava
+    compile viewDependencies.rxBinding
+    compile viewDependencies.rxBindingDesign
+    compile viewDependencies.rxBindingRecyclerview
     compile viewDependencies.materialSearchView
     compile viewDependencies.materialDesignDimens
     compile viewDependencies.materialize
@@ -41,7 +45,11 @@ dependencies {
     compile viewDependencies.fabTransitionActivity
     compile viewDependencies.materialSpinner
     compile viewDependencies.cardView
+    compile viewDependencies.avLoadingIndicatorView
+    compile viewDependencies.constraintLayout
     compile viewDependencies.materialStyledDialog
+    compile viewDependencies.dagger
+    annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
 }

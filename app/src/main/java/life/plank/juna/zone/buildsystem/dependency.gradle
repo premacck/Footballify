@@ -16,6 +16,8 @@ ext {
     recyclerViewVersion = '25.0.0'
     rxJavaAdapterVersion = '2.1.0'
     rxAndroidVersion = '1.2.1'
+    rxJavaVersion = '1.3.0'
+    rxBindingVersion = '2.0.0'
     javaxAnnotationVersion = '1.0'
     javaxInjectVersion = '1'
     gsonVersion = '2.1.0'
@@ -28,8 +30,11 @@ ext {
     circleImageView = '2.1.0'
     fabTransitionActivityVersion = '0.2.0'
     materialSpinner = '1.1.0'
-    cardViewVersion = '25.0.0'
+    cardViewVersion = '25.4.0'
+    avLoadingIndicatorViewVersion = '2.1.3'
+    constraintLayoutVersion = '1.0.2'
     materialStyledDialogVersion = '2.0'
+    daggerVersion = "2.11"
 
     //Testing
     robolectricVersion = '3.1.3'
@@ -41,20 +46,28 @@ ext {
     testingSupportLibVersion = '0.1'
 
     viewDependencies = [
-            butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
-            butterKnifeCompiler  : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
-            recyclerView         : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
-            rxAndroid            : "io.reactivex:rxandroid:${rxAndroidVersion}",
-            rxJavaAdapter        : "com.squareup.retrofit2:adapter-rxjava:${rxJavaAdapterVersion}",
-            javaxAnnotation      : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
-            materialSearchView   : "com.miguelcatalan:materialsearchview:${materialSearchViewVersion}",
-            materialDesignDimens : "com.dmitrymalkovich.android:material-design-dimens:${materialDesignDimensVersion}",
-            materialize          : "com.mikepenz:materialize:${materializeVersion}",
-            circleImageView      : "de.hdodenhof:circleimageview:${circleImageView}",
-            fabTransitionActivity: "com.github.coyarzun89:fabtransitionactivity:${fabTransitionActivityVersion}",
-            materialSpinner      : "com.jaredrummler:material-spinner:${materialSpinner}",
-            cardView             : "com.android.support:cardview-v7:${cardViewVersion}",
-            materialStyledDialog : "com.github.javiersantos:MaterialStyledDialogs:${materialStyledDialogVersion}",
+            butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
+            recyclerView          : "com.android.support:recyclerview-v7:${recyclerViewVersion}",
+            rxAndroid             : "io.reactivex:rxandroid:${rxAndroidVersion}",
+            rxJava                : "io.reactivex:rxjava:${rxJavaVersion}",
+            rxJavaAdapter         : "com.squareup.retrofit2:adapter-rxjava:${rxJavaAdapterVersion}",
+            rxBinding             : "com.jakewharton.rxbinding2:rxbinding:${rxBindingVersion}",
+            rxBindingDesign       : "com.jakewharton.rxbinding2:rxbinding-design:${rxBindingVersion}",
+            rxBindingRecyclerview : "com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:${rxBindingVersion}",
+            javaxAnnotation       : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
+            materialSearchView    : "com.miguelcatalan:materialsearchview:${materialSearchViewVersion}",
+            materialDesignDimens  : "com.dmitrymalkovich.android:material-design-dimens:${materialDesignDimensVersion}",
+            materialize           : "com.mikepenz:materialize:${materializeVersion}",
+            circleImageView       : "de.hdodenhof:circleimageview:${circleImageView}",
+            fabTransitionActivity : "com.github.coyarzun89:fabtransitionactivity:${fabTransitionActivityVersion}",
+            materialSpinner       : "com.jaredrummler:material-spinner:${materialSpinner}",
+            cardView              : "com.android.support:cardview-v7:${cardViewVersion}",
+            avLoadingIndicatorView: "com.wang.avi:library:${avLoadingIndicatorViewVersion}",
+            constraintLayout      : "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}",
+            materialStyledDialog  : "com.github.javiersantos:MaterialStyledDialogs:${materialStyledDialogVersion}",
+            dagger                : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
     ]
 
     viewTestDependencies = [
@@ -83,7 +96,9 @@ ext {
             rxAndroid         : "io.reactivex:rxandroid:${rxAndroidVersion}",
             javaxAnnotation   : "javax.annotation:jsr250-api:${javaxAnnotationVersion}",
             javaxInject       : "javax.inject:javax.inject:${javaxInjectVersion}",
-            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}"
+            androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
+            dagger            : "com.google.dagger:dagger:${daggerVersion}",
+            daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
     ]
 
     dataTestDependencies = [
