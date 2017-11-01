@@ -119,7 +119,6 @@ public class LoginActivity extends AppCompatActivity {
                             Snackbar.make(relativeLayout, "Signin failed, please retry", Snackbar.LENGTH_LONG).show();
                     }
                 });
-
     }
 
     @OnClick(R.id.text_sign_up)
