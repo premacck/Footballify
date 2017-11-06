@@ -52,7 +52,7 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
         roundTextLabel.setTypeface(aileronSemiBold);
 
         initRecyclerView();
-        roundNumberText.setText(ZoneApplication.roundNumber.toString());
+        roundNumberText.setText(String.valueOf(ZoneApplication.roundNumber));
     }
 
     private void initRecyclerView() {

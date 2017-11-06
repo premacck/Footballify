@@ -57,7 +57,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:divider="@color/material_grey_400"
-        android:dividerHeight="2px"
+        android:dividerHeight="2dp"
         android:paddingLeft="80dp"
         android:paddingRight="80dp"
         android:scrollbars="none" />
@@ -69,5 +69,6 @@
         android:layout_below="@+id/user_list"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_points_start_playing" />
 </RelativeLayout>

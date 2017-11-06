@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import life.plank.juna.zone.R;
@@ -17,7 +18,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splash_screen_activity);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getColor(R.color.Orange));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Orange));
         }
         new Handler().postDelayed(() -> {
             startActivity(new Intent(SplashScreenActivity.this, SocialLoginActivity.class));

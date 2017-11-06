@@ -9,14 +9,15 @@
         android:id="@+id/warrior_background_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_warrior_screen_background"
-        android:scaleType="fitXY"/>
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_warrior_screen_background" />
 
     <ImageView
         android:id="@+id/warrior_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_warrior_logo"
-        android:layout_centerInParent="true"/>
-
+        android:layout_centerInParent="true"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_warrior_logo" />
 </RelativeLayout>

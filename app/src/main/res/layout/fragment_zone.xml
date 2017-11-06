@@ -1,242 +1,140 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <RelativeLayout
-        android:id="@+id/relative_layout_row_one"
+    <LinearLayout
+        android:id="@+id/linear_layout_row_one"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_cooking"
+        <TextView
+            android:id="@+id/zone_cooking"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp"
-            android:orientation="vertical">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_cooking"
+            android:gravity="center"
+            android:text="@string/zone_cooking" />
 
-            <ImageView
-                android:id="@+id/zone_cooking"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_cooking" />
-
-            <TextView
-                android:id="@+id/zone_cooking_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_cooking" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_football"
+        <TextView
+            android:id="@+id/zone_football"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/linear_layout_cooking"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_football"
+            android:gravity="center"
+            android:text="@string/zone_football" />
 
-            <ImageView
-                android:id="@+id/zone_football"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_football" />
-
-            <TextView
-                android:id="@+id/zone_football_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:text="@string/zone_football" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_news"
+        <TextView
+            android:id="@+id/zone_news"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/linear_layout_football"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_news"
+            android:gravity="center"
+            android:text="@string/zone_news" />
+    </LinearLayout>
 
-            <ImageView
-                android:id="@+id/zone_news"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_news" />
-
-            <TextView
-                android:id="@+id/zone_news_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_news" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relative_layout_row_two"
+    <LinearLayout
+        android:id="@+id/linear_layout_row_two"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relative_layout_row_one"
+        android:layout_below="@+id/linear_layout_row_one"
         android:layout_marginTop="50dp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_fitness"
+
+        <TextView
+            android:id="@+id/zone_fitness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_fitness"
+            android:gravity="center"
+            android:text="@string/zone_fitness" />
 
-            <ImageView
-                android:id="@+id/zone_fitness"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_fitness" />
 
-            <TextView
-                android:id="@+id/zone_fitness_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_fitness" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_music"
+        <TextView
+            android:id="@+id/zone_music"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/linear_layout_fitness"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_music"
+            android:gravity="center"
+            android:text="@string/zone_music" />
 
-            <ImageView
-                android:id="@+id/zone_music"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_music" />
-
-            <TextView
-                android:id="@+id/zone_music_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_music" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_acting"
+        <TextView
+            android:id="@+id/zone_acting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/linear_layout_music"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_acting"
+            android:gravity="center"
+            android:text="@string/zone_acting" />
 
-            <ImageView
-                android:id="@+id/zone_acting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_acting" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/zone_acting_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_acting" />
-        </LinearLayout>
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/relative_layout_row_three"
+    <LinearLayout
+        android:id="@+id/linear_layout_row_three"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/relative_layout_row_two"
+        android:layout_below="@+id/linear_layout_row_two"
         android:layout_marginTop="50dp">
 
-        <LinearLayout
-            android:id="@+id/linear_layout_talent"
+        <TextView
+            android:id="@+id/zone_talent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_talent"
+            android:gravity="center"
+            android:text="@string/zone_talent" />
 
-            <ImageView
-                android:id="@+id/zone_talent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_talent" />
-
-            <TextView
-                android:id="@+id/zone_talent_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_talent" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_games"
+        <TextView
+            android:id="@+id/zone_games"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/linear_layout_talent"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_games"
+            android:gravity="center"
+            android:text="@string/zone_games" />
 
-            <ImageView
-                android:id="@+id/zone_games"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_games" />
-
-            <TextView
-                android:id="@+id/zone_games_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_games" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/linear_layout_trader"
+        <TextView
+            android:id="@+id/zone_trader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/linear_layout_games"
-            android:orientation="vertical"
-            android:paddingLeft="30dp"
-            android:paddingRight="30dp">
-
-            <ImageView
-                android:id="@+id/zone_trader"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_zone_trader" />
-
-            <TextView
-                android:id="@+id/zone_trader_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5dp"
-                android:text="@string/zone_trader" />
-        </LinearLayout>
-    </RelativeLayout>
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/ic_zone_trader"
+            android:gravity="center"
+            android:text="@string/zone_trader" />
+    </LinearLayout>
 </RelativeLayout>

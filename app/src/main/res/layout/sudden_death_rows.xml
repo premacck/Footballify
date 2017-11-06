@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -10,6 +11,7 @@
         android:id="@+id/home_team_pick_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@null"
         android:src="@drawable/sudden_death_pick_team" />
 
     <TextView
@@ -17,20 +19,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/home_team_image"
+        android:layout_toStartOf="@+id/home_team_image"
         android:textColor="@color/White"
-        android:text="Arsenal"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        tools:ignore="RelativeOverlap" />
 
     <ImageView
         android:id="@+id/home_team_image"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
+        android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/ic_arsenal_logo"
-        android:layout_toLeftOf="@+id/sudden_death_text_vs" />
+        android:layout_toLeftOf="@+id/sudden_death_text_vs"
+        android:layout_toStartOf="@+id/sudden_death_text_vs"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_arsenal_logo" />
 
     <TextView
         android:id="@+id/sudden_death_text_vs"
@@ -47,8 +54,11 @@
         android:layout_height="25dp"
         android:layout_gravity="center"
         android:layout_marginLeft="5dp"
-        android:src="@drawable/ic_arsenal_logo"
-        android:layout_toRightOf="@+id/sudden_death_text_vs" />
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/sudden_death_text_vs"
+        android:layout_toRightOf="@+id/sudden_death_text_vs"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_arsenal_logo" />
 
     <TextView
         android:id="@+id/visiting_team_name"
@@ -56,14 +66,18 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_marginLeft="5dp"
-        android:text="ARSENAL"
+        android:layout_marginStart="5dp"
+        android:layout_toEndOf="@+id/visiting_team_image"
         android:layout_toRightOf="@+id/visiting_team_image"
         android:textColor="@color/White"
         android:textSize="12sp" />
+
     <ImageView
         android:id="@+id/visiting_team_pick_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/visiting_team_name"
         android:layout_toRightOf="@+id/visiting_team_name"
+        android:contentDescription="@null"
         android:src="@drawable/sudden_death_pick_team" />
 </RelativeLayout>

@@ -8,6 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@null"
         android:padding="7dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_game_background" />
@@ -18,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="175dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_start_game_image" />
 
     <ImageView
@@ -27,6 +29,7 @@
         android:layout_below="@+id/start_game_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_join_game_image" />
 
     <ImageView
@@ -36,6 +39,7 @@
         android:layout_below="@+id/join_game_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_active_leagues_image" />
 
     <ImageView
@@ -45,5 +49,6 @@
         android:layout_below="@+id/active_leagues_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_exit_zone_image" />
 </RelativeLayout>

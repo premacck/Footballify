@@ -1,5 +1,7 @@
 package life.plank.juna.zone.data.network.service;
 
+import android.annotation.SuppressLint;
+
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -17,12 +19,14 @@ public class HttpClientService {
         try {
             final TrustManager[] trustAllCerts = new TrustManager[]{
                     new X509TrustManager() {
+                        @SuppressLint("TrustAllX509TrustManager")
                         @Override
                         public void checkClientTrusted(
                                 java.security.cert.X509Certificate[] chain,
                                 String authType) {
                         }
 
+                        @SuppressLint("TrustAllX509TrustManager")
                         @Override
                         public void checkServerTrusted(
                                 java.security.cert.X509Certificate[] chain,
@@ -34,10 +38,10 @@ public class HttpClientService {
                             return new java.security.cert.X509Certificate[0];
                         }
                     }};
-
             final SSLContext sslContext = SSLContext.getInstance("TLS");
             sslContext.init(null, trustAllCerts,
                     new java.security.SecureRandom());
+
             final SSLSocketFactory sslSocketFactory = sslContext
                     .getSocketFactory();
 

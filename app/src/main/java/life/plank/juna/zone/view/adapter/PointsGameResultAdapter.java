@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.graphics.Typeface;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,7 @@ public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResu
 
     private Integer index = 1;
     private List<UserChoice> userChoiceList = new ArrayList<>();
-    Typeface aileronRegular = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(),
+    private Typeface aileronRegular = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(),
             ZoneApplication.getContext().getString(R.string.aileron_regular));
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -36,6 +37,7 @@ public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResu
         TextView points;
         @BindView(R.id.result)
         TextView result;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -56,17 +58,17 @@ public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResu
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         UserChoice userChoice = userChoiceList.get(position);
-        holder.indexLabel.setText(index.toString());
+        holder.indexLabel.setText(String.valueOf(index));
         index++;
         holder.userName.setText(userChoice.getJunaUser().getUsername());
         Integer points = userChoice.getPoints();
-        holder.points.setText(points.toString());
+        holder.points.setText(String.valueOf(points));
         if (ZoneApplication.pointsGameResultMap.get(userChoice.getJunaUser())) {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_won));
-            holder.result.setBackgroundColor(ZoneApplication.getContext().getColor(R.color.Green));
-        }else {
+            holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.Green));
+        } else {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_lost));
-            holder.result.setBackgroundColor(ZoneApplication.getContext().getColor(R.color.Red));
+            holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.Red));
         }
     }
 
@@ -76,7 +78,7 @@ public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResu
     }
 
     public void setUserChoiceList(List<UserChoice> userChoices) {
-        if (userChoices == null ) {
+        if (userChoices == null) {
             return;
         }
         userChoiceList.clear();

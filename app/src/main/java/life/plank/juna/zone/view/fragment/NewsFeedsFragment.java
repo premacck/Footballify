@@ -15,6 +15,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -58,7 +59,7 @@ public class NewsFeedsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_feeds, container, false);
         unbinder = ButterKnife.bind(this, view);
-        date = new SimpleDateFormat(getActivity().getString(R.string.date)).format(new Date());
+        date = new SimpleDateFormat(getActivity().getString(R.string.date), Locale.getDefault()).format(new Date());
         initRecyclerView();
         return view;
     }

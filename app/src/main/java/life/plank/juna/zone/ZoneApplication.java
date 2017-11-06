@@ -29,10 +29,10 @@ import life.plank.juna.zone.domain.module.GameServiceModule;
 
 public class ZoneApplication extends Application {
 
+    private static ZoneApplication zoneApplication;
     public static Integer roundNumber = 0;
     public static HashMap<JunaUser, Boolean> pointsGameResultMap = new HashMap<>();
     public static List<String> selectedTeamsList = new ArrayList<>();
-    private static Context context;
     private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
     private LoginUserNetworkComponent loginUserNetworkComponent;
     private RegisterUserNetworkComponent registerUserNetworkComponent;
@@ -43,7 +43,7 @@ public class ZoneApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        context = getApplicationContext();
+        zoneApplication = this;
         newsFeedsNetworkComponent = DaggerNewsFeedsNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
@@ -70,8 +70,12 @@ public class ZoneApplication extends Application {
                 .build();
     }
 
+    public static ZoneApplication getApplication() {
+        return zoneApplication;
+    }
+
     public static Context getContext() {
-        return context;
+        return getApplication().getApplicationContext();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {

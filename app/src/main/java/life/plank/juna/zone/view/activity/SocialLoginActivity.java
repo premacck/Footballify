@@ -3,6 +3,8 @@ package life.plank.juna.zone.view.activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import butterknife.ButterKnife;
@@ -17,7 +19,7 @@ public class SocialLoginActivity extends AppCompatActivity {
         setContentView(R.layout.layout_social_login_activity);
         ButterKnife.bind(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getColor(R.color.Green));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Green));
         }
     }
 
@@ -31,7 +33,7 @@ public class SocialLoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, SignUpActivity.class));
     }
 
-    @OnClick( {R.id.button_facebook, R.id.button_google, R.id.button_instagram, R.id.button_twitter})
+    @OnClick({R.id.button_facebook, R.id.button_google, R.id.button_instagram, R.id.button_twitter})
     public void zoneHomeActivity() {
         //Todo: Add social login implementation
     }

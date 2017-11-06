@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/relative_layout_user_choice"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,13 +13,15 @@
         android:layout_marginTop="60dp"
         android:layout_toLeftOf="@+id/user_choice_text_vs"
         android:layout_toStartOf="@+id/user_choice_text_vs"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="RelativeOverlap">
 
         <ImageView
             android:id="@+id/user_choice_home_team_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/user_choice_home_team_name"
@@ -68,7 +71,8 @@
             android:id="@+id/user_choice_visiting_team_image"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/user_choice_visiting_team_name"
@@ -100,5 +104,6 @@
         android:layout_below="@+id/user_choice_text_vs"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_submit_button" />
 </RelativeLayout>
