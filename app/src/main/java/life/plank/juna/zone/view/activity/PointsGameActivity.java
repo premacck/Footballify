@@ -45,9 +45,9 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.domain.service.GameService;
-import life.plank.juna.zone.view.adapter.PointsGameAdapter;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.TeamNameMap;
+import life.plank.juna.zone.view.adapter.PointsGameAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -111,8 +111,9 @@ public class PointsGameActivity extends AppCompatActivity {
 
         Integer leagueStartYear = Arena.getInstance().getLeagueYearStart();
         Integer previousYear = leagueStartYear - 1;
-        yearText.setText(previousYear.toString() + "-" + leagueStartYear.toString());
-        roundNumberText.setText((++ZoneApplication.roundNumber).toString());
+        String yearNumberText = previousYear + "-" + leagueStartYear;
+        yearText.setText(yearNumberText);
+        roundNumberText.setText(String.valueOf(++ZoneApplication.roundNumber));
     }
 
     private void initRecyclerView() {
@@ -126,7 +127,7 @@ public class PointsGameActivity extends AppCompatActivity {
         recyclerView.setAdapter(pointsGameAdapter);
 
         pointsGameAdapter.getViewClickedObservable()
-                .subscribe(footballMatch -> initiatePopUp(footballMatch));
+                .subscribe(this::initiatePopUp);
     }
 
     private void initiatePopUp(FootballMatch footballMatch) {

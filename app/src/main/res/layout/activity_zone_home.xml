@@ -53,6 +53,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="?android:attr/windowBackground"
                 android:clickable="true"
+                android:focusable="true"
                 app:itemIconTint="@color/Black"
                 app:menu="@menu/bottom_navigation_menu" />
         </RelativeLayout>

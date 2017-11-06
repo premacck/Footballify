@@ -11,10 +11,11 @@
         android:id="@+id/juna_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="122dp"
-        android:src="@drawable/ic_junalogo"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="122dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_junalogo" />
 
     <LinearLayout
         android:id="@+id/linear_layout_social_login"
@@ -38,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="7dp"
-            android:text=" / " />
+            android:text="@string/backslash" />
 
         <TextView
             android:id="@+id/text_signin"
@@ -68,6 +69,7 @@
         android:layout_below="@+id/text_or"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_facebookloginbtn" />
 
     <ImageView
@@ -77,6 +79,7 @@
         android:layout_below="@+id/button_facebook"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_googleloginbtn" />
 
     <ImageView
@@ -86,6 +89,7 @@
         android:layout_below="@+id/button_google"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_instagramloginbtn" />
 
     <ImageView
@@ -95,6 +99,6 @@
         android:layout_below="@+id/button_instagram"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:contentDescription="@null"
         android:src="@drawable/ic_twitterloginbtn" />
-
 </RelativeLayout>

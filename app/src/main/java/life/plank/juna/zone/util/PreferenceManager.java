@@ -16,6 +16,7 @@ public class PreferenceManager {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("General", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        editor.apply();
     }
 
     public void saveString(String key, String value) {

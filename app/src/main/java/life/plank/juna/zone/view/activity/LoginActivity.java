@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
@@ -66,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.layout_login_activity);
         ButterKnife.bind(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(getColor(R.color.Orange));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Orange));
         }
         validateLoginDetails();
         ((ZoneApplication) getApplication()).getLoginNetworkComponent().inject(this);
