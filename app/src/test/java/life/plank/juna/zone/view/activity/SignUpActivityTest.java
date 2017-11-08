@@ -111,9 +111,9 @@ public class SignUpActivityTest {
 
     @Test
     public void checkPasswordIsInvalidWhenPasswordStringContainsSpaces() {
-        when(mockContext.getString(R.string.enter_password)).thenReturn("Please enter a password");
+        when(mockContext.getString(R.string.enter_valid_password)).thenReturn("Please enter a valid password");
 
-        ValidationResult validationResult = new ValidationResult(false, "Please enter a password", null);
+        ValidationResult validationResult = new ValidationResult(false, "Please enter a valid password", null);
 
         assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validatePassword("pass word", mockContext).getReason().toCharArray());
         assertFalse(signUpActivity.validatePassword("pass word", mockContext).isValid());

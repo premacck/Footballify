@@ -13,6 +13,7 @@
     <string name="enter_valid_user_name">Please enter valid user name</string>
     <string name="enter_valid_name">Please enter valid name</string>
     <string name="enter_password">Please enter a password</string>
+    <string name="enter_valid_password">Please enter a valid password</string>
     <string name="name_regex">^[A-Za-z]*$</string>
     <string name="user_name_regex" tools:ignore="TypographyDashes">^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$</string>
     <string name="confirm_password">Please confirm password</string>
@@ -50,4 +51,8 @@
     <string name="game_type">Game Type</string>
     <string name="sudden_death_game">Survivor</string>
     <string name="backslash">/</string>
+    <string name="login_successful">Login Successful</string>
+    <string name="invalid_credentials">Invalid login credentials</string>
+    <string name="login_failed_message">Login Failed</string>
+    <string name="server_unreachable_message">Server Unreachable</string>
 </resources>

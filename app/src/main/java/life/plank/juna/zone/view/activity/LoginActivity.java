@@ -1,11 +1,8 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
-import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -24,19 +20,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
-import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.ValidationResult;
+import life.plank.juna.zone.domain.service.AuthenticationService;
 import life.plank.juna.zone.util.PreferenceManager;
-import life.plank.juna.zone.util.ValidationUtil;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
-import retrofit2.Response;
+import life.plank.juna.zone.viewmodel.LoginViewModel;
 import retrofit2.Retrofit;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
     RelativeLayout relativeLayout;
 
     private Subscription subscription;
-    private RestApi restApi;
+    private LoginViewModel loginViewModel;
     private Boolean validUserDetails = false;
 
     @Override
@@ -69,9 +63,13 @@ public class LoginActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Orange));
         }
-        validateLoginDetails();
+
+        subscription = new CompositeSubscription();
         ((ZoneApplication) getApplication()).getLoginNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+        loginViewModel = new LoginViewModel(new AuthenticationService(retrofit));
+
+        validateLoginDetails();
+        subscribeToLoginSubject();
     }
 
     @Override
@@ -85,41 +83,13 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_in)
     public void signIn() {
         if (validUserDetails) {
+            UIDisplayUtil.getInstance().hideSoftKeyboard(relativeLayout, this);
+
             PreferenceManager prefManager = new PreferenceManager(this);
             prefManager.saveString(getString(R.string.shared_pref_username), userName.getText().toString().trim());
-            loginUser(LoginActivity.this, userName.getText().toString().trim(), password.getText().toString().trim());
+
+            loginViewModel.loginUser(userName.getText().toString().trim(), password.getText().toString().trim(), this, relativeLayout);
         }
-    }
-
-    private void loginUser(Context context, String userName, String password) {
-        subscription = restApi.loginUser(JunaUserBuilder.getInstance()
-                .withUserName(userName)
-                .withPassword(password)
-                .build())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<Void>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "Error Registering user: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Response<Void> response) {
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            Log.d(TAG, "Login Successful. Status Code =" + response.code());
-                            startActivity(new Intent(context, ZoneHomeActivity.class));
-                        } else if (response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                            Snackbar.make(relativeLayout, "Invalid username and password", Snackbar.LENGTH_LONG).show();
-                        } else
-                            Snackbar.make(relativeLayout, "Signin failed, please retry", Snackbar.LENGTH_LONG).show();
-                    }
-                });
     }
 
     @OnClick(R.id.text_sign_up)
@@ -128,39 +98,51 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void validateLoginDetails() {
-        Observable<Boolean> userNameObservable = RxHelper.getTextWatcherObservable(userName)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    ValidationResult result = validateUserName(s, getApplicationContext());
-                    userNameTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> userNameObservable = RxHelper.getTextWatcherObservable(userName)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        Observable<Boolean> passwordObservable = RxHelper.getTextWatcherObservable(password)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    ValidationResult result = validatePassword(s, getApplicationContext());
-                    passwordTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> passwordObservable = RxHelper.getTextWatcherObservable(password)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        subscription = Observable.combineLatest(userNameObservable, passwordObservable,
-                (validUserName, validPassword) -> {
-                    Log.i(TAG, "username: " + validUserName + ", password: " + validPassword);
-                    return validUserName && validPassword;
-                }).subscribe(aBoolean -> {
-            signInButton.setEnabled(aBoolean);
-            validUserDetails = aBoolean;
-        }, throwable -> Log.e(TAG, throwable.getMessage()));
+        subscription = loginViewModel.validateUserDetails(this, userNameObservable, passwordObservable)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::enableSignInButton,
+                        throwable -> Log.d(TAG, "In onError " + throwable.getMessage()),
+                        () -> Log.d(TAG, "In onCompleted"));
+
+        subscription = loginViewModel.getUsernameObservable()
+                .subscribe(s -> setUsernameErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
+
+        subscription = loginViewModel.getPasswordObservable()
+                .subscribe(s -> setPasswordErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
     }
 
-    public ValidationResult validateUserName(@NonNull String userName, Context context) {
-        return ValidationUtil.isValidUsername(userName, context);
+    private void subscribeToLoginSubject() {
+        subscription = loginViewModel.getLoginSubject()
+                .subscribe(aBoolean -> {
+                            if (aBoolean.equals(true))
+                                startHomeActivity();
+                        },
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
     }
 
-    public ValidationResult validatePassword(@NonNull String password, Context context) {
-        return ValidationUtil.isValidPassword(password, context);
+    private void startHomeActivity() {
+        startActivity(new Intent(this, ZoneHomeActivity.class));
+    }
+
+    private void enableSignInButton(Boolean aBoolean) {
+        signInButton.setEnabled(aBoolean);
+        validUserDetails = aBoolean;
+    }
+
+    public void setUsernameErrorMessage(String reason) {
+        this.userNameTextInput.setError(reason);
+    }
+
+    public void setPasswordErrorMessage(String reason) {
+        this.passwordTextInput.setError(reason);
     }
 }

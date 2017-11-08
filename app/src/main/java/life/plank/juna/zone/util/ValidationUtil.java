@@ -60,7 +60,7 @@ public class ValidationUtil {
         }
 
         if (password.contains(" ")) {
-            return ValidationResult.failure(context.getString(R.string.enter_password), password);
+            return ValidationResult.failure(context.getString(R.string.enter_valid_password), password);
         }
 
         return ValidationResult.success(password);

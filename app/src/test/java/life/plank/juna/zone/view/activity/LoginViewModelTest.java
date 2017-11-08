@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ValidationResult;
+import life.plank.juna.zone.viewmodel.LoginViewModel;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,10 +21,11 @@ import static org.mockito.Mockito.when;
 /**
  * Created by plank-sobia on 10/24/2017.
  */
-public class LoginActivityTest {
+public class LoginViewModelTest {
+
 
     @InjectMocks
-    LoginActivity loginActivity;
+    LoginViewModel loginViewModel;
 
     @Mock
     MockContext mockContext;
@@ -41,7 +43,7 @@ public class LoginActivityTest {
     @Test
     public void checkUsernameIsValid() {
         when(mockContext.getString(R.string.user_name_regex)).thenReturn("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$");
-        assertTrue(loginActivity.validateUserName("sobia@plank.life", mockContext).isValid());
+        assertTrue(loginViewModel.validateUserName("sobia@plank.life", mockContext).isValid());
     }
 
     @Test
@@ -51,8 +53,8 @@ public class LoginActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter valid user name", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), loginActivity.validateUserName("username", mockContext).getReason().toCharArray());
-        assertFalse(loginActivity.validateUserName("username", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), loginViewModel.validateUserName("username", mockContext).getReason().toCharArray());
+        assertFalse(loginViewModel.validateUserName("username", mockContext).isValid());
     }
 
     @Test
@@ -62,13 +64,13 @@ public class LoginActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter valid user name", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), loginActivity.validateUserName(" ", mockContext).getReason().toCharArray());
-        assertFalse(loginActivity.validateUserName(" ", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), loginViewModel.validateUserName(" ", mockContext).getReason().toCharArray());
+        assertFalse(loginViewModel.validateUserName(" ", mockContext).isValid());
     }
 
     @Test
     public void checkPasswordIsValid() {
-        assertTrue(loginActivity.validatePassword("password", mockContext).isValid());
+        assertTrue(loginViewModel.validatePassword("password", mockContext).isValid());
     }
 
     @Test
@@ -77,17 +79,17 @@ public class LoginActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter a password", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), loginActivity.validatePassword(" ", mockContext).getReason().toCharArray());
-        assertFalse(loginActivity.validatePassword(" ", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), loginViewModel.validatePassword("", mockContext).getReason().toCharArray());
+        assertFalse(loginViewModel.validatePassword(" ", mockContext).isValid());
     }
 
     @Test
     public void checkPasswordIsInvalidWhenPasswordStringContainsSpaces() {
-        when(mockContext.getString(R.string.enter_password)).thenReturn("Please enter a password");
+        when(mockContext.getString(R.string.enter_valid_password)).thenReturn("Please enter a valid password");
 
-        ValidationResult validationResult = new ValidationResult(false, "Please enter a password", null);
+        ValidationResult validationResult = new ValidationResult(false, "Please enter a valid password", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), loginActivity.validatePassword("pass word", mockContext).getReason().toCharArray());
-        assertFalse(loginActivity.validatePassword("pass word", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), loginViewModel.validatePassword("pass word", mockContext).getReason().toCharArray());
+        assertFalse(loginViewModel.validatePassword("pass word", mockContext).isValid());
     }
 }
