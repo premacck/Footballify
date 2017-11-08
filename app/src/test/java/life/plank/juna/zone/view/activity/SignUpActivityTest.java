@@ -105,7 +105,7 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter a password", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validatePassword(" ", mockContext).getReason().toCharArray());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validatePassword("", mockContext).getReason().toCharArray());
         assertFalse(signUpActivity.validatePassword(" ", mockContext).isValid());
     }
 
