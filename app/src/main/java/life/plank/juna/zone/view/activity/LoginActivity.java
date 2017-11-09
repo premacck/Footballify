@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
+import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
@@ -67,9 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         subscription = new CompositeSubscription();
         ((ZoneApplication) getApplication()).getLoginNetworkComponent().inject(this);
         loginViewModel = new LoginViewModel(new AuthenticationService(retrofit));
-
         validateLoginDetails();
-        subscribeToLoginSubject();
     }
 
     @Override
@@ -88,7 +87,26 @@ public class LoginActivity extends AppCompatActivity {
             PreferenceManager prefManager = new PreferenceManager(this);
             prefManager.saveString(getString(R.string.shared_pref_username), userName.getText().toString().trim());
 
-            loginViewModel.loginUser(userName.getText().toString().trim(), password.getText().toString().trim(), this, relativeLayout);
+            subscription = loginViewModel.loginUser(userName.getText().toString().trim(), password.getText().toString().trim())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                                switch (response.code()) {
+                                    case HttpURLConnection.HTTP_OK:
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.login_successful));
+                                        startHomeActivity();
+                                        break;
+                                    case HttpURLConnection.HTTP_UNAUTHORIZED:
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.invalid_credentials));
+                                        break;
+                                    default:
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.login_failed_message));
+                                }
+                            },
+                            throwable -> {
+                                UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.server_unreachable_message));
+                                Log.d(TAG, "In onError: " + throwable.getLocalizedMessage());
+                            });
         }
     }
 
@@ -117,15 +135,6 @@ public class LoginActivity extends AppCompatActivity {
 
         subscription = loginViewModel.getPasswordObservable()
                 .subscribe(s -> setPasswordErrorMessage(s.getReason()),
-                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
-    }
-
-    private void subscribeToLoginSubject() {
-        subscription = loginViewModel.getLoginSubject()
-                .subscribe(aBoolean -> {
-                            if (aBoolean.equals(true))
-                                startHomeActivity();
-                        },
                         throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
     }
 

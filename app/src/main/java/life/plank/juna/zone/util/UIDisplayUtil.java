@@ -11,17 +11,16 @@ import android.view.inputmethod.InputMethodManager;
 
 public class UIDisplayUtil {
 
-    private static UIDisplayUtil uiDisplayUtil = null;
-
     private UIDisplayUtil() {
 
     }
 
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    }
+
     public static UIDisplayUtil getInstance() {
-        if (uiDisplayUtil == null) {
-            uiDisplayUtil = new UIDisplayUtil();
-        }
-        return uiDisplayUtil;
+        return UIDisplayUtilWrapper.INSTANCE;
     }
 
     public void displaySnackBar(View currentView, String message) {
