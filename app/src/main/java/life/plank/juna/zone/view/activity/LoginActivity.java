@@ -7,9 +7,10 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import com.alirezaahmadi.progressbutton.ProgressButtonComponent;
 
 import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.input_password)
     EditText password;
     @BindView(R.id.button_sign_in)
-    Button signInButton;
+    ProgressButtonComponent signInButton;
     @BindView(R.id.login_relative_layout)
     RelativeLayout relativeLayout;
 
@@ -82,6 +83,7 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_in)
     public void signIn() {
         if (validUserDetails) {
+            showProgressBar();
             UIDisplayUtil.getInstance().hideSoftKeyboard(relativeLayout, this);
 
             PreferenceManager prefManager = new PreferenceManager(this);
@@ -98,14 +100,17 @@ public class LoginActivity extends AppCompatActivity {
                                         break;
                                     case HttpURLConnection.HTTP_UNAUTHORIZED:
                                         UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.invalid_credentials));
+                                        hideProgressBar();
                                         break;
                                     default:
                                         UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.login_failed_message));
+                                        hideProgressBar();
                                 }
                             },
                             throwable -> {
                                 UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.server_unreachable_message));
                                 Log.d(TAG, "In onError: " + throwable.getLocalizedMessage());
+                                hideProgressBar();
                             });
         }
     }
@@ -113,6 +118,11 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.text_sign_up)
     public void signUpHere() {
         startActivity(new Intent(this, SocialLoginActivity.class));
+    }
+
+    @Override
+    public void onBackPressed() {
+
     }
 
     private void validateLoginDetails() {
@@ -145,6 +155,16 @@ public class LoginActivity extends AppCompatActivity {
     private void enableSignInButton(Boolean aBoolean) {
         signInButton.setEnabled(aBoolean);
         validUserDetails = aBoolean;
+    }
+
+    private void hideProgressBar() {
+        signInButton.setInProgress(false);
+        signInButton.setTextSize(40);
+    }
+
+    private void showProgressBar() {
+        signInButton.setInProgress(true);
+        signInButton.setTextSize(0);
     }
 
     public void setUsernameErrorMessage(String reason) {

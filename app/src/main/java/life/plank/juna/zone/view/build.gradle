@@ -49,6 +49,7 @@ dependencies {
     compile viewDependencies.constraintLayout
     compile viewDependencies.materialStyledDialog
     compile viewDependencies.dagger
+    compile viewDependencies.progressButton
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation

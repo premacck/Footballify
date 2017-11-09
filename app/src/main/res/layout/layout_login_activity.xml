@@ -92,17 +92,23 @@
                 android:textColor="@color/White"
                 android:textSize="18sp" />
 
-            <Button
+
+            <com.alirezaahmadi.progressbutton.ProgressButtonComponent
                 android:id="@+id/button_sign_in"
-                android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
                 android:layout_below="@+id/checkbox_remember_me"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:background="@color/Green"
                 android:enabled="false"
-                android:text="@string/sign_in"
-                android:textColor="@color/White" />
+                android:gravity="center"
+                android:padding="10dp"
+                app:buttonText="@string/sign_in"
+                app:buttonTextColor="@color/White"
+                app:buttonTextSize="20sp"
+                app:progressColor="@color/White"
+                app:progressWidth="2dp" />
 
             <TextView
                 android:id="@+id/text_sign_up"
