@@ -102,4 +102,9 @@ public class ZoneHomeActivity extends AppCompatActivity {
                 .replace(R.id.content, fragment)
                 .commit();
     }
+
+    @Override
+    public void onBackPressed() {
+
+    }
 }
