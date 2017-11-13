@@ -29,11 +29,9 @@ public class LoginViewModel {
     private SharedPreferences.Editor loginPreferenceEditor;
     private Context context;
 
-    @SuppressLint("CommitPrefEdits")
     public LoginViewModel(Context context, AuthenticationService authenticationService) {
         this.context = context;
         this.authenticationService = authenticationService;
-        loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
     }
 
     public Observable<Boolean> validateUserDetails(Observable<String> userName, Observable<String> password) {
@@ -76,15 +74,17 @@ public class LoginViewModel {
     }
 
     public void saveLoginDetails(String userNameText, String passwordText) {
+        loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
         loginPreferenceEditor.putBoolean(context.getString(R.string.shared_pref_save_login), true)
                 .putString(context.getString(R.string.shared_pref_username), userNameText.trim())
                 .putString(context.getString(R.string.shared_pref_password), passwordText.trim())
-                .commit();
+                .apply();
     }
 
     public void clearLoginDetailsSharedPref() {
+        loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
         loginPreferenceEditor.clear()
-                .commit();
+                .apply();
     }
 
 }
