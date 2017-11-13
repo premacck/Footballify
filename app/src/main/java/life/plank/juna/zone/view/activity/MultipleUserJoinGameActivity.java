@@ -1,13 +1,12 @@
 package life.plank.juna.zone.view.activity;
 
-import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -26,7 +25,7 @@ import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.util.CustomizeStatusBar;
-import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -56,6 +55,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
     private RestApi restApi;
     private Arena arena;
     private String gameType;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +63,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiple_user_join_game);
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
+        sharedPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
 
         ((ZoneApplication) getApplication()).getMultipleUserJoinGameNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
@@ -119,10 +120,9 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
     }
 
     private void joinArena() {
-        PreferenceManager prefManager = new PreferenceManager(this);
         subscription = restApi.putJoinArena(invitationCode,
                 JunaUserBuilder.getInstance().
-                        withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
+                        withUserName(sharedPreferences.getString(getString(R.string.shared_pref_username), ""))
                         .build())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -154,8 +154,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
         if (editText.length() == 1) {
             View next = editText.focusSearch(View.FOCUS_RIGHT);
             if (next == null) {
-                InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+                UIDisplayUtil.getInstance().hideSoftKeyboard(editText, this);
             } else next.requestFocus();
         }
     }

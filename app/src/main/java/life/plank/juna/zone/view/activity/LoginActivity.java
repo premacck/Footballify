@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -23,7 +24,6 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.domain.service.AuthenticationService;
-import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
 import life.plank.juna.zone.viewmodel.LoginViewModel;
@@ -50,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     @BindView(R.id.button_sign_in)
     ProgressButtonComponent signInButton;
+    @BindView(R.id.checkbox_remember_me)
+    CheckBox rememberMeCheckBox;
     @BindView(R.id.login_relative_layout)
     RelativeLayout relativeLayout;
 
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
 
         subscription = new CompositeSubscription();
         ((ZoneApplication) getApplication()).getLoginNetworkComponent().inject(this);
-        loginViewModel = new LoginViewModel(new AuthenticationService(retrofit));
+        loginViewModel = new LoginViewModel(this, new AuthenticationService(retrofit));
         validateLoginDetails();
     }
 
@@ -86,8 +88,10 @@ public class LoginActivity extends AppCompatActivity {
             showProgressBar();
             UIDisplayUtil.getInstance().hideSoftKeyboard(relativeLayout, this);
 
-            PreferenceManager prefManager = new PreferenceManager(this);
-            prefManager.saveString(getString(R.string.shared_pref_username), userName.getText().toString().trim());
+            if (rememberMeCheckBox.isChecked())
+                loginViewModel.saveLoginDetails(userName.getText().toString().trim(), password.getText().toString().trim());
+            else
+                loginViewModel.clearLoginDetailsSharedPref();
 
             subscription = loginViewModel.loginUser(userName.getText().toString().trim(), password.getText().toString().trim())
                     .subscribeOn(Schedulers.io())
@@ -132,7 +136,7 @@ public class LoginActivity extends AppCompatActivity {
         Observable<String> passwordObservable = RxHelper.getTextWatcherObservable(password)
                 .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        subscription = loginViewModel.validateUserDetails(this, userNameObservable, passwordObservable)
+        subscription = loginViewModel.validateUserDetails(userNameObservable, passwordObservable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::enableSignInButton,

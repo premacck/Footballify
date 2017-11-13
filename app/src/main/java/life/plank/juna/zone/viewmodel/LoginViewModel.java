@@ -1,10 +1,12 @@
 package life.plank.juna.zone.viewmodel;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.view.View;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.model.ValidationResult;
 import life.plank.juna.zone.domain.service.AuthenticationService;
@@ -24,12 +26,17 @@ public class LoginViewModel {
     private Observable<ValidationResult> usernameObservable;
     private Observable<ValidationResult> passwordObservable;
     private AuthenticationService authenticationService;
+    private SharedPreferences.Editor loginPreferenceEditor;
+    private Context context;
 
-    public LoginViewModel(AuthenticationService authenticationService) {
+    @SuppressLint("CommitPrefEdits")
+    public LoginViewModel(Context context, AuthenticationService authenticationService) {
+        this.context = context;
         this.authenticationService = authenticationService;
+        loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
     }
 
-    public Observable<Boolean> validateUserDetails(Context context, Observable<String> userName, Observable<String> password) {
+    public Observable<Boolean> validateUserDetails(Observable<String> userName, Observable<String> password) {
         usernameObservable = userName.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map(s -> validateUserName(s, context));
@@ -67,4 +74,17 @@ public class LoginViewModel {
     public Observable<ValidationResult> getPasswordObservable() {
         return passwordObservable;
     }
+
+    public void saveLoginDetails(String userNameText, String passwordText) {
+        loginPreferenceEditor.putBoolean(context.getString(R.string.shared_pref_save_login), true)
+                .putString(context.getString(R.string.shared_pref_username), userNameText.trim())
+                .putString(context.getString(R.string.shared_pref_password), passwordText.trim())
+                .commit();
+    }
+
+    public void clearLoginDetailsSharedPref() {
+        loginPreferenceEditor.clear()
+                .commit();
+    }
+
 }

@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -30,7 +31,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.Player;
 import life.plank.juna.zone.util.CustomizeStatusBar;
-import life.plank.juna.zone.util.PreferenceManager;
 import retrofit2.Retrofit;
 import rx.Observer;
 import rx.Subscription;
@@ -62,6 +62,7 @@ public class CreateArenaActivity extends AppCompatActivity {
     private List<String> playerList = new ArrayList<>();
     private Arena arena;
     private String gameType;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,9 +83,9 @@ public class CreateArenaActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         arena = Arena.getNullArena();
-        PreferenceManager prefManager = new PreferenceManager(this);
+        sharedPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         arena.setCreator(JunaUserBuilder.getInstance()
-                .withUserName(prefManager.getPreference(getString(R.string.shared_pref_username)))
+                .withUserName(sharedPreferences.getString(getString(R.string.shared_pref_username), ""))
                 .build());
         arena.setGameType(gameType);
         createArena();
