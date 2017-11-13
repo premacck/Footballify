@@ -36,7 +36,10 @@
     <string name="base_url">https://192.169.1.12:5000</string>
     <string name="secret_code">SECRET CODE</string>
     <string name="share_secret_code">GIVE THIS CODE TO YOUR FRIENDS</string>
+    <string name="login_pref">loginPrefs</string>
+    <string name="shared_pref_save_login">save_login</string>
     <string name="shared_pref_username">Username</string>
+    <string name="shared_pref_password">Password</string>
     <string name="points_game">Points</string>
     <string name="league_name_plank">PLANK LEAGUE</string>
     <string name="match_vs">VS</string>
