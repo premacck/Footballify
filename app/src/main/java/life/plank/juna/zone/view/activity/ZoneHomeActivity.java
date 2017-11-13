@@ -1,9 +1,12 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
@@ -16,6 +19,7 @@ import com.jakewharton.rxbinding2.support.design.widget.RxBottomNavigationView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.helper.BottomNavigationViewHelper;
@@ -32,6 +36,7 @@ public class ZoneHomeActivity extends AppCompatActivity {
     @BindView(R.id.bottom_navigation)
     BottomNavigationView bottomNavigationView;
     private Fragment fragment = new NewsFeedsFragment();
+    private SharedPreferences sharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +44,27 @@ public class ZoneHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_zone_home);
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
+        sharedPreference = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUpBottomNavigationView();
         setUpFragment();
+    }
+
+    //Todo: Add required fuctionality to this button and refactor based on MVVM architecture
+    @OnClick(R.id.app_toolbar_home)
+    public void logOut() {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.logout_label))
+                .setMessage(getString(R.string.confirm_logout))
+                .setPositiveButton(android.R.string.ok,
+                        (dialog, button) -> {
+                            //todo: add this to view model and add logout rest api call
+                            sharedPreference.edit().clear().apply();
+                            startActivity(new Intent(this, SocialLoginActivity.class));
+                        })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
     }
 
     private void setUpBottomNavigationView() {
