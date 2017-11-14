@@ -21,4 +21,8 @@ public class AuthenticationService {
     public Observable<Response<Void>> login(JunaUser junaUser) {
         return restApi.loginUser(junaUser);
     }
+
+    public Observable<Response<Void>> register(JunaUser junaUser) {
+        return restApi.registerUser(junaUser);
+    }
 }

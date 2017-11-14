@@ -1,18 +1,16 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import com.alirezaahmadi.progressbutton.ProgressButtonComponent;
 
 import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
@@ -24,18 +22,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
-import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.ValidationResult;
-import life.plank.juna.zone.util.ValidationUtil;
+import life.plank.juna.zone.domain.service.AuthenticationService;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.RxHelper;
-import retrofit2.Response;
+import life.plank.juna.zone.viewmodel.SignUpViewModel;
 import retrofit2.Retrofit;
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.CompositeSubscription;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -64,13 +60,13 @@ public class SignUpActivity extends AppCompatActivity {
     @BindView(R.id.input_confirm_password)
     EditText confirmPassword;
     @BindView(R.id.button_sign_up)
-    Button signUpButton;
+    ProgressButtonComponent signUpButton;
     @BindView(R.id.signup_relative_layout)
     RelativeLayout relativeLayout;
 
     private Subscription subscription;
-    private RestApi restApi;
     private Boolean validUserDetails = false;
+    private SignUpViewModel signUpViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +76,11 @@ public class SignUpActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Orange));
         }
-        validateUserDetails();
+
+        subscription = new CompositeSubscription();
         ((ZoneApplication) getApplication()).getRegisterNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+        signUpViewModel = new SignUpViewModel(this, new AuthenticationService(retrofit));
+        validateUserDetails();
     }
 
     @Override
@@ -96,40 +94,38 @@ public class SignUpActivity extends AppCompatActivity {
     @OnClick(R.id.button_sign_up)
     public void signUp() {
         if (validUserDetails) {
-            registerUserCredentials(SignUpActivity.this, userName.getText().toString().trim(), password.getText().toString().trim());
+            showProgressBar();
+            UIDisplayUtil.getInstance().hideSoftKeyboard(relativeLayout, this);
+
+            subscription = signUpViewModel.registerUser(userName.getText().toString().trim(), password.getText().toString().trim())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                                switch (response.code()) {
+                                    case HttpURLConnection.HTTP_CREATED:
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.sign_up_successful));
+                                        startSignInActivity();
+                                        break;
+                                    //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
+                                    case 422:
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.user_exists));
+                                        hideProgressBar();
+                                        break;
+                                    default:
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.signup_failed_message));
+                                        hideProgressBar();
+                                }
+                            },
+                            throwable -> {
+                                UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.server_unreachable_message));
+                                Log.d(TAG, "In onError: " + throwable.getLocalizedMessage());
+                                hideProgressBar();
+                            });
         }
     }
 
-    private void registerUserCredentials(Context context, String userName, String password) {
-        subscription = restApi.registerUser(JunaUserBuilder.getInstance()
-                .withUserName(userName)
-                .withPassword(password)
-                .build())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<Void>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d(TAG, "Error Registering user: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Response<Void> response) {
-                        if (response.code() == HttpURLConnection.HTTP_CREATED) {
-                            Log.d(TAG, "Registration Successful");
-                            startActivity(new Intent(context, LoginActivity.class));
-                        } //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
-                        else if (response.code() == 422) {
-                            Snackbar.make(relativeLayout, "JunaUser name already exists", Snackbar.LENGTH_LONG).show();
-                        } else
-                            Snackbar.make(relativeLayout, "Signup failed, please retry", Snackbar.LENGTH_LONG).show();
-                    }
-                });
+    private void startSignInActivity() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 
     @OnClick(R.id.text_sign_in)
@@ -138,74 +134,85 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     private void validateUserDetails() {
-        Observable<Boolean> userNameObservable = RxHelper.getTextWatcherObservable(userName)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    ValidationResult result = validateUserName(s, getApplicationContext());
-                    userNameTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> userNameObservable = RxHelper.getTextWatcherObservable(userName)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        Observable<Boolean> firstNameObservable = RxHelper.getTextWatcherObservable(firstName)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    ValidationResult result = validateName(s, getApplicationContext());
-                    firstNameTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> firstNameObservable = RxHelper.getTextWatcherObservable(firstName)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        Observable<Boolean> lastNameObservable = RxHelper.getTextWatcherObservable(lastName)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    ValidationResult result = validateName(s, getApplicationContext());
-                    lastNameTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> lastNameObservable = RxHelper.getTextWatcherObservable(lastName)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        Observable<Boolean> passwordObservable = RxHelper.getTextWatcherObservable(password)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    ValidationResult result = validatePassword(s, getApplicationContext());
-                    passwordTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> passwordObservable = RxHelper.getTextWatcherObservable(password)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        Observable<Boolean> confirmPasswordObservable = RxHelper.getTextWatcherObservable(confirmPassword)
-                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .map(s -> {
-                    String passwordText = password.getText().toString().trim();
-                    ValidationResult result = validateConfirmPassword(passwordText, s, getApplicationContext());
-                    confirmPasswordTextInput.setError(result.getReason());
-                    return result.isValid();
-                });
+        Observable<String> confirmPasswordObservable = RxHelper.getTextWatcherObservable(confirmPassword)
+                .debounce(getResources().getInteger(R.integer.debounce_time), TimeUnit.MILLISECONDS);
 
-        subscription = Observable.combineLatest(userNameObservable, firstNameObservable, lastNameObservable, passwordObservable, confirmPasswordObservable, (validUserName, validFirstName, validLastName, validPassword, validConfirmPassword) -> {
-            Log.i(TAG, "username: " + validUserName + ", firstname: " + validFirstName + ", lastname: " + validLastName + ", password: " + validPassword + ",confirmpassword: " + validConfirmPassword);
-            return validUserName && validFirstName && validLastName && validPassword && validConfirmPassword;
-        }).subscribe(aBoolean -> {
-            signUpButton.setEnabled(aBoolean);
-            validUserDetails = aBoolean;
-        }, throwable -> Log.e(TAG, throwable.getMessage()));
+        subscription = signUpViewModel.validateUserDetails(userNameObservable, firstNameObservable, lastNameObservable, passwordObservable, confirmPasswordObservable)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::enableSignUpButton,
+                        throwable -> Log.d(TAG, "In onError " + throwable.getMessage()),
+                        () -> Log.d(TAG, "In onCompleted"));
+
+        subscription = signUpViewModel.getUserNameObservable()
+                .subscribe(s -> setUsernameErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
+
+        subscription = signUpViewModel.getFirstNameObservable()
+                .subscribe(s -> setFirstNameErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
+
+        subscription = signUpViewModel.getLastNameObservable()
+                .subscribe(s -> setLastNameErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
+
+        subscription = signUpViewModel.getPasswordObservable()
+                .subscribe(s -> setPasswordErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
+
+        subscription = signUpViewModel.getConfirmPasswordObservable()
+                .subscribe(s -> setConfirmPasswordErrorMessage(s.getReason()),
+                        throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
     }
 
-    public ValidationResult validateUserName(@NonNull String username, Context context) {
-        return ValidationUtil.isValidUsername(username, context);
+    private void enableSignUpButton(Boolean aBoolean) {
+        signUpButton.setEnabled(aBoolean);
+        validUserDetails = aBoolean;
+        if (aBoolean)
+            signUpButton.setAlpha(1);
+        else
+            signUpButton.setAlpha(0.5f);
     }
 
-    public ValidationResult validateName(@NonNull String name, Context context) {
-        return ValidationUtil.isValidName(name, context);
+    private void hideProgressBar() {
+        signUpButton.setInProgress(false);
+        signUpButton.setTextSize(40);
     }
 
-    public ValidationResult validatePassword(@NonNull String password, Context context) {
-        return ValidationUtil.isValidPassword(password, context);
+    private void showProgressBar() {
+        signUpButton.setInProgress(true);
+        signUpButton.setTextSize(0);
     }
 
-    public ValidationResult validateConfirmPassword(String passwordText, @NonNull String confirmPassword, Context context) {
-        return ValidationUtil.isValidConfirmPassword(passwordText, confirmPassword, context);
+    public void setUsernameErrorMessage(String reason) {
+        this.userNameTextInput.setError(reason);
+    }
+
+    public void setFirstNameErrorMessage(String reason) {
+        this.firstNameTextInput.setError(reason);
+    }
+
+    public void setLastNameErrorMessage(String reason) {
+        this.lastNameTextInput.setError(reason);
+    }
+
+    public void setPasswordErrorMessage(String reason) {
+        this.passwordTextInput.setError(reason);
+    }
+
+    public void setConfirmPasswordErrorMessage(String reason) {
+        this.confirmPasswordTextInput.setError(reason);
     }
 }

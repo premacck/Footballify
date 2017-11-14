@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ValidationResult;
+import life.plank.juna.zone.viewmodel.SignUpViewModel;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
@@ -20,10 +21,10 @@ import static org.mockito.Mockito.when;
 /**
  * Created by plank-sobia on 10/24/2017.
  */
-public class SignUpActivityTest {
+public class SignUpViewModelTest {
 
     @InjectMocks
-    SignUpActivity signUpActivity;
+    SignUpViewModel signUpViewModel;
 
     @Mock
     MockContext mockContext;
@@ -41,7 +42,7 @@ public class SignUpActivityTest {
     @Test
     public void checkUsernameIsValid() {
         when(mockContext.getString(R.string.user_name_regex)).thenReturn("^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$");
-        assertTrue(signUpActivity.validateUserName("sobia@plank.life", mockContext).isValid());
+        assertTrue(signUpViewModel.validateUserName("sobia@plank.life", mockContext).isValid());
     }
 
     @Test
@@ -51,8 +52,8 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter valid user name", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validateUserName("username", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validateUserName("username", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validateUserName("username", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validateUserName("username", mockContext).isValid());
     }
 
     @Test
@@ -62,14 +63,14 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter valid user name", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validateUserName(" ", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validateUserName(" ", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validateUserName(" ", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validateUserName(" ", mockContext).isValid());
     }
 
     @Test
     public void checkNameIsValid() {
         when(mockContext.getString(R.string.name_regex)).thenReturn("^[A-Za-z]*$");
-        assertTrue(signUpActivity.validateName("Sobia", mockContext).isValid());
+        assertTrue(signUpViewModel.validateName("Sobia", mockContext).isValid());
     }
 
     @Test
@@ -79,8 +80,8 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter valid name", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validateName("Sobia123", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validateName("Sobia123", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validateName("Sobia123", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validateName("Sobia123", mockContext).isValid());
     }
 
     @Test
@@ -90,13 +91,13 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter valid name", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validateName(" ", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validateName(" ", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validateName(" ", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validateName(" ", mockContext).isValid());
     }
 
     @Test
     public void checkPasswordIsValid() {
-        assertTrue(signUpActivity.validatePassword("password", mockContext).isValid());
+        assertTrue(signUpViewModel.validatePassword("password", mockContext).isValid());
     }
 
     @Test
@@ -105,8 +106,8 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter a password", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validatePassword("", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validatePassword(" ", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validatePassword("", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validatePassword(" ", mockContext).isValid());
     }
 
     @Test
@@ -115,13 +116,13 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please enter a valid password", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validatePassword("pass word", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validatePassword("pass word", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validatePassword("pass word", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validatePassword("pass word", mockContext).isValid());
     }
 
     @Test
     public void checkConfirmPasswordIsValid() {
-        assertTrue(signUpActivity.validateConfirmPassword("password", "password", mockContext).isValid());
+        assertTrue(signUpViewModel.validateConfirmPassword("password", "password", mockContext).isValid());
     }
 
     @Test
@@ -130,8 +131,8 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Please confirm password", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validateConfirmPassword("", "", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validateConfirmPassword("password", "", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validateConfirmPassword("", "", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validateConfirmPassword("password", "", mockContext).isValid());
     }
 
     @Test
@@ -140,7 +141,7 @@ public class SignUpActivityTest {
 
         ValidationResult validationResult = new ValidationResult(false, "Passwords don't match", null);
 
-        assertArrayEquals(validationResult.getReason().toCharArray(), signUpActivity.validateConfirmPassword("password", "pass word", mockContext).getReason().toCharArray());
-        assertFalse(signUpActivity.validateConfirmPassword("password", "pass word", mockContext).isValid());
+        assertArrayEquals(validationResult.getReason().toCharArray(), signUpViewModel.validateConfirmPassword("password", "pass word", mockContext).getReason().toCharArray());
+        assertFalse(signUpViewModel.validateConfirmPassword("password", "pass word", mockContext).isValid());
     }
 }
