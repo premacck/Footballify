@@ -58,4 +58,6 @@
     <string name="invalid_credentials">Invalid login credentials</string>
     <string name="login_failed_message">Login Failed</string>
     <string name="server_unreachable_message">Server Unreachable</string>
+    <string name="logout_label">Logout</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
 </resources>
