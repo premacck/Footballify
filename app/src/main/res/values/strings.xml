@@ -60,4 +60,7 @@
     <string name="server_unreachable_message">Server Unreachable</string>
     <string name="logout_label">Logout</string>
     <string name="confirm_logout">Are you sure you want to logout?</string>
+    <string name="sign_up_successful">Signup Successful</string>
+    <string name="user_exists">User name already exists</string>
+    <string name="signup_failed_message">Signup failed, please retry</string>
 </resources>

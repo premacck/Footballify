@@ -1,6 +1,5 @@
 package life.plank.juna.zone.viewmodel;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -75,8 +74,7 @@ public class LoginViewModel {
 
     public void saveLoginDetails(String userNameText, String passwordText) {
         loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
-        loginPreferenceEditor.putBoolean(context.getString(R.string.shared_pref_save_login), true)
-                .putString(context.getString(R.string.shared_pref_username), userNameText.trim())
+        loginPreferenceEditor.putString(context.getString(R.string.shared_pref_username), userNameText.trim())
                 .putString(context.getString(R.string.shared_pref_password), passwordText.trim())
                 .apply();
     }
@@ -87,4 +85,8 @@ public class LoginViewModel {
                 .apply();
     }
 
+    public void enableRememberMe() {
+        loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
+        loginPreferenceEditor.putBoolean(context.getString(R.string.shared_pref_save_login), true).apply();
+    }
 }

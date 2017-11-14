@@ -87,11 +87,10 @@ public class LoginActivity extends AppCompatActivity {
         if (validUserDetails) {
             showProgressBar();
             UIDisplayUtil.getInstance().hideSoftKeyboard(relativeLayout, this);
+            loginViewModel.saveLoginDetails(userName.getText().toString().trim(), password.getText().toString().trim());
 
             if (rememberMeCheckBox.isChecked())
-                loginViewModel.saveLoginDetails(userName.getText().toString().trim(), password.getText().toString().trim());
-            else
-                loginViewModel.clearLoginDetailsSharedPref();
+                loginViewModel.enableRememberMe();
 
             subscription = loginViewModel.loginUser(userName.getText().toString().trim(), password.getText().toString().trim())
                     .subscribeOn(Schedulers.io())
@@ -159,6 +158,10 @@ public class LoginActivity extends AppCompatActivity {
     private void enableSignInButton(Boolean aBoolean) {
         signInButton.setEnabled(aBoolean);
         validUserDetails = aBoolean;
+        if (aBoolean)
+            signInButton.setAlpha(1);
+        else
+            signInButton.setAlpha(0.5f);
     }
 
     private void hideProgressBar() {
