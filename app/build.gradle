@@ -9,25 +9,23 @@ android {
     buildToolsVersion '26.0.2'
       signingConfigs {
       release {
-          //todo: move all signing configs to gradle.properties
-          storeFile file('C:\\Users\\plank-sobia\\Documents\\Zone-playstore-cert.jks')
-          storePassword 'planklife'
-          keyAlias 'key0'
-          keyPassword 'planklife'
+          storeFile file(STORE_FILE)
+          storePassword STORE_PASSWORD
+          keyAlias KEY_ALIAS
+          keyPassword KEY_PASSWORD
       }
   }
     playAccountConfigs {
         defaultAccountConfig {
-            //todo: move all play account configs to gradle.properties
-            serviceAccountEmail = 'juna-zone-jenkins-service-acco@api-6788495893027436520-299256.iam.gserviceaccount.com'
-            pk12File = file('E:\\Work\\zone-androidapp\\play_cert.p12')
+            serviceAccountEmail = SERVICE_ACCOUNT_EMAIL
+            pk12File = file(PLAY_STORE_FILE)
         }
     }
     defaultConfig {
         applicationId "life.plank.juna.zone"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 3
+        versionCode 5
         versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         playAccountConfig = playAccountConfigs.defaultAccountConfig
