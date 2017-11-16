@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.github.triplet.play'
 apply from: "src/main/java/life/plank/juna/zone/data/build.gradle"
 apply from: "src/main/java/life/plank/juna/zone/domain/build.gradle"
 apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
@@ -6,16 +7,34 @@ apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
+      signingConfigs {
+      release {
+          //todo: move all signing configs to gradle.properties
+          storeFile file('C:\\Users\\plank-sobia\\Documents\\Zone-playstore-cert.jks')
+          storePassword 'planklife'
+          keyAlias 'key0'
+          keyPassword 'planklife'
+      }
+  }
+    playAccountConfigs {
+        defaultAccountConfig {
+            //todo: move all play account configs to gradle.properties
+            serviceAccountEmail = 'juna-zone-jenkins-service-acco@api-6788495893027436520-299256.iam.gserviceaccount.com'
+            pk12File = file('E:\\Work\\zone-androidapp\\play_cert.p12')
+        }
+    }
     defaultConfig {
         applicationId "life.plank.juna.zone"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.0.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        playAccountConfig = playAccountConfigs.defaultAccountConfig
     }
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
