@@ -7,14 +7,14 @@ apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-      signingConfigs {
-      release {
-          storeFile file(STORE_FILE)
-          storePassword STORE_PASSWORD
-          keyAlias KEY_ALIAS
-          keyPassword KEY_PASSWORD
-      }
-  }
+    signingConfigs {
+        release {
+            storeFile file(STORE_FILE)
+            storePassword STORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
     playAccountConfigs {
         defaultAccountConfig {
             serviceAccountEmail = SERVICE_ACCOUNT_EMAIL

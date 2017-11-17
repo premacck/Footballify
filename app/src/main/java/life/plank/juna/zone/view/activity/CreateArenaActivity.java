@@ -79,6 +79,7 @@ public class CreateArenaActivity extends AppCompatActivity {
 
         spinner = (AVLoadingIndicatorView) findViewById(R.id.spinner);
         spinner.show();
+        startPlayingButton.setEnabled(false);
 
         ((ZoneApplication) getApplication()).getCreateArenaNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
@@ -163,14 +164,19 @@ public class CreateArenaActivity extends AppCompatActivity {
                     public void onNext(Arena responseArena) {
                         Log.d(TAG, "In getArenaByInvitationCode onNext");
                         arena.copyArena(responseArena);
-                        startPlayingButton.setEnabled(true);
                         playerList.clear();
                         for (Player player : arena.getPlayers()) {
                             playerList.add(player.getUsername());
                         }
                         updatePlayerListAdapter();
+                        enableStartPlayingButton();
                     }
                 });
+    }
+
+    private void enableStartPlayingButton() {
+        startPlayingButton.setEnabled(true);
+        startPlayingButton.setAlpha(1f);
     }
 
     public void updatePlayerListAdapter() {
