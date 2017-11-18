@@ -20,12 +20,12 @@ import life.plank.juna.zone.view.activity.SplashScreenActivity;
 public class PushNotificationsHandler extends NotificationsHandler {
     public static final int NOTIFICATION_ID = 1;
     NotificationCompat.Builder builder;
-    Context ctx;
+    Context context;
     private NotificationManager mNotificationManager;
 
     @Override
     public void onReceive(Context context, Bundle bundle) {
-        ctx = context;
+        this.context = context;
         String nhMessage = bundle.getString("message");
         sendNotification(nhMessage);
         if (SplashScreenActivity.isVisible) {
@@ -35,18 +35,18 @@ public class PushNotificationsHandler extends NotificationsHandler {
 
     private void sendNotification(String msg) {
 
-        Intent intent = new Intent(ctx, SplashScreenActivity.class);
+        Intent intent = new Intent(context, SplashScreenActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         mNotificationManager = (NotificationManager)
-                ctx.getSystemService(Context.NOTIFICATION_SERVICE);
+                context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        PendingIntent contentIntent = PendingIntent.getActivity(ctx, 0,
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0,
                 intent, PendingIntent.FLAG_ONE_SHOT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(ctx)
+                new NotificationCompat.Builder(context)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Notification Hub Demo")
                         .setStyle(new NotificationCompat.BigTextStyle()

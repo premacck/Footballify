@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-
 public class NotificationInstanceIDService extends FirebaseInstanceIdService {
 
     private static final String TAG = "NotificationInstanceIDService";
