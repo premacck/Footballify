@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.github.triplet.play'
+apply plugin: 'com.google.gms.google-services'
 apply from: "src/main/java/life/plank/juna/zone/data/build.gradle"
 apply from: "src/main/java/life/plank/juna/zone/domain/build.gradle"
 apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
@@ -7,14 +8,14 @@ apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
-      signingConfigs {
-      release {
-          storeFile file(STORE_FILE)
-          storePassword STORE_PASSWORD
-          keyAlias KEY_ALIAS
-          keyPassword KEY_PASSWORD
-      }
-  }
+    signingConfigs {
+        release {
+            storeFile file(STORE_FILE)
+            storePassword STORE_PASSWORD
+            keyAlias KEY_ALIAS
+            keyPassword KEY_PASSWORD
+        }
+    }
     playAccountConfigs {
         defaultAccountConfig {
             serviceAccountEmail = SERVICE_ACCOUNT_EMAIL
@@ -54,9 +55,18 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.google.android.gms:play-services-gcm:11.4.2'
+    compile 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
+    compile 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:2.7.21'
+}
+
+repositories {
+    maven {
+        url "http://dl.bintray.com/microsoftazuremobile/SDK"
+    }
 }
