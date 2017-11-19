@@ -14,7 +14,7 @@ local.properties
 build/
 .gradle/
 .idea
-*.json
+release/
 *.p12
 *.iml
 app/*.iml
