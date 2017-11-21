@@ -38,12 +38,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/custom_edit_text"
-            android:cursorVisible="false"
             android:gravity="center"
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="1"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:textCursorDrawable="@drawable/user_choice_custom_cursor" />
     </LinearLayout>
 
     <TextView
@@ -89,12 +89,12 @@
             android:layout_gravity="center"
             android:layout_marginTop="15dp"
             android:background="@drawable/custom_edit_text"
-            android:cursorVisible="false"
             android:gravity="center"
             android:imeOptions="actionDone"
             android:inputType="number"
             android:maxLength="1"
-            android:textColor="@color/White" />
+            android:textColor="@color/White"
+            android:textCursorDrawable="@drawable/user_choice_custom_cursor" />
     </LinearLayout>
 
     <ImageView
@@ -104,6 +104,7 @@
         android:layout_below="@+id/user_choice_text_vs"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
+        android:alpha="0.7"
         android:contentDescription="@null"
         android:src="@drawable/ic_submit_button" />
 </RelativeLayout>

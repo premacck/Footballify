@@ -69,6 +69,7 @@
         android:layout_below="@+id/user_list"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
+        android:alpha="0.7"
         android:contentDescription="@null"
         android:src="@drawable/ic_points_start_playing" />
 </RelativeLayout>

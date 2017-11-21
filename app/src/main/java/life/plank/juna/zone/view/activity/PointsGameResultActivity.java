@@ -23,8 +23,8 @@ import life.plank.juna.zone.data.network.builder.UserChoiceBuilder;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.Player;
 import life.plank.juna.zone.data.network.model.UserChoice;
-import life.plank.juna.zone.view.adapter.PointsGameResultAdapter;
 import life.plank.juna.zone.util.CustomizeStatusBar;
+import life.plank.juna.zone.view.adapter.PointsGameResultAdapter;
 
 public class PointsGameResultActivity extends AppCompatActivity implements Serializable {
 
@@ -76,7 +76,11 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
 
     @OnClick(R.id.advance_image)
     public void startNextRound() {
-        startActivity(new Intent(this, PointsGameActivity.class));
+        if (ZoneApplication.roundNumber >= getResources().getInteger(R.integer.max_round_number))
+            startActivity(new Intent(this, GameLaunchActivity.class));
+        else
+            startActivity(new Intent(this, PointsGameActivity.class));
+
     }
 
     @Override

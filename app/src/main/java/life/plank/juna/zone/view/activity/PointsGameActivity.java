@@ -174,11 +174,19 @@ public class PointsGameActivity extends AppCompatActivity {
             boolean visitingScoreCheck = visitingScoreObservable.toString().length() == 1;
             boolean scoreEqualsCheck = !(homeScoreObservable.toString().equals(visitingScoreObservable.toString()));
             return homeScoreCheck && visitingScoreCheck && scoreEqualsCheck;
-        }).subscribe(validationBoolean ->
-                submitScoreButton.setEnabled(validationBoolean));
+        }).subscribe(validationBoolean -> {
+            submitScoreButton.setEnabled(validationBoolean);
+            if (validationBoolean)
+                submitScoreButton.setAlpha(1f);
+            else
+                submitScoreButton.setAlpha(0.7f);
+        });
 
         RxView.clicks(submitScoreButton)
-                .subscribe(v -> computeGamePoints(footballMatch));
+                .subscribe(v -> {
+                    submitScoreButton.setEnabled(false);
+                    computeGamePoints(footballMatch);
+                });
     }
 
     private void computeGamePoints(FootballMatch footballMatch) {
@@ -224,6 +232,7 @@ public class PointsGameActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        submitScoreButton.setEnabled(true);
                         Log.d(TAG, "In onError" + e.getMessage());
                     }
 
@@ -234,6 +243,7 @@ public class PointsGameActivity extends AppCompatActivity {
                             startActivity(new Intent(PointsGameActivity.this, PointsGameResultActivity.class));
                         } else
                             Log.d(TAG, "Error occured onPostUser choice with response code: " + response.code());
+                        submitScoreButton.setEnabled(true);
                     }
                 });
     }
@@ -249,6 +259,9 @@ public class PointsGameActivity extends AppCompatActivity {
     @OnClick(R.id.home_icon)
     public void exitPointsMatchGame() {
         startActivity(new Intent(this, GameLaunchActivity.class));
+        ZoneApplication.roundNumber = 0;
+        ZoneApplication.selectedTeamsList.clear();
+        pointsGameAdapter.setFootballMatchList(null);
     }
 
     private void shiftCursorFocus(EditText editText) {

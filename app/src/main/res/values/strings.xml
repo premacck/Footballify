@@ -63,4 +63,6 @@
     <string name="sign_up_successful">Signup Successful</string>
     <string name="user_exists">User name already exists</string>
     <string name="signup_failed_message">Signup failed, please retry</string>
+    <string name="not_found_error">HTTP 404 Not Found</string>
+    <string name="invalid_invitation_code">Invalid invitation code</string>
 </resources>

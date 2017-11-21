@@ -47,10 +47,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/invitation_code_edittext"
-            android:cursorVisible="false"
             android:gravity="center"
             android:inputType="textCapWords"
             android:maxLength="1"
+            android:textCursorDrawable="@drawable/join_game_custom_cursor"
             android:textSize="30sp" />
 
         <EditText
@@ -58,10 +58,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/invitation_code_edittext"
-            android:cursorVisible="false"
             android:gravity="center"
             android:inputType="textCapWords"
             android:maxLength="1"
+            android:textCursorDrawable="@drawable/join_game_custom_cursor"
             android:textSize="30sp" />
 
         <EditText
@@ -69,10 +69,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/invitation_code_edittext"
-            android:cursorVisible="false"
             android:gravity="center"
             android:inputType="textCapWords"
             android:maxLength="1"
+            android:textCursorDrawable="@drawable/join_game_custom_cursor"
             android:textSize="30sp" />
 
         <EditText
@@ -80,10 +80,10 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/invitation_code_edittext"
-            android:cursorVisible="false"
             android:gravity="center"
             android:inputType="textCapWords"
             android:maxLength="1"
+            android:textCursorDrawable="@drawable/join_game_custom_cursor"
             android:textSize="30sp" />
     </LinearLayout>
 

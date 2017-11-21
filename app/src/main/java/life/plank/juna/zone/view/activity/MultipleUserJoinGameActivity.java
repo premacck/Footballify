@@ -67,7 +67,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
 
         ((ZoneApplication) getApplication()).getMultipleUserJoinGameNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        arena = Arena.getInstance();
+        arena = Arena.getNullArena();
 
         RxTextView.textChangeEvents(invitationCodeLabelOne)
                 .subscribe(event -> shiftCursorFocus(invitationCodeLabelOne));
@@ -106,7 +106,10 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "In getArenaByInvitationCode onError: " + e.getMessage());
-                        Snackbar.make(relativeLayout, "Please check internet connection", Snackbar.LENGTH_LONG).show();
+                        if (e.getMessage().equals(getString(R.string.not_found_error)))
+                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.invalid_invitation_code));
+                        else
+                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.server_unreachable_message));
                     }
 
                     @Override
