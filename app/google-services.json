@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "11745346201",
+    "firebase_url": "https://juna-zone.firebaseio.com",
+    "project_id": "juna-zone",
+    "storage_bucket": "juna-zone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11745346201:android:237450576df0bb67",
+        "android_client_info": {
+          "package_name": "life.plank.juna.zone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "11745346201-8u0bv1m5uvsce1pcua0evtpker8kv0db.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "life.plank.juna.zone",
+            "certificate_hash": "9db013fadb8c9c40b4fe4a67566bbcc9fb527eb4"
+          }
+        },
+        {
+          "client_id": "11745346201-9d7iq6507d8djfuaahe1nscc5ri4d2cn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxK2U5C6pyHADDxJGl82fK-B-0-aQprK8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "11745346201-9d7iq6507d8djfuaahe1nscc5ri4d2cn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
