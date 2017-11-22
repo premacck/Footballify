@@ -181,4 +181,12 @@ public class LoginActivity extends AppCompatActivity {
     public void setPasswordErrorMessage(String reason) {
         this.passwordTextInput.setError(reason);
     }
+    
+    public void shareApplinkViaWhatsapp(){
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType(getString(R.string.intent_type));
+        intent.setPackage(getString(R.string.whatsapp_intent));
+        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_link));
+        startActivity(intent);
+    }
 }
