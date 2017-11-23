@@ -129,7 +129,12 @@ public class CreateArenaActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                         Log.d(TAG, "In onError: " + e.getMessage());
                         Snackbar snackbar = Snackbar.make(relativeLayout, "Arena Creation Failed", Snackbar.LENGTH_INDEFINITE)
-                                .setAction("Retry sign-in", v -> startActivity(new Intent(getApplication(), LoginActivity.class)));
+                                .setAction("Retry sign-in", v -> {
+                                    startActivity(new Intent(getApplication(), SocialLoginActivity.class));
+                                    sharedPreferences.edit()
+                                            .clear()
+                                            .apply();
+                                });
                         snackbar.show();
                     }
 
@@ -166,7 +171,10 @@ public class CreateArenaActivity extends AppCompatActivity {
                         arena.copyArena(responseArena);
                         playerList.clear();
                         for (Player player : arena.getPlayers()) {
-                            playerList.add(player.getUsername());
+                            playerList.add(JunaUserBuilder.getInstance()
+                                    .withUserName(player.getUsername())
+                                    .build()
+                                    .getDisplayName());
                         }
                         updatePlayerListAdapter();
                         enableStartPlayingButton();

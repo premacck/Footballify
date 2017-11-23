@@ -65,4 +65,7 @@
     <string name="signup_failed_message">Signup failed, please retry</string>
     <string name="not_found_error">HTTP 404 Not Found</string>
     <string name="invalid_invitation_code">Invalid invitation code</string>
+    <string name="facebook_app_id">575013552837571</string>
+    <string name="facebook_string">Facebook</string>
+    <string name="facebook_login_failed">Facebook Login Failed</string>
 </resources>

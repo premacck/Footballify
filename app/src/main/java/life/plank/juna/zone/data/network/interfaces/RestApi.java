@@ -35,6 +35,13 @@ public interface RestApi {
     @POST("authentication/login/")
     Observable<Response<Void>> loginUser(@Body JunaUser junaUser);
 
+    @POST("authentication/register/")
+    Observable<Response<Void>> socialSignUp(@Body JunaUser junaUser);
+
+
+    @POST("authentication/login/")
+    Observable<Response<Void>> socialSignIn(@Body JunaUser junaUser);
+
     @POST("arenas/")
     Observable<Arena> getArena(@Body Arena arena);
 
