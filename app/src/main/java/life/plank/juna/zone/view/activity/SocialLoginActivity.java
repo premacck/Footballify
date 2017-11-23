@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -65,6 +66,8 @@ public class SocialLoginActivity extends AppCompatActivity {
         }
         ((ZoneApplication) getApplication()).getSocialLoginNetworkComponent().inject(this);
         socialLoginViewModel = new SocialLoginViewModel(this, new AuthenticationService(retrofit));
+
+        checkForInstagramData();
     }
 
     @Override
@@ -119,6 +122,36 @@ public class SocialLoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @OnClick(R.id.button_instagram)
+    public void startInstagramLogin() {
+        final Uri.Builder uriBuilder = new Uri.Builder();
+        uriBuilder.scheme("https")
+                .authority("api.instagram.com")
+                .appendPath("oauth")
+                .appendPath("authorize")
+                .appendQueryParameter("client_id", "c16a21f7be6241629eca1e328d13ad2c")
+                .appendQueryParameter("redirect_uri", "https://www.plank.life")
+                .appendQueryParameter("scope", "basic")
+                .appendQueryParameter("response_type", "token");
+        final Intent browser = new Intent(Intent.ACTION_VIEW, uriBuilder.build());
+        Log.d(TAG, uriBuilder.toString());
+        startActivity(browser);
+    }
+
+    private void checkForInstagramData() {
+        final Uri data = this.getIntent().getData();
+       // Log.d(TAG, dat);
+        if(data != null && data.getFragment() != null) {
+            final String accessToken = data.getFragment().replaceFirst("access_token=", "");
+            if (accessToken != null) {
+                Log.d(TAG, accessToken);
+                Log.d(TAG, data.getUserInfo());
+            } else {
+                // handleSignInResult(...);
+            }
+        }
     }
 
     private void registerUser(LoginResult loginResult) {
