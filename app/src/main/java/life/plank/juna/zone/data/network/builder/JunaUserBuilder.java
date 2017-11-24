@@ -35,6 +35,16 @@ public class JunaUserBuilder {
         return this;
     }
 
+    public JunaUserBuilder withDisplayName(String displayName) {
+        junaUser.setDisplayName(displayName);
+        return this;
+    }
+
+    public JunaUserBuilder withProvider(String provider) {
+        junaUser.setProvider(provider);
+        return this;
+    }
+
     public JunaUser build() {
         return junaUser;
     }
