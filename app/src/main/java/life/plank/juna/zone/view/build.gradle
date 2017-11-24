@@ -50,6 +50,7 @@ dependencies {
     compile viewDependencies.materialStyledDialog
     compile viewDependencies.dagger
     compile viewDependencies.progressButton
+    compile viewDependencies.facebookSdk
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation

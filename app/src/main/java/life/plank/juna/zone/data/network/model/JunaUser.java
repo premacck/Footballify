@@ -9,6 +9,8 @@ public class JunaUser {
     private Integer id;
     private String username;
     private String password;
+    private String displayName;
+    private String provider;
 
     public Integer getId() {
         return id;
@@ -32,5 +34,21 @@ public class JunaUser {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 }

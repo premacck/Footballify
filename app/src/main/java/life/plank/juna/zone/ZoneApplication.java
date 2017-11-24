@@ -14,11 +14,13 @@ import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetwor
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.domain.module.GameServiceModule;
@@ -39,6 +41,7 @@ public class ZoneApplication extends Application {
     private CreateArenaNetworkComponent createArenaNetworkComponent;
     private PointsGameComponent pointsGameComponent;
     private MultipleUserJoinGameNetworkComponent multipleUserJoinGameNetworkComponent;
+    private SocialLoginNetworkComponent socialLoginNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -76,6 +79,10 @@ public class ZoneApplication extends Application {
         multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
+
+        socialLoginNetworkComponent = DaggerSocialLoginNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -100,5 +107,9 @@ public class ZoneApplication extends Application {
 
     public MultipleUserJoinGameNetworkComponent getMultipleUserJoinGameNetworkComponent() {
         return multipleUserJoinGameNetworkComponent;
+    }
+
+    public SocialLoginNetworkComponent getSocialLoginNetworkComponent() {
+        return socialLoginNetworkComponent;
     }
 }
