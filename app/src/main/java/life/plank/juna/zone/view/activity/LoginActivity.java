@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -181,12 +182,14 @@ public class LoginActivity extends AppCompatActivity {
     public void setPasswordErrorMessage(String reason) {
         this.passwordTextInput.setError(reason);
     }
-    
-    public void shareApplinkViaWhatsapp(){
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType(getString(R.string.intent_type));
-        intent.setPackage(getString(R.string.whatsapp_intent));
-        intent.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_link));
-        startActivity(intent);
+
+    public void shareAppLinkAndImage() {
+        Uri uri = Uri.parse(getString(R.string.app_icon_path));
+        Intent share = new Intent(Intent.ACTION_SEND);
+        share.setType(getString(R.string.intent_type));
+        share.putExtra(Intent.EXTRA_TEXT, getString(R.string.app_link));
+        share.putExtra(Intent.EXTRA_STREAM, uri);
+        share.setType(getString(R.string.intent_image_type));
+        startActivity(Intent.createChooser(share, getString(R.string.share_app_link)));
     }
 }
