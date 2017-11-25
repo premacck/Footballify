@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -18,7 +17,9 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.wang.avi.AVLoadingIndicatorView;
 
+import java.net.HttpURLConnection;
 import java.util.Arrays;
 
 import javax.inject.Inject;
@@ -29,7 +30,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.model.instagram_model_class.InstagramResponse;
+import life.plank.juna.zone.data.network.service.RestClient;
 import life.plank.juna.zone.domain.service.AuthenticationService;
+import life.plank.juna.zone.util.AuthenticationDialog;
+import life.plank.juna.zone.util.AuthenticationListener;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.viewmodel.SocialLoginViewModel;
 import retrofit2.Retrofit;
@@ -37,7 +42,7 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class SocialLoginActivity extends AppCompatActivity {
+public class SocialLoginActivity extends AppCompatActivity implements AuthenticationListener {
 
     @Inject
     Retrofit retrofit;
@@ -51,6 +56,8 @@ public class SocialLoginActivity extends AppCompatActivity {
     private Subscription subscription;
     private SocialLoginViewModel socialLoginViewModel;
     private CallbackManager callbackManager;
+    private AuthenticationDialog authenticationDialog;
+    private AVLoadingIndicatorView spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +71,10 @@ public class SocialLoginActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Green));
         }
+        spinner = (AVLoadingIndicatorView) findViewById(R.id.social_signup_spinner);
+
         ((ZoneApplication) getApplication()).getSocialLoginNetworkComponent().inject(this);
         socialLoginViewModel = new SocialLoginViewModel(this, new AuthenticationService(retrofit));
-
-        checkForInstagramData();
     }
 
     @Override
@@ -88,9 +95,12 @@ public class SocialLoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, SignUpActivity.class));
     }
 
-    @OnClick({R.id.button_google, R.id.button_instagram, R.id.button_twitter})
-    public void zoneHomeActivity() {
-        //Todo: Add social login implementation
+    @OnClick(R.id.button_instagram)
+    public void startInstagramLogin() {
+        //Todo: Add progress dialog - Juna-1065
+        authenticationDialog = new AuthenticationDialog(SocialLoginActivity.this, SocialLoginActivity.this);
+        authenticationDialog.setCancelable(true);
+        authenticationDialog.show();
     }
 
     @OnClick(R.id.button_facebook)
@@ -117,41 +127,11 @@ public class SocialLoginActivity extends AppCompatActivity {
                                 LoginManager.getInstance().logOut();
                             }
                         } else {
-                            Log.d(TAG, error.getMessage());
+                            Log.d(TAG, "In onError: " + error.getMessage());
                             UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.facebook_login_failed));
                         }
                     }
                 });
-    }
-
-    @OnClick(R.id.button_instagram)
-    public void startInstagramLogin() {
-        final Uri.Builder uriBuilder = new Uri.Builder();
-        uriBuilder.scheme("https")
-                .authority("api.instagram.com")
-                .appendPath("oauth")
-                .appendPath("authorize")
-                .appendQueryParameter("client_id", "c16a21f7be6241629eca1e328d13ad2c")
-                .appendQueryParameter("redirect_uri", "https://www.plank.life")
-                .appendQueryParameter("scope", "basic")
-                .appendQueryParameter("response_type", "token");
-        final Intent browser = new Intent(Intent.ACTION_VIEW, uriBuilder.build());
-        Log.d(TAG, uriBuilder.toString());
-        startActivity(browser);
-    }
-
-    private void checkForInstagramData() {
-        final Uri data = this.getIntent().getData();
-       // Log.d(TAG, dat);
-        if(data != null && data.getFragment() != null) {
-            final String accessToken = data.getFragment().replaceFirst("access_token=", "");
-            if (accessToken != null) {
-                Log.d(TAG, accessToken);
-                Log.d(TAG, data.getUserInfo());
-            } else {
-                // handleSignInResult(...);
-            }
-        }
     }
 
     private void registerUser(LoginResult loginResult) {
@@ -162,7 +142,7 @@ public class SocialLoginActivity extends AppCompatActivity {
                     .subscribe(response -> {
                         //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
                         if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == 422) {
-                            socialLoginViewModel.saveLoginDetails(loginResult);
+                            socialLoginViewModel.saveLoginDetails(loginResult.getAccessToken().getUserId(), loginResult.getAccessToken().getUserId());
                             subscription = socialLoginViewModel.loginFacebookUser(loginResult)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
@@ -181,6 +161,58 @@ public class SocialLoginActivity extends AppCompatActivity {
                         }
                     }, throwable -> Log.d(TAG, throwable.getMessage()));
         }
+    }
+
+    public void registerInstagramUser(InstagramResponse instagramResponse) {
+        if (instagramResponse != null) {
+            subscription = socialLoginViewModel.registerInstagramUser(instagramResponse)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(response -> {
+                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == 422) {
+                            subscription = socialLoginViewModel.loginInstagramUser(instagramResponse)
+                                    .subscribeOn(Schedulers.io())
+                                    .observeOn(AndroidSchedulers.mainThread())
+                                    .subscribe(voidResponse -> {
+                                        if (voidResponse.code() == HttpsURLConnection.HTTP_OK) {
+                                            startZoneHomeActivity();
+                                            spinner.hide();
+                                        } else {
+                                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
+                                            Log.d(TAG, String.valueOf(voidResponse.code()));
+                                        }
+                                    }, throwable -> Log.d(TAG, throwable.getMessage()));
+
+                        } else {
+                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
+                            Log.d(TAG, String.valueOf(response.code()));
+                        }
+                    }, throwable -> Log.d(TAG, throwable.getMessage()));
+        }
+    }
+
+    @Override
+    public void onCodeReceived(String access_token) {
+        if (access_token == null) {
+            authenticationDialog.dismiss();
+        }
+
+        subscription = RestClient.getRetrofitService()
+                .getInstagramUserData(access_token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(instagramResponse -> {
+                    if (instagramResponse.getMeta().getCode() == HttpURLConnection.HTTP_OK) {
+                        socialLoginViewModel.saveLoginDetails(instagramResponse.getData().getUsername(), instagramResponse.getData().getUsername());
+                        registerInstagramUser(instagramResponse);
+                    } else
+                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
+                }, throwable -> UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed)));
+    }
+
+    @Override
+    public void showProgressSpinner() {
+        spinner.show();
     }
 
     @Override

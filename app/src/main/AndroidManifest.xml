@@ -55,7 +55,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="sociallogin" android:host="https://www.plank.life" />
+                <data android:scheme="https" android:host="www.plank.life" />
             </intent-filter>
         </activity>
         <activity

@@ -8,6 +8,7 @@ import com.facebook.login.LoginResult;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
+import life.plank.juna.zone.data.network.model.instagram_model_class.InstagramResponse;
 import life.plank.juna.zone.domain.service.AuthenticationService;
 import retrofit2.Response;
 import rx.Observable;
@@ -42,10 +43,26 @@ public class SocialLoginViewModel {
                 .build());
     }
 
-    public void saveLoginDetails(LoginResult loginResult) {
+    public Observable<Response<Void>> registerInstagramUser(InstagramResponse instagramResponse) {
+        return authenticationService.socialSignUp(JunaUserBuilder.getInstance()
+                .withUserName(instagramResponse.getData().getUsername())
+                .withPassword(instagramResponse.getData().getUsername())
+                .withDisplayName(instagramResponse.getData().getFullName())
+                .withProvider(context.getString(R.string.instagram_string))
+                .build());
+    }
+
+    public Observable<Response<Void>> loginInstagramUser(InstagramResponse instagramResponse) {
+        return authenticationService.socialSignIn(JunaUserBuilder.getInstance()
+                .withUserName(instagramResponse.getData().getUsername())
+                .withPassword(instagramResponse.getData().getUsername())
+                .build());
+    }
+
+    public void saveLoginDetails(String username, String password) {
         SharedPreferences.Editor loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
-        loginPreferenceEditor.putString(context.getString(R.string.shared_pref_username), loginResult.getAccessToken().getUserId())
-                .putString(context.getString(R.string.shared_pref_password), loginResult.getAccessToken().getUserId())
+        loginPreferenceEditor.putString(context.getString(R.string.shared_pref_username), username)
+                .putString(context.getString(R.string.shared_pref_password),password)
                 .apply();
     }
 }

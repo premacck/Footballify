@@ -74,4 +74,9 @@
     <string name="share_app_link">Share app link via</string>
     <string name="app_icon_path">android.resource://life.plank.juna.zone/mipmap/ic_launcher</string>
     <string name="intent_image_type">image/*</string>
+    <string name="instagram_base_url">https://api.instagram.com/</string>
+    <string name="instagram_client_id">c16a21f7be6241629eca1e328d13ad2c</string>
+    <string name="instagram_redirect_url">https://www.plank.life</string>
+    <string name="instagram_login_failed">Instagram Login Failed</string>
+    <string name="instagram_string">Instagram</string>
 </resources>
