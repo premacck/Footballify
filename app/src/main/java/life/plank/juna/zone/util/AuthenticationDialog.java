@@ -17,6 +17,7 @@ public class AuthenticationDialog extends Dialog {
 
     private final AuthenticationListener listener;
     private Context context;
+    private StringBuilder url = new StringBuilder();
 
     public AuthenticationDialog(@NonNull Context context, AuthenticationListener listener) {
         super(context);
@@ -29,15 +30,15 @@ public class AuthenticationDialog extends Dialog {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.auth_dialog);
 
-        final String url = context.getString(R.string.instagram_base_url)
-                + context.getString(R.string.client_id_query_param)
-                + context.getString(R.string.instagram_client_id)
-                + context.getString(R.string.redirect_uri_query_param)
-                + context.getString(R.string.instagram_redirect_url)
-                + context.getString(R.string.response_type_query_param)
-                + context.getString(R.string.display_scope_query_param);
+        url.append(context.getString(R.string.instagram_base_url))
+                .append(context.getString(R.string.client_id_query_param))
+                .append(context.getString(R.string.instagram_client_id))
+                .append(context.getString(R.string.redirect_uri_query_param))
+                .append(context.getString(R.string.instagram_redirect_url))
+                .append(context.getString(R.string.response_type_query_param))
+                .append(context.getString(R.string.display_scope_query_param));
 
-        initializeWebView(url);
+        initializeWebView(url.toString());
     }
 
     private void initializeWebView(String url) {
