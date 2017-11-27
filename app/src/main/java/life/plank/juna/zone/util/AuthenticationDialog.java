@@ -30,12 +30,12 @@ public class AuthenticationDialog extends Dialog {
         this.setContentView(R.layout.auth_dialog);
 
         final String url = context.getString(R.string.instagram_base_url)
-                + "oauth/authorize/?client_id="
+                + context.getString(R.string.client_id_query_param)
                 + context.getString(R.string.instagram_client_id)
-                + "&redirect_uri="
+                + context.getString(R.string.redirect_uri_query_param)
                 + context.getString(R.string.instagram_redirect_url)
-                + "&response_type=token"
-                + "&display=touch&scope=public_content";
+                + context.getString(R.string.response_type_query_param)
+                + context.getString(R.string.display_scope_query_param);
 
         initializeWebView(url);
     }
@@ -57,7 +57,7 @@ public class AuthenticationDialog extends Dialog {
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
-                if (url.contains("#access_token=") && !authComplete) {
+                if (url.contains(context.getString(R.string.access_token_query_param)) && !authComplete) {
                     Uri uri = Uri.parse(url);
                     access_token = uri.getEncodedFragment();
                     // get the whole token after the '=' sign
@@ -68,7 +68,7 @@ public class AuthenticationDialog extends Dialog {
                     listener.showProgressSpinner();
                     dismiss();
 
-                } else if (url.contains("?error")) {
+                } else if (url.contains(context.getString(R.string.error_query_param))) {
                     Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show();
                     dismiss();
                 }

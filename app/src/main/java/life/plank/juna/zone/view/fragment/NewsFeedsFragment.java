@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +41,7 @@ public class NewsFeedsFragment extends Fragment {
     RecyclerView recyclerView;
 
     @Inject
+    @Named("default")
     Retrofit retrofit;
 
     private static final String TAG = ZoneHomeActivity.class.getSimpleName();

@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.util.Arrays;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;
@@ -30,8 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.instagram_model_class.InstagramResponse;
-import life.plank.juna.zone.data.network.service.RestClient;
+import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import life.plank.juna.zone.domain.service.AuthenticationService;
 import life.plank.juna.zone.util.AuthenticationDialog;
 import life.plank.juna.zone.util.AuthenticationListener;
@@ -45,7 +45,12 @@ import rx.schedulers.Schedulers;
 public class SocialLoginActivity extends AppCompatActivity implements AuthenticationListener {
 
     @Inject
+    @Named("default")
     Retrofit retrofit;
+
+    @Inject
+    @Named("instagram")
+    Retrofit instagramRetrofit;
 
     @BindView(R.id.relative_layout_social_login)
     RelativeLayout relativeLayout;
@@ -74,7 +79,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         spinner = (AVLoadingIndicatorView) findViewById(R.id.social_signup_spinner);
 
         ((ZoneApplication) getApplication()).getSocialLoginNetworkComponent().inject(this);
-        socialLoginViewModel = new SocialLoginViewModel(this, new AuthenticationService(retrofit));
+        socialLoginViewModel = new SocialLoginViewModel(this, new AuthenticationService(retrofit, instagramRetrofit));
     }
 
     @Override
@@ -141,7 +146,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
                         //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
-                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == 422) {
+                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code)) {
                             socialLoginViewModel.saveLoginDetails(loginResult.getAccessToken().getUserId(), loginResult.getAccessToken().getUserId());
                             subscription = socialLoginViewModel.loginFacebookUser(loginResult)
                                     .subscribeOn(Schedulers.io())
@@ -169,36 +174,38 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(response -> {
-                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == 422) {
+                        //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
+                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code)) {
                             subscription = socialLoginViewModel.loginInstagramUser(instagramResponse)
                                     .subscribeOn(Schedulers.io())
                                     .observeOn(AndroidSchedulers.mainThread())
                                     .subscribe(voidResponse -> {
                                         if (voidResponse.code() == HttpsURLConnection.HTTP_OK) {
                                             startZoneHomeActivity();
-                                            spinner.hide();
+                                            hideProgressSpinner();
                                         } else {
                                             UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
                                             Log.d(TAG, String.valueOf(voidResponse.code()));
+                                            hideProgressSpinner();
                                         }
                                     }, throwable -> Log.d(TAG, throwable.getMessage()));
 
                         } else {
                             UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
                             Log.d(TAG, String.valueOf(response.code()));
+                            hideProgressSpinner();
                         }
                     }, throwable -> Log.d(TAG, throwable.getMessage()));
         }
     }
 
     @Override
-    public void onCodeReceived(String access_token) {
-        if (access_token == null) {
+    public void onCodeReceived(String accessToken) {
+        if (accessToken == null) {
             authenticationDialog.dismiss();
         }
 
-        subscription = RestClient.getRetrofitService()
-                .getInstagramUserData(access_token)
+        subscription = socialLoginViewModel.getInstagramLoginData(accessToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(instagramResponse -> {
@@ -213,6 +220,10 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
     @Override
     public void showProgressSpinner() {
         spinner.show();
+    }
+
+    public void hideProgressSpinner() {
+        spinner.hide();
     }
 
     @Override

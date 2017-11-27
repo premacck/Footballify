@@ -15,6 +15,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView;
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +37,7 @@ import rx.schedulers.Schedulers;
 public class MultipleUserJoinGameActivity extends AppCompatActivity {
 
     @Inject
+    @Named("default")
     Retrofit retrofit;
 
     @BindView(R.id.invitation_code_label1)

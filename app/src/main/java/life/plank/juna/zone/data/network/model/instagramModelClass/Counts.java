@@ -1,4 +1,4 @@
-package life.plank.juna.zone.data.network.model.instagram_model_class;
+package life.plank.juna.zone.data.network.model.instagramModelClass;
 
 /**
  * Created by plank-sobia on 11/24/2017.

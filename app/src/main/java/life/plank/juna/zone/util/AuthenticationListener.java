@@ -6,4 +6,6 @@ public interface AuthenticationListener {
 
     void showProgressSpinner();
 
+    void hideProgressSpinner();
+
 }

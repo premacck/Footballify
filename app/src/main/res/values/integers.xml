@@ -3,4 +3,5 @@
     <integer name="debounce_time">800</integer>
     <integer name="popup_location_offset">0</integer>
     <integer name="max_round_number">20</integer>
+    <integer name="unprocessable_entity_response_code">422</integer>
 </resources>

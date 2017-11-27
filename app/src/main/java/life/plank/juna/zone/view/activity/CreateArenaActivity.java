@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +41,7 @@ import rx.schedulers.Schedulers;
 public class CreateArenaActivity extends AppCompatActivity {
 
     @Inject
+    @Named("default")
     Retrofit retrofit;
 
     @BindView(R.id.text_secret_code)

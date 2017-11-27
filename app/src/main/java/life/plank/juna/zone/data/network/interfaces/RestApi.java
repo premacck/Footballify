@@ -7,7 +7,7 @@ import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
-import life.plank.juna.zone.data.network.model.instagram_model_class.InstagramResponse;
+import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;

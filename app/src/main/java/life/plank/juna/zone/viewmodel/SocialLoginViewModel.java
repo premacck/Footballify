@@ -8,7 +8,7 @@ import com.facebook.login.LoginResult;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
-import life.plank.juna.zone.data.network.model.instagram_model_class.InstagramResponse;
+import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import life.plank.juna.zone.domain.service.AuthenticationService;
 import retrofit2.Response;
 import rx.Observable;
@@ -57,6 +57,10 @@ public class SocialLoginViewModel {
                 .withUserName(instagramResponse.getData().getUsername())
                 .withPassword(instagramResponse.getData().getUsername())
                 .build());
+    }
+
+    public Observable<InstagramResponse> getInstagramLoginData(String accessToken) {
+        return authenticationService.getInstagramUserData(accessToken);
     }
 
     public void saveLoginDetails(String username, String password) {
