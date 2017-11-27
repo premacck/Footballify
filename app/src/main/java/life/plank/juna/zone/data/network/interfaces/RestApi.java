@@ -7,6 +7,7 @@ import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
+import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -53,4 +54,7 @@ public interface RestApi {
 
     @PUT("arenas/{secretCode}/players")
     Observable<Response<Void>> putJoinArena(@Path("secretCode") String secretCode, @Body JunaUser junaUser);
+
+    @GET("v1/users/self")
+    Observable<InstagramResponse> getInstagramUserData(@Query("access_token") String accessToken);
 }

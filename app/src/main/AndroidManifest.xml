@@ -50,7 +50,14 @@
         </activity>
         <activity
             android:name=".view.activity.SocialLoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="https" android:host="www.plank.life" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />

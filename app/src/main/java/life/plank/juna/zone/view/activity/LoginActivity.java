@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,7 @@ import rx.subscriptions.CompositeSubscription;
 public class LoginActivity extends AppCompatActivity {
 
     @Inject
+    @Named("default")
     Retrofit retrofit;
 
     private static final String TAG = LoginActivity.class.getSimpleName();

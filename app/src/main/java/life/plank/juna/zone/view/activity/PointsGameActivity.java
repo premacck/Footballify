@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,6 +59,7 @@ import rx.schedulers.Schedulers;
 public class PointsGameActivity extends AppCompatActivity {
 
     @Inject
+    @Named("default")
     Retrofit retrofit;
     @Inject
     GameService gameService;
