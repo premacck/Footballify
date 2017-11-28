@@ -51,6 +51,7 @@ dependencies {
     compile viewDependencies.dagger
     compile viewDependencies.progressButton
     compile viewDependencies.facebookSdk
+    compile viewDependencies.twitterSdk
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation

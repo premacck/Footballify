@@ -85,4 +85,8 @@
     <string name="display_scope_query_param"><![CDATA[&display=touch&scope=public_content]]></string>
     <string name="access_token_query_param">#access_token=</string>
     <string name="error_query_param">\?error</string>
+    <string name="twitter_string">Twitter</string>
+    <string name="twitter_consumer_key">kphebVDuwmd7RvDevLXm7DIJC</string>
+    <string name="twitter_consumer_secret">hmthoJvRsNNK7AngK6V8d4gfIxHZeCKgcrJoLtGxgeOyAD0CB8</string>
+    <string name="twitter_login_failed">Twitter Login Failed</string>
 </resources>

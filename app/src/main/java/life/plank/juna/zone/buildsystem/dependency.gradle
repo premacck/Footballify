@@ -37,6 +37,7 @@ ext {
     daggerVersion = '2.11'
     progressBarVersion = '1.1.2'
     facebookSdkVersion = '4.28.0'
+    twitterSdkVersion = '3.1.1'
 
     //Testing
     robolectricVersion = '3.1.3'
@@ -72,6 +73,7 @@ ext {
             daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
             progressButton        : "com.alirezaahmadi:progress-button:${progressBarVersion}",
             facebookSdk           : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
+            twitterSdk : "com.twitter.sdk.android:twitter:${twitterSdkVersion}"
     ]
 
     viewTestDependencies = [

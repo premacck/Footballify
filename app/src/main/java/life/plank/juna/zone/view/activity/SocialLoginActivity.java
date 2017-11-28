@@ -17,6 +17,15 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.net.HttpURLConnection;
@@ -63,6 +72,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
     private CallbackManager callbackManager;
     private AuthenticationDialog authenticationDialog;
     private AVLoadingIndicatorView spinner;
+    private TwitterAuthClient twitterAuthClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +86,14 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Green));
         }
+
+        TwitterConfig twitterConfig = new TwitterConfig.Builder(this)
+                .logger(new DefaultLogger(Log.DEBUG))
+                .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.twitter_consumer_key), getString(R.string.twitter_consumer_secret)))
+                .debug(true)
+                .build();
+        Twitter.initialize(twitterConfig);
+
         spinner = (AVLoadingIndicatorView) findViewById(R.id.social_signup_spinner);
 
         ((ZoneApplication) getApplication()).getSocialLoginNetworkComponent().inject(this);
@@ -100,7 +118,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         startActivity(new Intent(this, SignUpActivity.class));
     }
 
-    @OnClick(R.id.button_instagram)
+    @OnClick(R.id.instagram_login_button)
     public void startInstagramLogin() {
         //Todo: Add progress dialog - Juna-1065
         authenticationDialog = new AuthenticationDialog(SocialLoginActivity.this, SocialLoginActivity.this);
@@ -108,7 +126,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         authenticationDialog.show();
     }
 
-    @OnClick(R.id.button_facebook)
+    @OnClick(R.id.facebook_login_button)
     public void startFacebookLogin() {
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL, PUBLIC_PROFILE));
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -137,6 +155,27 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                         }
                     }
                 });
+    }
+
+    @OnClick(R.id.twitter_login_button)
+    public void startTwitterLogin() {
+        twitterAuthClient = new TwitterAuthClient();
+        twitterAuthClient.authorize(this, new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> twitterResponse) {
+                Log.d(TAG, "In onSuccess");
+                if (twitterResponse.data.getAuthToken() != null) {
+                    showProgressSpinner();
+                    registerTwitterUser(twitterResponse.data.getUserName());
+                }
+            }
+
+            @Override
+            public void failure(TwitterException e) {
+                UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.twitter_login_failed));
+                Log.d(TAG, "In onError: " + e.getMessage());
+            }
+        });
     }
 
     private void registerUser(LoginResult loginResult) {
@@ -199,6 +238,35 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         }
     }
 
+    private void registerTwitterUser(String userName) {
+        subscription = socialLoginViewModel.registerTwitterUser(userName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    socialLoginViewModel.saveLoginDetails(userName, userName);
+                    //Todo: Change 422 response code to 409 when backend issue - JUNA-921 is fixed
+                    if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code)) {
+                        subscription = socialLoginViewModel.loginTwitterUser(userName)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(voidResponse -> {
+                                    if (voidResponse.code() == HttpsURLConnection.HTTP_OK) {
+                                        startZoneHomeActivity();
+                                        hideProgressSpinner();
+                                    } else {
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.twitter_login_failed));
+                                        hideProgressSpinner();
+                                        Log.d(TAG, String.valueOf(voidResponse.code()));
+                                    }
+                                }, throwable -> Log.d(TAG, throwable.getMessage()));
+                    } else {
+                        hideProgressSpinner();
+                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.twitter_login_failed));
+                        Log.d(TAG, String.valueOf(response.code()));
+                    }
+                }, throwable -> Log.d(TAG, throwable.getMessage()));
+    }
+
     @Override
     public void onCodeReceived(String accessToken) {
         if (accessToken == null) {
@@ -230,6 +298,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        twitterAuthClient.onActivityResult(requestCode, resultCode, data);
     }
 
     public void startZoneHomeActivity() {
