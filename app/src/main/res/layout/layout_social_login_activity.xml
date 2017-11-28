@@ -65,7 +65,7 @@
         android:textSize="18sp" />
 
     <ImageView
-        android:id="@+id/button_facebook"
+        android:id="@+id/facebook_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_or"
@@ -75,30 +75,30 @@
         android:src="@drawable/ic_facebookloginbtn" />
 
     <ImageView
-        android:id="@+id/button_google"
+        android:id="@+id/google_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_facebook"
+        android:layout_below="@+id/facebook_login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:contentDescription="@null"
         android:src="@drawable/ic_googleloginbtn" />
 
     <ImageView
-        android:id="@+id/button_instagram"
+        android:id="@+id/instagram_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_google"
+        android:layout_below="@+id/google_login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:contentDescription="@null"
         android:src="@drawable/ic_instagramloginbtn" />
 
     <ImageView
-        android:id="@+id/button_twitter"
+        android:id="@+id/twitter_login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button_instagram"
+        android:layout_below="@+id/instagram_login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:contentDescription="@null"

@@ -59,6 +59,22 @@ public class SocialLoginViewModel {
                 .build());
     }
 
+    public Observable<Response<Void>> registerTwitterUser(String username) {
+        return authenticationService.socialSignUp(JunaUserBuilder.getInstance()
+                .withUserName(username)
+                .withPassword(username)
+                .withDisplayName(username)
+                .withProvider(context.getString(R.string.twitter_string))
+                .build());
+    }
+
+    public Observable<Response<Void>> loginTwitterUser(String username) {
+        return authenticationService.socialSignIn(JunaUserBuilder.getInstance()
+                .withUserName(username)
+                .withPassword(username)
+                .build());
+    }
+
     public Observable<InstagramResponse> getInstagramLoginData(String accessToken) {
         return authenticationService.getInstagramUserData(accessToken);
     }
@@ -66,7 +82,7 @@ public class SocialLoginViewModel {
     public void saveLoginDetails(String username, String password) {
         SharedPreferences.Editor loginPreferenceEditor = context.getSharedPreferences(context.getString(R.string.login_pref), Context.MODE_PRIVATE).edit();
         loginPreferenceEditor.putString(context.getString(R.string.shared_pref_username), username)
-                .putString(context.getString(R.string.shared_pref_password),password)
+                .putString(context.getString(R.string.shared_pref_password), password)
                 .apply();
     }
 }
