@@ -89,4 +89,5 @@
     <string name="twitter_consumer_key">kphebVDuwmd7RvDevLXm7DIJC</string>
     <string name="twitter_consumer_secret">hmthoJvRsNNK7AngK6V8d4gfIxHZeCKgcrJoLtGxgeOyAD0CB8</string>
     <string name="twitter_login_failed">Twitter Login Failed</string>
+    <string name="google_string">Google</string>
 </resources>

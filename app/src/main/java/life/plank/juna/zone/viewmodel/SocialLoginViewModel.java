@@ -27,48 +27,16 @@ public class SocialLoginViewModel {
         this.authenticationService = authenticationService;
     }
 
-    public Observable<Response<Void>> registerFacebookUser(LoginResult loginResult) {
+    public Observable<Response<Void>> registerUser(String userName, String displayName, String provider) {
         return authenticationService.socialSignUp(JunaUserBuilder.getInstance()
-                .withUserName(loginResult.getAccessToken().getUserId())
-                .withPassword(loginResult.getAccessToken().getUserId())
-                .withDisplayName(Profile.getCurrentProfile().getName())
-                .withProvider(context.getString(R.string.facebook_string))
+                .withUserName(userName)
+                .withPassword(userName)
+                .withDisplayName(displayName)
+                .withProvider(provider)
                 .build());
     }
 
-    public Observable<Response<Void>> loginFacebookUser(LoginResult loginResult) {
-        return authenticationService.socialSignIn(JunaUserBuilder.getInstance()
-                .withUserName(loginResult.getAccessToken().getUserId())
-                .withPassword(loginResult.getAccessToken().getUserId())
-                .build());
-    }
-
-    public Observable<Response<Void>> registerInstagramUser(InstagramResponse instagramResponse) {
-        return authenticationService.socialSignUp(JunaUserBuilder.getInstance()
-                .withUserName(instagramResponse.getData().getUsername())
-                .withPassword(instagramResponse.getData().getUsername())
-                .withDisplayName(instagramResponse.getData().getFullName())
-                .withProvider(context.getString(R.string.instagram_string))
-                .build());
-    }
-
-    public Observable<Response<Void>> loginInstagramUser(InstagramResponse instagramResponse) {
-        return authenticationService.socialSignIn(JunaUserBuilder.getInstance()
-                .withUserName(instagramResponse.getData().getUsername())
-                .withPassword(instagramResponse.getData().getUsername())
-                .build());
-    }
-
-    public Observable<Response<Void>> registerTwitterUser(String username) {
-        return authenticationService.socialSignUp(JunaUserBuilder.getInstance()
-                .withUserName(username)
-                .withPassword(username)
-                .withDisplayName(username)
-                .withProvider(context.getString(R.string.twitter_string))
-                .build());
-    }
-
-    public Observable<Response<Void>> loginTwitterUser(String username) {
+    public Observable<Response<Void>> loginUser(String username) {
         return authenticationService.socialSignIn(JunaUserBuilder.getInstance()
                 .withUserName(username)
                 .withPassword(username)

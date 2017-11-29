@@ -17,6 +17,12 @@ import com.facebook.FacebookSdk;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.twitter.sdk.android.core.Callback;
 import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
@@ -40,7 +46,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import life.plank.juna.zone.domain.service.AuthenticationService;
 import life.plank.juna.zone.util.AuthenticationDialog;
 import life.plank.juna.zone.util.AuthenticationListener;
@@ -73,6 +78,8 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
     private AuthenticationDialog authenticationDialog;
     private AVLoadingIndicatorView spinner;
     private TwitterAuthClient twitterAuthClient;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static int RC_SIGN_IN = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +105,12 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
 
         ((ZoneApplication) getApplication()).getSocialLoginNetworkComponent().inject(this);
         socialLoginViewModel = new SocialLoginViewModel(this, new AuthenticationService(retrofit, instagramRetrofit));
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
     @Override
@@ -135,7 +148,9 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                     public void onSuccess(LoginResult loginResult) {
                         Log.d(TAG, "In onSuccess");
                         if (loginResult.getRecentlyGrantedPermissions() != null)
-                            registerUser(loginResult);
+                            registerUser(loginResult.getAccessToken().getUserId(),
+                                    Profile.getCurrentProfile().getName(),
+                                    getString(R.string.facebook_string));
                     }
 
                     @Override
@@ -166,7 +181,9 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                 Log.d(TAG, "In onSuccess");
                 if (twitterResponse.data.getAuthToken() != null) {
                     showProgressSpinner();
-                    registerTwitterUser(twitterResponse.data.getUserName());
+                    registerUser(twitterResponse.data.getUserName(),
+                            twitterResponse.data.getUserName(),
+                            getString(R.string.twitter_string));
                 }
             }
 
@@ -178,93 +195,40 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         });
     }
 
-    private void registerUser(LoginResult loginResult) {
-        if (Profile.getCurrentProfile() != null) {
-            subscription = socialLoginViewModel.registerFacebookUser(loginResult)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(response -> {
-                        //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
-                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code)) {
-                            socialLoginViewModel.saveLoginDetails(loginResult.getAccessToken().getUserId(), loginResult.getAccessToken().getUserId());
-                            subscription = socialLoginViewModel.loginFacebookUser(loginResult)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(voidResponse -> {
-                                        if (voidResponse.code() == HttpsURLConnection.HTTP_OK)
-                                            startZoneHomeActivity();
-                                        else {
-                                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.facebook_login_failed));
-                                            Log.d(TAG, String.valueOf(voidResponse.code()));
-                                        }
-                                    }, throwable -> Log.d(TAG, throwable.getMessage()));
-
-                        } else {
-                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.facebook_login_failed));
-                            Log.d(TAG, String.valueOf(response.code()));
-                        }
-                    }, throwable -> Log.d(TAG, throwable.getMessage()));
-        }
+    @OnClick(R.id.google_login_button)
+    public void startGoogleSignIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+        showProgressSpinner();
     }
 
-    public void registerInstagramUser(InstagramResponse instagramResponse) {
-        if (instagramResponse != null) {
-            subscription = socialLoginViewModel.registerInstagramUser(instagramResponse)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(response -> {
-                        //Todo: Change this response code to 409 when backend issue - JUNA-921 is fixed
-                        if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code)) {
-                            subscription = socialLoginViewModel.loginInstagramUser(instagramResponse)
-                                    .subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .subscribe(voidResponse -> {
-                                        if (voidResponse.code() == HttpsURLConnection.HTTP_OK) {
-                                            startZoneHomeActivity();
-                                            hideProgressSpinner();
-                                        } else {
-                                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
-                                            Log.d(TAG, String.valueOf(voidResponse.code()));
-                                            hideProgressSpinner();
-                                        }
-                                    }, throwable -> Log.d(TAG, throwable.getMessage()));
-
-                        } else {
-                            UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
-                            Log.d(TAG, String.valueOf(response.code()));
-                            hideProgressSpinner();
-                        }
-                    }, throwable -> Log.d(TAG, throwable.getMessage()));
-        }
-    }
-
-    private void registerTwitterUser(String userName) {
-        subscription = socialLoginViewModel.registerTwitterUser(userName)
+    private void registerUser(String userName, String displayName, String provider) {
+        subscription = socialLoginViewModel.registerUser(userName, displayName, provider)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     socialLoginViewModel.saveLoginDetails(userName, userName);
                     //Todo: Change 422 response code to 409 when backend issue - JUNA-921 is fixed
-                    if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code)) {
-                        subscription = socialLoginViewModel.loginTwitterUser(userName)
+                    if (response.code() == HttpsURLConnection.HTTP_CREATED || response.code() == getResources().getInteger(R.integer.unprocessable_entity_response_code) || response.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        subscription = socialLoginViewModel.loginUser(userName)
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
                                 .subscribe(voidResponse -> {
-                                    if (voidResponse.code() == HttpsURLConnection.HTTP_OK) {
+                                    if (voidResponse.code() == HttpsURLConnection.HTTP_OK || voidResponse.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
                                         startZoneHomeActivity();
                                         hideProgressSpinner();
                                     } else {
-                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.twitter_login_failed));
+                                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.login_failed_message));
                                         hideProgressSpinner();
                                         Log.d(TAG, String.valueOf(voidResponse.code()));
                                     }
-                                }, throwable -> Log.d(TAG, throwable.getMessage()));
+                                }, throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
                     } else {
                         hideProgressSpinner();
-                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.twitter_login_failed));
-                        Log.d(TAG, String.valueOf(response.code()));
+                        UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.login_failed_message));
+                        Log.d(TAG, "bb: " + String.valueOf(response.code()));
                     }
-                }, throwable -> Log.d(TAG, throwable.getMessage()));
+                }, throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
     }
 
     @Override
@@ -279,7 +243,9 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                 .subscribe(instagramResponse -> {
                     if (instagramResponse.getMeta().getCode() == HttpURLConnection.HTTP_OK) {
                         socialLoginViewModel.saveLoginDetails(instagramResponse.getData().getUsername(), instagramResponse.getData().getUsername());
-                        registerInstagramUser(instagramResponse);
+                        registerUser(instagramResponse.getData().getUsername(),
+                                instagramResponse.getData().getFullName(),
+                                getString(R.string.instagram_string));
                     } else
                         UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed));
                 }, throwable -> UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.instagram_login_failed)));
@@ -297,8 +263,28 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        twitterAuthClient.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            handleGoogleSignInResult(task);
+        } else {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+            twitterAuthClient.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Log.d(TAG, account.getDisplayName());
+            if (account.getAccount() != null) {
+                registerUser(account.getEmail(),
+                        account.getDisplayName(),
+                        getString(R.string.google_string));
+            }
+        } catch (ApiException e) {
+            Log.d(TAG, "Google signin failed:" + e.getStatusCode());
+        }
     }
 
     public void startZoneHomeActivity() {
