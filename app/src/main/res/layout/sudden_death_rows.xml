@@ -4,40 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp">
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <ImageView
-        android:id="@+id/home_team_pick_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/sudden_death_home_team_pick_button"
+        android:layout_width="55dp"
+        android:layout_height="20dp"
         android:contentDescription="@null"
         android:src="@drawable/sudden_death_pick_team" />
 
     <TextView
-        android:id="@+id/home_team_name"
+        android:id="@+id/sudden_death_home_team_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_toLeftOf="@+id/home_team_image"
-        android:layout_toStartOf="@+id/home_team_image"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_toLeftOf="@+id/sudden_death_home_team_image"
+        android:layout_toStartOf="@+id/sudden_death_home_team_image"
+        android:gravity="center"
         android:textColor="@color/White"
         android:textSize="12sp"
         tools:ignore="RelativeOverlap" />
 
     <ImageView
-        android:id="@+id/home_team_image"
+        android:id="@+id/sudden_death_home_team_image"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         android:layout_toLeftOf="@+id/sudden_death_text_vs"
         android:layout_toStartOf="@+id/sudden_death_text_vs"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_arsenal_logo" />
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/sudden_death_text_vs"
@@ -49,35 +51,38 @@
         android:textColor="@color/White" />
 
     <ImageView
-        android:id="@+id/visiting_team_image"
+        android:id="@+id/sudden_death_visiting_team_image"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="4dp"
         android:layout_toEndOf="@+id/sudden_death_text_vs"
         android:layout_toRightOf="@+id/sudden_death_text_vs"
-        android:contentDescription="@null"
-        android:src="@drawable/ic_arsenal_logo" />
+        android:contentDescription="@null" />
 
     <TextView
-        android:id="@+id/visiting_team_name"
+        android:id="@+id/sudden_death_visiting_team_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@+id/visiting_team_image"
-        android:layout_toRightOf="@+id/visiting_team_image"
+        android:layout_marginEnd="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_toEndOf="@+id/sudden_death_visiting_team_image"
+        android:layout_toRightOf="@+id/sudden_death_visiting_team_image"
+        android:gravity="center"
         android:textColor="@color/White"
         android:textSize="12sp" />
 
     <ImageView
-        android:id="@+id/visiting_team_pick_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/visiting_team_name"
-        android:layout_toRightOf="@+id/visiting_team_name"
+        android:id="@+id/sudden_death_visiting_team_pick_button"
+        android:layout_width="55dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:contentDescription="@null"
         android:src="@drawable/sudden_death_pick_team" />
 </RelativeLayout>
