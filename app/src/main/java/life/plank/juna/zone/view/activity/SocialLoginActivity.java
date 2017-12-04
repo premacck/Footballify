@@ -226,7 +226,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
                     } else {
                         hideProgressSpinner();
                         UIDisplayUtil.getInstance().displaySnackBar(relativeLayout, getString(R.string.login_failed_message));
-                        Log.d(TAG, "bb: " + String.valueOf(response.code()));
+                        Log.d(TAG, String.valueOf(response.code()));
                     }
                 }, throwable -> Log.d(TAG, "In onError: " + throwable.getMessage()));
     }
