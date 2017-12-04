@@ -73,7 +73,7 @@ ext {
             daggerCompiler        : "com.google.dagger:dagger-compiler:${daggerVersion}",
             progressButton        : "com.alirezaahmadi:progress-button:${progressBarVersion}",
             facebookSdk           : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
-            twitterSdk : "com.twitter.sdk.android:twitter:${twitterSdkVersion}"
+            twitterSdk            : "com.twitter.sdk.android:twitter:${twitterSdkVersion}"
     ]
 
     viewTestDependencies = [
