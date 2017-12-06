@@ -91,4 +91,9 @@
     <string name="twitter_login_failed">Twitter Login Failed</string>
     <string name="google_string">Google</string>
     <string name="pick_label">PICK</string>
+    <string name="youre_label">YOU\'RE</string>
+    <string name="result_string">Result</string>
+    <string name="right_label">RIGHT</string>
+    <string name="wrong_label">SO WRONG</string>
+    <string name="selected_team">Selected Team</string>
 </resources>

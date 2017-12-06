@@ -7,6 +7,28 @@
     tools:context="life.plank.juna.zone.view.activity.PointsGameActivity">
 
     <ImageView
+        android:id="@+id/lives_remaining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_lives_remaining" />
+
+    <TextView
+        android:id="@+id/lives_remaining_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/lives_remaining"
+        android:layout_toEndOf="@+id/lives_remaining"
+        android:layout_toRightOf="@+id/lives_remaining"
+        android:textColor="@color/Orange"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:ignore="RelativeOverlap" />
+
+    <ImageView
         android:id="@+id/home_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

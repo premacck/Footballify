@@ -33,6 +33,8 @@ public class ZoneApplication extends Application {
 
     public static Integer roundNumber = 0;
     public static HashMap<JunaUser, Boolean> pointsGameResultMap = new HashMap<>();
+    public static HashMap<JunaUser, Boolean> suddenDeathGameResultMap = new HashMap<>();
+    public static Integer suddenDeathLivesRemaining = 5;
     public static List<String> selectedTeamsList = new ArrayList<>();
     private static ZoneApplication zoneApplication;
     private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
