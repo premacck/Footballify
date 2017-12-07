@@ -135,16 +135,16 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                 .get(ZoneApplication.roundNumber - 1).getId();
         RxView.clicks(confirmYesButton)
                 .subscribe(confirmYes -> {
-                    if (gameService.computeWinner(footballMatch, footballTeam.getName())) {
-                        ZoneApplication.suddenDeathGameResultMap.put(JunaUserBuilder.getInstance().build(), true);
+                    if (gameService.isWinner(footballMatch, footballTeam.getName())) {
+                        suddenDeathGameViewModel.saveResultInHashMap(JunaUserBuilder.getInstance().build(), true);
 
                         Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
                         intent.putExtra(getString(R.string.result_string), getString(R.string.right_label));
                         intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
                         startActivity(intent);
                     } else {
-                        ZoneApplication.suddenDeathGameResultMap.put(JunaUserBuilder.getInstance().build(), false);
-                        ZoneApplication.suddenDeathLivesRemaining -= 1;
+                        suddenDeathGameViewModel.saveResultInHashMap(JunaUserBuilder.getInstance().build(), false);
+                        gameService.livesRemaining();
 
                         Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
                         intent.putExtra(getString(R.string.result_string), getString(R.string.wrong_label));

@@ -41,8 +41,8 @@ public class GameServiceTest {
         footballMatch.setVisitingTeamScore(1);
         footballMatch.setHomeTeam(homeTeam);
         footballMatch.setVisitingTeam(visitingTeam);
-        assertThat(this.gameService.computeWinner(footballMatch, "Southampton"), is(true));
-        assertThat(gameService.computeWinner(footballMatch, "Man United"), is(true));
+        assertThat(this.gameService.isWinner(footballMatch, "Southampton"), is(true));
+        assertThat(gameService.isWinner(footballMatch, "Man United"), is(true));
     }
 
     @Test
@@ -53,7 +53,7 @@ public class GameServiceTest {
         footballMatch.setVisitingTeamScore(1);
         footballMatch.setHomeTeam(homeTeam);
         footballMatch.setVisitingTeam(visitingTeam);
-        assertThat(gameService.computeWinner(footballMatch, "Chelsea"), is(true));
+        assertThat(gameService.isWinner(footballMatch, "Chelsea"), is(true));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class GameServiceTest {
         footballMatch.setVisitingTeamScore(1);
         footballMatch.setHomeTeam(homeTeam);
         footballMatch.setVisitingTeam(visitingTeam);
-        assertThat(gameService.computeWinner(footballMatch, "Chelsea"), is(false));
+        assertThat(gameService.isWinner(footballMatch, "Chelsea"), is(false));
     }
 
     @Test

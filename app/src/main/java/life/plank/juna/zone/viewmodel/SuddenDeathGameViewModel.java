@@ -13,6 +13,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
+import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.view.adapter.SuddenDeathGameAdapter;
 import rx.Observable;
 
@@ -69,5 +70,9 @@ public class SuddenDeathGameViewModel {
     public void clearFootballMatchList() {
         footballMatchList.clear();
         suddenDeathGameAdapter.setFootballMatchList(footballMatchList);
+    }
+
+    public void saveResultInHashMap(JunaUser junaUser, boolean isWinner) {
+        ZoneApplication.suddenDeathGameResultMap.put(junaUser, isWinner);
     }
 }

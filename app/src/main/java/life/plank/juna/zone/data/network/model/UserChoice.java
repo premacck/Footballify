@@ -14,6 +14,8 @@ public class UserChoice {
     private JunaUser junaUser;
     private FootballTeam teamSelection;
     private FootballMatch footballMatch;
+    private Boolean isWinner;
+    private Integer livesRemaining;
 
     public Integer getId() {
         return id;
@@ -71,4 +73,19 @@ public class UserChoice {
         this.footballMatch = footballMatch;
     }
 
+    public Boolean getIsWinner() {
+        return isWinner;
+    }
+
+    public void setIsWinner(Boolean isWinner) {
+        this.isWinner = isWinner;
+    }
+
+    public Integer getLivesRemaining() {
+        return livesRemaining;
+    }
+
+    public void setLivesRemaining(Integer livesRemaining) {
+        this.livesRemaining = livesRemaining;
+    }
 }
