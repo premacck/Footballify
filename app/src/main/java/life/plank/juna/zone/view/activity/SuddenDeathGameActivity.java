@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
+
+import java.net.HttpURLConnection;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,12 +36,19 @@ import life.plank.juna.zone.domain.service.GameService;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.TeamNameMap;
 import life.plank.juna.zone.viewmodel.SuddenDeathGameViewModel;
+import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.view.activity.PointsGameActivity.dimBehind;
 
 public class SuddenDeathGameActivity extends AppCompatActivity {
+
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
+    @Inject
+    GameService gameService;
 
     @BindView(R.id.sudden_death_recycler_view)
     RecyclerView recyclerView;
@@ -51,12 +64,12 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
     private ImageView confirmYesButton;
     private ImageView confirmNoButton;
 
+    private final String TAG = SuddenDeathGameActivity.class.getSimpleName();
     private StringBuilder seasonLabel = new StringBuilder();
     private PopupWindow popupWindow;
     private Integer roundId;
     private SuddenDeathGameViewModel suddenDeathGameViewModel;
     private FootballTeamBuilder footballTeamBuilder = new FootballTeamBuilder();
-    GameService gameService = new GameService(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +77,9 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sudden_death_game);
         ButterKnife.bind(this);
         CustomizeStatusBar.removeStatusBar(getWindow());
-        suddenDeathGameViewModel = new SuddenDeathGameViewModel(recyclerView);
+
+        ((ZoneApplication) getApplication()).getSuddenDeathGameComponent().inject(this);
+        suddenDeathGameViewModel = new SuddenDeathGameViewModel(recyclerView, retrofit);
         seasonLabel = suddenDeathGameViewModel.initializeSuddenDeathMatchView();
         suddenDeathGameViewModel.initializeRecyclerView();
         initializeView();
@@ -141,7 +156,8 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
                         intent.putExtra(getString(R.string.result_string), getString(R.string.right_label));
                         intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
-                        startActivity(intent);
+
+                        postUserChoice(footballMatch, footballTeam, true, intent);
                     } else {
                         suddenDeathGameViewModel.saveResultInHashMap(JunaUserBuilder.getInstance().build(), false);
                         gameService.livesRemaining();
@@ -149,7 +165,8 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                         Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
                         intent.putExtra(getString(R.string.result_string), getString(R.string.wrong_label));
                         intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
-                        startActivity(intent);
+
+                        postUserChoice(footballMatch, footballTeam, false, intent);
                     }
                 });
 
@@ -159,6 +176,18 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                 .subscribe(v -> popupWindow.dismiss());
     }
 
+    private void postUserChoice(FootballMatch footballMatch, FootballTeam footballTeam, boolean isWinner, Intent intent) {
+        suddenDeathGameViewModel.postUserChoice(roundId, footballMatch, footballTeam, isWinner, intent)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    if (response.code() == HttpURLConnection.HTTP_CREATED) {
+                        startActivity(intent);
+                        Log.d(TAG, "User choice posted for round number:" + ZoneApplication.roundNumber);
+                    } else
+                        Log.d(TAG, "Error occured onPostUser choice with response code: " + response.code());
+                });
+    }
 
     @OnClick(R.id.home_icon)
     public void exitSuddenDeathGame() {

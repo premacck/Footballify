@@ -111,7 +111,8 @@
         <activity
             android:name=".view.activity.SuddenDeathWinnerOrLoserActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.SuddenDeathResultActivity"
+        <activity
+            android:name=".view.activity.SuddenDeathResultActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>

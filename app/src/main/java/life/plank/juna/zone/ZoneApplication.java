@@ -15,12 +15,14 @@ import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.domain.module.GameServiceModule;
@@ -44,6 +46,7 @@ public class ZoneApplication extends Application {
     private PointsGameComponent pointsGameComponent;
     private MultipleUserJoinGameNetworkComponent multipleUserJoinGameNetworkComponent;
     private SocialLoginNetworkComponent socialLoginNetworkComponent;
+    private SuddenDeathGameComponent suddenDeathGameComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -85,6 +88,11 @@ public class ZoneApplication extends Application {
         socialLoginNetworkComponent = DaggerSocialLoginNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
+
+        suddenDeathGameComponent = DaggerSuddenDeathGameComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .gameServiceModule(new GameServiceModule(this))
+                .build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -113,5 +121,9 @@ public class ZoneApplication extends Application {
 
     public SocialLoginNetworkComponent getSocialLoginNetworkComponent() {
         return socialLoginNetworkComponent;
+    }
+
+    public SuddenDeathGameComponent getSuddenDeathGameComponent() {
+        return suddenDeathGameComponent;
     }
 }
