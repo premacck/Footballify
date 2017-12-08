@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_sudden_death_result_background"
+    tools:context="life.plank.juna.zone.view.activity.SuddenDeathWinnerOrLoserActivity">
+
+    <ImageView
+        android:id="@+id/football_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_sudden_death_football_image" />
+
+
+    <TextView
+        android:id="@+id/text_message_youre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/football_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="@string/youre_label"
+        android:textColor="@color/White"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_message_youre"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/White"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+</RelativeLayout>

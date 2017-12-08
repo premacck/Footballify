@@ -59,6 +59,16 @@ public class UserChoiceBuilder {
         return this;
     }
 
+    public UserChoiceBuilder withIsWinner(Boolean isWinner) {
+        userChoice.setIsWinner(isWinner);
+        return this;
+    }
+
+    public UserChoiceBuilder withLivesRemaining(Integer livesRemaining) {
+        userChoice.setLivesRemaining(livesRemaining);
+        return this;
+    }
+
     public UserChoice build() {
         return userChoice;
     }

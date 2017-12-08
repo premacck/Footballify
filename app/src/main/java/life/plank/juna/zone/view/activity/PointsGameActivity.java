@@ -206,7 +206,7 @@ public class PointsGameActivity extends AppCompatActivity {
         playerScore = gameService.computeScore(footballMatch, selectedTeamName, homeTeamGuessScore, visitingTeamGuessScore, playerScore);
 
         ZoneApplication.pointsGameResultMap.put(JunaUserBuilder.getInstance().build(),
-                gameService.computeWinner(footballMatch, selectedTeamName));
+                gameService.isWinner(footballMatch, selectedTeamName));
 
         ZoneApplication.selectedTeamsList.add(selectedTeamName);
 

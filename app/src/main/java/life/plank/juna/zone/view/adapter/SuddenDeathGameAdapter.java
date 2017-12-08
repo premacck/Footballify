@@ -75,6 +75,26 @@ public class SuddenDeathGameAdapter extends RecyclerView.Adapter<SuddenDeathGame
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final FootballMatch footballMatch = footballMatchList.get(position);
+
+        if (ZoneApplication.selectedTeamsList.contains(footballMatch.getHomeTeam().getName())
+                && ZoneApplication.selectedTeamsList.contains(footballMatch.getVisitingTeam().getName())) {
+            holder.itemView.setEnabled(false);
+            holder.itemView.setAlpha(0.2f);
+        } else {
+            if (ZoneApplication.selectedTeamsList.contains(footballMatch.getHomeTeam().getName())) {
+                holder.homeTeamName.setAlpha(0.2f);
+                holder.homeTeamImage.setAlpha(0.2f);
+                holder.homeTeamPicked.setAlpha(0.2f);
+                holder.homeTeamPicked.setEnabled(false);
+            }
+            if (ZoneApplication.selectedTeamsList.contains(footballMatch.getVisitingTeam().getName())) {
+                holder.visitingTeamName.setAlpha(0.2f);
+                holder.visitingTeamImage.setAlpha(0.2f);
+                holder.visitingTeamPicked.setAlpha(0.2f);
+                holder.visitingTeamPicked.setEnabled(false);
+            }
+        }
+
         holder.homeTeamName.setText(footballMatch.getHomeTeam().getName());
         holder.homeTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getHomeTeam().getName()));
         holder.visitingTeamName.setText(footballMatch.getVisitingTeam().getName());

@@ -21,7 +21,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.builder.FootballTeamBuilder;
+import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
+import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
+import life.plank.juna.zone.data.network.model.FootballTeam;
+import life.plank.juna.zone.domain.service.GameService;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.TeamNameMap;
 import life.plank.juna.zone.viewmodel.SuddenDeathGameViewModel;
@@ -38,6 +43,8 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
     TextView roundNumberText;
     @BindView(R.id.year_text)
     TextView yearText;
+    @BindView(R.id.lives_remaining_count)
+    TextView livesRemainingLabel;
 
     private ImageView selectedTeamImage;
     private TextView selectedTeamName;
@@ -46,7 +53,10 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
 
     private StringBuilder seasonLabel = new StringBuilder();
     private PopupWindow popupWindow;
+    private Integer roundId;
     private SuddenDeathGameViewModel suddenDeathGameViewModel;
+    private FootballTeamBuilder footballTeamBuilder = new FootballTeamBuilder();
+    GameService gameService = new GameService(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,36 +72,43 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
         suddenDeathGameViewModel.getHomeTeamObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::initiateHomeTeamPopUp);
+                .subscribe(footballMatch -> initiateHomeTeamPopUp(footballMatch,
+                        footballTeamBuilder.withId(footballMatch.getHomeTeam().getId())
+                                .withName(footballMatch.getHomeTeam().getName())
+                                .build()));
 
         suddenDeathGameViewModel.getVisitingTeamObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::initiateVisitingTeamPopUp);
+                .subscribe(footballMatch -> initiateVisitingTeamPopUp(footballMatch,
+                        footballTeamBuilder.withId(footballMatch.getVisitingTeam().getId())
+                                .withName(footballMatch.getVisitingTeam().getName())
+                                .build()));
     }
 
     private void initializeView() {
         yearText.setText(seasonLabel);
         roundNumberText.setText(String.valueOf(++ZoneApplication.roundNumber));
+        livesRemainingLabel.setText(String.valueOf(ZoneApplication.suddenDeathLivesRemaining));
     }
 
 
-    private void initiateHomeTeamPopUp(FootballMatch footballMatch) {
+    private void initiateHomeTeamPopUp(FootballMatch footballMatch, FootballTeam footballTeam) {
         initiatePopUp();
 
         selectedTeamName.setText(footballMatch.getHomeTeam().getName());
         selectedTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getHomeTeam().getName()));
 
-        confirmYesOrNo();
+        confirmYesOrNo(footballMatch, footballTeam);
     }
 
-    private void initiateVisitingTeamPopUp(FootballMatch footballMatch) {
+    private void initiateVisitingTeamPopUp(FootballMatch footballMatch, FootballTeam footballTeam) {
         initiatePopUp();
 
         selectedTeamName.setText(footballMatch.getVisitingTeam().getName());
         selectedTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getVisitingTeam().getName()));
 
-        confirmYesOrNo();
+        confirmYesOrNo(footballMatch, footballTeam);
     }
 
     private void initiatePopUp() {
@@ -113,11 +130,30 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
         confirmNoButton = layout.findViewById(R.id.confirm_no_button);
     }
 
-
-    private void confirmYesOrNo() {
-        //Todo: compute winner and navigate to result page here
+    private void confirmYesOrNo(FootballMatch footballMatch, FootballTeam footballTeam) {
+        roundId = Arena.getInstance().getRounds()
+                .get(ZoneApplication.roundNumber - 1).getId();
         RxView.clicks(confirmYesButton)
-                .subscribe();
+                .subscribe(confirmYes -> {
+                    if (gameService.isWinner(footballMatch, footballTeam.getName())) {
+                        suddenDeathGameViewModel.saveResultInHashMap(JunaUserBuilder.getInstance().build(), true);
+
+                        Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
+                        intent.putExtra(getString(R.string.result_string), getString(R.string.right_label));
+                        intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
+                        startActivity(intent);
+                    } else {
+                        suddenDeathGameViewModel.saveResultInHashMap(JunaUserBuilder.getInstance().build(), false);
+                        gameService.livesRemaining();
+
+                        Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
+                        intent.putExtra(getString(R.string.result_string), getString(R.string.wrong_label));
+                        intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
+                        startActivity(intent);
+                    }
+                });
+
+        ZoneApplication.selectedTeamsList.add(footballTeam.getName());
 
         RxView.clicks(confirmNoButton)
                 .subscribe(v -> popupWindow.dismiss());

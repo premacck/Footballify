@@ -2,6 +2,7 @@ package life.plank.juna.zone.domain.service;
 
 import android.content.Context;
 
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 
 /**
@@ -15,10 +16,10 @@ public class GameService {
         this.context = context;
     }
 
-    public Boolean computeWinner(FootballMatch footballMatch, String selectedTeamName) {
+    public Boolean isWinner(FootballMatch footballMatch, String selectedTeamName) {
         String winningTeam;
         winningTeam = footballMatch.getHomeTeamScore() < footballMatch.getVisitingTeamScore() ? footballMatch.getVisitingTeam().getName() : footballMatch.getHomeTeam().getName();
-        if(footballMatch.getHomeTeamScore() == footballMatch.getVisitingTeamScore())
+        if (footballMatch.getHomeTeamScore() == footballMatch.getVisitingTeamScore())
             return true;
         else if (selectedTeamName.equals(winningTeam))
             return true;
@@ -64,5 +65,9 @@ public class GameService {
             }
         }
         return playerScore;
+    }
+
+    public void livesRemaining() {
+        ZoneApplication.suddenDeathLivesRemaining -= 1;
     }
 }
