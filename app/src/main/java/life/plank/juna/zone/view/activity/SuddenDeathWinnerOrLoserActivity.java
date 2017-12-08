@@ -35,12 +35,11 @@ public class SuddenDeathWinnerOrLoserActivity extends AppCompatActivity {
         messageYoureLabel.setTypeface(lemonMilkFont);
         messageView.setTypeface(lemonMilkFont);
 
-        int SPLASH_TIME_OUT = 3000;
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(this, SuddenDeathResultActivity.class);
             intent.putExtra(getString(R.string.selected_team), selectedTeamName);
             startActivity(intent);
-        }, SPLASH_TIME_OUT);
+        }, getResources().getInteger(R.integer.SPLASH_TIME_OUT));
     }
 
     @Override
