@@ -96,4 +96,5 @@
     <string name="right_label">RIGHT</string>
     <string name="wrong_label">SO WRONG</string>
     <string name="selected_team">Selected Team</string>
+    <string name="property_type">rotationY</string>
 </resources>
