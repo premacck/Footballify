@@ -97,4 +97,5 @@
     <string name="wrong_label">SO WRONG</string>
     <string name="selected_team">Selected Team</string>
     <string name="property_type">rotationY</string>
+    <string name="pick_club_label">PICK YOUR CLUB</string>
 </resources>
