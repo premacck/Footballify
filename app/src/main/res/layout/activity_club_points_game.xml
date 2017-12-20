@@ -59,8 +59,8 @@
         android:layout_below="@+id/home_team_name"
         android:layout_marginTop="27dp"
         android:background="@drawable/custom_game_edit_text"
-        android:inputType="number"
         android:gravity="center"
+        android:inputType="number"
         android:maxLength="2" />
 
 
@@ -105,8 +105,8 @@
         android:layout_marginLeft="14dp"
         android:layout_marginStart="14dp"
         android:background="@drawable/custom_game_edit_text"
-        android:inputType="number"
         android:gravity="center"
+        android:inputType="number"
         android:maxLength="2" />
 
     <ImageView
@@ -117,4 +117,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:background="@drawable/ic_submit_button" />
+
+    <TextView
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/submit_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/ic_timer_bg"
+        android:gravity="center"
+        android:text="8"
+        android:textColor="@color/White"
+        android:textSize="50sp" />
 </RelativeLayout>
