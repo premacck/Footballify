@@ -54,6 +54,11 @@ public class ClubListViewActivity extends AppCompatActivity implements  View.OnC
         Typeface alironBoldFont = Typeface.createFromAsset(getAssets(), getString(R.string.aileron_bold));
         pickClubLabel.setTypeface(alironBoldFont);
 
+        initializeButtons();
+
+    }
+
+    private void initializeButtons() {
         chelsea.setOnClickListener(this);
         manUnited.setOnClickListener(this);
         arsenal.setOnClickListener(this);
@@ -62,7 +67,6 @@ public class ClubListViewActivity extends AppCompatActivity implements  View.OnC
         liverpool.setOnClickListener(this);
         manCity.setOnClickListener(this);
         everton.setOnClickListener(this);
-
     }
 
     @OnClick(R.id.home_icon)
