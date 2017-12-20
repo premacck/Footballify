@@ -117,4 +117,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
         android:background="@drawable/ic_submit_button" />
+
+    <TextView
+        android:text="8"
+        android:gravity="center"
+        android:textColor="@color/White"
+        android:textSize="50sp"
+        android:id="@+id/timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/submit_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="36dp"
+        android:background="@drawable/ic_timer_bg" />
 </RelativeLayout>
