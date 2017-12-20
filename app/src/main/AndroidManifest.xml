@@ -131,5 +131,8 @@
         <activity android:name=".view.activity.ClubPointsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity android:name=".view.activity.ClubWarriorResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 </manifest>
