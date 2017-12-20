@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#232A38">
+
+    <TextView
+        android:id="@+id/league_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:minLines="2"
+        android:textSize="20sp"
+        android:text="FA Carling Premiership"
+        android:textColor="@color/White"/>
+
+    <ImageView
+        android:id="@+id/home_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_home_icon" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_home_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/league_name"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="50dp"
+        android:orientation="vertical"
+        tools:ignore="RelativeOverlap">
+
+        <ImageView
+            android:id="@+id/user_choice_home_team_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_club_chelsea" />
+
+        <TextView
+            android:id="@+id/user_choice_home_team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Chelsea"
+            android:textColor="@color/White" />
+
+        <EditText
+            android:id="@+id/user_choice_home_team_score"
+            android:layout_width="41dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/custom_game_edit_text"
+            android:gravity="center"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="@color/White"
+            android:textCursorDrawable="@drawable/user_choice_custom_cursor" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/user_choice_text_vs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:layout_marginTop="250dp"
+        android:text="@string/match_vs"
+        android:textColor="@color/WhiteTransparent"
+        android:textSize="20sp" />
+
+    <LinearLayout
+        android:id="@+id/linear_layout_visiting_team"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/linear_layout_home_team"
+        android:layout_marginEnd="38dp"
+        android:layout_marginRight="38dp"
+        android:layout_toLeftOf="@+id/home_icon"
+        android:layout_toStartOf="@+id/home_icon"
+        android:orientation="vertical"
+        tools:ignore="RelativeOverlap">
+
+        <ImageView
+            android:id="@+id/user_choice_visiting_team_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:src="@drawable/ic_club_chelsea" />
+
+        <TextView
+            android:id="@+id/user_choice_visiting_team_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="Chelsea"
+            android:textColor="@color/White" />
+
+        <EditText
+            android:id="@+id/user_choice_visiting_team_score"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/custom_game_edit_text"
+            android:gravity="center"
+            android:imeOptions="actionNext"
+            android:inputType="number"
+            android:maxLength="1"
+            android:textColor="@color/White"
+            android:textCursorDrawable="@drawable/user_choice_custom_cursor" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/user_choice_submit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/user_choice_text_vs"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:alpha="0.7"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_submit_button" />
+
+</RelativeLayout>

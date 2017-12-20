@@ -128,5 +128,8 @@
             android:name=".view.activity.ClubGameLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity android:name=".view.activity.ClubPointsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 </manifest>
