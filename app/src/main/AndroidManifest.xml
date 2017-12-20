@@ -4,7 +4,7 @@
     package="life.plank.juna.zone">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
@@ -24,20 +24,22 @@
 
         <service android:name=".pushNotification.NotificationInstanceIDService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
             android:name=".pushNotification.RegistrationIntentService"
-            android:exported="false">
-        </service>
-        <receiver android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
+            android:exported="false"></service>
+
+        <receiver
+            android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="life.plank.juna.zone" />
             </intent-filter>
         </receiver>
+
         <activity
             android:name=".view.activity.SplashScreenActivity"
             android:screenOrientation="portrait"
@@ -53,9 +55,13 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="www.plank.life" />
+
+                <data
+                    android:host="www.plank.life"
+                    android:scheme="https" />
             </intent-filter>
         </activity>
         <activity
@@ -116,6 +122,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ClubListViewActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".view.activity.ClubGameLaunchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 </manifest>

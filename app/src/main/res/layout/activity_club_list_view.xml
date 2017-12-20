@@ -22,4 +22,110 @@
         android:src="@drawable/ic_home_icon" />
 
 
+    <TextView
+        android:id="@+id/pick_club_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="90dp"
+        android:text="@string/pick_club_label"
+        android:textColor="@color/White"
+        android:textSize="20sp" />
+
+    <GridLayout
+        android:id="@+id/club_grid_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pick_club_label"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:alignmentMode="alignBounds"
+        android:columnCount="3"
+        android:rowCount="3">
+
+        <ImageView
+            android:id="@+id/club_chelsea"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_chelsea"
+            android:tag="ic_club_chelsea"/>
+
+        <ImageView
+            android:id="@+id/club_man_united"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_man_united"
+            android:tag="ic_club_man_united"/>
+
+        <ImageView
+            android:id="@+id/club_arsenal"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_arsenal"
+            android:tag="ic_club_arsenal"/>
+
+        <ImageView
+            android:id="@+id/club_tottenham"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_tottenham"
+            android:tag="ic_club_tottenham"/>
+
+        <ImageView
+            android:id="@+id/club_leicester"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_leicester"
+            android:tag="ic_club_leicester"/>
+
+        <ImageView
+            android:id="@+id/club_chelse"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_chelsea"
+            android:tag="ic_club_chelsea"/>
+
+        <ImageView
+            android:id="@+id/club_liverpool"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_liverpool"
+            android:tag="ic_club_liverpool"/>
+
+        <ImageView
+            android:id="@+id/club_man_city"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_man_city"
+            android:tag="ic_club_man_city"/>
+
+        <ImageView
+            android:id="@+id/club_everton"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:src="@drawable/ic_club_everton"
+            android:tag="ic_club_everton"/>
+
+
+    </GridLayout>
+
 </RelativeLayout>
