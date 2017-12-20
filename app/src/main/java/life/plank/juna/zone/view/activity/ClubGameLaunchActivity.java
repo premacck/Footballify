@@ -35,4 +35,9 @@ public class ClubGameLaunchActivity extends AppCompatActivity {
     public void homeIconClicked() {
         startActivity(new Intent(this, GameLaunchActivity.class));
     }
+
+    @OnClick(R.id.club_warrior_view)
+    public void onClickView() {
+        startActivity(new Intent(this, ClubPointsActivity.class));
+    }
 }
