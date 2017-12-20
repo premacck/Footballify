@@ -50,7 +50,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_chelsea" />
+            android:src="@drawable/ic_club_chelsea"
+            android:tag="ic_club_chelsea"/>
 
         <ImageView
             android:id="@+id/club_man_united"
@@ -58,7 +59,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_man_united" />
+            android:src="@drawable/ic_club_man_united"
+            android:tag="ic_club_man_united"/>
 
         <ImageView
             android:id="@+id/club_arsenal"
@@ -66,7 +68,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_arsenal" />
+            android:src="@drawable/ic_club_arsenal"
+            android:tag="ic_club_arsenal"/>
 
         <ImageView
             android:id="@+id/club_tottenham"
@@ -74,7 +77,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_tottenham" />
+            android:src="@drawable/ic_club_tottenham"
+            android:tag="ic_club_tottenham"/>
 
         <ImageView
             android:id="@+id/club_leicester"
@@ -82,7 +86,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_leicester" />
+            android:src="@drawable/ic_club_leicester"
+            android:tag="ic_club_leicester"/>
 
         <ImageView
             android:id="@+id/club_chelse"
@@ -90,7 +95,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_chelsea" />
+            android:src="@drawable/ic_club_chelsea"
+            android:tag="ic_club_chelsea"/>
 
         <ImageView
             android:id="@+id/club_liverpool"
@@ -98,7 +104,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_liverpool" />
+            android:src="@drawable/ic_club_liverpool"
+            android:tag="ic_club_liverpool"/>
 
         <ImageView
             android:id="@+id/club_man_city"
@@ -106,7 +113,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_man_city" />
+            android:src="@drawable/ic_club_man_city"
+            android:tag="ic_club_man_city"/>
 
         <ImageView
             android:id="@+id/club_everton"
@@ -114,7 +122,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="20dp"
-            android:src="@drawable/ic_club_everton" />
+            android:src="@drawable/ic_club_everton"
+            android:tag="ic_club_everton"/>
 
 
     </GridLayout>

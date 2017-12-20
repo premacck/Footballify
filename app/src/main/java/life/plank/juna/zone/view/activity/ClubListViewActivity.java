@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,11 +21,27 @@ import life.plank.juna.zone.util.CustomizeStatusBar;
  * Created by plank-arfaa on 19/12/17.
  */
 
-public class ClubListViewActivity extends AppCompatActivity {
+public class ClubListViewActivity extends AppCompatActivity implements  View.OnClickListener {
 
 
     @BindView(R.id.pick_club_label)
     TextView pickClubLabel;
+    @BindView(R.id.club_chelsea)
+    ImageView chelsea;
+    @BindView(R.id.club_man_united)
+    ImageView manUnited;
+    @BindView(R.id.club_arsenal)
+    ImageView arsenal;
+    @BindView(R.id.club_tottenham)
+    ImageView tottenham;
+    @BindView(R.id.club_leicester)
+    ImageView leicester;
+    @BindView(R.id.club_liverpool)
+    ImageView liverpool;
+    @BindView(R.id.club_man_city)
+    ImageView manCity;
+    @BindView(R.id.club_everton)
+    ImageView everton;
 
     private static final String TAG = ClubListViewActivity.class.getSimpleName();
 
@@ -36,6 +53,16 @@ public class ClubListViewActivity extends AppCompatActivity {
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
         Typeface alironBoldFont = Typeface.createFromAsset(getAssets(), getString(R.string.aileron_bold));
         pickClubLabel.setTypeface(alironBoldFont);
+
+        chelsea.setOnClickListener(this);
+        manUnited.setOnClickListener(this);
+        arsenal.setOnClickListener(this);
+        tottenham.setOnClickListener(this);
+        leicester.setOnClickListener(this);
+        liverpool.setOnClickListener(this);
+        manCity.setOnClickListener(this);
+        everton.setOnClickListener(this);
+
     }
 
     @OnClick(R.id.home_icon)
@@ -43,48 +70,16 @@ public class ClubListViewActivity extends AppCompatActivity {
         startActivity(new Intent(this, GameLaunchActivity.class));
     }
 
-    @OnClick(R.id.club_chelsea)
-    public void clubChelseaButtonClicked() {
-        Log.d(TAG, "Chelsea clicked");
-    }
-
-    @OnClick(R.id.club_man_united)
-    public void clubManUnitedButtonClicked() {
-        Log.d(TAG, "Man U clicked");
-    }
-
-    @OnClick(R.id.club_arsenal)
-    public void clubArsenalButtonClicked() {
-        Log.d(TAG, "Arsenal clicked");
-    }
-
-    @OnClick(R.id.club_tottenham)
-    public void clubTottenhamButtonClicked() {
-        Log.d(TAG, "Tottenham clicked");
-    }
-
-    @OnClick(R.id.club_leicester)
-    public void clubLeicesterButtonClicked() {
-        Log.d(TAG, "Leicester clicked");
-    }
-
-    @OnClick(R.id.club_liverpool)
-    public void clubLiverpoolButtonClicked() {
-        Log.d(TAG, "Liverpool clicked");
-    }
-
-    @OnClick(R.id.club_man_city)
-    public void clubManCityButtonClicked() {
-        Log.d(TAG, "ManCity clicked");
-    }
-
-    @OnClick(R.id.club_everton)
-    public void clubEvertonButtonClicked() {
-        Log.d(TAG, "Everton clicked");
+    @Override
+    public void onClick(View view) {
+        Intent intent = new Intent(this, ClubGameLaunchActivity.class);
+        intent.putExtra(getString(R.string.club_image_name), String.valueOf(view.getTag()));
+        startActivity(intent);
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
     }
+
 }

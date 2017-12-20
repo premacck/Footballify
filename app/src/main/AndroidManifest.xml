@@ -124,5 +124,9 @@
             android:name=".view.activity.ClubListViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".view.activity.ClubGameLaunchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 </manifest>
