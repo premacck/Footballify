@@ -50,6 +50,17 @@ public class GamePickerActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 
+    @OnClick(R.id.warrior_club_game_image)
+    public void startPubWarriorGame() {
+        Intent intent = new Intent(this, ClubListViewActivity.class);
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.warrior_club_game_rules)
+    public void pubWarriorGameHelpClicked() {
+        //TODO: Add game rules for pub warrior
+    }
+
     @Override
     public void onBackPressed() {
 
