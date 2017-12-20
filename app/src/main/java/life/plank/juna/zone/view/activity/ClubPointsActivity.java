@@ -16,7 +16,7 @@ import life.plank.juna.zone.util.CustomizeStatusBar;
  * Created by plank-arfaa on 20/12/17.
  */
 
-public class ClubPointsActivity  extends AppCompatActivity implements  View.OnClickListener {
+public class ClubPointsActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,6 +39,11 @@ public class ClubPointsActivity  extends AppCompatActivity implements  View.OnCl
         Intent intent = new Intent(this, ClubGameLaunchActivity.class);
         intent.putExtra(getString(R.string.club_image_name), String.valueOf(view.getTag()));
         startActivity(intent);
+    }
+
+    @OnClick(R.id.submit_button)
+    public void onClickSubmitButton() {
+        startActivity(new Intent(this, ClubWarriorResultActivity.class));
     }
 
     @Override
