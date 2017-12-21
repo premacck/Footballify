@@ -29,13 +29,14 @@
         </service>
         <service
             android:name=".pushNotification.RegistrationIntentService"
-            android:exported="false"></service>
+            android:exported="false" />
 
         <receiver
             android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="life.plank.juna.zone" />
             </intent-filter>
         </receiver>
@@ -128,11 +129,15 @@
             android:name=".view.activity.ClubGameLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
-        <activity android:name=".view.activity.ClubPointsActivity"
+        <activity
+            android:name=".view.activity.ClubPointsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
-        <activity android:name=".view.activity.ClubWarriorResultActivity"
+        <activity
+            android:name=".view.activity.ClubWarriorResultActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity android:name=".view.activity.WarriorWinnerActivity"></activity>
     </application>
+
 </manifest>
