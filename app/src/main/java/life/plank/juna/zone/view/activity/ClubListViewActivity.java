@@ -17,11 +17,13 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
+import static life.plank.juna.zone.util.Font.getFont;
+
 /**
  * Created by plank-arfaa on 19/12/17.
  */
 
-public class ClubListViewActivity extends AppCompatActivity implements  View.OnClickListener {
+public class ClubListViewActivity extends AppCompatActivity implements View.OnClickListener {
 
 
     @BindView(R.id.pick_club_label)
@@ -51,8 +53,7 @@ public class ClubListViewActivity extends AppCompatActivity implements  View.OnC
         setContentView(R.layout.activity_club_list_view);
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
-        Typeface alironBoldFont = Typeface.createFromAsset(getAssets(), getString(R.string.aileron_bold));
-        pickClubLabel.setTypeface(alironBoldFont);
+        pickClubLabel.setTypeface(getFont(getString(R.string.aileron_bold), getAssets()));
 
         initializeButtons();
 

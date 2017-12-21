@@ -18,6 +18,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.Cursor;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
+import static life.plank.juna.zone.util.Font.getFont;
+
 /**
  * Created by plank-arfaa on 20/12/17.
  */
@@ -50,21 +52,17 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
 
-        Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), getString(R.string.moderne_sans));
-        homeTeamName.setTypeface(moderneSansFont);
-        visitingTeamName.setTypeface(moderneSansFont);
-
-        Typeface myriadProFont = Typeface.createFromAsset(getAssets(), getString(R.string.myriad_pro_regular));
-        leagueName.setTypeface(myriadProFont);
-
-        Typeface newsGothicFont = Typeface.createFromAsset(getAssets(), getString(R.string.news_gothic_mt));
-        vs.setTypeface(newsGothicFont);
+        homeTeamName.setTypeface(getFont(getString(R.string.moderne_sans), getAssets()));
+        visitingTeamName.setTypeface(getFont(getString(R.string.moderne_sans), getAssets()));
+        leagueName.setTypeface(getFont(getString(R.string.myriad_pro_regular), getAssets()));
+        vs.setTypeface(getFont(getString(R.string.myriad_pro_regular), getAssets()));
 
         RxTextView.textChangeEvents(homeTeamScore)
                 .subscribe(event -> Cursor.shiftCursorFocus(homeTeamScore));
 
         RxTextView.textChangeEvents(visitingTeamScore)
                 .subscribe(event -> Cursor.shiftCursorFocus(visitingTeamScore));
+
     }
 
     @OnClick(R.id.home_icon)
