@@ -11,6 +11,8 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
+import static life.plank.juna.zone.util.Font.getFont;
+
 /**
  * Created by plank-dhamini on 20/12/17.
  */
@@ -45,18 +47,13 @@ public class ClubWarriorResultActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
 
-        Typeface nexaBoldFont = Typeface.createFromAsset(getAssets(), getString(R.string.nexa_bold));
-        subtitle.setTypeface(nexaBoldFont);
-        totalScoreLabel.setTypeface(nexaBoldFont);
-
-        Typeface moderneSansFont = Typeface.createFromAsset(getAssets(), getString(R.string.moderne_sans));
-        homeTeamName.setTypeface(moderneSansFont);
-        visitingTeamName.setTypeface(moderneSansFont);
-
-        Typeface myriadProFont = Typeface.createFromAsset(getAssets(), getString(R.string.myriad_pro_regular));
-        home_team_score.setTypeface(myriadProFont);
-        visiting_team_score.setTypeface(myriadProFont);
-        totalScore.setTypeface(myriadProFont);
+        subtitle.setTypeface(getFont(getString(R.string.nexa_bold), getAssets()));
+        totalScoreLabel.setTypeface(getFont(getString(R.string.nexa_bold), getAssets()));
+        homeTeamName.setTypeface(getFont(getString(R.string.moderne_sans), getAssets()));
+        visitingTeamName.setTypeface(getFont(getString(R.string.moderne_sans), getAssets()));
+        home_team_score.setTypeface(getFont(getString(R.string.myriad_pro_regular), getAssets()));
+        visiting_team_score.setTypeface(getFont(getString(R.string.myriad_pro_regular), getAssets()));
+        totalScore.setTypeface(getFont(getString(R.string.myriad_pro_regular), getAssets()));
 
     }
 
