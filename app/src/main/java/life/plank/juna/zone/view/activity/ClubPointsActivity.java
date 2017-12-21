@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+
+import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.Cursor;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
 /**
@@ -32,6 +36,12 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
     @BindView(R.id.vs)
     TextView vs;
 
+    @BindView(R.id.home_team_score)
+    EditText homeTeamScore;
+
+    @BindView(R.id.visiting_team_score)
+    EditText visitingTeamScore;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +59,12 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
 
         Typeface newsGothicFont = Typeface.createFromAsset(getAssets(), getString(R.string.news_gothic_mt));
         vs.setTypeface(newsGothicFont);
+
+        RxTextView.textChangeEvents(homeTeamScore)
+                .subscribe(event -> Cursor.shiftCursorFocus(homeTeamScore));
+
+        RxTextView.textChangeEvents(visitingTeamScore)
+                .subscribe(event -> Cursor.shiftCursorFocus(visitingTeamScore));
     }
 
     @OnClick(R.id.home_icon)
