@@ -19,7 +19,8 @@
         android:layout_below="@+id/bonus"
         android:layout_centerHorizontal="true"
         android:minLines="2"
-        android:text="You Got that right on!"
+        android:gravity="center"
+        android:text="You Got \nthat right on!"
         android:textColor="@color/White"
         android:textSize="25sp" />
 
