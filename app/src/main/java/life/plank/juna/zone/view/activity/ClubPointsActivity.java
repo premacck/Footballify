@@ -1,13 +1,11 @@
 package life.plank.juna.zone.view.activity;
 
-import android.app.Service;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.util.Cursor;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
 /**
@@ -63,20 +61,10 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
         vs.setTypeface(newsGothicFont);
 
         RxTextView.textChangeEvents(homeTeamScore)
-                .subscribe(event -> shiftCursorFocus(homeTeamScore));
+                .subscribe(event -> Cursor.shiftCursorFocus(homeTeamScore));
 
         RxTextView.textChangeEvents(visitingTeamScore)
-                .subscribe(event -> shiftCursorFocus(visitingTeamScore));
-    }
-
-    private void shiftCursorFocus(EditText editText) {
-        if (editText.length() == 1) {
-            View next = editText.focusSearch(View.FOCUS_RIGHT);
-            if (next == null) {
-                InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
-                inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-            } else next.requestFocus();
-        }
+                .subscribe(event -> Cursor.shiftCursorFocus(visitingTeamScore));
     }
 
     @OnClick(R.id.home_icon)
