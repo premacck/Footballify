@@ -173,10 +173,8 @@ public class CreateArenaActivity extends AppCompatActivity {
                         arena.copyArena(responseArena);
                         playerList.clear();
                         for (Player player : arena.getPlayers()) {
-                            playerList.add(JunaUserBuilder.getInstance()
-                                    .withUserName(player.getUsername())
-                                    .build()
-                                    .getDisplayName());
+                            playerList.add(player.getUsername());
+
                         }
                         updatePlayerListAdapter();
                         enableStartPlayingButton();
