@@ -1,6 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 
@@ -60,6 +61,11 @@ public class ClubWarriorResultActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    @OnClick(R.id.result_view)
+    public void onClickView() {
+        startActivity(new Intent(this, WarriorWinnerActivity.class));
     }
 
 }
