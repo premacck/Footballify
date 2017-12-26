@@ -1,7 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import life.plank.juna.zone.R;
 
@@ -16,4 +16,5 @@ public class WarriorWinnerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_warrior_winner);
     }
+
 }

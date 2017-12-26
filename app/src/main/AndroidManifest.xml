@@ -137,7 +137,9 @@
             android:name=".view.activity.ClubWarriorResultActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
-        <activity android:name=".view.activity.WarriorWinnerActivity"></activity>
+        <activity android:name=".view.activity.WarriorWinnerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 
 </manifest>
