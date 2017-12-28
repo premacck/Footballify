@@ -9,6 +9,7 @@ import java.util.List;
 
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
@@ -16,6 +17,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
+import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
@@ -47,6 +49,7 @@ public class ZoneApplication extends Application {
     private MultipleUserJoinGameNetworkComponent multipleUserJoinGameNetworkComponent;
     private SocialLoginNetworkComponent socialLoginNetworkComponent;
     private SuddenDeathGameComponent suddenDeathGameComponent;
+    private FootballMatchNetworkComponent footballMatchNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -93,6 +96,10 @@ public class ZoneApplication extends Application {
                 .restServiceModule(new RestServiceModule())
                 .gameServiceModule(new GameServiceModule(this))
                 .build();
+
+        footballMatchNetworkComponent = DaggerFootballMatchNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -109,6 +116,10 @@ public class ZoneApplication extends Application {
 
     public CreateArenaNetworkComponent getCreateArenaNetworkComponent() {
         return createArenaNetworkComponent;
+    }
+
+    public FootballMatchNetworkComponent getfootballMatchNetworkComponent() {
+        return footballMatchNetworkComponent;
     }
 
     public PointsGameComponent getPointsGameComponent() {

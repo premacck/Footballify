@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomizeStatusBar;
+import life.plank.juna.zone.util.GlobalVariable;
 
 import static life.plank.juna.zone.util.Font.getFont;
 
@@ -46,6 +47,7 @@ public class ClubListViewActivity extends AppCompatActivity implements View.OnCl
     ImageView everton;
 
     private static final String TAG = ClubListViewActivity.class.getSimpleName();
+    GlobalVariable globalVariable = GlobalVariable.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,6 +81,7 @@ public class ClubListViewActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         Intent intent = new Intent(this, ClubGameLaunchActivity.class);
         intent.putExtra(getString(R.string.club_image_name), String.valueOf(view.getTag()));
+        globalVariable.setTeamName(String.valueOf(view.getContentDescription()));
         startActivity(intent);
     }
 

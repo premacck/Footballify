@@ -3,6 +3,7 @@ package life.plank.juna.zone.data.network.interfaces;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
+import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
@@ -57,4 +58,7 @@ public interface RestApi {
 
     @GET("v1/users/self")
     Observable<InstagramResponse> getInstagramUserData(@Query("access_token") String accessToken);
+
+    @GET("/footballMatches")
+    Observable<FootballMatch> getRandomFootballMatchByName(@Query("team") String team);
 }
