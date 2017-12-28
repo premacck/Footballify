@@ -112,7 +112,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
         initiatePopUp();
 
         selectedTeamName.setText(footballMatch.getHomeTeam().getName());
-        selectedTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getHomeTeam().getName()));
+        selectedTeamImage.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(footballMatch.getHomeTeam().getName()));
 
         confirmYesOrNo(footballMatch, footballTeam);
     }
@@ -121,7 +121,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
         initiatePopUp();
 
         selectedTeamName.setText(footballMatch.getVisitingTeam().getName());
-        selectedTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getVisitingTeam().getName()));
+        selectedTeamImage.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(footballMatch.getVisitingTeam().getName()));
 
         confirmYesOrNo(footballMatch, footballTeam);
     }

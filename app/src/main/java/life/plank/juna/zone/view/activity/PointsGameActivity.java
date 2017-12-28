@@ -149,7 +149,7 @@ public class PointsGameActivity extends AppCompatActivity {
         homeTeamName = (TextView) layout.findViewById(R.id.user_choice_home_team_name);
         homeTeamScore = (EditText) layout.findViewById(R.id.user_choice_home_team_score);
 
-        homeTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap()
+        homeTeamImage.setImageDrawable(TeamNameMap.getTeamLogoNameMap()
                 .get(footballMatch.getHomeTeam().getName()));
         homeTeamName.setText(footballMatch.getHomeTeam().getName());
         RxTextView.textChangeEvents(homeTeamScore)
@@ -159,7 +159,7 @@ public class PointsGameActivity extends AppCompatActivity {
         visitingTeamName = (TextView) layout.findViewById(R.id.user_choice_visiting_team_name);
         visitingTeamScore = (EditText) layout.findViewById(R.id.user_choice_visiting_team_score);
 
-        visitingTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap()
+        visitingTeamImage.setImageDrawable(TeamNameMap.getTeamLogoNameMap()
                 .get(footballMatch.getVisitingTeam().getName()));
         visitingTeamName.setText(footballMatch.getVisitingTeam().getName());
         RxTextView.textChangeEvents(visitingTeamScore)

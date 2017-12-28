@@ -59,7 +59,7 @@ public class PointsGameAdapter extends RecyclerView.Adapter<PointsGameAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.points_game_rows, parent, false);
-        TeamNameMap.HashMaps(parent.getContext());
+        TeamNameMap.setTeamLogoHashMap(parent.getContext());
 
         return new ViewHolder(view);
     }
@@ -83,9 +83,9 @@ public class PointsGameAdapter extends RecyclerView.Adapter<PointsGameAdapter.Vi
             }
         }
         holder.homeTeamName.setText(footballMatch.getHomeTeam().getName());
-        holder.homeTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getHomeTeam().getName()));
+        holder.homeTeamImage.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(footballMatch.getHomeTeam().getName()));
         holder.visitingTeamName.setText(footballMatch.getVisitingTeam().getName());
-        holder.visitingTeamImage.setImageDrawable(TeamNameMap.getTeamNameMap().get(footballMatch.getVisitingTeam().getName()));
+        holder.visitingTeamImage.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(footballMatch.getVisitingTeam().getName()));
         RxView.clicks(holder.itemView)
                 .subscribe(v -> itemViewClickSubject.onNext(footballMatch));
     }

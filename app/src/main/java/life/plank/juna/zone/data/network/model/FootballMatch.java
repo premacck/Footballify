@@ -6,6 +6,7 @@ package life.plank.juna.zone.data.network.model;
 
 public class FootballMatch {
 
+    private static FootballMatch footballMatch = null;
     private Integer id;
     private String datePlayed;
     private Integer homeTeamScore;
@@ -14,6 +15,28 @@ public class FootballMatch {
     private Integer weekNumber;
     private HomeTeam homeTeam;
     private VisitingTeam visitingTeam;
+
+    public static FootballMatch getInstance() {
+        if (footballMatch == null)
+            footballMatch = new FootballMatch();
+        return footballMatch;
+    }
+
+    public void copyFootballMatch(FootballMatch footballMatch) {
+        setId(footballMatch.getId());
+        setDatePlayed(footballMatch.getDatePlayed());
+        setHomeTeamScore(footballMatch.getHomeTeamScore());
+        setVisitingTeamScore(footballMatch.getVisitingTeamScore());
+        setLeagueYearStart(footballMatch.getLeagueYearStart());
+        setWeekNumber(footballMatch.getWeekNumber());
+        setHomeTeam(footballMatch.getHomeTeam());
+        setVisitingTeam(footballMatch.getVisitingTeam());
+    }
+
+    public static FootballMatch getNullFootballMatch() {
+        footballMatch = new FootballMatch();
+        return footballMatch;
+    }
 
     public Integer getId() {
         return id;
