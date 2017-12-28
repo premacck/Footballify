@@ -43,6 +43,8 @@ public class ClubGameLaunchActivity extends AppCompatActivity {
     private static final String TAG = ClubGameLaunchActivity.class.getSimpleName();
     GlobalVariable globalVariable = GlobalVariable.getInstance();
 
+    private FootballMatch footballMatch;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,7 @@ public class ClubGameLaunchActivity extends AppCompatActivity {
         CustomizeStatusBar.setTransparentStatusBarColor(getTheme(), getWindow());
         ((ZoneApplication) getApplication()).getfootballMatchNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
+        footballMatch = FootballMatch.getNullFootballMatch();
         clubImage.setImageResource(getResources().getIdentifier(getIntent().getStringExtra(getString(R.string.club_image_name)), getString(R.string.drawable), getPackageName()));
     }
 
@@ -70,8 +73,10 @@ public class ClubGameLaunchActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(FootballMatch footballMatch) {
+                    public void onNext(FootballMatch footballMatchResponse) {
                         Log.d(TAG, "In  onNext");
+                        footballMatch.copyFootballMatch(footballMatchResponse);
+                        Log.d(TAG, "Match name---------" + footballMatch.getHomeTeam().getName());
                         Intent intent = new Intent(ClubGameLaunchActivity.this, ClubPointsActivity.class);
                         startActivity(intent);
                     }

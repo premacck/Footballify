@@ -12,6 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
         android:minLines="2"
+        android:textAlignment="center"
         android:text="FA Carling Premiership"
         android:textColor="@color/White"
         android:textSize="20sp" />

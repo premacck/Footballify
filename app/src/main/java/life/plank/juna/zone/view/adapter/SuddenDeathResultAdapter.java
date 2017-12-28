@@ -55,7 +55,7 @@ public class SuddenDeathResultAdapter extends RecyclerView.Adapter<SuddenDeathRe
     public SuddenDeathResultAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.sudden_death_result_row, parent, false);
-        TeamNameMap.HashMaps(parent.getContext());
+        TeamNameMap.setTeamLogoHashMap(parent.getContext());
         return new ViewHolder(view);
     }
 
@@ -71,7 +71,7 @@ public class SuddenDeathResultAdapter extends RecyclerView.Adapter<SuddenDeathRe
                 .build()
                 .getDisplayName());
 
-        holder.selectedTeamLogo.setImageDrawable(TeamNameMap.getTeamNameMap().get(selectedTeamName));
+        holder.selectedTeamLogo.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(selectedTeamName));
 
         if (ZoneApplication.suddenDeathGameResultMap.get(userChoice.getJunaUser())) {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_won));
