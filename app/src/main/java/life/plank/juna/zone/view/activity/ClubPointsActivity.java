@@ -1,12 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,15 +11,11 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
-import life.plank.juna.zone.domain.service.GameService;
 import life.plank.juna.zone.util.Cursor;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.GlobalVariable;
@@ -104,6 +97,7 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
 
     @OnClick(R.id.home_icon)
     public void homeIconClicked() {
+
         startActivity(new Intent(this, GameLaunchActivity.class));
     }
 
@@ -124,11 +118,12 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+
     public void postUserChoice() {
 
         if (Integer.parseInt(homeTeamScore.getText().toString()) > Integer.parseInt(visitingTeamScore.getText().toString())) {
             winnerName = homeTeamName.getText().toString();
-
+            winnerScore = Integer.valueOf(homeTeamScore.getText().toString());
         } else {
             winnerName = visitingTeamName.getText().toString();
             winnerScore = Integer.valueOf(visitingTeamScore.getText().toString());
@@ -141,6 +136,12 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
     public void computeClubPoints(String teamName, Integer teamScore) {
         String winnerName;
         Integer winnerScore;
+        Intent intent = new Intent(this, ClubWarriorResultActivity.class);
+        intent.putExtra("homeTeamName", FootballMatch.getInstance().getHomeTeam().getName());
+        intent.putExtra("visitingTeamName", FootballMatch.getInstance().getVisitingTeam().getName());
+        intent.putExtra("homeTeamScore", FootballMatch.getInstance().getHomeTeamScore().toString());
+        intent.putExtra("visitingTeamScore", FootballMatch.getInstance().getVisitingTeamScore().toString());
+
         if (GlobalVariable.getInstance().getClubPointsGameRound() <= 20) {
             if (FootballMatch.getInstance().getHomeTeamScore() > FootballMatch.getInstance().getVisitingTeamScore()) {
 
@@ -158,19 +159,25 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
                 if (teamScore.equals(winnerScore)) {
 
                     GlobalVariable.getInstance().setClubPointsGameScore(GlobalVariable.getInstance().getClubPointsGameScore() + 2);
+                    intent.putExtra("isWinner", "0");
 
                 } else {
 
                     GlobalVariable.getInstance().setClubPointsGameScore(GlobalVariable.getInstance().getClubPointsGameScore() + 1);
                     GlobalVariable.getInstance().setClubPointsWinner(true);
-
+                    intent.putExtra("isWinner", "1");
                 }
             } else {
 
                 GlobalVariable.getInstance().setClubPointsWinner(false);
                 GlobalVariable.getInstance().setClubGamesDraw(false);
-
+                intent.putExtra("isWinner", "2");
             }
+
+            intent.putExtra("score", GlobalVariable.getInstance().getClubPointsGameScore().toString());
+            startActivity(intent);
+            finish();
+
         } else {
 
             if (GlobalVariable.getInstance().getClubPointsGameScore() == 40) {

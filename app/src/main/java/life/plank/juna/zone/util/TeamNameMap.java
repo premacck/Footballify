@@ -80,7 +80,7 @@ public class TeamNameMap {
         teamNameMap.put("Chelsea", ContextCompat.getDrawable(context, R.drawable.ic_club_chelsea));
         teamNameMap.put("Man United", ContextCompat.getDrawable(context, R.drawable.ic_club_man_united));
         teamNameMap.put("Arsenal", ContextCompat.getDrawable(context, R.drawable.ic_club_arsenal));
-        teamNameMap.put("Tottenham", ContextCompat.getDrawable(context, R.drawable.ic_club_arsenal));
+        teamNameMap.put("Tottenham", ContextCompat.getDrawable(context, R.drawable.ic_club_tottenham));
         teamNameMap.put("Leicester", ContextCompat.getDrawable(context, R.drawable.ic_club_leicester));
         teamNameMap.put("Liverpool", ContextCompat.getDrawable(context, R.drawable.ic_club_liverpool));
         teamNameMap.put("Everton", ContextCompat.getDrawable(context, R.drawable.ic_club_everton));

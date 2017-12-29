@@ -6,7 +6,7 @@
     android:background="@drawable/ic_sudden_death_result_background">
 
     <ImageView
-        android:id="@+id/bonus"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -17,7 +17,7 @@
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bonus"
+        android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
         android:minLines="2"
         android:gravity="center"
