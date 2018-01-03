@@ -112,8 +112,7 @@ public class PointsGameActivity extends AppCompatActivity {
         pointsGameAdapter.setFootballMatchList(footballMatchList);
 
         Integer leagueStartYear = Arena.getInstance().getLeagueYearStart();
-        Integer previousYear = leagueStartYear - 1;
-        String yearNumberText = previousYear + "-" + leagueStartYear;
+        String yearNumberText = leagueStartYear + "-" + leagueStartYear + 1;
         yearText.setText(yearNumberText);
         roundNumberText.setText(String.valueOf(++ZoneApplication.roundNumber));
     }
