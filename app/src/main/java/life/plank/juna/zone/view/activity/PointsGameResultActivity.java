@@ -76,10 +76,14 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
 
     @OnClick(R.id.advance_image)
     public void startNextRound() {
-        if (ZoneApplication.roundNumber >= getResources().getInteger(R.integer.max_round_number))
-            startActivity(new Intent(this, GameLaunchActivity.class));
-        else
+
+        ZoneApplication.roundNumber = ZoneApplication.roundNumber + 1;
+        if (ZoneApplication.roundNumber < (Arena.getInstance().getRounds().size())) {
             startActivity(new Intent(this, PointsGameActivity.class));
+        } else {
+            ZoneApplication.roundNumber = 0;
+            startActivity(new Intent(this, GameLaunchActivity.class));
+        }
 
     }
 
