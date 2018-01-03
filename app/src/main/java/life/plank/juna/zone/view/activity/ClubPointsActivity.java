@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -20,6 +22,9 @@ import life.plank.juna.zone.util.Cursor;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.TeamNameMap;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.Font.getFont;
 
@@ -55,6 +60,11 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
     @BindView(R.id.visiting_team_logo)
     ImageView visitingTeamLogo;
 
+    @BindView(R.id.timer)
+    TextView timerText;
+
+    public static final int TIMER_VALUE = 10;
+
     private String winnerName;
     private Integer winnerScore;
 
@@ -83,6 +93,29 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
                 .get(FootballMatch.getInstance().getHomeTeam().getName()));
         visitingTeamLogo.setImageDrawable(TeamNameMap.getTeamNameMap()
                 .get(FootballMatch.getInstance().getVisitingTeam().getName()));
+
+        startTimer();
+
+    }
+
+    private void startTimer(){
+        Observable.interval(1, TimeUnit.SECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .takeUntil(aLong -> aLong == TIMER_VALUE)
+                .doOnNext(aLong -> {
+                    timerText.setText(String.valueOf(TIMER_VALUE - aLong));
+                })
+                .doOnCompleted(() -> {
+
+                            homeTeamScore.setText(String.valueOf(FootballMatch.getInstance().getVisitingTeamScore()));
+                            visitingTeamScore.setText(String.valueOf(FootballMatch.getInstance().getHomeTeamScore()));
+                            GlobalVariable.getInstance().setClubPointsWinner(false);
+                            GlobalVariable.getInstance().setClubGamesDraw(true);
+                            postUserChoice();
+                        }
+
+                ).subscribe();
 
     }
 
