@@ -23,6 +23,7 @@ import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.TeamNameMap;
 import rx.Observable;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -68,6 +69,8 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
     private String winnerName;
     private Integer winnerScore;
 
+    private Subscription subscription;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,8 +101,21 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopTimer();
+
+    }
+
+    void stopTimer() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
+
     private void startTimer(){
-        Observable.interval(1, TimeUnit.SECONDS)
+        subscription = Observable.interval(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .takeUntil(aLong -> aLong == TIMER_VALUE)
