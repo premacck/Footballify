@@ -173,7 +173,7 @@ public class CreateArenaActivity extends AppCompatActivity {
                         arena.copyArena(responseArena);
                         playerList.clear();
                         for (Player player : arena.getPlayers()) {
-                            playerList.add(player.getUsername());
+                            playerList.add(player.getDisplayName());
 
                         }
                         updatePlayerListAdapter();
