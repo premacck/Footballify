@@ -72,12 +72,13 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
     @OnClick(R.id.results_home_icon)
     public void exitPointsGameResultActivity() {
         startActivity(new Intent(this, GameLaunchActivity.class));
+        ZoneApplication.roundNumber = 0;
+        ZoneApplication.selectedTeamsList.clear();
     }
 
     @OnClick(R.id.advance_image)
     public void startNextRound() {
-
-        ZoneApplication.roundNumber = ZoneApplication.roundNumber + 1;
+        
         if (ZoneApplication.roundNumber < (Arena.getInstance().getRounds().size())) {
             startActivity(new Intent(this, PointsGameActivity.class));
         } else {
