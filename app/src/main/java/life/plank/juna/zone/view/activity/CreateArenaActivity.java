@@ -193,6 +193,11 @@ public class CreateArenaActivity extends AppCompatActivity {
                 R.id.user_name, playerList));
     }
 
+    @OnClick(R.id.home_icon)
+    public void homeIconClicked() {
+        startActivity(new Intent(this, GameLaunchActivity.class));
+    }
+
     @Override
     public void onBackPressed() {
 
