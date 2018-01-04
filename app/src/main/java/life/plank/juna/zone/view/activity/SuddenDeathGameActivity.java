@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -58,6 +60,9 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
     TextView yearText;
     @BindView(R.id.lives_remaining_count)
     TextView livesRemainingLabel;
+
+    private ImageView quitGameConfirmYesButton;
+    private ImageView quitGameConfirmNoButton;
 
     private ImageView selectedTeamImage;
     private TextView selectedTeamName;
@@ -131,6 +136,28 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.sudden_death_confirm_team_popup,
                 (ViewGroup) findViewById(R.id.confirm_popup_relative_layout));
+
+        popupWindow = new PopupWindow(layout,
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
+
+        popupWindow.showAtLocation(layout, Gravity.CENTER,
+                getResources().getInteger(R.integer.popup_location_offset),
+                getResources().getInteger(R.integer.popup_location_offset));
+
+        dimBehind(popupWindow);
+
+        selectedTeamName = (TextView) layout.findViewById(R.id.selected_team_name);
+        selectedTeamImage = (ImageView) layout.findViewById(R.id.selected_team_image);
+        confirmYesButton = layout.findViewById(R.id.confirm_yes_button);
+        confirmNoButton = layout.findViewById(R.id.confirm_no_button);
+    }
+
+    private void showQuitGamePopup() {
+        LayoutInflater inflater = (LayoutInflater) SuddenDeathGameActivity.this
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = inflater.inflate(R.layout.quit_game_popup,
+                (ViewGroup) findViewById(R.id.quit_game_relative_layout));
         popupWindow = new PopupWindow(layout,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT);
@@ -138,11 +165,9 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                 getResources().getInteger(R.integer.popup_location_offset),
                 getResources().getInteger(R.integer.popup_location_offset));
         dimBehind(popupWindow);
+        quitGameConfirmYesButton = layout.findViewById(R.id.quit_game_confirm_yes_button);
+        quitGameConfirmNoButton = layout.findViewById(R.id.quit_game_confirm_no_button);
 
-        selectedTeamName = (TextView) layout.findViewById(R.id.selected_team_name);
-        selectedTeamImage = (ImageView) layout.findViewById(R.id.selected_team_image);
-        confirmYesButton = layout.findViewById(R.id.confirm_yes_button);
-        confirmNoButton = layout.findViewById(R.id.confirm_no_button);
     }
 
     private void confirmYesOrNo(FootballMatch footballMatch, FootballTeam footballTeam) {
@@ -191,9 +216,19 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
 
     @OnClick(R.id.home_icon)
     public void exitSuddenDeathGame() {
-        startActivity(new Intent(this, GameLaunchActivity.class));
-        ZoneApplication.roundNumber = 0;
-        suddenDeathGameViewModel.clearFootballMatchList();
+        showQuitGamePopup();
+
+        RxView.clicks(quitGameConfirmYesButton)
+                .subscribe(v -> {
+                    startActivity(new Intent(this, GameLaunchActivity.class));
+                    ZoneApplication.roundNumber = 0;
+                    suddenDeathGameViewModel.clearFootballMatchList();
+
+                });
+
+        RxView.clicks(quitGameConfirmNoButton)
+                .subscribe(v -> popupWindow.dismiss());
+
     }
 
     @Override
