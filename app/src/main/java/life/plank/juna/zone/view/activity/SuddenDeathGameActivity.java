@@ -145,7 +145,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                 getResources().getInteger(R.integer.popup_location_offset),
                 getResources().getInteger(R.integer.popup_location_offset));
 
-        dimBehind(popupWindow);
+        dimBehind(popupWindow, 150);
 
         selectedTeamName = (TextView) layout.findViewById(R.id.selected_team_name);
         selectedTeamImage = (ImageView) layout.findViewById(R.id.selected_team_image);
@@ -164,7 +164,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
         popupWindow.showAtLocation(layout, Gravity.CENTER,
                 getResources().getInteger(R.integer.popup_location_offset),
                 getResources().getInteger(R.integer.popup_location_offset));
-        dimBehind(popupWindow);
+        dimBehind(popupWindow, 180);
         quitGameConfirmYesButton = layout.findViewById(R.id.quit_game_confirm_yes_button);
         quitGameConfirmNoButton = layout.findViewById(R.id.quit_game_confirm_no_button);
 
