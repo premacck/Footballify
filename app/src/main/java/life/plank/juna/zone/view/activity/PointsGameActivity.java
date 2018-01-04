@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -91,6 +92,7 @@ public class PointsGameActivity extends AppCompatActivity {
     private Integer homeTeamGuessScore, visitingTeamGuessScore, selectedTeamId;
     private String selectedTeamName;
     private Integer playerScore = 0;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class PointsGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_points_game);
         CustomizeStatusBar.removeStatusBar(getWindow());
         ButterKnife.bind(this);
+        sharedPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         ((ZoneApplication) getApplication()).getPointsGameComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         initializePointsMatchGamesView();
@@ -211,6 +214,8 @@ public class PointsGameActivity extends AppCompatActivity {
 
         roundId = Arena.getInstance().getRounds()
                 .get(ZoneApplication.roundNumber - 1).getId();
+
+        JunaUserBuilder.getInstance().withUserName(sharedPreferences.getString(getString(R.string.shared_pref_username), ""));
 
         subscription = restApi.postUserChoice(roundId, UserChoiceBuilder.getInstance()
                 .withId(roundId)
