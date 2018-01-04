@@ -142,7 +142,7 @@ public class PointsGameActivity extends AppCompatActivity {
         popupWindow.showAtLocation(layout, Gravity.CENTER,
                 getResources().getInteger(R.integer.popup_location_offset),
                 getResources().getInteger(R.integer.popup_location_offset));
-        dimBehind(popupWindow);
+        dimBehind(popupWindow, 0);
 
         homeTeamImage = (ImageView) layout.findViewById(R.id.user_choice_home_team_image);
         homeTeamName = (TextView) layout.findViewById(R.id.user_choice_home_team_name);
@@ -275,7 +275,7 @@ public class PointsGameActivity extends AppCompatActivity {
         }
     }
 
-    public static void dimBehind(PopupWindow popupWindow) {
+    public static void dimBehind(PopupWindow popupWindow, Integer margin) {
         View container;
         if (popupWindow.getBackground() == null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -293,6 +293,8 @@ public class PointsGameActivity extends AppCompatActivity {
         Context context = popupWindow.getContentView().getContext();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) container.getLayoutParams();
+
+        layoutParams.width = windowManager.getDefaultDisplay().getWidth() - margin;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.9f;
         windowManager.updateViewLayout(container, layoutParams);
