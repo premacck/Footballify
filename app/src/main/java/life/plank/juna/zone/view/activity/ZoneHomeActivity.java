@@ -52,7 +52,7 @@ public class ZoneHomeActivity extends AppCompatActivity {
         setUpFragment();
     }
 
-    //Todo: Add required fuctionality to this button and refactor based on MVVM architecture
+    //Todo: Add required functionality to this button and refactor based on MVVM architecture
     @OnClick(R.id.app_toolbar_home)
     public void logOut() {
         new AlertDialog.Builder(this).setTitle(getString(R.string.logout_label))
@@ -126,6 +126,6 @@ public class ZoneHomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        finishAffinity();
     }
 }
