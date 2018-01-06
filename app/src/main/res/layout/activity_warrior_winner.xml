@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/warrior_winner_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ic_winner_bg"
@@ -29,6 +30,7 @@
         android:background="@drawable/ic_warrior_logo" />
 
     <ImageView
+        android:id="@+id/imageView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignBottom="@+id/warrior_logo"
@@ -39,11 +41,12 @@
         android:id="@+id/score_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/warrior_logo"
-        android:layout_alignRight="@+id/warrior_logo"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
         android:layout_below="@+id/warrior_logo"
         android:layout_marginTop="45dp"
-        android:text="77689"
+        android:text="40"
+        android:textAlignment="center"
         android:textColor="@color/White"
         android:textSize="50sp" />
 

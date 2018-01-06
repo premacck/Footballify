@@ -114,7 +114,7 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
-    private void startTimer(){
+    private void startTimer() {
         subscription = Observable.interval(1, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -191,7 +191,8 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
         intent.putExtra("homeTeamScore", FootballMatch.getInstance().getHomeTeamScore().toString());
         intent.putExtra("visitingTeamScore", FootballMatch.getInstance().getVisitingTeamScore().toString());
 
-        if (GlobalVariable.getInstance().getClubPointsGameRound() <= 20) {
+        if (GlobalVariable.getInstance().getClubPointsGameRound() < 20) {
+            GlobalVariable.getInstance().setClubPointsGameRound(GlobalVariable.getInstance().getClubPointsGameRound() + 1);
             if (FootballMatch.getInstance().getHomeTeamScore() > FootballMatch.getInstance().getVisitingTeamScore()) {
 
                 winnerName = FootballMatch.getInstance().getHomeTeam().getName();
@@ -235,6 +236,9 @@ public class ClubPointsActivity extends AppCompatActivity implements View.OnClic
                 //TODO: Navigate to club game leaderboard
             }
 
+            Intent winnerIntent = new Intent(getApplicationContext(), WarriorWinnerActivity.class);
+            winnerIntent.putExtra("score", String.valueOf(GlobalVariable.getInstance().getClubPointsGameScore()));
+            startActivity(winnerIntent);
         }
     }
 }
