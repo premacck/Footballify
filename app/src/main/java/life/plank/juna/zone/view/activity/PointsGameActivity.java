@@ -46,8 +46,10 @@ import life.plank.juna.zone.data.network.builder.UserChoiceBuilder;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballMatch;
+import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.domain.service.GameService;
 import life.plank.juna.zone.util.CustomizeStatusBar;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.TeamNameMap;
 import life.plank.juna.zone.view.adapter.PointsGameAdapter;
 import retrofit2.Response;
@@ -223,6 +225,7 @@ public class PointsGameActivity extends AppCompatActivity {
                 .withVisitingTeamScore(visitingTeamGuessScore)
                 .withPoints(playerScore)
                 .withFootballMatch(footballMatch)
+                .withIsWinner(ZoneApplication.pointsGameResultMap.get(JunaUserBuilder.getInstance().build()))
                 .withFootballTeam(footballTeamBuilder.withId(selectedTeamId)
                         .withName(selectedTeamName)
                         .build())
@@ -244,12 +247,36 @@ public class PointsGameActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<Void> response) {
+
                         if (response.code() == HttpURLConnection.HTTP_CREATED) {
                             Log.d(TAG, "User choice posted" + ZoneApplication.roundNumber);
-                            startActivity(new Intent(PointsGameActivity.this, PointsGameResultActivity.class));
+                            getUserChoice();
+
                         } else
-                            Log.d(TAG, "Error occured onPostUser choice with response code: " + response.code());
+                            Log.d(TAG, "Error occurred onPostUser choice with response code: " + response.code());
                         submitScoreButton.setEnabled(true);
+                    }
+                });
+    }
+
+    public void getUserChoice() {
+        restApi.getUserChoice(roundId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<UserChoice>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                    }
+
+                    @Override
+                    public void onNext(List<UserChoice> response) {
+                        GlobalVariable.getInstance().setUserChoice(response);
+                        Intent intent = new Intent(PointsGameActivity.this, PointsGameResultActivity.class);
+                        startActivity(intent);
                     }
                 });
     }

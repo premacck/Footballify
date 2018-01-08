@@ -10,20 +10,15 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
-import life.plank.juna.zone.data.network.builder.UserChoiceBuilder;
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.Player;
-import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.util.CustomizeStatusBar;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.adapter.PointsGameResultAdapter;
 
 public class PointsGameResultActivity extends AppCompatActivity implements Serializable {
@@ -36,8 +31,6 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
     RecyclerView recyclerView;
 
     private PointsGameResultAdapter pointsGameResultAdapter = new PointsGameResultAdapter();
-    private List<Player> playerList = new ArrayList<>();
-    private List<UserChoice> userChoicesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +46,7 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
 
         initRecyclerView();
         roundNumberText.setText(String.valueOf(ZoneApplication.roundNumber));
+
     }
 
     private void initRecyclerView() {
@@ -60,13 +54,7 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(pointsGameResultAdapter);
-        playerList.addAll(Arena.getInstance().getPlayers());
-        for (Player player : playerList) {
-            userChoicesList.add(UserChoiceBuilder.getInstance().withJunaUser(JunaUserBuilder.getInstance()
-                    .withUserName(player.getUsername()).build())
-                    .build());
-        }
-        pointsGameResultAdapter.setUserChoiceList(userChoicesList);
+        pointsGameResultAdapter.setUserChoiceList(GlobalVariable.getInstance().getUserChoice());
     }
 
     @OnClick(R.id.results_home_icon)
@@ -78,7 +66,7 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
 
     @OnClick(R.id.advance_image)
     public void startNextRound() {
-        
+
         if (ZoneApplication.roundNumber < (Arena.getInstance().getRounds().size())) {
             startActivity(new Intent(this, PointsGameActivity.class));
         } else {

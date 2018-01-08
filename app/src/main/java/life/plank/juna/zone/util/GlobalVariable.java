@@ -1,5 +1,9 @@
 package life.plank.juna.zone.util;
 
+import java.util.List;
+
+import life.plank.juna.zone.data.network.model.UserChoice;
+
 /**
  * Created by plank-arfaa on 26/12/17.
  */
@@ -10,8 +14,9 @@ public class GlobalVariable {
     private String teamName;
     private Integer clubPointsGameRound = 0;
     private Integer clubPointsGameScore = 0;
-    private Boolean  isClubPointsWinner;
+    private Boolean isClubPointsWinner;
     private Boolean isClubGamesDraw = false;
+    private List<UserChoice> userChoice;
 
     private GlobalVariable() {
     }
@@ -61,5 +66,13 @@ public class GlobalVariable {
             instance = new GlobalVariable();
         }
         return instance;
+    }
+
+    public void setUserChoice(List<UserChoice> userChoice) {
+        this.userChoice = userChoice;
+    }
+
+    public List<UserChoice> getUserChoice() {
+        return userChoice;
     }
 }
