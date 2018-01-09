@@ -251,37 +251,14 @@ public class PointsGameActivity extends AppCompatActivity {
 
                         if (response.code() == HttpURLConnection.HTTP_CREATED) {
                             Log.d(TAG, "User choice posted" + ZoneApplication.roundNumber);
-                            getUserChoice();
+
+                            Intent intent = new Intent(PointsGameActivity.this, PointsGameResultActivity.class);
+                            intent.putExtra("roundId", roundId);
+                            startActivity(intent);
 
                         } else
                             Log.d(TAG, "Error occurred onPostUser choice with response code: " + response.code());
                         submitScoreButton.setEnabled(true);
-                    }
-                });
-    }
-
-    public void getUserChoice() {
-        restApi.getUserChoice(roundId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<UserChoice>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(List<UserChoice> response) {
-                        if (Arena.getInstance().getPlayers().size() >= response.size()) {
-                            GlobalVariable.getInstance().setUserChoice(response);
-                            Intent intent = new Intent(PointsGameActivity.this, PointsGameResultActivity.class);
-                            startActivity(intent);
-                        } else {
-                            getUserChoice();
-                        }
                     }
                 });
     }

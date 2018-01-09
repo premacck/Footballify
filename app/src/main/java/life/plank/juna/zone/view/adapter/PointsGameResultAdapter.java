@@ -22,8 +22,7 @@ import life.plank.juna.zone.data.network.model.UserChoice;
  */
 
 public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResultAdapter.ViewHolder> {
-
-    private Integer index = 1;
+    
     private List<UserChoice> userChoiceList = new ArrayList<>();
     private Typeface aileronRegular = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(),
             ZoneApplication.getContext().getString(R.string.aileron_regular));
@@ -58,8 +57,7 @@ public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResu
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         UserChoice userChoice = userChoiceList.get(position);
-        holder.indexLabel.setText(String.valueOf(index));
-        index++;
+        holder.indexLabel.setText(String.valueOf(position + 1));
         holder.userName.setText(userChoice.getJunaUser().getDisplayName());
         Integer points = userChoice.getPoints();
         holder.points.setText(String.valueOf(points));
