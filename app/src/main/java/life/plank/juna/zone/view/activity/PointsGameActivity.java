@@ -196,6 +196,7 @@ public class PointsGameActivity extends AppCompatActivity {
     }
 
     private void computeGamePoints(FootballMatch footballMatch) {
+
         homeTeamGuessScore = Integer.parseInt(homeTeamScore.getText().toString());
         visitingTeamGuessScore = Integer.parseInt(visitingTeamScore.getText().toString());
 
@@ -274,9 +275,13 @@ public class PointsGameActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(List<UserChoice> response) {
-                        GlobalVariable.getInstance().setUserChoice(response);
-                        Intent intent = new Intent(PointsGameActivity.this, PointsGameResultActivity.class);
-                        startActivity(intent);
+                        if (Arena.getInstance().getPlayers().size() >= response.size()) {
+                            GlobalVariable.getInstance().setUserChoice(response);
+                            Intent intent = new Intent(PointsGameActivity.this, PointsGameResultActivity.class);
+                            startActivity(intent);
+                        } else {
+                            getUserChoice();
+                        }
                     }
                 });
     }
