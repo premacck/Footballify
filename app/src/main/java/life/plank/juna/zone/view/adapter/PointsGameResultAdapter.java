@@ -15,7 +15,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.model.UserChoice;
 
 /**
@@ -61,13 +60,10 @@ public class PointsGameResultAdapter extends RecyclerView.Adapter<PointsGameResu
         UserChoice userChoice = userChoiceList.get(position);
         holder.indexLabel.setText(String.valueOf(index));
         index++;
-        holder.userName.setText(JunaUserBuilder.getInstance()
-                .withUserName(userChoice.getJunaUser().getUsername())
-                .build()
-                .getDisplayName());
+        holder.userName.setText(userChoice.getJunaUser().getDisplayName());
         Integer points = userChoice.getPoints();
         holder.points.setText(String.valueOf(points));
-        if (ZoneApplication.pointsGameResultMap.get(userChoice.getJunaUser())) {
+        if (userChoice.getIsWinner()) {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_won));
             holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.Green));
         } else {

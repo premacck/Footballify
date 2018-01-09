@@ -53,6 +53,9 @@ public interface RestApi {
     @POST("rounds/{roundId}/userChoices")
     Observable<Response<Void>> postUserChoice(@Path("roundId") Integer roundId, @Body UserChoice userChoice);
 
+    @GET("rounds/{roundId}/userChoices")
+    Observable<List<UserChoice>> getUserChoice(@Path("roundId") Integer roundId);
+
     @PUT("arenas/{secretCode}/players")
     Observable<Response<Void>> putJoinArena(@Path("secretCode") String secretCode, @Body JunaUser junaUser);
 
