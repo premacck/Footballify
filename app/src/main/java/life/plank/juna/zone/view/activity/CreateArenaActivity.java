@@ -107,11 +107,13 @@ public class CreateArenaActivity extends AppCompatActivity {
         if (gameType.equals(getString(R.string.points_game))) {
             Intent intent = new Intent(this, JoinGameActivity.class);
             intent.putExtra(getString(R.string.game_type), getString(R.string.points_game));
+            intent.putExtra("invitationCode", arena.getInvitationCode());
             startActivity(intent);
             subscription.unsubscribe();
         } else if (gameType.equals(getString(R.string.sudden_death_game))) {
             Intent intent = new Intent(this, JoinGameActivity.class);
             intent.putExtra(getString(R.string.game_type), getString(R.string.sudden_death_game));
+            intent.putExtra("invitationCode", arena.getInvitationCode());
             startActivity(intent);
             subscription.unsubscribe();
         }

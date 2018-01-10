@@ -147,6 +147,7 @@ public class MultipleUserJoinGameActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_ACCEPTED) {
                             Log.d(TAG, "Put Join Arena request Accepted");
                             Intent intent = new Intent(MultipleUserJoinGameActivity.this, JoinGameActivity.class);
+                            intent.putExtra("invitationCode", invitationCode);
                             intent.putExtra(getString(R.string.game_type), gameType);
                             startActivity(intent);
                         } else
