@@ -85,7 +85,8 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
 
                     @Override
                     public void onNext(List<UserChoice> response) {
-                        if (response.size() < Arena.getInstance().getPlayers().size()) {
+
+                        if (response.size() <= Arena.getInstance().getPlayers().size()) {
                             GlobalVariable.getInstance().setUserChoice(response);
                             pointsGameResultAdapter.setUserChoiceList(GlobalVariable.getInstance().getUserChoice());
                             getUserChoice();
@@ -116,12 +117,15 @@ public class PointsGameResultActivity extends AppCompatActivity implements Seria
     @OnClick(R.id.advance_image)
     public void startNextRound() {
 
+        GlobalVariable.getInstance().getUserChoice().clear();
+
         if (ZoneApplication.roundNumber < (Arena.getInstance().getRounds().size())) {
             startActivity(new Intent(this, PointsGameActivity.class));
         } else {
             ZoneApplication.roundNumber = 0;
             startActivity(new Intent(this, GameLaunchActivity.class));
         }
+
 
     }
 
