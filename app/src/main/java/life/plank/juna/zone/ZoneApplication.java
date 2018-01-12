@@ -19,6 +19,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerPointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
@@ -29,6 +30,7 @@ import life.plank.juna.zone.data.network.dagger.PointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
+import life.plank.juna.zone.data.network.dagger.SuddenDeathResultComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.domain.module.GameServiceModule;
@@ -56,6 +58,7 @@ public class ZoneApplication extends Application {
     private FootballMatchNetworkComponent footballMatchNetworkComponent;
     private PointsGameResultComponent pointsGameResultComponent;
     private JoinGameNetworkComponent joinGameNetworkComponent;
+    private SuddenDeathResultComponent suddenDeathResultComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -114,6 +117,10 @@ public class ZoneApplication extends Application {
         joinGameNetworkComponent = DaggerJoinGameNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
+
+        suddenDeathResultComponent = DaggerSuddenDeathResultComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -158,5 +165,9 @@ public class ZoneApplication extends Application {
 
     public JoinGameNetworkComponent getJoinGameNetworkComponent() {
         return joinGameNetworkComponent;
+    }
+
+    public SuddenDeathResultComponent getSuddenDeathResultComponent() {
+        return suddenDeathResultComponent;
     }
 }
