@@ -99,9 +99,12 @@ public class SuddenDeathResultActivity extends AppCompatActivity {
     @OnClick(R.id.advance_image)
     public void startNextRound() {
         GlobalVariable.getInstance().getUserChoice().clear();
-        if (ZoneApplication.suddenDeathLivesRemaining == 0)
+        if (ZoneApplication.suddenDeathLivesRemaining == 0) {
+            ZoneApplication.roundNumber = 0;
+            ZoneApplication.suddenDeathLivesRemaining = 5;
+            ZoneApplication.selectedTeamsList.clear();
             startActivity(new Intent(this, WarriorGameActivity.class));
-        else {
+        } else {
             //Todo: change this to navigate to the leader board activity
             startActivity(new Intent(this, SuddenDeathGameActivity.class));
         }

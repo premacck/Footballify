@@ -152,6 +152,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
     }
 
     private void showQuitGamePopup() {
+
         LayoutInflater inflater = (LayoutInflater) SuddenDeathGameActivity.this
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = inflater.inflate(R.layout.quit_game_popup,
@@ -223,7 +224,8 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
                     startActivity(new Intent(this, GameLaunchActivity.class));
                     ZoneApplication.roundNumber = 0;
                     suddenDeathGameViewModel.clearFootballMatchList();
-
+                    ZoneApplication.suddenDeathLivesRemaining = 5;
+                    ZoneApplication.selectedTeamsList.clear();
                 });
 
         RxView.clicks(quitGameConfirmNoButton)
