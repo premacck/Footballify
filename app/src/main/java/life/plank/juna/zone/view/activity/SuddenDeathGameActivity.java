@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -180,6 +178,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
                         intent.putExtra(getString(R.string.result_string), getString(R.string.right_label));
+                        intent.putExtra("roundId", roundId);
                         intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
 
                         postUserChoice(footballMatch, footballTeam, true, intent);
@@ -189,6 +188,7 @@ public class SuddenDeathGameActivity extends AppCompatActivity {
 
                         Intent intent = new Intent(this, SuddenDeathWinnerOrLoserActivity.class);
                         intent.putExtra(getString(R.string.result_string), getString(R.string.wrong_label));
+                        intent.putExtra("roundId", roundId);
                         intent.putExtra(getString(R.string.selected_team), footballTeam.getName());
 
                         postUserChoice(footballMatch, footballTeam, false, intent);

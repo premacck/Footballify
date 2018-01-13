@@ -45,6 +45,7 @@ public class SuddenDeathWinnerOrLoserActivity extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             Intent intent = new Intent(this, SuddenDeathResultActivity.class);
             intent.putExtra(getString(R.string.selected_team), selectedTeamName);
+            intent.putExtra("roundId", getIntent().getIntExtra("roundId", 0));
             startActivity(intent);
         }, getResources().getInteger(R.integer.SPLASH_TIME_OUT));
     }

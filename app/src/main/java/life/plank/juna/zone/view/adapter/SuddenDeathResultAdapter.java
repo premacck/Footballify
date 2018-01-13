@@ -16,7 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.builder.JunaUserBuilder;
 import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.util.TeamNameMap;
 
@@ -26,9 +25,7 @@ import life.plank.juna.zone.util.TeamNameMap;
 
 public class SuddenDeathResultAdapter extends RecyclerView.Adapter<SuddenDeathResultAdapter.ViewHolder> {
 
-    private Integer index = 1;
     private List<UserChoice> userChoiceList = new ArrayList<>();
-    private String selectedTeamName;
     private Typeface aileronRegular = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(),
             ZoneApplication.getContext().getString(R.string.aileron_regular));
 
@@ -63,17 +60,11 @@ public class SuddenDeathResultAdapter extends RecyclerView.Adapter<SuddenDeathRe
     public void onBindViewHolder(SuddenDeathResultAdapter.ViewHolder holder, int position) {
         UserChoice userChoice = userChoiceList.get(position);
 
-        holder.indexLabel.setText(String.valueOf(index));
-        index++;
+        holder.indexLabel.setText(String.valueOf(position + 1));
+        holder.userName.setText(userChoice.getJunaUser().getDisplayName());
+        holder.selectedTeamLogo.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(userChoice.getFootballTeam().getName()));
 
-        holder.userName.setText(JunaUserBuilder.getInstance()
-                .withUserName(userChoice.getJunaUser().getUsername())
-                .build()
-                .getDisplayName());
-
-        holder.selectedTeamLogo.setImageDrawable(TeamNameMap.getTeamLogoNameMap().get(selectedTeamName));
-
-        if (ZoneApplication.suddenDeathGameResultMap.get(userChoice.getJunaUser())) {
+        if (userChoice.getIsWinner()) {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_won));
             holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.Green));
         } else {
@@ -87,11 +78,10 @@ public class SuddenDeathResultAdapter extends RecyclerView.Adapter<SuddenDeathRe
         return userChoiceList.size();
     }
 
-    public void setUserChoiceList(List<UserChoice> userChoices, String selectedTeamName) {
+    public void setUserChoiceList(List<UserChoice> userChoices) {
         if (userChoices == null) {
             return;
         }
-        this.selectedTeamName = selectedTeamName;
         userChoiceList.clear();
         userChoiceList.addAll(userChoices);
         notifyDataSetChanged();
