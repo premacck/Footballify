@@ -13,4 +13,7 @@
     <color name="Blue_grey">#5B7281</color>
     <color name="dark_grey">#2B2D39</color>
     <color name="dark_blue">#2A385D</color>
+    <color name="orange_center_gradient">#e24932</color>
+    <color name="orange_end_gradient">#ed7e2f</color>
+    <color name="orange_start_gradient">#c02c2e</color>
 </resources>
