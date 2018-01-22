@@ -47,7 +47,10 @@ public class SwipePageFragment extends Fragment implements FootballFeedAdapter.I
         //TODO: Will be replaced with the feed grid
         //((TextView) rootView.findViewById(R.id.dummyText)).setText("Hello");
 
-        String[] data = {"1", "2", "3", "4"};
+        String[] data = {"Reece Burke celebrates after breaking the deadlock in extra time at London Stadium",
+                "Utd to subsidised fans in Sevilla row. $89 to visit Old Trafford for spanish supporters",
+                "Charlie Nicholas : FA Cup third round replay predictions",
+                "Brighton vs Chelsea"};
 
         // set up the RecyclerView
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.football_feed_recycler_view);

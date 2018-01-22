@@ -5,13 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import life.plank.juna.zone.R;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.ViewHolder> {
 
+    //TODO:Will be replaced with data from the backend
     private String[] mData = new String[0];
+    int[] images = {R.drawable.ic_third_dummy, R.drawable.ic_second_dummy,R.drawable.ic_fourth_dummy, R.drawable.ic_football_dummy_image};
+
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
@@ -33,6 +37,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         String animal = mData[position];
         holder.myTextView.setText(animal);
+        holder.imageView.setImageResource(images[position]);
     }
 
     // total number of cells
@@ -45,10 +50,12 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView myTextView;
+        ImageView imageView;
 
         ViewHolder(View itemView) {
             super(itemView);
             myTextView = (TextView) itemView.findViewById(R.id.info_text);
+            imageView = itemView.findViewById(R.id.news_feed_image);
             itemView.setOnClickListener(this);
         }
 
