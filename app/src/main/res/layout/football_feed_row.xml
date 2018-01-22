@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/football_feed_card"
     android:layout_width="match_parent"
-    android:layout_height="240dp"
+    android:layout_height="170dp"
     card_view:cardBackgroundColor="@android:color/holo_blue_dark"
     card_view:cardElevation="0dp"
     card_view:cardUseCompatPadding="true">
@@ -56,6 +56,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:text="Here is your text"
+                android:textSize="12sp"
                 android:textColor="@color/White" />
 
         </RelativeLayout>
@@ -78,7 +79,7 @@
                 android:layout_marginTop="10dp"
                 android:text="TEAMS"
                 android:textColor="@color/White"
-                android:textSize="8dp" />
+                android:textSize="8sp" />
 
 
         </RelativeLayout>
