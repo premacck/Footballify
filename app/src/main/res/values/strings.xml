@@ -99,4 +99,12 @@
     <string name="property_type">rotationY</string>
     <string name="pick_club_label">PICK YOUR CLUB</string>
     <string name="club_image_name">clubImageName</string>
+    <string-array name="calendar_array">
+        <item>Yesterday</item>
+        <item>Last Weekend</item>
+        <item>Last Week</item>
+        <item>Last Month</item>
+        <item>Pick a date</item>
+        <item>Calendar</item>
+    </string-array>
 </resources>

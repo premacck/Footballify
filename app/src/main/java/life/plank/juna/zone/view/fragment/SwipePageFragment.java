@@ -7,7 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 
@@ -19,6 +23,9 @@ public class SwipePageFragment extends Fragment {
 
     private int pageNumber;
     FootballFeedAdapter footballFeedAdapter;
+
+    @BindView(R.id.calendar_spinner)
+    Spinner calendarSpinner;
 
     public static SwipePageFragment create(int pageNumber) {
         SwipePageFragment fragment = new SwipePageFragment();
@@ -49,6 +56,12 @@ public class SwipePageFragment extends Fragment {
                 "Charlie Nicholas : FA Cup third round replay predictions",
                 "Brighton vs Chelsea"};
 
+
+        ButterKnife.bind(this, rootView);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.calendar_array, R.layout.custom_calendar_spinner);
+        adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
+        calendarSpinner.setAdapter(adapter);
         // set up the RecyclerView
         RecyclerView recyclerView = rootView.findViewById(R.id.football_feed_recycler_view);
         int numberOfColumns = 2;
