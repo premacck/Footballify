@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<RelativeLayout android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:padding="16dp">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/football_feed_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            tools:ignore="UnknownId" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/football_feed_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp" />
 
-
-    </RelativeLayout>
+</RelativeLayout>
 

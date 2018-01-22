@@ -15,7 +15,7 @@ import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageFragment extends Fragment implements FootballFeedAdapter.ItemClickListener {
+public class SwipePageFragment extends Fragment {
 
     private int pageNumber;
     FootballFeedAdapter footballFeedAdapter;
@@ -43,21 +43,17 @@ public class SwipePageFragment extends Fragment implements FootballFeedAdapter.I
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_swipe_page, container, false);
 
-        // Set the title view to show the page number.
-        //TODO: Will be replaced with the feed grid
-        //((TextView) rootView.findViewById(R.id.dummyText)).setText("Hello");
-
+        //TODO: Will be replaced with data from backend
         String[] data = {"Reece Burke celebrates after breaking the deadlock in extra time at London Stadium",
                 "Utd to subsidised fans in Sevilla row. $89 to visit Old Trafford for spanish supporters",
                 "Charlie Nicholas : FA Cup third round replay predictions",
                 "Brighton vs Chelsea"};
 
         // set up the RecyclerView
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.football_feed_recycler_view);
+        RecyclerView recyclerView = rootView.findViewById(R.id.football_feed_recycler_view);
         int numberOfColumns = 2;
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), numberOfColumns));
         footballFeedAdapter = new FootballFeedAdapter(getContext(), data);
-        footballFeedAdapter.setClickListener(this);
         recyclerView.setAdapter(footballFeedAdapter);
 
         return rootView;
@@ -65,12 +61,5 @@ public class SwipePageFragment extends Fragment implements FootballFeedAdapter.I
 
     public int getPageNumber() {
         return pageNumber;
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-
-
-
     }
 }
