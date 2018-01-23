@@ -23,5 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/football_feed_recycler_view" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_margin="3dp"
+        android:background="@drawable/football_header_orange_gradient"
+        android:layout_below="@+id/football_feed_horizontal_view">
+
+    </RelativeLayout>
+
 </RelativeLayout>
 

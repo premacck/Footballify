@@ -63,12 +63,13 @@
 
 
         <RelativeLayout
+            android:id="@+id/gradient_header"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:background="@drawable/football_header_gradient">
+            android:background="@drawable/football_header_purple_gradient">
 
             <TextView
                 android:id="@+id/category"

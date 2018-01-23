@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -17,7 +18,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     //TODO:Will be replaced with data from the backend
     private String[] data = new String[0];
     int[] images = {R.drawable.ic_third_dummy, R.drawable.ic_second_dummy,R.drawable.ic_fourth_dummy, R.drawable.ic_football_dummy_image};
-
+    int[] bgColor = {R.drawable.football_header_orange_gradient, R.drawable.football_header_green_gradient,R.drawable.football_header_blue_gradient, R.drawable.football_header_purple_gradient};
+    private Context context;
     private LayoutInflater mInflater;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -25,6 +27,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         TextView newsFeedLabel;
         @BindView(R.id.news_feed_image)
         ImageView newFeedImage;
+        @BindView(R.id.gradient_header)
+        RelativeLayout gradientRelativeLayout;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -41,7 +45,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.football_feed_row, parent, false);
+        context = parent.getContext();
         return new ViewHolder(view);
+
     }
 
     @Override
@@ -49,6 +55,13 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         String text = data[position];
         holder.newsFeedLabel.setText(text);
         holder.newFeedImage.setImageResource(images[position]);
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            holder.gradientRelativeLayout.setBackgroundDrawable(context.getResources().getDrawable(bgColor[position]) );
+        } else {
+            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
+        }
     }
 
     @Override

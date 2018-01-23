@@ -4,7 +4,7 @@
     android:id="@+id/football_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@drawable/football_header_gradient"
+    android:background="@drawable/football_header_orange_gradient"
     android:elevation="0dp"
     android:padding="10dp"
     tools:ignore="UnusedAttribute">
