@@ -20,7 +20,7 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
 
     //TODO:Will be replaced with data from the backend
     private String[] data = new String[0];
-    int[] images = {R.drawable.ic_dummy_user, R.drawable.ic_dummy_user, R.drawable.ic_dummy_user, R.drawable.ic_dummy_user};
+    int image = R.drawable.ic_dummy_user;
 
     private LayoutInflater mInflater;
 
@@ -52,7 +52,7 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
     public void onBindViewHolder(ViewHolder holder, int position) {
         String text = data[position];
         holder.horizontalNewsFeedLabel.setText(text);
-        holder.horizontalNewsFeedImage.setImageResource(images[position]);
+        holder.horizontalNewsFeedImage.setImageResource(image);
     }
 
     @Override

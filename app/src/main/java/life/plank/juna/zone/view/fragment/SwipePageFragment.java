@@ -76,6 +76,10 @@ public class SwipePageFragment extends Fragment {
         String[] horizontalData = {"6S: MARK F",
                 "14S: ROBERT",
                 "23S: SUE M",
+                "27S: GRAHAM",
+                "6S: MARK F",
+                "14S: ROBERT",
+                "23S: SUE M",
                 "27S: GRAHAM"};
         //Setup the horizontal recycler view
         RecyclerView horizontalRecyclerView = rootView.findViewById(R.id.football_feed_horizontal_view);

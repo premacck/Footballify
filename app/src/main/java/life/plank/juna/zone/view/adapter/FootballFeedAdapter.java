@@ -17,6 +17,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
     //TODO:Will be replaced with data from the backend
     private String[] data = new String[0];
+    String[] category = {"TEAMS","LEAGUES/CUPS","PUNDITS","LIVEZONE"};
     int[] images = {R.drawable.ic_third_dummy, R.drawable.ic_second_dummy,R.drawable.ic_fourth_dummy, R.drawable.ic_football_dummy_image};
     int[] bgColor = {R.drawable.football_header_orange_gradient, R.drawable.football_header_green_gradient,R.drawable.football_header_blue_gradient, R.drawable.football_header_purple_gradient};
     private Context context;
@@ -29,6 +30,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         ImageView newFeedImage;
         @BindView(R.id.gradient_header)
         RelativeLayout gradientRelativeLayout;
+        @BindView(R.id.category)
+        TextView categoryLabel;
+
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -55,6 +59,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         String text = data[position];
         holder.newsFeedLabel.setText(text);
         holder.newFeedImage.setImageResource(images[position]);
+        holder.categoryLabel.setText(category[position]);
         final int sdk = android.os.Build.VERSION.SDK_INT;
 
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
