@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,6 +23,8 @@ public class SwipePageActivity extends FragmentActivity {
 
     @BindView(R.id.pager)
     ViewPager pager;
+    @BindView(R.id.calendar_spinner)
+    Spinner calendarSpinner;
 
     private PagerAdapter pagerAdapter;
 
@@ -31,6 +35,11 @@ public class SwipePageActivity extends FragmentActivity {
         ButterKnife.bind(this);
         pagerAdapter = new SwipePageAdapter(getSupportFragmentManager());
         pager.setAdapter(pagerAdapter);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.calendar_array, R.layout.custom_calendar_spinner);
+        adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
+        calendarSpinner.setAdapter(adapter);
     }
 
     @OnPageChange(R.id.pager)

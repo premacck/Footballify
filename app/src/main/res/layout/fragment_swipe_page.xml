@@ -5,17 +5,10 @@
     android:orientation="vertical"
     android:padding="3dp">
 
-    <Spinner
-        android:id="@+id/calendar_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/football_feed_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/calendar_spinner" />
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/football_feed_horizontal_view"
@@ -23,63 +16,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/football_feed_recycler_view" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_margin="3dp"
-        android:background="@drawable/football_header_orange_gradient"
-        android:layout_below="@+id/football_feed_horizontal_view">
-
-        <TextView
-            android:id="@+id/banter_zone_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:textSize="8sp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:text="BANTERZONE"/>
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="5dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true">
-
-            <ImageView
-                android:id="@+id/person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_person"/>
-
-            <TextView
-                android:id="@+id/person_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/person"
-                android:textColor="@color/White"
-                android:text="23"
-                android:textSize="8sp"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_margin="3dp"
-
-                android:src="@drawable/ic_dropdown"
-                android:layout_toRightOf="@+id/person_number"/>
-
-        </RelativeLayout>
-
-
-
-    </RelativeLayout>
 
 </RelativeLayout>
 
