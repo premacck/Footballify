@@ -145,6 +145,10 @@
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".view.activity.ScrubberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 
 </manifest>
