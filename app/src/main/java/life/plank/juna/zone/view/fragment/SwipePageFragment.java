@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
-import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 
 /**
  * Created by plank-arfaa on 19/01/18.
@@ -22,8 +20,6 @@ public class SwipePageFragment extends Fragment {
 
     private int pageNumber;
     FootballFeedAdapter footballFeedAdapter;
-    HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
-    
 
     public static SwipePageFragment create(int pageNumber) {
         SwipePageFragment fragment = new SwipePageFragment();
@@ -62,20 +58,6 @@ public class SwipePageFragment extends Fragment {
         footballFeedAdapter = new FootballFeedAdapter(getContext(), data);
         recyclerView.setAdapter(footballFeedAdapter);
 
-
-        String[] horizontalData = {"6S: MARK F",
-                "14S: ROBERT",
-                "23S: SUE M",
-                "27S: GRAHAM",
-                "6S: MARK F",
-                "14S: ROBERT",
-                "23S: SUE M",
-                "27S: GRAHAM"};
-        //Setup the horizontal recycler view
-        RecyclerView horizontalRecyclerView = rootView.findViewById(R.id.football_feed_horizontal_view);
-        horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(getContext(), horizontalData);
-        horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
         return rootView;
     }
 
