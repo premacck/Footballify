@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <View
-        android:id="@+id/viewSample"
+        android:id="@+id/scrubber_view"
         android:layout_width="10dp"
         android:layout_height="wrap_content"
         android:background="#ff3333" />

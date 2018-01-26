@@ -90,6 +90,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition, RecyclerView.ViewHolder target) {
+        //TODO: Remove hardcoded code
         String text = "Play in progress.";
         if (data.get(toPosition).equals("goal"))
             text = " Goal!!!! ";
@@ -116,7 +117,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
         ScrubberViewHolder(View itemView) {
             super(itemView);
-            view = itemView.findViewById(R.id.viewSample);
+            view = itemView.findViewById(R.id.scrubber_view);
         }
     }
 
