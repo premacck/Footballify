@@ -4,7 +4,6 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,9 +35,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         @BindView(R.id.category)
         TextView categoryLabel;
         @BindView(R.id.relative_layout_container)
-        RelativeLayout relativeLayoutContainer;
+        RelativeLayout newsFeedRelativeLayout;
         @BindView(R.id.football_feed_card)
-        CardView footbalFeedCardView;
+        CardView newsFeedCardView;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -68,8 +67,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(text);
         holder.newFeedImage.setImageResource(images[position]);
         holder.categoryLabel.setText(category[position]);
-        holder.relativeLayoutContainer.getLayoutParams().width = (screenWidth /2) - dpToPx(4);
-
+        holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth /2) - dpToPx(4);
         final int sdk = android.os.Build.VERSION.SDK_INT;
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             holder.gradientRelativeLayout.setBackgroundDrawable(context.getResources().getDrawable(bgColor[position]) );

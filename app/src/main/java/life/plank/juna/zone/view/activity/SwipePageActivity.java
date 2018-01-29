@@ -73,7 +73,6 @@ public class SwipePageActivity extends AppCompatActivity {
 
 
         int numberOfRows = 2;
-//        feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -84,8 +83,7 @@ public class SwipePageActivity extends AppCompatActivity {
         // TODO: 29-01-2018 Change based on performance
         SnapHelper snapHelper = new StartSnapHelper();
         snapHelper.attachToRecyclerView(feedRecyclerView);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.calendar_array, R.layout.custom_calendar_spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.calendar_array, R.layout.custom_calendar_spinner);
         adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
         calendarSpinner.setAdapter(adapter);
     }
