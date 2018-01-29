@@ -17,36 +17,36 @@ import life.plank.juna.zone.R;
  * Created by plank-hasan on 1/27/2018.
  */
 
-public class LivezoneGridAdapter extends RecyclerView.Adapter<LivezoneGridAdapter.SimpleViewHolder>{
+public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapter.LiveZoneGridViewHolder> {
 
     private Context context;
     private List<String> elements;
 
-    public LivezoneGridAdapter(Context context){
+    public LiveZoneGridAdapter(Context context) {
         this.context = context;
         this.elements = new ArrayList<String>();
-        for(int i = 0; i < 40 ; i++){
+        for (int i = 0; i < 40; i++) {
             this.elements.add("");
         }
     }
 
-    public static class SimpleViewHolder extends RecyclerView.ViewHolder {
+    public static class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {
 
 
-        public SimpleViewHolder(View view) {
+        public LiveZoneGridViewHolder(View view) {
             super(view);
 
         }
     }
 
     @Override
-    public SimpleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LiveZoneGridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(this.context).inflate(R.layout.item_livezone_grid, parent, false);
-        return new SimpleViewHolder(view);
+        return new LiveZoneGridViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SimpleViewHolder holder, final int position) {
+    public void onBindViewHolder(LiveZoneGridViewHolder holder, final int position) {
 
     }
 

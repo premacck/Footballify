@@ -8,14 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,11 +44,11 @@ public class SwipePageActivity extends AppCompatActivity {
 
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
-    @BindView(R.id.containerRl)
+    @BindView(R.id.containerRelativeLayout)
     FrameLayout containerRl;
-    @BindView(R.id.livezoneTv)
+    @BindView(R.id.livezoneTextView)
     TextView livezoneTv;
-    @BindView(R.id.fragmentContainer)
+    @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainer;
 
     @Override
@@ -99,37 +100,37 @@ public class SwipePageActivity extends AppCompatActivity {
         calendarSpinner.setAdapter(adapter);
     }
 
-    @OnClick(R.id.livezoneTv)
+    @OnClick(R.id.livezoneTextView)
     public void onViewClicked() {
-        retainLayouts();
-        replaceFragment();
+        retainLayout();
+        footballFeedFragment();
     }
 
-    public void replaceFragment() {
+    public void footballFeedFragment() {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainer, new LiveZoneFragment())
+                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
 
-        if (livezoneTv.isSelected()){
-            retainLayouts();
-        }else {
+        if (livezoneTv.isSelected()) {
+            retainLayout();
+        } else {
             super.onBackPressed();
         }
 
     }
 
-    public void retainLayouts(){
-        if (livezoneTv.isSelected()){
+    public void retainLayout() {
+        if (livezoneTv.isSelected()) {
             livezoneTv.setSelected(false);
             containerRl.setVisibility(View.VISIBLE);
             fragmentContainer.setVisibility(View.GONE);
-        }else {
+        } else {
             livezoneTv.setSelected(true);
             containerRl.setVisibility(View.GONE);
             fragmentContainer.setVisibility(View.VISIBLE);

@@ -19,7 +19,7 @@ import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
-import life.plank.juna.zone.view.adapter.LivezoneGridAdapter;
+import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
 public class LiveZoneFragment extends Fragment {
 
@@ -56,7 +56,7 @@ public class LiveZoneFragment extends Fragment {
 
     private void setUpGridView() {
         liveZoneGridView.setLayoutManager(new GridLayoutManager(getActivity(), calculateNoOfColumns(), GridLayoutManager.HORIZONTAL, false));
-        liveZoneGridView.setAdapter(new LivezoneGridAdapter(getActivity()));
+        liveZoneGridView.setAdapter(new LiveZoneGridAdapter(getActivity()));
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
@@ -74,6 +74,6 @@ public class LiveZoneFragment extends Fragment {
 
     @OnClick(R.id.close)
     public void onViewClicked() {
-        ((SwipePageActivity)getActivity()).retainLayouts();
+        ((SwipePageActivity) getActivity()).retainLayout();
     }
 }

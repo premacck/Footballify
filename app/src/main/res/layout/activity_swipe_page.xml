@@ -23,7 +23,7 @@
         android:layout_toRightOf="@+id/zone_logo" />
 
     <FrameLayout
-        android:id="@+id/containerRl"
+        android:id="@+id/containerRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dp" />
 
             <TextView
-                android:id="@+id/livezoneTv"
+                android:id="@+id/livezoneTextView"
                 style="@style/livezonetextstyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/fragmentContainer"
+        android:id="@+id/fragmentContainerFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar" />
