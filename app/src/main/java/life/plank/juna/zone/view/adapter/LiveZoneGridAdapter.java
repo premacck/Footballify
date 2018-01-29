@@ -24,7 +24,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
-        this.elements = new ArrayList<String>();
+        this.elements = new ArrayList<>();
         for (int i = 0; i < 40; i++) {
             this.elements.add("");
         }

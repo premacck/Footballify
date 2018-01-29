@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/liveZoneRl"
+        android:id="@+id/liveZoneRelativeLayout"
         style="@style/livezonetextstyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +17,7 @@
         android:paddingTop="0dp">
 
         <TextView
-            android:id="@+id/liveZoneTv"
+            android:id="@+id/liveZoneTextView"
             style="@style/livezonetextstyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
             android:text="LiveZone" />
 
         <ImageView
-            android:id="@+id/close"
+            android:id="@+id/closeImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/banter_zone_layout"
-        android:layout_below="@+id/liveZoneRl"
+        android:layout_below="@+id/liveZoneRelativeLayout"
         android:orientation="vertical">
 
         <View
@@ -50,7 +50,7 @@
 
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/liveZoneGridView"
+            android:id="@+id/liveZoneGridViewRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".75"

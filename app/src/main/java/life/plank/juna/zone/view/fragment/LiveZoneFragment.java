@@ -23,14 +23,15 @@ import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
 public class LiveZoneFragment extends Fragment {
 
-    @BindView(R.id.liveZoneTv)
-    TextView liveZoneTv;
-    @BindView(R.id.liveZoneRl)
-    RelativeLayout liveZoneRl;
-    @BindView(R.id.liveZoneGridView)
-    RecyclerView liveZoneGridView;
-    @BindView(R.id.close)
-    ImageView close;
+    @BindView(R.id.liveZoneTextView)
+    TextView liveZoneTextView;
+    @BindView(R.id.liveZoneRelativeLayout)
+    RelativeLayout liveZoneRelativeLayout;
+    @BindView(R.id.liveZoneGridViewRelativeLayout)
+    RecyclerView liveZoneGridViewRelativeLayout;
+    @BindView(R.id.closeImage)
+    ImageView closeImage;
+
     private Unbinder unbinder;
 
     @Override
@@ -55,10 +56,10 @@ public class LiveZoneFragment extends Fragment {
 
 
     private void setUpGridView() {
-        liveZoneGridView.setLayoutManager(new GridLayoutManager(getActivity(), calculateNoOfColumns(), GridLayoutManager.HORIZONTAL, false));
-        liveZoneGridView.setAdapter(new LiveZoneGridAdapter(getActivity()));
+        liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), calculateNoOfColumns(), GridLayoutManager.HORIZONTAL, false));
+        liveZoneGridViewRelativeLayout.setAdapter(new LiveZoneGridAdapter(getActivity()));
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
-        liveZoneGridView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        liveZoneGridViewRelativeLayout.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
 
     }
 
@@ -72,8 +73,8 @@ public class LiveZoneFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.close)
-    public void onViewClicked() {
+    @OnClick(R.id.closeImage)
+    public void onCloseImageClicked() {
         ((SwipePageActivity) getActivity()).retainLayout();
     }
 }

@@ -45,11 +45,11 @@ public class SwipePageActivity extends AppCompatActivity {
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     @BindView(R.id.containerRelativeLayout)
-    FrameLayout containerRl;
+    FrameLayout containerRelativeLayout;
     @BindView(R.id.liveZoneTextView)
-    TextView liveZoneTv;
+    TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
-    FrameLayout fragmentContainer;
+    FrameLayout fragmentContainerFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +101,7 @@ public class SwipePageActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.liveZoneTextView)
-    public void onViewClicked() {
+    public void onLiveZoneTextViewClicked() {
         retainLayout();
         footballFeedFragment();
     }
@@ -117,7 +117,7 @@ public class SwipePageActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (liveZoneTv.isSelected()) {
+        if (liveZoneTextView.isSelected()) {
             retainLayout();
         } else {
             super.onBackPressed();
@@ -126,14 +126,14 @@ public class SwipePageActivity extends AppCompatActivity {
     }
 
     public void retainLayout() {
-        if (liveZoneTv.isSelected()) {
-            liveZoneTv.setSelected(false);
-            containerRl.setVisibility(View.VISIBLE);
-            fragmentContainer.setVisibility(View.GONE);
+        if (liveZoneTextView.isSelected()) {
+            liveZoneTextView.setSelected(false);
+            containerRelativeLayout.setVisibility(View.VISIBLE);
+            fragmentContainerFrameLayout.setVisibility(View.GONE);
         } else {
-            liveZoneTv.setSelected(true);
-            containerRl.setVisibility(View.GONE);
-            fragmentContainer.setVisibility(View.VISIBLE);
+            liveZoneTextView.setSelected(true);
+            containerRelativeLayout.setVisibility(View.GONE);
+            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
 
     }
