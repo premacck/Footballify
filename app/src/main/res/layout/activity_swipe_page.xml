@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dp" />
 
             <TextView
-                android:id="@+id/livezoneTextView"
+                android:id="@+id/liveZoneTextView"
                 style="@style/livezonetextstyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -46,8 +46,8 @@ public class SwipePageActivity extends AppCompatActivity {
     FootballFeedAdapter footballFeedAdapter;
     @BindView(R.id.containerRelativeLayout)
     FrameLayout containerRl;
-    @BindView(R.id.livezoneTextView)
-    TextView livezoneTv;
+    @BindView(R.id.liveZoneTextView)
+    TextView liveZoneTv;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainer;
 
@@ -100,7 +100,7 @@ public class SwipePageActivity extends AppCompatActivity {
         calendarSpinner.setAdapter(adapter);
     }
 
-    @OnClick(R.id.livezoneTextView)
+    @OnClick(R.id.liveZoneTextView)
     public void onViewClicked() {
         retainLayout();
         footballFeedFragment();
@@ -117,7 +117,7 @@ public class SwipePageActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        if (livezoneTv.isSelected()) {
+        if (liveZoneTv.isSelected()) {
             retainLayout();
         } else {
             super.onBackPressed();
@@ -126,12 +126,12 @@ public class SwipePageActivity extends AppCompatActivity {
     }
 
     public void retainLayout() {
-        if (livezoneTv.isSelected()) {
-            livezoneTv.setSelected(false);
+        if (liveZoneTv.isSelected()) {
+            liveZoneTv.setSelected(false);
             containerRl.setVisibility(View.VISIBLE);
             fragmentContainer.setVisibility(View.GONE);
         } else {
-            livezoneTv.setSelected(true);
+            liveZoneTv.setSelected(true);
             containerRl.setVisibility(View.GONE);
             fragmentContainer.setVisibility(View.VISIBLE);
         }
