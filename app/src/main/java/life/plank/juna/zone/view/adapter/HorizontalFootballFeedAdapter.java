@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
@@ -19,7 +21,7 @@ import life.plank.juna.zone.R;
 public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<HorizontalFootballFeedAdapter.ViewHolder> {
 
     //TODO:Will be replaced with data from the backend
-    private String[] data = new String[0];
+    private ArrayList<String> data = new ArrayList();
     int image = R.drawable.ic_dummy_user;
 
     private LayoutInflater mInflater;
@@ -36,7 +38,7 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
         }
     }
 
-    public HorizontalFootballFeedAdapter(Context context, String[] data) {
+    public HorizontalFootballFeedAdapter(Context context, ArrayList data) {
         this.mInflater = LayoutInflater.from(context);
         this.data = data;
     }
@@ -50,13 +52,13 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String text = data[position];
+        String text = data.get(position);
         holder.horizontalNewsFeedLabel.setText(text);
         holder.horizontalNewsFeedImage.setImageResource(image);
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return data.size();
     }
 }
