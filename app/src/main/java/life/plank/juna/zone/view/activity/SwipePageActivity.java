@@ -21,9 +21,6 @@ import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 
 public class SwipePageActivity extends AppCompatActivity {
 
-
-//    @BindView(R.id.pager)
-//    ViewPager pager;
     @BindView(R.id.calendar_spinner)
     Spinner calendarSpinner;
     @BindView(R.id.football_feed_horizontal_view)
@@ -31,8 +28,6 @@ public class SwipePageActivity extends AppCompatActivity {
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
 
-
-//    private PagerAdapter pagerAdapter;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
 
@@ -41,8 +36,6 @@ public class SwipePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
-//        pagerAdapter = new SwipePageAdapter(getSupportFragmentManager());
-//        pager.setAdapter(pagerAdapter);
 
         String[] horizontalData = {"6S: MARK F",
                 "14S: ROBERT",
@@ -66,7 +59,6 @@ public class SwipePageActivity extends AppCompatActivity {
 
 
         int numberOfRows = 2;
-//        feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this,numberOfRows, GridLayoutManager.HORIZONTAL,false));
 
         footballFeedAdapter = new FootballFeedAdapter(this, data);
@@ -77,12 +69,6 @@ public class SwipePageActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
         calendarSpinner.setAdapter(adapter);
     }
-
-//    @OnPageChange(R.id.pager)
-//    public void onPageChanged() {
-//        invalidateOptionsMenu();
-//    }
-
 }
 
 
