@@ -31,14 +31,13 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
 
             <Spinner
                 android:id="@+id/calendar_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
 
                 android:layout_marginLeft="10dp" />
 
@@ -49,14 +48,14 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="1dp"
                 android:text="LiveZone" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_recycler_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/livezoneTv" />
+                android:layout_below="@+id/calendar_spinner" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"
@@ -129,5 +128,5 @@
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/football_toolbar"/>
+        android:layout_below="@+id/football_toolbar" />
 </RelativeLayout>
