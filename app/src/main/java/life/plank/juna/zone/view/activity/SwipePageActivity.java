@@ -38,7 +38,7 @@ import life.plank.juna.zone.view.fragment.LiveZoneFragment;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity {
+public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
 
     @BindView(R.id.calendar_spinner)
     Spinner calendarSpinner;
@@ -57,6 +57,7 @@ public class SwipePageActivity extends AppCompatActivity {
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.allSpinnerTextView)
+    ArrayList<String> horizontalData;
     TextView allSpinnerTextView;
     @BindView(R.id.todaySpinnerTextView)
     TextView todaySpinnerTextView;
@@ -75,23 +76,34 @@ public class SwipePageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
-        ArrayList<String> horizontalData = new ArrayList<>();
+        horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
         horizontalData.add("27S: GRAHAM");
         horizontalData.add("6S: MARK F");
-
+        horizontalData.add("addMore");
         // Calculate ActionBar height
         int actionBarHeight = 0;
         TypedValue typedValue = new TypedValue();
         if (getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
         }
+        int spinnerSize = (int) getResources().getDimension(R.dimen.swipe_page_spinner_height);
+        int banterSize = (int) getResources().getDimension(R.dimen.swipe_page_banter_zone_height);
+        int banterRecyclerSize = (int) getResources().getDimension(R.dimen.football_feed_height);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+        // TODO: 29-01-2018 Change based on performance
+        SnapHelper snapHelper = new StartSnapHelper();
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData);
+        horizontalRecyclerView.setHasFixedSize(true);
+        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, width);
         horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
-
+        snapHelper.attachToRecyclerView(horizontalRecyclerView);
         //Feed recycler view
         String[] data = {"Reece Burke celebrates after breaking the deadlock in extra time at London Stadium",
                 "Utd to subsidised fans in Sevilla row. $89 to visit Old Trafford for spanish supporters",
@@ -101,19 +113,13 @@ public class SwipePageActivity extends AppCompatActivity {
                 "Utd to subsidised fans in Sevilla row. $89 to visit Old Trafford for spanish supporters",
                 "Charlie Nicholas : FA Cup third round replay predictions",
                 "Brighton vs Chelsea"};
-
-
         int numberOfRows = 2;
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-        footballFeedAdapter = new FootballFeedAdapter(this, data, height, width);
+        footballFeedAdapter = new FootballFeedAdapter(this, data, height, width, actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
-        // TODO: 29-01-2018 Change based on performance
-        SnapHelper snapHelper = new StartSnapHelper();
-        snapHelper.attachToRecyclerView(feedRecyclerView);
+        feedRecyclerView.setHasFixedSize(true);
+        SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
+        snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.calendar_array, R.layout.custom_calendar_spinner);
         adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
         calendarSpinner.setAdapter(adapter);
@@ -196,13 +202,11 @@ public class SwipePageActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
         if (liveZoneTextView.isSelected()) {
             retainLayout();
         } else {
             super.onBackPressed();
         }
-
     }
 
     public void retainLayout() {
@@ -215,10 +219,20 @@ public class SwipePageActivity extends AppCompatActivity {
             containerRelativeLayout.setVisibility(View.GONE);
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
-
     }
 
 
+    @Override
+    public void addMore() {
+        // TODO: 30-01-2018 Get data from server
+        horizontalData.remove(horizontalData.size() - 1);
+        horizontalData.add("6S: MARK F");
+        horizontalData.add("23S: SUE M");
+        horizontalData.add("27S: GRAHAM");
+        horizontalData.add("6S: MARK F");
+        horizontalData.add("addMore");
+        horizontalfootballFeedAdapter.notifyDataSetChanged();
+    }
 }
 
 

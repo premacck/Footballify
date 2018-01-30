@@ -9,16 +9,16 @@ android {
     buildToolsVersion '26.0.2'
     signingConfigs {
         release {
-            storeFile file(STORE_FILE)
-            storePassword STORE_PASSWORD
-            keyAlias KEY_ALIAS
-            keyPassword KEY_PASSWORD
+            storeFile file(JUNA_RELEASE_STORE_FILE)
+            storePassword JUNA_RELEASE_STORE_PASSWORD
+            keyAlias JUNA_RELEASE_KEY_ALIAS
+            keyPassword JUNA_RELEASE_STORE_PASSWORD
         }
     }
     playAccountConfigs {
         defaultAccountConfig {
-            serviceAccountEmail = SERVICE_ACCOUNT_EMAIL
-            pk12File = file(PLAY_STORE_FILE)
+            serviceAccountEmail = JUNA_SERVICE_ACCOUNT_EMAIL
+            pk12File = file(JUNA_PLAY_STORE_FILE)
         }
     }
     defaultConfig {

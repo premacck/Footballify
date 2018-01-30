@@ -2,6 +2,7 @@ package life.plank.juna.zone.util;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -34,4 +35,15 @@ public class UIDisplayUtil {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    /**
+     * Dp to pixel conversion.
+     * @param dp : dp to be converted
+     * @return pixel : Converted value.
+     */
+    public static int dpToPx(int dp,Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
 }
