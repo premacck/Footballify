@@ -1,16 +1,19 @@
 package life.plank.juna.zone.view.activity;
 
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
@@ -122,24 +125,26 @@ public class SwipePageActivity extends AppCompatActivity {
                 "All", "My Teams", "My Leagues/Cups", "My Pundits",
                 "Fixtures/Results", "Standings"};
 
-        PopupWindow popup = new PopupWindow(this);
+       // PopupWindow popup = new PopupWindow(this);
         View layout = getLayoutInflater().inflate(R.layout.layout_custom_spinner, null);
-        popup.setContentView(layout);
+        PopupWindow popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+       // popup.setContentView(layout);
         ListView lv = (ListView) layout.findViewById(R.id.dialogListView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
         lv.setAdapter(adapter);
 
-        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+
+
+        popup.setHeight(ListPopupWindow.WRAP_CONTENT);
+        popup.setWidth(ListPopupWindow.WRAP_CONTENT);
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
 
-      //  popup.showAtLocation(spinnersRelativeLayout, Gravity.TOP, locateView(view).left, locateView(view).bottom);
-        popup.showAsDropDown(view);
+        popup.showAtLocation(view, Gravity.TOP, locateView(view).left, locateView(view).bottom);
 
     }
 
-    private void showTodaySpinnerDialog(View view) {
+   /* private void showTodaySpinnerDialog(View view) {
 
         String names[] = {
                 "All", "My Teams", "My Leagues/Cups", "My Pundits",
@@ -152,16 +157,14 @@ public class SwipePageActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
         lv.setAdapter(adapter);
 
-        //popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-       // popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
 
-        popup.showAtLocation(relate, Gravity.CENTER, 0, locateView(view).bottom);
+        popup.showAsDropDown(view, locateView(view).left, locateView(view).bottom);
 
-        
 
-    }
+    }*/
 
     @OnClick({R.id.allSpinnerTextView, R.id.todaySpinnerTextView})
     public void onViewClicked(View view) {
@@ -170,7 +173,7 @@ public class SwipePageActivity extends AppCompatActivity {
                 showAllSpinnerDialog(view);
                 break;
             case R.id.todaySpinnerTextView:
-                showTodaySpinnerDialog(view);
+               // showTodaySpinnerDialog(view);
                 break;
         }
     }
