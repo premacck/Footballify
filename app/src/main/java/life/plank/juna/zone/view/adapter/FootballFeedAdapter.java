@@ -41,7 +41,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         View view = mInflater.inflate(R.layout.football_feed_row, parent, false);
         context = parent.getContext();
         return new FootballFeedViewHolder(view);
-
     }
 
     @Override

@@ -69,6 +69,7 @@ public class StartSnapHelper extends LinearSnapHelper {
         if (layoutManager instanceof LinearLayoutManager) {
             int firstChild = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
 
+            // TODO: 30-01-2018 analyse this for more smooth results.
             boolean isLastItem = ((LinearLayoutManager) layoutManager)
                     .findLastCompletelyVisibleItemPosition()
                     == layoutManager.getItemCount() - 1;
@@ -81,15 +82,12 @@ public class StartSnapHelper extends LinearSnapHelper {
 
             if (helper.getDecoratedEnd(child) >= helper.getDecoratedMeasurement(child) / 2
                     && helper.getDecoratedEnd(child) > 0) {
-                Log.v("Traced", "if");
-                return layoutManager.findViewByPosition(firstChild + 1);
+                return layoutManager.findViewByPosition(firstChild );
             } else {
                 if (((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition()
                         == layoutManager.getItemCount() - 1) {
-                    Log.v("Traced", "else");
                     return null;
                 } else {
-                    Log.v("Traced", "else esle");
                     return layoutManager.findViewByPosition(firstChild + 1);
                 }
             }
