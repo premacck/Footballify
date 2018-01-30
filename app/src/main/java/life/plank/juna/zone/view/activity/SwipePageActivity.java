@@ -57,19 +57,17 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.allSpinnerTextView)
-    ArrayList<String> horizontalData;
+
     TextView allSpinnerTextView;
     @BindView(R.id.todaySpinnerTextView)
     TextView todaySpinnerTextView;
     @BindView(R.id.spinnersRelativeLayout)
     RelativeLayout spinnersRelativeLayout;
-    @BindView(R.id.relate)
-    RelativeLayout relate;
     @BindView(R.id.allListView)
     ListView allListView;
     @BindView(R.id.todayListView)
     ListView todayListView;
-
+    ArrayList<String> horizontalData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
