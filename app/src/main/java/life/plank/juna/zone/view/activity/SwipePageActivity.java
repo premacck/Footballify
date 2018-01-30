@@ -1,23 +1,17 @@
 package life.plank.juna.zone.view.activity;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -66,6 +60,7 @@ public class SwipePageActivity extends AppCompatActivity {
     TextView allSpinnerTextView;
     @BindView(R.id.todaySpinnerTextView)
     TextView todaySpinnerTextView;
+
 
 
     @Override
@@ -120,16 +115,15 @@ public class SwipePageActivity extends AppCompatActivity {
     private void showCustomDialog(View view) {
 
 
-
         String names[] = {
                 "All", "My Teams", "My Leagues/Cups", "My Pundits",
-                "Fixtures/Results","Standings"};
+                "Fixtures/Results", "Standings"};
 
         PopupWindow popup = new PopupWindow(this);
         View layout = getLayoutInflater().inflate(R.layout.layout_custom_spinner, null);
         popup.setContentView(layout);
         ListView lv = (ListView) layout.findViewById(R.id.dialogListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.calendar_spinner_dropdown_item,names);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
         lv.setAdapter(adapter);
 
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
@@ -152,15 +146,12 @@ public class SwipePageActivity extends AppCompatActivity {
         }
     }
 
-    public Rect locateView(View v)
-    {
+    public Rect locateView(View v) {
         int[] loc_int = new int[2];
         if (v == null) return null;
-        try
-        {
+        try {
             v.getLocationOnScreen(loc_int);
-        } catch (NullPointerException npe)
-        {
+        } catch (NullPointerException npe) {
             //Happens when the view doesn't exist on screen anymore.
             return null;
         }
@@ -209,6 +200,7 @@ public class SwipePageActivity extends AppCompatActivity {
         }
 
     }
+
 
 }
 
