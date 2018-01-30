@@ -33,29 +33,78 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
-            <Spinner
-                android:id="@+id/calendar_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-
-                android:layout_marginLeft="10dp" />
-
-            <TextView
-                android:id="@+id/liveZoneTextView"
-                style="@style/livezonetextstyle"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="1dp"
-                android:text="LiveZone" />
+                android:id="@+id/spinnersRelativeLayout">
+                <Spinner
+                    android:id="@+id/calendar_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:overlapAnchor="false"
+                    android:spinnerMode="dropdown"
+                    android:text="All"
+                    android:visibility="gone" />
+                <TextView
+                    android:id="@+id/showTextView"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="Show"
+                    android:textColor="@color/White" />
+
+                <TextView
+                    android:id="@+id/allSpinnerTextView"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toEndOf="@+id/showTextView"
+                    android:layout_toRightOf="@+id/showTextView"
+                    android:background="@drawable/square_white_bg"
+                    android:drawableEnd="@drawable/ms__menu_down"
+                    android:drawableRight="@drawable/ms__menu_down"
+                    android:padding="5dp"
+                    android:text="All"
+                    android:textColor="@color/White" />
+
+                <TextView
+                    android:id="@+id/todaySpinnerTextView"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/allSpinnerTextView"
+                    android:layout_toRightOf="@+id/allSpinnerTextView"
+                    android:background="@drawable/square_white_bg"
+                    android:drawableEnd="@drawable/ms__menu_down"
+                    android:drawableRight="@drawable/ms__menu_down"
+                    android:padding="5dp"
+                    android:text="Today"
+                    android:textColor="@color/White" />
+
+                <TextView
+                    android:id="@+id/liveZoneTextView"
+                    style="@style/livezonetextstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="1dp"
+                    android:text="LiveZone" />
+
+
+            </RelativeLayout>
+
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_recycler_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/calendar_spinner" />
+                android:layout_below="@+id/spinnersRelativeLayout" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"

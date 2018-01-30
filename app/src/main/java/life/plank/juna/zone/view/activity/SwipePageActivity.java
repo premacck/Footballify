@@ -1,5 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,9 +13,17 @@ import android.view.View;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,6 +62,11 @@ public class SwipePageActivity extends AppCompatActivity {
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
+    @BindView(R.id.allSpinnerTextView)
+    TextView allSpinnerTextView;
+    @BindView(R.id.todaySpinnerTextView)
+    TextView todaySpinnerTextView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +115,61 @@ public class SwipePageActivity extends AppCompatActivity {
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.calendar_array, R.layout.custom_calendar_spinner);
         adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
         calendarSpinner.setAdapter(adapter);
+    }
+
+    private void showCustomDialog(View view) {
+
+
+
+        String names[] = {
+                "All", "My Teams", "My Leagues/Cups", "My Pundits",
+                "Fixtures/Results","Standings"};
+
+        PopupWindow popup = new PopupWindow(this);
+        View layout = getLayoutInflater().inflate(R.layout.layout_custom_spinner, null);
+        popup.setContentView(layout);
+        ListView lv = (ListView) layout.findViewById(R.id.dialogListView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.calendar_spinner_dropdown_item,names);
+        lv.setAdapter(adapter);
+
+        popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+
+        popup.showAtLocation(allSpinnerTextView, Gravity.TOP, locateView(view).left, locateView(view).bottom);
+
+    }
+
+    @OnClick({R.id.allSpinnerTextView, R.id.todaySpinnerTextView})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.allSpinnerTextView:
+                showCustomDialog(view);
+                break;
+            case R.id.todaySpinnerTextView:
+                break;
+        }
+    }
+
+    public Rect locateView(View v)
+    {
+        int[] loc_int = new int[2];
+        if (v == null) return null;
+        try
+        {
+            v.getLocationOnScreen(loc_int);
+        } catch (NullPointerException npe)
+        {
+            //Happens when the view doesn't exist on screen anymore.
+            return null;
+        }
+        Rect location = new Rect();
+        location.left = loc_int[0];
+        location.top = loc_int[1];
+        location.right = location.left + v.getWidth();
+        location.bottom = location.top + v.getHeight();
+        return location;
     }
 
     @OnClick(R.id.liveZoneTextView)
