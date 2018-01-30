@@ -20,29 +20,15 @@ import life.plank.juna.zone.R;
 
 public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<HorizontalFootballFeedAdapter.ViewHolder> {
 
+    int image = R.drawable.ic_dummy_user;
     //TODO:Will be replaced with data from the backend
     private ArrayList<String> data = new ArrayList();
-    int image = R.drawable.ic_dummy_user;
-
     private LayoutInflater mInflater;
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.horizontal_news_label)
-        TextView horizontalNewsFeedLabel;
-        @BindView(R.id.horizontal_news_image)
-        ImageView horizontalNewsFeedImage;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
 
     public HorizontalFootballFeedAdapter(Context context, ArrayList data) {
         this.mInflater = LayoutInflater.from(context);
         this.data = data;
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -60,5 +46,17 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.horizontal_news_label)
+        TextView horizontalNewsFeedLabel;
+        @BindView(R.id.horizontal_news_image)
+        ImageView horizontalNewsFeedImage;
+
+        ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }

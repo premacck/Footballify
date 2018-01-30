@@ -5,21 +5,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/football_feed_card"
     android:layout_width="wrap_content"
-    android:layout_height="170dp"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/football_feed_row_margin"
     card_view:cardBackgroundColor="@android:color/holo_blue_dark"
     card_view:cardElevation="0dp"
-    android:layout_margin="2dp"
     card_view:cardUseCompatPadding="false">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
         android:id="@+id/relative_layout_container"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/news_feed_image"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_football_dummy_image" />
@@ -38,18 +38,18 @@
             android:id="@+id/more_option"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
             android:src="@drawable/ic_more" />
 
         <RelativeLayout
             android:id="@+id/gradient_layout"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_above="@+id/gradient_header"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_above="@+id/gradient_header"
             android:layout_marginBottom="20dp"
             android:background="@color/transparent_grey">
 
@@ -59,8 +59,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Here is your text"
-                android:textSize="12sp"
-                android:textColor="@color/White" />
+                android:textColor="@color/White"
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
@@ -69,21 +69,21 @@
             android:id="@+id/gradient_header"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:layout_alignEnd="@+id/interaction_layout"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignEnd="@+id/interaction_layout"
             android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/interaction_layout"
             android:background="@drawable/football_header_purple_gradient"
-            tools:ignore="NotSibling"
-            android:layout_alignRight="@+id/interaction_layout">
+            tools:ignore="NotSibling">
 
             <TextView
                 android:id="@+id/category"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_centerVertical="true"
                 android:layout_marginTop="10dp"
                 android:text="TEAMS"
                 android:textColor="@color/White"
@@ -95,64 +95,59 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:layout_centerVertical="true">
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp">
 
                 <ImageView
                     android:id="@+id/like_image"
-                    android:layout_margin="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_margin="3dp"
                     android:src="@drawable/ic_like" />
 
                 <TextView
                     android:id="@+id/like_label"
-                    android:layout_margin="3dp"
-
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/like_image"
                     android:layout_centerVertical="true"
+                    android:layout_margin="3dp"
+                    android:layout_toRightOf="@+id/like_image"
+                    android:text="1.2M"
                     android:textColor="@color/White"
-                    android:textSize="8sp"
-                    android:text="1.2M"/>
+                    android:textSize="8sp" />
 
                 <ImageView
                     android:id="@+id/comment_image"
-                    android:layout_margin="3dp"
-
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/like_label"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_comment"/>
+                    android:layout_margin="3dp"
+                    android:layout_toRightOf="@+id/like_label"
+                    android:src="@drawable/ic_comment" />
 
                 <TextView
                     android:id="@+id/comment_label"
-                    android:layout_margin="3dp"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/comment_image"
-                    android:textColor="@color/White"
                     android:layout_centerVertical="true"
-                    android:textSize="8sp"
-                    android:text="12K" />
+                    android:layout_margin="3dp"
+                    android:layout_toRightOf="@+id/comment_image"
+                    android:text="12K"
+                    android:textColor="@color/White"
+                    android:textSize="8sp" />
 
                 <ImageView
                     android:id="@+id/drop_down"
-                    android:layout_margin="3dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/ic_dropdown"
-                    android:layout_toRightOf="@+id/comment_label"/>
-
-
-
+                    android:layout_margin="3dp"
+                    android:layout_toRightOf="@+id/comment_label"
+                    android:src="@drawable/ic_dropdown" />
             </RelativeLayout>
-
 
 
         </RelativeLayout>

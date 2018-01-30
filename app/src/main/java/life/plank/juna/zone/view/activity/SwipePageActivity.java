@@ -7,12 +7,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
@@ -56,6 +57,9 @@ public class SwipePageActivity extends AppCompatActivity {
         if (getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
             actionBarHeight = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
         }
+        int spinnerSize = (int) getResources().getDimension(R.dimen.swipe_page_spinner_height);
+        int banterSize = (int) getResources().getDimension(R.dimen.swipe_page_banter_zone_height);
+        int banterRecyclerSize = (int) getResources().getDimension(R.dimen.football_feed_height);
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData);
@@ -78,7 +82,7 @@ public class SwipePageActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
-        footballFeedAdapter = new FootballFeedAdapter(this, data, height, width);
+        footballFeedAdapter = new FootballFeedAdapter(this, data, height, width, actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
         // TODO: 29-01-2018 Change based on performance
         SnapHelper snapHelper = new StartSnapHelper();

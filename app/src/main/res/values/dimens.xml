@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="swipe_page_spinner_height">40dp</dimen>
+    <dimen name="swipe_page_banter_zone_height">20dp</dimen>
+    <dimen name="football_feed_height">90dp</dimen>
+    <dimen name="football_feed_row_margin">2dp</dimen>
+    <dimen name="football_banter_view_margin">2dp</dimen>
+    <dimen name="football_toolbar_margin_bottom">12dp</dimen>
+    <dimen name="swipe_page_banter_zone_margin">3dp</dimen>
+</resources>
