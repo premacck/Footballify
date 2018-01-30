@@ -4,6 +4,8 @@
     android:singleLine="true"
     android:layout_width="120dp"
     android:textSize="12sp"
+    android:text="All"
     android:background="@drawable/calendar_spinner_item_border"
     android:textColor="@color/White"
-    android:layout_height="30dp" />
+    android:layout_height="wrap_content"
+    android:padding="5dp"/>

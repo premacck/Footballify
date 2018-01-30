@@ -60,6 +60,10 @@ public class SwipePageActivity extends AppCompatActivity {
     TextView allSpinnerTextView;
     @BindView(R.id.todaySpinnerTextView)
     TextView todaySpinnerTextView;
+    @BindView(R.id.spinnersRelativeLayout)
+    RelativeLayout spinnersRelativeLayout;
+    @BindView(R.id.relate)
+    RelativeLayout relate;
 
 
 
@@ -112,8 +116,7 @@ public class SwipePageActivity extends AppCompatActivity {
         calendarSpinner.setAdapter(adapter);
     }
 
-    private void showCustomDialog(View view) {
-
+    private void showAllSpinnerDialog(View view) {
 
         String names[] = {
                 "All", "My Teams", "My Leagues/Cups", "My Pundits",
@@ -131,7 +134,32 @@ public class SwipePageActivity extends AppCompatActivity {
         popup.setOutsideTouchable(true);
         popup.setFocusable(true);
 
-        popup.showAtLocation(allSpinnerTextView, Gravity.TOP, locateView(view).left, locateView(view).bottom);
+      //  popup.showAtLocation(spinnersRelativeLayout, Gravity.TOP, locateView(view).left, locateView(view).bottom);
+        popup.showAsDropDown(view);
+
+    }
+
+    private void showTodaySpinnerDialog(View view) {
+
+        String names[] = {
+                "All", "My Teams", "My Leagues/Cups", "My Pundits",
+                "Fixtures/Results", "Standings"};
+
+        PopupWindow popup = new PopupWindow(this);
+        View layout = getLayoutInflater().inflate(R.layout.layout_custom_spinner, null);
+        popup.setContentView(layout);
+        ListView lv = (ListView) layout.findViewById(R.id.dialogListView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
+        lv.setAdapter(adapter);
+
+        //popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+       // popup.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
+        popup.setOutsideTouchable(true);
+        popup.setFocusable(true);
+
+        popup.showAtLocation(relate, Gravity.CENTER, 0, locateView(view).bottom);
+
+        
 
     }
 
@@ -139,9 +167,10 @@ public class SwipePageActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.allSpinnerTextView:
-                showCustomDialog(view);
+                showAllSpinnerDialog(view);
                 break;
             case R.id.todaySpinnerTextView:
+                showTodaySpinnerDialog(view);
                 break;
         }
     }
