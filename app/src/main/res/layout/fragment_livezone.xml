@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/liveZoneRelativeLayout"
+        style="@style/livezonetextstyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:paddingBottom="0dp"
+        android:paddingTop="0dp">
+
+        <TextView
+            android:id="@+id/liveZoneTextView"
+            style="@style/livezonetextstyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:text="LiveZone" />
+
+        <ImageView
+            android:id="@+id/closeImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/tw__composer_close" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/banter_zone_layout"
+        android:layout_below="@+id/liveZoneRelativeLayout"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".25" />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/liveZoneGridViewRelativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".75"
+            android:padding="@dimen/cardview_compat_inset_shadow" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/banter_zone_layout"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="3dp"
+        android:background="@drawable/football_header_purple_gradient">
+
+
+        <TextView
+            android:id="@+id/person_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@drawable/ic_dropdown"
+            android:gravity="center_vertical"
+            android:text="23"
+            android:textColor="@color/White"
+            android:textSize="8sp" />
+
+        <ImageView
+            android:id="@+id/person"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/person_number"
+            android:layout_toStartOf="@+id/person_number"
+            android:src="@drawable/ic_person" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

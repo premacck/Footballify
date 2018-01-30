@@ -5,20 +5,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
+import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 
 
 /**
@@ -38,6 +44,12 @@ public class SwipePageActivity extends AppCompatActivity {
 
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
+    @BindView(R.id.containerRelativeLayout)
+    FrameLayout containerRelativeLayout;
+    @BindView(R.id.liveZoneTextView)
+    TextView liveZoneTextView;
+    @BindView(R.id.fragmentContainerFrameLayout)
+    FrameLayout fragmentContainerFrameLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +99,45 @@ public class SwipePageActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
         calendarSpinner.setAdapter(adapter);
     }
+
+    @OnClick(R.id.liveZoneTextView)
+    public void onLiveZoneTextViewClicked() {
+        retainLayout();
+        footballFeedFragment();
+    }
+
+    public void footballFeedFragment() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
+                .commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (liveZoneTextView.isSelected()) {
+            retainLayout();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
+    public void retainLayout() {
+        if (liveZoneTextView.isSelected()) {
+            liveZoneTextView.setSelected(false);
+            containerRelativeLayout.setVisibility(View.VISIBLE);
+            fragmentContainerFrameLayout.setVisibility(View.GONE);
+        } else {
+            liveZoneTextView.setSelected(true);
+            containerRelativeLayout.setVisibility(View.GONE);
+            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        }
+
+    }
+
 }
 
 

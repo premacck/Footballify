@@ -22,83 +22,111 @@
         android:layout_toEndOf="@+id/zone_logo"
         android:layout_toRightOf="@+id/zone_logo" />
 
-    <Spinner
-        android:id="@+id/calendar_spinner"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_below="@+id/football_toolbar"
-        android:layout_marginLeft="10dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/football_feed_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/calendar_spinner"/>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/football_feed_horizontal_view"
+    <FrameLayout
+        android:id="@+id/containerRelativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/banter_zone_layout"
-        android:layout_below="@+id/football_feed_recycler_view" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/football_toolbar">
 
-    <RelativeLayout
-        android:id="@+id/banter_zone_layout"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="3dp"
-        android:background="@drawable/football_header_orange_gradient">
-
-        <TextView
-            android:id="@+id/banter_zone_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:text="BANTERZONE"
-            android:textColor="@color/White"
-            android:textSize="8sp" />
 
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/person"
+
+            <Spinner
+                android:id="@+id/calendar_spinner"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_person" />
+                android:layout_height="40dp"
+
+                android:layout_marginLeft="10dp" />
 
             <TextView
-                android:id="@+id/person_number"
+                android:id="@+id/liveZoneTextView"
+                style="@style/livezonetextstyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/person"
-                android:text="23"
-                android:textColor="@color/White"
-                android:textSize="8sp" />
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="1dp"
+                android:text="LiveZone" />
 
-            <ImageView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/football_feed_recycler_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_below="@+id/calendar_spinner" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/football_feed_horizontal_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/banter_zone_layout"
+                android:layout_below="@+id/football_feed_recycler_view" />
+
+            <RelativeLayout
+                android:id="@+id/banter_zone_layout"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
                 android:layout_margin="3dp"
+                android:background="@drawable/football_header_orange_gradient">
 
-                android:layout_toRightOf="@+id/person_number"
-                android:src="@drawable/ic_dropdown" />
+                <TextView
+                    android:id="@+id/banter_zone_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="BANTERZONE"
+                    android:textColor="@color/White"
+                    android:textSize="8sp" />
 
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp">
+
+                    <ImageView
+                        android:id="@+id/person"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_person" />
+
+                    <TextView
+                        android:id="@+id/person_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@+id/person"
+                        android:text="23"
+                        android:textColor="@color/White"
+                        android:textSize="8sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_margin="3dp"
+
+                        android:layout_toRightOf="@+id/person_number"
+                        android:src="@drawable/ic_dropdown" />
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
         </RelativeLayout>
+    </FrameLayout>
 
-
-    </RelativeLayout>
-
-
+    <FrameLayout
+        android:id="@+id/fragmentContainerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/football_toolbar" />
 </RelativeLayout>
