@@ -30,14 +30,14 @@
 
 
         <RelativeLayout
-            android:id="@+id/relate"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <RelativeLayout
+                android:id="@+id/spinnersRelativeLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/spinnersRelativeLayout">
+                android:layout_height="wrap_content">
+
                 <Spinner
                     android:id="@+id/calendar_spinner"
                     android:layout_width="wrap_content"
@@ -47,12 +47,13 @@
                     android:spinnerMode="dropdown"
                     android:text="All"
                     android:visibility="gone" />
+
                 <TextView
                     android:id="@+id/showTextView"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:text="Show"
                     android:textColor="@color/White" />
@@ -61,6 +62,7 @@
                     android:id="@+id/allSpinnerTextView"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_toEndOf="@+id/showTextView"
@@ -76,6 +78,7 @@
                     android:id="@+id/todaySpinnerTextView"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@+id/allSpinnerTextView"
                     android:layout_toRightOf="@+id/allSpinnerTextView"
                     android:background="@drawable/square_white_bg"
@@ -91,14 +94,31 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="1dp"
                     android:text="LiveZone" />
 
 
             </RelativeLayout>
 
+            <ListView
+                android:id="@+id/allListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnersRelativeLayout"
+                android:layout_marginLeft="80dp"
+                android:layout_marginTop="-10dp"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/todayListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnersRelativeLayout"
+                android:layout_marginLeft="160dp"
+                android:layout_marginTop="-10dp"
+                android:visibility="gone" />
 
 
             <android.support.v7.widget.RecyclerView

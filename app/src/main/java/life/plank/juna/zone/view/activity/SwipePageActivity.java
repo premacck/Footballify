@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -14,7 +13,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -50,7 +48,6 @@ public class SwipePageActivity extends AppCompatActivity {
     RecyclerView feedRecyclerView;
     @BindView(R.id.zone_logo)
     ImageView zoneLogo;
-
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     @BindView(R.id.containerRelativeLayout)
@@ -67,7 +64,10 @@ public class SwipePageActivity extends AppCompatActivity {
     RelativeLayout spinnersRelativeLayout;
     @BindView(R.id.relate)
     RelativeLayout relate;
-
+    @BindView(R.id.allListView)
+    ListView allListView;
+    @BindView(R.id.todayListView)
+    ListView todayListView;
 
 
     @Override
@@ -119,81 +119,66 @@ public class SwipePageActivity extends AppCompatActivity {
         calendarSpinner.setAdapter(adapter);
     }
 
-    private void showAllSpinnerDialog(View view) {
 
-        String names[] = {
-                "All", "My Teams", "My Leagues/Cups", "My Pundits",
-                "Fixtures/Results", "Standings"};
+    private void showAllListView() {
+        todayListView.setVisibility(View.GONE);
+        todaySpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        todaySpinnerTextView.setSelected(false);
 
-       // PopupWindow popup = new PopupWindow(this);
-        View layout = getLayoutInflater().inflate(R.layout.layout_custom_spinner, null);
-        PopupWindow popup = new PopupWindow(layout, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-       // popup.setContentView(layout);
-        ListView lv = (ListView) layout.findViewById(R.id.dialogListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
-        lv.setAdapter(adapter);
+        if (allSpinnerTextView.isSelected()) {
+            allListView.setVisibility(View.GONE);
+            allSpinnerTextView.setSelected(false);
+            allSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        } else {
+            allSpinnerTextView.setSelected(true);
+            allListView.setVisibility(View.VISIBLE);
+            allSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
+            String names[] = {
+                    "All", "My Teams", "My Leagues/Cups", "My Pundits",
+                    "Fixtures/Results", "Standings"};
 
-
-
-        popup.setHeight(ListPopupWindow.WRAP_CONTENT);
-        popup.setWidth(ListPopupWindow.WRAP_CONTENT);
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-
-        popup.showAtLocation(view, Gravity.TOP, locateView(view).left, locateView(view).bottom);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
+            allListView.setAdapter(adapter);
+            allListView.bringToFront();
+        }
 
     }
 
-   /* private void showTodaySpinnerDialog(View view) {
+    private void showTodayListView() {
+        allListView.setVisibility(View.GONE);
+        allSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        allSpinnerTextView.setSelected(false);
+        if (todaySpinnerTextView.isSelected()) {
+            todayListView.setVisibility(View.GONE);
+            todaySpinnerTextView.setSelected(false);
+            todaySpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        } else {
+            todaySpinnerTextView.setSelected(true);
+            todayListView.setVisibility(View.VISIBLE);
+            todaySpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
+            String names[] = {
+                    "All", "My Teams", "My Leagues/Cups", "My Pundits",
+                    "Fixtures/Results", "Standings"};
 
-        String names[] = {
-                "All", "My Teams", "My Leagues/Cups", "My Pundits",
-                "Fixtures/Results", "Standings"};
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
+            todayListView.setAdapter(adapter);
+            todayListView.bringToFront();
+        }
 
-        PopupWindow popup = new PopupWindow(this);
-        View layout = getLayoutInflater().inflate(R.layout.layout_custom_spinner, null);
-        popup.setContentView(layout);
-        ListView lv = (ListView) layout.findViewById(R.id.dialogListView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
-        lv.setAdapter(adapter);
-
-
-        popup.setOutsideTouchable(true);
-        popup.setFocusable(true);
-
-        popup.showAsDropDown(view, locateView(view).left, locateView(view).bottom);
-
-
-    }*/
+    }
 
     @OnClick({R.id.allSpinnerTextView, R.id.todaySpinnerTextView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.allSpinnerTextView:
-                showAllSpinnerDialog(view);
+                showAllListView();
                 break;
             case R.id.todaySpinnerTextView:
-               // showTodaySpinnerDialog(view);
+                showTodayListView();
                 break;
         }
     }
 
-    public Rect locateView(View v) {
-        int[] loc_int = new int[2];
-        if (v == null) return null;
-        try {
-            v.getLocationOnScreen(loc_int);
-        } catch (NullPointerException npe) {
-            //Happens when the view doesn't exist on screen anymore.
-            return null;
-        }
-        Rect location = new Rect();
-        location.left = loc_int[0];
-        location.top = loc_int[1];
-        location.right = location.left + v.getWidth();
-        location.bottom = location.top + v.getHeight();
-        return location;
-    }
 
     @OnClick(R.id.liveZoneTextView)
     public void onLiveZoneTextViewClicked() {
