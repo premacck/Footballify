@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 /**
@@ -44,6 +45,34 @@ public class UIDisplayUtil {
     public static int dpToPx(int dp,Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    /**
+     * To get screen width.
+     * @param context : Context
+     * @return pixel : width of screen
+     */
+    public static int getScreenWidth(Context context){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager =  (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
+            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        }
+        return displayMetrics.widthPixels;
+    }
+
+    /**
+     * To get screen height.
+     * @param context : Context
+     * @return pixel : Height of screen
+     */
+    public static int getScreenHeight(Context context){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager =  (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
+            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        }
+        return displayMetrics.heightPixels;
     }
 
 }

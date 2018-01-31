@@ -6,7 +6,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -14,13 +13,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
@@ -71,17 +69,12 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         int spinnerSize = (int) getResources().getDimension(R.dimen.swipe_page_spinner_height);
         int banterSize = (int) getResources().getDimension(R.dimen.swipe_page_banter_zone_height);
         int banterRecyclerSize = (int) getResources().getDimension(R.dimen.football_feed_height);
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
         // TODO: 29-01-2018 Change based on performance
         SnapHelper snapHelper = new StartSnapHelper();
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         horizontalRecyclerView.setHasFixedSize(true);
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, width);
+        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getScreenWidth(this));
         horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
         snapHelper.attachToRecyclerView(horizontalRecyclerView);
         //Feed recycler view
@@ -95,7 +88,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                 "Brighton vs Chelsea"};
         int numberOfRows = 2;
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
-        footballFeedAdapter = new FootballFeedAdapter(this, data, height, width, actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
+        footballFeedAdapter = new FootballFeedAdapter(this, data, UIDisplayUtil.getScreenHeight(this), UIDisplayUtil.getScreenWidth(this), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();

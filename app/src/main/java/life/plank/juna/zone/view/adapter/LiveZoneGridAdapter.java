@@ -6,12 +6,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.UIDisplayUtil;
 
 /**
  * Created by plank-hasan on 1/27/2018.
@@ -30,15 +33,6 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         }
     }
 
-    public static class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {
-
-
-        public LiveZoneGridViewHolder(View view) {
-            super(view);
-
-        }
-    }
-
     @Override
     public LiveZoneGridViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View view = LayoutInflater.from(this.context).inflate(R.layout.item_livezone_grid, parent, false);
@@ -47,7 +41,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     @Override
     public void onBindViewHolder(LiveZoneGridViewHolder holder, final int position) {
-
+        int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
+        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getScreenWidth(context) / 4) - data * 3;
     }
 
     @Override
@@ -58,6 +53,17 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     @Override
     public int getItemCount() {
         return this.elements.size();
+    }
+
+    public class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.card_content)
+        RelativeLayout liveZoneRelativeLayout;
+
+        public LiveZoneGridViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 
 }
