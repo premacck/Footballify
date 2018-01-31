@@ -95,11 +95,9 @@ public class LiveZoneFragment extends Fragment {
         sliderData.add("text");
         sliderData.add("video");
 
-
         if (sliderData.size() > 0) {
             for (String data : sliderData) {
                 LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
-
                 liveZoneSlider.addSlider(textSliderView);
             }
         }
