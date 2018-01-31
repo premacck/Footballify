@@ -3,8 +3,6 @@ echo 'Starting Zone Android Application Pipeline'
 node {
 
     git url: 'ssh://git@git.plank.life:5443/juna/zone-androidapp.git'
-    sh 'pwd'
-    sh 'ls'
     sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
 
     stage 'Checkout and Setup'
@@ -84,6 +82,8 @@ def buildFeatureBranch(){
     // Utility Methods invoked by the branch builds
     def buildRelease(){
          stage 'Clean android app'
+         sh 'pwd'
+         sh 'ls'
          sh "./gradlew clean :app:assembleRelease"
          echo  '********************************************************************************'
     }
