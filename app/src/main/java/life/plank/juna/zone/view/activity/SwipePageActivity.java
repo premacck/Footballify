@@ -113,62 +113,36 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
     }
 
-    private void showSpinner(View view) {
-
-        if (view.getId() == R.id.footbalFilterSpinnerTextView) {
-            calenderListView.setVisibility(View.GONE);
-            calenderSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-            calenderSpinnerTextView.setSelected(false);
-            setListViewWidth(view);
-            if (footbalFilterSpinnerTextView.isSelected()) {
-                footbalFilterListView.setVisibility(View.GONE);
-                footbalFilterSpinnerTextView.setSelected(false);
-                footbalFilterSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-            } else {
-                footbalFilterSpinnerTextView.setSelected(true);
-                footbalFilterListView.setVisibility(View.VISIBLE);
-                footbalFilterSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.football_filter_array));
-                footbalFilterListView.setAdapter(adapter);
-                footbalFilterListView.bringToFront();
-                footbalFilterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        footbalFilterSpinnerTextView.setText(getResources().getStringArray(R.array.football_filter_array)[i]);
-                    }
-                });
-
-            }
+    private void showSpinner(TextView activeTextView, ListView activeListView, TextView inActiveTextView, ListView inActiveListView,
+                             String[] arrayData) {
+        resetListView(inActiveListView, inActiveTextView);
+        setListViewWidth(activeTextView);
+        if (activeTextView.isSelected()) {
+            activeListView.setVisibility(View.GONE);
+            activeTextView.setSelected(false);
+            activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
         } else {
-            footbalFilterListView.setVisibility(View.GONE);
-            footbalFilterSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-            footbalFilterSpinnerTextView.setSelected(false);
-            setListViewWidth(view);
-            if (calenderSpinnerTextView.isSelected()) {
-                calenderListView.setVisibility(View.GONE);
-                calenderSpinnerTextView.setSelected(false);
-                calenderSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-            } else {
-                calenderSpinnerTextView.setSelected(true);
-                calenderListView.setVisibility(View.VISIBLE);
-                calenderSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
+            activeTextView.setSelected(true);
+            activeListView.setVisibility(View.VISIBLE);
+            activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
-                        getResources().getStringArray(R.array.calendar_array));
-                calenderListView.setAdapter(adapter);
-                calenderListView.bringToFront();
-
-                calenderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        calenderSpinnerTextView.setText(getResources().getStringArray(R.array.calendar_array)[i]);
-                    }
-                });
-            }
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
+                    arrayData);
+            activeListView.setAdapter(adapter);
+            activeListView.bringToFront();
+            activeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    activeTextView.setText(arrayData[i]);
+                }
+            });
         }
+    }
 
+    private void resetListView(ListView inActiveListView, TextView inActiveTextView) {
+        inActiveListView.setVisibility(View.GONE);
+        inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        inActiveTextView.setSelected(false);
     }
 
     private void setListViewWidth(View view) {
@@ -194,10 +168,12 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
-                showSpinner(view);
+                showSpinner((TextView) view, footbalFilterListView, calenderSpinnerTextView,
+                        calenderListView, getResources().getStringArray(R.array.football_filter_array));
                 break;
             case R.id.calenderSpinnerTextView:
-                showSpinner(view);
+                showSpinner((TextView) view, calenderListView, footbalFilterSpinnerTextView,
+                        footbalFilterListView, getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.liveZoneTextView:
                 retainLayout();
