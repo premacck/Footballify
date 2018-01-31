@@ -39,6 +39,9 @@ ext {
     facebookSdkVersion = '4.28.0'
     twitterSdkVersion = '3.1.1'
     tooltipSdkVersion = '0.2.2'
+    imageslider = '1.1.5@aar'
+    picasso = '2.3.2'
+    nineoldandroids = '2.4.0'
 
     //Testing
     robolectricVersion = '3.1.3'
@@ -75,7 +78,11 @@ ext {
             progressButton        : "com.alirezaahmadi:progress-button:${progressBarVersion}",
             facebookSdk           : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
             twitterSdk            : "com.twitter.sdk.android:twitter:${twitterSdkVersion}",
-            tooltipSdk            : "com.github.douglasjunior:android-simple-tooltip:${tooltipSdkVersion}"
+            tooltipSdk            : "com.github.douglasjunior:android-simple-tooltip:${tooltipSdkVersion}",
+            imageslider           : "com.daimajia.slider:library:${imageslider}",
+            picasso               : "com.squareup.picasso:picasso:${picasso}",
+            nineoldandroids       : "com.nineoldandroids:library:${nineoldandroids}"
+
     ]
 
     viewTestDependencies = [

@@ -12,12 +12,17 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.slider.library.SliderLayout;
+
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
+import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
@@ -31,8 +36,12 @@ public class LiveZoneFragment extends Fragment {
     RecyclerView liveZoneGridViewRelativeLayout;
     @BindView(R.id.closeImage)
     ImageView closeImage;
+    @BindView(R.id.liveZoneSlider)
+    SliderLayout liveZoneSlider;
+
 
     private Unbinder unbinder;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +54,7 @@ public class LiveZoneFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
         setUpGridView();
+        setUpSlider();
         return view;
     }
 
@@ -76,5 +86,26 @@ public class LiveZoneFragment extends Fragment {
     @OnClick(R.id.closeImage)
     public void onCloseImageClicked() {
         ((SwipePageActivity) getActivity()).retainLayout();
+    }
+
+
+    private void setUpSlider() {
+        liveZoneSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        liveZoneSlider.removeAllSliders();
+        ArrayList<String> sliderData = new ArrayList<>();
+        sliderData.add("");
+        sliderData.add("");
+        sliderData.add("");
+
+
+        if (sliderData.size() > 0) {
+            int i = 0;
+            for (String data : sliderData) {
+                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
+
+                liveZoneSlider.addSlider(textSliderView);
+                i++;
+            }
+        }
     }
 }

@@ -53,6 +53,9 @@ dependencies {
     compile viewDependencies.facebookSdk
     compile viewDependencies.twitterSdk
     compile viewDependencies.tooltipSdk
+    compile viewDependencies.imageslider
+    compile viewDependencies.picasso
+    compile viewDependencies.nineoldandroids
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
