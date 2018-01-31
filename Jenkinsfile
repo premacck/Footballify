@@ -84,6 +84,7 @@ def buildFeatureBranch(){
          stage 'Clean android app'
          sh 'pwd'
          sh 'ls'
+         sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
          sh "./gradlew clean :app:assembleRelease"
          echo  '********************************************************************************'
     }
