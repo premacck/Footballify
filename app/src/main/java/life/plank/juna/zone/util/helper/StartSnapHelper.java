@@ -92,7 +92,6 @@ public class StartSnapHelper extends LinearSnapHelper {
                 }
             }
         }
-
         return super.findSnapView(layoutManager);
     }
 
