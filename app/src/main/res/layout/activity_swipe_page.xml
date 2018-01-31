@@ -36,7 +36,7 @@
             <Spinner
                 android:id="@+id/calendar_spinner"
                 android:layout_width="wrap_content"
-        android:layout_height="@dimen/swipe_page_spinner_height"
+                android:layout_height="@dimen/swipe_page_spinner_height"
 
                 android:layout_marginLeft="10dp" />
 
@@ -54,7 +54,7 @@
                 android:id="@+id/football_feed_recycler_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-        android:layout_below="@+id/calendar_spinner"/>
+                android:layout_below="@+id/calendar_spinner" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"
@@ -66,9 +66,9 @@
             <RelativeLayout
                 android:id="@+id/banter_zone_layout"
                 android:layout_width="match_parent"
-        android:layout_height="@dimen/swipe_page_banter_zone_height"
+                android:layout_height="@dimen/swipe_page_banter_zone_height"
                 android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/swipe_page_banter_zone_margin"
+                android:layout_margin="@dimen/swipe_page_banter_zone_margin"
                 android:background="@drawable/football_header_orange_gradient">
 
                 <TextView
@@ -119,6 +119,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/fragmentContainerFrameLayout"
         android:layout_width="match_parent"

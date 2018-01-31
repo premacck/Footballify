@@ -11,8 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.daimajia.slider.library.SliderLayout;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -85,12 +88,12 @@ public class LiveZoneFragment extends Fragment {
 
 
     private void setUpSlider() {
-        liveZoneSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-        liveZoneSlider.removeAllSliders();
+        liveZoneSlider.stopAutoCycle();
         ArrayList<String> sliderData = new ArrayList<>();
-        sliderData.add("");
-        sliderData.add("");
-        sliderData.add("");
+        sliderData.add("text");
+        sliderData.add("video");
+        sliderData.add("text");
+        sliderData.add("video");
 
 
         if (sliderData.size() > 0) {
