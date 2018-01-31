@@ -11,11 +11,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.daimajia.slider.library.SliderLayout;
-
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,8 +35,6 @@ public class LiveZoneFragment extends Fragment {
     ImageView closeImage;
     @BindView(R.id.liveZoneSlider)
     SliderLayout liveZoneSlider;
-
-
     private Unbinder unbinder;
 
 
@@ -99,12 +94,10 @@ public class LiveZoneFragment extends Fragment {
 
 
         if (sliderData.size() > 0) {
-            int i = 0;
             for (String data : sliderData) {
                 LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
 
                 liveZoneSlider.addSlider(textSliderView);
-                i++;
             }
         }
     }
