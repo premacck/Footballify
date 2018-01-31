@@ -26,32 +26,101 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <Spinner
-                android:id="@+id/calendar_spinner"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/swipe_page_spinner_height"
-                android:layout_marginLeft="10dp" />
 
-            <TextView
-                android:id="@+id/liveZoneTextView"
-                style="@style/livezonetextstyle"
+            <RelativeLayout
+                android:id="@+id/spinnersRelativeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/showTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Show"
+                    android:textColor="@color/White"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/footbalFilterSpinnerTextView"
+                    style="@style/livezonetextstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_toEndOf="@+id/showTextView"
+                    android:layout_toRightOf="@+id/showTextView"
+                    android:background="@drawable/square_white_bg"
+                    android:drawableEnd="@drawable/ms__menu_down"
+                    android:drawableRight="@drawable/ms__menu_down"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="3dp"
+                    android:paddingRight="3dp"
+                    android:text="All  "
+                    android:textColor="@color/White" />
+
+                <TextView
+                    android:id="@+id/calenderSpinnerTextView"
+                    style="@style/livezonetextstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_toEndOf="@+id/footbalFilterSpinnerTextView"
+                    android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
+                    android:background="@drawable/square_white_bg"
+                    android:drawableEnd="@drawable/ms__menu_down"
+                    android:drawableRight="@drawable/ms__menu_down"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="3dp"
+                    android:paddingRight="3dp"
+                    android:text="Today"
+                    android:textColor="@color/White" />
+
+                <TextView
+                    android:id="@+id/liveZoneTextView"
+                    style="@style/livezonetextstyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginStart="5dp"
+                    android:text="LiveZone" />
+
+            </RelativeLayout>
+
+            <ListView
+                android:id="@+id/footbalFilterListView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="1dp"
-                android:text="LiveZone" />
+                android:layout_below="@+id/spinnersRelativeLayout"
+                android:layout_marginTop="-5dp"
+                android:visibility="gone" />
+
+            <ListView
+                android:id="@+id/calenderListView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinnersRelativeLayout"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="-5dp"
+                android:visibility="gone" />
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_recycler_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/calendar_spinner" />
+                android:layout_below="@+id/spinnersRelativeLayout" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"

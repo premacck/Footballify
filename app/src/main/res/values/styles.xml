@@ -28,7 +28,7 @@
     <style name="livezonetextstyle" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/White</item>
         <item name="android:background">@drawable/football_header_purple_gradient</item>
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:paddingTop">3dp</item>
         <item name="android:paddingBottom">3dp</item>
         <item name="android:paddingLeft">3dp</item>
