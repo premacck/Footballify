@@ -30,7 +30,6 @@ node {
 def buildFeatureBranch(){
         buildRelease()
         executeTests()
-        performCodeQualityChecks()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
     }
@@ -38,7 +37,6 @@ def buildFeatureBranch(){
     def buildBugfixBranch(){
         buildRelease()
         executeTests()
-        performCodeQualityChecks()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
     }
@@ -47,7 +45,6 @@ def buildFeatureBranch(){
         //todo: must not perform the same tasks as others, change Release tasks
         buildRelease()
         executeTests()
-        performCodeQualityChecks()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
     }
@@ -56,7 +53,6 @@ def buildFeatureBranch(){
     //todo: must not perform the same tasks as others, change hotfix tasks
         buildRelease()
         executeTests()
-        performCodeQualityChecks()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
     }
@@ -65,7 +61,6 @@ def buildFeatureBranch(){
         //todo: must not perform the same tasks as others, change Development tasks
         buildRelease()
         executeTests()
-        performCodeQualityChecks()
         uploadToNexus()
         publishApkToBetaTrackPlayStore()
     }
@@ -74,7 +69,6 @@ def buildFeatureBranch(){
         //todo: must not perform the same tasks as others, change Master branch tasks
         buildRelease()
         executeTests()
-        performCodeQualityChecks()
         uploadToNexus()
         publishApkToProductionTrackPlayStore()
     }
