@@ -1,25 +1,20 @@
 package life.plank.juna.zone.view.activity;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -40,8 +35,6 @@ import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 
 public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
 
-    @BindView(R.id.calendar_spinner)
-    Spinner calendarSpinner;
     @BindView(R.id.football_feed_horizontal_view)
     RecyclerView horizontalRecyclerView;
     @BindView(R.id.football_feed_recycler_view)
@@ -56,18 +49,18 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
-    @BindView(R.id.allSpinnerTextView)
+    @BindView(R.id.footbalFilterSpinnerTextView)
+    TextView footbalFilterSpinnerTextView;
+    @BindView(R.id.calenderSpinnerTextView)
+    TextView calenderSpinnerTextView;
 
-    TextView allSpinnerTextView;
-    @BindView(R.id.todaySpinnerTextView)
-    TextView todaySpinnerTextView;
     @BindView(R.id.spinnersRelativeLayout)
     RelativeLayout spinnersRelativeLayout;
-    @BindView(R.id.allListView)
-    ListView allListView;
-    @BindView(R.id.todayListView)
-    ListView todayListView;
     ArrayList<String> horizontalData;
+    @BindView(R.id.footbalFilterListView)
+    ListView footbalFilterListView;
+    @BindView(R.id.calenderListView)
+    ListView calenderListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,77 +111,101 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.calendar_array, R.layout.custom_calendar_spinner);
-        adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
-        calendarSpinner.setAdapter(adapter);
     }
 
+    private void showSpinner(View view) {
 
-    private void showAllListView() {
-        todayListView.setVisibility(View.GONE);
-        todaySpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-        todaySpinnerTextView.setSelected(false);
+        if (view.getId() == R.id.footbalFilterSpinnerTextView) {
+            calenderListView.setVisibility(View.GONE);
+            calenderSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+            calenderSpinnerTextView.setSelected(false);
+            setListViewWidth(view);
+            if (footbalFilterSpinnerTextView.isSelected()) {
+                footbalFilterListView.setVisibility(View.GONE);
+                footbalFilterSpinnerTextView.setSelected(false);
+                footbalFilterSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+            } else {
+                footbalFilterSpinnerTextView.setSelected(true);
+                footbalFilterListView.setVisibility(View.VISIBLE);
+                footbalFilterSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
 
-        if (allSpinnerTextView.isSelected()) {
-            allListView.setVisibility(View.GONE);
-            allSpinnerTextView.setSelected(false);
-            allSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
+                        getResources().getStringArray(R.array.football_filter_array));
+                footbalFilterListView.setAdapter(adapter);
+                footbalFilterListView.bringToFront();
+                footbalFilterListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        footbalFilterSpinnerTextView.setText(getResources().getStringArray(R.array.football_filter_array)[i]);
+                    }
+                });
+
+            }
         } else {
-            allSpinnerTextView.setSelected(true);
-            allListView.setVisibility(View.VISIBLE);
-            allSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
-            String names[] = {
-                    "All", "My Teams", "My Leagues/Cups", "My Pundits",
-                    "Fixtures/Results", "Standings"};
+            footbalFilterListView.setVisibility(View.GONE);
+            footbalFilterSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+            footbalFilterSpinnerTextView.setSelected(false);
+            setListViewWidth(view);
+            if (calenderSpinnerTextView.isSelected()) {
+                calenderListView.setVisibility(View.GONE);
+                calenderSpinnerTextView.setSelected(false);
+                calenderSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+            } else {
+                calenderSpinnerTextView.setSelected(true);
+                calenderListView.setVisibility(View.VISIBLE);
+                calenderSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
-            allListView.setAdapter(adapter);
-            allListView.bringToFront();
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
+                        getResources().getStringArray(R.array.calendar_array));
+                calenderListView.setAdapter(adapter);
+                calenderListView.bringToFront();
+
+                calenderListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        calenderSpinnerTextView.setText(getResources().getStringArray(R.array.calendar_array)[i]);
+                    }
+                });
+            }
         }
 
     }
 
-    private void showTodayListView() {
-        allListView.setVisibility(View.GONE);
-        allSpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-        allSpinnerTextView.setSelected(false);
-        if (todaySpinnerTextView.isSelected()) {
-            todayListView.setVisibility(View.GONE);
-            todaySpinnerTextView.setSelected(false);
-            todaySpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+    private void setListViewWidth(View view) {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.addRule(RelativeLayout.BELOW, spinnersRelativeLayout.getId());
+        int coords[] = {0, 0};
+        view.getLocationOnScreen(coords);
+        int absoluteLeft = coords[0];
+        params.setMargins(absoluteLeft, -10, 0, 0);
+        if (view.getId() == R.id.footbalFilterSpinnerTextView) {
+            footbalFilterListView.setLayoutParams(params);
         } else {
-            todaySpinnerTextView.setSelected(true);
-            todayListView.setVisibility(View.VISIBLE);
-            todaySpinnerTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
-            String names[] = {
-                    "All", "My Teams", "My Leagues/Cups", "My Pundits",
-                    "Fixtures/Results", "Standings"};
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item, names);
-            todayListView.setAdapter(adapter);
-            todayListView.bringToFront();
+            calenderListView.setLayoutParams(params);
         }
-
     }
 
-    @OnClick({R.id.allSpinnerTextView, R.id.todaySpinnerTextView})
+
+    @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
+            , R.id.liveZoneTextView})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.allSpinnerTextView:
-                showAllListView();
+            case R.id.footbalFilterSpinnerTextView:
+                showSpinner(view);
                 break;
-            case R.id.todaySpinnerTextView:
-                showTodayListView();
+            case R.id.calenderSpinnerTextView:
+                showSpinner(view);
+                break;
+            case R.id.liveZoneTextView:
+                retainLayout();
+                footballFeedFragment();
                 break;
         }
     }
 
-
-    @OnClick(R.id.liveZoneTextView)
-    public void onLiveZoneTextViewClicked() {
-        retainLayout();
-        footballFeedFragment();
-    }
 
     public void footballFeedFragment() {
         getSupportFragmentManager()
@@ -231,6 +248,8 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("addMore");
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
+
+
 }
 
 

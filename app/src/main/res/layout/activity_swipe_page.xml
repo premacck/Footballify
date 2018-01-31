@@ -37,19 +37,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <Spinner
-                    android:id="@+id/calendar_spinner"
-                    android:layout_width="wrap_content"
-        android:layout_height="@dimen/swipe_page_spinner_height"
-                    android:layout_marginLeft="10dp"
-                    android:overlapAnchor="false"
-                    android:spinnerMode="dropdown"
-                    android:text="All"
-                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/showTextView"
-                    android:layout_width="50dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="10dp"
@@ -58,9 +49,11 @@
                     android:textColor="@color/White" />
 
                 <TextView
-                    android:id="@+id/allSpinnerTextView"
-                    android:layout_width="70dp"
+                    android:id="@+id/footbalFilterSpinnerTextView"
+                    style="@style/livezonetextstyle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -69,21 +62,27 @@
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"
-                    android:padding="5dp"
-                    android:text="All"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="3dp"
+                    android:paddingRight="3dp"
+                    android:text="All  "
                     android:textColor="@color/White" />
 
                 <TextView
-                    android:id="@+id/todaySpinnerTextView"
-                    android:layout_width="80dp"
+                    android:id="@+id/calenderSpinnerTextView"
+                    style="@style/livezonetextstyle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@+id/allSpinnerTextView"
-                    android:layout_toRightOf="@+id/allSpinnerTextView"
+                    android:layout_toEndOf="@+id/footbalFilterSpinnerTextView"
+                    android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"
-                    android:padding="5dp"
+                    android:gravity="center_vertical"
+                    android:paddingEnd="3dp"
+                    android:paddingRight="3dp"
                     android:text="Today"
                     android:textColor="@color/White" />
 
@@ -98,25 +97,23 @@
                     android:layout_marginRight="1dp"
                     android:text="LiveZone" />
 
-
             </RelativeLayout>
 
             <ListView
-                android:id="@+id/allListView"
+                android:id="@+id/footbalFilterListView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinnersRelativeLayout"
-                android:layout_marginLeft="80dp"
-                android:layout_marginTop="-10dp"
+                android:layout_marginTop="-5dp"
                 android:visibility="gone" />
 
             <ListView
-                android:id="@+id/todayListView"
+                android:id="@+id/calenderListView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinnersRelativeLayout"
-                android:layout_marginLeft="160dp"
-                android:layout_marginTop="-10dp"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="-5dp"
                 android:visibility="gone" />
 
 
@@ -136,9 +133,9 @@
             <RelativeLayout
                 android:id="@+id/banter_zone_layout"
                 android:layout_width="match_parent"
-        android:layout_height="@dimen/swipe_page_banter_zone_height"
+                android:layout_height="@dimen/swipe_page_banter_zone_height"
                 android:layout_alignParentBottom="true"
-        android:layout_margin="@dimen/swipe_page_banter_zone_margin"
+                android:layout_margin="@dimen/swipe_page_banter_zone_margin"
                 android:background="@drawable/football_header_orange_gradient">
 
                 <TextView
@@ -189,6 +186,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </FrameLayout>
+
     <FrameLayout
         android:id="@+id/fragmentContainerFrameLayout"
         android:layout_width="match_parent"
