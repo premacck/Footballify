@@ -9,10 +9,12 @@ import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Spinner;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,8 +35,6 @@ import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 
 public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
 
-    @BindView(R.id.calendar_spinner)
-    Spinner calendarSpinner;
     @BindView(R.id.football_feed_horizontal_view)
     RecyclerView horizontalRecyclerView;
     @BindView(R.id.football_feed_recycler_view)
@@ -49,7 +49,18 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
+    @BindView(R.id.footbalFilterSpinnerTextView)
+    TextView footbalFilterSpinnerTextView;
+    @BindView(R.id.calenderSpinnerTextView)
+    TextView calenderSpinnerTextView;
+
+    @BindView(R.id.spinnersRelativeLayout)
+    RelativeLayout spinnersRelativeLayout;
     ArrayList<String> horizontalData;
+    @BindView(R.id.footbalFilterListView)
+    ListView footbalFilterListView;
+    @BindView(R.id.calenderListView)
+    ListView calenderListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,16 +111,77 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.calendar_array, R.layout.custom_calendar_spinner);
-        adapter.setDropDownViewResource(R.layout.calendar_spinner_dropdown_item);
-        calendarSpinner.setAdapter(adapter);
     }
 
-    @OnClick(R.id.liveZoneTextView)
-    public void onLiveZoneTextViewClicked() {
-        retainLayout();
-        footballFeedFragment();
+    private void showSpinner(TextView activeTextView, ListView activeListView, TextView inActiveTextView, ListView inActiveListView,
+                             String[] arrayData) {
+        resetListView(inActiveListView, inActiveTextView);
+        setListViewWidth(activeTextView);
+        if (activeTextView.isSelected()) {
+            activeListView.setVisibility(View.GONE);
+            activeTextView.setSelected(false);
+            activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        } else {
+            activeTextView.setSelected(true);
+            activeListView.setVisibility(View.VISIBLE);
+            activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
+                    arrayData);
+            activeListView.setAdapter(adapter);
+            activeListView.bringToFront();
+            activeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    activeTextView.setText(arrayData[i]);
+                }
+            });
+        }
     }
+
+    private void resetListView(ListView inActiveListView, TextView inActiveTextView) {
+        inActiveListView.setVisibility(View.GONE);
+        inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+        inActiveTextView.setSelected(false);
+    }
+
+    private void setListViewWidth(View view) {
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT
+        );
+        params.addRule(RelativeLayout.BELOW, spinnersRelativeLayout.getId());
+        int coords[] = {0, 0};
+        view.getLocationOnScreen(coords);
+        int absoluteLeft = coords[0];
+        params.setMargins(absoluteLeft, -10, 0, 0);
+        if (view.getId() == R.id.footbalFilterSpinnerTextView) {
+            footbalFilterListView.setLayoutParams(params);
+        } else {
+            calenderListView.setLayoutParams(params);
+        }
+    }
+
+
+    @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
+            , R.id.liveZoneTextView})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.footbalFilterSpinnerTextView:
+                showSpinner((TextView) view, footbalFilterListView, calenderSpinnerTextView,
+                        calenderListView, getResources().getStringArray(R.array.football_filter_array));
+                break;
+            case R.id.calenderSpinnerTextView:
+                showSpinner((TextView) view, calenderListView, footbalFilterSpinnerTextView,
+                        footbalFilterListView, getResources().getStringArray(R.array.calendar_array));
+                break;
+            case R.id.liveZoneTextView:
+                retainLayout();
+                footballFeedFragment();
+                break;
+        }
+    }
+
 
     public void footballFeedFragment() {
         getSupportFragmentManager()
@@ -140,6 +212,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         }
     }
 
+
     @Override
     public void addMore() {
         // TODO: 30-01-2018 Get data from server
@@ -151,6 +224,8 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("addMore");
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
+
+
 }
 
 
