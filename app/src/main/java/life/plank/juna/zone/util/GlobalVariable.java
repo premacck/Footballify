@@ -9,8 +9,12 @@ import life.plank.juna.zone.data.network.model.UserChoice;
  */
 
 public class GlobalVariable {
-    private static GlobalVariable instance;
+    //These constants will be used to get particular data from Display Metrics
+    static final int DISPLAY_HEIGHT = 100;
+    static final int DISPLAY_WIDTH = 101;
 
+    private static GlobalVariable instance;
+    private final int DISPLAY_METRICS_ERROR_STATE = -1;
     private String teamName;
     private Integer clubPointsGameRound = 0;
     private Integer clubPointsGameScore = 0;
@@ -19,6 +23,21 @@ public class GlobalVariable {
     private List<UserChoice> userChoice;
 
     private GlobalVariable() {
+    }
+
+    public static synchronized GlobalVariable getInstance() {
+        if (instance == null) {
+            instance = new GlobalVariable();
+        }
+        return instance;
+    }
+
+    public int getDisplayHeight() {
+        return DISPLAY_HEIGHT;
+    }
+
+    public int getDisplayWidth() {
+        return DISPLAY_WIDTH;
     }
 
     public Boolean getClubGamesDraw() {
@@ -61,18 +80,15 @@ public class GlobalVariable {
         this.teamName = teamName;
     }
 
-    public static synchronized GlobalVariable getInstance() {
-        if (instance == null) {
-            instance = new GlobalVariable();
-        }
-        return instance;
+    public List<UserChoice> getUserChoice() {
+        return userChoice;
     }
 
     public void setUserChoice(List<UserChoice> userChoice) {
         this.userChoice = userChoice;
     }
 
-    public List<UserChoice> getUserChoice() {
-        return userChoice;
+    public int getDisplayMetricsErrorState() {
+        return DISPLAY_METRICS_ERROR_STATE;
     }
 }

@@ -18,6 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
@@ -74,7 +75,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         horizontalRecyclerView.setHasFixedSize(true);
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getScreenWidth(this));
+        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this,GlobalVariable.getInstance().getDisplayWidth()));
         horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
         snapHelper.attachToRecyclerView(horizontalRecyclerView);
         //Feed recycler view
@@ -88,7 +89,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                 "Brighton vs Chelsea"};
         int numberOfRows = 2;
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
-        footballFeedAdapter = new FootballFeedAdapter(this, data, UIDisplayUtil.getScreenHeight(this), UIDisplayUtil.getScreenWidth(this), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
+        footballFeedAdapter = new FootballFeedAdapter(this, data, UIDisplayUtil.getDisplayMetricsData(this,GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();

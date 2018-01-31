@@ -17,12 +17,42 @@ public class UIDisplayUtil {
 
     }
 
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
     public static UIDisplayUtil getInstance() {
         return UIDisplayUtilWrapper.INSTANCE;
+    }
+
+    /**
+     * Dp to pixel conversion.
+     *
+     * @param dp : dp to be converted
+     * @return pixel : Converted value.
+     */
+    public static int dpToPx(int dp, Context context) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    /**
+     * Common function to get Display metrics data
+     *
+     * @param context : context
+     * @param status  : Request for particular data
+     * @return integer : bases on status
+     */
+    public static int getDisplayMetricsData(Context context, int status) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        if (windowManager != null) {
+            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+        }
+        switch (status) {
+            case GlobalVariable.DISPLAY_HEIGHT:
+                return displayMetrics.heightPixels;
+            case GlobalVariable.DISPLAY_WIDTH:
+                return displayMetrics.widthPixels;
+            default:
+                return GlobalVariable.getInstance().getDisplayMetricsErrorState();
+        }
     }
 
     public void displaySnackBar(View currentView, String message) {
@@ -37,42 +67,8 @@ public class UIDisplayUtil {
         }
     }
 
-    /**
-     * Dp to pixel conversion.
-     * @param dp : dp to be converted
-     * @return pixel : Converted value.
-     */
-    public static int dpToPx(int dp,Context context) {
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
-    }
-
-    /**
-     * To get screen width.
-     * @param context : Context
-     * @return pixel : width of screen
-     */
-    public static int getScreenWidth(Context context){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager =  (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager != null) {
-            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        }
-        return displayMetrics.widthPixels;
-    }
-
-    /**
-     * To get screen height.
-     * @param context : Context
-     * @return pixel : Height of screen
-     */
-    public static int getScreenHeight(Context context){
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager =  (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager != null) {
-            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        }
-        return displayMetrics.heightPixels;
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 
 }
