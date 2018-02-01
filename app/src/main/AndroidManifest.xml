@@ -79,6 +79,9 @@
             android:name=".view.activity.WarriorGameActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".view.activity.FootballFeedDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".view.activity.GameLaunchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
