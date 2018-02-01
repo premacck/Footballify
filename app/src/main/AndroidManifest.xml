@@ -4,8 +4,8 @@
     package="life.plank.juna.zone">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <!--<uses-permission android:name="android.permission.GET_ACCOUNTS" />-->
+    <!--<uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
 
     <application
         android:name=".ZoneApplication"
