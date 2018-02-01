@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
 /**
@@ -42,7 +43,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     @Override
     public void onBindViewHolder(LiveZoneGridViewHolder holder, final int position) {
         int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
-        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getScreenWidth(context) / 4) - data * 3;
+        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data * 3;
     }
 
     @Override
