@@ -41,7 +41,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     @Override
     public void onBindViewHolder(LiveZoneGridViewHolder holder, final int position) {
         int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
-        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data * 3;
+        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
+        holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
     }
 
     @Override
@@ -56,6 +57,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     /**
      * Add data to the view
+     *
      * @param liveZoneGridViewHeight : gridViewHeight
      */
     public void addData(int liveZoneGridViewHeight) {
