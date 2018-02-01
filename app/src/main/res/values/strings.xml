@@ -107,4 +107,13 @@
         <item>Pick a date</item>
         <item>Calendar</item>
     </string-array>
+
+    <string-array name="football_filter_array">
+        <item>All</item>
+        <item>My Teams</item>
+        <item>My Leagues/Cups</item>
+        <item>My Pundits</item>
+        <item>Fixtures/Results</item>
+        <item>Standings</item>
+    </string-array>
 </resources>
