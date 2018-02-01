@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -58,11 +59,11 @@
                     android:layout_toRightOf="@+id/showTextView"
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ic_down_arrow"
+                    android:drawablePadding="10dp"
                     android:drawableRight="@drawable/ic_down_arrow"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
-                    android:drawablePadding="10dp"
                     android:text="All"
                     android:textColor="@color/White" />
 
@@ -77,8 +78,8 @@
                     android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ic_down_arrow"
-                    android:drawableRight="@drawable/ic_down_arrow"
                     android:drawablePadding="10dp"
+                    android:drawableRight="@drawable/ic_down_arrow"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
@@ -106,6 +107,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/spinnersRelativeLayout"
                 android:layout_marginTop="-5dp"
+                android:divider="@null"
+                android:dividerHeight="0dp"
                 android:visibility="gone" />
 
             <ListView
@@ -115,6 +118,8 @@
                 android:layout_below="@+id/spinnersRelativeLayout"
                 android:layout_marginLeft="150dp"
                 android:layout_marginTop="-5dp"
+                android:divider="@null"
+                android:dividerHeight="0dp"
                 android:visibility="gone" />
 
 
