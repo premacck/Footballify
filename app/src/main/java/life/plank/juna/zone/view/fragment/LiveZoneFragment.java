@@ -37,8 +37,8 @@ public class LiveZoneFragment extends Fragment {
     @BindView(R.id.closeImage)
     ImageView closeImage;
     @BindView(R.id.liveZoneSlider)
-    Context context;
     SliderLayout liveZoneSlider;
+    Context context;
     private Unbinder unbinder;
 
 
@@ -102,7 +102,6 @@ public class LiveZoneFragment extends Fragment {
         sliderData.add("");
         sliderData.add("");
         sliderData.add("");
-
 
         if (sliderData.size() > 0) {
             for (String data : sliderData) {
