@@ -35,6 +35,8 @@ public class LiveZoneFragment extends Fragment {
     @BindView(R.id.closeImage)
     ImageView closeImage;
     Context context;
+    LiveZoneGridAdapter adapter;
+    int liveZoneGridViewHeight;
     private Unbinder unbinder;
 
     @Override
@@ -53,6 +55,7 @@ public class LiveZoneFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
+        getHeightDetails();
         setUpGridView();
         return view;
     }
@@ -63,16 +66,15 @@ public class LiveZoneFragment extends Fragment {
         unbinder.unbind();
     }
 
-
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
-        liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), calculateNoOfColumns(), GridLayoutManager.HORIZONTAL, false));
-        liveZoneGridViewRelativeLayout.setAdapter(new LiveZoneGridAdapter(getActivity()));
+        liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
+        adapter = new LiveZoneGridAdapter(getActivity());
+        liveZoneGridViewRelativeLayout.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRelativeLayout.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRelativeLayout);
     }
-
 
     public int calculateNoOfColumns() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -82,9 +84,19 @@ public class LiveZoneFragment extends Fragment {
         return (columnCount >= 2 ? columnCount : 2);
     }
 
-
     @OnClick(R.id.closeImage)
     public void onCloseImageClicked() {
         ((SwipePageActivity) getActivity()).retainLayout();
+    }
+
+    /**
+     *  Get linearLayout after it is drawn.
+     */
+    public void getHeightDetails() {
+        // TODO: 01-02-2018 Check the performance and change accordingly once implement the server data
+        liveZoneGridViewRelativeLayout.post(() -> {
+            liveZoneGridViewHeight = liveZoneGridViewRelativeLayout.getHeight();
+            adapter.addData(liveZoneGridViewHeight);
+        });
     }
 }
