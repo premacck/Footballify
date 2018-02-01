@@ -59,7 +59,6 @@ def buildFeatureBranch(){
         buildRelease()
         executeTests()
         uploadToNexus()
-        publishApkToBetaTrackPlayStore()
     }
 
     def buildMasterBranch(){
@@ -67,7 +66,6 @@ def buildFeatureBranch(){
         buildRelease()
         executeTests()
         uploadToNexus()
-        publishApkToProductionTrackPlayStore()
     }
 
     // Utility Methods invoked by the branch builds
