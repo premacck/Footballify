@@ -147,7 +147,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
     private void setListViewWidth(View view) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
         params.addRule(RelativeLayout.BELOW, spinnersRelativeLayout.getId());
@@ -184,11 +184,14 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
 
     public void footballFeedFragment() {
+
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out,
+                        R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
+
     }
 
     @Override
