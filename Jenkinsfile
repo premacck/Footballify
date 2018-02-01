@@ -1,6 +1,6 @@
 echo 'Starting Zone Android Application Pipeline'
 
-node {
+node('master') {
 
     git url: 'ssh://git@git.plank.life:5443/juna/zone-androidapp.git'
     sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
@@ -31,18 +31,15 @@ def buildFeatureBranch(){
         buildRelease()
         executeTests()
         uploadToNexus()
-        publishApkToAlphaTrackPlayStore()
     }
 
     def buildBugfixBranch(){
         buildRelease()
         executeTests()
         uploadToNexus()
-        publishApkToAlphaTrackPlayStore()
     }
 
     def buildReleaseBranch(){
-        //todo: must not perform the same tasks as others, change Release tasks
         buildRelease()
         executeTests()
         uploadToNexus()
@@ -76,8 +73,6 @@ def buildFeatureBranch(){
     // Utility Methods invoked by the branch builds
     def buildRelease(){
          stage 'Clean android app'
-         sh 'pwd'
-         sh 'ls'
          sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
          sh "./gradlew clean :app:assembleRelease"
          echo  '********************************************************************************'
