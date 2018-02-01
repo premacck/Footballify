@@ -57,12 +57,13 @@
                     android:layout_toEndOf="@+id/showTextView"
                     android:layout_toRightOf="@+id/showTextView"
                     android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ms__menu_down"
-                    android:drawableRight="@drawable/ms__menu_down"
+                    android:drawableEnd="@drawable/ic_down_arrow"
+                    android:drawableRight="@drawable/ic_down_arrow"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
-                    android:text="All  "
+                    android:drawablePadding="10dp"
+                    android:text="All"
                     android:textColor="@color/White" />
 
                 <TextView
@@ -75,8 +76,9 @@
                     android:layout_toEndOf="@+id/footbalFilterSpinnerTextView"
                     android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
                     android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ms__menu_down"
-                    android:drawableRight="@drawable/ms__menu_down"
+                    android:drawableEnd="@drawable/ic_down_arrow"
+                    android:drawableRight="@drawable/ic_down_arrow"
+                    android:drawablePadding="10dp"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"

@@ -17,4 +17,5 @@
     <color name="orange_end_gradient">#ed7e2f</color>
     <color name="orange_start_gradient">#c02c2e</color>
     <color name="transparent_grey">#66000000</color>
+    <color name="spinner_item_color">#cf040d</color>
 </resources>
