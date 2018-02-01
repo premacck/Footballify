@@ -1,9 +1,11 @@
 package life.plank.juna.zone.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.view.activity.LiveZoneSliderView;
+import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
@@ -34,6 +37,7 @@ public class LiveZoneFragment extends Fragment {
     @BindView(R.id.closeImage)
     ImageView closeImage;
     @BindView(R.id.liveZoneSlider)
+    Context context;
     SliderLayout liveZoneSlider;
     private Unbinder unbinder;
 
@@ -41,6 +45,12 @@ public class LiveZoneFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        this.context = context;
+        super.onAttach(context);
     }
 
     @Override
@@ -61,11 +71,12 @@ public class LiveZoneFragment extends Fragment {
 
 
     private void setUpGridView() {
+        SnapHelper snapHelper = new StartSnapHelper();
         liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), calculateNoOfColumns(), GridLayoutManager.HORIZONTAL, false));
         liveZoneGridViewRelativeLayout.setAdapter(new LiveZoneGridAdapter(getActivity()));
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRelativeLayout.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
-
+        snapHelper.attachToRecyclerView(liveZoneGridViewRelativeLayout);
     }
 
 
