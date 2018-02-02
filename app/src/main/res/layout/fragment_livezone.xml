@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".75"
-            android:padding="@dimen/cardview_compat_inset_shadow" />
+            />
     </LinearLayout>
 
     <RelativeLayout
@@ -67,9 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="3dp"
         android:background="@drawable/football_header_purple_gradient">
-
 
         <TextView
             android:id="@+id/person_number"
