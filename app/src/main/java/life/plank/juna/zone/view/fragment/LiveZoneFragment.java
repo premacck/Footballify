@@ -13,9 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.daimajia.slider.library.SliderLayout;
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
