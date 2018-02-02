@@ -15,15 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.daimajia.slider.library.SliderLayout;
 import java.util.ArrayList;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
-import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
+import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
@@ -66,6 +65,7 @@ public class LiveZoneFragment extends Fragment {
         setUpSlider();
         return view;
     }
+
 
     @Override
     public void onDestroyView() {
