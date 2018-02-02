@@ -96,7 +96,6 @@ public class LiveZoneFragment extends Fragment {
         ((SwipePageActivity) getActivity()).retainLayout();
     }
 
-<<<<<<< HEAD
     /**
      *  Get linearLayout after it is drawn.
      */
@@ -106,7 +105,7 @@ public class LiveZoneFragment extends Fragment {
             liveZoneGridViewHeight = liveZoneGridViewRelativeLayout.getHeight();
             adapter.addData(liveZoneGridViewHeight);
         });
-=======
+    }
 
     private void setUpSlider() {
         liveZoneSlider.stopAutoCycle();
@@ -122,6 +121,5 @@ public class LiveZoneFragment extends Fragment {
                 liveZoneSlider.addSlider(textSliderView);
             }
         }
->>>>>>> develop
     }
 }
