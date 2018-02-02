@@ -140,7 +140,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/swipe_page_banter_zone_height"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="@dimen/swipe_page_banter_zone_margin"
+                android:layout_marginEnd="@dimen/swipe_page_banter_zone_margin"
+                android:layout_marginLeft="@dimen/swipe_page_banter_zone_margin"
+                android:layout_marginRight="@dimen/swipe_page_banter_zone_margin"
+                android:layout_marginStart="@dimen/swipe_page_banter_zone_margin"
                 android:background="@drawable/football_header_orange_gradient">
 
                 <TextView
