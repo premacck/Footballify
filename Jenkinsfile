@@ -3,7 +3,6 @@ echo 'Starting Zone Android Application Pipeline'
 node('master') {
 
     git url: 'ssh://git@git.plank.life:5443/juna/zone-androidapp.git'
-    sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
 
     stage 'Checkout and Setup'
     checkout scm
