@@ -10,21 +10,22 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.daimajia.slider.library.SliderLayout;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
-import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
+import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
@@ -65,29 +66,6 @@ public class LiveZoneFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-
-        Animation anim = AnimationUtils.loadAnimation(getActivity(), nextAnim);
-
-        anim.setAnimationListener(new Animation.AnimationListener() {
-
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-
-            }
-        });
-
-        return anim;
-    }
 
     @Override
     public void onDestroyView() {
