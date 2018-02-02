@@ -13,7 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import com.daimajia.slider.library.SliderLayout;
+import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -21,6 +22,7 @@ import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
+import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
@@ -34,8 +36,13 @@ public class LiveZoneFragment extends Fragment {
     RecyclerView liveZoneGridViewRelativeLayout;
     @BindView(R.id.closeImage)
     ImageView closeImage;
+    @BindView(R.id.liveZoneSlider)
+    SliderLayout liveZoneSlider;
     Context context;
+    LiveZoneGridAdapter adapter;
+    int liveZoneGridViewHeight;
     private Unbinder unbinder;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,9 +60,12 @@ public class LiveZoneFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
+        getHeightDetails();
         setUpGridView();
+        setUpSlider();
         return view;
     }
+
 
     @Override
     public void onDestroyView() {
@@ -63,16 +73,15 @@ public class LiveZoneFragment extends Fragment {
         unbinder.unbind();
     }
 
-
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
-        liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), calculateNoOfColumns(), GridLayoutManager.HORIZONTAL, false));
-        liveZoneGridViewRelativeLayout.setAdapter(new LiveZoneGridAdapter(getActivity()));
+        liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
+        adapter = new LiveZoneGridAdapter(getActivity());
+        liveZoneGridViewRelativeLayout.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRelativeLayout.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRelativeLayout);
     }
-
 
     public int calculateNoOfColumns() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
@@ -82,9 +91,35 @@ public class LiveZoneFragment extends Fragment {
         return (columnCount >= 2 ? columnCount : 2);
     }
 
-
     @OnClick(R.id.closeImage)
     public void onCloseImageClicked() {
         ((SwipePageActivity) getActivity()).retainLayout();
+    }
+
+    /**
+     *  Get linearLayout after it is drawn.
+     */
+    public void getHeightDetails() {
+        // TODO: 01-02-2018 Check the performance and change accordingly once implement the server data
+        liveZoneGridViewRelativeLayout.post(() -> {
+            liveZoneGridViewHeight = liveZoneGridViewRelativeLayout.getHeight();
+            adapter.addData(liveZoneGridViewHeight);
+        });
+    }
+
+    private void setUpSlider() {
+        liveZoneSlider.stopAutoCycle();
+        ArrayList<String> sliderData = new ArrayList<>();
+        sliderData.add("text");
+        sliderData.add("video");
+        sliderData.add("text");
+        sliderData.add("video");
+
+        if (sliderData.size() > 0) {
+            for (String data : sliderData) {
+                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
+                liveZoneSlider.addSlider(textSliderView);
+            }
+        }
     }
 }

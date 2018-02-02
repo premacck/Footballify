@@ -18,15 +18,12 @@ public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
     @Override
     public void getItemOffsets(Rect outRect, View view,
                                RecyclerView parent, RecyclerView.State state) {
-        outRect.left = space;
         outRect.right = space;
-        outRect.bottom = space;
-
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildLayoutPosition(view) == 0) {
-            outRect.top = space;
+        //To remove the padding at the bottom.
+        if ((parent.getChildLayoutPosition(view) + 1) % 5 == 0) {
+            outRect.bottom = 0;
         } else {
-            outRect.top = 0;
+            outRect.bottom = space;
         }
     }
 }

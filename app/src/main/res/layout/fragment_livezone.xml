@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,13 +7,15 @@
         style="@style/livezonetextstyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
         android:paddingBottom="0dp"
-        android:paddingTop="0dp">
+        android:paddingTop="0dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:id="@+id/liveZoneTextView"
@@ -43,18 +44,22 @@
         android:layout_below="@+id/liveZoneRelativeLayout"
         android:orientation="vertical">
 
-        <View
+        <com.daimajia.slider.library.SliderLayout
+            android:id="@+id/liveZoneSlider"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
             android:layout_weight=".25" />
-
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/liveZoneGridViewRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".75"
-            android:padding="@dimen/cardview_compat_inset_shadow" />
+            />
     </LinearLayout>
 
     <RelativeLayout
@@ -62,9 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="3dp"
         android:background="@drawable/football_header_purple_gradient">
-
 
         <TextView
             android:id="@+id/person_number"

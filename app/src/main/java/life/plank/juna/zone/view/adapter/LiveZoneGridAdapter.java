@@ -25,13 +25,11 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     private Context context;
     private List<String> elements;
+    private int gridViewHeight;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
         this.elements = new ArrayList<>();
-        for (int i = 0; i < 40; i++) {
-            this.elements.add("");
-        }
     }
 
     @Override
@@ -43,7 +41,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     @Override
     public void onBindViewHolder(LiveZoneGridViewHolder holder, final int position) {
         int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
-        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data * 3;
+        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
+        holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
     }
 
     @Override
@@ -54,6 +53,19 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     @Override
     public int getItemCount() {
         return this.elements.size();
+    }
+
+    /**
+     * Add data to the view
+     *
+     * @param liveZoneGridViewHeight : gridViewHeight
+     */
+    public void addData(int liveZoneGridViewHeight) {
+        gridViewHeight = liveZoneGridViewHeight;
+        for (int i = 0; i < 40; i++) {
+            this.elements.add("");
+        }
+        notifyDataSetChanged();
     }
 
     public class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {

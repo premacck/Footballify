@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
@@ -48,6 +50,14 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(text);
         holder.newFeedImage.setImageResource(images[position]);
         holder.categoryLabel.setText(category[position]);
+        holder.newFeedImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
+                context.startActivity(footballFeedDetails);
+
+            }
+        });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);
         int marginFeedRow = (int) context.getResources().getDimension(R.dimen.football_feed_row_margin);
         int marginBanterRow = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
