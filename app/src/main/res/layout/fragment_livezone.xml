@@ -13,7 +13,9 @@
         android:layout_marginRight="3dp"
         android:layout_marginStart="3dp"
         android:paddingBottom="0dp"
-        android:paddingTop="0dp">
+        android:paddingTop="0dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp">
 
         <TextView
             android:id="@+id/liveZoneTextView"
