@@ -27,14 +27,14 @@ node('master') {
         echo  '********************************************************************************'
 }
 
-def buildFeatureBranch(){
-        buildRelease()
+    def buildFeatureBranch(){
+        build()
         executeTests()
         uploadToNexus()
     }
 
     def buildBugfixBranch(){
-        buildRelease()
+        build()
         executeTests()
         uploadToNexus()
     }
@@ -56,21 +56,28 @@ def buildFeatureBranch(){
 
     def buildDevelopmentBranch(){
         //todo: must not perform the same tasks as others, change Development tasks
-        buildRelease()
+        build()
         executeTests()
         uploadToNexus()
     }
 
     def buildMasterBranch(){
         //todo: must not perform the same tasks as others, change Master branch tasks
-        buildRelease()
+        build()
         executeTests()
         uploadToNexus()
     }
 
     // Utility Methods invoked by the branch builds
+    def build(){
+         stage 'Clean and Build android app'
+         sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
+         sh "./gradlew clean build"
+         echo  '********************************************************************************'
+    }
+
     def buildRelease(){
-         stage 'Clean android app'
+         stage 'Clean and build release apk'
          sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
          sh "./gradlew clean :app:assembleRelease"
          echo  '********************************************************************************'
