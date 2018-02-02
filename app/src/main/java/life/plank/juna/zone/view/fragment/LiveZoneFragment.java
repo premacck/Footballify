@@ -13,13 +13,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import com.daimajia.slider.library.SliderLayout;
+import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
+import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
@@ -34,10 +36,13 @@ public class LiveZoneFragment extends Fragment {
     RecyclerView liveZoneGridViewRelativeLayout;
     @BindView(R.id.closeImage)
     ImageView closeImage;
+    @BindView(R.id.liveZoneSlider)
+    SliderLayout liveZoneSlider;
     Context context;
     LiveZoneGridAdapter adapter;
     int liveZoneGridViewHeight;
     private Unbinder unbinder;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,7 @@ public class LiveZoneFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         getHeightDetails();
         setUpGridView();
+        setUpSlider();
         return view;
     }
 
@@ -89,6 +95,7 @@ public class LiveZoneFragment extends Fragment {
         ((SwipePageActivity) getActivity()).retainLayout();
     }
 
+<<<<<<< HEAD
     /**
      *  Get linearLayout after it is drawn.
      */
@@ -98,5 +105,23 @@ public class LiveZoneFragment extends Fragment {
             liveZoneGridViewHeight = liveZoneGridViewRelativeLayout.getHeight();
             adapter.addData(liveZoneGridViewHeight);
         });
+=======
+
+    private void setUpSlider() {
+        liveZoneSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+        liveZoneSlider.removeAllSliders();
+        ArrayList<String> sliderData = new ArrayList<>();
+        sliderData.add("");
+        sliderData.add("");
+        sliderData.add("");
+
+        if (sliderData.size() > 0) {
+            for (String data : sliderData) {
+                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
+
+                liveZoneSlider.addSlider(textSliderView);
+            }
+        }
+>>>>>>> develop
     }
 }
