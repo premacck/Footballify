@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark_grey">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/homeTeamTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Brighton &amp; hove albiono"
+            android:textAllCaps="true"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:id="@+id/visitingTeamTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/homeTeamTextView"
+            android:text="Chelsea"
+            android:textAllCaps="true"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/homeTeamTextView"
+            android:layout_toRightOf="@+id/homeTeamTextView"
+            android:background="@color/Red"
+            android:gravity="center"
+            android:text="0"
+            android:textAllCaps="true"
+            android:textColor="@color/White" />
+
+        <TextView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/homeTeamTextView"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/visitingTeamTextView"
+            android:layout_toRightOf="@+id/visitingTeamTextView"
+            android:background="@color/Red"
+            android:gravity="center"
+            android:text="3"
+            android:textAllCaps="true"
+            android:textColor="@color/White" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
