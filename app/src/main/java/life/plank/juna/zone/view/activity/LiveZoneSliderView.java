@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 
@@ -19,16 +18,20 @@ public class LiveZoneSliderView extends BaseSliderView {
 
     public LiveZoneSliderView(Context context, String data) {
         super(context);
-        this.liveZoneSliderData = liveZoneSliderData;
+        this.liveZoneSliderData = data;
         this.context = context;
     }
 
     @Override
     public View getView() {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.live_zone_slider_row, null);
-        ImageView target = (ImageView) v.findViewById(R.id.liveZoneSliderImage);
+        View v;
+        if (liveZoneSliderData.contentEquals("text")) {
+            v = LayoutInflater.from(getContext()).inflate(R.layout.live_zone_slider_row, null);
 
-        bindEventAndShow(v, target);
+        } else {
+            v = LayoutInflater.from(getContext()).inflate(R.layout.live_zone_slider_row_one, null);
+        }
+        bindEventAndShow(v, null);
         return v;
     }
 
