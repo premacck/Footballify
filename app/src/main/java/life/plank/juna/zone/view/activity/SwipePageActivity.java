@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +15,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -87,7 +88,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         horizontalRecyclerView.setHasFixedSize(true);
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this,GlobalVariable.getInstance().getDisplayWidth()));
+        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()));
         horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
         snapHelper.attachToRecyclerView(horizontalRecyclerView);
         //Feed recycler view
@@ -101,7 +102,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                 "Brighton vs Chelsea"};
         int numberOfRows = 2;
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
-        footballFeedAdapter = new FootballFeedAdapter(this, data, UIDisplayUtil.getDisplayMetricsData(this,GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
+        footballFeedAdapter = new FootballFeedAdapter(this, data, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
@@ -142,7 +143,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
     private void setListViewWidth(View view) {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                 RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT
         );
         params.addRule(RelativeLayout.BELOW, spinnersRelativeLayout.getId());
@@ -182,7 +183,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out,R.anim.slide_in, R.anim.slide_out)
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
 
