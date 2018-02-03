@@ -22,7 +22,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-hasan on 1/27/2018.
  */
 
-public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapter.LiveZoneGridViewHolder> {
+public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context context;
     private List<String> elements;
@@ -42,14 +42,15 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     }
 
     @Override
-    public void onBindViewHolder(LiveZoneGridViewHolder holder, final int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        LiveZoneGridViewHolder liveZoneGridViewHolder = (LiveZoneGridViewHolder) holder;
         int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
-        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
-        holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
+        liveZoneGridViewHolder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
+        liveZoneGridViewHolder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         if ("text".contentEquals(elements.get(position))) {
-            holder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.gride_item_gray));
+            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.gride_item_gray));
         } else {
-            holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(images.get((new Random()).nextInt(images.size()))));
+            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(images.get((new Random()).nextInt(images.size()))));
         }
     }
 
@@ -63,6 +64,11 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         return this.elements.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
     /**
      * Add data to the view
      *
@@ -70,10 +76,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
      */
     public void addData(int liveZoneGridViewHeight) {
         gridViewHeight = liveZoneGridViewHeight;
-        /*for (int i = 0; i < 40; i++) {
-            this.elements.add("");
-        }*/
         setUpData();
+        setUpImages();
         notifyDataSetChanged();
     }
 
@@ -108,9 +112,16 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         data.add("image");
         data.add("text");
         data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("image");
+        elements.addAll(data);
+        elements.addAll(data);
+    }
 
-        elements.addAll(data);
-        elements.addAll(data);
+    private void setUpImages() {
         images = new ArrayList<>();
         images.add(R.drawable.ic_grid_one);
         images.add(R.drawable.ic_grid_two);
