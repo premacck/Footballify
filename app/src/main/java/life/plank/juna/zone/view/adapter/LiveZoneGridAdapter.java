@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,10 +27,12 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     private Context context;
     private List<String> elements;
     private int gridViewHeight;
+    private ArrayList<Integer> images;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
         this.elements = new ArrayList<>();
+
     }
 
     @Override
@@ -43,6 +46,11 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
         holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
+        if ("text".contentEquals(elements.get(position))) {
+            holder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.gride_item_gray));
+        } else {
+            holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(images.get((new Random()).nextInt(images.size()))));
+        }
     }
 
     @Override
@@ -62,9 +70,10 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
      */
     public void addData(int liveZoneGridViewHeight) {
         gridViewHeight = liveZoneGridViewHeight;
-        for (int i = 0; i < 40; i++) {
+        /*for (int i = 0; i < 40; i++) {
             this.elements.add("");
-        }
+        }*/
+        setUpData();
         notifyDataSetChanged();
     }
 
@@ -77,6 +86,38 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    private void setUpData() {
+        ArrayList<String> data = new ArrayList<>();
+        data.add("text");
+        data.add("text");
+        data.add("image");
+        data.add("image");
+        data.add("image");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+        data.add("text");
+        data.add("image");
+
+        elements.addAll(data);
+        elements.addAll(data);
+        images = new ArrayList<>();
+        images.add(R.drawable.ic_grid_one);
+        images.add(R.drawable.ic_grid_two);
+        images.add(R.drawable.ic_grid_three);
+        images.add(R.drawable.ic_grid_four);
+        images.add(R.drawable.ic_grid_five);
+        images.add(R.drawable.ic_grid_six);
     }
 
 }
