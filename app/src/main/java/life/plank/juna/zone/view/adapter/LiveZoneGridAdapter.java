@@ -1,11 +1,18 @@
 package life.plank.juna.zone.view.adapter;
 
 
+import android.animation.AnimatorInflater;
+import android.animation.AnimatorSet;
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
@@ -28,6 +35,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<String> elements;
     private int gridViewHeight;
     private ArrayList<Integer> images;
+    private int startDelay = 200;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
@@ -52,6 +60,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             liveZoneGridViewHolder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(images.get((new Random()).nextInt(images.size()))));
         }
+        setScaleAnimation(holder.itemView);
     }
 
     @Override
@@ -129,6 +138,14 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         images.add(R.drawable.ic_grid_four);
         images.add(R.drawable.ic_grid_five);
         images.add(R.drawable.ic_grid_six);
+    }
+
+
+    public void setScaleAnimation(View view) {
+        AnimatorSet growSet = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.flip_left_in);
+        growSet.setTarget(view);
+        growSet.setDuration(200);
+        growSet.start();
     }
 
 }

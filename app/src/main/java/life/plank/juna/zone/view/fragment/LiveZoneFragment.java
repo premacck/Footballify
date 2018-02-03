@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -66,6 +67,7 @@ public class LiveZoneFragment extends Fragment {
         getHeightDetails();
         setUpGridView();
         setUpSlider();
+        setUpHandler();
         return view;
     }
 
@@ -125,5 +127,17 @@ public class LiveZoneFragment extends Fragment {
                 liveZoneSlider.addSlider(textSliderView);
             }
         }
+    }
+
+    private void setUpHandler() {
+        Handler handler = new Handler();
+        int delay = 10000;
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                adapter.notifyDataSetChanged();
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
     }
 }
