@@ -13,8 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.daimajia.slider.library.SliderLayout;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -97,7 +100,7 @@ public class LiveZoneFragment extends Fragment {
     }
 
     /**
-     *  Get linearLayout after it is drawn.
+     * Get linearLayout after it is drawn.
      */
     public void getHeightDetails() {
         // TODO: 01-02-2018 Check the performance and change accordingly once implement the server data

@@ -63,6 +63,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     @BindView(R.id.calenderListView)
     ListView calenderListView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +108,8 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
+
+
     }
 
     private void showSpinner(TextView activeTextView, ListView activeListView, TextView inActiveTextView, ListView inActiveListView,
@@ -122,14 +125,15 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
             activeListView.setVisibility(View.VISIBLE);
             activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
-                    arrayData);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item
+                    , R.id.spinnerDropdownTextView, arrayData);
             activeListView.setAdapter(adapter);
             activeListView.bringToFront();
             activeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     activeTextView.setText(arrayData[i]);
+                    activeListView.setVisibility(View.GONE);
                 }
             });
         }
@@ -222,7 +226,6 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("addMore");
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
-
 
 }
 
