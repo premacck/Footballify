@@ -134,6 +134,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     activeTextView.setText(arrayData[i]);
                     activeListView.setVisibility(View.GONE);
+                    activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 }
             });
         }
