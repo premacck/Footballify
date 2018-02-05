@@ -36,7 +36,7 @@ public class LiveZoneFragment extends Fragment {
     @BindView(R.id.liveZoneRelativeLayout)
     RelativeLayout liveZoneRelativeLayout;
     @BindView(R.id.liveZoneGridViewRelativeLayout)
-    RecyclerView liveZoneGridViewRelativeLayout;
+    RecyclerView liveZoneGridViewRecyclerView;
     @BindView(R.id.closeImage)
     ImageView closeImage;
     @BindView(R.id.liveZoneSlider)
@@ -78,12 +78,12 @@ public class LiveZoneFragment extends Fragment {
 
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
-        liveZoneGridViewRelativeLayout.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
+        liveZoneGridViewRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
         adapter = new LiveZoneGridAdapter(getActivity());
-        liveZoneGridViewRelativeLayout.setAdapter(adapter);
+        liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
-        liveZoneGridViewRelativeLayout.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
-        snapHelper.attachToRecyclerView(liveZoneGridViewRelativeLayout);
+        liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
     }
 
     public int calculateNoOfColumns() {
@@ -104,8 +104,8 @@ public class LiveZoneFragment extends Fragment {
      */
     public void getHeightDetails() {
         // TODO: 01-02-2018 Check the performance and change accordingly once implement the server data
-        liveZoneGridViewRelativeLayout.post(() -> {
-            liveZoneGridViewHeight = liveZoneGridViewRelativeLayout.getHeight();
+        liveZoneGridViewRecyclerView.post(() -> {
+            liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
             adapter.addData(liveZoneGridViewHeight);
         });
     }

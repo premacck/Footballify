@@ -1,49 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/football_feed_horizontal_card"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_content"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#6e777d">
+    android:background="@color/grid_item_gray">
 
-    <RelativeLayout
-        android:id="@+id/card_content"
+    <TextView
+        android:id="@+id/horizontal_news_label"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/textView"
+        android:layout_margin="3dp"
+        android:text="6S: Mark F"
+        android:textColor="@color/White"
+        android:textSize="7sp" />
 
-        <TextView
-            android:id="@+id/horizontal_news_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView"
-            android:layout_margin="3dp"
-            android:text="6S: Mark F"
-            android:textColor="@color/White"
-            android:textSize="7sp" />
+    <ImageView
+        android:id="@+id/horizontal_news_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="46dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_dummy_user" />
 
-        <ImageView
-            android:id="@+id/horizontal_news_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="46dp"
-            android:scaleType="fitEnd"
-            android:src="@drawable/ic_dummy_user" />
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="3dp"
+        android:text="Why would Mourinho do that? Isn't he done with this.."
+        android:textColor="@color/White"
+        android:textSize="9dp" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="3dp"
-            android:text="Why would Mourinho do that? Isn't he done with this.."
-            android:textColor="@color/White"
-            android:textSize="9dp" />
-    </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>
