@@ -30,6 +30,7 @@ public class LiveZoneSliderView extends BaseSliderView {
 
         } else {
             v = LayoutInflater.from(getContext()).inflate(R.layout.live_zone_slider_row_one, null);
+
         }
         bindEventAndShow(v, null);
         return v;
