@@ -81,7 +81,6 @@ public class LiveZoneFragment extends Fragment {
         liveZoneGridViewRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
-        liveZoneGridViewRecyclerView.hasFixedSize();
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
