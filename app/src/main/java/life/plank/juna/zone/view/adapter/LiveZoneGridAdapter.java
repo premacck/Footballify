@@ -22,6 +22,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.FlipAnimation;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
@@ -35,7 +36,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private List<String> elements;
     private int gridViewHeight;
     private ArrayList<Integer> images;
-    private int startDelay = 200;
+
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
@@ -60,7 +61,6 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else {
             liveZoneGridViewHolder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(images.get((new Random()).nextInt(images.size()))));
         }
-        setScaleAnimation(holder.itemView);
     }
 
     @Override
@@ -142,10 +142,12 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     public void setScaleAnimation(View view) {
-        AnimatorSet growSet = (AnimatorSet) AnimatorInflater.loadAnimator(context, R.animator.flip_left_in);
-        growSet.setTarget(view);
-        growSet.setDuration(200);
-        growSet.start();
+        FlipAnimation flipAnimation = new FlipAnimation(view, view);
+
+        if (view.getVisibility() == View.GONE) {
+            flipAnimation.reverse();
+        }
+        view.startAnimation(flipAnimation);
     }
 
 }

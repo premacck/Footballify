@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.daimajia.slider.library.SliderLayout;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,7 +68,7 @@ public class LiveZoneFragment extends Fragment {
         getHeightDetails();
         setUpGridView();
         setUpSlider();
-        setUpHandler();
+        setUpAnimation();
         return view;
     }
 
@@ -129,13 +130,18 @@ public class LiveZoneFragment extends Fragment {
         }
     }
 
-    private void setUpHandler() {
+    private void setUpAnimation() {
         Handler handler = new Handler();
         int delay = 10000;
 
         handler.postDelayed(new Runnable() {
             public void run() {
-                adapter.notifyDataSetChanged();
+                for (int i = 0; i <= 8; i++) {
+                    Random random = new Random();
+                    int position = random.nextInt(20);
+                    adapter.setScaleAnimation(liveZoneGridViewRecyclerView.getChildAt(position));
+                    adapter.notifyItemChanged(position);
+                }
                 handler.postDelayed(this, delay);
             }
         }, delay);
