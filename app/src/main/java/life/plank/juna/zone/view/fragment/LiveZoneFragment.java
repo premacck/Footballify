@@ -8,10 +8,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.mikepenz.itemanimators.ScaleXAnimator;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,7 +72,8 @@ public class LiveZoneFragment extends Fragment {
         getHeightDetails();
         setUpGridView();
         setUpSlider();
-        setUpAnimation();
+        //setUpAnimation();
+        setUpBounceAnimation();
         return view;
     }
 
@@ -152,4 +155,19 @@ public class LiveZoneFragment extends Fragment {
             }
         }, delay);
     }
+
+    private void setUpBounceAnimation() {
+        Handler handler = new Handler();
+        int delay = 10000;
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
+                liveZoneGridViewRecyclerView.getChildAt(new Random().nextInt(20)).startAnimation(animation);
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+    }
+
+
 }
