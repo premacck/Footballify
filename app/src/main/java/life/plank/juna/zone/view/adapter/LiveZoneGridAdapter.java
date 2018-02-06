@@ -2,6 +2,8 @@ package life.plank.juna.zone.view.adapter;
 
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +29,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context context;
     private List<String> elements;
     private int gridViewHeight;
-    private ArrayList<Integer> images;
+    private ArrayList<Drawable> images;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
@@ -47,9 +49,9 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         liveZoneGridViewHolder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         liveZoneGridViewHolder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         if ("text".contentEquals(elements.get(position))) {
-            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.grid_item_gray));
+            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackgroundColor(getRandomBackgroundColor());
         } else {
-            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(images.get((new Random()).nextInt(images.size()))));
+            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackground(getRandomImage());
         }
     }
 
@@ -76,7 +78,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void addData(int liveZoneGridViewHeight) {
         gridViewHeight = liveZoneGridViewHeight;
         setUpData();
-        setUpImages();
+        getRandomImage();
         notifyDataSetChanged();
     }
 
@@ -120,14 +122,28 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         elements.addAll(data);
     }
 
-    private void setUpImages() {
+    private Drawable getRandomImage() {
         images = new ArrayList<>();
-        images.add(R.drawable.ic_grid_one);
-        images.add(R.drawable.ic_grid_two);
-        images.add(R.drawable.ic_grid_three);
-        images.add(R.drawable.ic_grid_four);
-        images.add(R.drawable.ic_grid_five);
-        images.add(R.drawable.ic_grid_six);
+        images.add(ContextCompat.getDrawable(context, R.drawable.ic_grid_one));
+        images.add(ContextCompat.getDrawable(context, R.drawable.ic_grid_two));
+        images.add(ContextCompat.getDrawable(context, R.drawable.ic_grid_three));
+        images.add(ContextCompat.getDrawable(context, R.drawable.ic_grid_four));
+        images.add(ContextCompat.getDrawable(context, R.drawable.ic_grid_five));
+        images.add(ContextCompat.getDrawable(context, R.drawable.ic_grid_six));
+        return images.get((new Random()).nextInt(images.size()));
+    }
+
+
+    private int getRandomBackgroundColor() {
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(ContextCompat.getColor(context, R.color.Orange));
+        colors.add(ContextCompat.getColor(context, R.color.Green));
+        colors.add(ContextCompat.getColor(context, R.color.Red));
+        colors.add(ContextCompat.getColor(context, R.color.Blue_grey));
+        colors.add(ContextCompat.getColor(context, R.color.dark_grey));
+        colors.add(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        colors.add(ContextCompat.getColor(context, R.color.orange_end_gradient));
+        return colors.get((new Random()).nextInt(images.size()));
     }
 
 }
