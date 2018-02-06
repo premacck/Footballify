@@ -1,6 +1,6 @@
 echo 'Starting Zone Android Application Pipeline'
 
-node('windows-only') {
+node('master') {
 
     git url: 'ssh://git@git.plank.life:5443/juna/zone-androidapp.git'
 
