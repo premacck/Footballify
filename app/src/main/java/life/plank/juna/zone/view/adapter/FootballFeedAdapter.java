@@ -10,31 +10,34 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
-    String[] category = {"TEAMS", "LEAGUES/CUPS", "PUNDITS", "LIVEZONE", "TEAMS", "LEAGUES/CUPS", "PUNDITS", "LIVEZONE"};
-    int[] images = {R.drawable.ic_third_dummy, R.drawable.ic_second_dummy, R.drawable.ic_fourth_dummy, R.drawable.ic_football_dummy_image, R.drawable.ic_third_dummy, R.drawable.ic_second_dummy, R.drawable.ic_fourth_dummy, R.drawable.ic_football_dummy_image};
-    int[] bgColor = {R.drawable.football_header_orange_gradient, R.drawable.football_header_green_gradient, R.drawable.football_header_blue_gradient, R.drawable.football_header_purple_gradient, R.drawable.football_header_orange_gradient, R.drawable.football_header_green_gradient, R.drawable.football_header_blue_gradient, R.drawable.football_header_purple_gradient};
-    //TODO:Will be replaced with data from the backend
-    private String[] data = new String[0];
     private Context context;
     private LayoutInflater mInflater;
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
 
-    public FootballFeedAdapter(Context context, String[] data, int height, int width, int heightsToBeRemoved) {
+    private List<FootballFeed> footballFeedList = new ArrayList<>();
+
+    public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
         screenWidth = width;
         this.heightsToBeRemoved = heightsToBeRemoved;
         this.mInflater = LayoutInflater.from(context);
-        this.data = data;
     }
 
     @Override
@@ -46,10 +49,17 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
     @Override
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
-        String text = data[position];
-        holder.newsFeedLabel.setText(text);
-        holder.newFeedImage.setImageResource(images[position]);
-        holder.categoryLabel.setText(category[position]);
+        FootballFeed footballFeed = footballFeedList.get(position);
+        holder.newsFeedLabel.setText(footballFeed.getHeadline());
+
+        if (footballFeed.getThumbnail() != null) {
+            Picasso.with(context)
+                    .load(footballFeed.getThumbnail().getImageUrl())
+                    .fit()
+                    .into(holder.newFeedImage);
+        } else {
+            holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
+        }
         holder.newFeedImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,16 +77,27 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         // marginBanterRow*2 : single grid.
         holder.newsFeedRelativeLayout.getLayoutParams().height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
         final int sdk = android.os.Build.VERSION.SDK_INT;
-        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            holder.gradientRelativeLayout.setBackgroundDrawable(context.getResources().getDrawable(bgColor[position]));
-        } else {
-            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
-        }
+
+        //TODO: Will be uncommented after backend returns data
+//        if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+//            holder.gradientRelativeLayout.setBackgroundDrawable(context.getResources().getDrawable(bgColor[position]));
+//        } else {
+//            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
+//        }
     }
 
     @Override
     public int getItemCount() {
-        return data.length;
+        return footballFeedList.size();
+    }
+
+    public void setFootballFeedList(List<FootballFeed> footballFeeds) {
+        if (footballFeeds == null) {
+            return;
+        }
+        footballFeedList.clear();
+        footballFeedList.addAll(footballFeeds);
+        notifyDataSetChanged();
     }
 
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {

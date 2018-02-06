@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,17 +18,29 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneFragment;
+import retrofit2.Retrofit;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 /**
@@ -36,14 +49,16 @@ import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 
 public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
 
+    @Inject
+    @Named("azure")
+    Retrofit retrofit;
+
     @BindView(R.id.football_feed_horizontal_view)
     RecyclerView horizontalRecyclerView;
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     @BindView(R.id.zone_logo)
     ImageView zoneLogo;
-    HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
-    FootballFeedAdapter footballFeedAdapter;
     @BindView(R.id.containerRelativeLayout)
     FrameLayout containerRelativeLayout;
     @BindView(R.id.liveZoneTextView)
@@ -63,6 +78,12 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     @BindView(R.id.calenderListView)
     ListView calenderListView;
 
+    HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
+    FootballFeedAdapter footballFeedAdapter;
+    private Subscription subscription;
+    private RestApi restApi;
+
+    private static final String TAG = SwipePageActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +96,15 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("27S: GRAHAM");
         horizontalData.add("6S: MARK F");
         horizontalData.add("addMore");
+
+        ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
+
+        restApi = retrofit.create(RestApi.class);
+        getFootballFeed();
+        initRecyclerView();
+    }
+
+    private void initRecyclerView() {
         // Calculate ActionBar height
         int actionBarHeight = 0;
         TypedValue typedValue = new TypedValue();
@@ -86,30 +116,47 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         int banterRecyclerSize = (int) getResources().getDimension(R.dimen.football_feed_height);
         // TODO: 29-01-2018 Change based on performance
         SnapHelper snapHelper = new StartSnapHelper();
+
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         horizontalRecyclerView.setHasFixedSize(true);
         horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()));
         horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
         snapHelper.attachToRecyclerView(horizontalRecyclerView);
-        //Feed recycler view
-        String[] data = {"Reece Burke celebrates after breaking the deadlock in extra time at London Stadium",
-                "Utd to subsidised fans in Sevilla row. $89 to visit Old Trafford for spanish supporters",
-                "Charlie Nicholas : FA Cup third round replay predictions",
-                "Brighton vs Chelsea",
-                "Reece Burke celebrates after breaking the deadlock in extra time at London Stadium",
-                "Utd to subsidised fans in Sevilla row. $89 to visit Old Trafford for spanish supporters",
-                "Charlie Nicholas : FA Cup third round replay predictions",
-                "Brighton vs Chelsea"};
+
+        //Football Feed recycler view
         int numberOfRows = 2;
         feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
-        footballFeedAdapter = new FootballFeedAdapter(this, data, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
+        footballFeedAdapter = new FootballFeedAdapter(this, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
 
+    }
 
+
+    public void getFootballFeed() {
+        subscription = restApi.getFootballFeed()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<FootballFeed>>() {
+
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "In onCompleted()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "In onCompleted()");
+                    }
+
+                    @Override
+                    public void onNext(List<FootballFeed> footballFeeds) {
+                        footballFeedAdapter.setFootballFeedList(footballFeeds);
+                    }
+                });
     }
 
     private void showSpinner(TextView activeTextView, ListView activeListView, TextView inActiveTextView, ListView inActiveListView,

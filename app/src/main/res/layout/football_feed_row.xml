@@ -6,7 +6,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/football_feed_row_margin"
-    card_view:cardBackgroundColor="@android:color/holo_blue_dark"
+    card_view:cardBackgroundColor="@android:color/background_dark"
     card_view:cardElevation="0dp"
     card_view:cardCornerRadius="0dp"
     card_view:cardUseCompatPadding="false">

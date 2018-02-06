@@ -3,6 +3,7 @@ package life.plank.juna.zone.data.network.interfaces;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
@@ -64,4 +65,7 @@ public interface RestApi {
 
     @GET("/footballMatches")
     Observable<FootballMatch> getRandomFootballMatchByName(@Query("team") String team);
+
+    @GET("api/newsfeed")
+    Observable<List<FootballFeed>> getFootballFeed();
 }

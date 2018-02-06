@@ -55,4 +55,17 @@ public class RestServiceModule {
                 .build();
         return retrofit;
     }
+
+    @Singleton
+    @Provides
+    @Named("azure")
+    public Retrofit getAzureRetrofit(Gson gson) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(ZoneApplication.getContext().getString(R.string.azure_base_url))
+                .client(HttpClientService.getUnsafeOkHttpClient())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        return retrofit;
+    }
 }
