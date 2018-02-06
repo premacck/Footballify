@@ -34,7 +34,6 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
         this.elements = new ArrayList<>();
-
     }
 
     @Override

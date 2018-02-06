@@ -5,7 +5,7 @@
     android:id="@+id/card_content"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/gride_item_gray">
+    android:background="@color/grid_item_grey">
 
     <TextView
         android:id="@+id/horizontal_news_label"

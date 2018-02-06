@@ -18,5 +18,5 @@
     <color name="orange_start_gradient">#c02c2e</color>
     <color name="transparent_grey">#66000000</color>
     <color name="spinner_item_color">#cf040d</color>
-    <color name="gride_item_gray">#6e777d</color>
+    <color name="grid_item_grey">#6e777d</color>
 </resources>
