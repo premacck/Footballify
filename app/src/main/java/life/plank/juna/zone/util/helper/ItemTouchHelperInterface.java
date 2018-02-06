@@ -7,5 +7,9 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public interface ItemTouchHelperInterface {
+
     boolean onItemMove(int fromPosition, int toPosition, RecyclerView.ViewHolder target);
+
+    void clearView(int adapterPosition);
+
 }

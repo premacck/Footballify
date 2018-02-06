@@ -23,12 +23,13 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
+import life.plank.juna.zone.util.helper.ScrubberEvent;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
-public class LiveZoneFragment extends Fragment {
+public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
     @BindView(R.id.liveZoneTextView)
     TextView liveZoneTextView;
@@ -43,8 +44,8 @@ public class LiveZoneFragment extends Fragment {
     Context context;
     LiveZoneGridAdapter adapter;
     int liveZoneGridViewHeight;
+    ScrubberEvent scrubberEvent;
     private Unbinder unbinder;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,7 @@ public class LiveZoneFragment extends Fragment {
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
         liveZoneGridViewRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
+
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
@@ -102,6 +104,7 @@ public class LiveZoneFragment extends Fragment {
     }
 
     private void setUpSlider() {
+        scrubberEvent = this;
         liveZoneSlider.stopAutoCycle();
         ArrayList<String> sliderData = new ArrayList<>();
         sliderData.add("text");
@@ -111,9 +114,18 @@ public class LiveZoneFragment extends Fragment {
 
         if (sliderData.size() > 0) {
             for (String data : sliderData) {
-                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
+                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data, scrubberEvent);
                 liveZoneSlider.addSlider(textSliderView);
             }
         }
+    }
+
+    /**
+     * @param status   : Status
+     * @param position : position
+     */
+    @Override
+    public void onNewEvent(int status, int position) {
+        // TODO: 06-02-2018 Animate
     }
 }
