@@ -147,7 +147,6 @@ public class LiveZoneFragment extends Fragment {
                 for (int i = 0; i <= liveZoneGridModels.size() - 1; i++) {
                     adapter.addData(position + i, liveZoneGridModels.get(i));
                 }
-                Log.d("newdata", "added");
                 liveZoneGridViewRecyclerView.scrollToPosition(0);
                 handler.postDelayed(this, delay);
             }
