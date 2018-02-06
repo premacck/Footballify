@@ -55,7 +55,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         liveZoneGridViewHolder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         if ("text".contentEquals(elements.get(position).getData())) {
-            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.grid_item_gray));
+            liveZoneGridViewHolder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.grid_item_grey));
         } else {
             liveZoneGridViewHolder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position).getImage()));
         }
