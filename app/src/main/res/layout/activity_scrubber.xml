@@ -12,7 +12,7 @@
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="#fff" />
 
     <android.support.v7.widget.RecyclerView
@@ -20,6 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@+id/view"
+        android:background="#333333" />
+
+    <View
+        android:id="@+id/viewDown"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/scrubber_recycler_view"
         android:background="#fff" />
 
 </RelativeLayout>

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,13 +28,14 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.SpacesItemDecoration;
+import life.plank.juna.zone.util.helper.ScrubberEvent;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 import life.plank.juna.zone.viewmodel.LiveZoneGridModel;
 
-public class LiveZoneFragment extends Fragment {
+public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
     @BindView(R.id.liveZoneTextView)
     TextView liveZoneTextView;
@@ -50,8 +50,8 @@ public class LiveZoneFragment extends Fragment {
     Context context;
     LiveZoneGridAdapter adapter;
     int liveZoneGridViewHeight;
+    ScrubberEvent scrubberEvent;
     private Unbinder unbinder;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,14 +97,6 @@ public class LiveZoneFragment extends Fragment {
         liveZoneGridViewRecyclerView.setItemAnimator(new ScaleXAnimator());
     }
 
-    public int calculateNoOfColumns() {
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
-        int scalingFactor = 90;
-        int columnCount = (int) (dpWidth / scalingFactor);
-        return (columnCount >= 2 ? columnCount : 2);
-    }
-
     @OnClick(R.id.closeImage)
     public void onCloseImageClicked() {
         ((SwipePageActivity) getActivity()).retainLayout();
@@ -123,6 +115,7 @@ public class LiveZoneFragment extends Fragment {
     }
 
     private void setUpSlider() {
+        scrubberEvent = this;
         liveZoneSlider.stopAutoCycle();
         ArrayList<String> sliderData = new ArrayList<>();
         sliderData.add("text");
@@ -132,10 +125,19 @@ public class LiveZoneFragment extends Fragment {
 
         if (sliderData.size() > 0) {
             for (String data : sliderData) {
-                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data);
+                LiveZoneSliderView textSliderView = new LiveZoneSliderView(getActivity(), data, scrubberEvent);
                 liveZoneSlider.addSlider(textSliderView);
             }
         }
+    }
+
+    /**
+     * @param status   : Status
+     * @param position : position
+     */
+    @Override
+    public void onNewEvent(int status, int position) {
+        // TODO: 06-02-2018 Animate
     }
 
     private void setUpAnimation() {
