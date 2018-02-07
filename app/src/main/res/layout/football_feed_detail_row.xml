@@ -1,36 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
+        android:id="@+id/relative_layout_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context="life.plank.juna.zone.view.activity.FootballFeedDetailActivity">
+        android:layout_height="630dp">
+
+        <ImageView
+            android:id="@+id/feed_image"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_football_dummy_image" />
+
+        <TextView
+            android:id="@+id/posted_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:text="16/01\n9min"
+            android:textColor="#ffffff" />
 
         <RelativeLayout
+            android:id="@+id/gradient_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/White">
-
-            <ImageView
-                android:id="@+id/feed_image"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_football_dummy_image" />
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/transparent_grey">
 
             <TextView
                 android:id="@+id/feed_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/feed_image"
-                android:layout_marginTop="20dp"
-                android:text="Details:"
-                android:textColor="@color/Black"
-                android:textSize="12sp" />
-
+                android:layout_margin="5dp"
+                android:text="Here is your text"
+                android:textColor="@color/White"
+                android:textSize="15sp" />
         </RelativeLayout>
     </RelativeLayout>
-</ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/feed_content_relative_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relative_layout_container">
+
+        <TextView
+            android:id="@+id/feed_content_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="hellow"
+            android:textColor="@color/Black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/feed_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/feed_content_details"
+            android:layout_margin="5dp"
+            android:text="View all 5 comments"
+            android:textColor="#cecbcb"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+</RelativeLayout>
