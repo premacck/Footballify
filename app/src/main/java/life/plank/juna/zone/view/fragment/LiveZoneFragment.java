@@ -72,8 +72,8 @@ public class LiveZoneFragment extends Fragment {
         getHeightDetails();
         setUpGridView();
         setUpSlider();
-        //setUpAnimation();
-        setUpBounceAnimation();
+        setUpAnimation();
+        //setUpBounceAnimation();
         return view;
     }
 
@@ -86,13 +86,15 @@ public class LiveZoneFragment extends Fragment {
 
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
-        liveZoneGridViewRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
-        liveZoneGridViewRecyclerView.setItemAnimator(new ScaleXAnimator());
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
+        gridLayoutManager.supportsPredictiveItemAnimations();
+        liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
+        liveZoneGridViewRecyclerView.setItemAnimator(new ScaleXAnimator());
     }
 
     public int calculateNoOfColumns() {
@@ -116,6 +118,7 @@ public class LiveZoneFragment extends Fragment {
         liveZoneGridViewRecyclerView.post(() -> {
             liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
             adapter.addData(liveZoneGridViewHeight);
+            liveZoneGridViewRecyclerView.setAdapter(adapter);
         });
     }
 
@@ -141,8 +144,9 @@ public class LiveZoneFragment extends Fragment {
         ArrayList<LiveZoneGridModel> liveZoneGridModels = new ArrayList<>();
         liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_one));
         liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_six));
-        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_three));
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_five));
         liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_two));
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_three));
         handler.postDelayed(new Runnable() {
             public void run() {
                 int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
@@ -161,12 +165,12 @@ public class LiveZoneFragment extends Fragment {
         int delay = 10000;
         handler.postDelayed(new Runnable() {
             public void run() {
-
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
                 liveZoneGridViewRecyclerView.getChildAt(new Random().nextInt(20)).startAnimation(animation);
                 handler.postDelayed(this, delay);
             }
         }, delay);
+
     }
 
 
