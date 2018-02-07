@@ -61,21 +61,19 @@ public class LiveZoneSliderView extends BaseSliderView implements ScrubberViewAd
     public View getView() {
 
 
-        View v;
+        View v = null;
         if (liveZoneSliderData.contentEquals("text")) {
             v = LayoutInflater.from(getContext()).inflate(R.layout.live_zone_slider_row, null);
-
+            bindEventAndShow(v, null);
         } else {
             v = LayoutInflater.from(getContext()).inflate(R.layout.live_zone_slider_row_one, null);
             ButterKnife.bind(this, v);
-
             scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
             adapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, this, scrubberEvent);
             scrubberView.setAdapter(adapter);
             setUpScrubber();
+            bindEventAndShow(v, null);
         }
-
-        bindEventAndShow(v, null);
         return v;
     }
 
@@ -89,8 +87,11 @@ public class LiveZoneSliderView extends BaseSliderView implements ScrubberViewAd
     }
 
     private void updateScrubber() {
+
+        new Handler(Looper.getMainLooper()).post(() -> pointer.setVisibility(View.VISIBLE));
         while (progressStatus < ScrubberConstants.getScrubberViewTotalWindow()) {
             try {
+                moveScrubberPointer(null, data.size() - 1);
                 progressStatus++;
                 if (data.size() > 0)
                     data.remove(data.size() - 1);
@@ -100,8 +101,8 @@ public class LiveZoneSliderView extends BaseSliderView implements ScrubberViewAd
                     data.add(ScrubberConstants.getScrubberViewProgress());
                 }
                 data.add(ScrubberConstants.getScrubberViewCursor());
-                Thread.sleep(1000);
-                new Handler(Looper.getMainLooper()).post(() -> adapter.notifyDataSetChanged());
+                Thread.sleep(2000);
+                new Handler(Looper.getMainLooper()).post(() -> adapter.notifyItemChanged(data.size() - 1));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -113,8 +114,8 @@ public class LiveZoneSliderView extends BaseSliderView implements ScrubberViewAd
         int[] xyViewAfter = new int[]{0, 0};
         scrubberView.getLocationOnScreen(xyViewAfter);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                50,
-                50
+                25,
+                25
         );
         params.addRule(RelativeLayout.BELOW, scrubberView.getId());
         if (position != -1 && scrubberView != null) {
@@ -127,11 +128,9 @@ public class LiveZoneSliderView extends BaseSliderView implements ScrubberViewAd
         if (view != null) {
             xyData = new int[]{0, 0};
             view.getLocationOnScreen(xyData);
-            params.leftMargin = xyData[0];
-            view.getLocationInWindow(xyData);
             params.leftMargin = xyData[0] - 10;
+            view.getLocationInWindow(xyData);
             new Handler(Looper.getMainLooper()).post(() -> pointer.setLayoutParams(params));
         }
     }
-
 }

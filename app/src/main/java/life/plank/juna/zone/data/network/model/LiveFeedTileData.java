@@ -6,14 +6,20 @@ import java.util.ArrayList;
  * Created by plank-niraj on 06-02-2018.
  */
 
-class LiveFeedTileData {
-    ArrayList<String> images;
+public class LiveFeedTileData {
+    ArrayList<Integer> images;
 
-    public ArrayList<String> getImages() {
+    public LiveFeedTileData(ArrayList<Integer> images) {
+        this.images = images;
+    }
+
+    public ArrayList<Integer> getImages() {
         return images;
     }
 
-    public void setImages(ArrayList<String> images) {
+    public void setImages(ArrayList<Integer> images) {
         this.images = images;
     }
+
+
 }

@@ -18,7 +18,6 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.viewmodel.LiveZoneGridModel;
 
 /**
  * Created by plank-hasan on 1/27/2018.
@@ -27,7 +26,7 @@ import life.plank.juna.zone.viewmodel.LiveZoneGridModel;
 public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapter.LiveZoneGridViewHolder> {
 
     private Context context;
-    private List<LiveZoneGridModel> elements;
+    private List<Integer> elements;
     private int gridViewHeight;
 
     public LiveZoneGridAdapter(Context context) {
@@ -35,7 +34,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         this.elements = new ArrayList<>();
     }
 
-    public void addData(int position, LiveZoneGridModel data) {
+    public void addData(int position, Integer data) {
         elements.add(position, data);
         notifyItemInserted(position);
 
@@ -53,12 +52,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context,
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
-        if ("text".contentEquals(elements.get(position).getData())) {
-            holder.liveZoneRelativeLayout.setBackgroundColor(getRandomBackgroundColor());
-        } else {
-            holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position).getImage()));
-        }
-
+        holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position)));
     }
 
 
@@ -79,22 +73,20 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         notifyDataSetChanged();
     }
 
-    public class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.card_content)
-        RelativeLayout liveZoneRelativeLayout;
-
-        public LiveZoneGridViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-        }
-    }
-
     private void setUpData() {
-        elements.addAll(LiveZoneGridModel.getLiveZoneData());
-        elements.addAll(LiveZoneGridModel.getLiveZoneData());
+        elements.add(R.drawable.ic_grid_three);
+        elements.add(R.drawable.ic_grid_two);
+        elements.add(R.drawable.ic_grid_one);
+        elements.add(R.drawable.ic_grid_four);
+        elements.add(R.drawable.ic_grid_five);
+        elements.add(R.drawable.ic_grid_six);
+        elements.add(R.drawable.ic_grid_three);
+        elements.add(R.drawable.ic_grid_two);
+        elements.add(R.drawable.ic_grid_one);
+        elements.add(R.drawable.ic_grid_four);
+        elements.add(R.drawable.ic_grid_five);
+        elements.add(R.drawable.meme1);
     }
-
 
     private int getRandomBackgroundColor() {
         ArrayList<Integer> colors = new ArrayList<>();
@@ -106,6 +98,17 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         colors.add(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         colors.add(ContextCompat.getColor(context, R.color.orange_end_gradient));
         return colors.get((new Random()).nextInt(colors.size()));
+    }
+
+    public class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.card_content)
+        RelativeLayout liveZoneRelativeLayout;
+
+        public LiveZoneGridViewHolder(View view) {
+            super(view);
+            ButterKnife.bind(this, view);
+        }
     }
 
 
