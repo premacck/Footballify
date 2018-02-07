@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/WhiteTransparent"
@@ -9,14 +10,30 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:background="@color/White">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/football_feed_recycler_view"
+            android:id="@+id/footballFeedRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <EditText
+            android:id="@+id/add_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/footballFeedRecyclerView"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/transparent_grey"
+            android:hint="Add a comment..." />
+
+        <Button
+            android:id="@+id/post_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/add_comment"
+            android:layout_below="@+id/footballFeedRecyclerView"
+            android:background="@drawable/square_transparent_bg"
+            android:text="send" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -33,4 +50,4 @@
         </FrameLayout>
     </RelativeLayout>
 
-</RelativeLayout>
+</ScrollView>
