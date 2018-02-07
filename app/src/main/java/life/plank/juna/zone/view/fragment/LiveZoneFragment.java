@@ -142,15 +142,17 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
         Log.v("trace event", scrubberViewData.getMessage());
-        int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-        try {
-            for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getImages().size() - 1; i++) {
-                adapter.addData(position + i, scrubberViewData.getLiveFeedTileData().getImages().get(i));
+        if (scrubberViewData.getLiveFeedTileData().getImages().size()>0) {
+            int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+            try {
+                for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getImages().size() - 1; i++) {
+                    adapter.addData(position + i, scrubberViewData.getLiveFeedTileData().getImages().get(i));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+            liveZoneGridViewRecyclerView.scrollToPosition(0);
         }
-        liveZoneGridViewRecyclerView.scrollToPosition(0);
     }
 
     /* private void setUpAnimation() {

@@ -64,7 +64,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         tileImages = new ArrayList<>();
         tileImages.add(R.drawable.image6);
         tileImages.add(R.drawable.ic_grid_two);
-        tileImages.add(R.drawable.ic_grid_three);
+        // tileImages.add(R.drawable.ic_grid_three);
         scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
 
@@ -173,11 +173,12 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             }
             return false;
         });
-
+        
+        if (simpleTooltip != null) {
+            simpleTooltip.dismiss();
+        }
         if (position == data.size() - 1 && scrubberViewDataHolder.containsKey(position)) {
-            if (simpleTooltip != null) {
-                simpleTooltip.dismiss();
-            }
+
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
             scrubberEvent.onNewEvent(scrubberViewDataHolder.get(position));
         }
