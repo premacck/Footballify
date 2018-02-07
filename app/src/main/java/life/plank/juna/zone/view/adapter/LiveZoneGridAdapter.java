@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +54,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         if ("text".contentEquals(elements.get(position).getData())) {
-            holder.liveZoneRelativeLayout.setBackgroundColor(context.getResources().getColor(R.color.grid_item_grey));
+            holder.liveZoneRelativeLayout.setBackgroundColor(getRandomBackgroundColor());
         } else {
             holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position).getImage()));
         }
@@ -91,6 +93,19 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     private void setUpData() {
         elements.addAll(LiveZoneGridModel.getLiveZoneData());
         elements.addAll(LiveZoneGridModel.getLiveZoneData());
+    }
+
+
+    private int getRandomBackgroundColor() {
+        ArrayList<Integer> colors = new ArrayList<>();
+        colors.add(ContextCompat.getColor(context, R.color.Orange));
+        colors.add(ContextCompat.getColor(context, R.color.Green));
+        colors.add(ContextCompat.getColor(context, R.color.Red));
+        colors.add(ContextCompat.getColor(context, R.color.Blue_grey));
+        colors.add(ContextCompat.getColor(context, R.color.dark_grey));
+        colors.add(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        colors.add(ContextCompat.getColor(context, R.color.orange_end_gradient));
+        return colors.get((new Random()).nextInt(colors.size()));
     }
 
 

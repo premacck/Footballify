@@ -154,7 +154,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
                 int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
 
                 for (int i = 0; i <= liveZoneGridModels.size() - 1; i++) {
-                    adapter.addData(position + i, liveZoneGridModels.get(i));
+                    adapter.addData(position + i, liveZoneGridModels.get((new Random()).nextInt(liveZoneGridModels.size())));
                 }
                 liveZoneGridViewRecyclerView.scrollToPosition(0);
                 handler.postDelayed(this, delay);
