@@ -29,8 +29,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     private Context context;
     private LayoutInflater mInflater;
-    FootballFeed footballFeed;
-
+    List<FootballFeed> footballFeedList;
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image)
@@ -46,9 +45,9 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         }
     }
 
-    public FootballFeedDetailAdapter(Context context, FootballFeed footballFeed) {
+    public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedList) {
         this.mInflater = LayoutInflater.from(context);
-        this.footballFeed = footballFeed;
+        this.footballFeedList = footballFeedList;
     }
 
     @Override
@@ -58,13 +57,14 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         context = parent.getContext();
         return new FootballFeedDetailViewHolder(view);
     }
+
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-        holder.footballFeedContent.setText(footballFeed.getHeadline());
-        holder.footballFeedContentDetails.setText(footballFeed.getSummary());
-        if (footballFeed.getThumbnail() != null) {
+        holder.footballFeedContent.setText(footballFeedList.get(position).getHeadline());
+        holder.footballFeedContentDetails.setText(footballFeedList.get(position).getSummary());
+        if (footballFeedList.get(position).getThumbnail() != null) {
             Picasso.with(context)
-                    .load(footballFeed.getThumbnail().getImageUrl())
+                    .load(footballFeedList.get(position).getThumbnail().getImageUrl())
                     .fit()
                     .into(holder.footballFeedImage);
         } else {
@@ -74,6 +74,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public int getItemCount() {
-        return 1 ;
+        return footballFeedList.size();
     }
 }
