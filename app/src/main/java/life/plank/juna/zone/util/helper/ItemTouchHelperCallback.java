@@ -2,7 +2,6 @@ package life.plank.juna.zone.util.helper;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,9 +12,9 @@ import java.util.ArrayList;
 public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperInterface itemTouchHelperInterface;
-    ArrayList<String> data;
+    ArrayList<Integer> data;
 
-    public ItemTouchHelperCallback(ItemTouchHelperInterface itemTouchHelperInterface, ArrayList<String> data) {
+    public ItemTouchHelperCallback(ItemTouchHelperInterface itemTouchHelperInterface, ArrayList<Integer> data) {
         this.itemTouchHelperInterface = itemTouchHelperInterface;
         this.data = data;
     }

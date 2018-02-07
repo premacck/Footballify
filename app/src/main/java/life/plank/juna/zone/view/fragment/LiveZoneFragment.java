@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ScrubberEvent;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
@@ -133,12 +135,12 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     }
 
     /**
-     * @param status   : Status
-     * @param position : position
+     * @param scrubberViewData :  Data
      */
     @Override
-    public void onNewEvent(int status, int position) {
+    public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
+        Log.v("trace event", scrubberViewData.getMessage());
     }
 
     private void setUpAnimation() {
