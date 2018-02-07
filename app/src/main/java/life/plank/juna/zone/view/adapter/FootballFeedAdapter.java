@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -60,12 +62,14 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
-        holder.newFeedImage.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
+                Gson gson = new Gson();
+                String jsonString = gson.toJson(footballFeed);
+                footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
                 context.startActivity(footballFeedDetails);
-
             }
         });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);

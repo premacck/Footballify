@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,12 +9,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+
+import static android.content.Intent.getIntent;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -23,7 +29,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     private Context context;
     private LayoutInflater mInflater;
-    List<FootballFeed> footballFeedDetailModelList;
+    FootballFeed footballFeed;
+
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image)
@@ -39,9 +46,9 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         }
     }
 
-    public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedDetailModelList) {
+    public FootballFeedDetailAdapter(Context context, FootballFeed footballFeed) {
         this.mInflater = LayoutInflater.from(context);
-        this.footballFeedDetailModelList = footballFeedDetailModelList;
+        this.footballFeed = footballFeed;
     }
 
     @Override
@@ -51,16 +58,22 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         context = parent.getContext();
         return new FootballFeedDetailViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-        FootballFeed FootballFeed = footballFeedDetailModelList.get(position);
-        holder.footballFeedContent.setText(FootballFeed.getHeadline());
-        holder.footballFeedImage.setImageResource(Integer.parseInt(FootballFeed.getUrl()));
-        holder.footballFeedContentDetails.setText(FootballFeed.getUrl());
+        holder.footballFeedContent.setText(footballFeed.getHeadline());
+        holder.footballFeedContentDetails.setText(footballFeed.getSummary());
+        if (footballFeed.getThumbnail() != null) {
+            Picasso.with(context)
+                    .load(footballFeed.getThumbnail().getImageUrl())
+                    .fit()
+                    .into(holder.footballFeedImage);
+        } else {
+            holder.footballFeedImage.setImageResource(R.drawable.ic_third_dummy);
+        }
     }
+
     @Override
     public int getItemCount() {
-        return footballFeedDetailModelList.size();
+        return 1 ;
     }
 }
