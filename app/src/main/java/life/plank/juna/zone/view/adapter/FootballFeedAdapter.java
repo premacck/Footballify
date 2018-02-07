@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -69,6 +68,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                 Gson gson = new Gson();
                 String jsonString = gson.toJson(footballFeed);
                 footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
+                footballFeedDetails.putExtra("web_url",footballFeed.getUrl());
                 context.startActivity(footballFeedDetails);
             }
         });
