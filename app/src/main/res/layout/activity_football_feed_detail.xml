@@ -17,23 +17,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <EditText
-            android:id="@+id/add_comment"
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/web_link"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignRight="@id/add_comment"
             android:layout_below="@+id/football_feed_recyclerView"
-            android:layout_margin="5dp"
-            android:backgroundTint="@color/transparent_grey"
-            android:hint="Add a comment..." />
+            android:background="@drawable/square_transparent_bg"
+            android:text="LINK" />
 
         <Button
             android:id="@+id/post_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/add_comment"
-            android:layout_below="@+id/footballFeedRecyclerView"
+            android:layout_below="@+id/web_link"
             android:background="@drawable/square_transparent_bg"
             android:text="send" />
+
+        <EditText
+            android:id="@+id/add_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/web_link"
+            android:layout_margin="5dp"
+            android:backgroundTint="@color/transparent_grey"
+            android:hint="Add a comment..." />
 
         <FrameLayout
             android:layout_width="wrap_content"
