@@ -61,7 +61,7 @@
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_below="@+id/score_text"
             android:layout_marginTop="20dp"
             android:background="#fff" />
@@ -76,19 +76,19 @@
         <View
             android:id="@+id/view_after"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.5dp"
             android:layout_below="@+id/scrubber_recycler_view"
             android:background="#fff" />
 
         <ImageView
             android:id="@+id/arrow"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:layout_below="@+id/scrubber_recycler_view"
-            android:background="@drawable/ic_scrubber_marker"
+            android:background="@drawable/ic_pointer"
             android:contentDescription="image"
             android:scaleType="fitCenter"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

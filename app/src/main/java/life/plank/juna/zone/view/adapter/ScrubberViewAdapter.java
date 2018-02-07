@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.LiveFeedTileData;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
@@ -22,8 +24,6 @@ import life.plank.juna.zone.util.helper.ScrubberEvent;
 /**
  * Created by plank-niraj on 26-01-2018.
  */
-
-
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
     ScrubberPointerUpdate scrubberPointerUpdate;
     boolean trigger = false;
@@ -48,43 +48,84 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     }
 
     private void addHardCodedData() {
+        ArrayList<Integer> tileImages = new ArrayList<>();
+
+        tileImages.add(R.drawable.image4);
+        tileImages.add(R.drawable.ic_grid_one);
+
         scrubberViewDataHolder.put(7, new ScrubberViewData("Goal!! Eden Hazard - 7",
-                ScrubberConstants.getScrubberViewGoal(), null));
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image5);
         scrubberViewDataHolder.put(12, new ScrubberViewData("Goal! Rudiger - 12",
-                ScrubberConstants.getScrubberViewGoal(), null));
-        scrubberViewDataHolder.put(60, new ScrubberViewData("Goal!! Granit - 60",
-                ScrubberConstants.getScrubberViewGoal(), null));
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
 
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image6);
+        tileImages.add(R.drawable.ic_grid_two);
+        tileImages.add(R.drawable.ic_grid_three);
+        scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card);
         scrubberViewDataHolder.put(17, new ScrubberViewData("Yellow card Hazard - 17",
-                ScrubberConstants.getScrubberViewCards(), null));
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card);
         scrubberViewDataHolder.put(31, new ScrubberViewData("Yellow card Wilshere - 31",
-                ScrubberConstants.getScrubberViewCards(), null));
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
 
 
-        scrubberViewDataHolder.put(46, new ScrubberViewData("",
-                ScrubberConstants.getScrubberViewHalfTime(), null));
-        scrubberViewDataHolder.put(47, new ScrubberViewData("",
-                ScrubberConstants.getScrubberViewHalfTime(), null));
-        scrubberViewDataHolder.put(48, new ScrubberViewData("",
-                ScrubberConstants.getScrubberViewHalfTime(), null));
-        scrubberViewDataHolder.put(49, new ScrubberViewData("",
-                ScrubberConstants.getScrubberViewHalfTime(), null));
-        scrubberViewDataHolder.put(50, new ScrubberViewData("",
-                ScrubberConstants.getScrubberViewHalfTime(), null));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image17);
+        scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
 
+        scrubberViewDataHolder.put(47, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.ic_grid_five);
+
+        scrubberViewDataHolder.put(48, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+
+        scrubberViewDataHolder.put(49, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.ic_grid_six);
+
+        scrubberViewDataHolder.put(50, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card);
         scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Victor -62",
-                ScrubberConstants.getScrubberViewCards(), null));
-        scrubberViewDataHolder.put(67, new ScrubberViewData("Yellow card Nacho -66",
-                ScrubberConstants.getScrubberViewCards(), null));
-
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card2);
+        scrubberViewDataHolder.put(67 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Nacho -66",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
         scrubberViewDataHolder.put(30, new ScrubberViewData("Willian - OUT Barkley - IN  -30",
-                ScrubberConstants.getScrubberViewSubstitute(), null));
-        scrubberViewDataHolder.put(65, new ScrubberViewData("Pedro - OUT Batshuayi - IN - 65",
-                ScrubberConstants.getScrubberViewSubstitute(), null));
-        scrubberViewDataHolder.put(72, new ScrubberViewData("Moses - OUT Zappacosta - IN - 72",
-                ScrubberConstants.getScrubberViewSubstitute(), null));
-        scrubberViewDataHolder.put(84, new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
-                ScrubberConstants.getScrubberViewSubstitute(), null));
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        scrubberViewDataHolder.put(65 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Pedro - OUT Batshuayi - IN - 65",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        scrubberViewDataHolder.put(72 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Moses - OUT Zappacosta - IN - 72",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        tileImages.add(R.drawable.meme3);
+        scrubberViewDataHolder.put(84 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
 
     }
 
@@ -133,11 +174,10 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             return false;
         });
 
-        if (simpleTooltip != null) {
-            simpleTooltip.dismiss();
-        }
-
         if (position == data.size() - 1 && scrubberViewDataHolder.containsKey(position)) {
+            if (simpleTooltip != null) {
+                simpleTooltip.dismiss();
+            }
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
             scrubberEvent.onNewEvent(scrubberViewDataHolder.get(position));
         }
@@ -152,6 +192,10 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         simpleTooltip = new SimpleTooltip.Builder(context)
                 .anchorView(view)
                 .text(status)
+                .backgroundColor(ContextCompat.getColor(context, R.color.Orange))
+                .arrowColor(ContextCompat.getColor(context, R.color.Orange))
+                .highlightShape(R.drawable.shadow_tooltip)
+                .transparentOverlay(true)
                 .gravity(Gravity.TOP)
                 .build();
         simpleTooltip.show();
@@ -171,7 +215,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             displayTooltip(target.itemView, scrubberViewDataHolder.get(target.getLayoutPosition()).getMessage());
             scrubberEvent.onNewEvent(scrubberViewDataHolder.get(target.getLayoutPosition()));
         }
-        scrubberPointerUpdate.moveScrubberPointer(target.itemView, -1);
+        //Pointer movement disabled
+        //scrubberPointerUpdate.moveScrubberPointer(target.itemView, -1);
         return false;
     }
 
