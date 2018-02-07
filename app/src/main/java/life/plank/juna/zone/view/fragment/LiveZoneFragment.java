@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,13 +10,17 @@ import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daimajia.slider.library.SliderLayout;
+import com.mikepenz.itemanimators.ScaleXAnimator;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,6 +33,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
+import life.plank.juna.zone.viewmodel.LiveZoneGridModel;
 
 public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
@@ -46,6 +52,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     int liveZoneGridViewHeight;
     ScrubberEvent scrubberEvent;
     private Unbinder unbinder;
+    private int delay = 1000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,8 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         getHeightDetails();
         setUpGridView();
         setUpSlider();
+        setUpAnimation();
+        //setUpBounceAnimation();
         return view;
     }
 
@@ -78,13 +87,15 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
-        liveZoneGridViewRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false));
-
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
+        gridLayoutManager.supportsPredictiveItemAnimations();
+        liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
+        liveZoneGridViewRecyclerView.setItemAnimator(new ScaleXAnimator());
     }
 
     @OnClick(R.id.closeImage)
@@ -100,6 +111,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         liveZoneGridViewRecyclerView.post(() -> {
             liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
             adapter.addData(liveZoneGridViewHeight);
+            liveZoneGridViewRecyclerView.setAdapter(adapter);
         });
     }
 
@@ -128,4 +140,39 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     public void onNewEvent(int status, int position) {
         // TODO: 06-02-2018 Animate
     }
+
+    private void setUpAnimation() {
+        Handler handler = new Handler();
+        ArrayList<LiveZoneGridModel> liveZoneGridModels = new ArrayList<>();
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_one));
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_six));
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_five));
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_two));
+        liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_three));
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
+
+                for (int i = 0; i <= liveZoneGridModels.size() - 1; i++) {
+                    adapter.addData(position + i, liveZoneGridModels.get((new Random()).nextInt(liveZoneGridModels.size())));
+                }
+                liveZoneGridViewRecyclerView.scrollToPosition(0);
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+    }
+
+    private void setUpBounceAnimation() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
+                liveZoneGridViewRecyclerView.getChildAt(new Random().nextInt(20)).startAnimation(animation);
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
+
+    }
+
+
 }
