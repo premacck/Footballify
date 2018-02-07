@@ -52,6 +52,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     int liveZoneGridViewHeight;
     ScrubberEvent scrubberEvent;
     private Unbinder unbinder;
+    private int delay = 1000;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,7 +143,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
     private void setUpAnimation() {
         Handler handler = new Handler();
-        int delay = 10000;
         ArrayList<LiveZoneGridModel> liveZoneGridModels = new ArrayList<>();
         liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_one));
         liveZoneGridModels.add(new LiveZoneGridModel("image", R.drawable.ic_grid_six));
@@ -164,7 +164,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
     private void setUpBounceAnimation() {
         Handler handler = new Handler();
-        int delay = 10000;
         handler.postDelayed(new Runnable() {
             public void run() {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
