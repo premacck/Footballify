@@ -26,7 +26,7 @@ import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 
 public class FootballFeedDetailActivity extends AppCompatActivity {
-    @BindView(R.id.footballFeedRecyclerView)
+    @BindView(R.id.football_feed_recyclerView)
     RecyclerView footballFeedRecyclerView;
     @BindView(R.id.image_cancel)
     ImageView imageCancel;
