@@ -113,6 +113,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

@@ -115,4 +115,38 @@
         <item>Fixtures/Results</item>
         <item>Standings</item>
     </string-array>
+
+    <string name="team_selection_dialog_text">You can personalize your content by selecting upto three teams to follow. Start typing the names below:</string>
+    <string name="register_dialog_text">Register with us and save your selection. You can read our Privacy Policy here.</string>
+    <string name="you_can_register_with">Or you can also register with:</string>
+    <string name="register_and_save">Register and save</string>
+    <string name="team_one">Team One</string>
+    <string name="team_two">Team Two</string>
+    <string name="team_three">Team Three</string>
+    <string name="apply">Apply</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="country">Country</string>
+    <string-array name="football_teams">
+        <item>Arsenal</item>
+        <item>Bournemouth</item>
+        <item>Brighton &amp; Hove Albion</item>
+        <item>Burnley</item>
+        <item>Chelsea</item>
+        <item>Crystal Palace</item>
+        <item>Everton</item>
+        <item>Huddersfield Town</item>
+        <item>Leicester City</item>
+        <item>Liverpool</item>
+        <item>Manchester City</item>
+        <item>Manchester United</item>
+        <item>Newcastle United</item>
+        <item>Southampton</item>
+        <item>Stoke City</item>
+        <item>Swansea City</item>
+        <item>Tottenham Hotspur</item>
+        <item>Watford</item>
+        <item>West Bromwich Albion</item>
+        <item>West Ham United</item>
+    </string-array>
 </resources>
