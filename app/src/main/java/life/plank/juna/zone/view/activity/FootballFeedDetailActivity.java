@@ -15,6 +15,10 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -35,8 +39,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
     EditText addComment;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
-
-    FootballFeed footballFeed;
+    int position = 0;
     private FootballFeedDetailAdapter mAdapter;
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
 
@@ -45,12 +48,17 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        String listString = intent.getStringExtra("LIST");
         Gson gson = new Gson();
-        footballFeed = gson.fromJson(getIntent().getStringExtra("FOOTBALL_FEED"), FootballFeed.class);
-        populateRecyclerView();
+        Type type = new TypeToken<List<FootballFeed>>(){}.getType();
+        List<FootballFeed> footballFeedList = gson.fromJson(listString, type);
+        position = intent.getIntExtra("POSITION",0);
+        populateRecyclerView(footballFeedList);
     }
 
-    @OnClick({R.id.image_cancel, R.id.post_comment,R.id.web_link})
+    @OnClick({R.id.image_cancel, R.id.post_comment})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.image_cancel:
@@ -59,19 +67,15 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
             case R.id.post_comment:
                 Toast.makeText(FootballFeedDetailActivity.this, "commented", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.web_link:
-                Intent intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra("web_url",getIntent().getStringExtra("web_url"));
-                startActivity(intent);
-                break;
         }
     }
 
-    public void populateRecyclerView() {
-        mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this, footballFeed);
+    public void populateRecyclerView(List<FootballFeed> footballFeedList) {
+        mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this, footballFeedList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         footballFeedRecyclerView.setLayoutManager(layoutManager);
         footballFeedRecyclerView.setAdapter(mAdapter);
+        footballFeedRecyclerView.getLayoutManager().scrollToPosition(position);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(footballFeedRecyclerView);
         footballFeedRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
