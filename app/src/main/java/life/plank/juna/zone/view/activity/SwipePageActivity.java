@@ -1,13 +1,21 @@
 package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +43,7 @@ import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
+import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 import retrofit2.Retrofit;
@@ -47,12 +57,11 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
+public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     @Named("azure")
     Retrofit retrofit;
-
     @BindView(R.id.football_feed_horizontal_view)
     RecyclerView horizontalRecyclerView;
     @BindView(R.id.football_feed_recycler_view)
@@ -69,7 +78,6 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     TextView footbalFilterSpinnerTextView;
     @BindView(R.id.calenderSpinnerTextView)
     TextView calenderSpinnerTextView;
-
     @BindView(R.id.spinnersRelativeLayout)
     RelativeLayout spinnersRelativeLayout;
     ArrayList<String> horizontalData;
@@ -77,6 +85,12 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.football_toolbar)
+    Toolbar footballToolbar;
+    @BindView(R.id.football_menu)
+    AppCompatImageButton footballMenu;
 
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
@@ -90,18 +104,29 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
+        setDrawerLayout();
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
         horizontalData.add("27S: GRAHAM");
         horizontalData.add("6S: MARK F");
         horizontalData.add("addMore");
-
         ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
 
         restApi = retrofit.create(RestApi.class);
         getFootballFeed();
         initRecyclerView();
+    }
+
+    private void setDrawerLayout() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, footballToolbar, R.string.open, R.string.close);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.syncState();
+       // navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout.closeDrawer(GravityCompat.END);
+       // navigationView.setVerticalFadingEdgeEnabled(true);
+        footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+
     }
 
     private void initRecyclerView() {
@@ -132,9 +157,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         feedRecyclerView.setHasFixedSize(true);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
-
     }
-
 
     public void getFootballFeed() {
         subscription = restApi.getFootballFeed()
@@ -155,6 +178,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                     @Override
                     public void onNext(List<FootballFeed> footballFeeds) {
                         footballFeedAdapter.setFootballFeedList(footballFeeds);
+                        GlobalVariable.getInstance().setFootballFeeds(footballFeeds);
                     }
                 });
     }
@@ -180,9 +204,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     activeTextView.setText(arrayData[i]);
-                    activeListView.setVisibility(View.GONE);
-                    activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-                }
+                       }
             });
         }
     }
@@ -210,9 +232,8 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         }
     }
 
-
     @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
-            , R.id.liveZoneTextView})
+            , R.id.liveZoneTextView, R.id.football_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
@@ -227,9 +248,17 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                 retainLayout();
                 footballFeedFragment();
                 break;
+
+            case R.id.football_menu:
+                if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    drawerLayout.closeDrawer(GravityCompat.END);
+                    footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.END);
+                }
+                break;
         }
     }
-
 
     public void footballFeedFragment() {
         fragmentContainerFrameLayout.removeAllViews();
@@ -241,9 +270,13 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
     }
 
+
     @Override
     public void onBackPressed() {
-        if (liveZoneTextView.isSelected()) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
+            footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+        } else if (liveZoneTextView.isSelected()) {
             retainLayout();
         } else {
             super.onBackPressed();
@@ -261,21 +294,42 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
     }
-
-
     @Override
-    public void addMore() {
-        // TODO: 30-01-2018 Get data from server
-        horizontalData.remove(horizontalData.size() - 1);
-        horizontalData.add("6S: MARK F");
-        horizontalData.add("23S: SUE M");
-        horizontalData.add("27S: GRAHAM");
-        horizontalData.add("6S: MARK F");
-        horizontalData.add("addMore");
-        horizontalfootballFeedAdapter.notifyDataSetChanged();
+        public void addMore() {
+            horizontalData.remove(horizontalData.size() - 1);
+            horizontalData.add("6S: MARK F");
+            horizontalData.add("23S: SUE M");
+            horizontalData.add("27S: GRAHAM");
+            horizontalData.add("6S: MARK F");
+            horizontalData.add("addMore");
+            horizontalfootballFeedAdapter.notifyDataSetChanged();
+        }
+
+   @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.my_profile) {
+        } else if (id == R.id.my_team) {
+
+        } else if (id == R.id.my_cards) {
+
+        } else if (id == R.id.notification) {
+
+        } else if (id == R.id.profile_setting) {
+
+        } else if (id == R.id.review_us) {
+
+        } else if (id == R.id.faq) {
+
+        } else if (id == R.id.app_share) {
+
+        }
+        drawerLayout.closeDrawer(GravityCompat.END);
+        Toast.makeText(SwipePageActivity.this, "Selected " + item.getTitle(), Toast.LENGTH_SHORT).show();
+        footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+        return true;
     }
-
 }
-
 
 

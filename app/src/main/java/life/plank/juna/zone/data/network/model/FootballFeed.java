@@ -90,4 +90,5 @@ public class FootballFeed {
     public void setDateCreated(String dateCreated) {
         DateCreated = dateCreated;
     }
+
 }

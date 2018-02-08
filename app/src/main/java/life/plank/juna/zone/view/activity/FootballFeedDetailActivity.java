@@ -14,17 +14,10 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 
@@ -37,6 +30,8 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
     Button sendComment;
     @BindView(R.id.add_comment)
     EditText addComment;
+    @BindView(R.id.web_link)
+    Button webLink;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     int position = 0;
@@ -48,17 +43,12 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
-
         Intent intent = getIntent();
-        String listString = intent.getStringExtra("LIST");
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<FootballFeed>>(){}.getType();
-        List<FootballFeed> footballFeedList = gson.fromJson(listString, type);
-        position = intent.getIntExtra("POSITION",0);
-        populateRecyclerView(footballFeedList);
+        position = intent.getIntExtra("POSITION", 0);
+        populateRecyclerView();
     }
 
-    @OnClick({R.id.image_cancel, R.id.post_comment})
+    @OnClick({R.id.image_cancel, R.id.post_comment, R.id.web_link})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.image_cancel:
@@ -67,11 +57,16 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
             case R.id.post_comment:
                 Toast.makeText(FootballFeedDetailActivity.this, "commented", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.web_link:
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("web_url", getIntent().getStringExtra("web_url"));
+                startActivity(intent);
+                break;
         }
     }
 
-    public void populateRecyclerView(List<FootballFeed> footballFeedList) {
-        mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this, footballFeedList);
+    public void populateRecyclerView() {
+        mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         footballFeedRecyclerView.setLayoutManager(layoutManager);
         footballFeedRecyclerView.setAdapter(mAdapter);
@@ -85,7 +80,5 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
                 scrollView.fullScroll(ScrollView.FOCUS_UP);
             }
         });
-
     }
-
 }

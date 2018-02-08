@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +30,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
+    int position = 0;
 
     private List<FootballFeed> footballFeedList = new ArrayList<>();
 
@@ -63,12 +64,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-                Gson gson = new Gson();
-                String foodballFeed = gson.toJson(footballFeedList);
-                footballFeedDetails.putExtra("LIST", foodballFeed);
-                footballFeedDetails.putExtra("POSITION", position);
-                context.startActivity(footballFeedDetails);
+                Intent intent = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
+                intent.putExtra("POSITION", position);
+                context.startActivity(intent);
             }
         });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);

@@ -7,12 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.GlobalVariable;
 
 
 /**
@@ -23,7 +28,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     private Context context;
     private LayoutInflater mInflater;
-    List<FootballFeed> footballFeedList;
+    private List<FootballFeed> footballFeedsList;
+
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image)
@@ -39,10 +45,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         }
     }
 
-    public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedList) {
+    public FootballFeedDetailAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
-        this.footballFeedList = footballFeedList;
+        footballFeedsList = new ArrayList<>();
+        footballFeedsList =  GlobalVariable.getInstance().getFootballFeeds();
     }
+
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -54,20 +62,19 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-        holder.footballFeedContent.setText(footballFeedList.get(position).getHeadline());
-        holder.footballFeedContentDetails.setText(footballFeedList.get(position).getSummary());
-        if (footballFeedList.get(position).getThumbnail() != null) {
+        holder.footballFeedContent.setText(footballFeedsList.get(position).getHeadline());
+        holder.footballFeedContentDetails.setText(footballFeedsList.get(position).getSummary());
+        if (footballFeedsList.get(position).getThumbnail() != null) {
             Picasso.with(context)
-                    .load(footballFeedList.get(position).getThumbnail().getImageUrl())
+                    .load(footballFeedsList.get(position).getThumbnail().getImageUrl())
                     .fit()
                     .into(holder.footballFeedImage);
         } else {
             holder.footballFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
     }
-
     @Override
     public int getItemCount() {
-        return footballFeedList.size();
+        return footballFeedsList.size();
     }
 }
