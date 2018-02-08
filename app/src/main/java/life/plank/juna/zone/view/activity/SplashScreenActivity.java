@@ -45,13 +45,16 @@ public class SplashScreenActivity extends AppCompatActivity {
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
 
         new Handler().postDelayed(() -> {
-            if (savedLogin) {
-                startActivity(new Intent(SplashScreenActivity.this, ZoneHomeActivity.class));
-                finish();
-            } else {
-                startActivity(new Intent(SplashScreenActivity.this, SocialLoginActivity.class));
-                finish();
-            }
+            startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+            finish();
+            //TODO: Uncomment when remember me is implemented on the current version
+//            if (savedLogin) {
+//                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+//                finish();
+//            } else {
+//                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+//                finish();
+//            }
         }, SPLASH_TIME_OUT);
     }
 
@@ -77,8 +80,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         return true;
     }
 
-    public void registerWithNotificationHubs()
-    {
+    public void registerWithNotificationHubs() {
         if (checkPlayServices()) {
             // Start IntentService to register this application with FCM.
             Intent intent = new Intent(this, RegistrationIntentService.class);

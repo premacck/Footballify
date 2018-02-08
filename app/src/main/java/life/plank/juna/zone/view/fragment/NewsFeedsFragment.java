@@ -27,7 +27,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.NewsFeed;
-import life.plank.juna.zone.view.activity.ZoneHomeActivity;
 import life.plank.juna.zone.view.adapter.NewsFeedsAdapter;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -44,7 +43,7 @@ public class NewsFeedsFragment extends Fragment {
     @Named("default")
     Retrofit retrofit;
 
-    private static final String TAG = ZoneHomeActivity.class.getSimpleName();
+    private static final String TAG = NewsFeedsFragment.class.getSimpleName();
     private Subscription subscription;
     private RestApi restApi;
     private NewsFeedsAdapter newsFeedsAdapter = new NewsFeedsAdapter();
