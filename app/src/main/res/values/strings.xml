@@ -125,7 +125,6 @@
     <string name="team_three">Team Three</string>
     <string name="apply">Apply</string>
     <string name="email">Email</string>
-    <string name="password">Password</string>
     <string name="country">Country</string>
     <string-array name="football_teams">
         <item>Arsenal</item>
