@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +18,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -54,9 +52,10 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String listString = intent.getStringExtra("LIST");
         Gson gson = new Gson();
-        Type type = new TypeToken<List<FootballFeed>>(){}.getType();
+        Type type = new TypeToken<List<FootballFeed>>() {
+        }.getType();
         List<FootballFeed> footballFeedList = gson.fromJson(listString, type);
-        position = intent.getIntExtra("POSITION",0);
+        position = intent.getIntExtra("POSITION", 0);
         populateRecyclerView(footballFeedList);
     }
 
