@@ -16,6 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:hardwareAccelerated="false"
+        android:largeHeap="true"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning"
         tools:replace="android:icon">
         <meta-data
@@ -150,6 +152,10 @@
             android:theme="@style/statusBarCustomStyle" />
         <activity
             android:name=".view.activity.ScrubberActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".view.activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
     </application>

@@ -42,6 +42,7 @@ ext {
     imagesliderVersion = '1.1.5@aar'
     picassoVersion = '2.3.2'
     nineoldandroidsVersion = '2.4.0'
+    recyclerViewAnimatorVersion = '1.0.1@aar'
 
     //Testing
     robolectricVersion = '3.1.3'
@@ -81,7 +82,8 @@ ext {
             tooltipSdk            : "com.github.douglasjunior:android-simple-tooltip:${tooltipSdkVersion}",
             imageslider           : "com.daimajia.slider:library:${imagesliderVersion}",
             picasso               : "com.squareup.picasso:picasso:${picassoVersion}",
-            nineoldandroids       : "com.nineoldandroids:library:${nineoldandroidsVersion}"
+            nineoldandroids       : "com.nineoldandroids:library:${nineoldandroidsVersion}",
+            recyclerViewAnimator  : "com.mikepenz:itemanimators:${recyclerViewAnimatorVersion}"
 
     ]
 

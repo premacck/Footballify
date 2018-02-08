@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Gravity;
@@ -14,74 +15,141 @@ import java.util.HashMap;
 
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.util.GlobalVariable;
+import life.plank.juna.zone.data.network.model.LiveFeedTileData;
+import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
 import life.plank.juna.zone.util.helper.ScrubberEvent;
 
 /**
  * Created by plank-niraj on 26-01-2018.
  */
-
-
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
     ScrubberPointerUpdate scrubberPointerUpdate;
     boolean trigger = false;
     //Temp data
     HashMap<Integer, String> detailedData;
     ScrubberEvent scrubberEvent;
+    HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
+    ArrayList<Integer> data;
     private Context context;
     // TODO: 26-01-2018 use server data.
-    private ArrayList<String> data;
     private SimpleTooltip simpleTooltip;
     private ItemTouchHelper itemTouchHelper;
 
-    public ScrubberViewAdapter(Context context, ArrayList<String> data, ScrubberPointerUpdate scrubberPointerUpdate, ScrubberEvent scrubberEvent) {
+    public ScrubberViewAdapter(Context context, ArrayList<Integer> data, HashMap<Integer, ScrubberViewData> scrubberViewDataHolder, ScrubberPointerUpdate scrubberPointerUpdate, ScrubberEvent scrubberEvent) {
         this.context = context;
-        this.data = data;
+        this.scrubberViewDataHolder = scrubberViewDataHolder;
         this.scrubberPointerUpdate = scrubberPointerUpdate;
         detailedData = new HashMap<>();
         this.scrubberEvent = scrubberEvent;
+        this.data = data;
         addHardCodedData();
     }
 
     private void addHardCodedData() {
+        ArrayList<Integer> tileImages = new ArrayList<>();
 
-        detailedData.put(7 + GlobalVariable.getScrubberPreMatch(), "Goal!! Eden Hazard - 7");
-        detailedData.put(12 + GlobalVariable.getScrubberPreMatch(), "Goal! Rudiger - 12");
-        detailedData.put(60 + GlobalVariable.getScrubberPreMatch() + GlobalVariable.getHalfDuration(), "Goal!! Granit - 60");
+        tileImages.add(R.drawable.image4);
+        tileImages.add(R.drawable.ic_grid_one);
 
-        detailedData.put(17 + GlobalVariable.getScrubberPreMatch(), "Yellow card Hazard - 17");
-        detailedData.put(31 + GlobalVariable.getScrubberPreMatch(), "Yellow card Wilshere - 31  ");
-        detailedData.put(62 + GlobalVariable.getHalfDuration() + GlobalVariable.getScrubberPreMatch(), "Yellow card Victor -62");
-        detailedData.put(66 + GlobalVariable.getHalfDuration() + GlobalVariable.getScrubberPreMatch(), "Yellow card Nacho -66");
+        scrubberViewDataHolder.put(7, new ScrubberViewData("Goal!! Eden Hazard - 7",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
 
-        detailedData.put(30 + GlobalVariable.getScrubberPreMatch(), "Willian - OUT Barkley - IN  -30");
-        detailedData.put(65 + GlobalVariable.getHalfDuration() + GlobalVariable.getScrubberPreMatch(), "Pedro - OUT Batshuayi - IN - 65");
-        detailedData.put(72 + GlobalVariable.getHalfDuration() + GlobalVariable.getScrubberPreMatch(), "Pedro - OUT Batshuayi - IN - 72");
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image5);
+        scrubberViewDataHolder.put(12, new ScrubberViewData("Goal! Rudiger - 12",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
 
-        detailedData.put(84 + GlobalVariable.getHalfDuration() + GlobalVariable.getScrubberPreMatch(), "Moses - OUT Zappacosta - IN - 84");
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image6);
+        tileImages.add(R.drawable.ic_grid_two);
+        // tileImages.add(R.drawable.ic_grid_three);
+        scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card);
+        scrubberViewDataHolder.put(17, new ScrubberViewData("Yellow card Hazard - 17",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card);
+        scrubberViewDataHolder.put(31, new ScrubberViewData("Yellow card Wilshere - 31",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image17);
+        scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+
+        scrubberViewDataHolder.put(47, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.ic_grid_five);
+
+        scrubberViewDataHolder.put(48, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+
+        scrubberViewDataHolder.put(49, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.ic_grid_six);
+
+        scrubberViewDataHolder.put(50, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card);
+        scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Victor -62",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.yellow_card2);
+        scrubberViewDataHolder.put(67 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Nacho -66",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        scrubberViewDataHolder.put(30, new ScrubberViewData("Willian - OUT Barkley - IN  -30",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        scrubberViewDataHolder.put(65 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Pedro - OUT Batshuayi - IN - 65",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        scrubberViewDataHolder.put(72 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Moses - OUT Zappacosta - IN - 72",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image18);
+        tileImages.add(R.drawable.meme3);
+        scrubberViewDataHolder.put(84 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+
     }
 
     @Override
     public ScrubberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.scrubber_view_progress, parent, false);
-        if (viewType == GlobalVariable.getScrubberViewHalfTime()) {
+
+        if (viewType == ScrubberConstants.getScrubberViewHalfTime()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.scrubber_view_half_time, parent, false);
-        } else if (viewType == GlobalVariable.getScrubberViewGoal()) {
+        } else if (viewType == ScrubberConstants.getScrubberViewGoal()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.scrubber_view_goal, parent, false);
         } else if (viewType == 4) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.scrubber_view_pointer, parent, false);
-        } else if (viewType == GlobalVariable.getScrubberViewCards()) {
+        } else if (viewType == ScrubberConstants.getScrubberViewCards()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.scrubber_view_cards, parent, false);
-        } else if (viewType == GlobalVariable.getScrubberViewSubstitute()) {
+        } else if (viewType == ScrubberConstants.getScrubberViewSubstitute()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.scrubber_view_substitions, parent, false);
-        } else if (viewType == GlobalVariable.getScrubberPostMatch()) {
+        } else if (viewType == ScrubberConstants.getScrubberPostMatch()) {
             v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.scrubber_view_post_match, parent, false);
         }
@@ -90,21 +158,9 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public int getItemViewType(int position) {
-        // TODO: 26-01-2018 get from modal.(from server)
-        // TODO: 06-02-2018 check performance of view updation
-        if (data.get(position).equals(GlobalVariable.getInstance().getScrubberGoal()))
-            return GlobalVariable.getScrubberViewGoal();
-        else if (data.get(position).equals(GlobalVariable.getInstance().getScrubberCursor()))
-            return GlobalVariable.getScrubberViewCursor();
-        else if (data.get(position).equals(GlobalVariable.getInstance().getScrubberHalf()))
-            return GlobalVariable.getScrubberViewHalfTime();
-        else if (data.get(position).equals(GlobalVariable.getInstance().getScrubberSubstitute()))
-            return GlobalVariable.getScrubberViewSubstitute();
-        else if (data.get(position).equals(GlobalVariable.getInstance().getScrubberCard()))
-            return GlobalVariable.getScrubberViewCards();
-        else if (data.get(position).equals(GlobalVariable.getInstance().getScrubberPost()))
-            return GlobalVariable.getScrubberPostMatch();
-        return GlobalVariable.getScrubberViewProgress();
+
+        return data.get(position);
+
     }
 
     @Override
@@ -117,25 +173,16 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             }
             return false;
         });
-
+        
         if (simpleTooltip != null) {
             simpleTooltip.dismiss();
         }
-        if (position == data.size() - 1 && detailedData.containsKey(position)) {
-            displayTooltip(holder.view, detailedData.get(position));
-            scrubberEvent.onNewEvent(1, position);
+        if (position == data.size() - 1 && scrubberViewDataHolder.containsKey(position)) {
+
+            displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
+            scrubberEvent.onNewEvent(scrubberViewDataHolder.get(position));
         }
 
-        // TODO: 06-02-2018 Fix the issue.
-        /*holder.view.setOnClickListener(v -> {
-            //TODO: Remove hardcoded code
-            String status;
-            if (!detailedData.containsKey(position))
-                status = "inProgress";
-            else
-                status = detailedData.get(position);
-            displayTooltip(v, status);
-        });*/
     }
 
     /**
@@ -146,6 +193,10 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         simpleTooltip = new SimpleTooltip.Builder(context)
                 .anchorView(view)
                 .text(status)
+                .backgroundColor(ContextCompat.getColor(context, R.color.Orange))
+                .arrowColor(ContextCompat.getColor(context, R.color.Orange))
+                .highlightShape(R.drawable.shadow_tooltip)
+                .transparentOverlay(true)
                 .gravity(Gravity.TOP)
                 .build();
         simpleTooltip.show();
@@ -161,10 +212,12 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         //TODO: Remove hardcoded code
         if (simpleTooltip != null)
             simpleTooltip.dismiss();
-        if (detailedData.containsKey(target.getLayoutPosition())) {
-            displayTooltip(target.itemView, detailedData.get(target.getLayoutPosition()));
+        if (scrubberViewDataHolder.containsKey(target.getLayoutPosition())) {
+            displayTooltip(target.itemView, scrubberViewDataHolder.get(target.getLayoutPosition()).getMessage());
+            scrubberEvent.onNewEvent(scrubberViewDataHolder.get(target.getLayoutPosition()));
         }
-        scrubberPointerUpdate.moveScrubberPointer(target.itemView, -1);
+        //Pointer movement disabled
+        //scrubberPointerUpdate.moveScrubberPointer(target.itemView, -1);
         return false;
     }
 

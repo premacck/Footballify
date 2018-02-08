@@ -5,7 +5,18 @@
 
     <View
         android:id="@+id/scrubber_view"
-        android:layout_width="10dp"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:background="#d2ff4d" />
+        android:background="@color/Orange">
+
+    </View>
+
+    <View
+        android:id="@+id/scrubber_to_hide"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/scrubber_view"
+        android:layout_toRightOf="@+id/scrubber_view"
+        android:background="#333333"></View>
 </RelativeLayout>
