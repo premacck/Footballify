@@ -34,7 +34,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
     Button webLink;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
-    int position = 0;
     private FootballFeedDetailAdapter mAdapter;
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
 
@@ -43,8 +42,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
-        Intent intent = getIntent();
-        position = intent.getIntExtra("position", 0);
         populateRecyclerView();
     }
 
@@ -70,7 +67,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         footballFeedRecyclerView.setLayoutManager(layoutManager);
         footballFeedRecyclerView.setAdapter(mAdapter);
-        footballFeedRecyclerView.getLayoutManager().scrollToPosition(position);
+        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra("position"))));
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(footballFeedRecyclerView);
         footballFeedRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {

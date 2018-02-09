@@ -1,6 +1,11 @@
 package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,6 +15,7 @@ import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +56,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
+public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     @Named("azure")
@@ -77,23 +84,29 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
     @BindView(R.id.football_toolbar)
     Toolbar footballToolbar;
     @BindView(R.id.football_menu)
     AppCompatImageButton footballMenu;
+    @BindView(R.id.nav_view_right)
+    NavigationView navigationView;
+
 
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
+    private Subscription subscription;
     private RestApi restApi;
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    private Subscription subscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
+        setDrawerLayout();
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
@@ -105,6 +118,16 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         restApi = retrofit.create(RestApi.class);
         getFootballFeed();
         initRecyclerView();
+    }
+
+    private void setDrawerLayout() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, footballToolbar, R.string.open, R.string.close);
+        toggle.setDrawerIndicatorEnabled(false);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
+        drawerLayout.closeDrawer(GravityCompat.END);
+        footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+
     }
 
     private void initRecyclerView() {
@@ -211,7 +234,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     }
 
     @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
-            , R.id.liveZoneTextView})
+            , R.id.liveZoneTextView, R.id.football_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
@@ -225,6 +248,15 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
             case R.id.liveZoneTextView:
                 retainLayout();
                 footballFeedFragment();
+                break;
+
+            case R.id.football_menu:
+                if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+                    drawerLayout.closeDrawer(GravityCompat.END);
+                    footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+                } else {
+                    drawerLayout.openDrawer(GravityCompat.END);
+                }
                 break;
         }
     }
@@ -242,7 +274,10 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
     @Override
     public void onBackPressed() {
-        if (liveZoneTextView.isSelected()) {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
+            drawerLayout.closeDrawer(GravityCompat.END);
+            footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+        } else if (liveZoneTextView.isSelected()) {
             retainLayout();
         } else {
             super.onBackPressed();
@@ -271,6 +306,38 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("addMore");
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_my_profile) {
+        } else if (id == R.id.action_my_team) {
+
+        } else if (id == R.id.action_my_cards) {
+
+        } else if (id == R.id.action_notification) {
+
+        } else if (id == R.id.action_profile_setting) {
+
+        } else if (id == R.id.action_review_us) {
+
+        } else if (id == R.id.action_faq) {
+
+        } else if (id == R.id.action_app_share) {
+
+        } else if (id == R.id.action_feedback) {
+
+        } else if (id == R.id.action_about_us) {
+
+
+            drawerLayout.closeDrawer(GravityCompat.END);
+            Toast.makeText(SwipePageActivity.this, "Selected " + item.getTitle(), Toast.LENGTH_SHORT).show();
+            footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
+        }
+        return true;
+
+    }
+
+
 }
-
-

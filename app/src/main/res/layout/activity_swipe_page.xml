@@ -1,203 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/ic_feed_bg">
-
-    <ImageView
-        android:id="@+id/zone_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_zone_logo" />
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:openDrawer="start">
 
     <include
-        android:id="@+id/football_toolbar"
+        android:id="@+id/include_football_toolbar"
         layout="@layout/zone_football_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/zone_logo"
-        android:layout_marginBottom="@dimen/football_toolbar_margin_bottom"
-        android:layout_toEndOf="@+id/zone_logo"
-        android:layout_toRightOf="@+id/zone_logo" />
+        android:layout_height="match_parent" />
 
-    <FrameLayout
-        android:id="@+id/containerRelativeLayout"
-        android:layout_width="match_parent"
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_right"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_below="@+id/football_toolbar">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/spinnersRelativeLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/showTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:text="Show"
-                    android:textColor="@color/White"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/footbalFilterSpinnerTextView"
-                    style="@style/livezonetextstyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_toEndOf="@+id/showTextView"
-                    android:layout_toRightOf="@+id/showTextView"
-                    android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ic_down_arrow"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/ic_down_arrow"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="3dp"
-                    android:paddingRight="3dp"
-                    android:text="All"
-                    android:textColor="@color/White" />
-
-                <TextView
-                    android:id="@+id/calenderSpinnerTextView"
-                    style="@style/livezonetextstyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@+id/footbalFilterSpinnerTextView"
-                    android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
-                    android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ic_down_arrow"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/ic_down_arrow"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="3dp"
-                    android:paddingRight="3dp"
-                    android:text="Today"
-                    android:textColor="@color/White" />
-
-                <TextView
-                    android:id="@+id/liveZoneTextView"
-                    style="@style/livezonetextstyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginStart="5dp"
-                    android:text="LiveZone" />
-
-            </RelativeLayout>
-
-            <ListView
-                android:id="@+id/footbalFilterListView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/spinnersRelativeLayout"
-                android:layout_marginTop="-5dp"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                android:visibility="gone" />
-
-            <ListView
-                android:id="@+id/calenderListView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/spinnersRelativeLayout"
-                android:layout_marginLeft="150dp"
-                android:layout_marginTop="-5dp"
-                android:divider="@null"
-                android:dividerHeight="0dp"
-                android:visibility="gone" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/spinnersRelativeLayout" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_horizontal_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/banter_zone_layout"
-                android:layout_below="@+id/football_feed_recycler_view" />
-
-            <RelativeLayout
-                android:id="@+id/banter_zone_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/swipe_page_banter_zone_height"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/swipe_page_banter_zone_margin"
-                android:layout_marginLeft="@dimen/swipe_page_banter_zone_margin"
-                android:layout_marginRight="@dimen/swipe_page_banter_zone_margin"
-                android:layout_marginStart="@dimen/swipe_page_banter_zone_margin"
-                android:background="@drawable/football_header_orange_gradient">
-
-                <TextView
-                    android:id="@+id/banter_zone_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:text="BANTERZONE"
-                    android:textColor="@color/White"
-                    android:textSize="8sp" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp">
-
-                    <ImageView
-                        android:id="@+id/person"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_person" />
-
-                    <TextView
-                        android:id="@+id/person_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/person"
-                        android:text="23"
-                        android:textColor="@color/White"
-                        android:textSize="8sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="3dp"
-                        android:layout_toRightOf="@+id/person_number"
-                        android:src="@drawable/ic_dropdown" />
-
-                </RelativeLayout>
-            </RelativeLayout>
-        </RelativeLayout>
-    </FrameLayout>
+        android:layout_gravity="end"
+        android:fitsSystemWindows="false"
+        android:overScrollMode="never"
+        app:headerLayout="@layout/football_navigation_header"
+        app:menu="@menu/activity_swipe_page_drawer_right" />
 
     <FrameLayout
         android:id="@+id/fragmentContainerFrameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/football_toolbar" />
-</RelativeLayout>
+        android:layout_marginTop="68dp" />
+
+</android.support.v4.widget.DrawerLayout>

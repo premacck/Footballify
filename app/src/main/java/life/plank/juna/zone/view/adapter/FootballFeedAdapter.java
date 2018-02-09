@@ -63,8 +63,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-                intent.putExtra("position", position);
+                Intent intent = new Intent(context, FootballFeedDetailActivity.class);
+                intent.putExtra("position",String.valueOf(position));
                 context.startActivity(intent);
             }
         });
