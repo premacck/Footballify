@@ -30,7 +30,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
-    int position = 0;
 
     private List<FootballFeed> footballFeedList = new ArrayList<>();
 
@@ -65,7 +64,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-                intent.putExtra("POSITION", position);
+                intent.putExtra("position", position);
                 context.startActivity(intent);
             }
         });
@@ -74,6 +73,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         int marginBanterRow = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
         int footballToolbarMarginBottom = (int) context.getResources().getDimension(R.dimen.football_toolbar_margin_bottom);
         int footballToolbarMarginMargin = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
+        // marginFeedRow* 4 because of padding in grid view (2 grids).
+        // marginBanterRow*2 : single grid.
+
         holder.newsFeedRelativeLayout.getLayoutParams().height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
         final int sdk = android.os.Build.VERSION.SDK_INT;
 

@@ -28,8 +28,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     private Context context;
     private LayoutInflater mInflater;
-    private List<FootballFeed> footballFeedsList;
-
+    private List<FootballFeed> footballFeedsList  = new ArrayList<>();
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image)
@@ -47,8 +46,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     public FootballFeedDetailAdapter(Context context) {
         this.mInflater = LayoutInflater.from(context);
-        footballFeedsList = new ArrayList<>();
-        footballFeedsList =  GlobalVariable.getInstance().getFootballFeeds();
+        footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
     }
 
 

@@ -44,7 +44,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        position = intent.getIntExtra("POSITION", 0);
+        position = intent.getIntExtra("position", 0);
         populateRecyclerView();
     }
 
