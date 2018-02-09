@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -53,7 +52,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
 
     @Inject
     @Named("azure")
@@ -83,6 +82,8 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
+    @BindView(R.id.parentRelativeLayout)
+    RelativeLayout parentRelativeLayout;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
@@ -110,12 +111,12 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("27S: GRAHAM");
         horizontalData.add("6S: MARK F");
         horizontalData.add("addMore");
-
         ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
-
         restApi = retrofit.create(RestApi.class);
         getFootballFeed();
         initRecyclerView();
+        showOnboardingDialog();
+
     }
 
     private void initRecyclerView() {

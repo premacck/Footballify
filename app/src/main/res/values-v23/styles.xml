@@ -16,4 +16,12 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="onboard_dialog_edit_text_style">
+        <item name="android:background">@drawable/gradient_line_edit_text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColorHint">@color/Black</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>
