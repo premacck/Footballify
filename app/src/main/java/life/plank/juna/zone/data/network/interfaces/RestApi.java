@@ -13,6 +13,7 @@ import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResp
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -67,5 +68,5 @@ public interface RestApi {
     Observable<FootballMatch> getRandomFootballMatchByName(@Query("team") String team);
 
     @GET("api/newsfeed")
-    Observable<List<FootballFeed>> getFootballFeed();
+    Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
 }
