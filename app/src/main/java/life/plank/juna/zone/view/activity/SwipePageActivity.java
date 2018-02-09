@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,9 +15,11 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +33,14 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneFragment;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
 import rx.Subscription;
@@ -77,11 +82,20 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     private Subscription subscription;
     private RestApi restApi;
+    private GridLayoutManager gridLayoutManager;
+    private int PAGE_SIZE;
+
+    private boolean isLastPage = false;
+    private boolean isLoading = false;
+    private String nextPageToken = "";
+    private String headerKay = "";
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
 
@@ -126,10 +140,12 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
         //Football Feed recycler view
         int numberOfRows = 2;
-        feedRecyclerView.setLayoutManager(new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false));
+        gridLayoutManager = new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false);
+        feedRecyclerView.setLayoutManager(gridLayoutManager);
         footballFeedAdapter = new FootballFeedAdapter(this, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
+        feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
 
@@ -137,10 +153,10 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
 
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed()
+        subscription = restApi.getFootballFeed(nextPageToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<List<FootballFeed>>() {
+                .subscribe(new Observer<Response<List<FootballFeed>>>() {
 
                     @Override
                     public void onCompleted() {
@@ -153,10 +169,28 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                     }
 
                     @Override
-                    public void onNext(List<FootballFeed> footballFeeds) {
-                        footballFeedAdapter.setFootballFeedList(footballFeeds);
+                    public void onNext(Response<List<FootballFeed>> response) {
+                        hideProgress();
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
+                            nextPageToken = response.headers().get(AppConstants.footballFeedsHeaderKey);
+                            setUpAdapterWithNewData(response.body());
+
+                        } else if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
+
+                        } else {
+
+                        }
+
                     }
                 });
+    }
+
+    private void setUpAdapterWithNewData(List<FootballFeed> footballFeeds) {
+        if (!footballFeeds.isEmpty() && footballFeeds.size() > 0) {
+            if ("".contentEquals(nextPageToken) ? (isLastPage = true) : (isLoading = false)) ;
+            footballFeedAdapter.setFootballFeedList(footballFeeds);
+            PAGE_SIZE = footballFeeds.size();
+        }
     }
 
     private void showSpinner(TextView activeTextView, ListView activeListView, TextView inActiveTextView, ListView inActiveListView,
@@ -274,6 +308,45 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("addMore");
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
+
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = gridLayoutManager.getChildCount();
+            int totalItemCount = gridLayoutManager.getItemCount();
+            int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+            if (!isLoading && !isLastPage) {
+                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
+                        && firstVisibleItemPosition >= 0
+                        && totalItemCount >= PAGE_SIZE) {
+                    isLoading = true;
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            showProgress();
+                            getFootballFeed();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+    };
+
+
+    private void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+    }
+
 
 }
 

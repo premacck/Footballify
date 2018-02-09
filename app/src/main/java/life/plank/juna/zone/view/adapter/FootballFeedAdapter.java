@@ -68,7 +68,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                 Gson gson = new Gson();
                 String jsonString = gson.toJson(footballFeed);
                 footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
-                footballFeedDetails.putExtra("web_url",footballFeed.getUrl());
+                footballFeedDetails.putExtra("web_url", footballFeed.getUrl());
                 context.startActivity(footballFeedDetails);
             }
         });
@@ -99,7 +99,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         if (footballFeeds == null) {
             return;
         }
-        footballFeedList.clear();
         footballFeedList.addAll(footballFeeds);
         notifyDataSetChanged();
     }
