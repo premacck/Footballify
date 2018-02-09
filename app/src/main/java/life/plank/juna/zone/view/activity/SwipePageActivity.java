@@ -175,9 +175,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                             nextPageToken = response.headers().get(AppConstants.footballFeedsHeaderKey);
                             setUpAdapterWithNewData(response.body());
 
-                        } else if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-                            showToast(AppConstants.defaultErrorMessage);
-                        } else {
+                        }else {
                             showToast(AppConstants.defaultErrorMessage);
                         }
 
