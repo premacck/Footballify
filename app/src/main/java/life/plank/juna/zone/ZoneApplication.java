@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerOnBoardSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
@@ -27,6 +28,7 @@ import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.OnBoardSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
@@ -62,6 +64,7 @@ public class ZoneApplication extends Application {
     private JoinGameNetworkComponent joinGameNetworkComponent;
     private SuddenDeathResultComponent suddenDeathResultComponent;
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
+    private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
 
 
     public static ZoneApplication getApplication() {
@@ -129,6 +132,10 @@ public class ZoneApplication extends Application {
         footballFeedNetworkComponent = DaggerFootballFeedNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
+
+        onBoardSocialLoginNetworkComponent = DaggerOnBoardSocialLoginNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule())
+                .build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -182,4 +189,9 @@ public class ZoneApplication extends Application {
     public FootballFeedNetworkComponent getFootballFeedNetworkComponent() {
         return footballFeedNetworkComponent;
     }
+
+    public OnBoardSocialLoginNetworkComponent getOnBoardSocialLoginNetworkComponent() {
+        return onBoardSocialLoginNetworkComponent;
+    }
+
 }
