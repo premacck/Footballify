@@ -7,7 +7,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -61,7 +60,9 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, NavigationView.OnNavigationItemSelectedListener {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners,
+        NavigationView.OnNavigationItemSelectedListener {
+
 
     @Inject
     @Named("azure")
@@ -89,6 +90,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
+
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.football_toolbar)
@@ -127,10 +129,11 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         horizontalData.add("6S: MARK F");
         horizontalData.add("addMore");
         ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
-
         restApi = retrofit.create(RestApi.class);
         getFootballFeed();
         initRecyclerView();
+        showOnboardingDialog();
+
     }
 
     private void setDrawerLayout() {
