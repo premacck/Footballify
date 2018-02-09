@@ -96,7 +96,6 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
-    private String headerKey = "";
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
 
