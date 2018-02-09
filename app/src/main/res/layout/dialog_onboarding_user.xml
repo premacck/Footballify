@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/parentLinearLayout"
+        android:id="@+id/parent_linear_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -25,7 +25,7 @@
             android:paddingTop="2dp">
 
             <TextView
-                android:id="@+id/titleTextView"
+                android:id="@+id/title_text_view"
                 style="@style/livezonetextstyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:text="Select your teams" />
 
             <ImageView
-                android:id="@+id/closeDialogImage"
+                android:id="@+id/close_dialog_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -47,7 +47,7 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/selectTeamLinearLayout"
+            android:id="@+id/select_team_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -61,7 +61,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/registerAndSaveLinearLayout"
+            android:id="@+id/register_and_save_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"

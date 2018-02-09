@@ -138,18 +138,18 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
 
     private void setUpViews() {
-        applyButton = dialog.findViewById(R.id.applyButton);
-        closeDialogImage = dialog.findViewById(R.id.closeDialogImage);
-        selectTeamLinearLayout = dialog.findViewById(R.id.selectTeamLinearLayout);
-        registerAndSaveLinearLayout = dialog.findViewById(R.id.registerAndSaveLinearLayout);
-        titleTextView = dialog.findViewById(R.id.titleTextView);
-        teamOneEditText = dialog.findViewById(R.id.teamOneEditText);
-        teamTwoEditText = dialog.findViewById(R.id.teamTwoEditText);
-        teamThreeEditText = dialog.findViewById(R.id.teamThreeEditText);
-        twitterIcon = dialog.findViewById(R.id.twitterIcon);
-        facebookIcon = dialog.findViewById(R.id.facebookIcon);
+        applyButton = dialog.findViewById(R.id.apply_button);
+        closeDialogImage = dialog.findViewById(R.id.close_dialog_image);
+        selectTeamLinearLayout = dialog.findViewById(R.id.select_team_linear_layout);
+        registerAndSaveLinearLayout = dialog.findViewById(R.id.register_and_save_linear_layout);
+        titleTextView = dialog.findViewById(R.id.title_text_view);
+        teamOneEditText = dialog.findViewById(R.id.team_one_edit_text);
+        teamTwoEditText = dialog.findViewById(R.id.team_two_edit_text);
+        teamThreeEditText = dialog.findViewById(R.id.team_three_edit_text);
+        twitterIcon = dialog.findViewById(R.id.twitter_icon);
+        facebookIcon = dialog.findViewById(R.id.facebook_icon);
         spinner = dialog.findViewById(R.id.social_signup_spinner);
-        parentLinearLayout = dialog.findViewById(R.id.parentLinearLayout);
+        parentLinearLayout = dialog.findViewById(R.id.parent_linear_layout);
         applyButton.setOnClickListener(this);
         closeDialogImage.setOnClickListener(this);
         twitterIcon.setOnClickListener(this);
@@ -170,15 +170,15 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.applyButton: {
+            case R.id.apply_button: {
                 setUpRegisterAndSaveView();
                 break;
             }
-            case R.id.closeDialogImage: {
+            case R.id.close_dialog_image: {
                 dialog.dismiss();
                 break;
             }
-            case R.id.facebookIcon: {
+            case R.id.facebook_icon: {
                 LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL, PUBLIC_PROFILE));
                 LoginManager.getInstance().registerCallback(callbackManager,
                         new FacebookCallback<LoginResult>() {
@@ -210,7 +210,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                         });
                 break;
             }
-            case R.id.twitterIcon: {
+            case R.id.twitter_icon: {
                 twitterAuthClient = new TwitterAuthClient();
                 twitterAuthClient.authorize(this, new Callback<TwitterSession>() {
                     @Override

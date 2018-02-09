@@ -7,7 +7,7 @@ import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.view.activity.OnBoardDialogActivity;
 
 /**
- * Created by plank-sobia on 11/22/2017.
+ * Created by plank-hasan on 11/22/2017.
  */
 @Singleton
 @Component(modules = RestServiceModule.class)
