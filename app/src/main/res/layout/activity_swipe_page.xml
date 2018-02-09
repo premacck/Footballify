@@ -29,4 +29,12 @@
         android:layout_height="match_parent"
         android:layout_marginTop="68dp" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 </android.support.v4.widget.DrawerLayout>
+
+

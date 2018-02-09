@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -75,7 +76,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         int footballToolbarMarginMargin = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
         // marginFeedRow* 4 because of padding in grid view (2 grids).
         // marginBanterRow*2 : single grid.
-
         holder.newsFeedRelativeLayout.getLayoutParams().height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
         final int sdk = android.os.Build.VERSION.SDK_INT;
 
@@ -96,7 +96,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         if (footballFeeds == null) {
             return;
         }
-        footballFeedList.clear();
         footballFeedList.addAll(footballFeeds);
         notifyDataSetChanged();
     }
