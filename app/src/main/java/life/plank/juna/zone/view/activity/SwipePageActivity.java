@@ -235,7 +235,7 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
 
