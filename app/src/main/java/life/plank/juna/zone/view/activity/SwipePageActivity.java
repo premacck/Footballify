@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -176,9 +177,9 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
                             setUpAdapterWithNewData(response.body());
 
                         } else if (response.code() == HttpURLConnection.HTTP_NOT_FOUND) {
-
+                            showToast(AppConstants.defaultErrorMessage);
                         } else {
-
+                            showToast(AppConstants.defaultErrorMessage);
                         }
 
                     }
@@ -345,6 +346,10 @@ public class SwipePageActivity extends AppCompatActivity implements HorizontalFo
 
     private void hideProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void showToast(String message){
+        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 
 
