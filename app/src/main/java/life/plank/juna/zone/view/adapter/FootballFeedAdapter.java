@@ -55,7 +55,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.newsFeedLabel.setText(footballFeed.getHeadline());
-        holder.itemView.setHapticFeedbackEnabled(true);
 
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
