@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongClickListner;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
@@ -33,6 +35,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int heightsToBeRemoved;
 
     private List<FootballFeed> footballFeedList = new ArrayList<>();
+    private OnLongClickListner onLongClickListner;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -52,6 +55,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.newsFeedLabel.setText(footballFeed.getHeadline());
+        holder.itemView.setHapticFeedbackEnabled(true);
 
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
@@ -88,6 +92,16 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 //        } else {
 //            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
 //        }
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                onLongClickListner.oLongClick(position);
+                holder.pinImage.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -116,10 +130,16 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         RelativeLayout newsFeedRelativeLayout;
         @BindView(R.id.football_feed_card)
         CardView newsFeedCardView;
+        @BindView(R.id.pin_image)
+        ImageView pinImage;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setOnLongClickListener(OnLongClickListner onLongClickListener) {
+        this.onLongClickListner = onLongClickListener;
     }
 }

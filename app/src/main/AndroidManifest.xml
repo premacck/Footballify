@@ -158,6 +158,10 @@
             android:name=".view.activity.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".view.activity.PinboardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/statusBarCustomStyle" />
     </application>
 
 </manifest>

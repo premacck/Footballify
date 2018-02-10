@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,6 +20,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +37,10 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongClickListner;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
@@ -52,7 +58,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListner {
 
     @Inject
     @Named("azure")
@@ -99,6 +105,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private String nextPageToken = "";
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    private List<FootballFeed> footballFeeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +154,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+        footballFeedAdapter.setOnLongClickListener(this);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
+        footballFeeds = new ArrayList<>();
 
     }
 
@@ -176,7 +185,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                             nextPageToken = response.headers().get(AppConstants.footballFeedsHeaderKey);
                             setUpAdapterWithNewData(response.body());
 
-                        }else {
+                        } else {
                             showToast(AppConstants.defaultErrorMessage);
                         }
 
@@ -184,11 +193,12 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 });
     }
 
-    private void setUpAdapterWithNewData(List<FootballFeed> footballFeeds) {
-        if (!footballFeeds.isEmpty() && footballFeeds.size() > 0) {
+    private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
+        if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
             if ("".contentEquals(nextPageToken) ? (isLastPage = true) : (isLoading = false)) ;
-            footballFeedAdapter.setFootballFeedList(footballFeeds);
-            PAGE_SIZE = footballFeeds.size();
+            footballFeedAdapter.setFootballFeedList(footballFeedsList);
+            PAGE_SIZE = footballFeedsList.size();
+            footballFeeds.addAll(footballFeedsList);
         }
     }
 
@@ -245,7 +255,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
 
     @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
-            , R.id.liveZoneTextView})
+            , R.id.liveZoneTextView, R.id.zone_logo})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
@@ -257,9 +267,13 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         footbalFilterListView, getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.liveZoneTextView:
-                retainLayout();
-                footballFeedFragment();
+                /*retainLayout();
+                footballFeedFragment();*/
+                if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
+                    startActivity(new Intent(this, PinboardActivity.class));
+                }
                 break;
+
         }
     }
 
@@ -346,8 +360,29 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         progressBar.setVisibility(View.GONE);
     }
 
-    private void showToast(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void oLongClick(int positon) {
+        savePinnedFeedsToPrefrence(positon);
+    }
+
+    private void savePinnedFeedsToPrefrence(int position) {
+        PreferenceManager preferenceManager = new PreferenceManager(this);
+        Gson gson = new Gson();
+        String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.pinnedFeeds);
+        List<FootballFeed> pinnedFeedsList;
+        if ("".contentEquals(pinnedList)) {
+            pinnedFeedsList = new ArrayList<>();
+        } else {
+            pinnedFeedsList = gson.fromJson(pinnedList,
+                    new TypeToken<List<FootballFeed>>() {
+                    }.getType());
+        }
+        pinnedFeedsList.add(footballFeeds.get(position));
+        preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
     }
 
 
