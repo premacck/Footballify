@@ -2,15 +2,19 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daasuu.bl.BubbleLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -53,6 +57,32 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.newsFeedLabel.setText(footballFeed.getHeadline());
 
+        int width = holder.likeImage.getWidth();
+        holder.likeImage.setOnClickListener(view -> {
+            BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(
+                    R.layout.reaction_layout, null
+            );
+            PopupWindow popupWindow = new PopupWindow(context);
+            popupWindow.setContentView(bubbleLayout);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+            popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+            // change background color to transparent
+            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context,
+                    com.daasuu.bl.R.drawable.popup_window_transparent));
+            int[] locationLIkeView = new int[2];
+            view.getLocationInWindow(locationLIkeView);
+
+            int[] locationRecyclerContainer = new int[2];
+            holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
+            bubbleLayout.setArrowPosition(( UIDisplayUtil.dpToPx(locationLIkeView[0],context) -
+                    UIDisplayUtil.dpToPx(locationRecyclerContainer[0],context)
+            ));
+            popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, locationRecyclerContainer[0],
+                    locationLIkeView[1] - UIDisplayUtil.dpToPx(20,context) );
+        });
+
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
                     .load(footballFeed.getThumbnail().getImageUrl())
@@ -61,16 +91,13 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-                Gson gson = new Gson();
-                String jsonString = gson.toJson(footballFeed);
-                footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
-                footballFeedDetails.putExtra("web_url", footballFeed.getUrl());
-                context.startActivity(footballFeedDetails);
-            }
+        holder.itemView.setOnClickListener(view -> {
+            Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(footballFeed);
+            footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
+            footballFeedDetails.putExtra("web_url", footballFeed.getUrl());
+            context.startActivity(footballFeedDetails);
         });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);
         int marginFeedRow = (int) context.getResources().getDimension(R.dimen.football_feed_row_margin);
@@ -116,6 +143,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         RelativeLayout newsFeedRelativeLayout;
         @BindView(R.id.football_feed_card)
         CardView newsFeedCardView;
+        @BindView(R.id.like_image)
+        ImageView likeImage;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);

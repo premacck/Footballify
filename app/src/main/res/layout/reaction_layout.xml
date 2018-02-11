@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.daasuu.bl.BubbleLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    app:bl_arrowDirection="bottom"
+    app:bl_arrowHeight="10dp"
+    app:bl_arrowPosition="140dp"
+    app:bl_arrowWidth="10dp"
+    app:bl_bubbleColor="@android:color/white"
+    app:bl_cornersRadius="50dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="4">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_smile" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_angry" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_cry" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_heart" />
+    </LinearLayout>
+</com.daasuu.bl.BubbleLayout>
