@@ -7,8 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/football_feed_row_margin"
     card_view:cardBackgroundColor="@android:color/background_dark"
-    card_view:cardElevation="0dp"
     card_view:cardCornerRadius="0dp"
+    card_view:cardElevation="0dp"
     card_view:cardUseCompatPadding="false">
 
     <RelativeLayout
@@ -102,7 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="3dp"
+                    android:padding="@dimen/football_feed_row_image_padding"
                     android:src="@drawable/ic_like" />
 
                 <TextView
@@ -110,8 +110,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="3dp"
                     android:layout_toRightOf="@+id/like_image"
+                    android:padding="@dimen/football_feed_row_image_padding"
                     android:text="1.2M"
                     android:textColor="@color/White"
                     android:textSize="8sp" />
@@ -121,8 +121,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="3dp"
                     android:layout_toRightOf="@+id/like_label"
+                    android:padding="@dimen/football_feed_row_image_padding"
                     android:src="@drawable/ic_comment" />
 
                 <TextView
@@ -141,8 +141,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_margin="3dp"
                     android:layout_toRightOf="@+id/comment_label"
+                    android:padding="@dimen/football_feed_row_image_padding"
                     android:src="@drawable/ic_dropdown" />
             </RelativeLayout>
         </RelativeLayout>

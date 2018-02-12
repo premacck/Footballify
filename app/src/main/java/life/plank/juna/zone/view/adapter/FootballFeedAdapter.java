@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -30,12 +31,15 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
+    @BindView(R.id.reaction_like)
+    ImageView reactionLike;
+    PopupWindow popupWindow;
+    int imageWidth;
     private Context context;
     private LayoutInflater mInflater;
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
-
     private List<FootballFeed> footballFeedList = new ArrayList<>();
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
@@ -56,49 +60,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.newsFeedLabel.setText(footballFeed.getHeadline());
-
-        int width = holder.likeImage.getWidth();
-        holder.likeImage.setOnClickListener(view -> {
-            BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(
-                    R.layout.reaction_layout, null
-            );
-            PopupWindow popupWindow = new PopupWindow(context);
-            popupWindow.setContentView(bubbleLayout);
-            popupWindow.setOutsideTouchable(true);
-            popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-            popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-            // change background color to transparent
-            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                    com.daasuu.bl.R.drawable.popup_window_transparent));
-            int[] locationLIkeView = new int[2];
-            view.getLocationInWindow(locationLIkeView);
-
-            int[] locationRecyclerContainer = new int[2];
-            holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
-            bubbleLayout.setArrowPosition(( UIDisplayUtil.dpToPx(locationLIkeView[0],context) -
-                    UIDisplayUtil.dpToPx(locationRecyclerContainer[0],context)
-            ));
-            popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, locationRecyclerContainer[0],
-                    locationLIkeView[1] - UIDisplayUtil.dpToPx(20,context) );
-        });
-
-        if (footballFeed.getThumbnail() != null) {
-            Picasso.with(context)
-                    .load(footballFeed.getThumbnail().getImageUrl())
-                    .fit()
-                    .into(holder.newFeedImage);
-        } else {
-            holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
-        }
-        holder.itemView.setOnClickListener(view -> {
-            Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-            Gson gson = new Gson();
-            String jsonString = gson.toJson(footballFeed);
-            footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
-            footballFeedDetails.putExtra("web_url", footballFeed.getUrl());
-            context.startActivity(footballFeedDetails);
-        });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);
         int marginFeedRow = (int) context.getResources().getDimension(R.dimen.football_feed_row_margin);
         int marginBanterRow = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
@@ -115,6 +76,64 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 //        } else {
 //            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
 //        }
+
+
+        holder.likeImage.post(new Runnable() {
+            @Override
+            public void run() {
+                imageWidth = holder.likeImage.getWidth();
+            }
+        });
+
+        holder.likeImage.setOnClickListener((View view) -> {
+            int[] locationRecyclerContainer = new int[2];
+            holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
+            BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.reaction_layout, null);
+            ButterKnife.bind(this, bubbleLayout);
+            int height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
+            popupWindow = new PopupWindow(context);
+            popupWindow.setContentView(bubbleLayout);
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setWidth(holder.newsFeedRelativeLayout.getLayoutParams().width);
+            popupWindow.setHeight(height / 4);
+            popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context,
+                    com.daasuu.bl.R.drawable.popup_window_transparent));
+            int[] locationLIkeView = new int[2];
+            view.getLocationInWindow(locationLIkeView);
+            bubbleLayout.setArrowPosition(
+                    locationLIkeView[0] - locationRecyclerContainer[0] -
+                            (bubbleLayout.getArrowWidth() / 2) + (imageWidth / 2)
+            );
+            popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, locationRecyclerContainer[0],
+                    locationLIkeView[1] - (UIDisplayUtil.dpToPx(2, context) + height / 4)
+            );
+        });
+
+        if (footballFeed.getThumbnail() != null) {
+            Picasso.with(context)
+                    .load(footballFeed.getThumbnail().getImageUrl())
+                    .fit()
+                    .into(holder.newFeedImage);
+        } else {
+            holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
+        }
+        holder.itemView.setOnClickListener(view -> {
+            Intent footballFeedDetails = new Intent(context.getApplicationContext(),
+                    FootballFeedDetailActivity.class);
+            Gson gson = new Gson();
+            String jsonString = gson.toJson(footballFeed);
+            footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
+            footballFeedDetails.putExtra("web_url", footballFeed.getUrl());
+            context.startActivity(footballFeedDetails);
+        });
+    }
+
+    @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
+    public void onReactionsClicked(View view) {
+        // TODO: 12-02-2018 Add click
+        if (popupWindow != null)
+            popupWindow.dismiss();
     }
 
     @Override
