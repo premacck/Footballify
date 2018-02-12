@@ -267,11 +267,12 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         footbalFilterListView, getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.liveZoneTextView:
-                /*retainLayout();
-                footballFeedFragment();*/
-                if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
+                retainLayout();
+                footballFeedFragment();
+                //this has to be moved to drawer click
+              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
                     startActivity(new Intent(this, PinboardActivity.class));
-                }
+                }*/
                 break;
 
         }
