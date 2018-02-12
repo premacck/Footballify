@@ -60,8 +60,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners,
-        NavigationView.OnNavigationItemSelectedListener {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
 
 
     @Inject
@@ -90,7 +89,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
-
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.football_toolbar)
@@ -99,10 +97,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     AppCompatImageButton footballMenu;
     @BindView(R.id.nav_view_right)
     NavigationView navigationView;
-
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     private Subscription subscription;
@@ -113,7 +109,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
-
     private static final String TAG = SwipePageActivity.class.getSimpleName();
 
     @Override
@@ -140,7 +135,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, footballToolbar, R.string.open, R.string.close);
         toggle.setDrawerIndicatorEnabled(false);
         toggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
         drawerLayout.closeDrawer(GravityCompat.END);
         footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
 
@@ -183,7 +177,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
-
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "In onCompleted()");
@@ -193,7 +186,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     public void onError(Throwable e) {
                         Log.d(TAG, "In onCompleted()");
                     }
-
 
                     public void onNext(Response<List<FootballFeed>> response) {
                         GlobalVariable.getInstance().setFootballFeeds(response.body());
@@ -206,7 +198,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         } else {
                             showToast(AppConstants.defaultErrorMessage);
                         }
-
                     }
                 });
     }
@@ -343,33 +334,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_my_profile) {
-        } else if (id == R.id.action_my_team) {
-
-        } else if (id == R.id.action_my_cards) {
-
-        } else if (id == R.id.action_notification) {
-
-        } else if (id == R.id.action_profile_setting) {
-
-        } else if (id == R.id.action_review_us) {
-
-        } else if (id == R.id.action_faq) {
-        } else if (id == R.id.action_app_share) {
-
-        } else if (id == R.id.action_feedback) {
-
-        } else if (id == R.id.action_about_us) {
-            drawerLayout.closeDrawer(GravityCompat.END);
-            Toast.makeText(SwipePageActivity.this, "Selected " + item.getTitle(), Toast.LENGTH_SHORT).show();
-            footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
-        }
-        return true;
-    }
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
