@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,7 +14,6 @@ import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -128,7 +126,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getFootballFeed();
         initRecyclerView();
         showOnboardingDialog();
-
     }
 
     private void setDrawerLayout() {
@@ -137,7 +134,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         toggle.syncState();
         drawerLayout.closeDrawer(GravityCompat.END);
         footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
-
     }
 
     private void initRecyclerView() {
@@ -189,7 +185,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
                     public void onNext(Response<List<FootballFeed>> response) {
                         GlobalVariable.getInstance().setFootballFeeds(response.body());
-
                         hideProgress();
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             nextPageToken = response.headers().get(AppConstants.footballFeedsHeaderKey);
@@ -276,7 +271,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 retainLayout();
                 footballFeedFragment();
                 break;
-
             case R.id.football_menu:
                 if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
                     drawerLayout.closeDrawer(GravityCompat.END);
@@ -295,9 +289,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
-
     }
-
 
     @Override
     public void onBackPressed() {
