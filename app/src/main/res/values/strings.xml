@@ -99,6 +99,8 @@
     <string name="property_type">rotationY</string>
     <string name="pick_club_label">PICK YOUR CLUB</string>
     <string name="club_image_name">clubImageName</string>
+    <string name="open">open</string>
+    <string name="close">close</string>
     <string name="azure_base_url">https://junafunctions.azurewebsites.net/</string>
     <string-array name="calendar_array">
         <item>Yesterday</item>
@@ -108,14 +110,12 @@
         <item>Pick a date</item>
         <item>Calendar</item>
     </string-array>
-
     <string-array name="football_filter_array">
         <item>All</item>
         <item>My Pundits</item>
         <item>Fixtures/Results</item>
         <item>Standings</item>
     </string-array>
-
     <string name="team_selection_dialog_text">You can personalize your content by selecting upto three teams to follow. Start typing the names below:</string>
     <string name="register_dialog_text">Register with us and save your selection. You can read our Privacy Policy here.</string>
     <string name="you_can_register_with">Or you can also register with:</string>
