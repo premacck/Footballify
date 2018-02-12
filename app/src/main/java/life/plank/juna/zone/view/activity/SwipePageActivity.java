@@ -269,7 +269,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             case R.id.liveZoneTextView:
                 retainLayout();
                 footballFeedFragment();
-                //this has to be moved to drawer click
               /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
                     startActivity(new Intent(this, PinboardActivity.class));
                 }*/
