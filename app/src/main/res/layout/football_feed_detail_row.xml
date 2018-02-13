@@ -6,7 +6,7 @@
     <RelativeLayout
         android:id="@+id/relative_layout_container"
         android:layout_width="match_parent"
-        android:layout_height="630dp">
+        android:layout_height="500dp">
 
         <ImageView
             android:id="@+id/feed_image"
