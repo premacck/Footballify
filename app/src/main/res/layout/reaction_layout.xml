@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_reactions_heart" />
 
         <ImageView
@@ -36,7 +35,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_reactions_smile" />
 
         <ImageView
@@ -45,7 +43,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_reactions_cry" />
 
         <ImageView
@@ -54,7 +51,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:scaleType="fitCenter"
             app:srcCompat="@drawable/ic_reactions_angry" />
     </LinearLayout>
 </com.daasuu.bl.BubbleLayout>

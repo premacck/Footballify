@@ -93,7 +93,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
         holder.likeImage.setOnClickListener((View view) -> displayPopup(position,holder,gridHeight,view));
 
-        holder.likeLabel.setOnClickListener(view -> displayPopup(position,holder,gridHeight,view));
+        holder.likeLabelTextView.setOnClickListener(view -> displayPopup(position,holder,gridHeight,view));
 
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
@@ -130,7 +130,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context,
                 com.daasuu.bl.R.drawable.popup_window_transparent));
         int[] locationLIkeView = new int[2];
-        view.getLocationInWindow(locationLIkeView);
+        holder.likeImage.getLocationInWindow(locationLIkeView);
         bubbleLayout.setArrowPosition(
                 locationLIkeView[0] - locationRecyclerContainer[0] -
                         (bubbleLayout.getArrowWidth() / 2) + (imageWidth / 2)
@@ -195,7 +195,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         @BindView(R.id.like_image)
         ImageView likeImage;
         @BindView(R.id.like_label)
-        TextView likeLabel;
+        TextView likeLabelTextView;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
