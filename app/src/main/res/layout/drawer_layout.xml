@@ -17,9 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:layout_marginTop="65dp"
         android:background="#ffffff"
         app:itemIconTint="#FFFF00"
         app:itemTextColor="#000000"
-        app:menu="@menu/activity_swipe_page_drawer_right"></android.support.design.widget.NavigationView>
+        app:menu="@menu/activity_swipe_page_drawer_right"/>
 </android.support.v4.widget.DrawerLayout>

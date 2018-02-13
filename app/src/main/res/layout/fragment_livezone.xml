@@ -7,12 +7,14 @@
         style="@style/livezonetextstyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="10dp"
         android:paddingBottom="0dp"
+        android:paddingEnd="10dp"
+        android:paddingRight="10dp"
         android:paddingTop="0dp">
 
         <TextView
@@ -34,7 +36,6 @@
             android:src="@drawable/tw__composer_close" />
     </RelativeLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,14 +47,17 @@
             android:id="@+id/liveZoneSlider"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginStart="3dp"
             android:layout_weight=".25" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/liveZoneGridViewRelativeLayout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".75"
-            android:padding="@dimen/cardview_compat_inset_shadow" />
+            android:layout_weight=".75" />
     </LinearLayout>
 
     <RelativeLayout
@@ -61,9 +65,7 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_margin="3dp"
         android:background="@drawable/football_header_purple_gradient">
-
 
         <TextView
             android:id="@+id/person_number"
@@ -86,8 +88,5 @@
             android:layout_toLeftOf="@+id/person_number"
             android:layout_toStartOf="@+id/person_number"
             android:src="@drawable/ic_person" />
-
     </RelativeLayout>
-
-
 </RelativeLayout>

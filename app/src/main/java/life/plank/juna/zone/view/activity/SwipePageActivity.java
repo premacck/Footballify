@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -56,8 +55,6 @@ import rx.schedulers.Schedulers;
  */
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
-
-
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -84,8 +81,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
-    @BindView(R.id.football_toolbar)
-    Toolbar footballToolbar;
     @BindView(R.id.football_menu)
     AppCompatImageButton footballMenu;
     @BindView(R.id.progress_bar)
@@ -293,6 +288,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     @Override
     public void addMore() {
+        // TODO: 30-01-2018 Get data from server
         horizontalData.remove(horizontalData.size() - 1);
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
@@ -301,7 +297,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         horizontalData.add("addMore");
         horizontalfootballFeedAdapter.notifyDataSetChanged();
     }
-
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -331,7 +326,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
-
 
     private void showProgress() {
         progressBar.setVisibility(View.VISIBLE);

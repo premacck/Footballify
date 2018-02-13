@@ -26,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
+
         <ProgressBar
             android:id="@+id/progress_bar"
             android:layout_width="wrap_content"
@@ -69,7 +70,7 @@
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
-                    android:text="All  "
+                    android:text="All"
                     android:textColor="@color/White" />
 
                 <TextView

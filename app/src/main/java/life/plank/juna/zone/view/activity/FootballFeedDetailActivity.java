@@ -25,13 +25,11 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
     @BindView(R.id.football_feed_recyclerView)
     RecyclerView footballFeedRecyclerView;
     @BindView(R.id.image_cancel)
-    ImageView imageCancel;
+    ImageView cancelImageView;
     @BindView(R.id.post_comment)
-    Button sendComment;
+    Button postCommentButton;
     @BindView(R.id.add_comment)
-    EditText addComment;
-    @BindView(R.id.web_link)
-    Button webLink;
+    EditText addCommentEditText;
     @BindView(R.id.scroll_view)
     ScrollView scrollView;
     private FootballFeedDetailAdapter mAdapter;
