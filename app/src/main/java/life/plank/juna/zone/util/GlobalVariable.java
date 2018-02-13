@@ -2,6 +2,7 @@ package life.plank.juna.zone.util;
 
 import java.util.List;
 
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.UserChoice;
 
 /**
@@ -23,6 +24,7 @@ public class GlobalVariable {
     private Boolean isClubGamesDraw = false;
     private List<UserChoice> userChoice;
 
+    private List<FootballFeed> footballFeeds;
 
     private GlobalVariable() {
     }
@@ -35,6 +37,14 @@ public class GlobalVariable {
         return instance;
     }
 
+
+    public List<FootballFeed> getFootballFeeds() {
+        return footballFeeds;
+    }
+
+    public void setFootballFeeds(List<FootballFeed> footballFeeds) {
+        this.footballFeeds = footballFeeds;
+    }
 
     public int getDisplayHeight() {
         return DISPLAY_HEIGHT;

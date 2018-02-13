@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
@@ -30,7 +29,9 @@
             android:id="@+id/post_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_alignRight="@id/add_comment"
+            android:layout_alignTop="@+id/add_comment"
             android:layout_below="@+id/web_link"
             android:background="@drawable/square_transparent_bg"
             android:text="send" />
@@ -42,7 +43,7 @@
             android:layout_below="@+id/web_link"
             android:layout_margin="5dp"
             android:backgroundTint="@color/transparent_grey"
-            android:hint="Add a comment..." />
+            android:hint="Add a comment" />
 
         <FrameLayout
             android:layout_width="wrap_content"
@@ -55,8 +56,6 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:src="@drawable/cancel" />
-
         </FrameLayout>
     </RelativeLayout>
-
 </ScrollView>
