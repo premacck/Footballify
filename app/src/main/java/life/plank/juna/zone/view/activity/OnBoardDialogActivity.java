@@ -106,6 +106,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
     public DrawerLayout mDrawer;
+    private TextView textDrawerMenu;
 
     @Override
     public void setContentView(int layoutResID) {

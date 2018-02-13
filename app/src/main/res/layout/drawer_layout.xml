@@ -20,5 +20,5 @@
         android:background="#ffffff"
         app:itemIconTint="#FFFF00"
         app:itemTextColor="#000000"
-        app:menu="@menu/activity_swipe_page_drawer_right" />
+        app:menu="@menu/activity_swipe_page_drawer_right"/>
 </android.support.v4.widget.DrawerLayout>
