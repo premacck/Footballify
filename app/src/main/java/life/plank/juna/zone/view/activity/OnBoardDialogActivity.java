@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +54,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.net.ssl.HttpsURLConnection;
 
+import butterknife.BindView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.domain.service.AuthenticationService;
@@ -102,20 +105,23 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     private static int RC_SIGN_IN = 100;
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
+    public DrawerLayout mDrawer;
+    private TextView textDrawerMenu;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setContentView(int layoutResID) {
+        mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
+        FrameLayout activityContainer = (FrameLayout) mDrawer.findViewById(R.id.activity_content);
+        getLayoutInflater().inflate(layoutResID, activityContainer, true);
+        super.setContentView(mDrawer);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
         TwitterConfig twitterConfig = new TwitterConfig.Builder(this)
                 .logger(new DefaultLogger(Log.DEBUG))
                 .twitterAuthConfig(new TwitterAuthConfig(getString(R.string.twitter_consumer_key), getString(R.string.twitter_consumer_secret)))
-                .debug(true)
-                .build();
+                .debug(true).build();
         Twitter.initialize(twitterConfig);
-
 
         ((ZoneApplication) this.getApplication()).getOnBoardSocialLoginNetworkComponent().inject(this);
 
@@ -141,6 +147,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
 
     private void setUpViews() {
+        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         applyButton = dialog.findViewById(R.id.apply_button);
         closeDialogImage = dialog.findViewById(R.id.close_dialog_image);
         selectTeamLinearLayout = dialog.findViewById(R.id.select_team_linear_layout);
@@ -168,7 +175,6 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 getResources().getStringArray(R.array.football_teams)));
 
     }
-
 
     @Override
     public void onClick(View view) {

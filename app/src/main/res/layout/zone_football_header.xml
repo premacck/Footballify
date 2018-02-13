@@ -1,48 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/football_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/ic_feed_bg"
-    android:orientation="vertical">
+    android:layout_height="?attr/actionBarSize"
+    android:background="@drawable/football_header_orange_gradient"
+    android:elevation="0dp"
+    android:padding="10dp"
+    tools:ignore="UnusedAttribute">
 
-    <ImageView
-        android:id="@+id/zone_logo"
+    <TextView
+        android:id="@+id/football_toolbar_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_zone_logo" />
+        android:layout_toRightOf="@+id/football_toolbar_zone_icon"
+        android:text="FOOTBALL"
+        android:textColor="@color/White" />
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/football_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignBottom="@+id/zone_logo"
-        android:layout_alignTop="@+id/zone_logo"
-        android:layout_marginBottom="11dp"
-        android:layout_marginTop="9dp"
-        android:layout_toRightOf="@+id/zone_logo"
-        android:background="@drawable/football_header_orange_gradient"
-        android:elevation="0dp">
+    <android.support.v7.widget.AppCompatImageButton
+        android:id="@+id/football_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|end"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_menu" />
 
-        <TextView
-            android:id="@+id/football_toolbar_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/football_toolbar_zone_icon"
-            android:text="FOOTBALL"
-            android:textColor="@color/White" />
-
-        <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/football_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/ic_menu" />
-    </android.support.v7.widget.Toolbar>
-
-    <include layout="@layout/swipe_page_content" />
-
-</RelativeLayout>
+</android.support.v7.widget.Toolbar>

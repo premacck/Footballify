@@ -99,8 +99,6 @@
     <string name="property_type">rotationY</string>
     <string name="pick_club_label">PICK YOUR CLUB</string>
     <string name="club_image_name">clubImageName</string>
-    <string name="open">open</string>
-    <string name="close">close</string>
     <string name="azure_base_url">https://junafunctions.azurewebsites.net/</string>
     <string-array name="calendar_array">
         <item>Yesterday</item>

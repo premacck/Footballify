@@ -1,10 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Handler;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
@@ -87,14 +84,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
-    @BindView(R.id.drawer_layout)
-    DrawerLayout drawerLayout;
     @BindView(R.id.football_toolbar)
     Toolbar footballToolbar;
     @BindView(R.id.football_menu)
     AppCompatImageButton footballMenu;
-    @BindView(R.id.nav_view_right)
-    NavigationView navigationView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
@@ -103,7 +96,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
     private int PAGE_SIZE;
-
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
@@ -114,7 +106,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
-        setDrawerLayout();
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
@@ -126,14 +117,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getFootballFeed();
         initRecyclerView();
         showOnboardingDialog();
-    }
-
-    private void setDrawerLayout() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, footballToolbar, R.string.open, R.string.close);
-        toggle.setDrawerIndicatorEnabled(false);
-        toggle.syncState();
-        drawerLayout.closeDrawer(GravityCompat.END);
-        footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
     }
 
     private void initRecyclerView() {
@@ -272,12 +255,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 footballFeedFragment();
                 break;
             case R.id.football_menu:
-                if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                    drawerLayout.closeDrawer(GravityCompat.END);
-                    footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.END);
-                }
+                mDrawer.openDrawer(GravityCompat.END);
                 break;
         }
     }
@@ -293,10 +271,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-            drawerLayout.closeDrawer(GravityCompat.END);
-            footballMenu.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu));
-        } else if (liveZoneTextView.isSelected()) {
+
+        if (liveZoneTextView.isSelected()) {
             retainLayout();
         } else {
             super.onBackPressed();
@@ -369,6 +345,5 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 
     }
-
 
 }
