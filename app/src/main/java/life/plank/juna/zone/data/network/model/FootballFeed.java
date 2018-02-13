@@ -8,6 +8,7 @@ import java.util.List;
 
 public class FootballFeed {
 
+    private int reactionType = -1;
     //TODO: Change all keys to camel case after changes are made on the backend
     private String Id;
     private String Headline;
@@ -18,6 +19,14 @@ public class FootballFeed {
     private Thumbnail Thumbnail;
     private List<String> Tags = null;
     private String DateCreated;
+
+    public int getReactionType() {
+        return reactionType;
+    }
+
+    public void setReactionType(int reactionType) {
+        this.reactionType = reactionType;
+    }
 
     public String getId() {
         return Id;

@@ -35,6 +35,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     ImageView reactionLike;
     PopupWindow popupWindow;
     int imageWidth;
+    int popUpPostion = -1;
     private Context context;
     private LayoutInflater mInflater;
     private int screenHeight;
@@ -65,9 +66,12 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         int marginBanterRow = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
         int footballToolbarMarginBottom = (int) context.getResources().getDimension(R.dimen.football_toolbar_margin_bottom);
         int footballToolbarMarginMargin = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
+
+        int gridHeight = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
+
         // marginFeedRow* 4 because of padding in grid view (2 grids).
         // marginBanterRow*2 : single grid.
-        holder.newsFeedRelativeLayout.getLayoutParams().height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
+        holder.newsFeedRelativeLayout.getLayoutParams().height = gridHeight;
         final int sdk = android.os.Build.VERSION.SDK_INT;
 
         //TODO: Will be uncommented after backend returns data
@@ -85,30 +89,16 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             }
         });
 
-        holder.likeImage.setOnClickListener((View view) -> {
-            int[] locationRecyclerContainer = new int[2];
-            holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
-            BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.reaction_layout, null);
-            ButterKnife.bind(this, bubbleLayout);
-            int height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
-            popupWindow = new PopupWindow(context);
-            popupWindow.setContentView(bubbleLayout);
-            popupWindow.setOutsideTouchable(true);
-            popupWindow.setWidth(holder.newsFeedRelativeLayout.getLayoutParams().width);
-            popupWindow.setHeight(height / 4);
-            popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
-            popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                    com.daasuu.bl.R.drawable.popup_window_transparent));
-            int[] locationLIkeView = new int[2];
-            view.getLocationInWindow(locationLIkeView);
-            bubbleLayout.setArrowPosition(
-                    locationLIkeView[0] - locationRecyclerContainer[0] -
-                            (bubbleLayout.getArrowWidth() / 2) + (imageWidth / 2)
-            );
-            popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, locationRecyclerContainer[0],
-                    locationLIkeView[1] - (UIDisplayUtil.dpToPx(2, context) + height / 4)
-            );
-        });
+        // TODO: 13-02-2018 remove this code, after replacing proper images
+        if (footballFeedList.get(position).getReactionType() != -1) {
+            holder.likeImage.setImageResource(footballFeedList.get(position).getReactionType());
+            holder.likeImage.getLayoutParams().width = imageWidth;
+            holder.likeImage.getLayoutParams().height = imageWidth;
+        }
+
+        holder.likeImage.setOnClickListener((View view) -> displayPopup(position,holder,gridHeight,view));
+
+        holder.likeLabel.setOnClickListener(view -> displayPopup(position,holder,gridHeight,view));
 
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
@@ -118,6 +108,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
+
         holder.itemView.setOnClickListener(view -> {
             Intent footballFeedDetails = new Intent(context.getApplicationContext(),
                     FootballFeedDetailActivity.class);
@@ -129,11 +120,56 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         });
     }
 
+    private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
+        popUpPostion = position;
+        int[] locationRecyclerContainer = new int[2];
+        holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
+        BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.reaction_layout, null);
+        ButterKnife.bind(this, bubbleLayout);
+        int height = gridHeight;
+        popupWindow = new PopupWindow(context);
+        popupWindow.setContentView(bubbleLayout);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setWidth(holder.newsFeedRelativeLayout.getLayoutParams().width);
+        popupWindow.setHeight(height / 4);
+        popupWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+        popupWindow.setBackgroundDrawable(ContextCompat.getDrawable(context,
+                com.daasuu.bl.R.drawable.popup_window_transparent));
+        int[] locationLIkeView = new int[2];
+        view.getLocationInWindow(locationLIkeView);
+        bubbleLayout.setArrowPosition(
+                locationLIkeView[0] - locationRecyclerContainer[0] -
+                        (bubbleLayout.getArrowWidth() / 2) + (imageWidth / 2)
+        );
+        popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, locationRecyclerContainer[0],
+                locationLIkeView[1] - (UIDisplayUtil.dpToPx(2, context) + height / 4)
+        );
+    }
+
     @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
     public void onReactionsClicked(View view) {
-        // TODO: 12-02-2018 Add click
         if (popupWindow != null)
             popupWindow.dismiss();
+
+        // TODO: 13-02-2018 Get the new images with different image size
+        switch (view.getId()) {
+            case R.id.reaction_like:
+                footballFeedList.get(popUpPostion).setReactionType(R.drawable.ic_reactions_heart);
+                break;
+
+            case R.id.reaction_angry:
+                footballFeedList.get(popUpPostion).setReactionType(R.drawable.ic_reactions_angry);
+                break;
+
+            case R.id.reaction_cry:
+                footballFeedList.get(popUpPostion).setReactionType(R.drawable.ic_reactions_cry);
+                break;
+
+            case R.id.reaction_smile:
+                footballFeedList.get(popUpPostion).setReactionType(R.drawable.ic_reactions_smile);
+                break;
+        }
+        notifyItemChanged(popUpPostion);
     }
 
     @Override
@@ -164,6 +200,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         CardView newsFeedCardView;
         @BindView(R.id.like_image)
         ImageView likeImage;
+        @BindView(R.id.like_label)
+        TextView likeLabel;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
