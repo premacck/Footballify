@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -65,7 +64,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-                intent.putExtra("position",String.valueOf(position));
+                intent.putExtra("position", String.valueOf(position));
                 context.startActivity(intent);
             }
         });

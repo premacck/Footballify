@@ -19,16 +19,14 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.GlobalVariable;
 
-
 /**
  * Created by plank-prachi on 1/30/2018.
  */
 
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
-
     private Context context;
     private LayoutInflater mInflater;
-    private List<FootballFeed> footballFeedsList  = new ArrayList<>();
+    private List<FootballFeed> footballFeedsList = new ArrayList<>();
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image)
@@ -48,7 +46,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         this.mInflater = LayoutInflater.from(context);
         footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
     }
-
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,6 +68,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             holder.footballFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
     }
+
     @Override
     public int getItemCount() {
         return footballFeedsList.size();
