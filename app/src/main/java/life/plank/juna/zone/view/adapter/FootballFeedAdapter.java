@@ -9,9 +9,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daasuu.bl.BubbleLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,20 +21,26 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.util.helper.PopUpWindowHelper;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
+    @BindView(R.id.reaction_like)
+    ImageView reactionLike;
+    int popUpPosition;
+    private PopupWindow popupWindow;
+    private int imageWidth;
     private Context context;
     private LayoutInflater mInflater;
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
-
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private OnLongClickListener onLongClickListner;
 
@@ -54,31 +62,17 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.newsFeedLabel.setText(footballFeed.getHeadline());
-
-        if (footballFeed.getThumbnail() != null) {
-            Picasso.with(context)
-                    .load(footballFeed.getThumbnail().getImageUrl())
-                    .fit()
-                    .into(holder.newFeedImage);
-        } else {
-            holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
-        }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-                intent.putExtra("position",String.valueOf(position));
-                context.startActivity(intent);
-            }
-        });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);
         int marginFeedRow = (int) context.getResources().getDimension(R.dimen.football_feed_row_margin);
         int marginBanterRow = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
         int footballToolbarMarginBottom = (int) context.getResources().getDimension(R.dimen.football_toolbar_margin_bottom);
         int footballToolbarMarginMargin = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
+
+        int gridHeight = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
+
         // marginFeedRow* 4 because of padding in grid view (2 grids).
         // marginBanterRow*2 : single grid.
-        holder.newsFeedRelativeLayout.getLayoutParams().height = (screenHeight - heightsToBeRemoved) / 2 - (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
+        holder.newsFeedRelativeLayout.getLayoutParams().height = gridHeight;
         final int sdk = android.os.Build.VERSION.SDK_INT;
 
         //TODO: Will be uncommented after backend returns data
@@ -97,6 +91,82 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                 return true;
             }
         });
+
+        holder.likeImage.post(() -> imageWidth = holder.likeImage.getWidth());
+
+        // TODO: 13-02-2018 remove this code, after replacing proper images
+        if (footballFeedList.get(position).getReactionType() != -1) {
+            holder.likeImage.setImageResource(footballFeedList.get(position).getReactionType());
+            holder.likeImage.getLayoutParams().width = imageWidth;
+            holder.likeImage.getLayoutParams().height = imageWidth;
+        }
+
+        holder.likeImage.setOnClickListener((View view) -> displayPopup(position, holder, gridHeight, view));
+
+        holder.likeLabelTextView.setOnClickListener(view -> displayPopup(position, holder, gridHeight, view));
+
+        if (footballFeed.getThumbnail() != null) {
+            Picasso.with(context)
+                    .load(footballFeed.getThumbnail().getImageUrl())
+                    .fit()
+                    .into(holder.newFeedImage);
+        } else {
+            holder.newFeedImage.setImageResource(R.drawable.ic_third_dummy);
+        }
+
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, FootballFeedDetailActivity.class);
+            intent.putExtra("position", String.valueOf(position));
+            context.startActivity(intent);
+        });
+
+    }
+
+    private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
+        popUpPosition = position;
+        int[] locationRecyclerContainer = new int[2];
+        holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
+        BubbleLayout bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.reaction_layout, null);
+        ButterKnife.bind(this, bubbleLayout);
+        int[] locationLIkeView = new int[2];
+        holder.likeImage.getLocationInWindow(locationLIkeView);
+        bubbleLayout.setArrowPosition(
+                locationLIkeView[0] - locationRecyclerContainer[0] -
+                        (bubbleLayout.getArrowWidth() / 2) + (imageWidth / 2)
+        );
+        PopUpWindowHelper<BubbleLayout> popUpWindowHelper = new PopUpWindowHelper<>();
+        popUpWindowHelper.setView(bubbleLayout);
+        popUpWindowHelper.setPopUpHeight(gridHeight / 4);
+        popUpWindowHelper.setPopUpWidth(holder.newsFeedRelativeLayout.getLayoutParams().width);
+        popUpWindowHelper.setParentView(view);
+        popUpWindowHelper.setPopUpLocationX(locationRecyclerContainer[0]);
+        popUpWindowHelper.setPopUpLocationY(locationLIkeView[1] - (UIDisplayUtil.dpToPx(2, context) + gridHeight / 4));
+        popupWindow = popUpWindowHelper.genericPopUpWindow(context);
+    }
+
+    @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
+    public void onReactionsClicked(View view) {
+        if (popupWindow != null)
+            popupWindow.dismiss();
+        // TODO: 13-02-2018 Get the new images with different image size
+        switch (view.getId()) {
+            case R.id.reaction_like:
+                footballFeedList.get(popUpPosition).setReactionType(R.drawable.ic_reactions_heart);
+                break;
+
+            case R.id.reaction_angry:
+                footballFeedList.get(popUpPosition).setReactionType(R.drawable.ic_reactions_angry);
+                break;
+
+            case R.id.reaction_cry:
+                footballFeedList.get(popUpPosition).setReactionType(R.drawable.ic_reactions_cry);
+                break;
+
+            case R.id.reaction_smile:
+                footballFeedList.get(popUpPosition).setReactionType(R.drawable.ic_reactions_smile);
+                break;
+        }
+        notifyItemChanged(popUpPosition);
     }
 
     @Override
@@ -127,6 +197,10 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         CardView newsFeedCardView;
         @BindView(R.id.pin_image)
         ImageView pinImage;
+        @BindView(R.id.like_image)
+        ImageView likeImage;
+        @BindView(R.id.like_label)
+        TextView likeLabelTextView;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
