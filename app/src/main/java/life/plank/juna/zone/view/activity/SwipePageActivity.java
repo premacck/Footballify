@@ -2,7 +2,9 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
 import android.os.Handler;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,11 +61,9 @@ import rx.schedulers.Schedulers;
  */
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListner {
-
     @Inject
     @Named("azure")
     Retrofit retrofit;
-
     @BindView(R.id.football_feed_horizontal_view)
     RecyclerView horizontalRecyclerView;
     @BindView(R.id.football_feed_recycler_view)
@@ -80,7 +80,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     TextView footbalFilterSpinnerTextView;
     @BindView(R.id.calenderSpinnerTextView)
     TextView calenderSpinnerTextView;
-
     @BindView(R.id.spinnersRelativeLayout)
     RelativeLayout spinnersRelativeLayout;
     ArrayList<String> horizontalData;
@@ -88,22 +87,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ListView footbalFilterListView;
     @BindView(R.id.calenderListView)
     ListView calenderListView;
-    @BindView(R.id.parentRelativeLayout)
-    RelativeLayout parentRelativeLayout;
+    @BindView(R.id.football_menu)
+    AppCompatImageButton footballMenu;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
     private int PAGE_SIZE;
-
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
-
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     private List<FootballFeed> footballFeeds;
 
@@ -123,7 +119,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getFootballFeed();
         initRecyclerView();
         showOnboardingDialog();
-
     }
 
     private void initRecyclerView() {
@@ -158,16 +153,13 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
         footballFeeds = new ArrayList<>();
-
     }
-
 
     public void getFootballFeed() {
         subscription = restApi.getFootballFeed(nextPageToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
-
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "In onCompleted()");
@@ -178,8 +170,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         Log.d(TAG, "In onCompleted()");
                     }
 
-                    @Override
                     public void onNext(Response<List<FootballFeed>> response) {
+                        GlobalVariable.getInstance().setFootballFeeds(response.body());
                         hideProgress();
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             nextPageToken = response.headers().get(AppConstants.footballFeedsHeaderKey);
@@ -188,7 +180,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         } else {
                             showToast(AppConstants.defaultErrorMessage);
                         }
-
                     }
                 });
     }
@@ -223,8 +214,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     activeTextView.setText(arrayData[i]);
-                    activeListView.setVisibility(View.GONE);
-                    activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 }
             });
         }
@@ -253,9 +242,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     }
 
-
     @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
-            , R.id.liveZoneTextView, R.id.zone_logo})
+            , R.id.liveZoneTextView, R.id.football_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
@@ -274,9 +262,11 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 }*/
                 break;
 
+            case R.id.football_menu:
+                mDrawer.openDrawer(GravityCompat.END);
+                break;
         }
     }
-
 
     public void footballFeedFragment() {
         fragmentContainerFrameLayout.removeAllViews();
@@ -285,11 +275,11 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
-
     }
 
     @Override
     public void onBackPressed() {
+
         if (liveZoneTextView.isSelected()) {
             retainLayout();
         } else {
@@ -308,7 +298,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
     }
-
 
     @Override
     public void addMore() {
@@ -351,7 +340,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     };
 
-
     private void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
     }
@@ -383,10 +371,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
         pinnedFeedsList.add(footballFeeds.get(position));
         preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
+
     }
 
-
 }
-
-
-

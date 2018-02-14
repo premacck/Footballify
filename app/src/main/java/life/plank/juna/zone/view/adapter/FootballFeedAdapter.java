@@ -67,12 +67,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-                Gson gson = new Gson();
-                String jsonString = gson.toJson(footballFeed);
-                footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
-                footballFeedDetails.putExtra("web_url", footballFeed.getUrl());
-                context.startActivity(footballFeedDetails);
+                Intent intent = new Intent(context, FootballFeedDetailActivity.class);
+                intent.putExtra("position",String.valueOf(position));
+                context.startActivity(intent);
             }
         });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);
