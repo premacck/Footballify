@@ -1,20 +1,32 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+
+import java.util.Arrays;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,20 +36,15 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 
-public class FootballFeedDetailActivity extends AppCompatActivity {
+public class FootballFeedDetailActivity extends AppCompatActivity implements View.OnClickListener{
     @BindView(R.id.football_feed_recyclerView)
     RecyclerView footballFeedRecyclerView;
-    @BindView(R.id.image_cancel)
-    ImageView imageCancel;
-    @BindView(R.id.post_comment)
-    Button sendComment;
-    @BindView(R.id.add_comment)
-    EditText addComment;
-    @BindView(R.id.scroll_view)
-    ScrollView scrollView;
+    @BindView(R.id.zone_logo)
+    ImageView zone_logo;
+
+    private SlidingUpPanelLayout mLayout;
 
     FootballFeed footballFeed;
-    private FootballFeedDetailAdapter mAdapter;
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
 
     @Override
@@ -50,25 +57,10 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         populateRecyclerView();
     }
 
-    @OnClick({R.id.image_cancel, R.id.post_comment,R.id.web_link})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.image_cancel:
-                finish();
-                break;
-            case R.id.post_comment:
-                Toast.makeText(FootballFeedDetailActivity.this, "commented", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.web_link:
-                Intent intent = new Intent(this, WebViewActivity.class);
-                intent.putExtra("web_url",getIntent().getStringExtra("web_url"));
-                startActivity(intent);
-                break;
-        }
-    }
+
 
     public void populateRecyclerView() {
-        mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this, footballFeed);
+        FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this, footballFeed);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         footballFeedRecyclerView.setLayoutManager(layoutManager);
         footballFeedRecyclerView.setAdapter(mAdapter);
@@ -78,10 +70,19 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                scrollView.fullScroll(ScrollView.FOCUS_UP);
             }
         });
-
     }
 
+
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.zone_logo:{
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+                break;
+            }
+        }
+    }
 }

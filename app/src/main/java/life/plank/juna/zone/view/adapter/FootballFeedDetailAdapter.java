@@ -3,15 +3,22 @@ package life.plank.juna.zone.view.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,12 +40,18 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.feed_image)
+        /*@BindView(R.id.feed_image)
         ImageView footballFeedImage;
         @BindView(R.id.feed_content)
         TextView footballFeedContent;
         @BindView(R.id.feed_content_details)
-        TextView footballFeedContentDetails;
+        TextView footballFeedContentDetails;*/
+        @BindView(R.id.sliding_layout)
+        SlidingUpPanelLayout mLayout;
+        @BindView(R.id.list)
+        ListView list;
+        @BindView(R.id.bootm_linear_layout)
+        LinearLayout bootmLinearLayout;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
@@ -60,7 +73,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     }
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-        holder.footballFeedContent.setText(footballFeed.getHeadline());
+        //TODO confirm max lines for the bottom content
+       /* holder.footballFeedContent.setText(footballFeed.getHeadline());
         holder.footballFeedContentDetails.setText(footballFeed.getSummary());
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
@@ -69,11 +83,93 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                     .into(holder.footballFeedImage);
         } else {
             holder.footballFeedImage.setImageResource(R.drawable.ic_third_dummy);
-        }
+        }*/
+        setUpSlidingLayout( holder);
     }
 
     @Override
     public int getItemCount() {
-        return 1 ;
+        return 10 ;
     }
+
+    private void setUpSlidingLayout(FootballFeedDetailViewHolder holder){
+        holder.list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+
+        List<String> your_array_list = Arrays.asList(
+                "This",
+                "Is",
+                "An",
+                "Example",
+                "ListView",
+                "That",
+                "You",
+                "Can",
+                "Scroll",
+                ".",
+                "It",
+                "Shows",
+                "How",
+                "Any",
+                "Scrollable",
+                "View",
+                "Can",
+                "Be",
+                "Included",
+                "As",
+                "A",
+                "Child",
+                "Of",
+                "SlidingUpPanelLayout"
+        );
+
+        // This is the array adapter, it takes the context of the activity as a
+        // first parameter, the type of list view as a second parameter and your
+        // array as a third parameter.
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                context,
+                android.R.layout.simple_list_item_1,
+                your_array_list );
+
+        holder.list.setAdapter(arrayAdapter);
+        //holder.mLayout.setPanelHeight(holder.bootmLinearLayout.getHeight());
+        holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                //Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+            }
+
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                //Log.i(TAG, "onPanelStateChanged " + newState);
+            }
+        });
+        holder.mLayout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+
+
+        holder.mLayout.setAnchorPoint(0.7f);
+
+
+
+        holder.mLayout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
+
+
+
+    }
+
 }
