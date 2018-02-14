@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_zone_logo" />
+            android:layout_alignTop="@+id/add_comment"
 
     <include
         android:id="@+id/football_feeds_details_toolbar"

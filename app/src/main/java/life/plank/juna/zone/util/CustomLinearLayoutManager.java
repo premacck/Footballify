@@ -21,7 +21,6 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
 
     @Override
     public boolean canScrollVertically() {
-        //Similarly you can customize "canScrollHorizontally()" for managing horizontal scroll
         return isScrollEnabled && super.canScrollHorizontally();
     }
 

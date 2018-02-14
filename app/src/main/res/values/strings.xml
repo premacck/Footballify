@@ -100,6 +100,7 @@
     <string name="pick_club_label">PICK YOUR CLUB</string>
     <string name="club_image_name">clubImageName</string>
     <string name="azure_base_url">https://junafunctions.azurewebsites.net/</string>
+
     <string-array name="calendar_array">
         <item>Yesterday</item>
         <item>Last Weekend</item>
@@ -126,6 +127,7 @@
     <string name="apply">Apply</string>
     <string name="email">Email</string>
     <string name="country">Country</string>
+
     <string-array name="football_teams">
         <item>Arsenal</item>
         <item>Bournemouth</item>

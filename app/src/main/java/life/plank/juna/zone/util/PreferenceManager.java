@@ -12,6 +12,7 @@ public class PreferenceManager {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
 
+
     public PreferenceManager(Context context) {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("General", Context.MODE_PRIVATE);
@@ -31,5 +32,14 @@ public class PreferenceManager {
     public void removeLoginPreferences() {
         editor.clear();
         editor.commit();
+    }
+
+    public void savePinnedFeeds(String value) {
+        editor.putString(AppConstants.pinnedFeeds, value);
+        editor.commit();
+    }
+
+    public String getPinnedFeeds(String key) {
+        return sharedPreferences.getString(AppConstants.pinnedFeeds, "");
     }
 }

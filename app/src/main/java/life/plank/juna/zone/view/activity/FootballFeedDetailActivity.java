@@ -9,12 +9,9 @@ import android.support.v7.widget.SnapHelper;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.google.gson.Gson;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
@@ -26,7 +23,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
     ImageView zone_logo;
     CustomLinearLayoutManager customLinearLayoutManager;
     LinearLayoutManager linearLayoutManager;
-    FootballFeed footballFeed;
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
 
     @Override
@@ -34,24 +30,22 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
-        Gson gson = new Gson();
-        footballFeed = gson.fromJson(getIntent().getStringExtra("FOOTBALL_FEED"), FootballFeed.class);
         populateRecyclerView();
     }
 
 
     public void populateRecyclerView() {
-        FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this, footballFeed);
+        FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
         linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         customLinearLayoutManager = new CustomLinearLayoutManager(this);
         linearLayoutManager.setAutoMeasureEnabled(true);
         footballFeedRecyclerView.setLayoutManager(linearLayoutManager);
         footballFeedRecyclerView.setAdapter(mAdapter);
+        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra("position"))));
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(footballFeedRecyclerView);
 
     }
-
 
     @Override
     public void onClick(View view) {
@@ -61,7 +55,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
             }
         }
     }
-
     public void setUpRecyclerViewScroll(boolean status) {
         if (status) {
             footballFeedRecyclerView.setLayoutManager(linearLayoutManager);

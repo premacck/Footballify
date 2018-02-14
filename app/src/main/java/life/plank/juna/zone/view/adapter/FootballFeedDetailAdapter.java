@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -23,6 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 /**
@@ -32,8 +34,7 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
 
     private Context context;
-    FootballFeed footballFeed;
-
+    private List<FootballFeed> footballFeedsList  = new ArrayList<>();
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
@@ -59,10 +60,11 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         }
     }
 
-    public FootballFeedDetailAdapter(Context context, FootballFeed footballFeed) {
-        this.footballFeed = footballFeed;
+    public FootballFeedDetailAdapter(Context context) {
+        footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
         this.context = context;
     }
+
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -75,16 +77,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         //TODO confirm max lines for the bottom content
-        holder.titleTextView.setText(footballFeed.getHeadline());
-        // holder.footballFeedContentDetails.setText(footballFeed.getSummary());
-        if (footballFeed.getThumbnail() != null) {
-            Picasso.with(context)
-                    .load(footballFeed.getThumbnail().getImageUrl())
-                    .fit()
-                    .into(holder.feedImageView);
-        } else {
-            holder.feedImageView.setImageResource(R.drawable.ic_third_dummy);
-        }
+        holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
         setUpSlidingLayout(holder);
         holder.expandArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +88,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return 10;
