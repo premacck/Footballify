@@ -6,6 +6,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/football_feed_row_margin"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     card_view:cardBackgroundColor="@android:color/background_dark"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
@@ -146,5 +148,15 @@
                     android:src="@drawable/ic_dropdown" />
             </RelativeLayout>
         </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/pin_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_pin"
+            android:visibility="gone" />
+
     </RelativeLayout>
 </android.support.v7.widget.CardView>
