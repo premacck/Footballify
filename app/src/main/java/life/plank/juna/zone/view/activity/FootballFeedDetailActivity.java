@@ -85,4 +85,8 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
             }
         }
     }
+
+    public void setUpRecyclerViewScroll(boolean status){
+        footballFeedRecyclerView.setNestedScrollingEnabled(status);
+    }
 }

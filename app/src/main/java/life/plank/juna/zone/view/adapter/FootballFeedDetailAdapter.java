@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,6 +26,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 import static android.content.Intent.getIntent;
 
@@ -50,9 +53,11 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         SlidingUpPanelLayout mLayout;
         @BindView(R.id.list)
         ListView list;
-        @BindView(R.id.bootm_linear_layout)
-        LinearLayout bootmLinearLayout;
-
+        @BindView(R.id.dragView)
+        LinearLayout dragView;
+        /*@BindView(R.id.expand_arrow)
+        ImageView expandArrow;
+*/
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -85,6 +90,14 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             holder.footballFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }*/
         setUpSlidingLayout( holder);
+       /* holder.expandArrow.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               *//*holder.mLayout.setAnchorPoint(0.7f);
+               holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+               ((FootballFeedDetailActivity)context).setUpRecyclerViewScroll(false);*//*
+           }
+       });*/
     }
 
     @Override
@@ -136,16 +149,32 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 your_array_list );
 
         holder.list.setAdapter(arrayAdapter);
-        //holder.mLayout.setPanelHeight(holder.bootmLinearLayout.getHeight());
+        holder.mLayout.setPanelHeight(UIDisplayUtil.dpToPx(200,context));
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
-                //Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+                Log.i("panelslide", "onPanelSlide, offset " + slideOffset);
+                /*holder.mLayout.setAnchorPoint(0.7f);
+                holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);*/
             }
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 //Log.i(TAG, "onPanelStateChanged " + newState);
+                switch (newState){
+                    case ANCHORED:{
+                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context,R.color.White));
+                        break;
+                    }
+                    case EXPANDED:{
+                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context,R.color.White));
+                        break;
+                    }
+                    case COLLAPSED:{
+                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context,R.color.transparent_grey));
+                        break;
+                    }
+                }
             }
         });
         holder.mLayout.setFadeOnClickListener(new View.OnClickListener() {
@@ -154,10 +183,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
-
-
-
-        holder.mLayout.setAnchorPoint(0.7f);
 
 
 
