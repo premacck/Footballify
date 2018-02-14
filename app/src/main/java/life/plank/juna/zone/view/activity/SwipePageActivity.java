@@ -150,6 +150,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
 
+
     }
 
 

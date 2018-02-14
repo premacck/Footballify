@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.sothree.slidinguppanel.SlidingUpPanelLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
@@ -9,32 +8,35 @@
     android:gravity="bottom"
     sothree:umanoDragView="@+id/dragView"
     sothree:umanoOverlay="true"
-    sothree:umanoPanelHeight="130dp"
+    sothree:umanoPanelHeight="0dp"
     sothree:umanoParallaxOffset="100dp"
     sothree:umanoScrollableView="@+id/list"
     sothree:umanoShadowHeight="4dp">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:background="@drawable/image0"
-        android:scaleType="centerCrop" />
 
-   <!-- <RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/feed_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/football_image_one"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:id="@+id/bootm_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/transparent_grey"
             android:layout_alignParentBottom="true"
+            android:background="@color/transparent_grey"
             android:orientation="vertical"
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/tag_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="teams"
@@ -43,10 +45,10 @@
                 android:textSize="8sp" />
 
             <TextView
+                android:id="@+id/title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
-                android:textAllCaps="true"
                 android:textColor="@color/White"
                 android:textSize="24sp" />
 
@@ -63,20 +65,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:padding="10dp"
                 android:src="@drawable/ic_down_arrow" />
 
         </LinearLayout>
-    </RelativeLayout>-->
+    </RelativeLayout>
     <!-- SLIDING LAYOUT -->
     <LinearLayout
+        android:id="@+id/dragView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/transparent_grey"
-        android:orientation="vertical"
         android:clickable="true"
         android:focusable="false"
-        android:id="@+id/dragView">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,15 +91,14 @@
                 android:layout_height="wrap_content"
                 android:text="teams"
                 android:textAllCaps="true"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textSize="8sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
-                android:textAllCaps="true"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textSize="24sp" />
 
             <TextView
@@ -105,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
                 android:textAllCaps="true"
-                android:textColor="@color/White"
+                android:textColor="@color/Black"
                 android:textSize="12sp" />
 
             <ImageView
@@ -113,7 +114,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_down_arrow" />
+                android:src="@drawable/ic_down_arrow"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -121,8 +123,7 @@
             android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
-        </ListView>
+            android:layout_weight="1"></ListView>
     </LinearLayout>
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
