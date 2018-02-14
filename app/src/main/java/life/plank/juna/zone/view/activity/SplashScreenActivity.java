@@ -37,9 +37,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         NotificationsManager.handleNotifications(this, NotificationSettings.SenderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Orange));
-        }
+
 
         loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
