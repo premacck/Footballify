@@ -16,7 +16,6 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.interfaces.OnLongClickListner;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;

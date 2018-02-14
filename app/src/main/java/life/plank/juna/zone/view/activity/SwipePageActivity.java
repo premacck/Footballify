@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.os.Handler;
@@ -39,7 +38,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.interfaces.OnLongClickListner;
+import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.PreferenceManager;
@@ -60,7 +59,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListner {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -353,7 +352,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     @Override
-    public void oLongClick(int positon) {
+    public void onLongClick(int positon) {
         savePinnedFeedsToPrefrence(positon);
     }
 

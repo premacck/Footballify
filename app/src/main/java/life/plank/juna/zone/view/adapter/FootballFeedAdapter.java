@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.interfaces.OnLongClickListner;
+import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
@@ -35,7 +34,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int heightsToBeRemoved;
 
     private List<FootballFeed> footballFeedList = new ArrayList<>();
-    private OnLongClickListner onLongClickListner;
+    private OnLongClickListener onLongClickListner;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -93,7 +92,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             @Override
             public boolean onLongClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                onLongClickListner.oLongClick(position);
+                onLongClickListner.onLongClick(position);
                 holder.pinImage.setVisibility(View.VISIBLE);
                 return true;
             }
@@ -135,7 +134,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         }
     }
 
-    public void setOnLongClickListener(OnLongClickListner onLongClickListener) {
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
         this.onLongClickListner = onLongClickListener;
     }
 }
