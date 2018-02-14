@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/parentRelativeLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/ic_feed_bg">
@@ -27,6 +26,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -59,9 +65,8 @@
                     android:layout_toEndOf="@+id/showTextView"
                     android:layout_toRightOf="@+id/showTextView"
                     android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ic_down_arrow"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/ic_down_arrow"
+                    android:drawableEnd="@drawable/ms__menu_down"
+                    android:drawableRight="@drawable/ms__menu_down"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
@@ -78,9 +83,8 @@
                     android:layout_toEndOf="@+id/footbalFilterSpinnerTextView"
                     android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
                     android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ic_down_arrow"
-                    android:drawablePadding="10dp"
-                    android:drawableRight="@drawable/ic_down_arrow"
+                    android:drawableEnd="@drawable/ms__menu_down"
+                    android:drawableRight="@drawable/ms__menu_down"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
@@ -103,6 +107,7 @@
             </RelativeLayout>
 
 
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_recycler_view"
                 android:layout_width="wrap_content"
@@ -121,10 +126,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/swipe_page_banter_zone_height"
                 android:layout_alignParentBottom="true"
-                android:layout_marginEnd="@dimen/swipe_page_banter_zone_margin"
-                android:layout_marginLeft="@dimen/swipe_page_banter_zone_margin"
-                android:layout_marginRight="@dimen/swipe_page_banter_zone_margin"
-                android:layout_marginStart="@dimen/swipe_page_banter_zone_margin"
+                android:layout_margin="@dimen/swipe_page_banter_zone_margin"
                 android:background="@drawable/football_header_orange_gradient">
 
                 <TextView
@@ -181,11 +183,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
 </RelativeLayout>

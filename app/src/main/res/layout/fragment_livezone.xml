@@ -36,7 +36,6 @@
             android:src="@drawable/tw__composer_close" />
     </RelativeLayout>
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -89,8 +88,5 @@
             android:layout_toLeftOf="@+id/person_number"
             android:layout_toStartOf="@+id/person_number"
             android:src="@drawable/ic_person" />
-
     </RelativeLayout>
-
-
 </RelativeLayout>
