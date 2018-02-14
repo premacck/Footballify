@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.PopUpWindowHelper;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
@@ -40,6 +42,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int screenWidth;
     private int heightsToBeRemoved;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
+    private OnLongClickListener onLongClickListner;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -79,6 +82,15 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 //            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
 //        }
 
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+                onLongClickListner.onLongClick(position);
+                holder.pinImage.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
 
         holder.likeImage.post(() -> imageWidth = holder.likeImage.getWidth());
 
@@ -183,6 +195,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         RelativeLayout newsFeedRelativeLayout;
         @BindView(R.id.football_feed_card)
         CardView newsFeedCardView;
+        @BindView(R.id.pin_image)
+        ImageView pinImage;
         @BindView(R.id.like_image)
         ImageView likeImage;
         @BindView(R.id.like_label)
@@ -192,5 +206,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
+        this.onLongClickListner = onLongClickListener;
     }
 }
