@@ -48,88 +48,88 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     }
 
     private void addHardCodedData() {
-        ArrayList<Integer> tileImages = new ArrayList<>();
+        ArrayList<Integer> titleImages = new ArrayList<>();
 
-        tileImages.add(R.drawable.image4);
-        tileImages.add(R.drawable.ic_grid_one);
-        tileImages.add(R.drawable.ic_grid_five);
+        titleImages.add(R.drawable.image4);
+        titleImages.add(R.drawable.ic_grid_one);
+        titleImages.add(R.drawable.ic_grid_five);
 
         scrubberViewDataHolder.put(7, new ScrubberViewData("Goal!! Eden Hazard - 7",
-                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(titleImages)));
 
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image5);
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image5);
         scrubberViewDataHolder.put(12, new ScrubberViewData("Goal! Rudiger - 12",
-                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(titleImages)));
 
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image6);
-        tileImages.add(R.drawable.ic_grid_two);
-        tileImages.add(R.drawable.ic_grid_six);
-        tileImages.add(R.drawable.image2);
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image6);
+        titleImages.add(R.drawable.ic_grid_two);
+        titleImages.add(R.drawable.ic_grid_six);
+        titleImages.add(R.drawable.image2);
         scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
-                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(titleImages)));
 
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.yellow_card);
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.yellow_card);
         scrubberViewDataHolder.put(17, new ScrubberViewData("Yellow card Hazard - 17",
-                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(titleImages)));
 
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.yellow_card);
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.yellow_card);
         scrubberViewDataHolder.put(31, new ScrubberViewData("Yellow card Wilshere - 31",
-                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(titleImages)));
 
 
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image17);
-        tileImages.add(R.drawable.image18);
-        tileImages.add(R.drawable.image19);
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image17);
+        titleImages.add(R.drawable.image18);
+        titleImages.add(R.drawable.image19);
         scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
-                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
 
         scrubberViewDataHolder.put(47, new ScrubberViewData("Half Time",
-                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.ic_grid_five);
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.ic_grid_five);
 
         scrubberViewDataHolder.put(48, new ScrubberViewData("Half Time",
-                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
 
         scrubberViewDataHolder.put(49, new ScrubberViewData("Half Time",
-                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.ic_grid_six);
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.ic_grid_six);
 
         scrubberViewDataHolder.put(50, new ScrubberViewData("Half Time",
-                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.yellow_card);
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.yellow_card);
         scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Victor -62",
-                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.yellow_card2);
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.yellow_card2);
         scrubberViewDataHolder.put(67 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Nacho -66",
-                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image18);
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image18);
         scrubberViewDataHolder.put(30, new ScrubberViewData("Willian - OUT Barkley - IN  -30",
-                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image18);
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image18);
         scrubberViewDataHolder.put(65 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Pedro - OUT Batshuayi - IN - 65",
-                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image18);
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image18);
         scrubberViewDataHolder.put(72 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Moses - OUT Zappacosta - IN - 72",
-                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
-        tileImages = new ArrayList<>();
-        tileImages.add(R.drawable.image18);
-        tileImages.add(R.drawable.meme3);
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(titleImages)));
+        titleImages = new ArrayList<>();
+        titleImages.add(R.drawable.image18);
+        titleImages.add(R.drawable.meme3);
         scrubberViewDataHolder.put(84 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
-                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages)));
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(titleImages)));
 
     }
 

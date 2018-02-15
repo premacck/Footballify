@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +51,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         @BindView(R.id.expand_arrow)
         ImageView expandArrow;
         @BindView(R.id.bootm_linear_layout)
-        LinearLayout bootmLinearLayout;
+        LinearLayout bottomLinearLayout;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
@@ -77,12 +76,11 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         //TODO confirm max lines for the bottom content
-        //holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
         setUpSlidingLayout(holder);
         holder.expandArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.bootmLinearLayout.setVisibility(View.GONE);
+                holder.bottomLinearLayout.setVisibility(View.GONE);
                 holder.mLayout.setAnchorPoint(0.7f);
                 holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
             }
@@ -90,7 +88,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     }
     @Override
     public int getItemCount() {
-        return 10;
+        return footballFeedsList.size();
     }
 
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
@@ -156,7 +154,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                     }
                     case COLLAPSED: {
                         holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent_grey));
-                        holder.bootmLinearLayout.setVisibility(View.VISIBLE);
+                        holder.bottomLinearLayout.setVisibility(View.VISIBLE);
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(true);
                         break;
                     }

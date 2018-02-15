@@ -237,6 +237,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             case R.id.liveZoneTextView:
                 retainLayout();
                 footballFeedFragment();
+                //TODO will be moved to navigation drawer once the drawer part is done
               /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
                     startActivity(new Intent(this, PinboardActivity.class));
                 }*/
