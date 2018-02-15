@@ -22,7 +22,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
     @BindView(R.id.zone_logo)
     ImageView zone_logo;
     CustomLinearLayoutManager customLinearLayoutManager;
-    LinearLayoutManager linearLayoutManager;
+    //LinearLayoutManager linearLayoutManager;
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
 
     @Override
@@ -36,14 +36,17 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
 
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
-        linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        //linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         customLinearLayoutManager = new CustomLinearLayoutManager(this);
-        linearLayoutManager.setAutoMeasureEnabled(true);
-        footballFeedRecyclerView.setLayoutManager(linearLayoutManager);
+        //linearLayoutManager.setAutoMeasureEnabled(true);
+        footballFeedRecyclerView.setLayoutManager(customLinearLayoutManager);
+        customLinearLayoutManager.setScrollEnabled(true);
         footballFeedRecyclerView.setAdapter(mAdapter);
-        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra("position"))));
+        //footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra("position"))));
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(footballFeedRecyclerView);
+
+       // footballFeedRecyclerView.setNestedScrollingEnabled(false);
 
     }
 
@@ -56,10 +59,22 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
         }
     }
     public void setUpRecyclerViewScroll(boolean status) {
-        if (status) {
-            footballFeedRecyclerView.setLayoutManager(linearLayoutManager);
+        customLinearLayoutManager.setScrollEnabled(false);
+      /*  if (status) {
+            customLinearLayoutManager.setScrollEnabled(status);
         } else {
             footballFeedRecyclerView.setLayoutManager(customLinearLayoutManager);
+        }*/
+
+      /*  int position = 4;
+        for (int i=0;i<=position-1;i++){
+            footballFeedRecyclerView.getChildAt(i).setVisibility(View.GONE);
         }
+
+        for (int i=position+1;i<=10;i++){
+            footballFeedRecyclerView.getChildAt(i).setVisibility(View.GONE);
+        }*/
     }
+
+
 }

@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
@@ -234,11 +235,14 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.liveZoneTextView:
-                retainLayout();
-                footballFeedFragment();
+              /*  retainLayout();
+                footballFeedFragment();*/
               /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
                     startActivity(new Intent(this, PinboardActivity.class));
                 }*/
+                Intent intent = new Intent(this, FootballFeedDetailActivity.class);
+               // intent.putExtra("position", String.valueOf(position));
+                startActivity(intent);
                 break;
 
             case R.id.football_menu:

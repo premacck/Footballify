@@ -77,7 +77,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         //TODO confirm max lines for the bottom content
-        holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
+        //holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
         setUpSlidingLayout(holder);
         holder.expandArrow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,8 +169,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
-
     }
-
 
 }

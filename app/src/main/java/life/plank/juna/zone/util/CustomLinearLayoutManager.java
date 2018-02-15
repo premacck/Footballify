@@ -24,4 +24,8 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
         return isScrollEnabled && super.canScrollHorizontally();
     }
 
+    @Override
+    public void setOrientation(int orientation) {
+        super.setOrientation(HORIZONTAL);
+    }
 }
