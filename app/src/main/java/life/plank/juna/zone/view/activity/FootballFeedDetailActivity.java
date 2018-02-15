@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
-import android.view.View;
 import android.widget.ImageView;
 
 import butterknife.BindView;
@@ -16,7 +15,7 @@ import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 
-public class FootballFeedDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class FootballFeedDetailActivity extends AppCompatActivity {
     @BindView(R.id.football_feed_recyclerView)
     RecyclerView footballFeedRecyclerView;
     @BindView(R.id.zone_logo)
@@ -43,14 +42,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
         snapHelper.attachToRecyclerView(footballFeedRecyclerView);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.zone_logo: {
-                break;
-            }
-        }
-    }
 
     public void setUpRecyclerViewScroll(boolean status) {
         customLinearLayoutManager.setScrollEnabled(status);
