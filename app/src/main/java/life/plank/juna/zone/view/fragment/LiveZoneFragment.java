@@ -171,9 +171,9 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
             int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             try {
                 for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getImages().size() - 1; i++) {
-                    int finalI = i;
+                    int tilePosition = i;
                     new Handler(Looper.getMainLooper()).post(() -> adapter.addData(
-                            position + finalI, scrubberViewData.getLiveFeedTileData().getImages().get(finalI))
+                            position + tilePosition, scrubberViewData.getLiveFeedTileData().getImages().get(tilePosition))
                     );
                 }
             } catch (Exception e) {
