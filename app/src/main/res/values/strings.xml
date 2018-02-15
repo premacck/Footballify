@@ -117,6 +117,14 @@
         <item>Standings</item>
     </string-array>
 
+    <string-array name="football_feed_popup_array">
+        <item>PIN POST</item>
+        <item>HIDE POST</item>
+        <item>UNFOLLOW</item>
+        <item>NOTIFICATION/ON</item>
+        <item>SHARE</item>
+
+    </string-array>
     <string name="team_selection_dialog_text">You can personalize your content by selecting upto three teams to follow. Start typing the names below:</string>
     <string name="register_dialog_text">Register with us and save your selection. You can read our Privacy Policy here.</string>
     <string name="you_can_register_with">Or you can also register with:</string>
