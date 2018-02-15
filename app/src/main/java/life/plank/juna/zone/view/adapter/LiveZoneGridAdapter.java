@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.OpenCamera;
 
 /**
  * Created by plank-hasan on 1/27/2018.
@@ -108,6 +110,17 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         public LiveZoneGridViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    Intent in =new Intent(view.getContext(), OpenCamera.class);
+                    view.getContext().startActivity(in);
+
+                }
+            });
+
         }
     }
 
