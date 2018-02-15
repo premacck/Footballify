@@ -13,16 +13,17 @@ import life.plank.juna.zone.data.network.model.ScrubberViewData;
 
 public class ScrubberConstants {
 
-    static final int SCRUBBER_VIEW_PROGRESS = 2;
-    static final int SCRUBBER_VIEW_HALF_TIME = 1;
-    static final int SCRUBBER_VIEW_GOAL = 3;
-    static final int SCRUBBER_VIEW_SUBSTITUTE = 5;
-    static final int SCRUBBER_VIEW_CARDS = 6;
-    static final int SCRUBBER_VIEW_CURSOR = 4;
-    static final int SCRUBBER_PRE_MATCH = 60;
-    static final int SCRUBBER_POST_MATCH = 60;
-    static final int SCRUBBER_VIEW_TOTAL_WINDOW = 105;
-    static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
+    public static final int SCRUBBER_VIEW_PROGRESS = 2;
+    public static final int SCRUBBER_VIEW_HALF_TIME = 1;
+    public static final int SCRUBBER_VIEW_GOAL = 3;
+    public static final int SCRUBBER_VIEW_SUBSTITUTE = 5;
+    public static final int SCRUBBER_VIEW_CARDS = 6;
+    public static final int SCRUBBER_VIEW_CURSOR = 4;
+    public static final int SCRUBBER_PRE_MATCH = 60;
+    public static final int SCRUBBER_POST_MATCH = 60;
+    public static final int SCRUBBER_VIEW_TOTAL_WINDOW = 105;
+    public static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
+    private static String scrubberInProgress = "In Progress";
     private String scrubberHalf = "half";
     private String scrubberNormal = "normal";
     private String scrubberGoal = "goal";
@@ -30,6 +31,10 @@ public class ScrubberConstants {
     private String scrubberSubstitute = "substitute";
     private String scrubberCard = "card";
     private String scrubberPost = "post";
+
+    public static String getScrubberInProgress() {
+        return scrubberInProgress;
+    }
 
     public static int getScrubberViewHalfTimeWindow() {
         return SCRUBBER_VIEW_HALF_TIME_WINDOW;
@@ -294,13 +299,20 @@ public class ScrubberConstants {
 
         tileImages = new ArrayList<>();
         tileImages.add(R.drawable.image5);
+        tileImages.add(R.drawable.image6);
+        tileImages.add(R.drawable.ic_grid_five);
+        tileImages.add(R.drawable.ic_grid_one);
         scrubberViewDataHolder.put(12, new ScrubberViewData("Goal! Rudiger - 12",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
 
         tileImages = new ArrayList<>();
         tileImages.add(R.drawable.image6);
         tileImages.add(R.drawable.ic_grid_two);
-        // tileImages.add(R.drawable.ic_grid_three);
+        tileImages.add(R.drawable.ic_grid_one);
+        tileImages.add(R.drawable.image1);
+        tileImages.add(R.drawable.image4);
+        tileImages.add(R.drawable.ic_grid_three);
+        tileImages.add(R.drawable.ic_grid_four);
         scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
 
@@ -362,8 +374,6 @@ public class ScrubberConstants {
         tileImages.add(R.drawable.meme3);
         scrubberViewDataHolder.put(84 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
-
-
     }
 
     public String getScrubberHalf() {

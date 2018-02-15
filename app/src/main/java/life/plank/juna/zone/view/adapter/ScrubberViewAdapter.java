@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -53,28 +52,42 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public ScrubberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.scrubber_view_progress, parent, false);
+        View v;
 
+        switch (viewType) {
+            case ScrubberConstants.SCRUBBER_VIEW_HALF_TIME:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_half_time, parent, false);
+                break;
 
-        if (viewType == ScrubberConstants.getScrubberViewHalfTime()) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.scrubber_view_half_time, parent, false);
-        } else if (viewType == ScrubberConstants.getScrubberViewGoal()) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.scrubber_view_goal, parent, false);
-        } else if (viewType == 4) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.scrubber_view_pointer, parent, false);
-        } else if (viewType == ScrubberConstants.getScrubberViewCards()) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.scrubber_view_cards, parent, false);
-        } else if (viewType == ScrubberConstants.getScrubberViewSubstitute()) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.scrubber_view_substitions, parent, false);
-        } else if (viewType == ScrubberConstants.getScrubberPostMatch()) {
-            v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.scrubber_view_post_match, parent, false);
+            case ScrubberConstants.SCRUBBER_VIEW_GOAL:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_goal, parent, false);
+                break;
+
+            case ScrubberConstants.SCRUBBER_VIEW_CURSOR:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_pointer, parent, false);
+                break;
+
+            case ScrubberConstants.SCRUBBER_VIEW_CARDS:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_cards, parent, false);
+                break;
+
+            case ScrubberConstants.SCRUBBER_VIEW_SUBSTITUTE:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_substitions, parent, false);
+                break;
+
+            case ScrubberConstants.SCRUBBER_POST_MATCH:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_post_match, parent, false);
+                break;
+
+            default:
+                v = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_progress, parent, false);
         }
         return new ScrubberViewHolder(v);
     }
@@ -105,11 +118,9 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         }
 
         holder.view.setOnClickListener(v -> {
-            //TODO: Remove hardcoded code
             String status;
-
             if (!scrubberViewDataHolder.containsKey(position))
-                status = "inProgress";
+                status = ScrubberConstants.getScrubberInProgress();
             else
                 status = scrubberViewDataHolder.get(position).getMessage();
 
