@@ -57,6 +57,7 @@ dependencies {
     compile viewDependencies.picasso
     compile viewDependencies.nineoldandroids
     compile viewDependencies.recyclerViewAnimator
+    compile viewDependencies.bubbleLayout
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation

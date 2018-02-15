@@ -1,11 +1,14 @@
 package life.plank.juna.zone.view.activity;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.util.Log;
@@ -21,6 +24,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +41,10 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
@@ -54,7 +62,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -77,10 +85,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     @BindView(R.id.spinnersRelativeLayout)
     RelativeLayout spinnersRelativeLayout;
     ArrayList<String> horizontalData;
-    @BindView(R.id.footbalFilterListView)
-    ListView footbalFilterListView;
-    @BindView(R.id.calenderListView)
-    ListView calenderListView;
     @BindView(R.id.football_menu)
     AppCompatImageButton footballMenu;
     @BindView(R.id.progress_bar)
@@ -95,6 +99,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLoading = false;
     private String nextPageToken = "";
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    private List<FootballFeed> footballFeeds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,8 +147,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+        footballFeedAdapter.setOnLongClickListener(this);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
+        footballFeeds = new ArrayList<>();
     }
 
     public void getFootballFeed() {
@@ -175,62 +182,42 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 });
     }
 
-    private void setUpAdapterWithNewData(List<FootballFeed> footballFeeds) {
-        if (!footballFeeds.isEmpty() && footballFeeds.size() > 0) {
+    private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
+        if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
             if ("".contentEquals(nextPageToken) ? (isLastPage = true) : (isLoading = false)) ;
-            footballFeedAdapter.setFootballFeedList(footballFeeds);
-
-            PAGE_SIZE = footballFeeds.size();
+            footballFeedAdapter.setFootballFeedList(footballFeedsList);
+            PAGE_SIZE = footballFeedsList.size();
+            footballFeeds.addAll(footballFeedsList);
         }
     }
 
-    private void showSpinner(TextView activeTextView, ListView activeListView, TextView inActiveTextView, ListView inActiveListView,
-                             String[] arrayData) {
-        resetListView(inActiveListView, inActiveTextView);
-        setListViewWidth(activeTextView);
-        if (activeTextView.isSelected()) {
-            activeListView.setVisibility(View.GONE);
-            activeTextView.setSelected(false);
-            activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-        } else {
-            activeTextView.setSelected(true);
-            activeListView.setVisibility(View.VISIBLE);
-            activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item
-                    , R.id.spinnerDropdownTextView, arrayData);
-            activeListView.setAdapter(adapter);
-            activeListView.bringToFront();
-            activeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    activeTextView.setText(arrayData[i]);
-                }
-            });
-        }
-    }
-
-    private void resetListView(ListView inActiveListView, TextView inActiveTextView) {
-        inActiveListView.setVisibility(View.GONE);
+    private void showSpinner(TextView activeTextView, TextView inActiveTextView, String[] arrayData) {
+        activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
         inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-        inActiveTextView.setSelected(false);
-    }
 
-    private void setListViewWidth(View view) {
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.WRAP_CONTENT,
-                RelativeLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.addRule(RelativeLayout.BELOW, spinnersRelativeLayout.getId());
-        int coords[] = {0, 0};
-        view.getLocationOnScreen(coords);
-        int absoluteLeft = coords[0];
-        params.setMargins(absoluteLeft, -10, 0, 0);
-        if (view.getId() == R.id.footbalFilterSpinnerTextView) {
-            footbalFilterListView.setLayoutParams(params);
-        } else {
-            calenderListView.setLayoutParams(params);
-        }
+        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
+                R.id.spinnerDropdownTextView, arrayData);
+        listPopupWindow.setAdapter(adapter);
+        listPopupWindow.setAnchorView(activeTextView);
+
+        listPopupWindow.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
+        listPopupWindow.setWidth(UIDisplayUtil.dpToPx(150, this));
+
+        listPopupWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent)));
+
+        listPopupWindow.setVerticalOffset(0);
+        listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                activeTextView.setText(arrayData[position]);
+                activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+                listPopupWindow.dismiss();
+
+            }
+        });
+        listPopupWindow.show();
     }
 
     @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
@@ -238,17 +225,21 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
-                showSpinner((TextView) view, footbalFilterListView, calenderSpinnerTextView,
-                        calenderListView, getResources().getStringArray(R.array.football_filter_array));
+                showSpinner((TextView) view,calenderSpinnerTextView,
+                       getResources().getStringArray(R.array.football_filter_array));
                 break;
             case R.id.calenderSpinnerTextView:
-                showSpinner((TextView) view, calenderListView, footbalFilterSpinnerTextView,
-                        footbalFilterListView, getResources().getStringArray(R.array.calendar_array));
+                showSpinner((TextView) view, footbalFilterSpinnerTextView,
+                        getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.liveZoneTextView:
                 retainLayout();
                 footballFeedFragment();
+              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
+                    startActivity(new Intent(this, PinboardActivity.class));
+                }*/
                 break;
+
             case R.id.football_menu:
                 mDrawer.openDrawer(GravityCompat.END);
                 break;
@@ -337,6 +328,27 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onLongClick(int positon) {
+        savePinnedFeedsToPrefrence(positon);
+    }
+
+    private void savePinnedFeedsToPrefrence(int position) {
+        PreferenceManager preferenceManager = new PreferenceManager(this);
+        Gson gson = new Gson();
+        String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.pinnedFeeds);
+        List<FootballFeed> pinnedFeedsList;
+        if ("".contentEquals(pinnedList)) {
+            pinnedFeedsList = new ArrayList<>();
+        } else {
+            pinnedFeedsList = gson.fromJson(pinnedList,
+                    new TypeToken<List<FootballFeed>>() {
+                    }.getType());
+        }
+        pinnedFeedsList.add(footballFeeds.get(position));
+        preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
 
     }
 
