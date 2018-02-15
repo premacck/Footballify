@@ -165,7 +165,8 @@
             android:name=".view.activity.PinboardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
-        <activity android:name=".view.activity.OpenCamera"></activity>
+
+        <activity android:name=".view.activity.OpenCamera" />
     </application>
 
 </manifest>
