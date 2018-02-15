@@ -89,7 +89,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             public void onClick(View view) {
 
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-                intent.putExtra("position", String.valueOf(position));
+                intent.putExtra(String.valueOf(R.string.position), String.valueOf(position));
                 context.startActivity(intent);
             }
         });
@@ -132,7 +132,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             holder.likeImage.getLayoutParams().height = imageWidth;
         }
         holder.likeImage.setOnClickListener((View view) -> displayPopup(position, holder, gridHeight, view));
-        // holder.likeLabelTextView.setOnClickListener(view -> displayPopup(position, holder, gridHeight, view));
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
                     .load(footballFeed.getThumbnail().getImageUrl())
@@ -234,7 +233,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-
     }
 
     public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
@@ -248,7 +246,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.popup_menu_list_view_item, R.id.list_item_text,
                 context.getResources().getStringArray(R.array.football_feed_popup_array));
         listView.setAdapter(adapter);
-
         PopUpWindowHelper<LinearLayout> popUpWindowHelper = new PopUpWindowHelper<>();
         popUpWindowHelper.setView(inflateLinearLayout);
         popUpWindowHelper.setParentView(view);
@@ -256,9 +253,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setPopUpHeight(popupGridHeight);
         int[] locationLIkeView = new int[2];
         footballFeedViewHolder.moreImageView.getLocationInWindow(locationLIkeView);
-
-        // TODO: 2/14/2018 calculate width
-
         popUpWindowHelper.setPopUpLocationX(locationLIkeView[0] - gridWidth + popupImageWidth);
         popUpWindowHelper.setPopUpLocationY(locationLIkeView[1] + popupImageWidth - popupImageHeight);
         popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);

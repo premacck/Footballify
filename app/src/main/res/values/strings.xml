@@ -158,4 +158,6 @@
         <item>West Bromwich Albion</item>
         <item>West Ham United</item>
     </string-array>
+    <string name="position">position</string>
+
 </resources>
