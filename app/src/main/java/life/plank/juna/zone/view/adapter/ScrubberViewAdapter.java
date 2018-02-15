@@ -52,6 +52,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
         tileImages.add(R.drawable.image4);
         tileImages.add(R.drawable.ic_grid_one);
+        tileImages.add(R.drawable.ic_grid_five);
 
         scrubberViewDataHolder.put(7, new ScrubberViewData("Goal!! Eden Hazard - 7",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
@@ -64,7 +65,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         tileImages = new ArrayList<>();
         tileImages.add(R.drawable.image6);
         tileImages.add(R.drawable.ic_grid_two);
-        // tileImages.add(R.drawable.ic_grid_three);
+        tileImages.add(R.drawable.ic_grid_six);
+        tileImages.add(R.drawable.image2);
         scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages)));
 
@@ -81,6 +83,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
         tileImages = new ArrayList<>();
         tileImages.add(R.drawable.image17);
+        tileImages.add(R.drawable.image18);
+        tileImages.add(R.drawable.image19);
         scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages)));
         tileImages = new ArrayList<>();

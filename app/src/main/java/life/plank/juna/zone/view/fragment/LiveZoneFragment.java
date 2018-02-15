@@ -97,7 +97,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
-        scaleXAnimator.setAddDuration(1000);
+        scaleXAnimator.setAddDuration(200);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
     }
 

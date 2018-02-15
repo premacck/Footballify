@@ -20,7 +20,7 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
     }
 
     @Override
-    public boolean canScrollVertically() {
+    public boolean canScrollHorizontally() {
         return isScrollEnabled && super.canScrollHorizontally();
     }
 
