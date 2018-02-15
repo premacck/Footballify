@@ -241,7 +241,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
               /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
                     startActivity(new Intent(this, PinboardActivity.class));
                 }*/
-              startActivity(new Intent(this,FootballFeedDetailActivity.class));
                 break;
 
             case R.id.football_menu:

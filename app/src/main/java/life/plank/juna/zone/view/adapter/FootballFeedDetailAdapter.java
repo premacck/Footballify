@@ -46,7 +46,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         SlidingUpPanelLayout mLayout;
         @BindView(R.id.list)
         ListView list;
-        @BindView(R.id.dragView)
+        @BindView(R.id.drag_view)
         LinearLayout dragView;
         @BindView(R.id.expand_arrow)
         ImageView expandArrow;
