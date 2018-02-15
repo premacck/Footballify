@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
@@ -34,7 +35,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Vie
 
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
-        customLinearLayoutManager = new CustomLinearLayoutManager(this);
+        customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         footballFeedRecyclerView.setLayoutManager(customLinearLayoutManager);
         customLinearLayoutManager.setScrollEnabled(true);
         footballFeedRecyclerView.setAdapter(mAdapter);

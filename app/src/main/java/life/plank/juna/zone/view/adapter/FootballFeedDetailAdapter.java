@@ -50,7 +50,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         LinearLayout dragView;
         @BindView(R.id.expand_arrow)
         ImageView expandArrow;
-        @BindView(R.id.bootm_linear_layout)
+        @BindView(R.id.bottom_linear_layout)
         LinearLayout bottomLinearLayout;
 
         public FootballFeedDetailViewHolder(View itemView) {
@@ -88,7 +88,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     }
     @Override
     public int getItemCount() {
-        return footballFeedsList.size();
+        return 10;
     }
 
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
