@@ -127,6 +127,16 @@
     <string name="apply">Apply</string>
     <string name="email">Email</string>
     <string name="country">Country</string>
+    <string name="savedmessage">Image Saved to Gallery</string>
+    <string name="image_name">IMG_</string>
+    <string name="extention">.jpg</string>
+    <string name="setimagetype">image/*</string>
+    <string name="Child_parameter">Pictures</string>
+    <string name="date_format">yyyyMMdd_HHmmss</string>
+    <string name="Button_gallery" >Open Gallery  !</string>
+    <string name="Button_camera" >Take a picture!</string>
+
+
 
     <string-array name="football_teams">
         <item>Arsenal</item>
@@ -149,5 +159,6 @@
         <item>Watford</item>
         <item>West Bromwich Albion</item>
         <item>West Ham United</item>
+
     </string-array>
 </resources>

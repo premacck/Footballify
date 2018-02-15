@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -23,19 +24,19 @@ import life.plank.juna.zone.R;
 public class OpenCamera extends AppCompatActivity implements View.OnClickListener {
     Button takepicture, gallery_Button;
     Uri file;
-    
-    private static File getOutputMediaFile() {
+    static Context context;
+    public static File getOutputMediaFile() {
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "Pictures");
+                Environment.DIRECTORY_DCIM),context.getString(R.string.Child_parameter) );
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 return null;
             }
         }
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat(context.getString(R.string.date_format)).format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
-                "IMG_" + timeStamp + ".jpg");
+                context.getString(R.string.image_name) + timeStamp +context.getString (R.string.extention));
     }
 
     @Override
@@ -52,7 +53,7 @@ public class OpenCamera extends AppCompatActivity implements View.OnClickListene
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
 
-
+      context=this;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class OpenCamera extends AppCompatActivity implements View.OnClickListene
             Intent intent = new Intent(Intent.ACTION_PICK,
                     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.setAction(android.content.Intent.ACTION_VIEW);
-            intent.setType("image/*");
+            intent.setType(getString(R.string.setimagetype));
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
 
@@ -93,7 +94,7 @@ public class OpenCamera extends AppCompatActivity implements View.OnClickListene
             if (resultCode == RESULT_OK) {
 
 
-                Toast.makeText(this, "Image Saved to Gallery", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.savedmessage, Toast.LENGTH_SHORT).show();
             }
         }
     }

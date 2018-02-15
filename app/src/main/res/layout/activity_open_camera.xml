@@ -15,7 +15,7 @@
         android:layout_height="48dp"
         android:layout_margin="50dp"
         android:layout_gravity="center"
-        android:text="Take a picture!" />
+        android:text="@string/Button_camera" />
 
 
     <Button
@@ -23,6 +23,6 @@
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:text="Open Gallery  !" />
+        android:text="@string/Button_gallery" />
 
 </LinearLayout>
