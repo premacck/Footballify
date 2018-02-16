@@ -116,9 +116,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
         @OnClick(R.id.card_content)
         public void onViewClicked(View view) {
-            Intent cameraOpen = new Intent(view.getContext(), OpenCamera.class);
-            view.getContext().startActivity(cameraOpen);
-
+            view.getContext().startActivity(new Intent(view.getContext(), OpenCamera.class));
         }
     }
 }
