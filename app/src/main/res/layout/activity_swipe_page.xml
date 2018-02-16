@@ -55,7 +55,7 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/footbal_filter_spinner_textView"
+                    android:id="@+id/football_filter_spinner_textView"
                     style="@style/livezonetextstyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -80,8 +80,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@+id/footbal_filter_spinner_textView"
-                    android:layout_toRightOf="@+id/footbal_filter_spinner_textView"
+                    android:layout_toEndOf="@+id/football_filter_spinner_textView"
+                    android:layout_toRightOf="@+id/football_filter_spinner_textView"
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"

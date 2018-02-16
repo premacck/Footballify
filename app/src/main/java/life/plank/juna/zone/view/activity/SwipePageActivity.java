@@ -77,8 +77,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
-    @BindView(R.id.footbal_filter_spinner_textView)
-    TextView footbalFilterSpinnerTextView;
+    @BindView(R.id.football_filter_spinner_textView)
+    TextView footballFilterSpinnerTextView;
     @BindView(R.id.calendar_spinner_textView)
     TextView calendarSpinnerTextView;
     @BindView(R.id.spinners_relative_layout)
@@ -220,16 +220,16 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         listPopupWindow.show();
     }
 
-    @OnClick({R.id.footbal_filter_spinner_textView, R.id.calendar_spinner_textView
+    @OnClick({R.id.football_filter_spinner_textView, R.id.calendar_spinner_textView
             , R.id.live_zone_text_view, R.id.football_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.footbal_filter_spinner_textView:
+            case R.id.football_filter_spinner_textView:
                 showSpinner((TextView) view, calendarSpinnerTextView,
                         getResources().getStringArray(R.array.football_filter_array));
                 break;
             case R.id.calendar_spinner_textView:
-                showSpinner((TextView) view, footbalFilterSpinnerTextView,
+                showSpinner((TextView) view, footballFilterSpinnerTextView,
                         getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.live_zone_text_view:
