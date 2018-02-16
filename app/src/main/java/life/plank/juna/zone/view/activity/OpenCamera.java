@@ -98,12 +98,8 @@ public class OpenCamera extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
-
-
                 Toast.makeText(this, R.string.saved_message, Toast.LENGTH_SHORT).show();
             }
         }
     }
-
-
 }

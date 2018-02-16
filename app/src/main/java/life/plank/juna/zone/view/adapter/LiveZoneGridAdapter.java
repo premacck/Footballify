@@ -121,6 +121,4 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
         }
     }
-
-
 }
