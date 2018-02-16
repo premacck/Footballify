@@ -75,8 +75,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         getHeightDetails();
         setUpGridView();
         setUpSlider();
-        //setUpAnimation();
-        //setUpBounceAnimation();
         return view;
     }
 

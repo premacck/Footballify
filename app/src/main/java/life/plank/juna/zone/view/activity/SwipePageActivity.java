@@ -1,11 +1,10 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -204,7 +202,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         listPopupWindow.setAnchorView(activeTextView);
 
         listPopupWindow.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-        listPopupWindow.setWidth(UIDisplayUtil.dpToPx(150, this));
+        listPopupWindow.setWidth(UIDisplayUtil.dpToPx(AppConstants.spinnerDialogWidth, this));
 
         listPopupWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent)));
 
@@ -227,8 +225,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.footbalFilterSpinnerTextView:
-                showSpinner((TextView) view,calenderSpinnerTextView,
-                       getResources().getStringArray(R.array.football_filter_array));
+                showSpinner((TextView) view, calenderSpinnerTextView,
+                        getResources().getStringArray(R.array.football_filter_array));
                 break;
             case R.id.calenderSpinnerTextView:
                 showSpinner((TextView) view, footbalFilterSpinnerTextView,
@@ -315,7 +313,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                             showProgress();
                             getFootballFeed();
                         }
-                    }, 1000);
+                    }, AppConstants.paginationDelay);
                 }
             }
         }

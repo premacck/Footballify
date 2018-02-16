@@ -9,4 +9,6 @@ public class AppConstants {
     public static final String defaultErrorMessage = "Something went wrong, Please try again later!";
     public static final String pinnedFeeds = "pinnedfeeds";
     public static  int delay = 200;
+    public static  int paginationDelay = 1000;
+    public static  int spinnerDialogWidth = 150;
 }

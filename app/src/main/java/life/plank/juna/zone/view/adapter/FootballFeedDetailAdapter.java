@@ -33,7 +33,7 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
 
     private Context context;
-    private List<FootballFeed> footballFeedsList  = new ArrayList<>();
+    private List<FootballFeed> footballFeedsList = new ArrayList<>();
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
@@ -44,8 +44,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         TextView titleTextView;
         @BindView(R.id.sliding_layout)
         SlidingUpPanelLayout mLayout;
-        @BindView(R.id.list)
-        ListView list;
+        @BindView(R.id.dummy_list)
+        ListView dummyList;
         @BindView(R.id.drag_view)
         LinearLayout dragView;
         @BindView(R.id.expand_arrow)
@@ -86,15 +86,16 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             }
         });
     }
+
     @Override
     public int getItemCount() {
-        return 10;
+        return footballFeedsList.size();
     }
 
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
         //TODO listview will be replaced with recyclerview after getting actual data
         //TODO dummy content will also be replaced
-        holder.list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        holder.dummyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -133,7 +134,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 android.R.layout.simple_list_item_1,
                 your_array_list);
         holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-        holder.list.setAdapter(arrayAdapter);
+        holder.dummyList.setAdapter(arrayAdapter);
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
