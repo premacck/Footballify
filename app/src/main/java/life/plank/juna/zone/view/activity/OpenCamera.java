@@ -13,7 +13,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -27,27 +26,24 @@ import life.plank.juna.zone.R;
 
 public class OpenCamera extends AppCompatActivity {
 
+    static Context context;
     @BindView(R.id.button_image)
     Button takepicture;
-
     @BindView(R.id.gallery_Button)
     Button gallery_Button;
-
-
     Uri file;
-    static Context context;
+
     public static File getOutputMediaFile() {
 
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM),context.getString(R.string.Child_parameter) );
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs())
-             {
-                return null;
-            }
+                Environment.DIRECTORY_DCIM), context.getString(R.string.child_parameter));
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+            return null;
+        }
 
         String timeStamp = new SimpleDateFormat(context.getString(R.string.date_format)).format(new Date());
         return new File(mediaStorageDir.getPath() + File.separator +
-                context.getString(R.string.image_name) + timeStamp +context.getString (R.string.extention));
+                context.getString(R.string.image_name) + timeStamp + context.getString(R.string.extention));
     }
 
     @Override
@@ -55,14 +51,11 @@ public class OpenCamera extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_camera);
         ButterKnife.bind(this);
-      
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             takepicture.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
-
-      context=this;
+        context = this;
     }
 
     @Override
@@ -83,11 +76,8 @@ public class OpenCamera extends AppCompatActivity {
     }
 
 
-
-
     @OnClick({R.id.button_image, R.id.gallery_Button})
     public void onViewClicked(View view) {
-
         switch (view.getId()) {
             case R.id.button_image:
                 takePicture(view);
@@ -96,16 +86,12 @@ public class OpenCamera extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setAction(android.content.Intent.ACTION_VIEW);
-                intent.setType(getString(R.string.setimagetype));
+                intent.setType(getString(R.string.set_image_type));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 break;
         }
-
-
     }
-
-
 
 
     @Override
@@ -114,7 +100,7 @@ public class OpenCamera extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
 
-                Toast.makeText(this, R.string.savedmessage, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.saved_message, Toast.LENGTH_SHORT).show();
             }
         }
     }

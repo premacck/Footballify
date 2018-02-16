@@ -7,22 +7,17 @@
     android:orientation="vertical"
     android:background="@color/White"
     tools:context="life.plank.juna.zone.view.activity.OpenCamera">
-
-
     <Button
         android:id="@+id/button_image"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_margin="50dp"
         android:layout_gravity="center"
-        android:text="@string/Button_camera" />
-
-
+        android:text="@string/button_camera" />
     <Button
         android:id="@+id/gallery_Button"
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_gravity="center"
-        android:text="@string/Button_gallery" />
-
+        android:text="@string/button_gallery" />
 </LinearLayout>
