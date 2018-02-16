@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.util;
 
 /**
  * Created by plank-dhamini on 15/02/18.
@@ -25,7 +25,7 @@ import life.plank.juna.zone.R;
 /**
  * An abstraction of identity providers, containing all necessary info.
  */
-class IdentityProvider {
+public class IdentityProvider {
 
     /**
      * Value used to indicate that a configured property is not specified or required.

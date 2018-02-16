@@ -64,6 +64,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.domain.service.AuthenticationService;
 import life.plank.juna.zone.util.AuthenticationListener;
+import life.plank.juna.zone.util.IdentityProvider;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.viewmodel.SocialLoginViewModel;
 import retrofit2.Retrofit;
@@ -253,10 +254,8 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
             case R.id.register_icon: {
 
                 mAuthService = new AuthorizationService(this);
-
                 List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
-
-
+                
                 for (final IdentityProvider idp : providers) {
                     final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
                             (serviceConfiguration, ex) -> {
@@ -273,9 +272,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                                     }
                                 }
                             };
-
                     idp.retrieveConfig(this, retrieveCallback);
-
                 }
             }
         }
@@ -285,7 +282,6 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
             @NonNull AuthorizationServiceConfiguration serviceConfig,
             @NonNull IdentityProvider idp,
             @NonNull AuthState authState) {
-
 
         AuthorizationRequest authRequest = new AuthorizationRequest.Builder(
                 serviceConfig,
