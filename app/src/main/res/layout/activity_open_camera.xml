@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/White"
     android:orientation="vertical"
-    tools:context="life.plank.juna.zone.view.activity.OpenCamera">
+    tools:context="life.plank.juna.zone.view.activity.CameraActivity">
 
     <Button
         android:id="@+id/camera_button"

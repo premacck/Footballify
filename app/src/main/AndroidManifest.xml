@@ -166,7 +166,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
 
-        <activity android:name=".view.activity.OpenCamera" />
+        <activity android:name=".view.activity.CameraActivity" />
     </application>
 
 </manifest>

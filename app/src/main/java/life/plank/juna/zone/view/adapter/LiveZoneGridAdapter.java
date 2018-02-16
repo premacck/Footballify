@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.activity.OpenCamera;
+import life.plank.juna.zone.view.activity.CameraActivity;
 
 /**
  * Created by plank-hasan on 1/27/2018.
@@ -116,7 +116,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
         @OnClick(R.id.card_content)
         public void onViewClicked(View view) {
-            view.getContext().startActivity(new Intent(view.getContext(), OpenCamera.class));
+            view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
         }
     }
 }

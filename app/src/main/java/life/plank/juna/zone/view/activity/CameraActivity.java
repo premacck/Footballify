@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 
-public class OpenCamera extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity {
 
     static Context context;
     @BindView(R.id.camera_button)
