@@ -8,4 +8,5 @@ public class AppConstants {
     public static final String footballFeedsHeaderKey = "newsfeed-continuation-token";
     public static final String defaultErrorMessage = "Something went wrong, Please try again later!";
     public static final String pinnedFeeds = "pinnedfeeds";
+    public static  int delay = 200;
 }

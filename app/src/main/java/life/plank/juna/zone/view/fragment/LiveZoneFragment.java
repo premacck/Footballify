@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ScrubberEvent;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
@@ -53,7 +54,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     int liveZoneGridViewHeight;
     ScrubberEvent scrubberEvent;
     private Unbinder unbinder;
-    private int delay = 1000;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
-        scaleXAnimator.setAddDuration(200);
+        scaleXAnimator.setAddDuration(AppConstants.delay);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
     }
 
@@ -155,6 +156,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         }
     }
 
+    //TODO this is needed in future, will be removed later
     /* private void setUpAnimation() {
          Handler handler = new Handler();
          ArrayList<LiveZoneGridModel> liveZoneGridModels = new ArrayList<>();
@@ -182,9 +184,9 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
             public void run() {
                 Animation animation = AnimationUtils.loadAnimation(getActivity(), R.anim.bounce);
                 liveZoneGridViewRecyclerView.getChildAt(new Random().nextInt(20)).startAnimation(animation);
-                handler.postDelayed(this, delay);
+                handler.postDelayed(this, AppConstants.delay);
             }
-        }, delay);
+        }, AppConstants.delay);
 
     }
 
