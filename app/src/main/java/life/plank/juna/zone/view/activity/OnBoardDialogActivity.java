@@ -4,14 +4,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -47,8 +45,19 @@ import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationException;
+import net.openid.appauth.AuthorizationRequest;
+import net.openid.appauth.AuthorizationService;
+import net.openid.appauth.AuthorizationServiceConfiguration;
+import net.openid.appauth.ClientSecretBasic;
+import net.openid.appauth.RegistrationRequest;
+import net.openid.appauth.RegistrationResponse;
+import net.openid.appauth.ResponseTypeValues;
+
 import java.net.HttpURLConnection;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -102,12 +111,13 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     @Inject
     @Named("instagram")
     Retrofit instagramRetrofit;
+
     private static int RC_SIGN_IN = 100;
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
     public DrawerLayout mDrawer;
     private TextView textDrawerMenu;
-
+    private AuthorizationService mAuthService;
     @Override
     public void setContentView(int layoutResID) {
         mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
@@ -145,7 +155,6 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
     }
 
-
     private void setUpViews() {
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         applyButton = dialog.findViewById(R.id.apply_button);
@@ -158,12 +167,14 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         teamThreeEditText = dialog.findViewById(R.id.team_three_edit_text);
         twitterIcon = dialog.findViewById(R.id.twitter_icon);
         facebookIcon = dialog.findViewById(R.id.facebook_icon);
+        registerIcon = dialog.findViewById(R.id.register_icon);
         spinner = dialog.findViewById(R.id.social_signup_spinner);
         parentLinearLayout = dialog.findViewById(R.id.parent_linear_layout);
         applyButton.setOnClickListener(this);
         closeDialogImage.setOnClickListener(this);
         twitterIcon.setOnClickListener(this);
         facebookIcon.setOnClickListener(this);
+        registerIcon.setOnClickListener(this);
     }
 
     private void setAutoCompleteData() {
@@ -178,6 +189,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
+
         switch (view.getId()) {
             case R.id.apply_button: {
                 setUpRegisterAndSaveView();
@@ -241,7 +253,134 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 });
                 break;
             }
+            case R.id.register_icon: {
+
+                mAuthService = new AuthorizationService(this);
+
+                List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
+
+
+                for (final IdentityProvider idp : providers) {
+                    final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
+                            new AuthorizationServiceConfiguration.RetrieveConfigurationCallback() {
+
+                                @Override
+                                public void onFetchConfigurationCompleted(
+                                        @Nullable AuthorizationServiceConfiguration serviceConfiguration,
+                                        @Nullable AuthorizationException ex) {
+                                    if (ex != null) {
+                                        Log.w(TAG, "Failed to retrieve configuration for " + idp.name, ex);
+                                    } else {
+                                        Log.d(TAG, "configuration retrieved for " + idp.name
+                                                + ", proceeding");
+                                        if (idp.getClientId() == null) {
+                                            // Do dynamic client registration if no client_id
+                                            makeRegistrationRequest(serviceConfiguration, idp);
+                                        } else {
+                                            makeAuthRequest(serviceConfiguration, idp, new AuthState());
+                                        }
+                                    }
+                                }
+                            };
+
+                    idp.retrieveConfig(this, retrieveCallback);
+
+//            TextView label = new TextView(this);
+//            label.setText(idp.name);
+//            label.setTextColor(getColorCompat(idp.buttonTextColorRes));
+//            label.setLayoutParams(new FrameLayout.LayoutParams(
+//                    FrameLayout.LayoutParams.WRAP_CONTENT,
+//                    FrameLayout.LayoutParams.WRAP_CONTENT,
+//                    Gravity.CENTER));
+
+                }
+            }
         }
+    }
+    private void makeAuthRequest(
+            @NonNull AuthorizationServiceConfiguration serviceConfig,
+            @NonNull IdentityProvider idp,
+            @NonNull AuthState authState) {
+
+
+        AuthorizationRequest authRequest = new AuthorizationRequest.Builder(
+                serviceConfig,
+                idp.getClientId(),
+                ResponseTypeValues.CODE,
+                idp.getRedirectUri())
+                .setScope(idp.getScope())
+                .setLoginHint("Email Id")
+                .build();
+
+        Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
+        mAuthService.performAuthorizationRequest(
+                authRequest,
+                TokenActivity.createPostAuthorizationIntent(
+                        this,
+                        authRequest,
+                        serviceConfig.discoveryDoc,
+                        authState),
+                mAuthService.createCustomTabsIntentBuilder()
+                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
+                        .build());
+    }
+
+//    private void makeAuthRequest(
+//            @NonNull AuthorizationServiceConfiguration serviceConfig,
+//            @NonNull IdentityProvider idp,
+//            @NonNull AuthState authState) {
+//
+//
+//        AuthorizationRequest authRequest = new AuthorizationRequest.Builder(
+//                serviceConfig,
+//                idp.getClientId(),
+//                ResponseTypeValues.CODE,
+//                idp.getRedirectUri())
+//                .setScope(idp.getScope())
+//                .setLoginHint("Email Id")
+//                .build();
+//
+//        Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
+//        mAuthService.performAuthorizationRequest(
+//                authRequest,
+//                TokenActivity.createPostAuthorizationIntent(
+//                        this,
+//                        authRequest,
+//                        serviceConfig.discoveryDoc,
+//                        authState),
+//                mAuthService.createCustomTabsIntentBuilder()
+//                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
+//                        .build());
+//    }
+
+    private void makeRegistrationRequest(
+            @NonNull AuthorizationServiceConfiguration serviceConfig,
+            @NonNull final IdentityProvider idp) {
+
+        final RegistrationRequest registrationRequest = new RegistrationRequest.Builder(
+                serviceConfig,
+                Arrays.asList(idp.getRedirectUri()))
+                .setTokenEndpointAuthenticationMethod(ClientSecretBasic.NAME)
+                .build();
+
+        Log.d(TAG, "Making registration request to " + serviceConfig.registrationEndpoint);
+        mAuthService.performRegistrationRequest(
+                registrationRequest,
+                new AuthorizationService.RegistrationResponseCallback() {
+                    @Override
+                    public void onRegistrationRequestCompleted(
+                            @Nullable RegistrationResponse registrationResponse,
+                            @Nullable AuthorizationException ex) {
+                        Log.d(TAG, "Registration request complete");
+                        if (registrationResponse != null) {
+                            idp.setClientId(registrationResponse.clientId);
+                            Log.d(TAG, "Registration request complete successfully");
+                            // Continue with the authentication
+                            makeAuthRequest(registrationResponse.request.configuration, idp,
+                                    new AuthState((registrationResponse)));
+                        }
+                    }
+                });
     }
 
     private void registerUser(String userName, String displayName, String provider) {

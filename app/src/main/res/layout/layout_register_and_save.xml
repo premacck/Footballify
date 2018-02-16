@@ -100,12 +100,11 @@
 
     <ImageView
         android:id="@+id/register_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/other_registrations_text_view"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ic_register" />
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_register"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/other_registrations_text_view"/>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/social_signup_spinner"
