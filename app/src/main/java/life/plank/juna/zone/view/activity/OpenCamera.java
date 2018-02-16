@@ -27,10 +27,10 @@ import life.plank.juna.zone.R;
 public class OpenCamera extends AppCompatActivity {
 
     static Context context;
-    @BindView(R.id.button_image)
-    Button takepicture;
-    @BindView(R.id.gallery_Button)
-    Button gallery_Button;
+    @BindView(R.id.camera_button)
+    Button cameraButton;
+    @BindView(R.id.gallery_button)
+    Button galleryButton;
     Uri file;
 
     public static File getOutputMediaFile() {
@@ -52,7 +52,8 @@ public class OpenCamera extends AppCompatActivity {
         setContentView(R.layout.activity_open_camera);
         ButterKnife.bind(this);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            takepicture.setEnabled(false);
+            cameraButton.setEnabled(false);
+            galleryButton.setEnabled(false);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
         context = this;
@@ -63,7 +64,8 @@ public class OpenCamera extends AppCompatActivity {
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                     && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                takepicture.setEnabled(true);
+                cameraButton.setEnabled(true);
+                galleryButton.setEnabled(true);
             }
         }
     }
@@ -75,14 +77,13 @@ public class OpenCamera extends AppCompatActivity {
         startActivityForResult(intent, 100);
     }
 
-
-    @OnClick({R.id.button_image, R.id.gallery_Button})
+    @OnClick({R.id.camera_button, R.id.gallery_button})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.button_image:
+            case R.id.camera_button:
                 takePicture(view);
                 break;
-            case R.id.gallery_Button:
+            case R.id.gallery_button:
                 Intent intent = new Intent(Intent.ACTION_PICK,
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 intent.setAction(android.content.Intent.ACTION_VIEW);
@@ -92,7 +93,6 @@ public class OpenCamera extends AppCompatActivity {
                 break;
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

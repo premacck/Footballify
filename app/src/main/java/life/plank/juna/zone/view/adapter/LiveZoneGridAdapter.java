@@ -16,6 +16,7 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -111,15 +112,12 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
             super(view);
             ButterKnife.bind(this, view);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        }
 
-                    Intent  camera_open =new Intent(view.getContext(), OpenCamera.class);
-                    view.getContext().startActivity(camera_open);
-
-                }
-            });
+        @OnClick(R.id.card_content)
+        public void onViewClicked(View view) {
+            Intent cameraOpen = new Intent(view.getContext(), OpenCamera.class);
+            view.getContext().startActivity(cameraOpen);
 
         }
     }
