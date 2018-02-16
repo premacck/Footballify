@@ -127,6 +127,8 @@
     <string name="apply">Apply</string>
     <string name="email">Email</string>
     <string name="country">Country</string>
+    <string name="back">Back</string>
+    <string name="tottenham_angels">Tottenham Angels</string>
 
     <string-array name="football_teams">
         <item>Arsenal</item>
@@ -150,4 +152,5 @@
         <item>West Bromwich Albion</item>
         <item>West Ham United</item>
     </string-array>
+    <string name="lorem_ipsum_text"> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</string>
 </resources>
