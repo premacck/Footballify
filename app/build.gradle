@@ -31,7 +31,7 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         playAccountConfig = playAccountConfigs.defaultAccountConfig
         manifestPlaceholders = [
-                'appAuthRedirectScheme': 'com.onmicrosoft.fabrikamb2c.exampleapp'
+                'appAuthRedirectScheme': 'life.plank.juna.zone'
         ]
     }
     buildTypes {

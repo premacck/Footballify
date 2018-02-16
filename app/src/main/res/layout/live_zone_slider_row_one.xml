@@ -20,7 +20,7 @@
             android:textSize="12sp"
             android:text="Brighton &amp; hove albiono"
             android:textAllCaps="true"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/visitingTeamTextView"
@@ -30,7 +30,7 @@
             android:text="Chelsea"
             android:textSize="12sp"
             android:textAllCaps="true"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:layout_width="20dp"
@@ -39,11 +39,11 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/homeTeamTextView"
             android:layout_toRightOf="@+id/homeTeamTextView"
-            android:background="@color/Red"
+            android:background="@color/red"
             android:gravity="center"
             android:text="0"
             android:textAllCaps="true"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/score_text"
@@ -54,11 +54,11 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/visitingTeamTextView"
             android:layout_toRightOf="@+id/visitingTeamTextView"
-            android:background="@color/Red"
+            android:background="@color/red"
             android:gravity="center"
             android:text="3"
             android:textAllCaps="true"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <View
             android:id="@+id/view"

@@ -4,7 +4,7 @@
     android:id="@+id/login_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Orange"
+    android:background="@color/orange"
     android:orientation="vertical">
 
     <ImageView
@@ -33,7 +33,7 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="50dp"
-                android:textColorHint="@color/White">
+                android:textColorHint="@color/white">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/input_user_name"
@@ -44,7 +44,7 @@
                     android:drawableStart="@drawable/ic_username"
                     android:hint="@string/user_name"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/White"
+                    android:textColor="@color/white"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable" />
 
             </android.support.design.widget.TextInputLayout>
@@ -57,9 +57,9 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:paddingTop="20dp"
-                android:textColorHint="@color/White"
+                android:textColorHint="@color/white"
                 app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/White">
+                app:passwordToggleTint="@color/white">
 
                 <android.support.v7.widget.AppCompatEditText
                     android:id="@+id/input_password"
@@ -70,7 +70,7 @@
                     android:drawableStart="@drawable/ic_password"
                     android:hint="@string/password"
                     android:inputType="textPassword"
-                    android:textColor="@color/White"
+                    android:textColor="@color/white"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable" />
 
             </android.support.design.widget.TextInputLayout>
@@ -89,7 +89,7 @@
                 android:paddingRight="30dp"
                 android:paddingStart="5dp"
                 android:text="@string/remember_me"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="18sp" />
 
 
@@ -101,14 +101,14 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:alpha="0.5"
-                android:background="@color/Green"
+                android:background="@color/green"
                 android:enabled="false"
                 android:gravity="center"
                 android:padding="10dp"
                 app:buttonText="@string/sign_in"
-                app:buttonTextColor="@color/White"
+                app:buttonTextColor="@color/white"
                 app:buttonTextSize="20sp"
-                app:progressColor="@color/White"
+                app:progressColor="@color/white"
                 app:progressWidth="2dp" />
 
             <TextView
@@ -119,7 +119,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="@string/sign_up_here"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
         </RelativeLayout>
     </ScrollView>

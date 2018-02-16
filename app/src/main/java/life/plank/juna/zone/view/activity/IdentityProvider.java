@@ -23,7 +23,7 @@ import java.util.List;
 import life.plank.juna.zone.R;
 
 /**
- * An abstraction of identity providers, containing all necessary info for the demo app.
+ * An abstraction of identity providers, containing all necessary info.
  */
 class IdentityProvider {
 
@@ -168,16 +168,16 @@ class IdentityProvider {
         mEnabled = res.getBoolean(mEnabledRes);
 
         mDiscoveryEndpoint = isSpecified(mDiscoveryEndpointRes)
-                ? getUriResource(res, mDiscoveryEndpointRes, "discoveryEndpointRes")
+                ? getUriResource(res, mDiscoveryEndpointRes, context.getString(R.string.discovery_endpoint_value_name))
                 : null;
         mAuthEndpoint = isSpecified(mAuthEndpointRes)
-                ? getUriResource(res, mAuthEndpointRes, "authEndpointRes")
+                ? getUriResource(res, mAuthEndpointRes, context.getString(R.string.auth_end_point_value_name))
                 : null;
         mTokenEndpoint = isSpecified(mTokenEndpointRes)
-                ? getUriResource(res, mTokenEndpointRes, "tokenEndpointRes")
+                ? getUriResource(res, mTokenEndpointRes, context.getString(R.string.token_end_point_value_name))
                 : null;
         mRegistrationEndpoint = isSpecified(mRegistrationEndpointRes)
-                ? getUriResource(res, mRegistrationEndpointRes, "registrationEndpointRes")
+                ? getUriResource(res, mRegistrationEndpointRes, context.getString(R.string.registration_end_point_value_name))
                 : null;
         mTenant = isSpecified(mTenantRes)
                 ? res.getString(mTenantRes)
@@ -185,7 +185,7 @@ class IdentityProvider {
         mClientId = isSpecified(mClientIdRes)
                 ? res.getString(mClientIdRes)
                 : null;
-        mRedirectUri = getUriResource(res, mRedirectUriRes, "mRedirectUriRes");
+        mRedirectUri = getUriResource(res, mRedirectUriRes, context.getString(R.string.redirect_value_name));
         mPolicy = isSpecified(mPolicyRes)
                 ? res.getString(mPolicyRes)
                 : null;
@@ -209,24 +209,11 @@ class IdentityProvider {
     public Uri getDiscoveryEndpoint() {
         checkConfigurationRead();
         if (mDiscoveryEndpoint != null && !mDiscoveryUriFormatted) {
-//            String test = mDiscoveryEndpoint.toString();
             String discoveryEndpointString = String.format(mDiscoveryEndpoint.toString(), getTenant(), getPolicy());
             mDiscoveryEndpoint = Uri.parse(discoveryEndpointString);
         }
         return mDiscoveryEndpoint;
     }
-
-//    @Nullable
-//    public Uri getAuthEndpoint() {
-//        checkConfigurationRead();
-//        return mAuthEndpoint;
-//    }
-//
-//    @Nullable
-//    public Uri getTokenEndpoint() {
-//        checkConfigurationRead();
-//        return mTokenEndpoint;
-//    }
 
     @NonNull
     public String getTenant() {

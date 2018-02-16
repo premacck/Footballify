@@ -5,7 +5,7 @@
     android:id="@+id/relative_layout_social_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Green"
+    android:background="@color/green"
     android:orientation="vertical"
     tools:context="life.plank.juna.zone.view.activity.SocialLoginActivity">
 
@@ -33,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signUp"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <TextView
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signIn"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
     </LinearLayout>
@@ -61,7 +61,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:text="@string/text_or"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <ImageView
@@ -111,6 +111,6 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="15dp"
         android:visibility="invisible"
-        app:indicatorColor="@color/White"
+        app:indicatorColor="@color/white"
         app:indicatorName="BallClipRotateIndicator" />
 </RelativeLayout>

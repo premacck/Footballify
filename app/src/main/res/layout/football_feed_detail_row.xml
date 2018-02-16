@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="Here is your text"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
         </RelativeLayout>
     </RelativeLayout>
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="hellow"
-            android:textColor="@color/Black"
+            android:textColor="@color/black"
             android:textSize="15sp" />
 
         <TextView

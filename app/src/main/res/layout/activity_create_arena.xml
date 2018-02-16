@@ -37,7 +37,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:visibility="visible"
-        app:indicatorColor="@color/Blue_grey"
+        app:indicatorColor="@color/blue_grey"
         app:indicatorName="BallSpinFadeLoaderIndicator" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_below="@+id/text_secret_code"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textColor="@color/Blue_grey"
+        android:textColor="@color/blue_grey"
         android:textSize="50sp" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="@string/share_secret_code"
-        android:textColor="@color/Blue_grey"
+        android:textColor="@color/blue_grey"
         android:textSize="20sp" />
 
     <ListView

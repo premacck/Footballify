@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.layout_login_activity);
         ButterKnife.bind(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Orange));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.orange));
         }
 
         subscription = new CompositeSubscription();

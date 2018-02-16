@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/White"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -113,7 +113,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="15dp"
         android:visibility="invisible"
-        app:indicatorColor="@color/White"
+        app:indicatorColor="@color/white"
         app:indicatorName="BallClipRotateIndicator" />
 
 </RelativeLayout>

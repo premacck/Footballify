@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -46,13 +45,11 @@ import com.twitter.sdk.android.core.identity.TwitterAuthClient;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import net.openid.appauth.AuthState;
-import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationRequest;
 import net.openid.appauth.AuthorizationService;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.ClientSecretBasic;
 import net.openid.appauth.RegistrationRequest;
-import net.openid.appauth.RegistrationResponse;
 import net.openid.appauth.ResponseTypeValues;
 
 import java.net.HttpURLConnection;
@@ -63,7 +60,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.net.ssl.HttpsURLConnection;
 
-import butterknife.BindView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.domain.service.AuthenticationService;
@@ -118,10 +114,11 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     public DrawerLayout mDrawer;
     private TextView textDrawerMenu;
     private AuthorizationService mAuthService;
+
     @Override
     public void setContentView(int layoutResID) {
         mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
-        FrameLayout activityContainer = (FrameLayout) mDrawer.findViewById(R.id.activity_content);
+        FrameLayout activityContainer = mDrawer.findViewById(R.id.activity_content);
         getLayoutInflater().inflate(layoutResID, activityContainer, true);
         super.setContentView(mDrawer);
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -262,41 +259,28 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
                 for (final IdentityProvider idp : providers) {
                     final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
-                            new AuthorizationServiceConfiguration.RetrieveConfigurationCallback() {
-
-                                @Override
-                                public void onFetchConfigurationCompleted(
-                                        @Nullable AuthorizationServiceConfiguration serviceConfiguration,
-                                        @Nullable AuthorizationException ex) {
-                                    if (ex != null) {
-                                        Log.w(TAG, "Failed to retrieve configuration for " + idp.name, ex);
+                            (serviceConfiguration, ex) -> {
+                                if (ex != null) {
+                                    Log.w(TAG, "Failed to retrieve configuration for " + idp.name, ex);
+                                } else {
+                                    Log.d(TAG, "configuration retrieved for " + idp.name
+                                            + ", proceeding");
+                                    if (idp.getClientId() == null) {
+                                        // Do dynamic client registration if no client_id
+                                        makeRegistrationRequest(serviceConfiguration, idp);
                                     } else {
-                                        Log.d(TAG, "configuration retrieved for " + idp.name
-                                                + ", proceeding");
-                                        if (idp.getClientId() == null) {
-                                            // Do dynamic client registration if no client_id
-                                            makeRegistrationRequest(serviceConfiguration, idp);
-                                        } else {
-                                            makeAuthRequest(serviceConfiguration, idp, new AuthState());
-                                        }
+                                        makeAuthRequest(serviceConfiguration, idp, new AuthState());
                                     }
                                 }
                             };
 
                     idp.retrieveConfig(this, retrieveCallback);
 
-//            TextView label = new TextView(this);
-//            label.setText(idp.name);
-//            label.setTextColor(getColorCompat(idp.buttonTextColorRes));
-//            label.setLayoutParams(new FrameLayout.LayoutParams(
-//                    FrameLayout.LayoutParams.WRAP_CONTENT,
-//                    FrameLayout.LayoutParams.WRAP_CONTENT,
-//                    Gravity.CENTER));
-
                 }
             }
         }
     }
+
     private void makeAuthRequest(
             @NonNull AuthorizationServiceConfiguration serviceConfig,
             @NonNull IdentityProvider idp,
@@ -309,7 +293,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 ResponseTypeValues.CODE,
                 idp.getRedirectUri())
                 .setScope(idp.getScope())
-                .setLoginHint("Email Id")
+                .setLoginHint(getString(R.string.email_hint))
                 .build();
 
         Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
@@ -321,37 +305,9 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                         serviceConfig.discoveryDoc,
                         authState),
                 mAuthService.createCustomTabsIntentBuilder()
-                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
+                        .setToolbarColor(getResources().getColor(R.color.orange_start_gradient))
                         .build());
     }
-
-//    private void makeAuthRequest(
-//            @NonNull AuthorizationServiceConfiguration serviceConfig,
-//            @NonNull IdentityProvider idp,
-//            @NonNull AuthState authState) {
-//
-//
-//        AuthorizationRequest authRequest = new AuthorizationRequest.Builder(
-//                serviceConfig,
-//                idp.getClientId(),
-//                ResponseTypeValues.CODE,
-//                idp.getRedirectUri())
-//                .setScope(idp.getScope())
-//                .setLoginHint("Email Id")
-//                .build();
-//
-//        Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
-//        mAuthService.performAuthorizationRequest(
-//                authRequest,
-//                TokenActivity.createPostAuthorizationIntent(
-//                        this,
-//                        authRequest,
-//                        serviceConfig.discoveryDoc,
-//                        authState),
-//                mAuthService.createCustomTabsIntentBuilder()
-//                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
-//                        .build());
-//    }
 
     private void makeRegistrationRequest(
             @NonNull AuthorizationServiceConfiguration serviceConfig,
@@ -366,19 +322,14 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Log.d(TAG, "Making registration request to " + serviceConfig.registrationEndpoint);
         mAuthService.performRegistrationRequest(
                 registrationRequest,
-                new AuthorizationService.RegistrationResponseCallback() {
-                    @Override
-                    public void onRegistrationRequestCompleted(
-                            @Nullable RegistrationResponse registrationResponse,
-                            @Nullable AuthorizationException ex) {
-                        Log.d(TAG, "Registration request complete");
-                        if (registrationResponse != null) {
-                            idp.setClientId(registrationResponse.clientId);
-                            Log.d(TAG, "Registration request complete successfully");
-                            // Continue with the authentication
-                            makeAuthRequest(registrationResponse.request.configuration, idp,
-                                    new AuthState((registrationResponse)));
-                        }
+                (registrationResponse, ex) -> {
+                    Log.d(TAG, "Registration request complete");
+                    if (registrationResponse != null) {
+                        idp.setClientId(registrationResponse.clientId);
+                        Log.d(TAG, "Registration request complete successfully");
+                        // Continue with the authentication
+                        makeAuthRequest(registrationResponse.request.configuration, idp,
+                                new AuthState((registrationResponse)));
                     }
                 });
     }
