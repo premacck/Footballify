@@ -52,44 +52,37 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public ScrubberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v;
 
         switch (viewType) {
             case ScrubberConstants.SCRUBBER_VIEW_HALF_TIME:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_half_time, parent, false);
-                break;
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_half_time, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_GOAL:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_goal, parent, false);
-                break;
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_half_time, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_CURSOR:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_pointer, parent, false);
-                break;
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_pointer, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_CARDS:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_cards, parent, false);
-                break;
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_cards, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_SUBSTITUTE:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_substitions, parent, false);
-                break;
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_substitions, parent, false));
 
             case ScrubberConstants.SCRUBBER_POST_MATCH:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_post_match, parent, false);
-                break;
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_post_match, parent, false));
 
             default:
-                v = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_progress, parent, false);
+                return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.scrubber_view_progress, parent, false));
+
         }
-        return new ScrubberViewHolder(v);
     }
 
     @Override
@@ -112,6 +105,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         if (simpleTooltip != null) {
             simpleTooltip.dismiss();
         }
+
         if (position == data.size() - 1 && scrubberViewDataHolder.containsKey(position) &&
                 scrubberViewDataHolder.get(position).isTriggerEvents()) {
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
