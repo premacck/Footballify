@@ -20,4 +20,5 @@
     <color name="spinner_item_color">#cf040d</color>
     <color name="grid_item_grey">#6e777d</color>
     <color name="chat_header_background">#7E8285</color>
+    <color name="chat_body_background">#D5D7DD</color>
 </resources>

@@ -3,11 +3,13 @@ package life.plank.juna.zone.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -15,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.adapter.ChatAdapter;
 
 public class ChatFragment extends Fragment {
 
@@ -49,6 +52,7 @@ public class ChatFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_live_zone_chat, container, false);
         unbinder = ButterKnife.bind(this, view);
+        initializeRecyclerView();
         return view;
     }
 
@@ -59,38 +63,12 @@ public class ChatFragment extends Fragment {
         unbinder.unbind();
     }
 
-    private void initRecyclerView() {
-       /* // Calculate ActionBar height
-        int actionBarHeight = 0;
-        TypedValue typedValue = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
-        }
-        int spinnerSize = (int) getResources().getDimension(R.dimen.swipe_page_spinner_height);
-        int banterSize = (int) getResources().getDimension(R.dimen.swipe_page_banter_zone_height);
-        int banterRecyclerSize = (int) getResources().getDimension(R.dimen.football_feed_height);
-        // TODO: 29-01-2018 Change based on performance
-        SnapHelper snapHelper = new StartSnapHelper();
+    private void initializeRecyclerView() {
 
-        //Setup the horizontal recycler view
-        horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        horizontalRecyclerView.setHasFixedSize(true);
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()));
-        horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
-        snapHelper.attachToRecyclerView(horizontalRecyclerView);
-
-        //Football Feed recycler view
-        int numberOfRows = 2;
-        gridLayoutManager = new GridLayoutManager(this, numberOfRows, GridLayoutManager.HORIZONTAL, false);
-        feedRecyclerView.setLayoutManager(gridLayoutManager);
-        footballFeedAdapter = new FootballFeedAdapter(this, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayHeight()), UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), actionBarHeight + spinnerSize + banterSize + banterRecyclerSize);
-        feedRecyclerView.setAdapter(footballFeedAdapter);
-        feedRecyclerView.setHasFixedSize(true);
-        feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        footballFeedAdapter.setOnLongClickListener(this);
-        SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
-        snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
-        footballFeeds = new ArrayList<>();*/
+       LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        chatRecyclerView.setLayoutManager(gridLayoutManager);
+       ChatAdapter chatAdapter = new ChatAdapter(getActivity());
+        chatRecyclerView.setAdapter(chatAdapter);
     }
 
 

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ScrubberEvent;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
@@ -36,7 +38,7 @@ import life.plank.juna.zone.view.activity.LiveZoneSliderView;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
-public class LiveZoneFragment extends Fragment implements ScrubberEvent {
+public class LiveZoneFragment extends Fragment implements ScrubberEvent,OnItemClickListener {
 
     @BindView(R.id.liveZoneTextView)
     TextView liveZoneTextView;
@@ -52,8 +54,11 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     LiveZoneGridAdapter adapter;
     int liveZoneGridViewHeight;
     ScrubberEvent scrubberEvent;
+    @BindView(R.id.fragment_container_frame_layout)
+    FrameLayout fragmentContainerFrameLayout;
     private Unbinder unbinder;
     private int delay = 1000;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,9 +76,10 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
-        getHeightDetails();
-        setUpGridView();
+       /* getHeightDetails();
+        setUpGridView();*/
         setUpSlider();
+        chatFragment();
         //setUpAnimation();
         //setUpBounceAnimation();
         return view;
@@ -99,6 +105,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
         scaleXAnimator.setAddDuration(1000);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
+        adapter.setOnItemClickListener(this);
     }
 
     @OnClick(R.id.closeImage)
@@ -111,11 +118,17 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
      */
     public void getHeightDetails() {
         // TODO: 01-02-2018 Check the performance and change accordingly once implement the server data
-        liveZoneGridViewRecyclerView.post(() -> {
-            liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
-            adapter.addData(liveZoneGridViewHeight);
-            liveZoneGridViewRecyclerView.setAdapter(adapter);
-        });
+        if (liveZoneGridViewRecyclerView != null) {
+            try {
+                liveZoneGridViewRecyclerView.post(() -> {
+                    liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
+                    adapter.addData(liveZoneGridViewHeight);
+                    liveZoneGridViewRecyclerView.setAdapter(adapter);
+                });
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setUpSlider() {
@@ -142,7 +155,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
         Log.v("trace event", scrubberViewData.getMessage());
-        if (scrubberViewData.getLiveFeedTileData().getImages().size()>0) {
+        if (scrubberViewData.getLiveFeedTileData().getImages().size() > 0) {
             int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             try {
                 for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getImages().size() - 1; i++) {
@@ -188,5 +201,33 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
     }
 
+    public void chatFragment() {
+        fragmentContainerFrameLayout.removeAllViews();
+        getFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.fragmentContainerFrameLayout, new ChatFragment())
+                .commit();
+    }
 
+    public void retainLayout() {
+        /*if (liveZoneTextView.isSelected()) {
+            liveZoneTextView.setSelected(false);
+            containerRelativeLayout.setVisibility(View.VISIBLE);
+            fragmentContainerFrameLayout.setVisibility(View.GONE);
+        } else {
+            liveZoneTextView.setSelected(true);
+            containerRelativeLayout.setVisibility(View.GONE);
+            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        }*/
+        liveZoneGridViewRecyclerView.setVisibility(View.GONE);
+        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    public void onItemClicked(int positon) {
+       retainLayout();
+       chatFragment();
+    }
 }

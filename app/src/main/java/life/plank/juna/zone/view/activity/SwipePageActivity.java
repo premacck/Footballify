@@ -49,6 +49,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
+import life.plank.juna.zone.view.fragment.ChatFragment;
 import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -254,6 +255,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
     }
+
+
 
     @Override
     public void onBackPressed() {

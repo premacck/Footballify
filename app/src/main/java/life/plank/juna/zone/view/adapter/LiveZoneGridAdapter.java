@@ -16,6 +16,7 @@ import java.util.Random;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
@@ -28,6 +29,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     private Context context;
     private List<Integer> elements;
     private int gridViewHeight;
+    private OnItemClickListener onItemClickListener;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
@@ -53,6 +55,12 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position)));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onItemClickListener.onItemClicked(position);
+            }
+        });
     }
 
 
@@ -109,6 +117,10 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
+        this.onItemClickListener = onItemClickListener;
     }
 
 

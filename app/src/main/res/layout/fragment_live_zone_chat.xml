@@ -8,7 +8,7 @@
         android:id="@+id/header_live_zone_chat_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="2dp"
+        android:padding="5dp"
         android:gravity="center_vertical"
         android:background="@color/chat_header_background">
 
@@ -57,8 +57,8 @@
             android:layout_centerVertical="true"
             android:layout_toLeftOf="@+id/expand_collapse_image_view"
             android:layout_toStartOf="@+id/expand_collapse_image_view"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:drawableLeft="@drawable/ic_person_chat"
             android:drawableRight="@drawable/ic_down_arrow"
             android:drawablePadding="5dp"/>
@@ -82,7 +82,7 @@
         android:id="@+id/footer_live_zone_chat_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="10dp"
         android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
         android:background="@color/chat_header_background">
@@ -110,8 +110,9 @@
             android:layout_toLeftOf="@+id/camera_image"
             android:layout_toRightOf="@+id/add_image"
             android:layout_marginLeft="10dp"
+            android:textSize="12sp"
             android:layout_marginRight="10dp"
-            android:padding="5dp"
+            android:padding="8dp"
             android:background="@drawable/rounded_corner_background"/>
     </RelativeLayout>
 
@@ -119,6 +120,7 @@
         android:id="@+id/chat_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/chat_body_background"
         android:layout_below="@+id/header_live_zone_chat_relative_layout"
         android:layout_above="@+id/footer_live_zone_chat_relative_layout">
 
