@@ -71,17 +71,17 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     RecyclerView feedRecyclerView;
     @BindView(R.id.zone_logo)
     ImageView zoneLogo;
-    @BindView(R.id.containerRelativeLayout)
+    @BindView(R.id.container_relative_layout)
     FrameLayout containerRelativeLayout;
-    @BindView(R.id.liveZoneTextView)
+    @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
-    @BindView(R.id.footbalFilterSpinnerTextView)
+    @BindView(R.id.footbal_filter_spinner_textView)
     TextView footbalFilterSpinnerTextView;
-    @BindView(R.id.calenderSpinnerTextView)
-    TextView calenderSpinnerTextView;
-    @BindView(R.id.spinnersRelativeLayout)
+    @BindView(R.id.calendar_spinner_textView)
+    TextView calendarSpinnerTextView;
+    @BindView(R.id.spinners_relative_layout)
     RelativeLayout spinnersRelativeLayout;
     ArrayList<String> horizontalData;
     @BindView(R.id.football_menu)
@@ -220,19 +220,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         listPopupWindow.show();
     }
 
-    @OnClick({R.id.footbalFilterSpinnerTextView, R.id.calenderSpinnerTextView
-            , R.id.liveZoneTextView, R.id.football_menu})
+    @OnClick({R.id.footbal_filter_spinner_textView, R.id.calendar_spinner_textView
+            , R.id.live_zone_text_view, R.id.football_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.footbalFilterSpinnerTextView:
-                showSpinner((TextView) view, calenderSpinnerTextView,
+            case R.id.footbal_filter_spinner_textView:
+                showSpinner((TextView) view, calendarSpinnerTextView,
                         getResources().getStringArray(R.array.football_filter_array));
                 break;
-            case R.id.calenderSpinnerTextView:
+            case R.id.calendar_spinner_textView:
                 showSpinner((TextView) view, footbalFilterSpinnerTextView,
                         getResources().getStringArray(R.array.calendar_array));
                 break;
-            case R.id.liveZoneTextView:
+            case R.id.live_zone_text_view:
                 retainLayout();
                 footballFeedFragment();
                 //TODO will be moved to navigation drawer once the drawer part is done

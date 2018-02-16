@@ -22,7 +22,7 @@
         android:layout_toRightOf="@+id/zone_logo" />
 
     <FrameLayout
-        android:id="@+id/containerRelativeLayout"
+        android:id="@+id/container_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
@@ -39,12 +39,12 @@
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/spinnersRelativeLayout"
+                android:id="@+id/spinners_relative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/showTextView"
+                    android:id="@+id/show_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -55,15 +55,15 @@
                     android:textSize="12sp" />
 
                 <TextView
-                    android:id="@+id/footbalFilterSpinnerTextView"
+                    android:id="@+id/footbal_filter_spinner_textView"
                     style="@style/livezonetextstyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
                     android:layout_marginRight="5dp"
-                    android:layout_toEndOf="@+id/showTextView"
-                    android:layout_toRightOf="@+id/showTextView"
+                    android:layout_toEndOf="@+id/show_text_view"
+                    android:layout_toRightOf="@+id/show_text_view"
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"
@@ -74,14 +74,14 @@
                     android:textColor="@color/White" />
 
                 <TextView
-                    android:id="@+id/calenderSpinnerTextView"
+                    android:id="@+id/calendar_spinner_textView"
                     style="@style/livezonetextstyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@+id/footbalFilterSpinnerTextView"
-                    android:layout_toRightOf="@+id/footbalFilterSpinnerTextView"
+                    android:layout_toEndOf="@+id/footbal_filter_spinner_textView"
+                    android:layout_toRightOf="@+id/footbal_filter_spinner_textView"
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"
@@ -92,7 +92,7 @@
                     android:textColor="@color/White" />
 
                 <TextView
-                    android:id="@+id/liveZoneTextView"
+                    android:id="@+id/live_zone_text_view"
                     style="@style/livezonetextstyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -112,7 +112,7 @@
                 android:id="@+id/football_feed_recycler_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/spinnersRelativeLayout" />
+                android:layout_below="@+id/spinners_relative_layout" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"

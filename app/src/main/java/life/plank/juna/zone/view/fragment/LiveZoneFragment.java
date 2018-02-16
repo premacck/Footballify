@@ -39,7 +39,7 @@ import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
 public class LiveZoneFragment extends Fragment implements ScrubberEvent {
 
-    @BindView(R.id.liveZoneTextView)
+    @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
     @BindView(R.id.liveZoneRelativeLayout)
     RelativeLayout liveZoneRelativeLayout;
