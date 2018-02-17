@@ -88,7 +88,7 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
 
     public void setPinnedFootballFeedList() {
 
-        footballFeedList.addAll(new Gson().fromJson(new PreferenceManager(context).getPinnedFeeds(AppConstants.pinnedFeeds),
+        footballFeedList.addAll(new Gson().fromJson(new PreferenceManager(context).getPinnedFeeds(AppConstants.PINNED_FEEDS),
                 new TypeToken<List<FootballFeed>>() {
                 }.getType()));
         notifyDataSetChanged();

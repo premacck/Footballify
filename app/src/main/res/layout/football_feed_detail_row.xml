@@ -1,72 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoDragView="@+id/drag_view"
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="0dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoScrollableView="@+id/list"
+    sothree:umanoShadowHeight="4dp">
+
 
     <RelativeLayout
-        android:id="@+id/relative_layout_container"
         android:layout_width="match_parent"
-        android:layout_height="500dp">
+        android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/feed_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/ic_football_dummy_image" />
+            android:id="@+id/feed_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:background="@drawable/football_image_one"
+            android:scaleType="centerCrop" />
 
-        <TextView
-            android:id="@+id/posted_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:text="16/01\n9min"
-            android:textColor="#ffffff" />
-
-        <RelativeLayout
-            android:id="@+id/gradient_layout"
+        <LinearLayout
+            android:id="@+id/bottom_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="@color/transparent_grey">
+            android:background="@color/transparent_grey"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                android:id="@+id/feed_content"
+                android:id="@+id/tag_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="Here is your text"
+                android:text="teams"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="15sp" />
-        </RelativeLayout>
-    </RelativeLayout>
+                android:textSize="8sp" />
 
-    <RelativeLayout
-        android:id="@+id/feed_content_relative_layout"
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/expand_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/ic_down_arrow" />
+
+        </LinearLayout>
+    </RelativeLayout>
+    <!-- SLIDING LAYOUT -->
+    <LinearLayout
+        android:id="@+id/drag_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/relative_layout_container">
+        android:background="@color/transparent_grey"
+        android:clickable="true"
+        android:focusable="false"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/feed_content_details"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:text="hellow"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="teams"
+                android:textAllCaps="true"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+                android:textSize="8sp" />
 
-        <TextView
-            android:id="@+id/feed_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/feed_content_details"
-            android:layout_margin="5dp"
-            android:text="View all 5 comments"
-            android:textColor="#cecbcb"
-            android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
 
-    </RelativeLayout>
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_down_arrow"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/dummy_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"></ListView>
+    </LinearLayout>
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>
