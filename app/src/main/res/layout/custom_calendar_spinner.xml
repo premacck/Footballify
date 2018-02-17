@@ -6,6 +6,6 @@
     android:layout_height="wrap_content"
     android:text="Yesterday"
     android:textSize="20sp"
-    android:textColor="@color/White"
+    android:textColor="@color/white"
     android:ellipsize="marquee"
     android:textAlignment="inherit"/>

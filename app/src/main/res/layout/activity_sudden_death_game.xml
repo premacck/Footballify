@@ -23,7 +23,7 @@
         android:layout_alignTop="@+id/lives_remaining"
         android:layout_toEndOf="@+id/lives_remaining"
         android:layout_toRightOf="@+id/lives_remaining"
-        android:textColor="@color/Orange"
+        android:textColor="@color/orange"
         android:textSize="20sp"
         android:textStyle="bold"
         tools:ignore="RelativeOverlap" />
@@ -63,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/round_label"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -74,7 +74,7 @@
             android:layout_gravity="center"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="25sp" />
     </LinearLayout>
 
@@ -84,7 +84,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/linear_layout"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="15sp"
         android:textStyle="bold" />
 

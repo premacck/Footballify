@@ -14,7 +14,7 @@
         android:layout_marginTop="30dp"
         android:fontFamily="@assets/aileron.bold"
         android:text="@string/pick_label"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="40sp"
         android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
         android:layout_below="@+id/selected_team_image"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <LinearLayout

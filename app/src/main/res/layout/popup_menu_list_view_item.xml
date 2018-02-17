@@ -14,10 +14,10 @@
         android:layout_weight="1"
         android:padding="5dp"
         android:paddingBottom="3dp"
-        android:textColor="@color/White" />
+        android:textColor="@color/white" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/Red" />
+        android:background="@color/red" />
 </LinearLayout>

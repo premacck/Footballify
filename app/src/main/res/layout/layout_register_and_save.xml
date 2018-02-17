@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/White"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -100,12 +100,11 @@
 
     <ImageView
         android:id="@+id/register_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/other_registrations_text_view"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/ic_register" />
+        android:layout_width="wrap_content"
+        android:src="@drawable/ic_register"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/other_registrations_text_view"/>
 
     <com.wang.avi.AVLoadingIndicatorView
         android:id="@+id/social_signup_spinner"
@@ -114,7 +113,7 @@
         android:layout_centerInParent="true"
         android:layout_marginTop="15dp"
         android:visibility="invisible"
-        app:indicatorColor="@color/White"
+        app:indicatorColor="@color/white"
         app:indicatorName="BallClipRotateIndicator" />
 
 </RelativeLayout>
