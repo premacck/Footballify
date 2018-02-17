@@ -102,7 +102,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             }
         });
 
-        List<String> your_array_list = Arrays.asList(
+        List<String> dummy_array_list = Arrays.asList(
                 "This",
                 "Is",
                 "An",
@@ -132,7 +132,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 context,
                 android.R.layout.simple_list_item_1,
-                your_array_list);
+                dummy_array_list);
         holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
         holder.dummyList.setAdapter(arrayAdapter);
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -143,11 +143,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 switch (newState) {
-                    case ANCHORED: {
-                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.White));
-                        ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);
-                        break;
-                    }
+                    case ANCHORED:
                     case EXPANDED: {
                         holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.White));
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);

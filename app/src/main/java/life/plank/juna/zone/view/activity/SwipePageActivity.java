@@ -172,11 +172,11 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         GlobalVariable.getInstance().setFootballFeeds(response.body());
                         hideProgress();
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            nextPageToken = response.headers().get(AppConstants.footballFeedsHeaderKey);
+                            nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
                             setUpAdapterWithNewData(response.body());
 
                         } else {
-                            showToast(AppConstants.defaultErrorMessage);
+                            showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
                     }
                 });
@@ -202,7 +202,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         listPopupWindow.setAnchorView(activeTextView);
 
         listPopupWindow.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
-        listPopupWindow.setWidth(UIDisplayUtil.dpToPx(AppConstants.spinnerDialogWidth, this));
+        listPopupWindow.setWidth(UIDisplayUtil.dpToPx(AppConstants.SPINNER_DIALOG_WIDTH, this));
 
         listPopupWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent)));
 
@@ -236,7 +236,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 retainLayout();
                 footballFeedFragment();
                 //TODO will be moved to navigation drawer once the drawer part is done
-              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.pinnedFeeds))) {
+              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.PINNED_FEEDS))) {
                     startActivity(new Intent(this, PinboardActivity.class));
                 }*/
                 break;
@@ -313,7 +313,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                             showProgress();
                             getFootballFeed();
                         }
-                    }, AppConstants.paginationDelay);
+                    }, AppConstants.PAGINATION_DELAY);
                 }
             }
         }
@@ -339,7 +339,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private void savePinnedFeedsToPrefrence(int position) {
         PreferenceManager preferenceManager = new PreferenceManager(this);
         Gson gson = new Gson();
-        String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.pinnedFeeds);
+        String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.PINNED_FEEDS);
         List<FootballFeed> pinnedFeedsList;
         if ("".contentEquals(pinnedList)) {
             pinnedFeedsList = new ArrayList<>();

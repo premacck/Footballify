@@ -25,7 +25,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
@@ -126,7 +125,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
-        scaleXAnimator.setAddDuration(AppConstants.delay);
+        scaleXAnimator.setAddDuration(AppConstants.DELAY);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
     }
 
