@@ -51,7 +51,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:text="Show"
-                    android:textColor="@color/White"
+                    android:textColor="@color/white"
                     android:textSize="12sp" />
 
                 <TextView
@@ -71,7 +71,7 @@
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
                     android:text="All"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/calendar_spinner_textView"
@@ -89,7 +89,7 @@
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
                     android:text="Today"
-                    android:textColor="@color/White" />
+                    android:textColor="@color/white" />
 
                 <TextView
                     android:id="@+id/live_zone_text_view"
@@ -137,7 +137,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
                     android:text="BANTERZONE"
-                    android:textColor="@color/White"
+                    android:textColor="@color/white"
                     android:textSize="8sp" />
 
                 <RelativeLayout
@@ -162,7 +162,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@+id/person"
                         android:text="23"
-                        android:textColor="@color/White"
+                        android:textColor="@color/white"
                         android:textSize="8sp" />
 
                     <ImageView

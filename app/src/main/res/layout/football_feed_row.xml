@@ -62,7 +62,7 @@
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="Here is your text"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
         </RelativeLayout>
 
@@ -87,7 +87,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="TEAMS"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="8sp" />
 
             <RelativeLayout
@@ -115,7 +115,7 @@
                     android:layout_toRightOf="@+id/like_image"
                     android:padding="@dimen/football_feed_row_image_padding"
                     android:text="1.2M"
-                    android:textColor="@color/White"
+                    android:textColor="@color/white"
                     android:textSize="8sp" />
 
                 <ImageView
@@ -135,7 +135,7 @@
                     android:layout_margin="3dp"
                     android:layout_toRightOf="@+id/comment_image"
                     android:text="12K"
-                    android:textColor="@color/White"
+                    android:textColor="@color/white"
                     android:textSize="8sp" />
 
                 <ImageView

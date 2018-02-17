@@ -8,14 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:background="@color/Red"
+        android:background="@color/red"
         android:src="@drawable/ic_more" />
 
     <RelativeLayout
         android:id="@+id/relative_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/Red">
+        android:background="@color/red">
 
         <ListView
             android:id="@+id/list_item_view"

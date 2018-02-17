@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
                 android:textAllCaps="true"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
 
             <ImageView
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text="teams"
                 android:textAllCaps="true"
-                android:textColor="@color/Black"
+            android:textColor="@color/black"
                 android:textSize="8sp" />
 
             <TextView
