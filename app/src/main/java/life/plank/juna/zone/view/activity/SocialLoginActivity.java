@@ -91,7 +91,7 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
         setContentView(R.layout.layout_social_login_activity);
         ButterKnife.bind(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.Green));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.green));
         }
 
         TwitterConfig twitterConfig = new TwitterConfig.Builder(this)

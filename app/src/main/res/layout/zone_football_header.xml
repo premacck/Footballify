@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/football_toolbar_zone_icon"
         android:text="FOOTBALL"
-        android:textColor="@color/White" />
+        android:textColor="@color/white" />
 
     <android.support.v7.widget.AppCompatImageButton
         android:id="@+id/football_menu"

@@ -23,8 +23,7 @@
             android:padding="5dp"
             android:text="Brighton &amp; hove albiono"
             android:textAllCaps="true"
-            android:textColor="@color/White"
-            android:textSize="12sp" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/visitingTeamTextView"
@@ -34,8 +33,7 @@
             android:padding="5dp"
             android:text="Chelsea"
             android:textAllCaps="true"
-            android:textColor="@color/White"
-            android:textSize="12sp" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/home_team_score_text_view"
@@ -46,11 +44,11 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/homeTeamTextView"
             android:layout_toRightOf="@+id/homeTeamTextView"
-            android:background="@color/Red"
+            android:background="@color/red"
             android:gravity="center"
             android:text="0"
             android:textAllCaps="true"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/visiting_team_score_text_view"
@@ -63,11 +61,11 @@
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/visitingTeamTextView"
             android:layout_toRightOf="@+id/visitingTeamTextView"
-            android:background="@color/Red"
+            android:background="@color/red"
             android:gravity="center"
             android:text="3"
             android:textAllCaps="true"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/commentary_text"
@@ -77,7 +75,7 @@
             android:maxLines="4"
             android:minLines="4"
             android:padding="5dp"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
     </RelativeLayout>
 
     <RelativeLayout

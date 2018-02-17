@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/user_choice_home_team_score"
@@ -42,7 +42,7 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:maxLength="1"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textCursorDrawable="@drawable/user_choice_custom_cursor" />
     </LinearLayout>
 
@@ -55,7 +55,7 @@
         android:layout_marginRight="40dp"
         android:layout_marginTop="120dp"
         android:text="@string/match_vs"
-        android:textColor="@color/WhiteTransparent"
+        android:textColor="@color/white_transparent"
         android:textSize="20sp" />
 
     <LinearLayout
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <EditText
             android:id="@+id/user_choice_visiting_team_score"
@@ -93,7 +93,7 @@
             android:imeOptions="actionDone"
             android:inputType="number"
             android:maxLength="1"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textCursorDrawable="@drawable/user_choice_custom_cursor" />
     </LinearLayout>
 

@@ -90,10 +90,10 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     private int getRandomBackgroundColor() {
         ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(context, R.color.Orange));
-        colors.add(ContextCompat.getColor(context, R.color.Green));
-        colors.add(ContextCompat.getColor(context, R.color.Red));
-        colors.add(ContextCompat.getColor(context, R.color.Blue_grey));
+        colors.add(ContextCompat.getColor(context, R.color.orange));
+        colors.add(ContextCompat.getColor(context, R.color.green));
+        colors.add(ContextCompat.getColor(context, R.color.red));
+        colors.add(ContextCompat.getColor(context, R.color.blue_grey));
         colors.add(ContextCompat.getColor(context, R.color.dark_grey));
         colors.add(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         colors.add(ContextCompat.getColor(context, R.color.orange_end_gradient));

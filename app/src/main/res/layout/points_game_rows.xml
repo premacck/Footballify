@@ -16,7 +16,7 @@
         android:layout_marginRight="5dp"
         android:layout_toLeftOf="@+id/home_team_image"
         android:layout_toStartOf="@+id/home_team_image"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="12sp"
         tools:ignore="RelativeOverlap" />
 
@@ -39,7 +39,7 @@
         android:layout_centerVertical="true"
         android:layout_gravity="center|center_vertical"
         android:text="@string/match_vs"
-        android:textColor="@color/White" />
+        android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/visiting_team_image"
@@ -61,6 +61,6 @@
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/visiting_team_image"
         android:layout_toRightOf="@+id/visiting_team_image"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 </RelativeLayout>

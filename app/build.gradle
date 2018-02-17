@@ -30,6 +30,9 @@ android {
         versionName "1.0.1-jenkins-build"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         playAccountConfig = playAccountConfigs.defaultAccountConfig
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'life.plank.juna.zone'
+        ]
     }
     buildTypes {
         release {
@@ -57,6 +60,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.google.android.gms:play-services-gcm:11.6.2'
     compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'net.openid:appauth:0.7.0'
     compile 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
     compile 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

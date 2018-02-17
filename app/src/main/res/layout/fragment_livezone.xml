@@ -69,7 +69,7 @@
             android:drawableRight="@drawable/ic_dropdown"
             android:gravity="center_vertical"
             android:text="23"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="8sp" />
 
         <ImageView
