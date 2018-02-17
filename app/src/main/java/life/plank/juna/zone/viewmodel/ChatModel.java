@@ -15,6 +15,7 @@ import life.plank.juna.zone.R;
  */
 
 public class ChatModel{
+    //TODO tag is to check whether the view is image or text. It will be changed once the api is ready
     private String tag;
     private String text;
     private Drawable image;

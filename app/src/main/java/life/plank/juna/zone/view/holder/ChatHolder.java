@@ -14,7 +14,9 @@ import life.plank.juna.zone.R;
  * Created by plank-hasan on 2/16/2018.
  */
 
-public class ChatIncomingHolder extends RecyclerView.ViewHolder {
+public class ChatHolder extends RecyclerView.ViewHolder {
+    @BindView(R.id.name_text_view)
+    public TextView nameTextView;
     @BindView(R.id.message_text_view)
     public TextView messageTextView;
     @BindView(R.id.message_image_image_view)
@@ -22,7 +24,7 @@ public class ChatIncomingHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.parent_linear_layout)
     public LinearLayout parentLinearLayout;
 
-    public ChatIncomingHolder(View itemView) {
+    public ChatHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

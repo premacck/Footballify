@@ -76,8 +76,8 @@ public class LiveZoneFragment extends Fragment implements ScrubberEvent,OnItemCl
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
-       /* getHeightDetails();
-        setUpGridView();*/
+        getHeightDetails();
+        setUpGridView();
         setUpSlider();
         chatFragment();
         //setUpAnimation();
