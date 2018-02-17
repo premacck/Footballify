@@ -34,18 +34,15 @@ import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ItemTouchHelperCallback;
-import life.plank.juna.zone.util.helper.ScrubberEvent;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 import life.plank.juna.zone.view.adapter.ScrubberViewAdapter;
 
-public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.ScrubberPointerUpdate,OnItemClickListener {
+public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.ScrubberPointerUpdate, OnItemClickListener {
 
     @BindView(R.id.liveZoneTextView)
     TextView liveZoneTextView;
-    @BindView(R.id.liveZoneRelativeLayout)
-    RelativeLayout liveZoneRelativeLayout;
     @BindView(R.id.liveZoneGridViewRelativeLayout)
     RecyclerView liveZoneGridViewRecyclerView;
     @BindView(R.id.closeImage)
@@ -53,14 +50,13 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @BindView(R.id.scrubber_recycler_view)
     RecyclerView scrubberView;
     @BindView(R.id.arrow)
-    ImageView pointer;
+    ImageView arrow;
     @BindView(R.id.commentary_text)
     TextView commentaryTextView;
     @BindView(R.id.home_team_score_text_view)
     TextView homeTeamScoreTextView;
     @BindView(R.id.visiting_team_score_text_view)
     TextView visitingTeamScoreTextView;
-
     Context context;
     LiveZoneGridAdapter adapter;
     int liveZoneGridViewHeight;
@@ -71,7 +67,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
     private Unbinder unbinder;
-    private int delay = 1000;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
 
@@ -93,8 +88,11 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
-        getHeightDetails();
-        setUpGridView();
+        //TODO will be uncommented in expand and collapse code
+        //  getHeightDetails();
+        // setUpGridView();
+        setUpScrubber();
+        chatFragment();
         return view;
     }
 
@@ -102,8 +100,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int[] location = new int[]{0, 0};
-        homeTeamScoreTextView.getLocationOnScreen(location);
+
     }
 
 
@@ -117,12 +114,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         SnapHelper snapHelper = new StartSnapHelper();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
-
-        scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, scrubberPointerUpdate);
-        scrubberView.setAdapter(scrubberViewAdapter);
-        setUpScrubber();
-
+        //setUpScrubber();
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
@@ -133,31 +125,25 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         scaleXAnimator.setAddDuration(1000);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
         adapter.setOnItemClickListener(this);
+
     }
 
     private void setUpScrubber() {
+        scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, scrubberPointerUpdate);
+        scrubberView.setAdapter(scrubberViewAdapter);
         ItemTouchHelper.Callback callback =
                 new ItemTouchHelperCallback(scrubberViewAdapter, data);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(scrubberView);
         scrubberViewAdapter.setItemTouchHelper(touchHelper);
         new Thread(this::updateScrubber).start();
-        if (liveZoneGridViewRecyclerView != null) {
-            try {
-        liveZoneGridViewRecyclerView.post(() -> {
-            liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
-            adapter.addData(liveZoneGridViewHeight);
-            liveZoneGridViewRecyclerView.setAdapter(adapter);
-        });
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+
     }
 
 
     private void updateScrubber() {
-//        new Handler(Looper.getMainLooper()).post(() -> pointer.setVisibility(View.VISIBLE));
+        // new Handler(Looper.getMainLooper()).post(() -> arrow.setVisibility(View.VISIBLE));
         while (progressStatus < ScrubberConstants.getScrubberViewTotalWindow()) {
             try {
                 progressStatus++;
@@ -220,7 +206,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @Override
     public void moveScrubberPointer(View view, int position) {
         int[] location = new int[]{0, 0};
-        homeTeamScoreTextView.getLocationOnScreen(location);
 
         int[] xyViewAfter = new int[]{0, 0};
         scrubberView.getLocationOnScreen(xyViewAfter);
@@ -241,7 +226,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
             view.getLocationOnScreen(xyData);
             params.leftMargin = xyData[0] - 15;
             view.getLocationInWindow(xyData);
-            new Handler(Looper.getMainLooper()).post(() -> pointer.setLayoutParams(params));
+            new Handler(Looper.getMainLooper()).post(() -> arrow.setLayoutParams(params));
         }
     }
 
@@ -254,21 +239,12 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         fragmentContainerFrameLayout.removeAllViews();
         getFragmentManager()
                 .beginTransaction()
-
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new ChatFragment())
                 .commit();
     }
+
     public void retainLayout() {
-        /*if (liveZoneTextView.isSelected()) {
-            liveZoneTextView.setSelected(false);
-            containerRelativeLayout.setVisibility(View.VISIBLE);
-            fragmentContainerFrameLayout.setVisibility(View.GONE);
-        } else {
-            liveZoneTextView.setSelected(true);
-            containerRelativeLayout.setVisibility(View.GONE);
-            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
-        }*/
         liveZoneGridViewRecyclerView.setVisibility(View.GONE);
         fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
     }
@@ -276,7 +252,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
 
     @Override
     public void onItemClicked(int positon) {
-       retainLayout();
-       chatFragment();
+        retainLayout();
+        chatFragment();
     }
 }

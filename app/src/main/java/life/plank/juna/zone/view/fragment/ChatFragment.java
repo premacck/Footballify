@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -65,9 +64,9 @@ public class ChatFragment extends Fragment {
 
     private void initializeRecyclerView() {
 
-       LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         chatRecyclerView.setLayoutManager(gridLayoutManager);
-       ChatAdapter chatAdapter = new ChatAdapter(getActivity());
+        ChatAdapter chatAdapter = new ChatAdapter(getActivity());
         chatRecyclerView.setAdapter(chatAdapter);
     }
 

@@ -1,0 +1,29 @@
+<RelativeLayout android:id="@+id/banter_zone_layout"
+    android:layout_width="match_parent"
+    android:layout_height="20dp"
+    android:layout_alignParentBottom="true"
+    android:background="@drawable/football_header_purple_gradient"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/person_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:drawableRight="@drawable/ic_dropdown"
+        android:gravity="center_vertical"
+        android:text="23"
+        android:textColor="@color/white"
+        android:textSize="8sp" />
+
+    <ImageView
+        android:id="@+id/person"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/person_number"
+        android:layout_toStartOf="@+id/person_number"
+        android:src="@drawable/ic_person" />
+</RelativeLayout>
