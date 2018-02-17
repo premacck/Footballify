@@ -145,7 +145,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 switch (newState) {
                     case ANCHORED:
                     case EXPANDED: {
-                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.White));
+                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);
                         break;
                     }
