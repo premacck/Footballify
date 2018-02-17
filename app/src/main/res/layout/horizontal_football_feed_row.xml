@@ -23,7 +23,7 @@
             android:layout_alignStart="@+id/textView"
             android:layout_margin="3dp"
             android:text="6S: Mark F"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="7sp" />
 
         <ImageView
@@ -50,7 +50,7 @@
             android:maxLines="3"
             android:paddingBottom="2dp"
             android:text="Why would Mourinho do that? Isn't he done with this.."
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="9dp" />
 
     </RelativeLayout>

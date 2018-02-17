@@ -100,6 +100,7 @@
     <string name="pick_club_label">PICK YOUR CLUB</string>
     <string name="club_image_name">clubImageName</string>
     <string name="azure_base_url">https://junafunctions.azurewebsites.net/</string>
+    <string name="position">position</string>
 
     <string-array name="calendar_array">
         <item>Yesterday</item>
@@ -115,6 +116,14 @@
         <item>My Pundits</item>
         <item>Fixtures/Results</item>
         <item>Standings</item>
+    </string-array>
+
+    <string-array name="football_feed_popup_array">
+        <item>PIN POST</item>
+        <item>HIDE POST</item>
+        <item>UNFOLLOW</item>
+        <item>NOTIFICATION/ON</item>
+        <item>SHARE</item>
     </string-array>
 
     <string name="team_selection_dialog_text">You can personalize your content by selecting upto three teams to follow. Start typing the names below:</string>

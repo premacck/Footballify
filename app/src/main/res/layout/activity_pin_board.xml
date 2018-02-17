@@ -48,7 +48,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="BANTERZONE"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="8sp" />
 
         <RelativeLayout
@@ -73,7 +73,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/person"
                 android:text="23"
-                android:textColor="@color/White"
+                android:textColor="@color/white"
                 android:textSize="8sp" />
 
             <ImageView

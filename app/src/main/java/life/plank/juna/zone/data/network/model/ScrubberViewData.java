@@ -9,11 +9,17 @@ public class ScrubberViewData {
     String message;
     int type;
     LiveFeedTileData liveFeedTileData;
+    boolean triggerEvents = false;
 
-    public ScrubberViewData(String message, int type, LiveFeedTileData liveFeedTileData) {
+    public ScrubberViewData(String message, int type, LiveFeedTileData liveFeedTileData, boolean triggerEvents) {
         this.message = message;
         this.type = type;
         this.liveFeedTileData = liveFeedTileData;
+        this.triggerEvents = triggerEvents;
+    }
+
+    public boolean isTriggerEvents() {
+        return triggerEvents;
     }
 
     public String getMessage() {

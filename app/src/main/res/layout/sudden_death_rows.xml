@@ -26,7 +26,7 @@
         android:layout_toLeftOf="@+id/sudden_death_home_team_image"
         android:layout_toStartOf="@+id/sudden_death_home_team_image"
         android:gravity="center"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="12sp"
         tools:ignore="RelativeOverlap" />
 
@@ -48,7 +48,7 @@
         android:layout_centerHorizontal="true"
         android:layout_gravity="center|center_vertical"
         android:text="@string/match_vs"
-        android:textColor="@color/White" />
+        android:textColor="@color/white" />
 
     <ImageView
         android:id="@+id/sudden_death_visiting_team_image"
@@ -73,7 +73,7 @@
         android:layout_toEndOf="@+id/sudden_death_visiting_team_image"
         android:layout_toRightOf="@+id/sudden_death_visiting_team_image"
         android:gravity="center"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
     <ImageView

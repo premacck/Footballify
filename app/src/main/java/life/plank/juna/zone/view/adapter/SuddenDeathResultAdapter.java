@@ -66,10 +66,10 @@ public class SuddenDeathResultAdapter extends RecyclerView.Adapter<SuddenDeathRe
 
         if (userChoice.getIsWinner()) {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_won));
-            holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.Green));
+            holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.green));
         } else {
             holder.result.setText(ZoneApplication.getContext().getString(R.string.result_lost));
-            holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.Red));
+            holder.result.setBackgroundColor(ContextCompat.getColor(ZoneApplication.getContext(), R.color.red));
         }
     }
 

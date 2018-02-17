@@ -34,7 +34,7 @@
         android:layout_below="@+id/warrior_logo"
         android:layout_centerHorizontal="true"
         android:text="@string/league_name_plank"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="20sp" />
 
     <RelativeLayout
@@ -51,7 +51,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="@string/user_label"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/round_label"
@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="@string/round_label"
-            android:textColor="@color/White" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/round_number_label"
@@ -69,7 +69,7 @@
             android:layout_toRightOf="@+id/round_label"
             android:paddingLeft="3dp"
             android:paddingStart="3dp"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             tools:ignore="RtlSymmetry" />
 
         <TextView
@@ -81,7 +81,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:text="@string/result"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             tools:ignore="RelativeOverlap" />
     </RelativeLayout>
 
@@ -110,5 +110,5 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="@string/advance_label"
-        android:textColor="@color/White" />
+        android:textColor="@color/white" />
 </RelativeLayout>

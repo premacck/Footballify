@@ -43,15 +43,7 @@
         android:layout_below="@+id/liveZoneRelativeLayout"
         android:orientation="vertical">
 
-        <com.daimajia.slider.library.SliderLayout
-            android:id="@+id/liveZoneSlider"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginEnd="3dp"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp"
-            android:layout_marginStart="3dp"
-            android:layout_weight=".25" />
+        <include layout="@layout/live_zone_slider_row_one" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/liveZoneGridViewRelativeLayout"
@@ -86,7 +78,7 @@
             android:drawableRight="@drawable/ic_dropdown"
             android:gravity="center_vertical"
             android:text="23"
-            android:textColor="@color/White"
+            android:textColor="@color/white"
             android:textSize="8sp" />
 
         <ImageView

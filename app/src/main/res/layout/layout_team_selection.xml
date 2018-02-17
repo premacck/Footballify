@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/White"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -70,7 +70,7 @@
         android:layout_marginRight="16dp"
         android:background="@drawable/football_header_orange_gradient"
         android:text="@string/apply"
-        android:textColor="@color/White"
+        android:textColor="@color/white"
         android:textSize="12sp" />
 
 </LinearLayout>

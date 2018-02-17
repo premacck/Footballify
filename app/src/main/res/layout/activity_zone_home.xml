@@ -54,7 +54,7 @@
                 android:background="?android:attr/windowBackground"
                 android:clickable="true"
                 android:focusable="true"
-                app:itemIconTint="@color/Black"
+                app:itemIconTint="@color/black"
                 app:menu="@menu/bottom_navigation_menu" />
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
