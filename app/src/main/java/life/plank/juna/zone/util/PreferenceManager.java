@@ -35,11 +35,11 @@ public class PreferenceManager {
     }
 
     public void savePinnedFeeds(String value) {
-        editor.putString(AppConstants.pinnedFeeds, value);
+        editor.putString(AppConstants.PINNED_FEEDS, value);
         editor.commit();
     }
 
     public String getPinnedFeeds(String key) {
-        return sharedPreferences.getString(AppConstants.pinnedFeeds, "");
+        return sharedPreferences.getString(AppConstants.PINNED_FEEDS, "");
     }
 }
