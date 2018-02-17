@@ -25,10 +25,10 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ItemTouchHelperCallback;
@@ -39,7 +39,7 @@ import life.plank.juna.zone.view.adapter.ScrubberViewAdapter;
 
 public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.ScrubberPointerUpdate {
 
-    @BindView(R.id.liveZoneTextView)
+    @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
     @BindView(R.id.liveZoneRelativeLayout)
     RelativeLayout liveZoneRelativeLayout;
@@ -66,7 +66,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
     private Unbinder unbinder;
-    private int delay = 1000;
+
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
     @Override
@@ -125,7 +125,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
         snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
-        scaleXAnimator.setAddDuration(1000);
+        scaleXAnimator.setAddDuration(AppConstants.DELAY);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
     }
 
@@ -183,7 +183,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         }
     }
 
-    @OnClick(R.id.closeImage)
+    //TODO this is needed in future, will be removed later
     public void onCloseImageClicked() {
         ((SwipePageActivity) getActivity()).retainLayout();
     }
@@ -219,13 +219,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
             view = scrubberView.getLayoutManager().findViewByPosition(data.size() - 1);
         }
         int[] xyData;
-        if (view != null) {
-            xyData = new int[]{0, 0};
-            view.getLocationOnScreen(xyData);
-            params.leftMargin = xyData[0] - 15;
-            view.getLocationInWindow(xyData);
-            new Handler(Looper.getMainLooper()).post(() -> pointer.setLayoutParams(params));
-        }
+
     }
 
     @Override
