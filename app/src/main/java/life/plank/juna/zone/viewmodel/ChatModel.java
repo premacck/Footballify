@@ -18,11 +18,13 @@ public class ChatModel{
     private String tag;
     private String text;
     private Drawable image;
+    private boolean isMyMessage;
 
-    public ChatModel(String tag, String text, Drawable image) {
+    public ChatModel(String tag, String text, Drawable image,boolean isMyMessage) {
         this.tag = tag;
         this.text = text;
         this.image = image;
+        this.isMyMessage = isMyMessage;
     }
 
     public String getTag() {
@@ -49,17 +51,28 @@ public class ChatModel{
         this.image = image;
     }
 
+    public boolean isMyMessage() {
+        return isMyMessage;
+    }
+
+    public void setMyMessage(boolean myMessage) {
+        isMyMessage = myMessage;
+    }
+
     public static List<ChatModel> getChats(Context context){
         List<ChatModel> chatModelList = new ArrayList<>();
-        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null));
-        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image2)));
-        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text_two),null));
-        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null));
-        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.ic_fourth_dummy)));
-        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null));
-        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image0)));
-        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image1)));
-        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null));
+        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null,false));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image2),true));
+        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text_two),null,false));
+        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null,true));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.ic_fourth_dummy),false));
+        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null,false));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image0),true));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image1),false));
+        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),null,false));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image0),true));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),ContextCompat.getDrawable(context,R.drawable.image0),false));
+        chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text_two),null,false));
         return chatModelList;
 
     }
