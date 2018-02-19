@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,9 +16,11 @@ import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.CameraActivity;
 
 /**
  * Created by plank-hasan on 1/27/2018.
@@ -108,8 +111,12 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         public LiveZoneGridViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
+
+        }
+
+        @OnClick(R.id.card_content)
+        public void onViewClicked(View view) {
+            view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
         }
     }
-
-
 }

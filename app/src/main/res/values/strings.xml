@@ -139,6 +139,14 @@
     <string name="apply">Apply</string>
     <string name="email">Email</string>
     <string name="country">Country</string>
+    <string name="saved_message">Image Saved to Gallery</string>
+    <string name="image_name">IMG_</string>
+    <string name="extention">.jpg</string>
+    <string name="set_image_type">image/*</string>
+    <string name="child_parameter">Pictures</string>
+    <string name="date_format">yyyyMMdd_HHmmss</string>
+    <string name="button_gallery">Open Gallery  !</string>
+    <string name="button_camera">Take a picture!</string>
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
     <string name="add_comment">Add Comment</string>
 
@@ -163,5 +171,6 @@
         <item>Watford</item>
         <item>West Bromwich Albion</item>
         <item>West Ham United</item>
+
     </string-array>
 </resources>
