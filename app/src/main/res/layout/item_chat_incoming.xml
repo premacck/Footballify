@@ -49,7 +49,7 @@
                 android:visibility="gone" />
 
             <ImageView
-                android:id="@+id/message_image_image_view"
+                android:id="@+id/message_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
