@@ -115,6 +115,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         SnapHelper snapHelper = new StartSnapHelper();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
+        //TODO will be removed later
         //setUpScrubber();
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
@@ -144,6 +145,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
 
 
     private void updateScrubber() {
+        //TODO will be removed later,it is needed for future use
         // new Handler(Looper.getMainLooper()).post(() -> arrow.setVisibility(View.VISIBLE));
         while (progressStatus < ScrubberConstants.getScrubberViewTotalWindow()) {
             try {
@@ -223,7 +225,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         }
         int[] xyData;
 
-            new Handler(Looper.getMainLooper()).post(() -> arrow.setLayoutParams(params));
+        new Handler(Looper.getMainLooper()).post(() -> arrow.setLayoutParams(params));
     }
 
     @Override

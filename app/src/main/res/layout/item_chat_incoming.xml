@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,55 +12,50 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".8"
-        android:orientation="horizontal"
-        android:background="@drawable/chat_background_incoming">
-
-
+        android:background="@drawable/chat_background_incoming"
+        android:orientation="horizontal">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            >
+            android:layout_margin="10dp">
+
             <TextView
                 android:id="@+id/name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mark F"
-                android:textSize="8sp"
                 android:layout_marginBottom="5dp"
-                />
+                android:text="Mark F"
+                android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/timing_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1:22PM"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:textSize="8sp"
                 android:layout_marginBottom="5dp"
-                />
+                android:text="1:22PM"
+                android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/message_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:layout_below="@+id/name_text_view"
                 android:text="@string/lorem_ipsum_text"
                 android:textSize="12sp"
-                />
+                android:visibility="gone" />
 
             <ImageView
                 android:id="@+id/message_image_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/image0"
-                android:scaleType="centerCrop"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/name_text_view"/>
+                android:layout_below="@+id/name_text_view"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image0" />
         </RelativeLayout>
 
     </LinearLayout>
@@ -69,5 +63,5 @@
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_weight=".2"/>
+        android:layout_weight=".2" />
 </LinearLayout>

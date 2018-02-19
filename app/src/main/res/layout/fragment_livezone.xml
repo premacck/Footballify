@@ -15,8 +15,7 @@
         android:paddingBottom="0dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
-        android:paddingTop="0dp"
-      >
+        android:paddingTop="0dp">
 
         <TextView
             android:id="@+id/live_zone_text_view"
@@ -42,8 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_alignParentBottom="true"
-        android:background="@drawable/football_header_purple_gradient"
-      >
+        android:background="@drawable/football_header_purple_gradient">
 
         <TextView
             android:id="@+id/person_number"
@@ -146,13 +144,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@+id/home_team_score_text_view"
+                    android:ellipsize="end"
                     android:maxLines="4"
                     android:minLines="4"
-                    android:ellipsize="end"
-                    android:textSize="12sp"
-                    android:textColor="@color/white"
                     android:padding="5dp"
-                    android:text="" />
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -206,6 +204,4 @@
             android:layout_height="0dp"
             android:layout_weight=".75" />
     </LinearLayout>
-
-
 </RelativeLayout>

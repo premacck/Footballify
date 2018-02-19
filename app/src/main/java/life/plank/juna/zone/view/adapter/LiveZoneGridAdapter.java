@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.jakewharton.rxbinding2.view.RxView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -58,12 +60,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position)));
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onItemClickListener.onItemClicked(position);
-            }
-        });
+        RxView.clicks(holder.itemView)
+                .subscribe(v ->onItemClickListener.onItemClicked(position));
     }
 
 
@@ -123,7 +121,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
         @OnClick(R.id.card_content)
         public void onViewClicked(View view) {
-            view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
+            //TODO this has to be moved to chat fragment, will be moved in next pull request
+            //view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
         }
 
     }
