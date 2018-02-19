@@ -49,7 +49,7 @@ public class ChatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_live_zone_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_chat, container, false);
         unbinder = ButterKnife.bind(this, view);
         initializeRecyclerView();
         return view;
@@ -63,14 +63,13 @@ public class ChatFragment extends Fragment {
     }
 
     private void initializeRecyclerView() {
-
-        LinearLayoutManager gridLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        chatRecyclerView.setLayoutManager(gridLayoutManager);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         ChatAdapter chatAdapter = new ChatAdapter(getActivity());
         chatRecyclerView.setAdapter(chatAdapter);
     }
 
 
+    //TODO onclick listeners will be added in next pull request
     @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {

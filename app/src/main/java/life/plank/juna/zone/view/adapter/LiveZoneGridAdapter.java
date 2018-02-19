@@ -32,7 +32,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     private Context context;
     private List<Integer> elements;
     private int gridViewHeight;
-    private OnItemClickListener onItemClickListener;
+    public OnItemClickListener onItemClickListener;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
@@ -119,16 +119,15 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         public LiveZoneGridViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
-        this.onItemClickListener = onItemClickListener;
-
         }
 
         @OnClick(R.id.card_content)
         public void onViewClicked(View view) {
             view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
         }
+
+    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }

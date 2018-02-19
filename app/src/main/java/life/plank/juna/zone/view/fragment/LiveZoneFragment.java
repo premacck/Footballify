@@ -39,11 +39,12 @@ import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 import life.plank.juna.zone.view.adapter.ScrubberViewAdapter;
 
-public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.ScrubberPointerUpdate, OnItemClickListener {
+public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.ScrubberPointerUpdate,
+        OnItemClickListener {
 
     @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
-    @BindView(R.id.liveZoneGridViewRelativeLayout)
+    @BindView(R.id.livezone_grid_view_relative_layout)
     RecyclerView liveZoneGridViewRecyclerView;
     @BindView(R.id.close_image)
     ImageView closeImage;

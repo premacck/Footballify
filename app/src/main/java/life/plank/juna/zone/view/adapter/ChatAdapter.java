@@ -22,8 +22,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
     private Context context;
     private List<ChatModel> chatModels  = new ArrayList<>();
-    private int ITEM_VIEW_INCOMING = 0;
-    private int ITEM_VIEW_OUTGOING = 1;
+    private final int ITEM_VIEW_INCOMING = 0;
+    private final int ITEM_VIEW_OUTGOING = 1;
+    private String text = "text";
 
 
     public ChatAdapter(Context context) {
@@ -48,7 +49,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
     @Override
     public void onBindViewHolder(ChatHolder holder, int position) {
-        if ("text".contentEquals(chatModels.get(position).getTag())) {
+        //TODO added to differentiate between media types, will be removed after getting the api
+        if (text.contentEquals(chatModels.get(position).getTag())) {
             holder.messageImageImageView.setVisibility(View.GONE);
             holder.messageTextView.setVisibility(View.VISIBLE);
             holder.messageTextView.setText(chatModels.get(position).getText());
