@@ -1,5 +1,4 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -12,7 +11,7 @@
         android:layout_marginTop="10dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
-        tools:ignore="RtlSymmetry">
+        android:paddingStart="10dp">
 
         <TextView
             android:id="@+id/live_zone_text_view"
@@ -21,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:text="LiveZone" />
+            android:text="@string/liveZone" />
 
         <ImageView
             android:id="@+id/close_image"
@@ -34,9 +33,9 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/live_matches_list"
         android:layout_width="match_parent"
-        android:id="@+id/live_zone_list"
-        android:layout_below="@+id/live_zone_list_relative_layout"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/live_zone_list_relative_layout" />
 
 </RelativeLayout>

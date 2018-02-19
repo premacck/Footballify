@@ -20,7 +20,6 @@ import life.plank.juna.zone.data.network.model.LiveZoneMatchListData;
 
 public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatchListAdapter.LiveZoneListViewHolder> {
 
-    private final String COMMENTARY = "On comes Barkley. Within seconds, he’s chasing a long pass down the left wing";
     OnClickListeners onClickListeners;
     ArrayList<LiveZoneMatchListData> matchList;
     private String teamList[];
@@ -40,7 +39,7 @@ public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatch
                     teamList[loop + 1],
                     loop + 1,
                     loop,
-                    COMMENTARY
+                    context.getResources().getString(R.string.match_commentary)
             );
             matchList.add(liveZoneMatchListData);
         }
