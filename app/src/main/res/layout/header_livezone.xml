@@ -23,7 +23,7 @@
         android:text="LiveZone" />
 
     <ImageView
-        android:id="@+id/closeImage"
+        android:id="@+id/close_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

@@ -45,7 +45,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     TextView liveZoneTextView;
     @BindView(R.id.liveZoneGridViewRelativeLayout)
     RecyclerView liveZoneGridViewRecyclerView;
-    @BindView(R.id.closeImage)
+    @BindView(R.id.close_image)
     ImageView closeImage;
     @BindView(R.id.scrubber_recycler_view)
     RecyclerView scrubberView;
