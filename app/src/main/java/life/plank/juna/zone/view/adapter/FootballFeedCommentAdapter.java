@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
@@ -15,7 +16,6 @@ import life.plank.juna.zone.R;
  */
 
 public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFeedCommentAdapter.FootballFeedCommentViewHolder> {
-
     private Context context;
     private LayoutInflater mInflater;
 
@@ -23,7 +23,6 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
 
         @BindView(R.id.text_comment_time)
         TextView textCommentTime;
-
         @BindView(R.id.text_comment)
         TextView textComment;
 
