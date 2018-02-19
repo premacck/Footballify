@@ -242,11 +242,11 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setParentView(view);
         popUpWindowHelper.setPopUpWidth(gridWidth);
         popUpWindowHelper.setPopUpHeight(popupImageSize);
-        int[] locationLIkeView = new int[2];
+        int[] locationLikeView = new int[2];
 
-        footballFeedViewHolder.moreImageView.getLocationInWindow(locationLIkeView);
-        popUpWindowHelper.setPopUpLocationX(locationLIkeView[0] - gridWidth + popupImageWidth);
-        popUpWindowHelper.setPopUpLocationY(locationLIkeView[1]);
+        footballFeedViewHolder.moreImageView.getLocationInWindow(locationLikeView);
+        popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
+        popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
         popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
     }
 }
