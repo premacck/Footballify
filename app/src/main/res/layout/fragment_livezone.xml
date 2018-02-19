@@ -4,7 +4,7 @@
 
     <RelativeLayout
         android:id="@+id/liveZoneRelativeLayout"
-        style="@style/livezonetextstyle"
+        style="@style/live_zone_text_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/live_zone_text_view"
-            style="@style/livezonetextstyle"
+            style="@style/live_zone_text_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="LiveZone" />
