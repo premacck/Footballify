@@ -130,7 +130,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         new Thread(this::updateScrubber).start();
     }
 
-
     private void updateScrubber() {
         new Handler(Looper.getMainLooper()).post(() -> pointer.setVisibility(View.VISIBLE));
         while (progressStatus < ScrubberConstants.getScrubberViewTotalWindow()) {
