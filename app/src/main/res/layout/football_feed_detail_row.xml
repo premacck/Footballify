@@ -129,7 +129,7 @@
                     android:orientation="vertical"
                     android:padding="10dp">
 
-                    <include layout="@layout/likes_comment_container" />
+                    <include layout="@layout/like_comment_container" />
 
                     <TextView
                         android:id="@+id/top_feed_content"
@@ -158,7 +158,7 @@
                         android:layout_marginTop="20dp"
                         android:background="@color/grid_item_grey" />
 
-                    <include layout="@layout/likes_comments_row" />
+                    <include layout="@layout/like_comment_row" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/feed_comment_recyclerview"
