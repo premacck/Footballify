@@ -101,6 +101,9 @@
     <string name="club_image_name">clubImageName</string>
     <string name="azure_base_url">https://junafunctions.azurewebsites.net/</string>
     <string name="position">position</string>
+    <string name="comment_data">vitea eleifeind nibh interdium non specian sit amet nisi loboritis placerat in ut sapian. Phasellus interdiumerat mauris,eu veneratis mi interdium condimenutum </string>
+    <string name="feed_content_title">Lorem ipsum dolor sit amet,consecteur adipiscing elit.Nam id tortor sit amet nulla semper loborits.Phasellusaugue sapien,maximum suscript  augue a,accumsan pellentesque odio.Nulla mollis metus nec sem luctus.</string>
+    <string name="feed_content_subtitle">Vitae eleifend nibh interdum.Proin maximu vitae est eu interdumSed fermentum ornare justo,a consectetur lorem ultrice id,Vestibulum non sapiensit amet nisi loborits placerat in ut sapien.Phasellus interdum,condimentum.Suspendisse volutpat nibh mi,vel maximumipsum egestas porta.Suspendisse ut diam eget sapien.Duis faucibus liua felis,neicutur felis eleifend a,Cras sit amet finibus est.Proin feugiatsollicuitudin feugiat.Etiam blandit accumasan ipsum nec euismod.</string>
 
     <string-array name="calendar_array">
         <item>Yesterday</item>
@@ -136,6 +139,8 @@
     <string name="apply">Apply</string>
     <string name="email">Email</string>
     <string name="country">Country</string>
+    <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
+    <string name="add_comment">Add Comment</string>
 
     <string-array name="football_teams">
         <item>Arsenal</item>

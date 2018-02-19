@@ -14,7 +14,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
-
 public class FootballFeedDetailActivity extends AppCompatActivity {
     @BindView(R.id.football_feed_recyclerView)
     RecyclerView footballFeedRecyclerView;
@@ -31,7 +30,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         populateRecyclerView();
     }
 
-
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
@@ -42,10 +40,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         snapHelper.attachToRecyclerView(footballFeedRecyclerView);
     }
 
-
     public void setUpRecyclerViewScroll(boolean status) {
         customLinearLayoutManager.setScrollEnabled(status);
     }
-
-
 }
