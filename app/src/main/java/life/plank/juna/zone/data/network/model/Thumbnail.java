@@ -1,35 +1,43 @@
+
 package life.plank.juna.zone.data.network.model;
 
-/**
- * Created by plank-arfaa on 06/02/18.
- */
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Thumbnail {
-    private String ImageUrl;
-    private int ImageHeight;
-    private int ImageWidth;
+
+    @SerializedName("ImageUrl")
+    @Expose
+    private String imageUrl;
+    @SerializedName("ImageHeight")
+    @Expose
+    private Integer imageHeight;
+    @SerializedName("ImageWidth")
+    @Expose
+    private Integer imageWidth;
 
     public String getImageUrl() {
-        return this.ImageUrl;
+        return imageUrl;
     }
 
-    public void setImageUrl(String ImageUrl) {
-        this.ImageUrl = ImageUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public int getImageHeight() {
-        return this.ImageHeight;
+    public Integer getImageHeight() {
+        return imageHeight;
     }
 
-    public void setImageHeight(int ImageHeight) {
-        this.ImageHeight = ImageHeight;
+    public void setImageHeight(Integer imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
-    public int getImageWidth() {
-        return this.ImageWidth;
+    public Integer getImageWidth() {
+        return imageWidth;
     }
 
-    public void setImageWidth(int ImageWidth) {
-        this.ImageWidth = ImageWidth;
+    public void setImageWidth(Integer imageWidth) {
+        this.imageWidth = imageWidth;
     }
+
 }
