@@ -45,7 +45,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     RelativeLayout liveZoneRelativeLayout;
     @BindView(R.id.liveZoneGridViewRelativeLayout)
     RecyclerView liveZoneGridViewRecyclerView;
-    @BindView(R.id.closeImage)
+    @BindView(R.id.close_image)
     ImageView closeImage;
     @BindView(R.id.scrubber_recycler_view)
     RecyclerView scrubberView;
@@ -177,7 +177,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
     public void onCloseImageClicked(View view) {
         switch (view.getId()) {
-            case R.id.closeImage:
+            case R.id.close_image:
                 ((SwipePageActivity) getActivity()).retainLayout();
                 break;
 
