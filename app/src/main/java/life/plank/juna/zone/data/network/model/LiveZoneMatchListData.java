@@ -6,11 +6,11 @@ package life.plank.juna.zone.data.network.model;
 
 public class LiveZoneMatchListData {
 
-    String homeTeam;
-    String visitingTeam;
-    int homeTeamScore;
-    int visitingTeamScore;
-    String commentary;
+    private String homeTeam;
+    private String visitingTeam;
+    private int homeTeamScore;
+    private int visitingTeamScore;
+    private String commentary;
 
     public LiveZoneMatchListData(String homeTeam, String visitingTeam, int homeTeamScore, int visitingTeamScore, String commentary) {
         this.homeTeam = homeTeam;

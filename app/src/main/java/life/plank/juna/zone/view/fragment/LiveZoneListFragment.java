@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneMatchListAdapter;
@@ -25,7 +24,6 @@ import life.plank.juna.zone.view.adapter.LiveZoneMatchListAdapter;
 public class LiveZoneListFragment extends Fragment implements LiveZoneMatchListAdapter.OnClickListeners {
 
     Context context;
-    private Unbinder unbinder;
     @BindView(R.id.live_zone_list)
     RecyclerView liveZoneListView;
     LiveZoneMatchListAdapter liveZoneListAdapter;
@@ -40,13 +38,13 @@ public class LiveZoneListFragment extends Fragment implements LiveZoneMatchListA
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone_list, container, false);
-        unbinder = ButterKnife.bind(this, view);
+        ButterKnife.bind(this, view);
         setUpView();
         return view;
     }
 
     private void setUpView() {
-        liveZoneListAdapter = new LiveZoneMatchListAdapter(context,this);
+        liveZoneListAdapter = new LiveZoneMatchListAdapter(context, this);
         liveZoneListView.setLayoutManager(new LinearLayoutManager(context));
         liveZoneListView.setAdapter(liveZoneListAdapter);
     }

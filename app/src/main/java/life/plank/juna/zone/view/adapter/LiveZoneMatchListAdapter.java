@@ -6,7 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
@@ -18,12 +20,11 @@ import life.plank.juna.zone.data.network.model.LiveZoneMatchListData;
 
 public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatchListAdapter.LiveZoneListViewHolder> {
 
+    private final String COMMENTARY = "On comes Barkley. Within seconds, he’s chasing a long pass down the left wing";
     OnClickListeners onClickListeners;
     ArrayList<LiveZoneMatchListData> matchList;
     private String teamList[];
     private Context context;
-
-    private final String COMMENTARY = "On comes Barkley. Within seconds, he’s chasing a long pass down the left wing";
 
     public LiveZoneMatchListAdapter(Context context, OnClickListeners onClickListeners) {
         this.onClickListeners = onClickListeners;
@@ -40,7 +41,7 @@ public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatch
                     loop + 1,
                     loop,
                     COMMENTARY
-                    );
+            );
             matchList.add(liveZoneMatchListData);
         }
     }
@@ -55,11 +56,9 @@ public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatch
 
     @Override
     public void onBindViewHolder(LiveZoneListViewHolder holder, int position) {
-        holder.visitingTeamScoreTextView.setText(matchList.get(position).getVisitingTeamScore());
         holder.homeTeamTextView.setText(matchList.get(position).getHomeTeam());
         holder.commentaryTextView.setText(matchList.get(position).getCommentary());
         holder.visitingTeamTextView.setText(matchList.get(position).getVisitingTeam());
-        holder.homeTeamScoreTextView.setText(matchList.get(position).getHomeTeamScore());
         holder.itemView.setOnClickListener(view -> onClickListeners.onClick(position));
     }
 
@@ -87,7 +86,7 @@ public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatch
 
         LiveZoneListViewHolder(View itemView) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
