@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ import life.plank.juna.zone.view.adapter.LiveZoneMatchListAdapter;
 public class LiveZoneListFragment extends Fragment implements LiveZoneMatchListAdapter.OnClickListeners {
 
     Context context;
-    @BindView(R.id.live_zone_list)
+    @BindView(R.id.live_matches_list)
     RecyclerView liveZoneListView;
     LiveZoneMatchListAdapter liveZoneListAdapter;
 
