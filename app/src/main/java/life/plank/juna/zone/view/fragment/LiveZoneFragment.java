@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -25,6 +24,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
@@ -49,7 +49,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     ImageView closeImage;
     @BindView(R.id.scrubber_recycler_view)
     RecyclerView scrubberView;
-    @BindView(R.id.arrow)
+    @BindView(R.id.pointer)
     ImageView pointer;
     @BindView(R.id.commentary_text)
     TextView commentaryTextView;
@@ -57,6 +57,10 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     TextView homeTeamScoreTextView;
     @BindView(R.id.visiting_team_score_text_view)
     TextView visitingTeamScoreTextView;
+    @BindView(R.id.next_match_text_view)
+    TextView nextMatchTextView;
+    @BindView(R.id.previous_match_text_view)
+    TextView previousMatchTextView;
 
     Context context;
     LiveZoneGridAdapter adapter;
@@ -65,8 +69,8 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     ScrubberViewAdapter.ScrubberPointerUpdate scrubberPointerUpdate;
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
+    int currentMatch = 1;
     private Unbinder unbinder;
-
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
     @Override
@@ -87,20 +91,11 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_livezone, container, false);
         unbinder = ButterKnife.bind(this, view);
-
         getHeightDetails();
         setUpGridView();
+        setUpScrubber();
         return view;
     }
-
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        int[] location = new int[]{0, 0};
-        homeTeamScoreTextView.getLocationOnScreen(location);
-    }
-
 
     @Override
     public void onDestroyView() {
@@ -112,12 +107,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         SnapHelper snapHelper = new StartSnapHelper();
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
-
-        scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, scrubberPointerUpdate);
-        scrubberView.setAdapter(scrubberViewAdapter);
-        setUpScrubber();
-
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
@@ -130,6 +119,9 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     }
 
     private void setUpScrubber() {
+        scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, scrubberPointerUpdate);
+        scrubberView.setAdapter(scrubberViewAdapter);
         ItemTouchHelper.Callback callback =
                 new ItemTouchHelperCallback(scrubberViewAdapter, data);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
@@ -164,7 +156,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         }
     }
 
-
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
         if (scrubberViewData.getLiveFeedTileData().getImages().size() > 0) {
@@ -183,9 +174,23 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         }
     }
 
-    //TODO this is needed in future, will be removed later
-    public void onCloseImageClicked() {
-        ((SwipePageActivity) getActivity()).retainLayout();
+    @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
+    public void onCloseImageClicked(View view) {
+        switch (view.getId()) {
+            case R.id.closeImage:
+                ((SwipePageActivity) getActivity()).retainLayout();
+                break;
+
+            case R.id.next_match_text_view:
+                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch + 1);
+                break;
+
+            case R.id.previous_match_text_view:
+                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch - 1);
+                break;
+            default:
+                break;
+        }
     }
 
     /**

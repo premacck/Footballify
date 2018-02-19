@@ -1,49 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="5dp"
     android:weightSum="4">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_gravity="left"
-        android:layout_margin="0dp"
         android:layout_weight="3">
-
-        <TextView
-            android:id="@+id/homeTeamTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:padding="5dp"
-            android:text="Brighton &amp; hove albiono"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
-
-        <TextView
-            android:id="@+id/visitingTeamTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/homeTeamTextView"
-            android:padding="5dp"
-            android:text="Chelsea"
-            android:textAllCaps="true"
-            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/home_team_score_text_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/homeTeamTextView"
-            android:layout_toRightOf="@+id/homeTeamTextView"
+            android:layout_centerHorizontal="true"
             android:background="@color/red"
             android:gravity="center"
             android:text="0"
@@ -51,16 +24,37 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/visiting_team_score_text_view"
+            android:id="@+id/homeTeamTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/home_team_score_text_view"
+            android:layout_toStartOf="@+id/home_team_score_text_view"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:minLines="1"
+            android:padding="5dp"
+            android:text="Brighton &amp; hove albiono"
+            android:textAllCaps="true"
+            android:textColor="@color/white" />
 
+        <TextView
+            android:id="@+id/commentary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/home_team_score_text_view"
+            android:maxLines="4"
+            android:minLines="4"
+            android:padding="5dp"
+            android:textColor="@color/white" />
+
+
+        <TextView
+            android:id="@+id/visiting_team_score_text_view"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_below="@+id/homeTeamTextView"
-            android:layout_margin="5dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/visitingTeamTextView"
-            android:layout_toRightOf="@+id/visitingTeamTextView"
+            android:layout_below="@+id/home_team_score_text_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
             android:background="@color/red"
             android:gravity="center"
             android:text="3"
@@ -68,14 +62,21 @@
             android:textColor="@color/white" />
 
         <TextView
-            android:id="@+id/commentary_text"
+            android:id="@+id/visitingTeamTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/home_team_score_text_view"
-            android:maxLines="4"
-            android:minLines="4"
-            android:padding="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/homeTeamTextView"
+            android:maxLines="1"
+            android:minLines="1"
+            android:ellipsize="end"
+            android:layout_margin="3dp"
+            android:layout_toLeftOf="@+id/visiting_team_score_text_view"
+            android:layout_toStartOf="@+id/visiting_team_score_text_view"
+            android:text="Chelsea"
+            android:textAllCaps="true"
             android:textColor="@color/white" />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -105,12 +106,11 @@
             android:background="#fff" />
 
         <ImageView
-            android:id="@+id/arrow"
+            android:id="@+id/pointer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/scrubber_recycler_view"
             android:background="@drawable/ic_pointer"
-            android:contentDescription="image"
             android:scaleType="fitCenter"
             android:visibility="gone" />
     </RelativeLayout>
