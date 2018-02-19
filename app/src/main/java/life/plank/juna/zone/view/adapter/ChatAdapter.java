@@ -47,13 +47,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
             holder.messageImageView.setVisibility(View.GONE);
             holder.messageTextView.setVisibility(View.VISIBLE);
             holder.messageTextView.setText(chatModels.get(position).getText());
-
         } else {
             holder.messageTextView.setVisibility(View.GONE);
             holder.messageImageView.setVisibility(View.VISIBLE);
             holder.messageImageView.setImageDrawable(chatModels.get(position).getImage());
         }
-
         if (chatModels.get(position).isMyMessage()) {
             holder.nameTextView.setText(context.getString(R.string.me));
         }
@@ -66,6 +64,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return chatModels.get(position).isMyMessage() ? ITEM_VIEW_OUTGOING : ITEM_VIEW_OUTGOING;
+        return chatModels.get(position).isMyMessage() ? ITEM_VIEW_OUTGOING : ITEM_VIEW_INCOMING;
     }
 }
