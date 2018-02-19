@@ -138,6 +138,15 @@
     <string name="country">Country</string>
     <string name="back">Back</string>
     <string name="tottenham_angels">Tottenham Angels</string>
+    <string name="saved_message">Image Saved to Gallery</string>
+    <string name="image_name">IMG_</string>
+    <string name="extention">.jpg</string>
+    <string name="set_image_type">image/*</string>
+    <string name="child_parameter">Pictures</string>
+    <string name="date_format">yyyyMMdd_HHmmss</string>
+    <string name="button_gallery">Open Gallery  !</string>
+    <string name="button_camera">Take a picture!</string>
+
 
     <string-array name="football_teams">
         <item>Arsenal</item>
@@ -160,6 +169,7 @@
         <item>Watford</item>
         <item>West Bromwich Albion</item>
         <item>West Ham United</item>
+
     </string-array>
     <string name="lorem_ipsum_text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     </string>
