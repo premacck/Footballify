@@ -11,7 +11,7 @@
         android:layout_marginTop="5dp">
 
         <ImageView
-            android:id="@+id/image_likes"
+            android:id="@+id/like_feed_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:layout_toRightOf="@+id/image_likes"
+            android:layout_toRightOf="@+id/like_feed_image"
             android:text="1.2M"
             android:textColor="@color/grid_item_grey"
             android:textSize="10sp" />

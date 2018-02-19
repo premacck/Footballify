@@ -17,31 +17,14 @@ import life.plank.juna.zone.R;
 
 public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFeedCommentAdapter.FootballFeedCommentViewHolder> {
     private Context context;
-    private LayoutInflater mInflater;
 
-    public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {
-
-        @BindView(R.id.text_comment_time)
-        TextView textCommentTime;
-        @BindView(R.id.text_comment)
-        TextView textComment;
-
-        public FootballFeedCommentViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
-    public FootballFeedCommentAdapter(Context context) {
-        this.mInflater = LayoutInflater.from(context);
+    FootballFeedCommentAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
     public FootballFeedCommentAdapter.FootballFeedCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        mInflater = LayoutInflater.from(parent.getContext());
-        View view;
-        view = mInflater.inflate(R.layout.football_comment_feed_row, parent, false);
-        context = parent.getContext();
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_comment_feed_row, parent, false);
         return new FootballFeedCommentAdapter.FootballFeedCommentViewHolder(view);
     }
 
@@ -50,10 +33,22 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
         holder.textComment.setText(R.string.comment_data);
     }
 
+    //TODO this intiger value will replace with model class
     @Override
     public int getItemCount() {
         return 5;
     }
+    public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.text_comment_time)
+        TextView textCommentTime;
+        @BindView(R.id.text_comment)
+        TextView textComment;
+
+        FootballFeedCommentViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+    }
 
 }

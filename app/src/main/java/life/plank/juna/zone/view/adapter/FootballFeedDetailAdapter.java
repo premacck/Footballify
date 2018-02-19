@@ -75,7 +75,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         }
 
         @OnClick({R.id.add_comment, R.id.comment_submit, R.id.add_comment_view})
-        public void onCommentAdd(View view) {
+        public void onAddComment(View view) {
 
             nestedScrollView.post(new Runnable() {
                 @Override
@@ -140,12 +140,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             }
         });
     }
+    //TODO this intiger value will replace with model class
 
     @Override
     public int getItemCount() {
         return 10;
     }
-
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
