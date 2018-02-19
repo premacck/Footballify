@@ -28,7 +28,7 @@
                 android:scaleType="centerCrop" />
 
             <LinearLayout
-                android:id="@+id/bootm_linear_layout"
+                android:id="@+id/sliding_panel_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
@@ -70,7 +70,7 @@
                     android:src="@drawable/ic_down_arrow" />
             </LinearLayout>
         </RelativeLayout>
-        <!-- SLIDING LAYOUT -->
+
         <LinearLayout
             android:id="@+id/dragView"
             android:layout_width="match_parent"
@@ -161,7 +161,7 @@
                     <include layout="@layout/likes_comments_row" />
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/football_feed_comment_recyclerView"
+                        android:id="@+id/feed_comment_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/football_feed_recyclerView"
@@ -199,7 +199,7 @@
                         android:layout_gravity="right"
                         android:layout_marginBottom="10dp"
                         android:layout_marginTop="10dp"
-                        android:background="@drawable/ic_background_button"
+                        android:background="@drawable/ic_submit_background"
                         android:padding="10dp"
                         android:text="Submit"
                         android:textColor="@color/white" />

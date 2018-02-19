@@ -28,6 +28,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnLongClickListener;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.PopUpWindowHelper;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
@@ -138,11 +139,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.newsFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-            intent.putExtra("position", String.valueOf(position));
-            context.startActivity(intent);
-        });
     }
 
     private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
@@ -204,7 +200,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         footballFeedList.addAll(footballFeeds);
         notifyDataSetChanged();
     }
-
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.news_feed_label)
         TextView newsFeedLabel;

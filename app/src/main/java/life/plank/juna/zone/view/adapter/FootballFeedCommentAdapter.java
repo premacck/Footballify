@@ -6,15 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.util.GlobalVariable;
 
 /**
  * Created by plank-prachi on 2/11/2018.
@@ -45,9 +39,9 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
 
     @Override
     public FootballFeedCommentAdapter.FootballFeedCommentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        mInflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.football_comment_feed_row, parent, false);
+        view = mInflater.inflate(R.layout.football_comment_feed_row, parent, false);
         context = parent.getContext();
         return new FootballFeedCommentAdapter.FootballFeedCommentViewHolder(view);
     }

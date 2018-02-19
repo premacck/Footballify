@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
-            android:background="@drawable/ic_likes" />
+            android:background="@drawable/ic_like_image" />
 
         <TextView
             android:id="@+id/count_news_feed_likes"

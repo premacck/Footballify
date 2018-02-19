@@ -42,8 +42,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
-        @BindView(R.id.football_feed_comment_recyclerView)
-        RecyclerView footballFeedCommentRecyclerView;
+        @BindView(R.id.feed_comment_recyclerview)
+        RecyclerView feedCommentRecyclerView;
         @BindView(R.id.tag_text_view)
         TextView tagTextView;
         @BindView(R.id.title_text_view)
@@ -58,8 +58,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         TextView topFeedContentTextView;
         @BindView(R.id.bottom_feed_content)
         TextView bottomFeedContentTextView;
-        @BindView(R.id.bootm_linear_layout)
-        LinearLayout bootmLinearLayout;
+        @BindView(R.id.sliding_panel_layout)
+        LinearLayout slidingPanelLinearLayout;
         @BindView(R.id.comment_submit)
         Button submitButton;
         @BindView(R.id.add_comment)
@@ -98,15 +98,13 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             });
         }
 
-
         public void populateCommentRecyclerView() {
             commentFeedAdapter = new FootballFeedCommentAdapter(context);
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-            footballFeedCommentRecyclerView.setLayoutManager(layoutManager);
+            feedCommentRecyclerView.setLayoutManager(layoutManager);
             SnapHelper snapHelper = new PagerSnapHelper();
-            snapHelper.attachToRecyclerView(footballFeedCommentRecyclerView);
-            footballFeedCommentRecyclerView.setAdapter(commentFeedAdapter);
-
+            snapHelper.attachToRecyclerView(feedCommentRecyclerView);
+            feedCommentRecyclerView.setAdapter(commentFeedAdapter);
         }
     }
 
@@ -114,7 +112,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
         this.context = context;
     }
-
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -127,16 +124,16 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         //TODO confirm max lines for the bottom content
-        //holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
+        // holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
         holder.topFeedContentTextView.setText(R.string.feed_content_title);
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
         holder.populateCommentRecyclerView();
-        holder.footballFeedCommentRecyclerView.setNestedScrollingEnabled(false);
+        holder.feedCommentRecyclerView.setNestedScrollingEnabled(false);
         setUpSlidingLayout(holder);
         holder.expandArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.bootmLinearLayout.setVisibility(View.GONE);
+                holder.slidingPanelLinearLayout.setVisibility(View.GONE);
                 holder.mLayout.setAnchorPoint(0.7f);
                 holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
 
@@ -170,7 +167,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                     }
                     case COLLAPSED: {
                         holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent_grey));
-                        holder.bootmLinearLayout.setVisibility(View.VISIBLE);
+                        holder.slidingPanelLinearLayout.setVisibility(View.VISIBLE);
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(true);
                         break;
                     }
@@ -183,8 +180,5 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
-
-
     }
-
 }
