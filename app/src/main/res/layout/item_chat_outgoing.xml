@@ -3,9 +3,7 @@
     android:id="@+id/parent_linear_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-
-    >
+    android:orientation="horizontal">
 
     <View
         android:layout_width="0dp"
@@ -18,7 +16,6 @@
         android:layout_weight=".8"
         android:background="@drawable/chat_background_outgoing"
         android:orientation="horizontal">
-
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -61,8 +58,5 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/image0" />
         </RelativeLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>

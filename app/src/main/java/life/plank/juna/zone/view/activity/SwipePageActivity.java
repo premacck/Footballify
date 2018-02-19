@@ -256,9 +256,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
                 .commit();
     }
-
-
-
+    
     @Override
     public void onBackPressed() {
 

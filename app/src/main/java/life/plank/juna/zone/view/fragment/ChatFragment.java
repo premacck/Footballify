@@ -19,7 +19,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 
 public class ChatFragment extends Fragment {
-
     Context context;
     @BindView(R.id.back_image_view)
     TextView backImageView;
@@ -55,7 +54,6 @@ public class ChatFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -67,7 +65,6 @@ public class ChatFragment extends Fragment {
         ChatAdapter chatAdapter = new ChatAdapter(getActivity());
         chatRecyclerView.setAdapter(chatAdapter);
     }
-
 
     //TODO onclick listeners will be added in next pull request
     @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image})
