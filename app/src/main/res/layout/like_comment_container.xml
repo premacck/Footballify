@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
-            android:background="@drawable/ic_favorite" />
+            android:background="@drawable/ic_feed_like" />
 
         <TextView
             android:id="@+id/count_news_feed_likes"
@@ -36,7 +36,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/count_news_feed_likes"
-            android:background="@drawable/ic_comment_icon" />
+            android:background="@drawable/ic_feed_comment" />
 
         <TextView
             android:id="@+id/count_news_feed_comment"
@@ -54,7 +54,7 @@
             android:layout_height="15dp"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/count_news_feed_comment"
-            android:background="@drawable/ic_comment_background"
+            android:background="@drawable/ic_feed_comment_bg"
             android:text="@string/add_comment"
             android:textColor="@color/grid_item_grey"
             android:textSize="10sp" />

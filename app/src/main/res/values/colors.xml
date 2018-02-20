@@ -19,5 +19,5 @@
     <color name="green">#7cb36c</color>
     <color name="red">#E10C1B</color>
     <color name="blue_grey">#5B7281</color>
-    <color name="feed_text_color">#030303</color>
+    <color name="light_black">#030303</color>
 </resources>

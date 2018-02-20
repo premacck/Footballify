@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/comment_time"
-        android:textColor="@color/dark_grey"
+        android:textColor="@color/light_black"
         android:textSize="12sp" />
 
     <TextView

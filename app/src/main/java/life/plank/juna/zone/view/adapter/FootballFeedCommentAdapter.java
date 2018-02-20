@@ -34,6 +34,7 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
     }
 
     //TODO this intiger value will replace with model class
+
     @Override
     public int getItemCount() {
         return 5;

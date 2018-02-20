@@ -49,6 +49,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private OnLongClickListener onLongClickListner;
     private int popupImageHeight;
+    private PopupWindow popupWindowMenu;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -246,7 +247,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         footballFeedViewHolder.moreImageView.getLocationInWindow(locationLikeView);
         popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
         popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
-        PopupWindow popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
+        popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
     }
 }
 
