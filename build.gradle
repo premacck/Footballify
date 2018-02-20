@@ -61,7 +61,7 @@ sonarqube {
         property "sonar.projectName", "Plank Juna Zone Android App"
         property "sonar.projectKey", "life.plank:java-gradle-zone-android-app"
         property "sonar.jacoco.reportPath", "${project.buildDir}/jacoco/test.exec"
-        property "sonar.host.url", "http://jenkins.plank.life:9000/sonar"
+        property "sonar.host.url", "http://jenkins.plank.life:9000/sonar/"
     }
 }
 uploadArchives {
