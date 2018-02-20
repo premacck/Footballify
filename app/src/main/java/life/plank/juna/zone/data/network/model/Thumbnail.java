@@ -1,4 +1,7 @@
 package life.plank.juna.zone.data.network.model;
+/**
+ * Created by plank-arfaa on 06/02/18.
+ */
 
 public class Thumbnail {
     private String ImageUrl;
