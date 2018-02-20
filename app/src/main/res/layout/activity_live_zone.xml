@@ -1,12 +1,31 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_feed_bg">
+
+    <ImageView
+        android:id="@+id/zone_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_zone_logo" />
+
+    <include
+        android:id="@+id/football_toolbar"
+        layout="@layout/zone_football_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/zone_logo"
+        android:layout_marginBottom="@dimen/football_toolbar_margin_bottom"
+        android:layout_toEndOf="@+id/zone_logo"
+        android:layout_toRightOf="@+id/zone_logo" />
 
     <RelativeLayout
-        android:id="@+id/livezone_header_relative_layout"
+        android:id="@+id/live_zone_header_relative_layout"
         style="@style/live_zone_text_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/football_toolbar"
         android:layout_marginEnd="3dp"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
@@ -97,7 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/banter_zone_layout"
-        android:layout_below="@+id/livezone_header_relative_layout"
+        android:layout_below="@+id/live_zone_header_relative_layout"
         android:orientation="vertical">
 
         <LinearLayout
@@ -215,11 +234,10 @@
                     android:scaleType="fitCenter"
                     android:visibility="gone" />
             </LinearLayout>
-
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/livezone_grid_view_relative_layout"
+            android:id="@+id/live_zone_grid_view_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".75"
