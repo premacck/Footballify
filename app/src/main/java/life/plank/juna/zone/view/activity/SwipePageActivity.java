@@ -262,13 +262,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.live_zone_text_view:
-               /* retainLayout();
-                footballFeedFragment();*/
-                startActivity(new Intent(this,LiveZoneActivity.class));
-                //TODO will be moved to navigation drawer once the drawer part is done
-              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.PINNED_FEEDS))) {
-                    startActivity(new Intent(this, PinboardActivity.class));
-                }*/
+                retainLayout();
+                liveZoneListFragment();
                 break;
 
             case R.id.football_menu:
@@ -277,7 +272,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     }
 
-    public void footballFeedFragment() {
+    public void liveZoneListFragment() {
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -353,12 +348,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void goToLiveMatch(int matchNumber) {
-        fragmentContainerFrameLayout.removeAllViews();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
-                .commit();
+        //TODO match number is needed for future
+        startActivity(new Intent(this,LiveZoneActivity.class));
     }
 
 }

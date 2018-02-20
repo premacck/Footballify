@@ -161,19 +161,20 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     public void onCloseImageClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
-                ((SwipePageActivity) getActivity()).retainLayout();
+                ((SwipePageActivity) context).retainLayout();
                 break;
 
             case R.id.next_match_text_view:
-                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch + 1);
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch + 1);
                 break;
 
             case R.id.previous_match_text_view:
-                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch - 1);
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
                 break;
             default:
                 break;
         }
+    }
 
     /**
      * Get linearLayout after it is drawn.
