@@ -28,18 +28,21 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
+        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
 
     def buildBugfixBranch(){
         build()
+        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
 
     def buildReleaseBranch(){
         buildRelease()
+        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
@@ -48,6 +51,7 @@ node('docker') {
     def buildHotfixBranch(){
     //todo: must not perform the same tasks as others, change hotfix tasks
         buildRelease()
+        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
@@ -56,6 +60,7 @@ node('docker') {
     def buildDevelopmentBranch(){
         //todo: must not perform the same tasks as others, change Development tasks
         build()
+        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
@@ -63,6 +68,7 @@ node('docker') {
     def buildMasterBranch(){
         //todo: must not perform the same tasks as others, change Master branch tasks
         build()
+        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
@@ -112,5 +118,12 @@ node('docker') {
     def publishApkToProductionTrackPlayStore(){
         stage 'Upload Signed APK to Playstore'
         sh "./gradlew -Ptrack=production publishApkRelease"
+        echo  '********************************************************************************'
+    }
+
+    def runSonarQubeAnalysis(){
+        stage 'Run SonarQube analysis on juna-zone-android-app'
+        sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
+        sh "./gradlew sonarqube"
         echo  '********************************************************************************'
     }
