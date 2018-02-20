@@ -3,6 +3,13 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#F5FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="orange">#f8bd70</color>
+    <color name="green">#7cb36c</color>
+    <color name="red">#E10C1B</color>
+    <color name="blue_grey">#5B7281</color>
     <color name="dark_grey">#2B2D39</color>
     <color name="dark_blue">#2A385D</color>
     <color name="orange_center_gradient">#e24932</color>
@@ -11,13 +18,9 @@
     <color name="transparent_grey">#66000000</color>
     <color name="spinner_item_color">#cf040d</color>
     <color name="grid_item_grey">#6e777d</color>
+    <color name="chat_header_background">#7E8285</color>
     <color name="background_grey">#303331</color>
-    <color name="white">#FFFFFF</color>
-    <color name="white_transparent">#F5FFFFFF</color>
-    <color name="black">#000000</color>
-    <color name="orange">#f8bd70</color>
-    <color name="green">#7cb36c</color>
-    <color name="red">#E10C1B</color>
-    <color name="blue_grey">#5B7281</color>
+    <color name="chat_body_background">#D5D7DD</color>
     <color name="light_black">#030303</color>
+
 </resources>

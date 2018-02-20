@@ -15,20 +15,17 @@ import life.plank.juna.zone.R;
  * Created by plank-hasan on 2/9/2018.
  */
 
-public class PinBoardFootballFeedViewHolder extends RecyclerView.ViewHolder{
+public class PinBoardFootballFeedViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.news_feed_label)
-    public
-    TextView newsFeedLabel;
+    public TextView newsFeedLabel;
     @BindView(R.id.news_feed_image)
-    public
-    ImageView newFeedImage;
+    public ImageView newFeedImage;
     @BindView(R.id.gradient_header)
     RelativeLayout gradientRelativeLayout;
     @BindView(R.id.category)
     TextView categoryLabel;
     @BindView(R.id.relative_layout_container)
-    public
-    RelativeLayout newsFeedRelativeLayout;
+    public RelativeLayout newsFeedRelativeLayout;
     @BindView(R.id.football_feed_card)
     CardView newsFeedCardView;
 
