@@ -1,19 +1,15 @@
-package life.plank.juna.zone.view.fragment;
+package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -36,16 +32,16 @@ import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ItemTouchHelperCallback;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 import life.plank.juna.zone.view.adapter.ScrubberViewAdapter;
+import life.plank.juna.zone.view.fragment.ChatFragment;
 
-public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.ScrubberPointerUpdate,
+public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberViewAdapter.ScrubberPointerUpdate,
         OnItemClickListener {
 
     @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
-    @BindView(R.id.livezone_grid_view_relative_layout)
+    @BindView(R.id.live_zone_grid_view_relative_layout)
     RecyclerView liveZoneGridViewRecyclerView;
     @BindView(R.id.close_image)
     ImageView closeImage;
@@ -76,49 +72,25 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        this.context = context;
-        super.onAttach(context);
+        setContentView(R.layout.activity_live_zone);
+        ButterKnife.bind(this);
+        context = this;
         scrubberPointerUpdate = this;
         scrubberViewDataHolder = new HashMap<>();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_livezone, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        //TODO will be uncommented in expand and collapse code
-        //  getHeightDetails();
-        // setUpGridView();
         setUpScrubber();
+        //TODO will be uncommented in expand and collapse code
+        //getHeightDetails();
+        //setUpGridView();
         chatFragment();
-        return view;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
-
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     private void setUpGridView() {
         SnapHelper snapHelper = new StartSnapHelper();
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
         //TODO will be removed later
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
-        adapter = new LiveZoneGridAdapter(getActivity());
+        adapter = new LiveZoneGridAdapter(this);
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
@@ -127,7 +99,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         scaleXAnimator.setAddDuration(AppConstants.DELAY);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
         adapter.setOnItemClickListener(this);
-
     }
 
     private void setUpScrubber() {
@@ -140,9 +111,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         touchHelper.attachToRecyclerView(scrubberView);
         scrubberViewAdapter.setItemTouchHelper(touchHelper);
         new Thread(this::updateScrubber).start();
-
     }
-
 
     private void updateScrubber() {
         //TODO will be removed later,it is needed for future use
@@ -192,15 +161,15 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     public void onCloseImageClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
-                ((SwipePageActivity) getActivity()).retainLayout();
+                ((SwipePageActivity) context).retainLayout();
                 break;
 
             case R.id.next_match_text_view:
-                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch + 1);
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch + 1);
                 break;
 
             case R.id.previous_match_text_view:
-                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch - 1);
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
                 break;
             default:
                 break;
@@ -248,10 +217,10 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
 
     public void chatFragment() {
         fragmentContainerFrameLayout.removeAllViews();
-        getFragmentManager()
+        getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new ChatFragment())
+                .replace(R.id.fragment_container_frame_layout, new ChatFragment())
                 .commit();
     }
 
@@ -259,7 +228,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         liveZoneGridViewRecyclerView.setVisibility(View.GONE);
         fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
     }
-
 
     @Override
     public void onItemClicked(int positon) {
