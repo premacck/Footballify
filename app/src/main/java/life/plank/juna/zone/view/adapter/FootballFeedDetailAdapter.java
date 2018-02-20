@@ -140,12 +140,13 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             }
         });
     }
-    //TODO this intiger value will replace with model class
 
+    //TODO this intiger value will replace with model class
     @Override
     public int getItemCount() {
         return 10;
     }
+
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override

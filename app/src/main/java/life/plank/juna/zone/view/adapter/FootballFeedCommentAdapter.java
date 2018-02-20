@@ -38,8 +38,8 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
     public int getItemCount() {
         return 5;
     }
-    public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {
 
+    public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text_comment_time)
         TextView textCommentTime;
         @BindView(R.id.text_comment)
@@ -50,5 +50,4 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
             ButterKnife.bind(this, itemView);
         }
     }
-
 }

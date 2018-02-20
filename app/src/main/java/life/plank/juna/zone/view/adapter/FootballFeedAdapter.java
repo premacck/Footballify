@@ -36,21 +36,19 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
     @BindView(R.id.reaction_like)
     ImageView reactionLike;
-    PopupWindow popupWindowMenu;
-    int popUpPosition;
+    private int popUpPosition;
     private Context context;
     private LayoutInflater mInflater;
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
-    private LinearLayout inflateLinearLayout;
-    int imageWidth;
-    int popupImageWidth;
-    int gridWidth;
-    public PopupWindow popupWindow;
+    private int imageWidth;
+    private int popupImageWidth;
+    private int gridWidth;
+    private PopupWindow popupWindow;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private OnLongClickListener onLongClickListner;
-    private int popupImageSize;
+    private int popupImageHeight;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -71,7 +69,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.newsFeedLabel.setText(footballFeed.getHeadline());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
-        holder.newsFeedImage.post(() -> popupImageSize = holder.newsFeedImage.getHeight());
+        holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
 
         holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder));
 
@@ -199,6 +197,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         footballFeedList.addAll(footballFeeds);
         notifyDataSetChanged();
     }
+
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.news_feed_label)
         TextView newsFeedLabel;
@@ -232,7 +231,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder) {
-        inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
+        LinearLayout inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
         ListView listView = inflateLinearLayout.findViewById(R.id.list_item_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.popup_menu_list_view_item, R.id.list_item_text,
                 context.getResources().getStringArray(R.array.football_feed_popup_array));
@@ -241,13 +240,13 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setView(inflateLinearLayout);
         popUpWindowHelper.setParentView(view);
         popUpWindowHelper.setPopUpWidth(gridWidth);
-        popUpWindowHelper.setPopUpHeight(popupImageSize);
+        popUpWindowHelper.setPopUpHeight(popupImageHeight);
         int[] locationLikeView = new int[2];
 
         footballFeedViewHolder.moreImageView.getLocationInWindow(locationLikeView);
         popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
         popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
-        popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
+        PopupWindow popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
     }
 }
 

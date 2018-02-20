@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_relative_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -16,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
-            android:background="@drawable/ic_feed_like" />
+            android:background="@drawable/ic_favorite" />
 
         <TextView
             android:id="@+id/count_news_feed_likes"
@@ -35,7 +36,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/count_news_feed_likes"
-            android:background="@drawable/ic_feed_comment" />
+            android:background="@drawable/ic_comment_icon" />
 
         <TextView
             android:id="@+id/count_news_feed_comment"
