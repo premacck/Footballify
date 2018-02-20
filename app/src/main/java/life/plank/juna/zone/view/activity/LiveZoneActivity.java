@@ -22,6 +22,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
@@ -63,6 +64,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     ScrubberViewAdapter.ScrubberPointerUpdate scrubberPointerUpdate;
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
+    int currentMatch = 1;
     private Unbinder unbinder;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
@@ -87,7 +89,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
         //TODO will be removed later
-        //setUpScrubber();
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(this);
         liveZoneGridViewRecyclerView.setAdapter(adapter);
@@ -138,7 +139,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         }
     }
 
-
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
         if (scrubberViewData.getLiveFeedTileData().getImages().size() > 0) {
@@ -157,10 +157,23 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         }
     }
 
-   /* //TODO this is needed in future, will be removed later
-    public void onCloseImageClicked() {
-        ((SwipePageActivity) this).retainLayout();
-    }*/
+    @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
+    public void onCloseImageClicked(View view) {
+        switch (view.getId()) {
+            case R.id.close_image:
+                ((SwipePageActivity) getActivity()).retainLayout();
+                break;
+
+            case R.id.next_match_text_view:
+                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch + 1);
+                break;
+
+            case R.id.previous_match_text_view:
+                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch - 1);
+                break;
+            default:
+                break;
+        }
 
     /**
      * Get linearLayout after it is drawn.

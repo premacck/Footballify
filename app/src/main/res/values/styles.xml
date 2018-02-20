@@ -27,7 +27,7 @@
 
     <style name="statusBarCustomStyle" parent="Theme.AppCompat.Light.NoActionBar" />
 
-    <style name="livezonetextstyle" parent="TextAppearance.AppCompat">
+    <style name="live_zone_text_style" parent="TextAppearance.AppCompat">
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/football_header_purple_gradient</item>
         <item name="android:textSize">10sp</item>
