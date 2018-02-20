@@ -207,7 +207,6 @@
                     android:scaleType="fitCenter"
                     android:visibility="gone" />
             </LinearLayout>
-
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

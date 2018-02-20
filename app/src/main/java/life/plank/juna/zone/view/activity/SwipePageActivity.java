@@ -233,13 +233,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.live_zone_text_view:
-               /* retainLayout();
-                footballFeedFragment();*/
                 startActivity(new Intent(this,LiveZoneActivity.class));
-                //TODO will be moved to navigation drawer once the drawer part is done
-              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.PINNED_FEEDS))) {
-                    startActivity(new Intent(this, PinboardActivity.class));
-                }*/
                 break;
 
             case R.id.football_menu:
@@ -248,35 +242,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     }
 
-    public void footballFeedFragment() {
-        fragmentContainerFrameLayout.removeAllViews();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                //.replace(R.id.fragmentContainerFrameLayout, new LiveZoneActivity())
-                .commit();
-    }
-    
     @Override
     public void onBackPressed() {
-
-        if (liveZoneTextView.isSelected()) {
-            retainLayout();
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    public void retainLayout() {
-        if (liveZoneTextView.isSelected()) {
-            liveZoneTextView.setSelected(false);
-            containerRelativeLayout.setVisibility(View.VISIBLE);
-            fragmentContainerFrameLayout.setVisibility(View.GONE);
-        } else {
-            liveZoneTextView.setSelected(true);
-            containerRelativeLayout.setVisibility(View.GONE);
-            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
-        }
+        super.onBackPressed();
     }
 
     @Override
@@ -351,7 +319,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
         pinnedFeedsList.add(footballFeeds.get(position));
         preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
-
     }
 
 }

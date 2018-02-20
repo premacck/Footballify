@@ -22,7 +22,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
@@ -70,12 +69,11 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_livezone);
+        setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
         context = this;
         scrubberPointerUpdate = this;
         scrubberViewDataHolder = new HashMap<>();
-        //TODO will be uncommented in expand and collapse code
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
@@ -136,7 +134,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
             }
         }
     }
-
 
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
