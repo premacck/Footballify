@@ -62,7 +62,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void initializeRecyclerView() {
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         ChatAdapter chatAdapter = new ChatAdapter(getActivity());
         chatRecyclerView.setAdapter(chatAdapter);
     }
@@ -89,9 +89,11 @@ public class ChatFragment extends Fragment {
 
     private void handleExpandCollapse(){
         if (expandCollapseImageView.isSelected()) {
+            expandCollapseImageView.setImageResource(R.drawable.ic_expand);
             expandCollapseImageView.setSelected(false);
             ((LiveZoneActivity) context).expandCollapseChatView(false);
         }else {
+            expandCollapseImageView.setImageResource(R.drawable.ic_collapse);
             expandCollapseImageView.setSelected(true);
             ((LiveZoneActivity) context).expandCollapseChatView(true);
         }

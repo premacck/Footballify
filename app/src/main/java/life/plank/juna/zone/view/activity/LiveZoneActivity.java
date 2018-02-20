@@ -77,8 +77,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
         context = this;
-        scrubberPointerUpdate = this;
-        scrubberViewDataHolder = new HashMap<>();
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
@@ -103,6 +101,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     }
 
     private void setUpScrubber() {
+        scrubberPointerUpdate = this;
+        scrubberViewDataHolder = new HashMap<>();
         scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, scrubberPointerUpdate);
         scrubberView.setAdapter(scrubberViewAdapter);
@@ -129,6 +129,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
                     data.add(ScrubberConstants.getScrubberViewProgress());
                 }
                 data.add(ScrubberConstants.getScrubberViewCursor());
+                //TODO sleep time will be removed once we get the data from backend
                 Thread.sleep(2000);
                 if (!scrubberViewAdapter.trigger) {
                     moveScrubberPointer(null, data.size() - 1);
@@ -214,9 +215,12 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     public void retainLayout() {
         if (isChatScreenVisible) {
             liveZoneGridViewRecyclerView.setVisibility(View.GONE);
+            banterZoneLayout.setVisibility(View.GONE);
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         } else {
+            scrubberLinearLayout.setVisibility(View.VISIBLE);
             liveZoneGridViewRecyclerView.setVisibility(View.VISIBLE);
+            banterZoneLayout.setVisibility(View.VISIBLE);
             fragmentContainerFrameLayout.setVisibility(View.GONE);
         }
     }
