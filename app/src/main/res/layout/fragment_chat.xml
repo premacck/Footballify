@@ -105,7 +105,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:src="@drawable/ic_camera" />
 
             <EditText
@@ -117,8 +117,15 @@
                 android:layout_toLeftOf="@+id/camera_image"
                 android:layout_toRightOf="@+id/add_image"
                 android:background="@drawable/rounded_corner_background"
-                android:padding="8dp"
-                android:textSize="12sp" />
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textSize="12sp"
+                android:hint="Type message"
+                android:gravity="center_vertical"
+                android:imeOptions="actionDone"
+                android:inputType="text"/>
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

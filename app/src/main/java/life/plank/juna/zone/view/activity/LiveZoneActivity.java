@@ -12,6 +12,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,6 +65,10 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     int progressStatus = 0;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
     public boolean isChatScreenVisible = false;
+    @BindView(R.id.scrubber_linear_layout)
+    LinearLayout scrubberLinearLayout;
+    @BindView(R.id.banter_zone_layout)
+    RelativeLayout banterZoneLayout;
 
 
     @Override
@@ -222,4 +227,15 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         retainLayout();
         chatFragment();
     }
+
+    public void expandCollapseChatView(boolean status){
+        if (status) {
+            scrubberLinearLayout.setVisibility(View.GONE);
+            banterZoneLayout.setVisibility(View.GONE);
+        }else {
+            scrubberLinearLayout.setVisibility(View.VISIBLE);
+            banterZoneLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
 }

@@ -76,6 +76,7 @@ public class ChatFragment extends Fragment {
                 ((LiveZoneActivity)context).retainLayout();
                 break;
             case R.id.expand_collapse_image_view:
+                handleExpandCollapse();
                 break;
             case R.id.people_count_text_view:
                 break;
@@ -83,6 +84,16 @@ public class ChatFragment extends Fragment {
                 break;
             case R.id.camera_image:
                 break;
+        }
+    }
+
+    private void handleExpandCollapse(){
+        if (expandCollapseImageView.isSelected()) {
+            expandCollapseImageView.setSelected(false);
+            ((LiveZoneActivity) context).expandCollapseChatView(false);
+        }else {
+            expandCollapseImageView.setSelected(true);
+            ((LiveZoneActivity) context).expandCollapseChatView(true);
         }
     }
 }
