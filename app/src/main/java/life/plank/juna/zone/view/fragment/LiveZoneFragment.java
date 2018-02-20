@@ -103,7 +103,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
 
@@ -118,7 +117,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
         //TODO will be removed later
-        //setUpScrubber();
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
