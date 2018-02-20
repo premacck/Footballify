@@ -40,7 +40,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
 
     @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
-    @BindView(R.id.livezone_grid_view_relative_layout)
+    @BindView(R.id.live_zone_grid_view_relative_layout)
     RecyclerView liveZoneGridViewRecyclerView;
     @BindView(R.id.close_image)
     ImageView closeImage;
@@ -70,7 +70,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_livezone);
+        setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
         context = this;
         scrubberPointerUpdate = this;
