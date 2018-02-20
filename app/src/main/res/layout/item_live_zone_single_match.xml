@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/home_team_goal_text_view"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/home_team_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/home_team_goal_text_view"
+        android:layout_toStartOf="@+id/home_team_goal_text_view"
+        android:maxLines="1"
+        android:minLines="1"
+        android:padding="10dp"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/live_zone_team_text_view_size" />
+
+    <TextView
+        android:id="@+id/visiting_team_goal_text_view"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_below="@+id/home_team_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:background="@color/red"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/visiting_team_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_team_text_view"
+        android:layout_toLeftOf="@+id/visiting_team_goal_text_view"
+        android:layout_toStartOf="@+id/visiting_team_goal_text_view"
+        android:padding="10dp"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="@dimen/live_zone_team_text_view_size" />
+
+    <TextView
+        android:id="@+id/commentary_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/home_team_goal_text_view"
+        android:layout_toRightOf="@+id/home_team_goal_text_view"
+        android:maxLines="4"
+        android:minLines="4"
+        android:padding="5dp"
+        android:textColor="@color/white" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/visiting_team_goal_text_view"
+        android:background="@color/white" />
+
+</RelativeLayout>
+
