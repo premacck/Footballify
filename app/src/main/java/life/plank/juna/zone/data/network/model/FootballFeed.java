@@ -1,133 +1,105 @@
 package life.plank.juna.zone.data.network.model;
-
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class FootballFeed {
+    private String Id;
+    private String Title;
+    private String Url;
+    private String Source;
+    private String DatePublished;
+    private String Summary;
+    private Thumbnail Thumbnail;
+    private Object Tags;
+    private String DateCreated;
+    private String ContentType;
+    private List<Object> DomainEvents = null;
     private int reactionType = -1;
-    @SerializedName("Id")
-    @Expose
-    private String id;
-    @SerializedName("Title")
-    @Expose
-    private String title;
-    @SerializedName("Url")
-    @Expose
-    private String url;
-    @SerializedName("Source")
-    @Expose
-    private String source;
-    @SerializedName("DatePublished")
-    @Expose
-    private String datePublished;
-    @SerializedName("Summary")
-    @Expose
-    private String summary;
-    @SerializedName("Thumbnail")
-    @Expose
-    private Thumbnail thumbnail;
-    @SerializedName("Tags")
-    @Expose
-    private Object tags;
-    @SerializedName("DateCreated")
-    @Expose
-    private String dateCreated;
-    @SerializedName("ContentType")
-    @Expose
-    private String contentType;
-    @SerializedName("DomainEvents")
-    @Expose
-
-    private List<Object> domainEvents = null;
-
     public String getId() {
-        return id;
+        return Id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.Id = id;
     }
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
     public String getUrl() {
-        return url;
+        return Url;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        this.Url = url;
     }
 
     public String getSource() {
-        return source;
+        return Source;
     }
 
     public void setSource(String source) {
-        this.source = source;
+        this.Source = source;
     }
 
     public String getDatePublished() {
-        return datePublished;
+        return DatePublished;
     }
 
     public void setDatePublished(String datePublished) {
-        this.datePublished = datePublished;
+        this.DatePublished = datePublished;
     }
 
     public String getSummary() {
-        return summary;
+        return Summary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setSummary(String  summary) {
+        this.Summary = summary;
     }
 
     public Thumbnail getThumbnail() {
-        return thumbnail;
+        return Thumbnail;
     }
 
     public void setThumbnail(Thumbnail thumbnail) {
-        this.thumbnail = thumbnail;
+        this.Thumbnail = thumbnail;
     }
 
     public Object getTags() {
-        return tags;
+        return Tags;
     }
 
     public void setTags(Object tags) {
-        this.tags = tags;
+        this.Tags = tags;
     }
 
     public String getDateCreated() {
-        return dateCreated;
+        return DateCreated;
     }
 
     public void setDateCreated(String dateCreated) {
-        this.dateCreated = dateCreated;
+        this.DateCreated = dateCreated;
     }
 
     public String getContentType() {
-        return contentType;
+        return ContentType;
     }
 
     public void setContentType(String contentType) {
-        this.contentType = contentType;
+        this.ContentType = contentType;
     }
 
     public List<Object> getDomainEvents() {
-        return domainEvents;
+        return DomainEvents;
     }
 
     public void setDomainEvents(List<Object> domainEvents) {
-        this.domainEvents = domainEvents;
+        this.DomainEvents = domainEvents;
     }
 
     public int getReactionType() {
@@ -137,6 +109,4 @@ public class FootballFeed {
     public void setReactionType(int reactionType) {
         this.reactionType = reactionType;
     }
-
-
 }
