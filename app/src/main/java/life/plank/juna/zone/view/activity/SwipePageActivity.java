@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,8 +49,6 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
-import life.plank.juna.zone.view.fragment.ChatFragment;
-import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -234,8 +233,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.live_zone_text_view:
-                retainLayout();
-                footballFeedFragment();
+               /* retainLayout();
+                footballFeedFragment();*/
+                startActivity(new Intent(this,LiveZoneActivity.class));
                 //TODO will be moved to navigation drawer once the drawer part is done
               /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.PINNED_FEEDS))) {
                     startActivity(new Intent(this, PinboardActivity.class));
@@ -253,7 +253,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
+                //.replace(R.id.fragmentContainerFrameLayout, new LiveZoneActivity())
                 .commit();
     }
     
