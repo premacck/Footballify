@@ -4,7 +4,7 @@
 
     <RelativeLayout
         android:id="@+id/livezone_header_relative_layout"
-        style="@style/livezonetextstyle"
+        style="@style/live_zone_text_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="3dp"
@@ -19,12 +19,39 @@
 
         <TextView
             android:id="@+id/live_zone_text_view"
-            style="@style/livezonetextstyle"
-            android:layout_width="match_parent"
+            style="@style/live_zone_text_style"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:text="LiveZone" />
+
+        <TextView
+            android:id="@+id/previous_match_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toLeftOf="@id/close_image"
+            android:layout_toStartOf="@id/close_image"
+            android:text="@string/live_zone_previous_match"
+            android:textColor="@color/white"
+            android:textSize="@dimen/live_zone_header_text_views" />
+
+        <TextView
+            android:id="@+id/next_match_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toLeftOf="@id/previous_match_text_view"
+            android:layout_toStartOf="@id/previous_match_text_view"
+            android:text="@string/live_zone_next_match"
+            android:textColor="@color/white"
+            android:textSize="@dimen/live_zone_header_text_views" />
+
 
         <ImageView
             android:id="@+id/close_image"

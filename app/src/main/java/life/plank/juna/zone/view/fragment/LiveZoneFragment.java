@@ -26,6 +26,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
@@ -67,6 +68,7 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     ScrubberViewAdapter.ScrubberPointerUpdate scrubberPointerUpdate;
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
+    int currentMatch = 1;
     private Unbinder unbinder;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
@@ -101,7 +103,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
 
@@ -116,7 +117,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
         //TODO will be removed later
-        //setUpScrubber();
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(getActivity());
         liveZoneGridViewRecyclerView.setAdapter(adapter);
@@ -170,7 +170,6 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         }
     }
 
-
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
         if (scrubberViewData.getLiveFeedTileData().getImages().size() > 0) {
@@ -189,9 +188,23 @@ public class LiveZoneFragment extends Fragment implements ScrubberViewAdapter.Sc
         }
     }
 
-    //TODO this is needed in future, will be removed later
-    public void onCloseImageClicked() {
-        ((SwipePageActivity) getActivity()).retainLayout();
+    @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
+    public void onCloseImageClicked(View view) {
+        switch (view.getId()) {
+            case R.id.close_image:
+                ((SwipePageActivity) getActivity()).retainLayout();
+                break;
+
+            case R.id.next_match_text_view:
+                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch + 1);
+                break;
+
+            case R.id.previous_match_text_view:
+                ((SwipePageActivity) getActivity()).goToLiveMatch(currentMatch - 1);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
