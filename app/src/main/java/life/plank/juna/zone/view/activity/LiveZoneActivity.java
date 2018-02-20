@@ -63,7 +63,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     ScrubberViewAdapter.ScrubberPointerUpdate scrubberPointerUpdate;
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
-    private Unbinder unbinder;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
 
@@ -77,9 +76,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         scrubberViewDataHolder = new HashMap<>();
         //TODO will be uncommented in expand and collapse code
         setUpScrubber();
-        //getHeightDetails();
-        //setUpGridView();
-        chatFragment();
+        getHeightDetails();
+        setUpGridView();
     }
 
     private void setUpGridView() {

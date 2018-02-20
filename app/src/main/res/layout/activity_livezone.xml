@@ -214,13 +214,13 @@
             android:id="@+id/livezone_grid_view_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".75"
-            android:visibility="gone" />
+            android:layout_weight=".75" />
 
         <FrameLayout
             android:id="@+id/fragment_container_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".75" />
+            android:layout_weight=".75"
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>
