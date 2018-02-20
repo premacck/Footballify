@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,8 +49,6 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
-import life.plank.juna.zone.view.fragment.ChatFragment;
-import life.plank.juna.zone.view.fragment.LiveZoneFragment;
 import life.plank.juna.zone.view.fragment.LiveZoneListFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -264,11 +263,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 break;
             case R.id.live_zone_text_view:
                 retainLayout();
-                footballFeedFragment();
-                //TODO will be moved to navigation drawer once the drawer part is done
-              /*  if (!"".contentEquals(new PreferenceManager(this).getPinnedFeeds(AppConstants.PINNED_FEEDS))) {
-                    startActivity(new Intent(this, PinboardActivity.class));
-                }*/
+                liveZoneListFragment();
                 break;
 
             case R.id.football_menu:
@@ -277,7 +272,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     }
 
-    public void footballFeedFragment() {
+    public void liveZoneListFragment() {
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
@@ -353,12 +348,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void goToLiveMatch(int matchNumber) {
-        fragmentContainerFrameLayout.removeAllViews();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneFragment())
-                .commit();
+        //TODO match number is needed for future
+        startActivity(new Intent(this,LiveZoneActivity.class));
     }
 
 }
