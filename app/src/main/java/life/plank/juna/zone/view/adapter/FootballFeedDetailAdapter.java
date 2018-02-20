@@ -96,10 +96,20 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 }
 
             });
+
         }
 
-        public void populateCommentRecyclerView() {
-            commentFeedAdapter = new FootballFeedCommentAdapter(context);
+        private ArrayList<String> getCommentsList() {
+            ArrayList<String> mCommentList = new ArrayList<>();
+            mCommentList.clear();
+            for (int i = 0; i < 5; i++) {
+                mCommentList.add(context.getString(R.string.comment_data));
+            }
+            return mCommentList;
+        }
+
+        private void populateCommentRecyclerView() {
+            commentFeedAdapter = new FootballFeedCommentAdapter(context, getCommentsList());
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             feedCommentRecyclerView.setLayoutManager(layoutManager);
             SnapHelper snapHelper = new PagerSnapHelper();

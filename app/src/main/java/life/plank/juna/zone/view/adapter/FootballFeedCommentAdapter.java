@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
@@ -17,9 +19,11 @@ import life.plank.juna.zone.R;
 
 public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFeedCommentAdapter.FootballFeedCommentViewHolder> {
     private Context context;
+    private ArrayList<String> commentsList;
 
-    FootballFeedCommentAdapter(Context context) {
+    FootballFeedCommentAdapter(Context context, ArrayList<String> commentsList) {
         this.context = context;
+        this.commentsList = commentsList;
     }
 
     @Override
@@ -30,14 +34,12 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
 
     @Override
     public void onBindViewHolder(FootballFeedCommentAdapter.FootballFeedCommentViewHolder holder, int position) {
-        holder.textComment.setText(R.string.comment_data);
+        holder.textComment.setText(commentsList.get(position));
     }
-
-    //TODO this intiger value will replace with model class
 
     @Override
     public int getItemCount() {
-        return 5;
+        return commentsList.size();
     }
 
     public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {
