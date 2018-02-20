@@ -15,7 +15,7 @@ import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 public class FootballFeedDetailActivity extends AppCompatActivity {
-    @BindView(R.id.football_feed_recyclerview)
+    @BindView(R.id.football_feed_recycler_view)
     RecyclerView footballFeedRecyclerView;
     @BindView(R.id.zone_logo)
     ImageView zoneLogo;

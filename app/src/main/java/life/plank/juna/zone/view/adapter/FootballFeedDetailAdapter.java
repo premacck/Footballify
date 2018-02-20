@@ -100,12 +100,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         }
 
         private ArrayList<String> getCommentsList() {
-            ArrayList<String> mCommentList = new ArrayList<>();
-            mCommentList.clear();
+            ArrayList<String> commentList = new ArrayList<>();
+            commentList.clear();
             for (int i = 0; i < 5; i++) {
-                mCommentList.add(context.getString(R.string.comment_data));
+                commentList.add(context.getString(R.string.comment_data));
             }
-            return mCommentList;
+            return commentList;
         }
 
         private void populateCommentRecyclerView() {

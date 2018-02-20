@@ -19,11 +19,11 @@ import life.plank.juna.zone.R;
 
 public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFeedCommentAdapter.FootballFeedCommentViewHolder> {
     private Context context;
-    private ArrayList<String> commentsList;
+    private ArrayList<String> commentList;
 
-    FootballFeedCommentAdapter(Context context, ArrayList<String> commentsList) {
+    FootballFeedCommentAdapter(Context context, ArrayList<String> commentList) {
         this.context = context;
-        this.commentsList = commentsList;
+        this.commentList = commentList;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
 
     @Override
     public void onBindViewHolder(FootballFeedCommentAdapter.FootballFeedCommentViewHolder holder, int position) {
-        holder.textComment.setText(commentsList.get(position));
+        holder.textComment.setText(commentList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return commentsList.size();
+        return commentList.size();
     }
 
     public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {

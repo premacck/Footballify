@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_zone_logo" />
+
     <include
         android:id="@+id/football_feeds_details_toolbar"
         layout="@layout/zone_football_header"
@@ -23,7 +24,7 @@
         android:layout_toRightOf="@+id/zone_logo" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/football_feed_recyclerview"
+        android:id="@+id/football_feed_recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_feeds_details_toolbar" />
