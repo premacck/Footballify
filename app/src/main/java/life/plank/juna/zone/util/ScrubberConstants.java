@@ -374,6 +374,250 @@ public class ScrubberConstants {
         tileImages.add(R.drawable.meme3);
         scrubberViewDataHolder.put(84 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
+    }
+
+    public static void getMatchTwoData(HashMap<Integer, ScrubberViewData> scrubberViewDataHolder) {
+
+        ArrayList<Integer> tileImages = new ArrayList<>();
+        scrubberViewDataHolder.put(1, new ScrubberViewData("Peep peep! City, in sky blue, kick off from left to right. Leicester are in their black away kit.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(3, new ScrubberViewData("There was a degree of catharsis in that goal for Sterling, who missed embarrassingly from a very similar position at Burnley last weekend",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+
+        scrubberViewDataHolder.put(4, new ScrubberViewData("That was suich a good cross from De Bruyne. As with so many of his balls into the box, it brought to mind the greatest crosser who has ever lived, David Beckham.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(6, new ScrubberViewData("I know it is fashionable to knock today’s players in a financially bloated industry but here goes,” says Andy. “Mahrez and his like should go to reality-check classes to realize just how lucky they are to be doing something they love. Most are not so lucky and a lot are really struggling in an increasingly self-interested society",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(10, new ScrubberViewData("min Leicester pump a long ball in behind for Vardy. He gets away from Laporte but the impressive Ederson comes out of his box to clear.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(12, new ScrubberViewData("The only good thing for Leicester is that they will still be playing on the counter-attack, even at 1-0 down. At the moment, the ball in behind for Vardy seems to cover Plans A-F. You can’t blame them for that, especially after the success he had against City last season.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(13, new ScrubberViewData("That was Sterling’s 20th goal of the season. His previous best was 11. It’s so good for England to have five or six players working under Pep Guardiola",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(15, new ScrubberViewData("Leicester can’t lay a finger on City at the moment. City don’t get enough credit for an exceptional defensive record this season - they’ve conceded only 19 goals in the league, the second best behind Manchester United.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(17, new ScrubberViewData("Sterling does superbly to keep an overhit pass in play before whipping a cross to the near post that is pushed away unconvincingly by Schmeichel. A second City goal is in the post.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(18, new ScrubberViewData("min I genuinely can’t remember the last time Leicester crossed the halfway line. It’s not their fault",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(21, new ScrubberViewData("Aguero moves into the box on the left after some smooth one-touch play, but Maguire makes a good interception. This is, as Jamie Carragher has just said on Sky, a training session. Attack and defence, invasion and repulsion.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(23, new ScrubberViewData("Leicester’s first decent attack leads to a corner on the left. It’s headed away and City break four on three. Sterling plays a good angled pass to Aguero, who is unusually indecisive in the box and loses the ball to Fuchs. He clips the ball back towards the halfway line, and then...",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(26, new ScrubberViewData("Gundogan’s long-range curler is comfortably held by Schmeichel",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(29, new ScrubberViewData("Bernardo Silva twists Fuchs inside out on the right of the box before curving a crosshot from a very tight angle that is beaten away by Schmeichel. Moments later, Fernandinho’s deflected 20-yard shot is held to his left by Schmeichel.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(30, new ScrubberViewData("Re Andy at 6 minutes and it being fashionable to knock today’s players .... I’d like to give great credit to Mesut Ozil among others for having the good sense to take the money and run,” says Gene Salorio. “Every profession has members who over-rate themselves and think they should be top dog -- the character actor who thinks he should be a star, members of rock groups who insist on disastrous solo careers, Michael Gove etc. -- and it’s refreshing to see football players who recognize that a good deal beats yet more ego gratification.”",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(31, new ScrubberViewData("Either Sky have the crowd mics turned down or the atmosphere is terribly subdued at the Etihad. They’re watching probably the most magical team in City’s history!",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(32, new ScrubberViewData("Sterling, just inside the penalty area on the left, goes down after a challenge from Silva. Mike Jones ignores it. We haven’t seen a replay yet but I think it was the right decision",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(33, new ScrubberViewData("De Bruyne, the only City player showing much urgency, wallops a low shot from the left of the box that is palmed behind at the near post by Schmeichel",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(34, new ScrubberViewData("The replay suggests Mike Jones was right to ignore that City penalty appeal. It might have been a dive by Sterling, though it’s hard to be sure these days.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(36, new ScrubberViewData(" So as both a journalist and a human you cannot take a position without knowing the facts?” says Ian Copestake. “How quaint.”",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(37, new ScrubberViewData("It’s interesting how often teams who have effectively won the title by Christmas cannot help but sleepwalk through the second half of the season: Manchester United 2000-01, Chelsea 2005-06, Manchester United 2012-13, Chelsea 2014-15. City aren’t sleepwalking yet but nor are they playing at the awesome levels they reached earlier in the season.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(41, new ScrubberViewData("The wonderful De Bruyne plays a cute angled pass into the area for Sterling, who goes round Schmeichel and flicks the ball towards goal from a tight angle. It would have gone in but for Dragovic, who slid in front of the near post to make a superb block.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(42, new ScrubberViewData("“Can I offer an alternative view on Mahrez?” says David Hopkins. “He was offered the chance for an enhanced career move, then had it taken away. Those in other well-paid industries would be peeved, and might well ‘work from home’ for a few days. Why aren’t footballers extended the same courtesy?”",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(43, new ScrubberViewData("The pressure is building on Leicester, who could really use half-time.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(45, new ScrubberViewData("Even by the standards of the Premier League, the atmosphere is funereal. It might be the crowd mics I suppose",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(46, new ScrubberViewData("Peep peep! Leicester begin the second half. They have made a tactical change, with Adrien Silva replaced by Danny Simpson.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(47, new ScrubberViewData("It looks like Leicester have switched to a 4-5-1, with Chilwell and Diabate playing wide in midfield and Albrighton in the centre.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(48, new ScrubberViewData("“Your observation about sleepwalking is even more interesting if you draw parallels to Guardiola’s seasons at Bayern Munich,” says Konstantin Sauer. “In his first season he (infamously) stated the “league was over” after winning the Bundesliga championship and started fielding teams entirely made from youth players, which finally led to a drop in tension and crashing defeats in the Champions League semis. Even if he learned from that mistake, Bayern’s superiority in the league would still make them vulnerable during the later stages in the Champions League the following seasons. I wonder what Guardiola will do this time to keep up the pace and prevent that same situation unfold again.”",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(51, new ScrubberViewData("Sterling runs square across the Leicester area, bounces off Albrighton and appeals for a penalty. There was nothing in that",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(54, new ScrubberViewData("For a normal player that third assist would have been a gem; for De Bruyne it was almost mundane. I’m struggling to think of a better hat-trick of assists in one game.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(57, new ScrubberViewData("I do get what David Hopkins says but there is one thing we are forgetting,” says Andy. “He signed a contract which no doubt financially remunerated him exceptionally well. If he wants to break that by leaving earlier then the employer who, as far as I am aware haven’t treated him that badly, not as bad as dpd to their ‘self-employed’ employees, are perfectly within their rights to say yes...but on our own terms. You make a pact with the devil...well be prepared to accept there is a price.”",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(58, new ScrubberViewData("Another poor clearance from Schmeichel goes to Sterling, who runs 30 yards down the left and into the area before slipping the ball back towards Gundogan. His first-time shot is crucially blocked by the diligent Albrighton and flies behind for a corner.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(59, new ScrubberViewData("De Bruyne’s outswinging corner is headed a few yards wide of the far post by Otamendi",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(60, new ScrubberViewData("Here’s Ian Copestake. “Matt Loten (half-time chit-chat) puts into words how I feel about Karius at Liverpool.”",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(61, new ScrubberViewData("Leicester are about to make a double change, with Manchester City players of the past and a parallel universe coming on: Kelechi Iheanacho and Riyad Mahrez",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(62, new ScrubberViewData("Mahrez replaces Fousseni Diabate, who had a quiet game, and is cheered by both sets of fans",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(63, new ScrubberViewData("now Iheanacho replaces Ben Chilwell.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(64, new ScrubberViewData(" After good play from Sterling and Gundogan, Aguero crunches the ball high and wide from a tight angle.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(65, new ScrubberViewData("Danilo replaces the quietly impressive Oleksandra Zinchenko. That is probably because of the introduction of Mahrez, who will be cutting in on his left foot all the time. Danilo is right-footed, Zinchenko isn’t.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(66, new ScrubberViewData("“De Bruyne is indeed one of the best passers of the ball that I’ve ever seen but the problem with him being the best in the world now is that there’s a left peg on a certain Argentinian who’s been doing that for a decade now,” says Paul Fitzgerald.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(68, new ScrubberViewData("“De Bruyne is indeed one of the best passers of the ball that I’ve ever seen but the problem with him being the best in the world now is that there’s a left peg on a certain Argentinian who’s been doing that for a decade now,” says Paul Fitzgerald.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(70, new ScrubberViewData("Bernardo Silva shuffles infield from the right and eases a lovely curling shot that drifts just past the far top corner",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(71, new ScrubberViewData("Some people say De Bruyne has that rare, magical ability to play as if he has a bird’s eye view of the pitch. I don’t agree with that. He sees things that most of us wouldn’t spot if we had a bird’s eye view and the ability to freeze time.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(73, new ScrubberViewData("Laporte is robbed on the halfway line by Vardy, which allows Mahrez to move towards the penalty area. Gundogan brings him down 25 yards from goal and is booked.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(74, new ScrubberViewData("Leicester make a balls of a training ground free-kick.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(75, new ScrubberViewData("Otamendi’s deft chest-volley is held by Schmeichel, and at the other end Ederson hares from his line to just beat Vardy to a through ball. Good goalkeeping.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(76, new ScrubberViewData("Otamendi’s deft chest-volley is held by Schmeichel, and at the other end Ederson hares from his line to just beat Vardy to a through ball. Good goalkeeping.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(80, new ScrubberViewData("City substitution A: Phil Foden replaces Fernandinho.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(81, new ScrubberViewData("Another City change: Otamendi off, John Stones on.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(83, new ScrubberViewData("Vardy and Laporte are booked after sticking their heads together off the ball.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(85, new ScrubberViewData("This match could be used as a riddle. Which game included two hat-tricks and ended 4-1? Aguero’s three goals will go in the book but De Bruyne’s three assists are the thing we’ll remember about the game.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(89, new ScrubberViewData("De Bruyne shoots from 35 yards and almost belts it out of the ground. When you see standards slip like that, you have to ask: has Kevin de Bruyne taken Kevin de Bruyne as far as he can?",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+        scrubberViewDataHolder.put(90, new ScrubberViewData("A-hem, as I was saying. Sergio Aguero gets his fourth goal with an utter screamer! He received the ball from Foden 22 yards out, moved it onto his right foot and whacked a vicious, dipping shot that went straight above Schmeichel’s head and in off the crossbar.",
+                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
+
+
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.image17);
+        scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages), true));
+        tileImages = new ArrayList<>();
+
+        scrubberViewDataHolder.put(47, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages), true));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.ic_grid_five);
+
+        scrubberViewDataHolder.put(48, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages), true));
+        tileImages = new ArrayList<>();
+
+        scrubberViewDataHolder.put(49, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages), true));
+        tileImages = new ArrayList<>();
+        tileImages.add(R.drawable.ic_grid_six);
+
+        scrubberViewDataHolder.put(50, new ScrubberViewData("Half Time",
+                ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages), true));
+
+
+        scrubberViewDataHolder.put(3, new ScrubberViewData("Goal!! Raheem sterling - 3",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(24, new ScrubberViewData("Goal!! Jamie Vardy - 24",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(48 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Sergio Aguero - 48",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
+
+
+        scrubberViewDataHolder.put(53 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Sergio Aguero - 53",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(77 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Sergio Aguero - 77",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(90 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Sergio Aguero - 90",
+                ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(71 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Wilfred Ndidi - 71",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(73 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Ikay Gundogan - 73",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(83 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Aymeric Laporte - 83",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(83 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Jamie Vardy -83",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(89 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Harry Maguire -89",
+                ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages), true));
+
+
+        scrubberViewDataHolder.put(45 , new ScrubberViewData("Adrien Silva - OUT - 45 Danny Simpson - IN - 45",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Fousseni Diabaté - OUT  Riyad Mahrez - IN - 62",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Ben Chillwell - OUT - 62 Kelechi Iheanacho - IN - 62",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(65 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Zinchenko - OUT - 65 Danilo - IN - 65",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(80 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Fernandinho - OUT - 80 Foden - IN - 80",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
+        scrubberViewDataHolder.put(81 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Otamendi - OUT - 81 Stones - IN - 81",
+                ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
+
     }
 
     public String getScrubberHalf() {
