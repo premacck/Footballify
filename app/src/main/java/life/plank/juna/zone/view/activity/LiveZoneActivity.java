@@ -39,7 +39,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
 
     @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
-    @BindView(R.id.livezone_grid_view_relative_layout)
+    @BindView(R.id.live_zone_grid_view_relative_layout)
     RecyclerView liveZoneGridViewRecyclerView;
     @BindView(R.id.close_image)
     ImageView closeImage;

@@ -21,7 +21,7 @@
         android:layout_toRightOf="@+id/zone_logo" />
 
     <RelativeLayout
-        android:id="@+id/livezone_header_relative_layout"
+        android:id="@+id/live_zone_header_relative_layout"
         style="@style/livezonetextstyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/banter_zone_layout"
-        android:layout_below="@+id/livezone_header_relative_layout"
+        android:layout_below="@+id/live_zone_header_relative_layout"
         android:orientation="vertical">
 
         <LinearLayout
@@ -210,7 +210,7 @@
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/livezone_grid_view_relative_layout"
+            android:id="@+id/live_zone_grid_view_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight=".75" />
