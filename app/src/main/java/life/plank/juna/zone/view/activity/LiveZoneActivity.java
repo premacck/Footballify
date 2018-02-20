@@ -77,8 +77,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         context = this;
         scrubberPointerUpdate = this;
         scrubberViewDataHolder = new HashMap<>();
-        //TODO will be uncommented in expand and collapse code
         setUpScrubber();
+        //TODO will be uncommented in expand and collapse code
         //getHeightDetails();
         //setUpGridView();
         chatFragment();
