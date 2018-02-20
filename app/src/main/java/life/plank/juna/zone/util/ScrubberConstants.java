@@ -76,7 +76,7 @@ public class ScrubberConstants {
         return SCRUBBER_VIEW_TOTAL_WINDOW;
     }
 
-    public static void getHighLights(HashMap<Integer, ScrubberViewData> scrubberViewDataHolder) {
+    public static void getHighLightsMatchOne(HashMap<Integer, ScrubberViewData> scrubberViewDataHolder) {
         ArrayList<Integer> tileImages = new ArrayList<>();
         scrubberViewDataHolder.put(2, new ScrubberViewData(": Kante bursts down the inside-right channel, a most proactive move. He’s bundled off the ball, the Arsenal defence closing ranks and doing their job. But maybe there’s a very early sign that Chelseaaren’t just here to sit back and soak up pressure from the home side",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
@@ -377,7 +377,7 @@ public class ScrubberConstants {
 
     }
 
-    public static void getMatchTwoData(HashMap<Integer, ScrubberViewData> scrubberViewDataHolder) {
+    public static void getHighLightsMatchTwo(HashMap<Integer, ScrubberViewData> scrubberViewDataHolder) {
 
         ArrayList<Integer> tileImages = new ArrayList<>();
         scrubberViewDataHolder.put(1, new ScrubberViewData("Peep peep! City, in sky blue, kick off from left to right. Leicester are in their black away kit.",
