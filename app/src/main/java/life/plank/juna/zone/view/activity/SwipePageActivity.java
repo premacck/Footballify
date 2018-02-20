@@ -92,6 +92,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
+    int RTNumber = 1;
+    int TRCNumber = 20;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -182,8 +184,21 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
+    public String updateToken(String token, String regexRT, String RegexTRC, String replaceStringRT, String replaceStringTRC) {
+        String replaceRT = null;
+        String replaceTRC = null;
+        if (!token.isEmpty()) {
+            replaceRT = token.replaceFirst(regexRT, replaceStringRT);
+            replaceTRC = replaceRT.replaceFirst(RegexTRC, replaceStringTRC);
+            RTNumber = RTNumber + 1;
+            TRCNumber = TRCNumber + 20;
+        }
+        return replaceTRC;
+    }
+
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(nextPageToken)
+        subscription = restApi.getFootballFeed(updateToken(nextPageToken, getString(R.string.regex_rt),
+                getString(R.string.regex_trc), getString(R.string.concat_rt) + String.valueOf(RTNumber), getString(R.string.concat_trc) + String.valueOf(TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
@@ -280,7 +295,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneListFragment())
                 .commit();
     }
-    
+
     @Override
     public void onBackPressed() {
         if (liveZoneTextView.isSelected()) {
