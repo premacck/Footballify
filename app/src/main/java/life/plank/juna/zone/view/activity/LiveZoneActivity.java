@@ -164,7 +164,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     public void onCloseImageClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
-                ((SwipePageActivity) context).retainLayout();
+                onBackPressed();
                 break;
 
             case R.id.next_match_text_view:

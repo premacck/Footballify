@@ -117,8 +117,8 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/banter_zone_layout"
         android:layout_below="@+id/live_zone_header_relative_layout"
-        android:orientation="vertical"
-        android:animateLayoutChanges="true">
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/scrubber_linear_layout"

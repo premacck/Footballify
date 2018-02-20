@@ -117,15 +117,15 @@
                 android:layout_toLeftOf="@+id/camera_image"
                 android:layout_toRightOf="@+id/add_image"
                 android:background="@drawable/rounded_corner_background"
-                android:paddingTop="8dp"
+                android:gravity="center_vertical"
+                android:hint="Type message"
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 android:paddingBottom="8dp"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:textSize="12sp"
-                android:hint="Type message"
-                android:gravity="center_vertical"
-                android:imeOptions="actionDone"
-                android:inputType="text"/>
+                android:paddingTop="8dp"
+                android:textSize="12sp" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -134,6 +134,6 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/footer_live_zone_chat_relative_layout"
             android:layout_below="@+id/header_live_zone_chat_relative_layout"
-            android:background="@color/chat_body_background"/>
+            android:background="@color/chat_body_background" />
     </RelativeLayout>
 </LinearLayout>

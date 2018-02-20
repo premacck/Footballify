@@ -273,10 +273,33 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void liveZoneListFragment() {
+        fragmentContainerFrameLayout.removeAllViews();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneListFragment())
+                .commit();
+    }
+
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (liveZoneTextView.isSelected()) {
+            retainLayout();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    public void retainLayout() {
+        if (liveZoneTextView.isSelected()) {
+            liveZoneTextView.setSelected(false);
+            containerRelativeLayout.setVisibility(View.VISIBLE);
+            fragmentContainerFrameLayout.setVisibility(View.GONE);
+        } else {
+            liveZoneTextView.setSelected(true);
+            containerRelativeLayout.setVisibility(View.GONE);
+            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -323,9 +346,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         pinnedFeedsList.add(footballFeeds.get(position));
         preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
     }
+
     public void goToLiveMatch(int matchNumber) {
         //TODO match number is needed for future
-        startActivity(new Intent(this,LiveZoneActivity.class));
+        startActivity(new Intent(this, LiveZoneActivity.class));
     }
 
 }
