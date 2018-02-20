@@ -386,7 +386,6 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(3, new ScrubberViewData("There was a degree of catharsis in that goal for Sterling, who missed embarrassingly from a very similar position at Burnley last weekend",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
 
-
         scrubberViewDataHolder.put(4, new ScrubberViewData("That was suich a good cross from De Bruyne. As with so many of his balls into the box, it brought to mind the greatest crosser who has ever lived, David Beckham.",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
 
@@ -540,7 +539,6 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(90, new ScrubberViewData("A-hem, as I was saying. Sergio Aguero gets his fourth goal with an utter screamer! He received the ball from Foden 22 yards out, moved it onto his right foot and whacked a vicious, dipping shot that went straight above Schmeichel’s head and in off the crossbar.",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileImages), false));
 
-
         tileImages = new ArrayList<>();
         tileImages.add(R.drawable.image17);
         scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
@@ -564,7 +562,6 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(50, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileImages), true));
 
-
         scrubberViewDataHolder.put(3, new ScrubberViewData("Goal!! Raheem sterling - 3",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
 
@@ -573,7 +570,6 @@ public class ScrubberConstants {
 
         scrubberViewDataHolder.put(48 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Sergio Aguero - 48",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
-
 
         scrubberViewDataHolder.put(53 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Sergio Aguero - 53",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileImages), true));
@@ -599,8 +595,7 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(89 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Harry Maguire -89",
                 ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileImages), true));
 
-
-        scrubberViewDataHolder.put(45 , new ScrubberViewData("Adrien Silva - OUT - 45 Danny Simpson - IN - 45",
+        scrubberViewDataHolder.put(45, new ScrubberViewData("Adrien Silva - OUT - 45 Danny Simpson - IN - 45",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileImages), true));
 
         scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Fousseni Diabaté - OUT  Riyad Mahrez - IN - 62",
