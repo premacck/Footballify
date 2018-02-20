@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
@@ -63,6 +64,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     ScrubberViewAdapter.ScrubberPointerUpdate scrubberPointerUpdate;
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
+    int currentMatch = 1;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
     public boolean isChatScreenVisible = false;
     @BindView(R.id.scrubber_linear_layout)
@@ -87,7 +89,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         gridLayoutManager.supportsPredictiveItemAnimations();
         //TODO will be removed later
-        //setUpScrubber();
         liveZoneGridViewRecyclerView.setLayoutManager(gridLayoutManager);
         adapter = new LiveZoneGridAdapter(this);
         liveZoneGridViewRecyclerView.setAdapter(adapter);
@@ -159,10 +160,24 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         }
     }
 
-   /* //TODO this is needed in future, will be removed later
-    public void onCloseImageClicked() {
-        ((SwipePageActivity) this).retainLayout();
-    }*/
+    @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
+    public void onCloseImageClicked(View view) {
+        switch (view.getId()) {
+            case R.id.close_image:
+                ((SwipePageActivity) context).retainLayout();
+                break;
+
+            case R.id.next_match_text_view:
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch + 1);
+                break;
+
+            case R.id.previous_match_text_view:
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
+                break;
+            default:
+                break;
+        }
+    }
 
     /**
      * Get linearLayout after it is drawn.

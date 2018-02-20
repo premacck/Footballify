@@ -56,7 +56,7 @@
 
                 <TextView
                     android:id="@+id/football_filter_spinner_textView"
-                    style="@style/livezonetextstyle"
+                    style="@style/live_zone_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -75,7 +75,7 @@
 
                 <TextView
                     android:id="@+id/calendar_spinner_textView"
-                    style="@style/livezonetextstyle"
+                    style="@style/live_zone_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -93,7 +93,7 @@
 
                 <TextView
                     android:id="@+id/live_zone_text_view"
-                    style="@style/livezonetextstyle"
+                    style="@style/live_zone_text_style"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -105,7 +105,6 @@
                     android:text="LiveZone" />
 
             </RelativeLayout>
-
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_recycler_view"

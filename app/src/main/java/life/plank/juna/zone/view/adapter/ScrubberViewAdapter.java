@@ -47,7 +47,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     }
 
     private void addHardCodedData() {
-        ScrubberConstants.getHighLights(scrubberViewDataHolder);
+        ScrubberConstants.getHighLightsMatchOne(scrubberViewDataHolder);
     }
 
     @Override
