@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.jakewharton.rxbinding2.view.RxView;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.CameraActivity;
@@ -31,6 +34,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     private Context context;
     private List<Integer> elements;
     private int gridViewHeight;
+    public OnItemClickListener onItemClickListener;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
@@ -56,6 +60,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position)));
+        RxView.clicks(holder.itemView)
+                .subscribe(v ->onItemClickListener.onItemClicked(position));
     }
 
 
@@ -111,12 +117,16 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         public LiveZoneGridViewHolder(View view) {
             super(view);
             ButterKnife.bind(this, view);
-
         }
 
         @OnClick(R.id.card_content)
         public void onViewClicked(View view) {
-            view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
+            //TODO this has to be moved to chat fragment, will be moved in next pull request
+            //view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
         }
+
+    }
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
