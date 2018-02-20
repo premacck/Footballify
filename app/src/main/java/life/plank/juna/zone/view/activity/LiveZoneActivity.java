@@ -64,6 +64,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
+    public boolean isChatScreenVisible = false;
 
 
     @Override
@@ -209,12 +210,18 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     }
 
     public void retainLayout() {
-        liveZoneGridViewRecyclerView.setVisibility(View.GONE);
-        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        if (isChatScreenVisible) {
+            liveZoneGridViewRecyclerView.setVisibility(View.GONE);
+            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            liveZoneGridViewRecyclerView.setVisibility(View.VISIBLE);
+            fragmentContainerFrameLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onItemClicked(int positon) {
+        isChatScreenVisible = true;
         retainLayout();
         chatFragment();
     }

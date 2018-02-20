@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 
 public class ChatFragment extends Fragment {
@@ -71,6 +72,8 @@ public class ChatFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_image_view:
+                ((LiveZoneActivity)context).isChatScreenVisible = false;
+                ((LiveZoneActivity)context).retainLayout();
                 break;
             case R.id.expand_collapse_image_view:
                 break;
