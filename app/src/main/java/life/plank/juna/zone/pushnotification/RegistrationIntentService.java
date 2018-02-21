@@ -13,13 +13,12 @@ import android.util.Log;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
 
 public class RegistrationIntentService extends IntentService {
 
     private static final String TAG = "RegIntentService";
-
-    private NotificationHub hub;
 
     public RegistrationIntentService() {
         super(TAG);
@@ -40,7 +39,7 @@ public class RegistrationIntentService extends IntentService {
             // Storing the registration id that indicates whether the generated token has been
             // sent to your server. If it is not stored, send the token to your server,
             // otherwise your server should have already received the token.
-            if (((regID=sharedPreferences.getString("registrationID", null)) == null)){
+            if (((regID = sharedPreferences.getString(getString(R.string.registration_id), null)) == null)) {
 
                 NotificationHub hub = new NotificationHub(NotificationSettings.hubName,
                         NotificationSettings.hubListenConnectionString, this);
@@ -49,17 +48,15 @@ public class RegistrationIntentService extends IntentService {
 
                 // If you want to use tags...
                 // Refer to : https://azure.microsoft.com/en-us/documentation/articles/notification-hubs-routing-tag-expressions/
-                // regID = hub.register(token, "tag1,tag2").getRegistrationId();
 
-                resultString = "New NH Registration Successfully - RegId : " + regID;
-                Log.d(TAG, resultString);
+                Log.d(TAG, "New NH Registration Successfully - RegId : " + regID);
 
-                sharedPreferences.edit().putString("registrationID", regID ).apply();
-                sharedPreferences.edit().putString("FCMtoken", FCM_token ).apply();
+                sharedPreferences.edit().putString(getString(R.string.registration_id), regID).apply();
+                sharedPreferences.edit().putString(getString(R.string.fcm_token), FCM_token).apply();
             }
 
             // Check if the token may have been compromised and needs refreshing.
-            else if ((storedToken=sharedPreferences.getString("FCMtoken", "")) != FCM_token) {
+            else if ((sharedPreferences.getString(getString(R.string.fcm_token), "")) != FCM_token) {
 
                 NotificationHub hub = new NotificationHub(NotificationSettings.hubName,
                         NotificationSettings.hubListenConnectionString, this);
@@ -68,20 +65,16 @@ public class RegistrationIntentService extends IntentService {
 
                 // If you want to use tags...
                 // Refer to : https://azure.microsoft.com/en-us/documentation/articles/notification-hubs-routing-tag-expressions/
-                // regID = hub.register(token, "tag1,tag2").getRegistrationId();
 
-                resultString = "New NH Registration Successfully - RegId : " + regID;
-                Log.d(TAG, resultString);
+                Log.d(TAG, "New NH Registration Successfully - RegId : " + regID);
 
-                sharedPreferences.edit().putString("registrationID", regID ).apply();
-                sharedPreferences.edit().putString("FCMtoken", FCM_token ).apply();
-            }
-
-            else {
+                sharedPreferences.edit().putString(getString(R.string.registration_id), regID).apply();
+                sharedPreferences.edit().putString(getString(R.string.fcm_token), FCM_token).apply();
+            } else {
                 resultString = "Previously Registered Successfully - RegId : " + regID;
             }
         } catch (Exception e) {
-            Log.e(TAG, resultString="Failed to complete registration", e);
+            Log.e(TAG, resultString = "Failed to complete registration", e);
             // If an exception happens while fetching the new token or updating our registration data
             // on a third-party server, this ensures that we'll attempt the update at a later time.
         }
