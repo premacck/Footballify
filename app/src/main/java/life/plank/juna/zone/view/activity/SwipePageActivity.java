@@ -91,7 +91,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
-    FootballFeedAdapter footballFeedAdapter;
+    FootballFeedAd
+
+    apter footballFeedAdapter;
     int RTNumber = 1;
     int TRCNumber = 20;
     private Subscription subscription;
