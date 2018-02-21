@@ -27,13 +27,13 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <service android:name=".pushNotification.NotificationInstanceIDService">
+        <service android:name=".pushnotification.NotificationInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".pushNotification.RegistrationIntentService"
+            android:name=".pushnotification.RegistrationIntentService"
             android:exported="false" />
 
         <receiver

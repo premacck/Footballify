@@ -1,7 +1,5 @@
 package life.plank.juna.zone.domain.service;
 
-import android.content.Context;
-
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 
@@ -10,20 +8,11 @@ import life.plank.juna.zone.data.network.model.FootballMatch;
  */
 
 public class GameService {
-    private Context context;
-
-    public GameService(Context context) {
-        this.context = context;
-    }
 
     public Boolean isWinner(FootballMatch footballMatch, String selectedTeamName) {
         String winningTeam;
         winningTeam = footballMatch.getHomeTeamScore() < footballMatch.getVisitingTeamScore() ? footballMatch.getVisitingTeam().getName() : footballMatch.getHomeTeam().getName();
-        if (footballMatch.getHomeTeamScore() == footballMatch.getVisitingTeamScore())
-            return true;
-        else if (selectedTeamName.equals(winningTeam))
-            return true;
-        else return false;
+        return footballMatch.getHomeTeamScore().equals(footballMatch.getVisitingTeamScore()) || selectedTeamName.equals(winningTeam);
     }
 
     public Integer computeScore(FootballMatch footballMatch, String selectedTeamName, Integer homeTeamGuessScore, Integer visitingTeamGuessScore, Integer playerScore) {
@@ -33,7 +22,7 @@ public class GameService {
             // visiting team is the winner
             if (footballMatch.getVisitingTeam().getName().equals(selectedTeamName)) {
                 // user has chosen visiting team
-                if (footballMatch.getVisitingTeamScore() == visitingTeamGuessScore) {
+                if (footballMatch.getVisitingTeamScore().equals(visitingTeamGuessScore)) {
                     playerScore += 2 * (footballMatch.getVisitingTeamScore() - footballMatch.getHomeTeamScore());
                 } else {
                     // assign the least score
@@ -50,7 +39,7 @@ public class GameService {
             // homeTeam is the winner
             if (footballMatch.getHomeTeam().getName().equals(selectedTeamName)) {
                 // user has chosen home team
-                if (footballMatch.getHomeTeamScore() == homeTeamGuessScore) {
+                if (footballMatch.getHomeTeamScore().equals(homeTeamGuessScore)) {
                     playerScore += 2 * (footballMatch.getHomeTeamScore() - footballMatch.getVisitingTeamScore());
 
                 } else {
@@ -60,7 +49,7 @@ public class GameService {
                 }
 
             } else {
-                // user has chosen visitng team
+                // user has chosen visiting team
                 playerScore -= (footballMatch.getHomeTeamScore() - footballMatch.getVisitingTeamScore());
             }
         }
