@@ -248,7 +248,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setPopUpWidth(gridWidth);
         popUpWindowHelper.setPopUpHeight(popupImageHeight);
         int[] locationLikeView = new int[2];
-
         footballFeedViewHolder.moreImageView.getLocationInWindow(locationLikeView);
         popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
         popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
