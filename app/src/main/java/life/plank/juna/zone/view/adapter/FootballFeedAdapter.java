@@ -46,6 +46,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     int imageWidth;
     int popupImageWidth;
     int gridWidth;
+
     public PopupWindow popupWindow;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private OnLongClickListener onLongClickListner;
@@ -69,7 +70,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     @Override
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
-        holder.newsFeedLabel.setText(footballFeed.getHeadline());
+        holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
         holder.moreImageView.post(() -> popupImageHeight = holder.moreImageView.getHeight());
         holder.newsFeedImage.post(() -> popupImageWidth = holder.newsFeedImage.getHeight());
