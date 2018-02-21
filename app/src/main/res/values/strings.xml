@@ -185,4 +185,7 @@
     <string name="regex_rt">RT:(\\d*)</string>
     <string name="concat_rt">RT:</string>
     <string name="concat_trc">TRC:</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
