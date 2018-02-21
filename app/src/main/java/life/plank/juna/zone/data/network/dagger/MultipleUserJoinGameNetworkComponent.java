@@ -11,6 +11,7 @@ import life.plank.juna.zone.view.activity.MultipleUserJoinGameActivity;
  */
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface MultipleUserJoinGameNetworkComponent {
     void inject(MultipleUserJoinGameActivity multipleUserJoinGameActivity);
 }

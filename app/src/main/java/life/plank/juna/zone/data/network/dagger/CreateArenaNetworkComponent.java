@@ -11,6 +11,7 @@ import life.plank.juna.zone.view.activity.CreateArenaActivity;
  */
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface CreateArenaNetworkComponent {
     void inject(CreateArenaActivity createArenaActivity);
 }
