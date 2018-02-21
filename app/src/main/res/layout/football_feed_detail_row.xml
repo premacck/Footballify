@@ -163,10 +163,9 @@
                     <include layout="@layout/like_comment_row" />
 
                     <android.support.v7.widget.RecyclerView
-                        android:id="@+id/feed_comment_recyclerview"
+                        android:id="@+id/feed_comment_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/football_feed_recyclerView"
                         android:layout_marginBottom="20dp"
                         android:nestedScrollingEnabled="false" />
 

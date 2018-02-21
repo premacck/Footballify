@@ -41,7 +41,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
-        @BindView(R.id.feed_comment_recyclerview)
+        @BindView(R.id.feed_comment_recycler_view)
         RecyclerView feedCommentRecyclerView;
         @BindView(R.id.tag_text_view)
         TextView tagTextView;
