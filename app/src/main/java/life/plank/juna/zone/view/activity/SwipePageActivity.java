@@ -280,7 +280,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .replace(R.id.fragmentContainerFrameLayout, new LiveZoneListFragment())
                 .commit();
     }
-    
+
     @Override
     public void onBackPressed() {
         if (liveZoneTextView.isSelected()) {
@@ -349,7 +349,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void goToLiveMatch(int matchNumber) {
         //TODO match number is needed for future
-        startActivity(new Intent(this,LiveZoneActivity.class));
+        startActivity(new Intent(this, LiveZoneActivity.class));
     }
 
 }
