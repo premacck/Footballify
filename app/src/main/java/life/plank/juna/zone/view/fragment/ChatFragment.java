@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 
 public class ChatFragment extends Fragment {
@@ -46,8 +47,7 @@ public class ChatFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         unbinder = ButterKnife.bind(this, view);
         initializeRecyclerView();
@@ -61,7 +61,7 @@ public class ChatFragment extends Fragment {
     }
 
     private void initializeRecyclerView() {
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
         ChatAdapter chatAdapter = new ChatAdapter(getActivity());
         chatRecyclerView.setAdapter(chatAdapter);
     }
@@ -71,8 +71,11 @@ public class ChatFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_image_view:
+                ((LiveZoneActivity) context).isChatScreenVisible = false;
+                ((LiveZoneActivity) context).retainLayout();
                 break;
             case R.id.expand_collapse_image_view:
+                handleExpandCollapseView();
                 break;
             case R.id.people_count_text_view:
                 break;
@@ -80,6 +83,18 @@ public class ChatFragment extends Fragment {
                 break;
             case R.id.camera_image:
                 break;
+        }
+    }
+
+    private void handleExpandCollapseView() {
+        if (expandCollapseImageView.isSelected()) {
+            expandCollapseImageView.setImageResource(R.drawable.ic_expand);
+            expandCollapseImageView.setSelected(false);
+            ((LiveZoneActivity) context).expandCollapseChatView(false);
+        } else {
+            expandCollapseImageView.setImageResource(R.drawable.ic_collapse);
+            expandCollapseImageView.setSelected(true);
+            ((LiveZoneActivity) context).expandCollapseChatView(true);
         }
     }
 }

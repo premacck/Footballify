@@ -12,6 +12,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,7 +24,6 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
@@ -65,8 +65,12 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
     int currentMatch = 1;
-    private Unbinder unbinder;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
+    public boolean isChatScreenVisible = false;
+    @BindView(R.id.scrubber_linear_layout)
+    LinearLayout scrubberLinearLayout;
+    @BindView(R.id.banter_zone_layout)
+    RelativeLayout banterZoneLayout;
 
 
     @Override
@@ -75,13 +79,9 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
         context = this;
-        scrubberPointerUpdate = this;
-        scrubberViewDataHolder = new HashMap<>();
         setUpScrubber();
-        //TODO will be uncommented in expand and collapse code
-        //getHeightDetails();
-        //setUpGridView();
-        chatFragment();
+        getHeightDetails();
+        setUpGridView();
     }
 
     private void setUpGridView() {
@@ -102,6 +102,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     }
 
     private void setUpScrubber() {
+        scrubberPointerUpdate = this;
+        scrubberViewDataHolder = new HashMap<>();
         scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, scrubberPointerUpdate);
         scrubberView.setAdapter(scrubberViewAdapter);
@@ -128,6 +130,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
                     data.add(ScrubberConstants.getScrubberViewProgress());
                 }
                 data.add(ScrubberConstants.getScrubberViewCursor());
+                //TODO sleep time will be removed once we get the data from backend
                 Thread.sleep(2000);
                 if (!scrubberViewAdapter.trigger) {
                     moveScrubberPointer(null, data.size() - 1);
@@ -161,7 +164,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     public void onCloseImageClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
-                ((SwipePageActivity) context).retainLayout();
+                onBackPressed();
                 break;
 
             case R.id.next_match_text_view:
@@ -225,13 +228,33 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     }
 
     public void retainLayout() {
-        liveZoneGridViewRecyclerView.setVisibility(View.GONE);
-        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        if (isChatScreenVisible) {
+            liveZoneGridViewRecyclerView.setVisibility(View.GONE);
+            banterZoneLayout.setVisibility(View.GONE);
+            fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            scrubberLinearLayout.setVisibility(View.VISIBLE);
+            liveZoneGridViewRecyclerView.setVisibility(View.VISIBLE);
+            banterZoneLayout.setVisibility(View.VISIBLE);
+            fragmentContainerFrameLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void onItemClicked(int positon) {
+        isChatScreenVisible = true;
         retainLayout();
         chatFragment();
     }
+
+    public void expandCollapseChatView(boolean status){
+        if (status) {
+            scrubberLinearLayout.setVisibility(View.GONE);
+            banterZoneLayout.setVisibility(View.GONE);
+        }else {
+            scrubberLinearLayout.setVisibility(View.VISIBLE);
+            banterZoneLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
 }
