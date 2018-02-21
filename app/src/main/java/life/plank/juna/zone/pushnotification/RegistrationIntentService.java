@@ -1,4 +1,4 @@
-package life.plank.juna.zone.pushNotification;
+package life.plank.juna.zone.pushnotification;
 
 /**
  * Created by plank-dhamini on 18/11/17.
@@ -42,8 +42,8 @@ public class RegistrationIntentService extends IntentService {
             // otherwise your server should have already received the token.
             if (((regID=sharedPreferences.getString("registrationID", null)) == null)){
 
-                NotificationHub hub = new NotificationHub(NotificationSettings.HubName,
-                        NotificationSettings.HubListenConnectionString, this);
+                NotificationHub hub = new NotificationHub(NotificationSettings.hubName,
+                        NotificationSettings.hubListenConnectionString, this);
                 Log.d(TAG, "Attempting a new registration with NH using FCM token : " + FCM_token);
                 regID = hub.register(FCM_token).getRegistrationId();
 
@@ -61,8 +61,8 @@ public class RegistrationIntentService extends IntentService {
             // Check if the token may have been compromised and needs refreshing.
             else if ((storedToken=sharedPreferences.getString("FCMtoken", "")) != FCM_token) {
 
-                NotificationHub hub = new NotificationHub(NotificationSettings.HubName,
-                        NotificationSettings.HubListenConnectionString, this);
+                NotificationHub hub = new NotificationHub(NotificationSettings.hubName,
+                        NotificationSettings.hubListenConnectionString, this);
                 Log.d(TAG, "NH Registration refreshing with token : " + FCM_token);
                 regID = hub.register(FCM_token).getRegistrationId();
 

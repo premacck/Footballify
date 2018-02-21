@@ -98,7 +98,7 @@ public class ZoneApplication extends Application {
 
         pointsGameComponent = DaggerPointsGameComponent.builder()
                 .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule(this))
+                .gameServiceModule(new GameServiceModule())
                 .build();
 
         multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
@@ -111,7 +111,7 @@ public class ZoneApplication extends Application {
 
         suddenDeathGameComponent = DaggerSuddenDeathGameComponent.builder()
                 .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule(this))
+                .gameServiceModule(new GameServiceModule())
                 .build();
 
         footballMatchNetworkComponent = DaggerFootballMatchNetworkComponent.builder()

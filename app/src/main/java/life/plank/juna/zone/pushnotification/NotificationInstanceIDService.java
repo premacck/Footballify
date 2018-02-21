@@ -1,4 +1,4 @@
-package life.plank.juna.zone.pushNotification;
+package life.plank.juna.zone.pushnotification;
 
 /**
  * Created by plank-dhamini on 18/11/17.
