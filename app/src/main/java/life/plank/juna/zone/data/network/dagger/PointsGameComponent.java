@@ -12,6 +12,7 @@ import life.plank.juna.zone.view.activity.PointsGameActivity;
  */
 @Singleton
 @Component(modules = {RestServiceModule.class, GameServiceModule.class})
+@FunctionalInterface
 public interface PointsGameComponent {
     void inject(PointsGameActivity pointsGameActivity);
 }
