@@ -170,7 +170,6 @@
                         android:layout_margin="3dp"
                         android:layout_toRightOf="@+id/person_number"
                         android:src="@drawable/ic_dropdown" />
-
                 </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
