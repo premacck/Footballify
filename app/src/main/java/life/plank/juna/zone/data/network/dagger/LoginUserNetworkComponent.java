@@ -12,6 +12,7 @@ import life.plank.juna.zone.view.activity.LoginActivity;
 
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface LoginUserNetworkComponent {
     void inject(LoginActivity loginActivity);
 }

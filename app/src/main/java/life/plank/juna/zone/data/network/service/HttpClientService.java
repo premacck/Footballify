@@ -24,6 +24,7 @@ public class HttpClientService {
                         public void checkClientTrusted(
                                 java.security.cert.X509Certificate[] chain,
                                 String authType) {
+                            //Do nothing
                         }
 
                         @SuppressLint("TrustAllX509TrustManager")
@@ -31,6 +32,7 @@ public class HttpClientService {
                         public void checkServerTrusted(
                                 java.security.cert.X509Certificate[] chain,
                                 String authType) {
+                            //Do nothing
                         }
 
                         @Override

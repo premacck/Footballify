@@ -34,38 +34,35 @@ public class RestServiceModule {
     @Provides
     @Named("default")
     public Retrofit getRetrofit(Gson gson) {
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.base_url))
                 .client(HttpClientService.getUnsafeOkHttpClient())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        return retrofit;
     }
 
     @Singleton
     @Provides
     @Named("instagram")
     public Retrofit getInstagramRetrofitService() {
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.instagram_base_url))
                 .client(HttpClientService.getUnsafeOkHttpClient())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        return retrofit;
     }
 
     @Singleton
     @Provides
     @Named("azure")
     public Retrofit getAzureRetrofit(Gson gson) {
-        Retrofit retrofit = new Retrofit.Builder()
+        return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.azure_base_url))
                 .client(HttpClientService.getUnsafeOkHttpClient())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-        return retrofit;
     }
 }

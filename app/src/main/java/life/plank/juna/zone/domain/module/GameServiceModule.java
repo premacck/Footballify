@@ -13,15 +13,13 @@ import life.plank.juna.zone.domain.service.GameService;
  */
 @Module
 public class GameServiceModule {
-    private Context context;
 
-    public GameServiceModule(Context context) {
-        this.context = context;
+    public GameServiceModule() {
     }
 
     @Provides
     @Singleton
     public GameService getGameService() {
-        return new GameService(context);
+        return new GameService();
     }
 }

@@ -2,10 +2,8 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,9 +13,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.pushNotification.PushNotificationsHandler;
-import life.plank.juna.zone.pushNotification.NotificationSettings;
-import life.plank.juna.zone.pushNotification.RegistrationIntentService;
+import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
+import life.plank.juna.zone.pushnotification.NotificationSettings;
+import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -34,7 +32,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splash_screen_activity);
         splashScreenActivity = this;
-        NotificationsManager.handleNotifications(this, NotificationSettings.SenderId, PushNotificationsHandler.class);
+        NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
 
 

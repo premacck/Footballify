@@ -11,6 +11,7 @@ import life.plank.juna.zone.view.activity.OnBoardDialogActivity;
  */
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface OnBoardSocialLoginNetworkComponent {
     void inject(OnBoardDialogActivity onBoardDialogActivity);
 }
