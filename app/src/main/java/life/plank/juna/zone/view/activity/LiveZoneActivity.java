@@ -83,7 +83,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
-        //chatFragment();
     }
 
     private void setUpGridView() {
