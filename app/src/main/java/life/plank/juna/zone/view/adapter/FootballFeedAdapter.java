@@ -36,20 +36,22 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
     @BindView(R.id.reaction_like)
     ImageView reactionLike;
-    private int popUpPosition;
+    int popUpPosition;
     private Context context;
     private LayoutInflater mInflater;
     private int screenHeight;
     private int screenWidth;
     private int heightsToBeRemoved;
-    private int imageWidth;
-    private int popupImageWidth;
-    private int gridWidth;
-    private PopupWindow popupWindow;
+    private LinearLayout inflateLinearLayout;
+    int imageWidth;
+    int popupImageWidth;
+    int gridWidth;
+
+    public PopupWindow popupWindow;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private OnLongClickListener onLongClickListner;
+    private int popupGridHeight;
     private int popupImageHeight;
-    private PopupWindow popupWindowMenu;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -68,9 +70,10 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     @Override
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
-        holder.newsFeedLabel.setText(footballFeed.getHeadline());
+        holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
-        holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
+        holder.moreImageView.post(() -> popupImageHeight = holder.moreImageView.getHeight());
+        holder.newsFeedImage.post(() -> popupImageWidth = holder.newsFeedImage.getHeight());
 
         holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder));
 
@@ -102,6 +105,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
         // marginFeedRow* 4 because of padding in grid view (2 grids).
         // marginBanterRow*2 : single grid.
+        popupGridHeight = (screenHeight - heightsToBeRemoved) / 2;
         final int sdk = android.os.Build.VERSION.SDK_INT;
 
         //TODO: Will be uncommented after backend returns data
@@ -137,6 +141,11 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.newsFeedImage.setImageResource(R.drawable.ic_third_dummy);
         }
+        holder.itemView.setOnClickListener(view -> {
+            Intent intent = new Intent(context, FootballFeedDetailActivity.class);
+            intent.putExtra("position", String.valueOf(position));
+            context.startActivity(intent);
+        });
     }
 
     private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
@@ -232,7 +241,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder) {
-        LinearLayout inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
+        PopupWindow popupWindowMenu;
+        inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
         ListView listView = inflateLinearLayout.findViewById(R.id.list_item_view);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, R.layout.popup_menu_list_view_item, R.id.list_item_text,
                 context.getResources().getStringArray(R.array.football_feed_popup_array));
@@ -241,12 +251,11 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setView(inflateLinearLayout);
         popUpWindowHelper.setParentView(view);
         popUpWindowHelper.setPopUpWidth(gridWidth);
-        popUpWindowHelper.setPopUpHeight(popupImageHeight);
-        int[] locationLikeView = new int[2];
-
-        footballFeedViewHolder.moreImageView.getLocationInWindow(locationLikeView);
-        popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
-        popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
+        popUpWindowHelper.setPopUpHeight(popupGridHeight);
+        int[] locationLIkeView = new int[2];
+        footballFeedViewHolder.moreImageView.getLocationInWindow(locationLIkeView);
+        popUpWindowHelper.setPopUpLocationX(locationLIkeView[0] - gridWidth + popupImageWidth);
+        popUpWindowHelper.setPopUpLocationY(locationLIkeView[1] + popupImageWidth - popupImageHeight);
         popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
     }
 }

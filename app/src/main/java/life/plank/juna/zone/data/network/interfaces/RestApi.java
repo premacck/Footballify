@@ -67,6 +67,6 @@ public interface RestApi {
     @GET("/footballMatches")
     Observable<FootballMatch> getRandomFootballMatchByName(@Query("team") String team);
 
-    @GET("api/newsfeed")
+    @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
 }

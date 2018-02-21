@@ -17,6 +17,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,6 +134,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+
         //TODO confirm max lines for the bottom content
         // holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
         holder.topFeedContentTextView.setText(R.string.feed_content_title);
@@ -149,6 +151,18 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
             }
         });
+
+        holder.tagTextView.setText(footballFeedsList.get(position).getTitle());
+        holder.titleTextView.setText(footballFeedsList.get(position).getSummary());
+        if (footballFeedsList.get(position).getThumbnail() != null) {
+            Picasso.with(context)
+                    .load(footballFeedsList.get(position).getThumbnail().getImageUrl())
+                    .fit()
+                    .into(holder.feedImageView);
+        } else {
+            holder.feedImageView.setImageResource(R.drawable.ic_third_dummy);
+        }
+
     }
 
     //TODO this intiger value will replace with model class

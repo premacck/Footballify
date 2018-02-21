@@ -46,7 +46,7 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
     @Override
     public void onBindViewHolder(PinBoardFootballFeedViewHolder holder, int position) {
 
-        holder.newsFeedLabel.setText(footballFeedList.get(position).getHeadline());
+        holder.newsFeedLabel.setText(footballFeedList.get(position).getTitle());
 
         if (footballFeedList.get(position).getThumbnail() != null) {
             Picasso.with(context)

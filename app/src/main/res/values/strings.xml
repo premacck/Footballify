@@ -99,7 +99,7 @@
     <string name="property_type">rotationY</string>
     <string name="pick_club_label">PICK YOUR CLUB</string>
     <string name="club_image_name">clubImageName</string>
-    <string name="azure_base_url">https://junafunctions.azurewebsites.net/</string>
+    <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
     <string name="position">position</string>
     <string name="comment_data">Lorem Ipsum is simply dummy text of the printing and typesetting industries. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.</string>
     <string name="feed_content_title"> Lorem Ipsum is simply dummy text of the printing and typesetting industries. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
