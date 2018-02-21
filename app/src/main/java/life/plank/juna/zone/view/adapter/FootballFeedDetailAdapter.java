@@ -97,7 +97,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 }
 
             });
-
         }
 
         private ArrayList<String> getCommentsList() {
