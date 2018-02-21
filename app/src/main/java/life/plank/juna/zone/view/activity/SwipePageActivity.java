@@ -349,7 +349,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void goToLiveMatch(int matchNumber) {
         //TODO match number is needed for future
-        startActivity(new Intent(this, LiveZoneActivity.class));
+        Intent liveZoneIntent = new Intent(this, LiveZoneActivity.class);
+        liveZoneIntent.putExtra(AppConstants.ScrubberConstants.INTENT_MATCH_NUMBER, matchNumber);
+        startActivity(liveZoneIntent);
     }
 
 }
