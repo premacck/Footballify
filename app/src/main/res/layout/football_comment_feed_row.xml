@@ -7,7 +7,7 @@
     android:paddingRight="20dp">
 
     <TextView
-        android:id="@+id/text_comment_time"
+        android:id="@+id/comment_time_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/comment_time"
@@ -15,10 +15,10 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/text_comment"
+        android:id="@+id/comment_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/text_comment_time"
+        android:layout_below="@+id/comment_time_text_view"
         android:textColor="@color/black"
         android:textSize="12sp" />
 </RelativeLayout>

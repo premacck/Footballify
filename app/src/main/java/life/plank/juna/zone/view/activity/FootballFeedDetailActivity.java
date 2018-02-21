@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
@@ -34,7 +35,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         footballFeedRecyclerView.setLayoutManager(customLinearLayoutManager);
-        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra("position"))));
+        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(AppConstants.POSITION))));
         customLinearLayoutManager.setScrollEnabled(true);
         footballFeedRecyclerView.setAdapter(mAdapter);
         SnapHelper snapHelper = new PagerSnapHelper();

@@ -34,7 +34,7 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
 
     @Override
     public void onBindViewHolder(FootballFeedCommentAdapter.FootballFeedCommentViewHolder holder, int position) {
-        holder.textComment.setText(commentList.get(position));
+        holder.commetTextView.setText(commentList.get(position));
     }
 
     @Override
@@ -43,10 +43,10 @@ public class FootballFeedCommentAdapter extends RecyclerView.Adapter<FootballFee
     }
 
     public class FootballFeedCommentViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_comment_time)
-        TextView textCommentTime;
-        @BindView(R.id.text_comment)
-        TextView textComment;
+        @BindView(R.id.comment_time_text_view)
+        TextView commentTimeTextView;
+        @BindView(R.id.comment_text_view)
+        TextView commetTextView;
 
         FootballFeedCommentViewHolder(View itemView) {
             super(itemView);
