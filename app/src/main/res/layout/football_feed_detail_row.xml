@@ -50,6 +50,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/feed_heading"
                     android:textColor="@color/white"
+                    android:maxLines="4"
+                    android:ellipsize="end"
                     android:textSize="24sp" />
 
                 <TextView
@@ -94,6 +96,7 @@
                     android:textSize="8sp" />
 
                 <TextView
+                    android:id="@+id/sliding_title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"

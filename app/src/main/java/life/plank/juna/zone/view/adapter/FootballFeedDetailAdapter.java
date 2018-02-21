@@ -4,9 +4,7 @@ import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +67,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         NestedScrollView nestedScrollView;
         @BindView(R.id.add_comment_view)
         Button addCommentView;
+        @BindView(R.id.sliding_title_text_view)
+        TextView slidingTitleTextView;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
@@ -113,8 +113,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             commentFeedAdapter = new FootballFeedCommentAdapter(context, getCommentsList());
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
             feedCommentRecyclerView.setLayoutManager(layoutManager);
-            SnapHelper snapHelper = new PagerSnapHelper();
-            snapHelper.attachToRecyclerView(feedCommentRecyclerView);
             feedCommentRecyclerView.setAdapter(commentFeedAdapter);
         }
     }
@@ -136,9 +134,10 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
 
         //TODO confirm max lines for the bottom content
-        // holder.titleTextView.setText(footballFeedsList.get(position).getHeadline());
         holder.topFeedContentTextView.setText(R.string.feed_content_title);
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
+        holder.titleTextView.setText(footballFeedsList.get(position).getTitle());
+        holder.slidingTitleTextView.setText(footballFeedsList.get(position).getTitle());
         holder.populateCommentRecyclerView();
         holder.feedCommentRecyclerView.setNestedScrollingEnabled(false);
         setUpSlidingLayout(holder);
@@ -151,9 +150,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
             }
         });
-
-        holder.tagTextView.setText(footballFeedsList.get(position).getTitle());
-        holder.titleTextView.setText(footballFeedsList.get(position).getSummary());
         if (footballFeedsList.get(position).getThumbnail() != null) {
             Picasso.with(context)
                     .load(footballFeedsList.get(position).getThumbnail().getImageUrl())
@@ -165,11 +161,9 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     }
 
-    //TODO this intiger value will replace with model class
-
     @Override
     public int getItemCount() {
-        return 10;
+        return footballFeedsList.size();
     }
 
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {

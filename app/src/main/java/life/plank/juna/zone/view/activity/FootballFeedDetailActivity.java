@@ -34,6 +34,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         footballFeedRecyclerView.setLayoutManager(customLinearLayoutManager);
+        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra("position"))));
         customLinearLayoutManager.setScrollEnabled(true);
         footballFeedRecyclerView.setAdapter(mAdapter);
         SnapHelper snapHelper = new PagerSnapHelper();
