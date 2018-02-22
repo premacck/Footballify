@@ -6,6 +6,7 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
@@ -46,8 +47,8 @@ import life.plank.juna.zone.domain.module.GameServiceModule;
 public class ZoneApplication extends Application {
 
     public static Integer roundNumber = 0;
-    public static HashMap<JunaUser, Boolean> pointsGameResultMap = new HashMap<>();
-    public static HashMap<JunaUser, Boolean> suddenDeathGameResultMap = new HashMap<>();
+    public static Map<JunaUser, Boolean> pointsGameResultMap = new HashMap<>();
+    public static Map<JunaUser, Boolean> suddenDeathGameResultMap = new HashMap<>();
     public static Integer suddenDeathLivesRemaining = 5;
     public static List<String> selectedTeamsList = new ArrayList<>();
     private static ZoneApplication zoneApplication;
@@ -97,7 +98,7 @@ public class ZoneApplication extends Application {
 
         pointsGameComponent = DaggerPointsGameComponent.builder()
                 .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule(this))
+                .gameServiceModule(new GameServiceModule())
                 .build();
 
         multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
@@ -110,7 +111,7 @@ public class ZoneApplication extends Application {
 
         suddenDeathGameComponent = DaggerSuddenDeathGameComponent.builder()
                 .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule(this))
+                .gameServiceModule(new GameServiceModule())
                 .build();
 
         footballMatchNetworkComponent = DaggerFootballMatchNetworkComponent.builder()
