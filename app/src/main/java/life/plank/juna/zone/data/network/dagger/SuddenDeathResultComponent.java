@@ -12,7 +12,7 @@ import life.plank.juna.zone.view.activity.SuddenDeathResultActivity;
 
 @Singleton
 @Component(modules = {RestServiceModule.class})
-
+@FunctionalInterface
 public interface SuddenDeathResultComponent {
     void inject(SuddenDeathResultActivity suddenDeathResultActivity);
 }
