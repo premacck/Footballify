@@ -93,8 +93,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         adapter = new LiveZoneGridAdapter(this);
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
-        liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
-        snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
+        liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(7));
+        //snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
         scaleXAnimator.setAddDuration(AppConstants.DELAY);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
@@ -144,14 +144,13 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
 
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
-        if (scrubberViewData.getLiveFeedTileData().getImages().size() > 0) {
+        if (scrubberViewData.getLiveFeedTileData().getTiles().size() > 0) {
             int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             try {
-                for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getImages().size() - 1; i++) {
+                for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
                     int tilePosition = i;
-                    new Handler(Looper.getMainLooper()).post(() -> adapter.addData(
-                            position + tilePosition, scrubberViewData.getLiveFeedTileData().getImages().get(tilePosition))
-                    );
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            adapter.addData(position + tilePosition, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -250,10 +249,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     public void expandCollapseChatView(boolean status){
         if (status) {
             scrubberLinearLayout.setVisibility(View.GONE);
-            banterZoneLayout.setVisibility(View.GONE);
         }else {
             scrubberLinearLayout.setVisibility(View.VISIBLE);
-            banterZoneLayout.setVisibility(View.VISIBLE);
         }
     }
 

@@ -7,18 +7,18 @@ import java.util.ArrayList;
  */
 
 public class LiveFeedTileData {
-    ArrayList<Integer> images;
+    private ArrayList<Tile> tiles;
 
-    public LiveFeedTileData(ArrayList<Integer> images) {
-        this.images = images;
+    public LiveFeedTileData(ArrayList<Tile> images) {
+        this.tiles = images;
     }
 
-    public ArrayList<Integer> getImages() {
-        return images;
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
-    public void setImages(ArrayList<Integer> images) {
-        this.images = images;
+    public void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
     }
 
 

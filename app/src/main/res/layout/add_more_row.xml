@@ -13,23 +13,23 @@
         android:padding="25dp"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/horizontal_news_label"
+            android:id="@+id/tile_label_text_view"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_alignLeft="@+id/textView"
+            android:layout_alignLeft="@+id/tile_content_text_view"
             android:layout_alignParentTop="true"
-            android:layout_alignStart="@+id/textView"
+            android:layout_alignStart="@+id/tile_content_text_view"
             android:layout_margin="3dp"
             android:text="6S: Mark F"
             android:textColor="@color/white"
             android:textSize="7sp" />
         <ImageView
-            android:id="@+id/horizontal_news_image"
+            android:id="@+id/profile_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_add_more" />
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tile_content_text_view"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"

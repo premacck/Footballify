@@ -2,13 +2,15 @@ package life.plank.juna.zone.view.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -20,10 +22,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.Tile;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.activity.CameraActivity;
 
 /**
  * Created by plank-hasan on 1/27/2018.
@@ -32,17 +34,25 @@ import life.plank.juna.zone.view.activity.CameraActivity;
 public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapter.LiveZoneGridViewHolder> {
 
     private Context context;
-    private List<Integer> elements;
+    private List<Tile> tileList;
     private int gridViewHeight;
-    public OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
-        this.elements = new ArrayList<>();
+        this.tileList = new ArrayList<>();
     }
 
-    public void addData(int position, Integer data) {
-        elements.add(position, data);
+    public void addData(int position, Tile data) {
+       /* Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                tileList.add(position, data);
+                notifyItemInserted(position);
+                handler.postDelayed(this, 200);
+            }
+        }, 200);*/
+        tileList.add(position, data);
         notifyItemInserted(position);
 
     }
@@ -59,7 +69,25 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context,
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
-        holder.liveZoneRelativeLayout.setBackground(context.getResources().getDrawable(elements.get(position)));
+        switch (tileList.get(position).getTag()){
+            case "image":{
+                holder.tileImageView.setVisibility(View.VISIBLE);
+                holder.tileImageView.setImageResource(tileList.get(position).getImage());
+                break;
+            }
+            case "text":{
+                holder.liveZoneRelativeLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.grid_item_grey));
+                break;
+            }
+            case "sticker":{
+                holder.tileImageView.setVisibility(View.VISIBLE);
+                holder.tileStickerImageView.setVisibility(View.VISIBLE);
+                holder.tileImageView.setImageResource(tileList.get(position).getImage());
+                holder.tileStickerImageView.setImageResource(tileList.get(position).getSticker());
+                break;
+            }
+        }
+        holder.tileContentTextView.setText(tileList.get(position).getTweet());
         RxView.clicks(holder.itemView)
                 .subscribe(v ->onItemClickListener.onItemClicked(position));
     }
@@ -67,7 +95,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     @Override
     public int getItemCount() {
-        return this.elements.size();
+        return this.tileList.size();
     }
 
 
@@ -83,19 +111,19 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     }
 
     private void setUpData() {
-        elements.add(R.drawable.ic_grid_three);
-        elements.add(R.drawable.ic_grid_two);
-        elements.add(R.drawable.ic_grid_one);
-        elements.add(R.drawable.ic_grid_four);
-        elements.add(R.drawable.ic_grid_five);
-        elements.add(R.drawable.ic_grid_six);
-        elements.add(R.drawable.ic_grid_three);
-        elements.add(R.drawable.ic_grid_two);
-        elements.add(R.drawable.ic_grid_one);
-        elements.add(R.drawable.ic_grid_four);
-        elements.add(R.drawable.ic_grid_five);
-        elements.add(R.drawable.meme1);
-    }
+        tileList.add(new Tile("image",R.drawable.image0,R.drawable.ic_sticker_four,""));
+        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker",R.drawable.image1,R.drawable.ic_sticker_four,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image",R.drawable.image3,0,""));
+        tileList.add(new Tile("image",R.drawable.ic_grid_one,0,""));
+        tileList.add(new Tile("sticker",R.drawable.ic_third_dummy,R.drawable.ic_sticker_one,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image",R.drawable.ic_football_dummy_image,0,""));
+        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker",R.drawable.ic_club_list_background,R.drawable.ic_sticker_two,"Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+}
 
     private int getRandomBackgroundColor() {
         ArrayList<Integer> colors = new ArrayList<>();
@@ -113,6 +141,14 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
         @BindView(R.id.card_content)
         RelativeLayout liveZoneRelativeLayout;
+        @BindView(R.id.tile_content_text_view)
+        TextView tileContentTextView;
+        @BindView(R.id.tile_label_text_view)
+        TextView tileLabelTextView;
+        @BindView(R.id.tile_image_view)
+        ImageView tileImageView;
+        @BindView(R.id.tile_sticker_image_view)
+        ImageView tileStickerImageView;
 
         public LiveZoneGridViewHolder(View view) {
             super(view);
