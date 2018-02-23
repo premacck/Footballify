@@ -87,7 +87,7 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
     class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tile_label_text_view)
         TextView horizontalNewsFeedLabel;
-        @BindView(R.id.profile_image)
+        @BindView(R.id.profile_image_view)
         ImageView horizontalNewsFeedImage;
         @BindView(R.id.card_content)
         RelativeLayout horizontalNewsCardLayout;

@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_content"
     android:layout_width="match_parent"
@@ -11,20 +9,18 @@
         android:id="@+id/tile_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/football_image_one"
+        android:foreground="@color/transparent_grey"
         android:scaleType="centerCrop"
-        android:visibility="gone"
-        android:foreground="@color/transparent_grey"/>
+        android:src="@drawable/football_image_one"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/tile_sticker_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_sticker_four"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        />
-
+        android:src="@drawable/ic_sticker_four"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tile_label_text_view"
@@ -39,7 +35,7 @@
         android:textSize="7sp" />
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/profile_image_view"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
@@ -60,5 +56,4 @@
         android:text="Why would Mourinho do that? Isn't he done with this.."
         android:textColor="@color/white"
         android:textSize="9dp" />
-
 </RelativeLayout>

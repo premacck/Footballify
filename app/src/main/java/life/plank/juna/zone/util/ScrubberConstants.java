@@ -292,7 +292,7 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(90, new ScrubberViewData("Hazard, dropping deep to influence a desperate Chelseaattack, lifts a pass down the right for Zappacosta, who can’t keep the ball in play. Goal kick. There will be four added minutes. Put another way: Arsenal are four minutes away from a final tie with Manchester City!",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileArrayList), false));
 
-        tileArrayList.add(new Tile("image",R.drawable.goal_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image",R.drawable.goal_image_three,0,"Why would Mourinho do that? Isn't he done with"));
         tileArrayList.add(new Tile("text",0,0,"Goal!! Eden Hazard - 7"));
         scrubberViewDataHolder.put(7, new ScrubberViewData("Goal!! Eden Hazard - 7",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileArrayList), true));
