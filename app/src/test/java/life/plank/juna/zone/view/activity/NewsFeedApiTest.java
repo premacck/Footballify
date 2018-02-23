@@ -28,12 +28,10 @@ public class NewsFeedApiTest {
         assertEquals(check.isEmpty(), (false));
     }
 
-
     @Test
-    public void checkHeaderEmpty(){
-        String nextPageToken="";
-        String check = swipePageActivity.updateToken(nextPageToken,"RT:(\\d*)", "TRC:(\\\\d*)", "RT:2", "TRC:40");
-        assertEquals(check==null,(true));
-
-}
+    public void checkHeaderEmpty() {
+        String nextPageToken = "";
+        String check = swipePageActivity.updateToken(nextPageToken, "RT:(\\d*)", "TRC:(\\\\d*)", "RT:2", "TRC:40");
+        assertEquals(check == null, (true));
+    }
 }
