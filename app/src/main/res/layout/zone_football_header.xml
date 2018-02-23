@@ -8,23 +8,30 @@
     android:elevation="0dp"
     android:padding="10dp"
     tools:ignore="UnusedAttribute">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/football_toolbar_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FOOTBALL"
+            android:textColor="@color/white"
+            android:layout_centerVertical="true"/>
 
-    <TextView
-        android:id="@+id/football_toolbar_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/football_toolbar_zone_icon"
-        android:text="FOOTBALL"
-        android:textColor="@color/white" />
+        <android.support.v7.widget.AppCompatImageButton
+            android:id="@+id/football_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|end"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_menu"
+            android:layout_alignParentEnd="true"/>
 
-    <android.support.v7.widget.AppCompatImageButton
-        android:id="@+id/football_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical|end"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_menu" />
+    </RelativeLayout>
+
+
 
 </android.support.v7.widget.Toolbar>
