@@ -44,17 +44,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     }
 
     public void addData(int position, Tile data) {
-       /* Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                tileList.add(position, data);
-                notifyItemInserted(position);
-                handler.postDelayed(this, 200);
-            }
-        }, 200);*/
         tileList.add(position, data);
         notifyItemInserted(position);
-
     }
 
     @Override

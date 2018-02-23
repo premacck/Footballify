@@ -93,7 +93,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         adapter = new LiveZoneGridAdapter(this);
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
-        liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(7));
+        liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
+        //TODO needed in future
         //snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
         scaleXAnimator.setAddDuration(AppConstants.DELAY);

@@ -1,6 +1,6 @@
 package life.plank.juna.zone.data.network.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by plank-niraj on 06-02-2018.
