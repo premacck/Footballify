@@ -31,7 +31,7 @@ public class LiveZoneGridTest {
     }
 
     @Test
-    public void isTileListEmpty() {
+    public void isTileListNotEmpty() {
         tileList.add(new Tile("image", R.drawable.image0, R.drawable.ic_sticker_four, ""));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         assertThat(tileList.isEmpty(), is(false));
