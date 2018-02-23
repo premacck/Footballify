@@ -8,7 +8,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.List;
 
-import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
@@ -20,8 +19,8 @@ import static org.junit.Assert.assertThat;
  */
 
 public class FootballFeedDetailsTest {
-
     private FootballFeed footballFeed;
+
     @InjectMocks
     private FootballFeedDetailAdapter footballFeedDetailAdapter;
     @Mock
