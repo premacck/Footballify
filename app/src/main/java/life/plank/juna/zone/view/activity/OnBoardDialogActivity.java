@@ -173,6 +173,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         twitterIcon.setOnClickListener(this);
         facebookIcon.setOnClickListener(this);
         registerIcon.setOnClickListener(this);
+        mDrawer.setScrimColor(Color.TRANSPARENT);
     }
 
     private void setAutoCompleteData() {

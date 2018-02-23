@@ -17,8 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
-        android:background="#ffffff"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:background="@color/white"
         app:itemIconTint="#FFFF00"
         app:itemTextColor="#000000"
-        app:menu="@menu/activity_swipe_page_drawer_right"/>
+        app:menu="@menu/activity_swipe_page_drawer_right" />
 </android.support.v4.widget.DrawerLayout>
