@@ -16,5 +16,5 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/scrubber_view"
         android:layout_toRightOf="@+id/scrubber_view"
-        android:background="#333333" />
+        android:background="@color/background_grey" />
 </RelativeLayout>

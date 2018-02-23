@@ -10,5 +10,5 @@ public interface ScrubberPointerUpdate {
 
     void moveScrubberPointer(View view, int position);
 
-    void addCommentary(int position);
+    void updateRecentEvents(int position);
 }

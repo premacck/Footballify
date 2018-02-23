@@ -7,5 +7,5 @@
         android:id="@+id/scrubber_view"
         android:layout_width="5dp"
         android:layout_height="wrap_content"
-        android:background="#d08f4d" />
+        android:background="@color/orange_end_gradient" />
 </RelativeLayout>

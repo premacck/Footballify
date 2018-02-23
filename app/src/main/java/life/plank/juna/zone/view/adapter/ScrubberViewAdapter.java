@@ -26,13 +26,13 @@ import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
     public boolean trigger = false;
     ScrubberPointerUpdate scrubberPointerUpdate;
-    //Temp data
+    //Temp scrubberProgressData
     HashMap<Integer, String> detailedData;
     HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
-    ArrayList<Integer> data;
+    ArrayList<Integer> scrubberProgressData;
     int matchNumber;
     private Context context;
-    // TODO: 26-01-2018 use server data.
+    // TODO: 26-01-2018 use server scrubberProgressData.
     private SimpleTooltip simpleTooltip;
     private ItemTouchHelper itemTouchHelper;
 
@@ -44,18 +44,12 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         this.scrubberViewDataHolder = scrubberViewDataHolder;
         this.scrubberPointerUpdate = scrubberPointerUpdate;
         detailedData = new HashMap<>();
-        this.data = data;
+        this.scrubberProgressData = data;
         this.matchNumber = matchNumber;
         addHardCodedData();
     }
 
-    private void addHardCodedData() {
-
-        // TODO: 21-02-2018 code needed, commented just for this pull request
-/*        if (matchNumber == 1)
-            ScrubberConstants.getHighLightsMatchOne(scrubberViewDataHolder);
-        else
-            ScrubberConstants.getHighLightsMatchTwo(scrubberViewDataHolder);*/
+    public void addHardCodedData() {
         ScrubberConstants.getHighLightsMatchOne(scrubberViewDataHolder);
     }
 
@@ -96,7 +90,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public int getItemViewType(int position) {
-        return data.get(position);
+        return scrubberProgressData.get(position);
     }
 
     @Override
@@ -114,7 +108,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             simpleTooltip.dismiss();
         }
 
-        if (position == data.size() - 1 && scrubberViewDataHolder.containsKey(position) &&
+        if (position == scrubberProgressData.size() - 1 && scrubberViewDataHolder.containsKey(position) &&
                 scrubberViewDataHolder.get(position).isTriggerEvents()) {
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
         }
@@ -136,8 +130,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             }
         });
 
-        if (scrubberViewDataHolder.containsKey(position)) {
-            scrubberPointerUpdate.addCommentary(position);
+        if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
+            scrubberPointerUpdate.updateRecentEvents(position);
         }
     }
 
@@ -145,7 +139,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
      * @param view:  Display on top of view
      * @param status : String to display
      */
-    private void displayTooltip(View view, String status) {
+    public void displayTooltip(View view, String status) {
         simpleTooltip = new SimpleTooltip.Builder(context)
                 .anchorView(view)
                 .text(status)
@@ -160,7 +154,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return scrubberProgressData.size();
     }
 
     @Override

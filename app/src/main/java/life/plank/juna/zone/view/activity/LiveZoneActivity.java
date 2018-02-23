@@ -66,7 +66,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     Context context;
     LiveZoneGridAdapter adapter;
     int liveZoneGridViewHeight;
-    ArrayList<Integer> data = new ArrayList<>();
+    ArrayList<Integer> scrubberProgressData = new ArrayList<>();
     @BindView(R.id.fragment_container_frame_layout)
     FrameLayout fragmentContainerFrameLayout;
     ScrubberViewAdapter scrubberViewAdapter;
@@ -106,10 +106,10 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         scrubberViewDataHolder = new HashMap<>();
         int matchNumber = getIntent().getExtras().getInt(AppConstants.ScrubberConstants.INTENT_MATCH_NUMBER);
         scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-        scrubberViewAdapter = new ScrubberViewAdapter(context, data, scrubberViewDataHolder, this, matchNumber);
+        scrubberViewAdapter = new ScrubberViewAdapter(context, scrubberProgressData, scrubberViewDataHolder, this, matchNumber);
         scrubberView.setAdapter(scrubberViewAdapter);
         ItemTouchHelper.Callback callback =
-                new ItemTouchHelperCallback(scrubberViewAdapter, data);
+                new ItemTouchHelperCallback(scrubberViewAdapter, scrubberProgressData);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(scrubberView);
         scrubberViewAdapter.setItemTouchHelper(touchHelper);
@@ -119,25 +119,24 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     private void updateScrubber() {
         while (progressStatus < ScrubberConstants.getScrubberViewTotalWindow()) {
             try {
-                if (data != null && !data.isEmpty())
-                    data.remove(data.size() - 1);
+                if (scrubberProgressData != null && !scrubberProgressData.isEmpty())
+                    scrubberProgressData.remove(scrubberProgressData.size() - 1);
                 if (scrubberViewDataHolder.containsKey(progressStatus) && scrubberViewDataHolder.get(progressStatus).isTriggerEvents()) {
-                    data.add(scrubberViewDataHolder.get(progressStatus).getType());
+                    scrubberProgressData.add(scrubberViewDataHolder.get(progressStatus).getType());
                     onNewEvent(scrubberViewDataHolder.get(progressStatus));
                 } else {
-                    data.add(ScrubberConstants.getScrubberViewProgress());
+                    scrubberProgressData.add(ScrubberConstants.getScrubberViewProgress());
                 }
-                data.add(ScrubberConstants.getScrubberViewCursor());
-                //TODO sleep time will be removed once we get the data from backend
+                scrubberProgressData.add(ScrubberConstants.getScrubberViewCursor());
+                //TODO sleep time will be removed once we get the scrubberProgressData from backend
                 Thread.sleep(2000);
                 if (!scrubberViewAdapter.trigger) {
                     runOnUiThread(() -> {
-                        scrubberViewAdapter.notifyItemChanged(data.size() - 1);
-                        moveScrubberPointer(null, data.size() - 1);
+                        scrubberViewAdapter.notifyItemChanged(scrubberProgressData.size() - 1);
+                        moveScrubberPointer(null, scrubberProgressData.size() - 1);
                     });
                 }
                 progressStatus++;
-
             } catch (Exception e) {
                 // TODO: 21-02-2018 remove after stable.
                 Log.e("trace scrubber", e.toString());
@@ -189,7 +188,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
      * Get linearLayout after it is drawn.
      */
     public void getHeightDetails() {
-        // TODO: 01-02-2018 Check the performance and change accordingly once implement the server data
+        // TODO: 01-02-2018 Check the performance and change accordingly once implement the server scrubberProgressData
         liveZoneGridViewRecyclerView.post(() -> {
             liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
             adapter.addData(liveZoneGridViewHeight);
@@ -207,7 +206,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     }
 
     @Override
-    public void addCommentary(int position) {
+    public void updateRecentEvents(int position) {
         new Handler(Looper.getMainLooper()).post(() -> commentaryTextView.setText(scrubberViewDataHolder.get(position).getMessage()));
     }
 
