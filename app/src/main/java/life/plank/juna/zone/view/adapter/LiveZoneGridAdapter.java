@@ -60,6 +60,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context,
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
+        //TODO tages will be changed once api is ready so hardcoded
         switch (tileList.get(position).getTag()){
             case "image":{
                 holder.tileImageView.setVisibility(View.VISIBLE);
@@ -102,6 +103,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     }
 
     private void setUpData() {
+        //TODO tages will be changed once api is ready so hardcoded
         tileList.add(new Tile("image",R.drawable.image0,R.drawable.ic_sticker_four,""));
         tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("sticker",R.drawable.image1,R.drawable.ic_sticker_four,"Why would Mourinho do that? Isn't he done with"));
