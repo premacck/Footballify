@@ -38,84 +38,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
     private FootballFeedCommentAdapter commentFeedAdapter;
 
-    public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.feed_image_view)
-        ImageView feedImageView;
-        @BindView(R.id.feed_comment_recycler_view)
-        RecyclerView feedCommentRecyclerView;
-        @BindView(R.id.tag_text_view)
-        TextView tagTextView;
-        @BindView(R.id.title_text_view)
-        TextView titleTextView;
-        @BindView(R.id.sliding_layout)
-        SlidingUpPanelLayout mLayout;
-        @BindView(R.id.drag_view)
-        LinearLayout dragView;
-        @BindView(R.id.expand_arrow)
-        ImageView expandArrow;
-        @BindView(R.id.top_feed_content)
-        TextView topFeedContentTextView;
-        @BindView(R.id.bottom_feed_content)
-        TextView bottomFeedContentTextView;
-        @BindView(R.id.sliding_panel_layout)
-        LinearLayout slidingPanelLinearLayout;
-        @BindView(R.id.comment_submit)
-        Button submitButton;
-        @BindView(R.id.add_comment)
-        Button addCommentButton;
-        @BindView(R.id.nested_scroll_view)
-        NestedScrollView nestedScrollView;
-        @BindView(R.id.add_comment_view)
-        Button addCommentView;
-        @BindView(R.id.sliding_title_text_view)
-        TextView slidingTitleTextView;
-
-        public FootballFeedDetailViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick({R.id.add_comment, R.id.comment_submit, R.id.add_comment_view})
-        public void onAddComment(View view) {
-
-            nestedScrollView.post(new Runnable() {
-                @Override
-                public void run() {
-                    switch (view.getId()) {
-                        case R.id.add_comment:
-                            nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            break;
-                        case R.id.comment_submit:
-                            nestedScrollView.fullScroll(ScrollView.FOCUS_UP);
-                            break;
-                        case R.id.add_comment_view:
-                            nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-            });
-        }
-
-        private ArrayList<String> getCommentsList() {
-            ArrayList<String> commentList = new ArrayList<>();
-            commentList.clear();
-            for (int i = 0; i < 5; i++) {
-                commentList.add(context.getString(R.string.comment_data));
-            }
-            return commentList;
-        }
-
-        private void populateCommentRecyclerView() {
-            commentFeedAdapter = new FootballFeedCommentAdapter(context, getCommentsList());
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-            feedCommentRecyclerView.setLayoutManager(layoutManager);
-            feedCommentRecyclerView.setAdapter(commentFeedAdapter);
-        }
-    }
-
     public FootballFeedDetailAdapter(Context context) {
         footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
         this.context = context;
@@ -199,5 +121,82 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                 holder.mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
+    }
+
+    public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.feed_image_view)
+        ImageView feedImageView;
+        @BindView(R.id.feed_comment_recycler_view)
+        RecyclerView feedCommentRecyclerView;
+        @BindView(R.id.tag_text_view)
+        TextView tagTextView;
+        @BindView(R.id.title_text_view)
+        TextView titleTextView;
+        @BindView(R.id.sliding_layout)
+        SlidingUpPanelLayout mLayout;
+        @BindView(R.id.drag_view)
+        LinearLayout dragView;
+        @BindView(R.id.expand_arrow)
+        ImageView expandArrow;
+        @BindView(R.id.top_feed_content)
+        TextView topFeedContentTextView;
+        @BindView(R.id.bottom_feed_content)
+        TextView bottomFeedContentTextView;
+        @BindView(R.id.sliding_panel_layout)
+        LinearLayout slidingPanelLinearLayout;
+        @BindView(R.id.comment_submit)
+        Button submitButton;
+        @BindView(R.id.add_comment)
+        Button addCommentButton;
+        @BindView(R.id.nested_scroll_view)
+        NestedScrollView nestedScrollView;
+        @BindView(R.id.add_comment_view)
+        Button addCommentView;
+        @BindView(R.id.sliding_title_text_view)
+        TextView slidingTitleTextView;
+
+        public FootballFeedDetailViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick({R.id.add_comment, R.id.comment_submit, R.id.add_comment_view})
+        public void onAddComment(View view) {
+
+            nestedScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    switch (view.getId()) {
+                        case R.id.add_comment:
+                            nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            break;
+                        case R.id.comment_submit:
+                            nestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+                            break;
+                        case R.id.add_comment_view:
+                            nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+            });
+        }
+
+        private ArrayList<String> getCommentsList() {
+            ArrayList<String> commentList = new ArrayList<>();
+            for (int i = 0; i < 5; i++) {
+                commentList.add(context.getString(R.string.comment_data));
+            }
+            return commentList;
+        }
+
+        private void populateCommentRecyclerView() {
+            commentFeedAdapter = new FootballFeedCommentAdapter(context, getCommentsList());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+            feedCommentRecyclerView.setLayoutManager(layoutManager);
+            feedCommentRecyclerView.setAdapter(commentFeedAdapter);
+        }
     }
 }

@@ -70,7 +70,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
         holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
-
         holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder));
 
         if (footballFeed.getThumbnail() != null) {
