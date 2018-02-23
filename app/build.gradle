@@ -5,8 +5,8 @@ apply from: "src/main/java/life/plank/juna/zone/domain/build.gradle"
 apply from: "src/main/java/life/plank/juna/zone/view/build.gradle"
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
     signingConfigs {
         release {
             storeFile file(JUNA_RELEASE_STORE_FILE)
@@ -25,7 +25,7 @@ android {
         multiDexEnabled true
         applicationId "life.plank.juna.zone"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 26
         versionCode 9
         versionName "1.0.1-jenkins-build"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
