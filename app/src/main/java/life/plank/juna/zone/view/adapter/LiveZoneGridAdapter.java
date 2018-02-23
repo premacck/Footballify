@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 
 import android.content.Context;
-import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,17 +60,17 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
         holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         //TODO: tags will be changed once api is ready so hardcoded
-        switch (tileList.get(position).getTag()){
-            case "image":{
+        switch (tileList.get(position).getTag()) {
+            case "image": {
                 holder.tileImageView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(tileList.get(position).getImage());
                 break;
             }
-            case "text":{
-                holder.liveZoneRelativeLayout.setBackgroundColor(ContextCompat.getColor(context,R.color.grid_item_grey));
+            case "text": {
+                holder.liveZoneRelativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.grid_item_grey));
                 break;
             }
-            case "sticker":{
+            case "sticker": {
                 holder.tileImageView.setVisibility(View.VISIBLE);
                 holder.tileStickerImageView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(tileList.get(position).getImage());
@@ -81,7 +80,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         }
         holder.tileContentTextView.setText(tileList.get(position).getTweet());
         RxView.clicks(holder.itemView)
-                .subscribe(v ->onItemClickListener.onItemClicked(position));
+                .subscribe(v -> onItemClickListener.onItemClicked(position));
     }
 
 
@@ -104,19 +103,19 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     private void setUpData() {
         //TODO: tags will be changed once api is ready so hardcoded
-        tileList.add(new Tile("image",R.drawable.image0,R.drawable.ic_sticker_four,""));
-        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("sticker",R.drawable.image1,R.drawable.ic_sticker_four,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("image",R.drawable.image3,0,""));
-        tileList.add(new Tile("image",R.drawable.ic_grid_one,0,""));
-        tileList.add(new Tile("sticker",R.drawable.ic_third_dummy,R.drawable.ic_sticker_one,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("image",R.drawable.ic_football_dummy_image,0,""));
-        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("sticker",R.drawable.ic_club_list_background,R.drawable.ic_sticker_two,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
-        tileList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
-}
+        tileList.add(new Tile("image", R.drawable.image0, R.drawable.ic_sticker_four, ""));
+        tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker", R.drawable.image1, R.drawable.ic_sticker_four, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image", R.drawable.image3, 0, ""));
+        tileList.add(new Tile("image", R.drawable.ic_grid_one, 0, ""));
+        tileList.add(new Tile("sticker", R.drawable.ic_third_dummy, R.drawable.ic_sticker_one, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image", R.drawable.ic_football_dummy_image, 0, ""));
+        tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker", R.drawable.ic_club_list_background, R.drawable.ic_sticker_two, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
+    }
 
     private int getRandomBackgroundColor() {
         ArrayList<Integer> colors = new ArrayList<>();
@@ -155,6 +154,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         }
 
     }
+
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }

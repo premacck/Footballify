@@ -20,12 +20,14 @@ import com.mikepenz.itemanimators.ScaleXAnimator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.data.network.model.Tile;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.ScrubberConstants;
@@ -35,6 +37,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 import life.plank.juna.zone.view.adapter.ScrubberViewAdapter;
 import life.plank.juna.zone.view.fragment.ChatFragment;
+import rx.Subscription;
 
 public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberViewAdapter.ScrubberPointerUpdate,
         OnItemClickListener {
@@ -154,7 +157,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
                             adapter.addData(position + tilePosition, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+              //do nothing, as it will take up next event
             }
             new Handler(Looper.getMainLooper()).post(() -> liveZoneGridViewRecyclerView.scrollToPosition(0));
         }
@@ -254,5 +257,4 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
             scrubberLinearLayout.setVisibility(View.VISIBLE);
         }
     }
-
 }
