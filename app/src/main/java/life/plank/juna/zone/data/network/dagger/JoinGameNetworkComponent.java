@@ -12,6 +12,7 @@ import life.plank.juna.zone.view.activity.JoinGameActivity;
 
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface JoinGameNetworkComponent {
     void inject(JoinGameActivity joinGameActivity);
 }

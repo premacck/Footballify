@@ -12,6 +12,7 @@ import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface FootballFeedNetworkComponent {
     void inject(SwipePageActivity swipePageActivity);
 }

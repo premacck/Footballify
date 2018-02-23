@@ -1,7 +1,5 @@
 package life.plank.juna.zone.data.network.builder;
 
-import android.util.Log;
-
 import life.plank.juna.zone.data.network.model.JunaUser;
 
 /**
@@ -13,12 +11,12 @@ public class JunaUserBuilder {
     private JunaUser junaUser = null;
     private static JunaUserBuilder junaUserBuilder = null;
 
-    public String getUserName() {
-        return userName;
-    }
-
     private JunaUserBuilder() {
         junaUser = new JunaUser();
+    }
+
+    public String getUserName() {
+        return userName;
     }
 
     public static JunaUserBuilder getInstance() {

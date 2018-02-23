@@ -12,6 +12,7 @@ import life.plank.juna.zone.view.fragment.NewsFeedsFragment;
 
 @Singleton
 @Component(modules = RestServiceModule.class)
+@FunctionalInterface
 public interface NewsFeedsNetworkComponent {
     void inject(NewsFeedsFragment newsFeedsFragment);
 }
