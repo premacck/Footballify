@@ -22,9 +22,18 @@ public class NewsFeedApiTest {
     }
 
     @Test
-    public void CheckNewsFeedAPi() {
+    public void checkNewsFeedAPi() {
         String check = swipePageActivity.updateToken("{\"token\":\"+RID:S6gVAN+HdgBLAAAAAAAAAA==#RT:1#TRC:20#RTD:vjAyMDE4LTAyLTE4VDE0OjMwOjAwWg==\",\"range\":{\"min\":\"\",\"max\":\"FF\"}}"
                 , "RT:(\\d*)", "TRC:(\\\\d*)", "RT:2", "TRC:40");
         assertEquals(check.isEmpty(), (false));
     }
+
+
+    @Test
+    public void checkHeaderEmpty(){
+        String nextPageToken="";
+        String check = swipePageActivity.updateToken(nextPageToken,"RT:(\\d*)", "TRC:(\\\\d*)", "RT:2", "TRC:40");
+        assertEquals(check==null,(true));
+
+}
 }
