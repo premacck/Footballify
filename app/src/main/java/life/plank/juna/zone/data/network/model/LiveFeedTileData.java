@@ -20,6 +20,4 @@ public class LiveFeedTileData {
     public void setTiles(ArrayList<Tile> tiles) {
         this.tiles = tiles;
     }
-
-
 }
