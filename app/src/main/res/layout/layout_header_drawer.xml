@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/profile_image_view"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_profile_dummy" />
+
+    <TextView
+        android:id="@+id/name_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/profile_image_view"
+        android:maxLines="1"
+        android:text="@string/john_mclntyre"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/location_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name_text_view"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/profile_image_view"
+        android:maxLines="1"
+        android:text="@string/glasgow_uk"
+        android:textColor="@color/black" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@+id/location_text_view"
+        android:layout_marginTop="16dp"
+        android:background="@color/divider_line_drawer" />
+</RelativeLayout>
