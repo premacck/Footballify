@@ -351,5 +351,4 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         //TODO match number is needed for future
         startActivity(new Intent(this, LiveZoneActivity.class));
     }
-
 }

@@ -3,12 +3,16 @@ package life.plank.juna.zone.view.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
@@ -115,12 +119,14 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     public DrawerLayout mDrawer;
     private TextView textDrawerMenu;
     private AuthorizationService mAuthService;
+    public NavigationView navigationView;
+    private FrameLayout activityContent;
 
     @Override
     public void setContentView(int layoutResID) {
         mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
-        FrameLayout activityContainer = mDrawer.findViewById(R.id.activity_content);
-        getLayoutInflater().inflate(layoutResID, activityContainer, true);
+        activityContent = mDrawer.findViewById(R.id.activity_content);
+        getLayoutInflater().inflate(layoutResID, activityContent, true);
         super.setContentView(mDrawer);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
@@ -132,10 +138,9 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Twitter.initialize(twitterConfig);
 
         ((ZoneApplication) this.getApplication()).getOnBoardSocialLoginNetworkComponent().inject(this);
-
-
         socialLoginViewModel = new SocialLoginViewModel(OnBoardDialogActivity.this, new AuthenticationService(retrofit, instagramRetrofit));
-
+        mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
     }
 
     public void showOnboardingDialog() {
@@ -407,4 +412,43 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        boolean isOutSideClicked = false;
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (mDrawer.isDrawerOpen(GravityCompat.END)) {
+                View content = findViewById(R.id.navigation_view);
+                int[] contentLocation = new int[2];
+                content.getLocationOnScreen(contentLocation);
+                Rect rect = new Rect(contentLocation[0],
+                        contentLocation[1],
+                        contentLocation[0] + content.getWidth(),
+                        contentLocation[1] + content.getHeight());
+
+                View toolbarView = findViewById(R.id.football_toolbar);
+                int[] toolbarLocation = new int[2];
+                toolbarView.getLocationOnScreen(toolbarLocation);
+                Rect toolbarViewRect = new Rect(toolbarLocation[0],
+                        toolbarLocation[1],
+                        toolbarLocation[0] + toolbarView.getWidth(),
+                        toolbarLocation[1] + toolbarView.getHeight());
+                if (!(rect.contains((int) event.getX(), (int) event.getY())) && !toolbarViewRect.contains((int) event.getX(), (int) event.getY())) {
+                    isOutSideClicked = true;
+                } else {
+                    isOutSideClicked = false;
+                }
+            } else {
+                return super.dispatchTouchEvent(event);
+            }
+        } else if (event.getAction() == MotionEvent.ACTION_DOWN && isOutSideClicked) {
+            isOutSideClicked = false;
+            return super.dispatchTouchEvent(event);
+        } else if (event.getAction() == MotionEvent.ACTION_MOVE && isOutSideClicked) {
+            return super.dispatchTouchEvent(event);
+        }
+        if (isOutSideClicked) {
+            Toast.makeText(this, "Hello..", Toast.LENGTH_SHORT).show();
+        }
+        return super.dispatchTouchEvent(event);
+    }
 }
