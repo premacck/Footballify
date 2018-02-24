@@ -42,7 +42,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         this.tileList = new ArrayList<>();
     }
 
-    public void addData(int position, Tile data) {
+    public void addGridItemsToView(int position, Tile data) {
         tileList.add(position, data);
         notifyItemInserted(position);
     }
@@ -95,7 +95,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
      *
      * @param liveZoneGridViewHeight : gridViewHeight
      */
-    public void addData(int liveZoneGridViewHeight) {
+    public void computeNewDimensions(int liveZoneGridViewHeight) {
         gridViewHeight = liveZoneGridViewHeight;
         setUpData();
         notifyDataSetChanged();

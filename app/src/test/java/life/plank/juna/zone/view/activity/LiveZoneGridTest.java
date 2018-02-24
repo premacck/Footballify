@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.junit.Before;
@@ -18,6 +19,7 @@ import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -26,10 +28,9 @@ import static org.mockito.Mockito.when;
  */
 
 public class LiveZoneGridTest {
-    @InjectMocks
-    private LiveZoneGridAdapter liveZoneGridAdapter;
     @Mock
-    private List<Tile> tileList;
+    private LiveZoneGridAdapter liveZoneGridAdapter;
+
 
     @Before
     public void setUp() {
@@ -37,24 +38,29 @@ public class LiveZoneGridTest {
         liveZoneGridAdapter = mock(LiveZoneGridAdapter.class);
     }
 
-    @Test
-    public void isTileListNotEmpty() {
-        //check if the response from api is empty
-        assertThat(tileList.isEmpty(), is(false));
-    }
-
-    @Test
+ /*   @Test
     public void isTagNull() {
       //check if tag of any tile is empty
         for (int i = 0; i <= tileList.size() - 1; i++) {
             assertThat(tileList.get(i).getTag().isEmpty(), is(false));
         }
-    }
+    }*/
 
     @Test
     public void checkAdpaterHasItems() {
         //check if adapter has childrens
         when(liveZoneGridAdapter.getItemCount() < 0)
                 .thenThrow(NullPointerException.class);
+    }
+
+    @Mock
+    Context context;
+
+    @Test
+    public void checkIfNewTilesAreGettingAddedAndNotifyItemInsertedCalled(){
+        liveZoneGridAdapter = new LiveZoneGridAdapter(context);
+        liveZoneGridAdapter.addGridItemsToView(0,new Tile("",0,0,""));
+        //verify(liveZoneGridAdapter, times(1)).notifyItemInserted(0);
+        assertThat(liveZoneGridAdapter.getItemCount(), is(1));
     }
 }
