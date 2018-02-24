@@ -21,7 +21,7 @@
             android:background="@color/divider_line_drawer" />
 
         <TextView
-            android:id="@+id/my_tems_text_view"
+            android:id="@+id/my_teams_text_view"
             style="@style/menu_item_text_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
