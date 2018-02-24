@@ -117,8 +117,8 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     @Override
     public void setContentView(int layoutResID) {
         mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
-        FrameLayout activityContent = mDrawer.findViewById(R.id.activity_content);
-        getLayoutInflater().inflate(layoutResID, activityContent, true);
+        FrameLayout activityContentFrameLayout = mDrawer.findViewById(R.id.activity_content_frame_layout);
+        getLayoutInflater().inflate(layoutResID, activityContentFrameLayout, true);
         super.setContentView(mDrawer);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();

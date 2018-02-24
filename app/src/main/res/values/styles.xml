@@ -52,6 +52,4 @@
         <item name="android:textColor">@color/chat_header_background</item>
         <item name="android:textSize">16sp</item>
     </style>
-
-
 </resources>
