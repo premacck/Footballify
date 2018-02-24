@@ -181,4 +181,19 @@
     <string name="me">Me</string>
     <string name="brighton_amp_hove_albiono"><![CDATA[Brighton & hove albiono]]></string>
     <string name="chelsea">Chelsea</string>
+    <string name="john_mclntyre">John Mclntyre</string>
+    <string name="glasgow_uk">Glasgow, UK</string>
+    <string name="my_profile">My Profile</string>
+    <string name="my_teams">My Teams</string>
+    <string name="my_chatrooms">My chatrooms</string>
+    <string name="my_cards">My cards</string>
+    <string name="my_pins">My pins</string>
+    <string name="my_sources">My sources</string>
+    <string name="settings_amp_privacy"><![CDATA[settings & privacy]]></string>
+    <string name="push_notifications">push notifications</string>
+    <string name="help">help</string>
+    <string name="faqs">FAQs</string>
+    <string name="review_amp_feedback"><![CDATA[Review & feedback]]></string>
+    <string name="about_us">About us</string>
+    <string name="logout">logout</string>
 </resources>

@@ -16,7 +16,7 @@
         android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/profile_image_view"
         android:maxLines="1"
-        android:text="John Mclntyre"
+        android:text="@string/john_mclntyre"
         android:textSize="20sp" />
 
     <TextView
@@ -28,7 +28,7 @@
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/profile_image_view"
         android:maxLines="1"
-        android:text="Glasgow, UK"
+        android:text="@string/glasgow_uk"
         android:textColor="@color/black" />
 
     <View

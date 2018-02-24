@@ -3,8 +3,7 @@
     android:id="@+id/football_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@drawable/football_header_orange_gradient"
-    >
+    android:background="@drawable/football_header_orange_gradient">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,8 +25,7 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:background="@color/white">
+            android:paddingStart="10dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -43,7 +41,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center_vertical|end"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_menu_selected" />
+                android:src="@drawable/ic_menu" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

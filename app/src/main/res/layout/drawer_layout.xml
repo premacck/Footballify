@@ -18,8 +18,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@color/white"
-        app:itemIconTint="#FFFF00"
-        app:itemTextColor="#000000"
+        app:itemTextColor="@color/black"
         android:layout_marginTop="?attr/actionBarSize">
 
         <LinearLayout
