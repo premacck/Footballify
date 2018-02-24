@@ -17,9 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="end"
+        android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/white"
-        app:itemTextColor="@color/black"
-        android:layout_marginTop="?attr/actionBarSize">
+        app:itemTextColor="@color/black">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +30,6 @@
             <include layout="@layout/layout_header_drawer" />
 
             <include layout="@layout/menu_items_drawer" />
-
         </LinearLayout>
     </android.support.design.widget.NavigationView>
 </android.support.v4.widget.DrawerLayout>
