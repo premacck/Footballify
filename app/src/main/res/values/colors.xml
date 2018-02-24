@@ -21,5 +21,7 @@
     <color name="chat_header_background">#7E8285</color>
     <color name="background_grey">#303331</color>
     <color name="chat_body_background">#D5D7DD</color>
+    <color name="divider_line_drawer">#A4D0F1</color>
+    <color name="transparent">@android:color/transparent</color>
     <color name="light_black">#030303</color>
 </resources>
