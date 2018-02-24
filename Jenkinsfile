@@ -28,21 +28,18 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
-        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
 
     def buildBugfixBranch(){
         build()
-        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
 
     def buildReleaseBranch(){
         buildRelease()
-        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
@@ -51,7 +48,6 @@ node('docker') {
     def buildHotfixBranch(){
     //todo: must not perform the same tasks as others, change hotfix tasks
         buildRelease()
-        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
@@ -60,7 +56,6 @@ node('docker') {
     def buildDevelopmentBranch(){
         //todo: must not perform the same tasks as others, change Development tasks
         build()
-        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }
@@ -68,7 +63,6 @@ node('docker') {
     def buildMasterBranch(){
         //todo: must not perform the same tasks as others, change Master branch tasks
         build()
-        runSonarQubeAnalysis()
         executeTests()
         uploadToNexus()
     }

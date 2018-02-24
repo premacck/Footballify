@@ -374,7 +374,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onCodeReceived(String auth_token) {
+    public void onCodeReceived(String authToken) {
 
     }
 

@@ -1,7 +1,5 @@
 package life.plank.juna.zone.domain.module;
 
-import android.content.Context;
-
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -13,9 +11,6 @@ import life.plank.juna.zone.domain.service.GameService;
  */
 @Module
 public class GameServiceModule {
-
-    public GameServiceModule() {
-    }
 
     @Provides
     @Singleton

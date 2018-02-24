@@ -2,7 +2,6 @@ package life.plank.juna.zone.util;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -42,17 +41,12 @@ public class AuthenticationDialog extends Dialog {
     }
 
     private void initializeWebView(String url) {
-        WebView web_view = findViewById(R.id.web_view);
-        web_view.loadUrl(url);
-        web_view.setWebViewClient(new WebViewClient() {
+        WebView webView = findViewById(R.id.web_view);
+        webView.loadUrl(url);
+        webView.setWebViewClient(new WebViewClient() {
             boolean authComplete = false;
 
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                super.onPageStarted(view, url, favicon);
-            }
-
-            String access_token;
+            String accessToken;
 
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -60,12 +54,12 @@ public class AuthenticationDialog extends Dialog {
 
                 if (url.contains(context.getString(R.string.access_token_query_param)) && !authComplete) {
                     Uri uri = Uri.parse(url);
-                    access_token = uri.getEncodedFragment();
+                    accessToken = uri.getEncodedFragment();
                     // get the whole token after the '=' sign
-                    access_token = access_token.substring(access_token.lastIndexOf("=") + 1);
-                    Log.i("", "CODE : " + access_token);
+                    accessToken = accessToken.substring(accessToken.lastIndexOf('=') + 1);
+                    Log.i("", "CODE : " + accessToken);
                     authComplete = true;
-                    listener.onCodeReceived(access_token);
+                    listener.onCodeReceived(accessToken);
                     listener.showProgressSpinner();
                     dismiss();
 
