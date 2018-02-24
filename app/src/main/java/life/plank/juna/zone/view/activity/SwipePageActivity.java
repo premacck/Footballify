@@ -275,7 +275,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 break;
 
             case R.id.football_menu:
-                mDrawer.openDrawer(GravityCompat.END);
+                drawerLayout.openDrawer(GravityCompat.END);
                 break;
         }
     }
@@ -361,7 +361,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     private void addDrawerListener() {
-        mDrawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
             }

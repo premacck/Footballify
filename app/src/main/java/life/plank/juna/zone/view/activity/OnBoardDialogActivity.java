@@ -109,17 +109,17 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     private static int RC_SIGN_IN = 100;
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
-    public DrawerLayout mDrawer;
+    public DrawerLayout drawerLayout;
     private TextView textDrawerMenu;
     private AuthorizationService mAuthService;
     public NavigationView navigationView;
 
     @Override
     public void setContentView(int layoutResID) {
-        mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
-        FrameLayout activityContentFrameLayout = mDrawer.findViewById(R.id.activity_content_frame_layout);
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
+        FrameLayout activityContentFrameLayout = drawerLayout.findViewById(R.id.activity_content_frame_layout);
         getLayoutInflater().inflate(layoutResID, activityContentFrameLayout, true);
-        super.setContentView(mDrawer);
+        super.setContentView(drawerLayout);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
@@ -148,7 +148,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     }
 
     private void setUpViews() {
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         applyButton = dialog.findViewById(R.id.apply_button);
         closeDialogImage = dialog.findViewById(R.id.close_dialog_image);
         selectTeamLinearLayout = dialog.findViewById(R.id.select_team_linear_layout);
@@ -167,7 +167,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         twitterIcon.setOnClickListener(this);
         facebookIcon.setOnClickListener(this);
         registerIcon.setOnClickListener(this);
-        mDrawer.setScrimColor(Color.TRANSPARENT);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
     }
 
     private void setAutoCompleteData() {
