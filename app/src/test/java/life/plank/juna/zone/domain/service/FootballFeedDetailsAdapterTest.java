@@ -36,18 +36,21 @@ public class FootballFeedDetailsAdapterTest {
         footballFeedsList = new ArrayList<>();
     }
 
+    //adding summary in a list
     @Test
     public void isFeedSummaryNotEmpty() {
         addSummary();
         assertThat(footballFeedsList.get(0).getSummary(), is("Man United"));
     }
 
+    // adding Title in a list
     @Test
     public void isFeedTitleNotEmpty() {
         addTitle();
         assertThat(footballFeedsList.get(0).getTitle(), is("Southampton"));
     }
 
+    // check if list data is empty
     @Test
     public void footballFeedDataIsEmpty() {
         assertThat(footballFeedsList.isEmpty(), is(false));
@@ -58,12 +61,14 @@ public class FootballFeedDetailsAdapterTest {
         for (int i = 0; i < footballFeedsList.size(); i++)
             assertThat(footballFeedsList.isEmpty(), is(false));
     }
+    //check if feed adapter item count is empty
 
     @Test
     public void addItemsToHorizontalViewListIsNull() {
         when(footballFeedDetailAdapter.getItemCount() < 0).thenThrow(NullPointerException.class);
     }
 
+    //check if list size is zero
     @Test
     public void isFeedDataEmpty() {
         assertThat(footballFeedsList.size(), is(0));
