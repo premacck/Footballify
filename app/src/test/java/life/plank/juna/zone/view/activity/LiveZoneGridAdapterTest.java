@@ -49,7 +49,7 @@ public class LiveZoneGridAdapterTest {
         }
     }
 
-    //add data to adater and check if data gets added to adapter
+    //add data to adapter and check if data gets added to adapter
     //TODO: to be done later unable to call  notifyItemInserted(position) of the adapter
     // add events from LiveZoneActivity and check if data is getting added into the adapter
     //TODO: to be done later
