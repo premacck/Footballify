@@ -59,31 +59,31 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         switch (viewType) {
             case ScrubberConstants.SCRUBBER_VIEW_HALF_TIME:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_half_time, parent, false));
+                        .inflate(R.layout.scrubber_view_events_half_time, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_GOAL:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_goal, parent, false));
+                        .inflate(R.layout.scrubber_view_events_goal, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_CURSOR:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_pointer, parent, false));
+                        .inflate(R.layout.scrubber_view_events_pointer, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_CARDS:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_cards, parent, false));
+                        .inflate(R.layout.scrubber_view_events_cards, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_SUBSTITUTE:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_substitions, parent, false));
+                        .inflate(R.layout.scrubber_view_events_substitions, parent, false));
 
             case ScrubberConstants.SCRUBBER_POST_MATCH:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_post_match, parent, false));
+                        .inflate(R.layout.scrubber_view_events_post_match, parent, false));
 
             default:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_progress, parent, false));
+                        .inflate(R.layout.scrubber_view_events_progress, parent, false));
 
         }
     }

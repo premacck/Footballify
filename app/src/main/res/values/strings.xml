@@ -196,4 +196,6 @@
     <string name="review_amp_feedback"><![CDATA[Review & feedback]]></string>
     <string name="about_us">About us</string>
     <string name="logout">logout</string>
+    <!--Scrubber constants-->
+    <string name="scrubber_match_number">matchNumber</string>
 </resources>

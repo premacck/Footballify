@@ -104,7 +104,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
 
     private void setUpScrubber() {
         scrubberViewDataHolder = new HashMap<>();
-        int matchNumber = getIntent().getExtras().getInt(AppConstants.ScrubberConstants.INTENT_MATCH_NUMBER);
+        int matchNumber = getIntent().getExtras().getInt(getResources().getString(R.string.scrubber_match_number));
         scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         scrubberViewAdapter = new ScrubberViewAdapter(context, scrubberProgressData, scrubberViewDataHolder, this, matchNumber);
         scrubberView.setAdapter(scrubberViewAdapter);
@@ -252,7 +252,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     public void goToLiveMatch(int matchNumber) {
         //TODO match number is needed for future
         Intent liveZoneIntent = new Intent(this, LiveZoneActivity.class);
-        liveZoneIntent.putExtra(AppConstants.ScrubberConstants.INTENT_MATCH_NUMBER, matchNumber);
+        liveZoneIntent.putExtra(getResources().getString(R.string.scrubber_match_number), matchNumber);
         startActivity(liveZoneIntent);
     }
 }
