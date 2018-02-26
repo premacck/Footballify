@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -37,49 +36,13 @@ public class FootballFeedDetailsAdapterTest {
         footballFeedsList = new ArrayList<>();
     }
 
-    // checking for all field data is empty or fed
+    // checking for all field data is empty
     @Test
     public void isFeedSummaryNotEmpty() {
-        addSummary();
-        assertThat(footballFeedsList.get(0).getSummary(), is("Man United"));
+        addFeedData();
+        assertThat(footballFeedsList.isEmpty(), is(false));
     }
 
-    @Test
-    public void isFeedTitleNotEmpty() {
-        addTitle();
-        assertThat(footballFeedsList.get(0).getTitle(), is("Southampton"));
-    }
-
-    @Test
-    public void isFeedIdNotEmpty() {
-        addId();
-        assertThat(footballFeedsList.get(0).getId(), is("1"));
-    }
-
-    @Test
-    public void isFeedUrlNotEmpty() {
-        addUrl();
-        assertThat(footballFeedsList.get(0).getUrl(), is("web_url"));
-    }
-
-    @Test
-    public void isFeedContaintTypeNotEmpty() {
-        addContaintType();
-        assertThat(footballFeedsList.get(0).getContentType(), is("Southampton"));
-    }
-
-    @Test
-    public void isFeedReactionNotEmpty() {
-        addReactionType();
-        assertThat(footballFeedsList.get(0).getReactionType(), is(1));
-    }
-
-    @Test
-    public void isFeedSourceNotEmpty() {
-        addSource();
-        assertThat(footballFeedsList.get(0).getSource(), is("Chelsea"));
-    }
-    
     //checking if feed adapter item count is empty
     @Test
     public void addItemsToHorizontalViewListIsNull() {
@@ -93,51 +56,16 @@ public class FootballFeedDetailsAdapterTest {
     }
 
     //created method  and adding data for all field in a Football Feed
-    public void addSummary() {
+    public void addFeedData() {
         footballFeed.setSummary("Man United");
-        footballFeedsList.add(footballFeed);
-    }
-
-    private void addTitle() {
         footballFeed.setTitle("Southampton");
-        footballFeedsList.add(footballFeed);
-    }
-
-    public void addId() {
         footballFeed.setId("1");
-        footballFeedsList.add(footballFeed);
-    }
-
-    private void addUrl() {
         footballFeed.setUrl("web_url");
-        footballFeedsList.add(footballFeed);
-    }
-
-    //TODO will be check later
-    public void addThumbnail() {
-        footballFeed.setThumbnail(new Thumbnail());
-        footballFeedsList.add(footballFeed);
-    }
-
-    private void addContaintType() {
         footballFeed.setContentType("Southampton");
-        footballFeedsList.add(footballFeed);
-    }
-
-    public void addReactionType() {
         footballFeed.setReactionType(1);
-        footballFeedsList.add(footballFeed);
-    }
-
-    //TODO will be check later
-    private void addTags() {
-        footballFeed.setTags(new Object());
-        footballFeedsList.add(footballFeed);
-    }
-
-    private void addSource() {
         footballFeed.setSource("Chelsea");
+        //TODO will be check later
+        // footballFeed.setTags(new Object());
         footballFeedsList.add(footballFeed);
-
     }
 }
