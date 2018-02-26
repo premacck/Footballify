@@ -49,13 +49,7 @@ public class FootballFeedDetailsAdapterTest {
         addTitle();
         assertThat(footballFeedsList.get(0).getTitle(), is("Southampton"));
     }
-
-    // check if list data is empty
-    @Test
-    public void footballFeedDataIsEmpty() {
-        assertThat(footballFeedsList.isEmpty(), is(false));
-    }
-
+    
     @Test
     public void feedItemCountEmpty() {
         for (int i = 0; i < footballFeedsList.size(); i++)
