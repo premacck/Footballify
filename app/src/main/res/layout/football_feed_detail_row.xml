@@ -48,16 +48,16 @@
                     android:id="@+id/title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="4"
                     android:text="@string/feed_heading"
                     android:textColor="@color/white"
-                    android:maxLines="4"
-                    android:ellipsize="end"
                     android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
+                    android:text="@string/feed_details_date"
                     android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -99,14 +99,14 @@
                     android:id="@+id/sliding_title_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
+                    android:text="@string/feed_heading"
                     android:textColor="@color/black"
                     android:textSize="24sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
+                    android:text="@string/feed_details_date"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
                     android:textSize="12sp" />

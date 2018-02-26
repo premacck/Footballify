@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.jakewharton.rxbinding2.view.RxView;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 
@@ -34,8 +36,8 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
 
-    private Context context;
     List<FootballFeed> footballFeedsList = new ArrayList<>();
+    private Context context;
     private FootballFeedCommentAdapter commentFeedAdapter;
 
     public FootballFeedDetailAdapter(Context context) {
@@ -163,25 +165,23 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
         @OnClick({R.id.add_comment, R.id.comment_submit, R.id.add_comment_view})
         public void onAddComment(View view) {
-
             nestedScrollView.post(new Runnable() {
                 @Override
                 public void run() {
-                    switch (view.getId()) {
-                        case R.id.add_comment:
-                            nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            break;
-                        case R.id.comment_submit:
-                            nestedScrollView.fullScroll(ScrollView.FOCUS_UP);
-                            break;
-                        case R.id.add_comment_view:
-                            nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            break;
-                        default:
-                            break;
-                    }
-                }
 
+                    RxView.clicks(addCommentButton)
+                            .subscribe(v -> {
+                                nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            });
+                    RxView.clicks(submitButton)
+                            .subscribe(v -> {
+                                nestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+                            });
+                    RxView.clicks(addCommentView)
+                            .subscribe(v -> {
+                                nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                            });
+                }
             });
         }
 
@@ -199,5 +199,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             feedCommentRecyclerView.setLayoutManager(layoutManager);
             feedCommentRecyclerView.setAdapter(commentFeedAdapter);
         }
+
     }
+
 }
