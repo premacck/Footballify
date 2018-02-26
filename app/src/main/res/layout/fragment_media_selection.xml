@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:text="@string/photos_vedios"
+            android:textColor="@color/white"
             android:textSize="10sp" />
 
         <TextView
@@ -29,6 +30,7 @@
             android:layout_toEndOf="@+id/photos_text_view"
             android:padding="5dp"
             android:text="@string/stickers"
+            android:textColor="@color/white"
             android:textSize="10sp" />
 
         <TextView
@@ -39,6 +41,7 @@
             android:layout_toEndOf="@+id/stickers_text_view"
             android:padding="5dp"
             android:text="@string/gifs"
+            android:textColor="@color/white"
             android:textSize="10sp" />
 
         <TextView
@@ -48,6 +51,7 @@
             android:layout_toLeftOf="@+id/cross_image_view"
             android:gravity="end"
             android:padding="5dp"
+            android:textColor="@color/white"
             android:text="@string/meme_maker"
             android:textSize="10sp" />
 
