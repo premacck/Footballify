@@ -36,6 +36,12 @@ public class FootballFeedDetailsAdapterTest {
         footballFeedsList = new ArrayList<>();
     }
 
+    //checking if list size is zero
+    @Test
+    public void isFeedDataEmpty() {
+        assertThat(footballFeedsList.size(), is(0));
+    }
+
     // checking for all field data is empty
     @Test
     public void isFeedSummaryNotEmpty() {
@@ -47,12 +53,6 @@ public class FootballFeedDetailsAdapterTest {
     @Test
     public void addItemsToHorizontalViewListIsNull() {
         when(footballFeedDetailAdapter.getItemCount() < 0).thenThrow(NullPointerException.class);
-    }
-
-    //checking if list size is zero
-    @Test
-    public void isFeedDataEmpty() {
-        assertThat(footballFeedsList.size(), is(0));
     }
 
     //created method  and adding data for all field in a Football Feed
