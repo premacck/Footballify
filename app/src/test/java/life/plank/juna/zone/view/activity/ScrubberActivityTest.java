@@ -48,12 +48,6 @@ public class ScrubberActivityTest {
     }
 
     @Test
-    public void testDataSetForEmpty() {
-        scrubberViewAdapter.addHardCodedData();
-        assertThat(scrubberViewDataHolder.isEmpty(), is(false));
-    }
-
-    @Test
     public void testAdapterDataUpdated() {
         ArrayList<Integer> data = new ArrayList<>();
         ScrubberViewAdapter scrubberViewAdapter = new ScrubberViewAdapter(context,
@@ -79,8 +73,15 @@ public class ScrubberActivityTest {
     @Test
     public void testAdapterDataForHalfTime() {
         data.clear();
-        data.add(ScrubberConstants.SCRUBBER_VIEW_GOAL);
-        assertThat(scrubberViewAdapter.getItemViewType(0), is(ScrubberConstants.SCRUBBER_VIEW_GOAL));
+        data.add(ScrubberConstants.SCRUBBER_VIEW_HALF_TIME);
+        assertThat(scrubberViewAdapter.getItemViewType(0), is(ScrubberConstants.SCRUBBER_VIEW_HALF_TIME));
+    }
+
+    @Test
+    public void testAdapterDataForSubstitute() {
+        data.clear();
+        data.add(ScrubberConstants.SCRUBBER_VIEW_SUBSTITUTE);
+        assertThat(scrubberViewAdapter.getItemViewType(0), is(ScrubberConstants.SCRUBBER_VIEW_SUBSTITUTE));
     }
 
     @Test
@@ -88,5 +89,12 @@ public class ScrubberActivityTest {
         data.clear();
         data.add(ScrubberConstants.SCRUBBER_VIEW_CURSOR);
         assertThat(scrubberViewAdapter.getItemViewType(0), is(ScrubberConstants.SCRUBBER_VIEW_CURSOR));
+    }
+
+    @Test
+    public void testAdapterDataForCards() {
+        data.clear();
+        data.add(ScrubberConstants.SCRUBBER_VIEW_CARDS);
+        assertThat(scrubberViewAdapter.getItemViewType(0), is(ScrubberConstants.SCRUBBER_VIEW_CARDS));
     }
 }

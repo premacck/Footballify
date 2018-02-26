@@ -26,13 +26,13 @@ import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
     public boolean trigger = false;
     ScrubberPointerUpdate scrubberPointerUpdate;
-    //Temp scrubberProgressData
+    //Temp data
     HashMap<Integer, String> detailedData;
     HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
     ArrayList<Integer> scrubberProgressData;
     int matchNumber;
     private Context context;
-    // TODO: 26-01-2018 use server scrubberProgressData.
+    // TODO: 26-01-2018 use server data.
     private SimpleTooltip simpleTooltip;
     private ItemTouchHelper itemTouchHelper;
 
@@ -49,7 +49,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         addHardCodedData();
     }
 
-    public void addHardCodedData() {
+    private void addHardCodedData() {
         ScrubberConstants.getHighLightsMatchOne(scrubberViewDataHolder);
     }
 
@@ -139,7 +139,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
      * @param view:  Display on top of view
      * @param status : String to display
      */
-    public void displayTooltip(View view, String status) {
+    private void displayTooltip(View view, String status) {
         simpleTooltip = new SimpleTooltip.Builder(context)
                 .anchorView(view)
                 .text(status)
