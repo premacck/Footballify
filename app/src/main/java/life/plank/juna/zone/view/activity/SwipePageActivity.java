@@ -48,6 +48,7 @@ import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
@@ -358,7 +359,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void goToLiveMatch(int matchNumber) {
         //TODO match number is needed for future
         Intent liveZoneIntent = new Intent(this, LiveZoneActivity.class);
-        liveZoneIntent.putExtra(getResources().getString(R.string.scrubber_match_number), matchNumber);
+        liveZoneIntent.putExtra(ScrubberConstants.SCRUBBER_MATCH_NUMBER, matchNumber);
         startActivity(liveZoneIntent);
     }
 

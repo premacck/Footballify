@@ -23,6 +23,7 @@ public class ScrubberConstants {
     public static final int SCRUBBER_POST_MATCH = 60;
     public static final int SCRUBBER_VIEW_TOTAL_WINDOW = 105;
     public static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
+    public static final String SCRUBBER_MATCH_NUMBER = "matchNumber";
     private static String scrubberInProgress = "In Progress";
     private String scrubberHalf = "half";
     private String scrubberNormal = "normal";
