@@ -233,12 +233,12 @@ public class SocialLoginActivity extends AppCompatActivity implements Authentica
     }
 
     @Override
-    public void onCodeReceived(String accessToken) {
-        if (accessToken == null) {
+    public void onCodeReceived(String authToken) {
+        if (authToken == null) {
             authenticationDialog.dismiss();
         }
 
-        subscription = socialLoginViewModel.getInstagramLoginData(accessToken)
+        subscription = socialLoginViewModel.getInstagramLoginData(authToken)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(instagramResponse -> {

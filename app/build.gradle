@@ -24,7 +24,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "life.plank.juna.zone"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 9
         versionName "1.0.1-jenkins-build"
