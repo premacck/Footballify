@@ -161,7 +161,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
     }
 
     @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
-    public void onCloseImageClicked(View view) {
+    public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
                 onBackPressed();
