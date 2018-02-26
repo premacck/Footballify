@@ -5,7 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
@@ -23,7 +25,7 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
 
     @Override
     public MediaSelectionAdapter.MediaSelectionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        final View view = LayoutInflater.from(this.context).inflate(R.layout.item_livezone_grid, parent, false);
+        final View view = LayoutInflater.from(this.context).inflate(R.layout.media_selection_row, parent, false);
         return new MediaSelectionAdapter.MediaSelectionViewHolder(view);
     }
 
@@ -39,6 +41,10 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
     }
 
     public class MediaSelectionViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.photos_image_view)
+        ImageView photosImageView;
+        @BindView(R.id.select_item)
+        ImageView selectImageView;
 
         public MediaSelectionViewHolder(View view) {
             super(view);

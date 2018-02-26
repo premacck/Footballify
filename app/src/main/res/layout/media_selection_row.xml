@@ -17,6 +17,7 @@
         android:background="@color/red">
 
         <ImageView
+            android:id="@+id/select_item"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_close" />
