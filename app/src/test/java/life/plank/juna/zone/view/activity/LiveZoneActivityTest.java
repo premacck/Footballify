@@ -35,11 +35,8 @@ public class LiveZoneActivityTest {
         liveZoneActivity = mock(LiveZoneActivity.class);
     }
 
-    @Test
-    public void onNewEventWillUpdateTheGridWithTheChangedTiles() {
-        //add new event in LiveZoneActivity and check if data gets added to adapter
-        //TODO: to be done later unable to call  notifyItemInserted(position) of the adapter
-    }
+    //add new event in LiveZoneActivity and check if data gets added to adapter
+    //TODO: to be done later unable to call  notifyItemInserted(position) of the adapter
 
     @Test
     public void checkIfIsChatScreenVisibleFlagIsSet() {

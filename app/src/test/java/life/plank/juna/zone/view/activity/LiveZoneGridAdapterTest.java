@@ -49,26 +49,10 @@ public class LiveZoneGridAdapterTest {
         }
     }
 
-    @Test
-    public void addGridItemsToViewNotifiesParentAndAddsItemToTileList() {
-        //add data to adater and check if data gets added to adapter
-        //TODO: to be done later unable to call  notifyItemInserted(position) of the adapter
-       /* liveZoneGridAdapter = new LiveZoneGridAdapter(context);
-        liveZoneGridAdapter.addGridItemsToView(0,new Tile("",0,0,""));
-        assertThat(liveZoneGridAdapter.getItemCount() == 1, is(true));*/
-
-    }
-
-    @Test
-    public void checkIfNewTilesAreGettingAddedAndNotifyItemInsertedCalled() {
-        // add events from LiveZoneActivity and check if data is getting added into the adapter
-        //TODO: to be done later,
-       /* ArrayList<Tile> tiles = new ArrayList<>();
-        tiles.add(new Tile("",0,0,""));
-        liveZoneActivity.onNewEvent(new ScrubberViewData("Monreal upendes Hazard on the half.",
-                ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tiles), false));
-        verify(liveZoneGridAdapter,atLeastOnce()).addGridItemsToView(0,tiles.get(0));*/
-    }
+    //add data to adater and check if data gets added to adapter
+    //TODO: to be done later unable to call  notifyItemInserted(position) of the adapter
+    // add events from LiveZoneActivity and check if data is getting added into the adapter
+    //TODO: to be done later
 
     private void addDataToTileList() {
         tileList.add(new Tile("image", R.drawable.image0, R.drawable.ic_sticker_four, ""));
