@@ -154,7 +154,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
                             adapter.addGridItemsToView(position + tilePosition, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
                 }
             } catch (Exception e) {
-              //do nothing, as it will take up next event
+                //do nothing, as it will take up next event
             }
             new Handler(Looper.getMainLooper()).post(() -> liveZoneGridViewRecyclerView.scrollToPosition(0));
         }
@@ -245,10 +245,10 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
         chatFragment();
     }
 
-    public void expandCollapseChatView(boolean status){
+    public void expandCollapseChatView(boolean status) {
         if (status) {
             scrubberLinearLayout.setVisibility(View.GONE);
-        }else {
+        } else {
             scrubberLinearLayout.setVisibility(View.VISIBLE);
         }
     }
