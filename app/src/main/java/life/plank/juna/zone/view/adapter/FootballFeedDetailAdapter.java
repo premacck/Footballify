@@ -35,7 +35,7 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
 
     private Context context;
-    private List<FootballFeed> footballFeedsList = new ArrayList<>();
+    List<FootballFeed> footballFeedsList = new ArrayList<>();
     private FootballFeedCommentAdapter commentFeedAdapter;
 
     public FootballFeedDetailAdapter(Context context) {
@@ -89,6 +89,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+
             @Override
             public void onPanelSlide(View panel, float slideOffset) {
             }
