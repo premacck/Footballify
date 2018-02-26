@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
+import life.plank.juna.zone.BaseUnitTest;
 import life.plank.juna.zone.data.network.model.Tile;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -21,11 +22,11 @@ import static org.mockito.Mockito.mock;
  * Created by plank-hasan on 2/22/2018.
  */
 
-public class LiveZoneActivityTest {
-    @InjectMocks
-    private LiveZoneActivity liveZoneActivity;
+public class LiveZoneActivityTest extends BaseUnitTest {
     @Mock
     Context context;
+    @InjectMocks
+    private LiveZoneActivity liveZoneActivity;
     private List<Tile> tileList = new ArrayList<>();
 
 
@@ -37,6 +38,7 @@ public class LiveZoneActivityTest {
 
     //add new event in LiveZoneActivity and check if data gets added to adapter
     //TODO: to be done later unable to call  notifyItemInserted(position) of the adapter
+    //TODO: test case onNewEventWillUpdateTheGridWithTheChangedTiles
 
     @Test
     public void checkIfIsChatScreenVisibleFlagIsSet() {

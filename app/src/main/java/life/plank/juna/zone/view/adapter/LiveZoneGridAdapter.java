@@ -129,6 +129,10 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         return colors.get((new Random()).nextInt(colors.size()));
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public class LiveZoneGridViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.card_content)
@@ -153,9 +157,5 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
             //view.getContext().startActivity(new Intent(view.getContext(), CameraActivity.class));
         }
 
-    }
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
     }
 }

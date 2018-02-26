@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
+import life.plank.juna.zone.BaseUnitTest;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.HomeTeam;
 import life.plank.juna.zone.data.network.model.VisitingTeam;
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by plank-sobia on 10/23/2017.
  */
-public class GameServiceTest {
+public class GameServiceTest extends BaseUnitTest {
 
     @InjectMocks
     private GameService gameService;
@@ -26,7 +27,7 @@ public class GameServiceTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        super.init();
 
         footballMatch = new FootballMatch();
         homeTeam = new HomeTeam();
