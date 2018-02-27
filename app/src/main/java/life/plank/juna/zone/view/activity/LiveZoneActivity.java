@@ -151,7 +151,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberV
                 for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
                     int tilePosition = i;
                     new Handler(Looper.getMainLooper()).post(() ->
-                            adapter.addGridItemsToView(position + tilePosition, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
+                            adapter.addGridItemsToView(0, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
                 }
             } catch (Exception e) {
                 //do nothing, as it will take up next event

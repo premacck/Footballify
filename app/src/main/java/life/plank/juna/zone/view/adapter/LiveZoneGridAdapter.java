@@ -15,7 +15,6 @@ import com.jakewharton.rxbinding2.view.RxView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,10 +63,15 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
             case "image": {
                 holder.tileImageView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(tileList.get(position).getImage());
+                holder.tileStickerImageView.setVisibility(View.GONE);
+                holder.videoImageView.setVisibility(View.GONE);
                 break;
             }
             case "text": {
                 holder.liveZoneRelativeLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.grid_item_grey));
+                holder.tileStickerImageView.setVisibility(View.GONE);
+                holder.tileImageView.setVisibility(View.GONE);
+                holder.videoImageView.setVisibility(View.GONE);
                 break;
             }
             case "sticker": {
@@ -75,6 +79,14 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 holder.tileStickerImageView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(tileList.get(position).getImage());
                 holder.tileStickerImageView.setImageResource(tileList.get(position).getSticker());
+                holder.videoImageView.setVisibility(View.GONE);
+                break;
+            }
+            case "video":{
+                holder.tileImageView.setVisibility(View.VISIBLE);
+                holder.videoImageView.setVisibility(View.VISIBLE);
+                holder.tileImageView.setImageResource(tileList.get(position).getImage());
+                holder.tileStickerImageView.setVisibility(View.GONE);
                 break;
             }
         }
@@ -88,7 +100,6 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     public int getItemCount() {
         return this.tileList.size();
     }
-
 
     /**
      * Add data to the view
@@ -104,29 +115,22 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     private void setUpData() {
         //TODO: tags will be changed once api is ready so hardcoded
         tileList.add(new Tile("image", R.drawable.image0, R.drawable.ic_sticker_four, ""));
+        tileList.add(new Tile("video", R.drawable.image_dummy_two, 0, ""));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("sticker", R.drawable.image1, R.drawable.ic_sticker_four, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("image", R.drawable.image3, 0, ""));
+        tileList.add(new Tile("image", R.drawable.image_dummy_four, 0, ""));
         tileList.add(new Tile("image", R.drawable.ic_grid_one, 0, ""));
         tileList.add(new Tile("sticker", R.drawable.ic_third_dummy, R.drawable.ic_sticker_one, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("image", R.drawable.ic_football_dummy_image, 0, ""));
+        tileList.add(new Tile("video", R.drawable.image5, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("sticker", R.drawable.ic_club_list_background, R.drawable.ic_sticker_two, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
-    }
+        tileList.add(new Tile("video", R.drawable.image3, 0, "Why would Mourinho do that? Isn't he done with"));
 
-    private int getRandomBackgroundColor() {
-        ArrayList<Integer> colors = new ArrayList<>();
-        colors.add(ContextCompat.getColor(context, R.color.orange));
-        colors.add(ContextCompat.getColor(context, R.color.green));
-        colors.add(ContextCompat.getColor(context, R.color.red));
-        colors.add(ContextCompat.getColor(context, R.color.blue_grey));
-        colors.add(ContextCompat.getColor(context, R.color.dark_grey));
-        colors.add(ContextCompat.getColor(context, R.color.colorPrimaryDark));
-        colors.add(ContextCompat.getColor(context, R.color.orange_end_gradient));
-        return colors.get((new Random()).nextInt(colors.size()));
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
@@ -145,6 +149,8 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         ImageView tileImageView;
         @BindView(R.id.tile_sticker_image_view)
         ImageView tileStickerImageView;
+        @BindView(R.id.video_image_view)
+        ImageView videoImageView;
 
         public LiveZoneGridViewHolder(View view) {
             super(view);
