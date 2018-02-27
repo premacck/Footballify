@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -20,7 +21,7 @@ public class MediaSelectionFragment extends Fragment {
     @BindView(R.id.gifs_text_view)
     TextView gifsTextView;
     @BindView(R.id.header_relative_layout_media_fragment)
-    RecyclerView headerRelativeLayoutMediaFragment;
+    RelativeLayout headerRelativeLayoutMediaFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
