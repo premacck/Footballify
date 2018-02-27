@@ -82,7 +82,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
                 holder.videoImageView.setVisibility(View.GONE);
                 break;
             }
-            case "video":{
+            case "video": {
                 holder.tileImageView.setVisibility(View.VISIBLE);
                 holder.videoImageView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(tileList.get(position).getImage());
