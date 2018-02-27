@@ -52,7 +52,6 @@ public class ChatDetailsActivity extends AppCompatActivity {
                 onBackPressed();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
