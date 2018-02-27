@@ -83,7 +83,6 @@
         </RelativeLayout>
 
 
-
         <RelativeLayout
             android:id="@+id/footer_live_zone_chat_relative_layout"
             android:layout_width="match_parent"
@@ -137,6 +136,7 @@
             android:layout_above="@+id/footer_live_zone_chat_relative_layout"
             android:layout_below="@+id/header_live_zone_chat_relative_layout"
             android:background="@color/chat_body_background" />
+
         <FrameLayout
             android:id="@+id/media_container_frame_layout"
             android:layout_width="match_parent"

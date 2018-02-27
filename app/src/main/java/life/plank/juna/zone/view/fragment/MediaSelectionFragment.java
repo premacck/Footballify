@@ -30,17 +30,8 @@ public class MediaSelectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        populateMediaSelectionRecyclerView();
         return inflater.inflate(R.layout.fragment_media_selection, container, false);
     }
-
-    public void populateMediaSelectionRecyclerView() {
-        MediaSelectionAdapter mediaSelectionAdapter = new MediaSelectionAdapter(getActivity());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mediaContainerRecyclerView.setLayoutManager(layoutManager);
-        mediaContainerRecyclerView.setAdapter(mediaSelectionAdapter);
-    }
-
     @OnClick({R.id.photos_text_view, R.id.stickers_text_view, R.id.gifs_text_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -54,6 +45,5 @@ public class MediaSelectionFragment extends Fragment {
                 gifsTextView.setBackgroundColor(getResources().getColor(R.color.white));
                 break;
         }
-
     }
 }
