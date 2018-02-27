@@ -12,4 +12,6 @@ public class AppConstants {
     public static final int PAGINATION_DELAY = 1000;
     public static final int SPINNER_DIALOG_WIDTH = 150;
     public static final String POSITION = "position";
+    public static final String CHAT_DETAILS_IMAGE = "chatdetailsimage";
+    public static final String DEFAULT_IMAGE_URL = "http://avasportcentral.com/wp-content/themes/micron/images/placeholders/placeholder_large_dark.jpg";
 }

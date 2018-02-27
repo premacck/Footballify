@@ -106,19 +106,20 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/spinners_relative_layout" />
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/banter_zone_layout"
-                android:layout_below="@+id/football_feed_recycler_view" />
-
+                 />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/football_feed_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/spinners_relative_layout"
+                android:layout_above="@+id/football_feed_horizontal_view"/>
             <RelativeLayout
                 android:id="@+id/banter_zone_layout"
                 android:layout_width="match_parent"

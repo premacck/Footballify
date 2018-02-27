@@ -73,7 +73,7 @@
     <string name="app_link">https://play.google.com/store/apps/details?id=life.plank.juna.zone</string>
     <string name="share_app_link">Share app link via</string>
     <string name="app_icon_path">android.resource://life.plank.juna.zone/mipmap/ic_launcher</string>
-    <string name="intent_image_type">image/*</string>
+    <string name="intent_image_type">imageUrl/*</string>
     <string name="instagram_base_url">https://api.instagram.com/</string>
     <string name="instagram_client_id">c16a21f7be6241629eca1e328d13ad2c</string>
     <string name="instagram_redirect_url">https://www.plank.life</string>
@@ -144,7 +144,7 @@
     <string name="saved_message">Image Saved to Gallery</string>
     <string name="image_name">IMG_</string>
     <string name="extention">.jpg</string>
-    <string name="set_image_type">image/*</string>
+    <string name="set_image_type">imageUrl/*</string>
     <string name="child_parameter">Pictures</string>
     <string name="date_format">yyyyMMdd_HHmmss</string>
     <string name="button_gallery">Open Gallery  !</string>

@@ -170,6 +170,10 @@
             android:name=".view.activity.LiveZoneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/statusBarCustomStyle" />
+        <activity
+            android:name=".view.activity.ChatDetailsActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 
 </manifest>
