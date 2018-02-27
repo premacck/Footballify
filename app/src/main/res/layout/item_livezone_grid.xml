@@ -22,6 +22,14 @@
         android:src="@drawable/ic_sticker_four"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/video_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_video"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/tile_label_text_view"
         android:layout_width="wrap_content"

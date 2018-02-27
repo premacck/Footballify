@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -147,14 +146,14 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     }
 
     public void onNewEvent(ScrubberViewData scrubberViewData) {
-        // TODO: 06-02-2018 Animate
+        // TODO: 06-02-2018 Animate grid item position = position + tilePosition
         if (scrubberViewData.getLiveFeedTileData().getTiles().size() > 0) {
             int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             try {
                 for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
                     int tilePosition = i;
                     new Handler(Looper.getMainLooper()).post(() ->
-                            adapter.addGridItemsToView(position + tilePosition, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
+                            adapter.addGridItemsToView(0, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
                 }
             } catch (Exception e) {
                 //do nothing, as it will take up next event
