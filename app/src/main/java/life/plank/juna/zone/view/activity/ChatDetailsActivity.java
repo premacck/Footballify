@@ -24,7 +24,6 @@ public class ChatDetailsActivity extends AppCompatActivity {
     @BindView(R.id.chat_details_image_view)
     ImageView chatDetailsImageView;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
