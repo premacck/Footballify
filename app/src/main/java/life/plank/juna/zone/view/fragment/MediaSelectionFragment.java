@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.adapter.MediaSelectionAdapter;
 
 public class MediaSelectionFragment extends Fragment {
     @BindView(R.id.photos_text_view)
@@ -32,6 +30,7 @@ public class MediaSelectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_media_selection, container, false);
     }
+
     @OnClick({R.id.photos_text_view, R.id.stickers_text_view, R.id.gifs_text_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
