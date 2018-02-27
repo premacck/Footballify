@@ -6,10 +6,10 @@ package life.plank.juna.zone.data.network.model;
 
 public class ScrubberViewData {
 
-    String message;
-    int type;
-    LiveFeedTileData liveFeedTileData;
-    boolean triggerEvents = false;
+    private String message;
+    private int type;
+    private LiveFeedTileData liveFeedTileData;
+    private boolean triggerEvents = false;
 
     public ScrubberViewData(String message, int type, LiveFeedTileData liveFeedTileData, boolean triggerEvents) {
         this.message = message;
