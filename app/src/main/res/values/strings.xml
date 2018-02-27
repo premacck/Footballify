@@ -156,6 +156,10 @@
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
     <string name="add_comment">Add Comment</string>
     <string name="feed_heading">Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium</string>
+    <string name="photos_videos">PHOTOS/VIDEOS</string>
+    <string name="stickers">STICKERS</string>
+    <string name="gifs">GIFS</string>
+    <string name="meme_maker">MEME MAKER</string>
 
     <string-array name="football_teams">
         <item>Arsenal</item>
