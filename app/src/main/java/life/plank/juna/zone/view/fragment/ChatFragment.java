@@ -83,7 +83,7 @@ public class ChatFragment extends Fragment {
             case R.id.people_count_text_view:
                 break;
             case R.id.add_image:
-                mediaContainerFragment();
+                mediaSelectionFragment();
                 break;
             case R.id.camera_image:
                 break;
@@ -102,7 +102,7 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public void mediaContainerFragment() {
+    public void mediaSelectionFragment() {
         mediaContainerFrameLayout.removeAllViews();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
