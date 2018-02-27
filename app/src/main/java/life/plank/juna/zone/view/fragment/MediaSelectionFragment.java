@@ -30,19 +30,4 @@ public class MediaSelectionFragment extends Fragment {
                              Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_media_selection, container, false);
     }
-
-    @OnClick({R.id.photos_text_view, R.id.stickers_text_view, R.id.gifs_text_view})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.photos_text_view:
-                photosTextView.setBackgroundColor(getResources().getColor(R.color.white));
-                break;
-            case R.id.stickers_text_view:
-                stickersTextView.setBackgroundColor(getResources().getColor(R.color.white));
-                break;
-            case R.id.gifs_text_view:
-                gifsTextView.setBackgroundColor(getResources().getColor(R.color.white));
-                break;
-        }
-    }
 }
