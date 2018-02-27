@@ -19,11 +19,8 @@ public class MediaSelectionFragment extends Fragment {
     TextView stickersTextView;
     @BindView(R.id.gifs_text_view)
     TextView gifsTextView;
-    @BindView(R.id.media_container_recycler_view)
-    RecyclerView mediaContainerRecyclerView;
-
-    public MediaSelectionFragment() {
-    }
+    @BindView(R.id.header_relative_layout_media_fragment)
+    RecyclerView headerRelativeLayoutMediaFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
