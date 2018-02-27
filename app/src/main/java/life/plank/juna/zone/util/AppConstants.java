@@ -11,4 +11,5 @@ public class AppConstants {
     public static final int DELAY = 200;
     public static final int PAGINATION_DELAY = 1000;
     public static final int SPINNER_DIALOG_WIDTH = 150;
+    public static final String POSITION = "position";
 }

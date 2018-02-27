@@ -1,129 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoDragView="@+id/drag_view"
-    sothree:umanoOverlay="true"
-    sothree:umanoPanelHeight="0dp"
-    sothree:umanoParallaxOffset="100dp"
-    sothree:umanoScrollableView="@+id/list"
-    sothree:umanoShadowHeight="4dp">
+    android:layout_height="match_parent">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/feed_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
-            android:background="@drawable/football_image_one"
-            android:scaleType="centerCrop" />
-
-        <LinearLayout
-            android:id="@+id/bottom_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@color/transparent_grey"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/tag_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="teams"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="8sp" />
-
-            <TextView
-                android:id="@+id/title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
-
-            <ImageView
-                android:id="@+id/expand_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/ic_down_arrow" />
-
-        </LinearLayout>
-    </RelativeLayout>
-    <!-- SLIDING LAYOUT -->
-    <LinearLayout
-        android:id="@+id/drag_view"
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/transparent_grey"
-        android:clickable="true"
-        android:focusable="false"
-        android:orientation="vertical">
+        android:gravity="bottom"
+        sothree:umanoDragView="@+id/drag_view"
+        sothree:umanoOverlay="true"
+        sothree:umanoPanelHeight="0dp"
+        sothree:umanoParallaxOffset="100dp"
+        sothree:umanoShadowHeight="4dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="teams"
-                android:textAllCaps="true"
-            android:textColor="@color/black"
-                android:textSize="8sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Reece Burke Celebrates after breaking the deadlock in extra time at London Stadium"
-                android:textColor="@color/black"
-                android:textSize="24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Jason Tumbridge | 16 January 2018 | 3.45pm"
-                android:textAllCaps="true"
-                android:textColor="@color/black"
-                android:textSize="12sp" />
+            android:layout_height="match_parent">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:id="@+id/feed_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:background="@drawable/football_image_one"
+                android:scaleType="centerCrop" />
+
+            <LinearLayout
+                android:id="@+id/sliding_panel_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/ic_down_arrow"
-                android:visibility="gone" />
+                android:layout_alignParentBottom="true"
+                android:background="@color/transparent_grey"
+                android:orientation="vertical"
+                android:padding="10dp">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/tag_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="teams"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="8sp" />
 
-        <ListView
-            android:id="@+id/dummy_list"
+                <TextView
+                    android:id="@+id/title_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="4"
+                    android:text="@string/feed_heading"
+                    android:textColor="@color/white"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feed_details_date"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:id="@+id/expand_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_down_arrow" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/drag_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"></ListView>
-    </LinearLayout>
+            android:layout_height="match_parent"
+            android:background="@color/transparent_grey"
+            android:clickable="true"
+            android:focusable="false"
+            android:orientation="vertical">
 
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="teams"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="8sp" />
+
+                <TextView
+                    android:id="@+id/sliding_title_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feed_heading"
+                    android:textColor="@color/black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/feed_details_date"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="12sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/ic_down_arrow"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nested_scroll_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <include layout="@layout/like_comment_container" />
+
+                    <TextView
+                        android:id="@+id/top_feed_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:padding="3dp"
+                        android:textSize="12sp" />
+
+                    <ImageView
+                        android:id="@+id/feed_content_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_football_dummy_image" />
+
+                    <TextView
+                        android:id="@+id/bottom_feed_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <View
+                        android:id="@+id/reactions_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@color/grid_item_grey" />
+
+                    <include layout="@layout/like_comment_row" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/feed_comment_recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="20dp"
+                        android:nestedScrollingEnabled="false" />
+
+                    <View
+                        android:id="@+id/comment_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@color/grid_item_grey" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Add Comment"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/edit_comment_field"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="@drawable/edit_text_border"
+                        android:gravity="top|left"
+                        android:padding="5dp" />
+
+                    <Button
+                        android:id="@+id/comment_submit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignRight="@id/edit_comment_field"
+                        android:layout_below="@+id/edit_comment_field"
+                        android:layout_gravity="right"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ic_submit_backgroung"
+                        android:padding="10dp"
+                        android:text="Submit"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
+        </LinearLayout>
+    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</RelativeLayout>

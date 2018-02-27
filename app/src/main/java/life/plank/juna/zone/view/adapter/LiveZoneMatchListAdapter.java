@@ -35,7 +35,7 @@ public class LiveZoneMatchListAdapter extends RecyclerView.Adapter<LiveZoneMatch
 
     private void setData() {
         teamList = context.getResources().getStringArray(R.array.football_teams);
-        for (int loop = 0; loop < 4; loop++) {
+        for (int loop = 0; loop < 2; loop++) {
             LiveZoneMatchListData liveZoneMatchListData = new LiveZoneMatchListData(teamList[loop + 2],
                     teamList[loop + 1],
                     loop + 1,
