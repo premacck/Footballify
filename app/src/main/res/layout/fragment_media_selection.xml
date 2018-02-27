@@ -6,7 +6,7 @@
     tools:context="life.plank.juna.zone.view.fragment.MediaSelectionFragment">
 
     <RelativeLayout
-        android:id="@+id/media_container_relative_layout"
+        android:id="@+id/header_relative_layout_media_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/photos_vedios"
+            android:text="@string/photos_videos"
             android:textColor="@color/white"
             android:textSize="10sp" />
 
@@ -66,10 +66,10 @@
     </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/media_container_recycler_view"
+        android:id="@+id/media_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/media_container_relative_layout"
+        android:layout_below="@+id/header_relative_layout_media_fragment"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
