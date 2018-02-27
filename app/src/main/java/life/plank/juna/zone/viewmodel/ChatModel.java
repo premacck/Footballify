@@ -18,10 +18,10 @@ public class ChatModel{
     private String imageUrl;
     private boolean isMyMessage;
 
-    public ChatModel(String tag, String text, String image,boolean isMyMessage) {
+    public ChatModel(String tag, String text, String imageUrl,boolean isMyMessage) {
         this.tag = tag;
         this.text = text;
-        this.imageUrl = image;
+        this.imageUrl = imageUrl;
         this.isMyMessage = isMyMessage;
     }
 
