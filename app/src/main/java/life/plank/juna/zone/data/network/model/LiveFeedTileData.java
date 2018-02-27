@@ -1,25 +1,23 @@
 package life.plank.juna.zone.data.network.model;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by plank-niraj on 06-02-2018.
  */
 
 public class LiveFeedTileData {
-    List<Integer> images;
+    private ArrayList<Tile> tiles;
 
-    public LiveFeedTileData(List<Integer> images) {
-        this.images = images;
+    public LiveFeedTileData(ArrayList<Tile> images) {
+        this.tiles = images;
     }
 
-    public List<Integer> getImages() {
-        return images;
+    public ArrayList<Tile> getTiles() {
+        return tiles;
     }
 
-    public void setImages(List<Integer> images) {
-        this.images = images;
+    public void setTiles(ArrayList<Tile> tiles) {
+        this.tiles = tiles;
     }
-
-
 }

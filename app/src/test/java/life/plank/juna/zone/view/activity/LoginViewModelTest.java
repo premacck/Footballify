@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
  */
 public class LoginViewModelTest {
 
-
     @InjectMocks
     LoginViewModel loginViewModel;
 

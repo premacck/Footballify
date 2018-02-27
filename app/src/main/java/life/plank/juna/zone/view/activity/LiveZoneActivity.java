@@ -95,7 +95,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         liveZoneGridViewRecyclerView.setAdapter(adapter);
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.cardview_compat_inset_shadow);
         liveZoneGridViewRecyclerView.addItemDecoration(new SpacesItemDecoration(spacingInPixels));
-        snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
+        //TODO needed in future
+        //snapHelper.attachToRecyclerView(liveZoneGridViewRecyclerView);
         ScaleXAnimator scaleXAnimator = new ScaleXAnimator();
         scaleXAnimator.setAddDuration(AppConstants.DELAY);
         liveZoneGridViewRecyclerView.setItemAnimator(scaleXAnimator);
@@ -147,37 +148,32 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
 
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate
-        if (!scrubberViewData.getLiveFeedTileData().getImages().isEmpty()) {
+        if (scrubberViewData.getLiveFeedTileData().getTiles().size() > 0) {
             int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
             try {
-                for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getImages().size() - 1; i++) {
+                for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
                     int tilePosition = i;
-                    new Handler(Looper.getMainLooper()).post(() -> adapter.addData(
-                            position + tilePosition, scrubberViewData.getLiveFeedTileData().getImages().get(tilePosition))
-                    );
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            adapter.addGridItemsToView(position + tilePosition, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition)));
                 }
             } catch (Exception e) {
-                // TODO: 21-02-2018 remove after stable.
-                Log.e("trace scrubber", e.toString());
-                e.printStackTrace();
+                //do nothing, as it will take up next event
             }
             new Handler(Looper.getMainLooper()).post(() -> liveZoneGridViewRecyclerView.scrollToPosition(0));
         }
     }
 
     @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
-    public void onCloseImageClicked(View view) {
+    public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
                 onBackPressed();
                 break;
-
             case R.id.next_match_text_view:
-                goToLiveMatch(currentMatch);
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch + 1);
                 break;
-
             case R.id.previous_match_text_view:
-                goToLiveMatch(currentMatch);
+                ((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
                 break;
             default:
                 break;
@@ -191,7 +187,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         // TODO: 01-02-2018 Check the performance and change accordingly once implement the server scrubberProgressData
         liveZoneGridViewRecyclerView.post(() -> {
             liveZoneGridViewHeight = liveZoneGridViewRecyclerView.getHeight();
-            adapter.addData(liveZoneGridViewHeight);
+            adapter.computeNewDimensions(liveZoneGridViewHeight);
             liveZoneGridViewRecyclerView.setAdapter(adapter);
         });
     }
@@ -242,17 +238,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     public void expandCollapseChatView(boolean status) {
         if (status) {
             scrubberLinearLayout.setVisibility(View.GONE);
-            banterZoneLayout.setVisibility(View.GONE);
         } else {
             scrubberLinearLayout.setVisibility(View.VISIBLE);
-            banterZoneLayout.setVisibility(View.VISIBLE);
         }
-    }
-
-    public void goToLiveMatch(int matchNumber) {
-        //TODO match number is needed for future
-        Intent liveZoneIntent = new Intent(this, LiveZoneActivity.class);
-        liveZoneIntent.putExtra(ScrubberConstants.SCRUBBER_MATCH_NUMBER, matchNumber);
-        startActivity(liveZoneIntent);
     }
 }
