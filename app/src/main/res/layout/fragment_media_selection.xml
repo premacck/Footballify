@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
-            android:text="@string/photos_vedios"
+            android:text="@string/photos_videos"
             android:textColor="@color/white"
             android:textSize="10sp" />
 

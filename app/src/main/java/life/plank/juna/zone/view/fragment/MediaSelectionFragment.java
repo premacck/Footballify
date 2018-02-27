@@ -22,9 +22,6 @@ public class MediaSelectionFragment extends Fragment {
     @BindView(R.id.media_container_recycler_view)
     RecyclerView mediaContainerRecyclerView;
 
-    public MediaSelectionFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
