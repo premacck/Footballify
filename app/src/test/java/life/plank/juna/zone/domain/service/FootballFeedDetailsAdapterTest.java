@@ -36,15 +36,9 @@ public class FootballFeedDetailsAdapterTest {
         footballFeedsList = new ArrayList<>();
     }
 
-    //checking if list size is zero
+    // checking for all field data is empty or not
     @Test
-    public void isFeedDataEmpty() {
-        assertThat(footballFeedsList.size(), is(0));
-    }
-
-    // checking for all field data is empty
-    @Test
-    public void isFeedSummaryNotEmpty() {
+    public void isFeedDataNotEmpty() {
         addFeedData();
         assertThat(footballFeedsList.isEmpty(), is(false));
     }
@@ -64,8 +58,9 @@ public class FootballFeedDetailsAdapterTest {
         footballFeed.setContentType("Southampton");
         footballFeed.setReactionType(1);
         footballFeed.setSource("Chelsea");
-        //TODO will be check later
-        // footballFeed.setTags(new Object());
         footballFeedsList.add(footballFeed);
+
+        //TODO: test case OnBindViewHolderSubscribesToOnItemClicked
+
     }
 }
