@@ -48,7 +48,7 @@ public class ScrubberActivityTest {
     }
 
     @Test
-    public void testAdapterDataUpdated() {
+    public void updateTestAdapterData() {
         ArrayList<Integer> data = new ArrayList<>();
         ScrubberViewAdapter scrubberViewAdapter = new ScrubberViewAdapter(context,
                 data, scrubberViewDataHolder, scrubberPointerUpdate, 1);
