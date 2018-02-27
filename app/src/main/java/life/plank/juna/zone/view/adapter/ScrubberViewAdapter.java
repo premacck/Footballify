@@ -16,6 +16,7 @@ import java.util.HashMap;
 import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.interfaces.ScrubberPointerUpdate;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
 
@@ -28,7 +29,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     //Temp data
     HashMap<Integer, String> detailedData;
     HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
-    ArrayList<Integer> data;
+    ArrayList<Integer> scrubberProgressData;
+    int matchNumber;
     private Context context;
     // TODO: 26-01-2018 use server data.
     private SimpleTooltip simpleTooltip;
@@ -37,12 +39,13 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     public ScrubberViewAdapter(Context context,
                                ArrayList<Integer> data,
                                HashMap<Integer, ScrubberViewData> scrubberViewDataHolder,
-                               ScrubberPointerUpdate scrubberPointerUpdate) {
+                               ScrubberPointerUpdate scrubberPointerUpdate, int matchNumber) {
         this.context = context;
         this.scrubberViewDataHolder = scrubberViewDataHolder;
         this.scrubberPointerUpdate = scrubberPointerUpdate;
         detailedData = new HashMap<>();
-        this.data = data;
+        this.scrubberProgressData = data;
+        this.matchNumber = matchNumber;
         addHardCodedData();
     }
 
@@ -56,38 +59,38 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         switch (viewType) {
             case ScrubberConstants.SCRUBBER_VIEW_HALF_TIME:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_half_time, parent, false));
+                        .inflate(R.layout.scrubber_view_events_half_time, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_GOAL:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_half_time, parent, false));
+                        .inflate(R.layout.scrubber_view_events_goal, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_CURSOR:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_pointer, parent, false));
+                        .inflate(R.layout.scrubber_view_events_pointer, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_CARDS:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_cards, parent, false));
+                        .inflate(R.layout.scrubber_view_events_cards, parent, false));
 
             case ScrubberConstants.SCRUBBER_VIEW_SUBSTITUTE:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_substitions, parent, false));
+                        .inflate(R.layout.scrubber_view_events_substitions, parent, false));
 
             case ScrubberConstants.SCRUBBER_POST_MATCH:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_post_match, parent, false));
+                        .inflate(R.layout.scrubber_view_events_post_match, parent, false));
 
             default:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.scrubber_view_progress, parent, false));
+                        .inflate(R.layout.scrubber_view_events_progress, parent, false));
 
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return data.get(position);
+        return scrubberProgressData.get(position);
     }
 
     @Override
@@ -97,7 +100,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         holder.view.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
                 itemTouchHelper.startDrag(holder);
-                trigger = true;
             }
             return false;
         });
@@ -106,34 +108,31 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             simpleTooltip.dismiss();
         }
 
-        if (position == data.size() - 1 && scrubberViewDataHolder.containsKey(position) &&
+        if (position == scrubberProgressData.size() - 1 && scrubberViewDataHolder.containsKey(position) &&
                 scrubberViewDataHolder.get(position).isTriggerEvents()) {
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
         }
 
         holder.view.setOnClickListener(v -> {
             String status;
-            if (!scrubberViewDataHolder.containsKey(position))
-                status = ScrubberConstants.getScrubberInProgress();
-            else
-                status = scrubberViewDataHolder.get(position).getMessage();
-
-            SimpleTooltip simpleTooltip = new SimpleTooltip.Builder(context)
-                    .anchorView(v)
-                    .text(status)
-                    .backgroundColor(ContextCompat.getColor(context, R.color.orange))
-                    .arrowColor(ContextCompat.getColor(context, R.color.orange))
-                    .highlightShape(R.drawable.shadow_tooltip)
-                    .transparentOverlay(true)
-                    .animationDuration(1000)
-                    .gravity(Gravity.TOP)
-                    .build();
-            simpleTooltip.show();
+            if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
+                SimpleTooltip simpleTooltip = new SimpleTooltip.Builder(context)
+                        .anchorView(v)
+                        .text(scrubberViewDataHolder.get(position).getMessage())
+                        .backgroundColor(ContextCompat.getColor(context, R.color.orange))
+                        .arrowColor(ContextCompat.getColor(context, R.color.orange))
+                        .highlightShape(R.drawable.shadow_tooltip)
+                        .transparentOverlay(true)
+                        .animationDuration(1000)
+                        .gravity(Gravity.TOP)
+                        .build();
+                simpleTooltip.show();
+            }
         });
 
-        if (scrubberViewDataHolder.containsKey(position))
-            scrubberPointerUpdate.addCommentary(position);
-
+        if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
+            scrubberPointerUpdate.updateRecentEvents(position);
+        }
     }
 
     /**
@@ -155,15 +154,17 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return scrubberProgressData.size();
     }
 
     @Override
     public boolean onItemMove(int fromPosition, int toPosition, RecyclerView.ViewHolder target) {
         //TODO: Remove hardcoded code
+        trigger = true;
         if (simpleTooltip != null)
             simpleTooltip.dismiss();
-        if (scrubberViewDataHolder.containsKey(target.getLayoutPosition())) {
+        if (scrubberViewDataHolder.containsKey(target.getLayoutPosition()) &&
+                scrubberViewDataHolder.get(target.getLayoutPosition()).isTriggerEvents()) {
             displayTooltip(target.itemView, scrubberViewDataHolder.get(target.getLayoutPosition()).getMessage());
         }
         return false;
@@ -177,14 +178,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
         this.itemTouchHelper = itemTouchHelper;
-    }
-
-    public interface ScrubberPointerUpdate {
-
-        void moveScrubberPointer(View view, int position);
-
-        void addCommentary(int position);
-
     }
 
     class ScrubberViewHolder extends RecyclerView.ViewHolder {
