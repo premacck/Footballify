@@ -25,18 +25,16 @@ import life.plank.juna.zone.viewmodel.ChatModel;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
-    private Context context;
-    private List<ChatModel> chatModels = new ArrayList<>();
     private final int ITEM_VIEW_INCOMING = 0;
     private final int ITEM_VIEW_OUTGOING = 1;
+    private Context context;
+    private List<ChatModel> chatModels = new ArrayList<>();
     private String text = "text";
-
 
     public ChatAdapter(Context context) {
         this.context = context;
         chatModels.addAll(ChatModel.getChats(context));
     }
-
 
     @Override
     public ChatHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -61,7 +59,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
                         .placeholder(R.drawable.ic_place_holder)
                         .error(R.drawable.ic_place_holder)
                         .into(holder.messageImageView);
-            }else {
+            } else {
                 Picasso.with(context)
                         .load(AppConstants.DEFAULT_IMAGE_URL)
                         .placeholder(R.drawable.ic_place_holder)
