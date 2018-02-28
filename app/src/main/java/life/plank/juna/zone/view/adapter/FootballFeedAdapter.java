@@ -75,7 +75,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
                     .load(footballFeed.getThumbnail().getImageUrl())
-                    .fit()
+                    .fit().centerCrop()
                     .into(holder.newsFeedImage);
         } else {
             holder.newsFeedImage.setImageResource(R.drawable.ic_third_dummy);

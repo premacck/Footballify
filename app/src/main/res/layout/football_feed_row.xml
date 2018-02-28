@@ -20,11 +20,11 @@
 
         <ImageView
             android:id="@+id/news_feed_image"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_football_dummy_image" />
+            android:src="@drawable/football_image_one" />
 
         <TextView
             android:id="@+id/posted_time"
@@ -47,11 +47,8 @@
             android:id="@+id/gradient_layout"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_above="@+id/gradient_header"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="20dp"
+            android:layout_alignStart="@+id/posted_time"
             android:background="@color/transparent_grey">
 
             <TextView
