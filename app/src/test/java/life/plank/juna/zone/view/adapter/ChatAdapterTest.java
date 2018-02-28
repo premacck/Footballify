@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapters;
+package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.BaseUnitTest;
-import life.plank.juna.zone.view.adapter.ChatAdapter;
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.viewmodel.ChatModel;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.spy;
  * Created by plank-hasan on 2/28/2018.
  */
 
-public class ChatAdpaterTest extends BaseUnitTest {
+public class ChatAdapterTest extends BaseUnitTest {
     private final int ITEM_VIEW_INCOMING = 0;
     private final int ITEM_VIEW_OUTGOING = 1;
     @InjectMocks
@@ -51,15 +51,21 @@ public class ChatAdpaterTest extends BaseUnitTest {
 
     @Test
     public void checkIfGetItemViewTypeReturnsIncomingChatViewBasedOnTag() {
-        //at 0th position of 12 items, isMyMessage falg is set false, so it should return incoming view
+        //at 0th position of 12 items, isMyMessage flag is set false, so it should return incoming view
         chatAdapter = spy(new ChatAdapter(context));
         assertThat(chatAdapter.getItemViewType(0) == ITEM_VIEW_INCOMING, is(true));
     }
 
     @Test
     public void checkIfGetItemViewTypeReturnsOutGoingChatViewBasedOnTag() {
-        //at 1st position of 12 items, isMyMessage falg is set true, so it should return outcoming view
+        //at 1st position of 12 items, isMyMessage flag is set true, so it should return outcoming view
         chatAdapter = spy(new ChatAdapter(context));
         assertThat(chatAdapter.getItemViewType(1) == ITEM_VIEW_OUTGOING, is(true));
+    }
+
+    @Test
+    public void verifyIfTheMediaTypeIsText(){
+        chatModels.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text),"",false));
+            assertThat(chatModels.get(0).getTag(), is("text"));
     }
 }
