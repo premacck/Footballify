@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -403,18 +404,16 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b) {
-                    // on focus off
+                    autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
                     String str = autoCompleteTextView.getText().toString();
                     if (!"".contentEquals(str)) {
                         ListAdapter listAdapter = autoCompleteTextView.getAdapter();
                         for (int i = 0; i < listAdapter.getCount(); i++) {
-                            String temp = listAdapter.getItem(i).toString();
-                            if (str.compareTo(temp) == 0) {
+                            if (str.contentEquals(listAdapter.getItem(i).toString())) {
                                 return;
                             }
                         }
-                        autoCompleteTextView.setText("");
-                        autoCompleteTextView.setError(getString(R.string.please_select_the_team_from_suggestions));
+                        autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
                     }
                 }
             }
