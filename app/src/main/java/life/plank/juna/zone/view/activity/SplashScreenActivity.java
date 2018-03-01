@@ -37,7 +37,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
         new Handler().postDelayed(() -> {
-            if (NetworkStatus.checkNetworkStatus(this)) {
+            if (NetworkStatus.isNetworkAvailable(this)) {
                 startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
                 finish();
             }

@@ -12,7 +12,7 @@ import life.plank.juna.zone.R;
  */
 
 public class NetworkStatus {
-    public static boolean checkNetworkStatus(Context context) {
+    public static boolean isNetworkAvailable(Context context) {
         @SuppressWarnings("static-access")
         NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService(context
                 .CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
