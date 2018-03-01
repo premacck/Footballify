@@ -22,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -256,6 +257,13 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         });
         listPopupWindow.show();
+        listPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+                inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+            }
+        });
     }
 
     @OnClick({R.id.football_filter_spinner_textView, R.id.calendar_spinner_textView

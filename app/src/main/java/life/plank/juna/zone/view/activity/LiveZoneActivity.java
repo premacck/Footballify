@@ -169,10 +169,12 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                 onBackPressed();
                 break;
             case R.id.next_match_text_view:
-                ((SwipePageActivity) context).goToLiveMatch(currentMatch + 1);
+                //TODO: comment will be removed once more than one matches will be added
+                //((SwipePageActivity) context).goToLiveMatch(currentMatch + 1);
                 break;
             case R.id.previous_match_text_view:
-                ((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
+                //TODO: comment will be removed once more than one matches will be added
+                //((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
                 break;
             default:
                 break;
