@@ -8,7 +8,7 @@
     <dimen name="football_banter_view_margin">2dp</dimen>
     <dimen name="football_toolbar_margin_bottom">12dp</dimen>
     <dimen name="swipe_page_banter_zone_margin">3dp</dimen>
-    <dimen name="football_feed_row_image_padding">2dp</dimen>
+    <dimen name="football_feed_row_image_padding">3dp</dimen>
     <dimen name="live_zone_header_text_views">9sp</dimen>
     <dimen name="live_zone_team_text_view_size">12sp</dimen>
 </resources>
