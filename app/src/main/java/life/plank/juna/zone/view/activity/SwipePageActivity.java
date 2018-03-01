@@ -54,6 +54,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneListFragment;
+import life.plank.juna.zone.view.fragment.StandingFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -83,6 +84,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
+    @BindView(R.id.fragment_standing_container_framelayout)
+    FrameLayout fragmentStandingContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
     @BindView(R.id.calendar_spinner_textView)
@@ -96,6 +99,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
+    @BindView(R.id.football_menu_linear_layout)
+    LinearLayout footballMenuLinearLayout;
+    @BindView(R.id.football_toolbar)
+    Toolbar footballToolbar;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -132,10 +139,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
-    @BindView(R.id.football_menu_linear_layout)
-    LinearLayout footballMenuLinearLayout;
-    @BindView(R.id.football_toolbar)
-    Toolbar footballToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,7 +255,14 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 activeTextView.setText(arrayData[position]);
                 activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 listPopupWindow.dismiss();
-
+                if (position == 3) {
+                    scoreTableFragment();
+                    feedRecyclerView.setVisibility(View.GONE);
+                    horizontalRecyclerView.setVisibility(View.GONE);
+                } else {
+                    feedRecyclerView.setVisibility(View.VISIBLE);
+                    horizontalRecyclerView.setVisibility(View.VISIBLE);
+                }
             }
         });
         listPopupWindow.show();
@@ -308,6 +318,27 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             liveZoneTextView.setSelected(true);
             containerRelativeLayout.setVisibility(View.GONE);
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void scoreTableFragment() {
+        fragmentStandingContainerFrameLayout.setVisibility(View.VISIBLE);
+        fragmentStandingContainerFrameLayout.removeAllViews();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_standing_container_framelayout, new StandingFragment())
+                .commit();
+    }
+
+    public void retainHomeLayout() {
+        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase("Standing")) {
+            horizontalRecyclerView.setVisibility(View.GONE);
+            feedRecyclerView.setVisibility(View.GONE);
+            fragmentStandingContainerFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            horizontalRecyclerView.setVisibility(View.VISIBLE);
+            feedRecyclerView.setVisibility(View.VISIBLE);
+            fragmentStandingContainerFrameLayout.setVisibility(View.GONE);
         }
     }
 
