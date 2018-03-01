@@ -110,6 +110,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                //TODO: comment will be removed latrer
                // Toast.makeText(SplashScreenActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
             }
         });
