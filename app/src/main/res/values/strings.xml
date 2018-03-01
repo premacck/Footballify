@@ -208,4 +208,5 @@
     <string name="logout">logout</string>
     <string name="feed_details_date">Jason Tumbridge | 16 January 2018 | 3.45pm</string>
     <string name="please_select_the_team_from_suggestions">Please select the team from the suggestions.</string>
+    <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
 </resources>
