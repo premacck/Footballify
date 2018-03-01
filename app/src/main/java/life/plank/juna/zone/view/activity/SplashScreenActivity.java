@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
+import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
+import life.plank.juna.zone.util.NetworkStatus;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -34,15 +34,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         splashScreenActivity = this;
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
-
-
-
         loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
-
         new Handler().postDelayed(() -> {
-            startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-            finish();
+            if (NetworkStatus.checkNetworkStatus(this)) {
+                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+                finish();
+            }
             //TODO: Uncomment when remember me is implemented on the current version
 //            if (savedLogin) {
 //                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
@@ -112,7 +110,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(SplashScreenActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
+               // Toast.makeText(SplashScreenActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
             }
         });
     }

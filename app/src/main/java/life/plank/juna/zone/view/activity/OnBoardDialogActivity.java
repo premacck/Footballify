@@ -19,18 +19,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookAuthorizationException;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
@@ -177,6 +171,9 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 getResources().getStringArray(R.array.football_teams)));
         teamThreeEditText.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,
                 getResources().getStringArray(R.array.football_teams)));
+        validateAutoCompleteTextViews(teamOneEditText);
+        validateAutoCompleteTextViews(teamTwoEditText);
+        validateAutoCompleteTextViews(teamThreeEditText);
     }
 
     @Override
@@ -192,7 +189,8 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 break;
             }
             case R.id.facebook_icon: {
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL, PUBLIC_PROFILE));
+                //TODO: will be uncommented later
+               /* LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL, PUBLIC_PROFILE));
                 LoginManager.getInstance().registerCallback(callbackManager,
                         new FacebookCallback<LoginResult>() {
                             @Override
@@ -220,7 +218,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                                     showToast(getString(R.string.facebook_login_failed));
                                 }
                             }
-                        });
+                        });*/
                 break;
             }
             case R.id.twitter_icon: {
@@ -398,5 +396,28 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void validateAutoCompleteTextViews(AutoCompleteTextView autoCompleteTextView){
+        autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b) {
+                    // on focus off
+                    String str = autoCompleteTextView.getText().toString();
+                    if (!"".contentEquals(str)) {
+                        ListAdapter listAdapter = autoCompleteTextView.getAdapter();
+                        for (int i = 0; i < listAdapter.getCount(); i++) {
+                            String temp = listAdapter.getItem(i).toString();
+                            if (str.compareTo(temp) == 0) {
+                                return;
+                            }
+                        }
+                        autoCompleteTextView.setText("");
+                        autoCompleteTextView.setError(getString(R.string.please_select_the_team_from_suggestions));
+                    }
+                }
+            }
+        });
     }
 }
