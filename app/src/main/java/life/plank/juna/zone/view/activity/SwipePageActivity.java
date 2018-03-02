@@ -194,7 +194,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
-    public String updateToken(String regexRT, String RegexTRC, String replaceStringRT, String replaceStringTRC) {
+    public String updateToken(String nextPageToken,String regexRT, String RegexTRC, String replaceStringRT, String replaceStringTRC) {
         if (!nextPageToken.isEmpty()) {
             String updatedNextPageToken = nextPageToken.replaceFirst(regexRT, replaceStringRT);
             updatedNextPageToken = updatedNextPageToken.replaceFirst(RegexTRC, replaceStringTRC);
@@ -204,7 +204,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(updateToken(getString(R.string.regex_rt),
+        subscription = restApi.getFootballFeed(updateToken(nextPageToken,getString(R.string.regex_rt),
                 getString(R.string.regex_trc), getString(R.string.concat_rt) +
                         String.valueOf(apiHitCount), getString(R.string.concat_trc)
                         + String.valueOf(apiHitCount*TRCNumber)))
