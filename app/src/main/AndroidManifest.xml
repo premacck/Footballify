@@ -152,7 +152,8 @@
         <activity
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:theme="@style/statusBarCustomStyle"
+            android:windowSoftInputMode="adjustPan|adjustResize"/>
         <activity
             android:name=".view.activity.ScrubberActivity"
             android:screenOrientation="portrait"

@@ -3,14 +3,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/ic_feed_bg">
-
     <ImageView
         android:id="@+id/zone_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:src="@drawable/ic_zone_logo" />
-
     <include
         android:id="@+id/football_toolbar"
         layout="@layout/zone_football_header"
@@ -20,20 +18,11 @@
         android:layout_marginBottom="@dimen/football_toolbar_margin_bottom"
         android:layout_toEndOf="@+id/zone_logo"
         android:layout_toRightOf="@+id/zone_logo" />
-
     <FrameLayout
         android:id="@+id/container_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -105,7 +94,6 @@
                     android:text="LiveZone" />
 
             </RelativeLayout>
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"
                 android:layout_width="match_parent"
@@ -172,7 +160,12 @@
                         android:src="@drawable/ic_dropdown" />
                 </RelativeLayout>
             </RelativeLayout>
-
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
             <FrameLayout
                 android:id="@+id/fragment_standing_container_framelayout"
                 android:layout_width="match_parent"
@@ -180,7 +173,6 @@
                 android:layout_below="@+id/spinners_relative_layout" />
         </RelativeLayout>
     </FrameLayout>
-
     <FrameLayout
         android:id="@+id/fragmentContainerFrameLayout"
         android:layout_width="match_parent"
