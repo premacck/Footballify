@@ -27,6 +27,21 @@ public class StandingFeedModel {
         this.pts = pts;
     }
 
+    public static List<StandingFeedModel> getStandingData(Context context) {
+        List<StandingFeedModel> standingFeedModelList = new ArrayList<>();
+        standingFeedModelList.add(new StandingFeedModel("Man City", "27", "23", "31", "1", "59", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Man Utd", "47", "23", "31", "1", "59", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Liver Pool", "67", "23", "31", "1", "59", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Chelesa", "27", "23", "31", "1", "9", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Tottenham", "97", "23", "31", "1", "19", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Arsenal", "7", "3", "1", "3", "9", "2"));
+        standingFeedModelList.add(new StandingFeedModel("Burnela", "27", "23", "31", "1", "39", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Leisester", "27", "23", "31", "1", "59", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Everton", "27", "23", "31", "1", "59", "72"));
+        standingFeedModelList.add(new StandingFeedModel("Beurnomath", "27", "23", "31", "1", "59", "72"));
+        return standingFeedModelList;
+    }
+
     public String getTeamName() {
         return teamName;
     }
@@ -81,20 +96,5 @@ public class StandingFeedModel {
 
     public void setPts(String pts) {
         this.pts = pts;
-    }
-
-    public static List<StandingFeedModel> getStandingData(Context context) {
-        List<StandingFeedModel> standingFeedModelList = new ArrayList<>();
-        standingFeedModelList.add(new StandingFeedModel("Man City", "27", "23", "31", "1", "59", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Man Utd", "47", "23", "31", "1", "59", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Liver Pool", "67", "23", "31", "1", "59", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Chelesa", "27", "23", "31", "1", "9", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Tottenham", "97", "23", "31", "1", "19", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Arsenal", "7", "3", "1", "3", "9", "2"));
-        standingFeedModelList.add(new StandingFeedModel("Burnela", "27", "23", "31", "1", "39", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Leisester", "27", "23", "31", "1", "59", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Everton", "27", "23", "31", "1", "59", "72"));
-        standingFeedModelList.add(new StandingFeedModel("Beurnomath", "27", "23", "31", "1", "59", "72"));
-        return standingFeedModelList;
     }
 }

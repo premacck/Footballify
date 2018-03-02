@@ -85,8 +85,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     TextView liveZoneTextView;
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
-    @BindView(R.id.fragment_standing_container_framelayout)
-    FrameLayout fragmentStandingContainerFrameLayout;
+    @BindView(R.id.standing_container_framelayout)
+    FrameLayout StandingContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
     @BindView(R.id.calendar_spinner_textView)
@@ -321,19 +321,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void scoreTableFragment() {
-        fragmentStandingContainerFrameLayout.setVisibility(View.VISIBLE);
-        fragmentStandingContainerFrameLayout.removeAllViews();
+        StandingContainerFrameLayout.setVisibility(View.VISIBLE);
+        StandingContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_standing_container_framelayout, new StandingFragment())
+                .replace(R.id.standing_container_framelayout, new StandingFragment())
                 .commit();
     }
 
     public void retainHomeLayout() {
-        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase("Standing")) {
-            fragmentStandingContainerFrameLayout.setVisibility(View.VISIBLE);
+        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
+            StandingContainerFrameLayout.setVisibility(View.VISIBLE);
         } else {
-            fragmentStandingContainerFrameLayout.setVisibility(View.GONE);
+            StandingContainerFrameLayout.setVisibility(View.GONE);
         }
     }
 

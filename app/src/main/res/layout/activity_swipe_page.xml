@@ -167,7 +167,7 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
             <FrameLayout
-                android:id="@+id/fragment_standing_container_framelayout"
+                android:id="@+id/standing_container_framelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/spinners_relative_layout" />

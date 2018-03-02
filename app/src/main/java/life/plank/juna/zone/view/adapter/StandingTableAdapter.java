@@ -25,34 +25,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
     private Context context;
     private List<StandingFeedModel> standingFeedModelList = new ArrayList<>();
 
-    public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.serial_number_text_view)
-        TextView serialNumberTextView;
-        @BindView(R.id.team_name_text_view)
-        TextView teamNameTextView;
-        @BindView(R.id.played_text_view)
-        TextView playedTextView;
-        @BindView(R.id.win_text_view)
-        TextView winTextView;
-        @BindView(R.id.draw_text_view)
-        TextView drawTextView;
-        @BindView(R.id.loss_text_view)
-        TextView lossTextView;
-        @BindView(R.id.gd_text_view)
-        TextView gdTextView;
-        @BindView(R.id.pts_text_view)
-        TextView ptsTextView;
-        @BindView(R.id.score_view)
-        View scoreView;
-        @BindView(R.id.score_board_liner_layout)
-        LinearLayout scoreBoardLinerLayout;
-
-        public StandingScoreTableViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
     public StandingTableAdapter(Context context) {
         this.context = context;
         standingFeedModelList.addAll(StandingFeedModel.getStandingData(context));
@@ -103,5 +75,33 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
     @Override
     public int getItemCount() {
         return standingFeedModelList.size();
+    }
+
+    public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.serial_number_text_view)
+        TextView serialNumberTextView;
+        @BindView(R.id.team_name_text_view)
+        TextView teamNameTextView;
+        @BindView(R.id.played_text_view)
+        TextView playedTextView;
+        @BindView(R.id.win_text_view)
+        TextView winTextView;
+        @BindView(R.id.draw_text_view)
+        TextView drawTextView;
+        @BindView(R.id.loss_text_view)
+        TextView lossTextView;
+        @BindView(R.id.gd_text_view)
+        TextView gdTextView;
+        @BindView(R.id.pts_text_view)
+        TextView ptsTextView;
+        @BindView(R.id.score_view)
+        View scoreView;
+        @BindView(R.id.score_board_liner_layout)
+        LinearLayout scoreBoardLinerLayout;
+
+        public StandingScoreTableViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }
