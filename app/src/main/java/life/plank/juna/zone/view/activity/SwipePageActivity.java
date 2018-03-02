@@ -92,7 +92,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
-    int RTNumber = 1;
     int TRCNumber = 20;
     private Subscription subscription;
     private RestApi restApi;
@@ -130,6 +129,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
+    private int apiHitCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,27 +184,27 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
-    public String updateToken(String token, String regexRT, String RegexTRC, String replaceStringRT, String replaceStringTRC) {
-        String replaceRT = null;
-        String replaceTRC = null;
-        if (!token.isEmpty()) {
-            replaceRT = token.replaceFirst(regexRT, replaceStringRT);
-            replaceTRC = replaceRT.replaceFirst(RegexTRC, replaceStringTRC);
-            RTNumber = RTNumber + 1;
-            TRCNumber = TRCNumber + 20;
+    public String updateToken(String regexRT, String RegexTRC, String replaceStringRT, String replaceStringTRC) {
+        if (!nextPageToken.isEmpty()) {
+            String updatedNextPageToken = nextPageToken.replaceFirst(regexRT, replaceStringRT);
+            updatedNextPageToken = updatedNextPageToken.replaceFirst(RegexTRC, replaceStringTRC);
+            return updatedNextPageToken;
         }
-        return replaceTRC;
+        return "";
     }
 
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(updateToken(nextPageToken, getString(R.string.regex_rt),
-                getString(R.string.regex_trc), getString(R.string.concat_rt) + String.valueOf(RTNumber), getString(R.string.concat_trc) + String.valueOf(TRCNumber)))
+        subscription = restApi.getFootballFeed(updateToken(getString(R.string.regex_rt),
+                getString(R.string.regex_trc), getString(R.string.concat_rt) +
+                        String.valueOf(apiHitCount), getString(R.string.concat_trc)
+                        + String.valueOf(apiHitCount*TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "In onCompleted()");
+
                     }
 
                     @Override
@@ -213,17 +213,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
-                        GlobalVariable.getInstance().setFootballFeeds(response.body());
                         hideProgress();
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                            if (apiHitCount == 0) {
+                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                            }
                             setUpAdapterWithNewData(response.body());
-
+                            apiHitCount = apiHitCount+1;
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
                     }
                 });
+
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
