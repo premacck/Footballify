@@ -3,8 +3,10 @@ package life.plank.juna.zone.view.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,18 +20,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookAuthorizationException;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
-import com.facebook.Profile;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.tasks.Task;
@@ -77,8 +73,6 @@ import rx.schedulers.Schedulers;
  */
 
 public class OnBoardDialogActivity extends AppCompatActivity implements View.OnClickListener, AuthenticationListener {
-
-
     TextView titleTextView;
     ImageView closeDialogImage;
     AutoCompleteTextView teamOneEditText;
@@ -104,24 +98,23 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     @Inject
     @Named("default")
     Retrofit retrofit;
-
     @Inject
     @Named("instagram")
     Retrofit instagramRetrofit;
-
     private static int RC_SIGN_IN = 100;
     private static final String EMAIL = "email";
     private static final String PUBLIC_PROFILE = "public_profile";
-    public DrawerLayout mDrawer;
+    public DrawerLayout drawerLayout;
     private TextView textDrawerMenu;
     private AuthorizationService mAuthService;
+    public NavigationView navigationView;
 
     @Override
     public void setContentView(int layoutResID) {
-        mDrawer = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
-        FrameLayout activityContainer = mDrawer.findViewById(R.id.activity_content);
-        getLayoutInflater().inflate(layoutResID, activityContainer, true);
-        super.setContentView(mDrawer);
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.drawer_layout, null);
+        FrameLayout activityContentFrameLayout = drawerLayout.findViewById(R.id.activity_content_frame_layout);
+        getLayoutInflater().inflate(layoutResID, activityContentFrameLayout, true);
+        super.setContentView(drawerLayout);
         FacebookSdk.sdkInitialize(getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
 
@@ -132,10 +125,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Twitter.initialize(twitterConfig);
 
         ((ZoneApplication) this.getApplication()).getOnBoardSocialLoginNetworkComponent().inject(this);
-
-
         socialLoginViewModel = new SocialLoginViewModel(OnBoardDialogActivity.this, new AuthenticationService(retrofit, instagramRetrofit));
-
     }
 
     public void showOnboardingDialog() {
@@ -150,11 +140,10 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         window.setGravity(Gravity.CENTER);
-
     }
 
     private void setUpViews() {
-        mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         applyButton = dialog.findViewById(R.id.apply_button);
         closeDialogImage = dialog.findViewById(R.id.close_dialog_image);
         selectTeamLinearLayout = dialog.findViewById(R.id.select_team_linear_layout);
@@ -173,6 +162,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         twitterIcon.setOnClickListener(this);
         facebookIcon.setOnClickListener(this);
         registerIcon.setOnClickListener(this);
+        drawerLayout.setScrimColor(Color.TRANSPARENT);
     }
 
     private void setAutoCompleteData() {
@@ -182,7 +172,9 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 getResources().getStringArray(R.array.football_teams)));
         teamThreeEditText.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,
                 getResources().getStringArray(R.array.football_teams)));
-
+        validateAutoCompleteTextViews(teamOneEditText);
+        validateAutoCompleteTextViews(teamTwoEditText);
+        validateAutoCompleteTextViews(teamThreeEditText);
     }
 
     @Override
@@ -198,7 +190,8 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 break;
             }
             case R.id.facebook_icon: {
-                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL, PUBLIC_PROFILE));
+                //TODO: will be uncommented later
+               /* LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(EMAIL, PUBLIC_PROFILE));
                 LoginManager.getInstance().registerCallback(callbackManager,
                         new FacebookCallback<LoginResult>() {
                             @Override
@@ -226,7 +219,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                                     showToast(getString(R.string.facebook_login_failed));
                                 }
                             }
-                        });
+                        });*/
                 break;
             }
             case R.id.twitter_icon: {
@@ -255,7 +248,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
                 mAuthService = new AuthorizationService(this);
                 List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
-                
+
                 for (final IdentityProvider idp : providers) {
                     final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
                             (serviceConfiguration, ex) -> {
@@ -380,7 +373,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onCodeReceived(String auth_token) {
+    public void onCodeReceived(String authToken) {
 
     }
 
@@ -406,4 +399,24 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void validateAutoCompleteTextViews(AutoCompleteTextView autoCompleteTextView){
+        autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(!b) {
+                    autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
+                    String str = autoCompleteTextView.getText().toString();
+                    if (!"".contentEquals(str)) {
+                        ListAdapter listAdapter = autoCompleteTextView.getAdapter();
+                        for (int i = 0; i < listAdapter.getCount(); i++) {
+                            if (str.contentEquals(listAdapter.getItem(i).toString())) {
+                                return;
+                            }
+                        }
+                        autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                    }
+                }
+            }
+        });
+    }
 }

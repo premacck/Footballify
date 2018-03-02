@@ -6,12 +6,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
@@ -19,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +49,7 @@ import life.plank.juna.zone.interfaces.OnLongClickListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
@@ -130,6 +135,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     };
     private int apiHitCount = 0;
+    @BindView(R.id.football_menu_linear_layout)
+    LinearLayout footballMenuLinearLayout;
+    @BindView(R.id.football_toolbar)
+    Toolbar footballToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +156,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getFootballFeed();
         initRecyclerView();
         showOnboardingDialog();
+        addDrawerListener();
     }
 
     private void initRecyclerView() {
@@ -264,6 +274,13 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         });
         listPopupWindow.show();
+        listPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+                inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
+            }
+        });
     }
 
     @OnClick({R.id.football_filter_spinner_textView, R.id.calendar_spinner_textView
@@ -284,7 +301,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 break;
 
             case R.id.football_menu:
-                mDrawer.openDrawer(GravityCompat.END);
+                drawerLayout.openDrawer(GravityCompat.END);
                 break;
         }
     }
@@ -366,7 +383,33 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void goToLiveMatch(int matchNumber) {
         //TODO match number is needed for future
-        startActivity(new Intent(this, LiveZoneActivity.class));
+        Intent liveZoneIntent = new Intent(this, LiveZoneActivity.class);
+        liveZoneIntent.putExtra(ScrubberConstants.SCRUBBER_MATCH_NUMBER, matchNumber);
+        startActivity(liveZoneIntent);
     }
 
+    private void addDrawerListener() {
+        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                footballMenuLinearLayout.setBackgroundColor(ContextCompat.getColor(SwipePageActivity.this, R.color.white));
+                footballMenu.setImageResource(R.drawable.ic_menu_selected);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                footballMenuLinearLayout.setBackgroundColor(ContextCompat.getColor(SwipePageActivity.this, R.color.transparent));
+                footballMenu.setImageResource(R.drawable.ic_menu);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+    }
 }

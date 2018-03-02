@@ -15,7 +15,7 @@
         android:id="@+id/football_toolbar"
         layout="@layout/zone_football_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignBottom="@+id/zone_logo"
         android:layout_marginBottom="@dimen/football_toolbar_margin_bottom"
         android:layout_toEndOf="@+id/zone_logo"
@@ -26,13 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/football_toolbar">
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -106,18 +99,19 @@
 
             </RelativeLayout>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/spinners_relative_layout" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_above="@+id/banter_zone_layout"
-                android:layout_below="@+id/football_feed_recycler_view" />
+                android:layout_above="@+id/banter_zone_layout" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/football_feed_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/football_feed_horizontal_view"
+                android:layout_below="@+id/spinners_relative_layout" />
 
             <RelativeLayout
                 android:id="@+id/banter_zone_layout"
@@ -172,6 +166,13 @@
                         android:src="@drawable/ic_dropdown" />
                 </RelativeLayout>
             </RelativeLayout>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
         </RelativeLayout>
     </FrameLayout>
 

@@ -1,15 +1,20 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.view.activity.ChatDetailsActivity;
 import life.plank.juna.zone.view.holder.ChatHolder;
 import life.plank.juna.zone.viewmodel.ChatModel;
 
@@ -50,11 +55,33 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
         } else {
             holder.messageTextView.setVisibility(View.GONE);
             holder.messageImageView.setVisibility(View.VISIBLE);
-            holder.messageImageView.setImageDrawable(chatModels.get(position).getImage());
+            if (!"".contentEquals(chatModels.get(position).getImageUrl())) {
+                Picasso.with(context)
+                        .load(chatModels.get(position).getImageUrl())
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder)
+                        .into(holder.messageImageView);
+            }else {
+                Picasso.with(context)
+                        .load(AppConstants.DEFAULT_IMAGE_URL)
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder)
+                        .into(holder.messageImageView);
+            }
         }
         if (chatModels.get(position).isMyMessage()) {
             holder.nameTextView.setText(context.getString(R.string.me));
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!text.contentEquals(chatModels.get(position).getTag())) {
+                    Intent intent = new Intent(context, ChatDetailsActivity.class);
+                    intent.putExtra(AppConstants.CHAT_DETAILS_IMAGE, chatModels.get(position).getImageUrl());
+                    context.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

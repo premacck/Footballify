@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +34,8 @@ public class ChatFragment extends Fragment {
     ImageView cameraImage;
     @BindView(R.id.chat_recycler_view)
     RecyclerView chatRecyclerView;
+    @BindView(R.id.media_container_frame_layout)
+    FrameLayout mediaContainerFrameLayout;
     private Unbinder unbinder;
 
     @Override
@@ -80,6 +83,7 @@ public class ChatFragment extends Fragment {
             case R.id.people_count_text_view:
                 break;
             case R.id.add_image:
+                mediaSelectionFragment();
                 break;
             case R.id.camera_image:
                 break;
@@ -96,5 +100,13 @@ public class ChatFragment extends Fragment {
             expandCollapseImageView.setSelected(true);
             ((LiveZoneActivity) context).expandCollapseChatView(true);
         }
+    }
+
+    public void mediaSelectionFragment() {
+        mediaContainerFrameLayout.removeAllViews();
+        getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.media_container_frame_layout, new MediaSelectionFragment())
+                .commit();
     }
 }

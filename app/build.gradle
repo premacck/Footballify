@@ -24,7 +24,7 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "life.plank.juna.zone"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode 9
         versionName "1.0.1-jenkins-build"
@@ -67,7 +67,10 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.7.21'
+    //testCompile 'org.mockito:mockito-core:2.7.21'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.1'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.1'
+    testCompile "org.mockito:mockito-core:1.10.8"
 }
 
 repositories {
