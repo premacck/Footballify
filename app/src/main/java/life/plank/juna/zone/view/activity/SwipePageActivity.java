@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -105,6 +106,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
+    Context context;
     private List<FootballFeed> footballFeeds;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -145,6 +147,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
+
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
@@ -194,19 +197,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
-    public String updateToken(String nextPageToken,String regexRT, String RegexTRC, String replaceStringRT, String replaceStringTRC) {
+    public String updateToken(String nextPageToken,String  replaceStringRT, String replaceStringTRC) {
         if (!nextPageToken.isEmpty()) {
-            String updatedNextPageToken = nextPageToken.replaceFirst(regexRT, replaceStringRT);
-            updatedNextPageToken = updatedNextPageToken.replaceFirst(RegexTRC, replaceStringTRC);
+            String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
+            updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
             return updatedNextPageToken;
         }
         return "";
     }
 
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(updateToken(nextPageToken,getString(R.string.regex_rt),
-                getString(R.string.regex_trc), getString(R.string.concat_rt) +
-                        String.valueOf(apiHitCount), getString(R.string.concat_trc)
+        subscription = restApi.getFootballFeed(updateToken(nextPageToken,
+               getString(R.string.replace_rt) +
+                        String.valueOf(apiHitCount), getString(R.string.replace_trc)
                         + String.valueOf(apiHitCount*TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

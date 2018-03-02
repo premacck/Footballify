@@ -191,10 +191,10 @@
     <string name="me">Me</string>
     <string name="brighton_amp_hove_albiono"><![CDATA[Brighton & hove albiono]]></string>
     <string name="chelsea">Chelsea</string>
-    <string name="regex_trc">TRC:(\\d*)</string>
-    <string name="regex_rt">RT:(\\d*)</string>
-    <string name="concat_rt">RT:</string>
-    <string name="concat_trc">TRC:</string>
+    <string name="regularexpression_trc">TRC:(\\d*)</string>
+    <string name="regularexpression_rt">RT:(\\d*)</string>
+    <string name="replace_rt">RT:</string>
+    <string name="replace_trc">TRC:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
