@@ -191,8 +191,6 @@
     <string name="me">Me</string>
     <string name="brighton_amp_hove_albiono"><![CDATA[Brighton & hove albiono]]></string>
     <string name="chelsea">Chelsea</string>
-    <string name="regularexpression_trc">TRC:(\\d*)</string>
-    <string name="regularexpression_rt">RT:(\\d*)</string>
     <string name="replace_rt">RT:</string>
     <string name="replace_trc">TRC:</string>
 
