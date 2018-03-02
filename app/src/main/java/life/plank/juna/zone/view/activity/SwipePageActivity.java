@@ -236,18 +236,14 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private void showSpinner(TextView activeTextView, TextView inActiveTextView, String[] arrayData) {
         activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
         inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-
         final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
                 R.id.spinnerDropdownTextView, arrayData);
         listPopupWindow.setAdapter(adapter);
         listPopupWindow.setAnchorView(activeTextView);
-
         listPopupWindow.setHeight(android.widget.LinearLayout.LayoutParams.WRAP_CONTENT);
         listPopupWindow.setWidth(UIDisplayUtil.dpToPx(AppConstants.SPINNER_DIALOG_WIDTH, this));
-
         listPopupWindow.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, android.R.color.transparent)));
-
         listPopupWindow.setVerticalOffset(0);
         listPopupWindow.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -258,11 +254,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 listPopupWindow.dismiss();
                 if (position == 3) {
                     scoreTableFragment();
-                    feedRecyclerView.setVisibility(View.GONE);
-                    horizontalRecyclerView.setVisibility(View.GONE);
-                } else {
-                    feedRecyclerView.setVisibility(View.VISIBLE);
-                    horizontalRecyclerView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -340,12 +331,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void retainHomeLayout() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase("Standing")) {
-            horizontalRecyclerView.setVisibility(View.GONE);
-            feedRecyclerView.setVisibility(View.GONE);
             fragmentStandingContainerFrameLayout.setVisibility(View.VISIBLE);
         } else {
-            horizontalRecyclerView.setVisibility(View.VISIBLE);
-            feedRecyclerView.setVisibility(View.VISIBLE);
             fragmentStandingContainerFrameLayout.setVisibility(View.GONE);
         }
     }

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/score_board_liner_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:weightSum="10.3">
+
+    <TextView
+        android:id="@+id/serial_number_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:minWidth="10dp"
+        android:text="1"
+        android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/score_view"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_gravity="center_vertical"
+        android:layout_weight=".3"
+        android:background="@color/transparent_grey" />
+
+    <TextView
+        android:id="@+id/team_name_text_view"
+        style="@style/standing_fragment_text_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_weight="3"
+        android:gravity="start"
+        android:minWidth="100dp"
+        android:text="My Team" />
+
+    <TextView
+        android:id="@+id/played_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="27"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/win_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="6"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/draw_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="5"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/loss_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="8"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/gd_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="8"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/pts_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="58"
+        android:textColor="@color/black" />
+</LinearLayout>
