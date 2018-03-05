@@ -71,7 +71,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
     int currentMatch = 1;
-    LinearLayoutManager scrubberLinearLayotManager;
+    LinearLayoutManager scrubberLinearLayoutManager;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
     @Override
@@ -106,8 +106,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     private void setUpScrubber() {
         scrubberViewDataHolder = new HashMap<>();
         int matchNumber = getIntent().getExtras().getInt(ScrubberConstants.SCRUBBER_MATCH_NUMBER);
-        scrubberLinearLayotManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
-        scrubberView.setLayoutManager(scrubberLinearLayotManager);
+        scrubberLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        scrubberView.setLayoutManager(scrubberLinearLayoutManager);
         scrubberViewAdapter = new ScrubberViewAdapter(context, scrubberProgressData, scrubberViewDataHolder, this, matchNumber);
         scrubberView.setAdapter(scrubberViewAdapter);
         ItemTouchHelper.Callback callback =
@@ -202,7 +202,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
             public void run() {
                 if (position > 0) {
                     int[] xyViewAfter = new int[]{0, 0};
-                    View scrubberViewItems = scrubberLinearLayotManager.findViewByPosition(scrubberProgressData.size() - 2);
+                    View scrubberViewItems = scrubberLinearLayoutManager.findViewByPosition(scrubberProgressData.size() - 2);
                     if (scrubberViewItems != null) {
                         scrubberViewItems.getLocationOnScreen(xyViewAfter);
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.scrubberPointerImageWidth,
