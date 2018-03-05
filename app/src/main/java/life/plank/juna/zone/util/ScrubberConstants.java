@@ -26,6 +26,8 @@ public class ScrubberConstants {
     public static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
     public static final String SCRUBBER_MATCH_NUMBER = "matchNumber";
     private static String scrubberInProgress = "In Progress";
+    public static int pointerWidth = 20;
+    public static int pointerCursorWidth = 1;
     private String scrubberHalf = "half";
     private String scrubberNormal = "normal";
     private String scrubberGoal = "goal";
