@@ -34,7 +34,7 @@ public class NewsFeedApiTest {
     @Test
     public void checkNewsFeedTokenisEmpty() {
         token = "";
-        String checkToken = swipePageActivity.updateToken(token, "", "");
+        String checkToken = swipePageActivity.updateToken(token, "RT:1", "RT:40");
         assertEquals(checkToken.isEmpty(), true);
     }
     @Test
