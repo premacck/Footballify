@@ -29,4 +29,5 @@ public class StandingTableAdapterTest {
     }
 
     //TODO: test case OnBindViewHolderAddItem
+    //TODO: test cases for Activity and fragment need to add In instrumental testing
 }
