@@ -206,4 +206,6 @@
     <string name="about_us">About us</string>
     <string name="logout">logout</string>
     <string name="feed_details_date">Jason Tumbridge | 16 January 2018 | 3.45pm</string>
+    <string name="select_your_teams">Select your teams</string>
+    <string name="livezone">LiveZone</string>
 </resources>

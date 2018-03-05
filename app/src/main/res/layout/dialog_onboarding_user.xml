@@ -34,7 +34,7 @@
                 android:background="@drawable/football_header_orange_gradient"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:text="Select your teams" />
+                android:text="@string/select_your_teams" />
 
             <ImageView
                 android:id="@+id/close_dialog_image"
