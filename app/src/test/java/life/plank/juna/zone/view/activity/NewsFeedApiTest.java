@@ -27,15 +27,22 @@ public class NewsFeedApiTest {
 
     @Test
     public void checkNewsFeedToken() {
-        String check = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
-        assertThat(check.contentEquals(updateToken), is(true));
+        String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
+        assertThat(checkToken.contentEquals(updateToken), is(true));
     }
 
     @Test
     public void checkNewsFeedTokenisEmpty() {
         token = "";
-        String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
+        String checkToken = swipePageActivity.updateToken(token, "", "");
         assertEquals(checkToken.isEmpty(), true);
+    }
+    @Test
+    public void checkTrcWithDecimalValue()
+    {
+
+        String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40.02");
+        assertThat(checkToken.contentEquals(token), is(false));
+    }
 
     }
-}

@@ -197,7 +197,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
-    public String updateToken(String nextPageToken,String  replaceStringRT, String replaceStringTRC) {
+    public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
         if (!nextPageToken.isEmpty()) {
             String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
             updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
