@@ -205,9 +205,9 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                     View scrubberViewItems = scrubberLinearLayotManager.findViewByPosition(scrubberProgressData.size() - 2);
                     if (scrubberViewItems != null) {
                         scrubberViewItems.getLocationOnScreen(xyViewAfter);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.pointerWidth,
-                                ScrubberConstants.pointerWidth);
-                        layoutParams.setMarginStart(xyViewAfter[0] - ScrubberConstants.pointerWidth + ScrubberConstants.pointerCursorWidth);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.scrubberPointerImageWidth,
+                                ScrubberConstants.scrubberPointerImageWidth);
+                        layoutParams.setMarginStart(xyViewAfter[0] - ScrubberConstants.scrubberPointerImageWidth + ScrubberConstants.ScrubberCursorWidth);
                         arrow.setLayoutParams(layoutParams);
                     }
                 }
