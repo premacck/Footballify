@@ -98,9 +98,7 @@
                     android:layout_marginRight="1dp"
                     android:layout_marginStart="5dp"
                     android:text="LiveZone" />
-
             </RelativeLayout>
-
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/football_feed_horizontal_view"
