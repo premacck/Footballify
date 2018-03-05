@@ -64,6 +64,7 @@
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
                     android:text="All"
+                    android:textAllCaps="false"
                     android:textColor="@color/white" />
 
                 <TextView
@@ -82,6 +83,7 @@
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
                     android:text="Today"
+                    android:textAllCaps="false"
                     android:textColor="@color/white" />
 
                 <TextView
