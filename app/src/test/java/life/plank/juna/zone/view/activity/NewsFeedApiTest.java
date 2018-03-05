@@ -1,7 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Context;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -29,15 +27,15 @@ public class NewsFeedApiTest {
 
     @Test
     public void checkNewsFeedToken() {
-        String check = swipePageActivity.updateToken(token,"RT:2", "TRC:40");
+        String check = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
         assertThat(check.contentEquals(updateToken), is(true));
     }
 
     @Test
-    public void checkNewsFeedTokenEmpty() {
+    public void checkNewsFeedTokenisEmpty() {
         token = "";
-        String check = swipePageActivity.updateToken(token,"RT:2", "TRC:40");
-        assertEquals(check.isEmpty(), true);
+        String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
+        assertEquals(checkToken.isEmpty(), true);
 
     }
 }
