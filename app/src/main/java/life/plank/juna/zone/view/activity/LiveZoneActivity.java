@@ -71,6 +71,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     ScrubberViewAdapter scrubberViewAdapter;
     int progressStatus = 0;
     int currentMatch = 1;
+    LinearLayoutManager scrubberLinearLayoutManager;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
     @Override
@@ -105,7 +106,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     private void setUpScrubber() {
         scrubberViewDataHolder = new HashMap<>();
         int matchNumber = getIntent().getExtras().getInt(ScrubberConstants.SCRUBBER_MATCH_NUMBER);
-        scrubberView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+        scrubberLinearLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+        scrubberView.setLayoutManager(scrubberLinearLayoutManager);
         scrubberViewAdapter = new ScrubberViewAdapter(context, scrubberProgressData, scrubberViewDataHolder, this, matchNumber);
         scrubberView.setAdapter(scrubberViewAdapter);
         ItemTouchHelper.Callback callback =
@@ -133,9 +135,9 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                 if (!scrubberViewAdapter.trigger) {
                     runOnUiThread(() -> {
                         scrubberViewAdapter.notifyItemChanged(scrubberProgressData.size() - 1);
-                        moveScrubberPointer(null, scrubberProgressData.size() - 1);
                     });
                 }
+                moveScrubberPointer(null, scrubberProgressData.size());
                 progressStatus++;
             } catch (Exception e) {
                 // TODO: 21-02-2018 remove after stable.
@@ -195,11 +197,22 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
 
     @Override
     public void moveScrubberPointer(View view, int position) {
-        int[] xyViewAfter = new int[]{0, 0};
-        scrubberView.getLocationOnScreen(xyViewAfter);
-        LinearLayout linearLayout = new LinearLayout(this);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(25, 25);
-        arrow.setLayoutParams(layoutParams);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (position > 0) {
+                    int[] xyViewAfter = new int[]{0, 0};
+                    View scrubberViewItems = scrubberLinearLayoutManager.findViewByPosition(scrubberProgressData.size() - 2);
+                    if (scrubberViewItems != null) {
+                        scrubberViewItems.getLocationOnScreen(xyViewAfter);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.scrubberPointerImageWidth,
+                                ScrubberConstants.scrubberPointerImageWidth);
+                        layoutParams.setMarginStart(xyViewAfter[0] - ScrubberConstants.scrubberPointerImageWidth + ScrubberConstants.ScrubberCursorWidth);
+                        arrow.setLayoutParams(layoutParams);
+                    }
+                }
+            }
+        });
     }
 
     @Override
