@@ -5,7 +5,7 @@
 
     <View
         android:id="@+id/scrubber_view"
-        android:layout_width="2dp"
+        android:layout_width="@dimen/scrubber_view_width"
         android:layout_height="wrap_content"
         android:background="@color/background_grey" />
 </RelativeLayout>
