@@ -86,7 +86,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     @BindView(R.id.fragmentContainerFrameLayout)
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.standing_container_framelayout)
-    FrameLayout StandingContainerFrameLayout;
+    FrameLayout standingContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
     @BindView(R.id.calendar_spinner_textView)
@@ -321,8 +321,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void scoreTableFragment() {
-        StandingContainerFrameLayout.setVisibility(View.VISIBLE);
-        StandingContainerFrameLayout.removeAllViews();
+        standingContainerFrameLayout.setVisibility(View.VISIBLE);
+        standingContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.standing_container_framelayout, new StandingFragment())
@@ -331,9 +331,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void retainHomeLayout() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
-            StandingContainerFrameLayout.setVisibility(View.VISIBLE);
+            standingContainerFrameLayout.setVisibility(View.VISIBLE);
         } else {
-            StandingContainerFrameLayout.setVisibility(View.GONE);
+            standingContainerFrameLayout.setVisibility(View.GONE);
         }
     }
 

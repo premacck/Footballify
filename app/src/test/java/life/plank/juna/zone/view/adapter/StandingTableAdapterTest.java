@@ -21,18 +21,12 @@ public class StandingTableAdapterTest {
     private StandingTableAdapter standingTableAdapter;
     private Context context;
 
-    //checking if count is exect added
+    //checking if count is added
     @Test
     public void itemCountOnStandingScoreView() {
         standingTableAdapter = spy(new StandingTableAdapter(context));
         assertThat(standingTableAdapter.getItemCount() == 10, is(true));
     }
 
-    //checking if count is empty value
-    @Test
-    public void checkItemCountisEmpty() {
-        standingTableAdapter = spy(new StandingTableAdapter(context));
-        assertThat(standingTableAdapter.getItemCount() == 0, is(false));
-    }
     //TODO: test case OnBindViewHolderAddItem
 }

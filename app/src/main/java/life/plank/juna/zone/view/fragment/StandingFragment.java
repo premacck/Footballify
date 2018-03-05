@@ -23,9 +23,6 @@ public class StandingFragment extends Fragment {
     @BindView(R.id.cancel_image_view)
     ImageView cancleImageView;
 
-    public StandingFragment() {
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

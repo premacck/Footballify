@@ -46,16 +46,16 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.winTextView.setText("W");
             holder.drawTextView.setText("D");
             holder.lossTextView.setText("L");
-            holder.gdTextView.setText("GD");
-            holder.ptsTextView.setText("Pts");
+            holder.goalDifferenceTextView.setText("GD");
+            holder.pointTableTextView.setText("Pts");
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.chat_body_background));
             holder.teamNameTextView.setTypeface(holder.teamNameTextView.getTypeface(), Typeface.BOLD);
             holder.playedTextView.setTypeface(holder.playedTextView.getTypeface(), Typeface.BOLD);
             holder.winTextView.setTypeface(holder.winTextView.getTypeface(), Typeface.BOLD);
             holder.drawTextView.setTypeface(holder.drawTextView.getTypeface(), Typeface.BOLD);
             holder.lossTextView.setTypeface(holder.lossTextView.getTypeface(), Typeface.BOLD);
-            holder.gdTextView.setTypeface(holder.gdTextView.getTypeface(), Typeface.BOLD);
-            holder.ptsTextView.setTypeface(holder.ptsTextView.getTypeface(), Typeface.BOLD);
+            holder.goalDifferenceTextView.setTypeface(holder.goalDifferenceTextView.getTypeface(), Typeface.BOLD);
+            holder.pointTableTextView.setTypeface(holder.pointTableTextView.getTypeface(), Typeface.BOLD);
             holder.serialNumberTextView.setVisibility(View.INVISIBLE);
             holder.scoreView.setVisibility(View.INVISIBLE);
         } else {
@@ -64,8 +64,8 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.winTextView.setText(standingFeedModelList.get(position).getWin());
             holder.drawTextView.setText(standingFeedModelList.get(position).getDraw());
             holder.lossTextView.setText(standingFeedModelList.get(position).getLost());
-            holder.gdTextView.setText(standingFeedModelList.get(position).getGd());
-            holder.ptsTextView.setText(standingFeedModelList.get(position).getPts());
+            holder.goalDifferenceTextView.setText(standingFeedModelList.get(position).getGd());
+            holder.pointTableTextView.setText(standingFeedModelList.get(position).getPts());
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
         if (position != 0)
@@ -90,10 +90,10 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         TextView drawTextView;
         @BindView(R.id.loss_text_view)
         TextView lossTextView;
-        @BindView(R.id.gd_text_view)
-        TextView gdTextView;
-        @BindView(R.id.pts_text_view)
-        TextView ptsTextView;
+        @BindView(R.id.goal_difference_text_view)
+        TextView goalDifferenceTextView;
+        @BindView(R.id.point_table_text_view)
+        TextView pointTableTextView;
         @BindView(R.id.score_view)
         View scoreView;
         @BindView(R.id.score_board_liner_layout)
