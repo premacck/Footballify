@@ -28,7 +28,7 @@ public class NewsFeedApiTest {
     @Test
     public void checkNewsFeedToken() {
         String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
-        assertThat(checkToken.contentEquals(updateToken), is(true));
+        assertThat(checkToken.equals(updateToken), is(true));
     }
 
     @Test
