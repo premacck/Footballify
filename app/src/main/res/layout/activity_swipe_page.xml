@@ -174,11 +174,17 @@
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
         </RelativeLayout>
-    </FrameLayout>
 
-    <FrameLayout
-        android:id="@+id/fragmentContainerFrameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/football_toolbar" />
+        <FrameLayout
+            android:id="@+id/fragmentContainerFrameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/football_toolbar" />
+
+        <FrameLayout
+            android:id="@+id/standing_container_framelayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/spinners_relative_layout" />
+    </FrameLayout>
 </RelativeLayout>
