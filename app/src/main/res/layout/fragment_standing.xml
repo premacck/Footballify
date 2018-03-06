@@ -25,7 +25,7 @@
             android:padding="5dp"
             android:src="@drawable/cancel" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/edit_text_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                 android:hint="Enter a team or competition"
                 android:maxLines="1"
                 android:paddingLeft="10dp" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/table_recycler_view"

@@ -34,11 +34,10 @@ public class StandingFragment extends Fragment {
 
     public void populateStandingRecyclerView() {
         StandingTableAdapter standingTableAdapter = new StandingTableAdapter(getActivity());
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        scoreTableRecyclerView.setLayoutManager(layoutManager);
+        scoreTableRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         scoreTableRecyclerView.setAdapter(standingTableAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(scoreTableRecyclerView.getContext(),
-                layoutManager.getOrientation());
+                new LinearLayoutManager(getActivity()).getOrientation());
         scoreTableRecyclerView.addItemDecoration(dividerItemDecoration);
     }
 
