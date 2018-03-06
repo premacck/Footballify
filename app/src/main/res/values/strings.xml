@@ -212,6 +212,7 @@
     //TODO: needs shiva's suggestion on this
     <string name="please_select_the_team_from_suggestions">Please select the team from the suggestions.</string>
     <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
+    <string name="add_more">addMore</string>
     <string name="table">Table</string>
     <string name="standing">Standing</string>
 </resources>
