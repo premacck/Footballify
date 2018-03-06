@@ -23,14 +23,13 @@ public class NewsFeedApiTest {
     }
 
     @Test
-    public void newsFeedTokenForValidTokenValues() {
-
+    public void newsFeedTokenPassesForValidTokenValues() {
         String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40");
         assertThat(checkToken.equals(updateToken), is(true));
     }
 
     @Test
-    public void NewsFeedTokenIsEmpty() {
+    public void newsFeedTokenIsEmpty() {
         token = "";
         String checkToken = swipePageActivity.updateToken(token, "RT:1", "RT:40");
         assertEquals(checkToken.isEmpty(), true);
