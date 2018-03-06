@@ -4,15 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
-
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-
 /**
  * Created by plank-sharath on 2/23/2018.
  */
-
 public class NewsFeedApiTest {
 
     @InjectMocks
@@ -37,11 +34,11 @@ public class NewsFeedApiTest {
         String checkToken = swipePageActivity.updateToken(token, "RT:1", "RT:40");
         assertEquals(checkToken.isEmpty(), true);
     }
+
     @Test
-    public void checkIfTrcWithDecimalValue()
-    {
+    public void checkIfTrcWithDecimalValue() {
         String checkToken = swipePageActivity.updateToken(token, "RT:2", "TRC:40.02");
         assertThat(checkToken.contentEquals(token), is(false));
     }
 
-    }
+}
