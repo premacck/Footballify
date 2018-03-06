@@ -25,6 +25,8 @@ public class ScrubberConstants {
     public static final int SCRUBBER_VIEW_TOTAL_WINDOW = 105;
     public static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
     public static final String SCRUBBER_MATCH_NUMBER = "matchNumber";
+    public static int scrubberPointerImageWidth = 20;
+    public static int ScrubberCursorWidth = 1;
     private static String scrubberInProgress = "In Progress";
     private String scrubberHalf = "half";
     private String scrubberNormal = "normal";
@@ -293,36 +295,36 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(90, new ScrubberViewData("Hazard, dropping deep to influence a desperate Chelseaattack, lifts a pass down the right for Zappacosta, who can’t keep the ball in play. Goal kick. There will be four added minutes. Put another way: Arsenal are four minutes away from a final tie with Manchester City!",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileArrayList), false));
 
-        tileArrayList.add(new Tile("image",R.drawable.goal_image_three,0,"Why would Mourinho do that? Isn't he done with"));
-        tileArrayList.add(new Tile("video",R.drawable.ic_football_dummy_image,0,"Goal!! Eden Hazard - 7"));
+        tileArrayList.add(new Tile("image", R.drawable.goal_image_three, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("video", R.drawable.ic_football_dummy_image, 0, "Goal!! Eden Hazard - 7"));
         scrubberViewDataHolder.put(7, new ScrubberViewData("Goal!! Eden Hazard - 7",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
-        tileArrayList.add(new Tile("sticker",R.drawable.goal_image_two,R.drawable.ic_sticker_one,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("sticker", R.drawable.goal_image_two, R.drawable.ic_sticker_one, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(12, new ScrubberViewData("Goal! Rudiger - 12",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.goal_image_three,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.goal_image_three, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(60 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Goal!! Granit - 60",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.yellow_card,0,"Yellow card Hazard - 17"));
+        tileArrayList.add(new Tile("image", R.drawable.yellow_card, 0, "Yellow card Hazard - 17"));
         tileArrayList.add(new Tile("video", R.drawable.image3, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(17, new ScrubberViewData("Yellow card Hazard - 17",
                 ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("text",0,0,"Yellow card Wilshere - 31"));
+        tileArrayList.add(new Tile("text", 0, 0, "Yellow card Wilshere - 31"));
         scrubberViewDataHolder.put(31, new ScrubberViewData("Yellow card Wilshere - 31",
                 ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileArrayList), true));
 
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.half_time_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.half_time_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
         tileArrayList = new ArrayList<>();
@@ -330,7 +332,7 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(47, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
 
         scrubberViewDataHolder.put(48, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
@@ -344,17 +346,17 @@ public class ScrubberConstants {
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(62 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Victor -62",
                 ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("text",0,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(67 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Yellow card Nacho -66",
                 ScrubberConstants.getScrubberViewCards(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.image_dummy_four,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.image_dummy_four, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(30, new ScrubberViewData("Willian - OUT Barkley - IN  -30",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 
@@ -362,13 +364,13 @@ public class ScrubberConstants {
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("sticker",R.drawable.image_dummy_one,R.drawable.ic_sticker_two,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("sticker", R.drawable.image_dummy_one, R.drawable.ic_sticker_two, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(72 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Moses - OUT Zappacosta - IN - 72",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.image0,0,"Why would Mourinho do that? Isn't he done with"));
-        tileArrayList.add(new Tile("image",R.drawable.image5,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.image0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.image5, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(84 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Lacazette - IN Kolasinac -IN - 84",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 
@@ -537,7 +539,7 @@ public class ScrubberConstants {
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileArrayList), false));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(46, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
         tileArrayList = new ArrayList<>();
@@ -545,7 +547,7 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(47, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
 
         scrubberViewDataHolder.put(48, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
@@ -554,7 +556,7 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(49, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("image",R.drawable.football_image_one,0,"Why would Mourinho do that? Isn't he done with"));
+        tileArrayList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
 
         scrubberViewDataHolder.put(50, new ScrubberViewData("Half Time",
                 ScrubberConstants.getScrubberViewHalfTime(), new LiveFeedTileData(tileArrayList), true));
