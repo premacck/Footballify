@@ -24,17 +24,17 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
     private static final int NORMAL_VIEW = 0;
     private static final int ADD_MORE_VIEW = 1;
     private AddMoreClickListeners clickListeners;
-    //TODO:Will be replaced with BanterZoneData from the backend
-    private ArrayList BanterZoneData = new ArrayList();
+    //TODO:Will be replaced with banterZoneData from the backend
+    private ArrayList banterZoneData = new ArrayList();
     private LayoutInflater mInflater;
     private int screenWidth;
     private Context context;
     private int footballBanterViewMargin;
 
-    public HorizontalFootballFeedAdapter(Context context, ArrayList BanterZoneData, int width) {
+    public HorizontalFootballFeedAdapter(Context context, ArrayList banterZoneData, int width) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
-        this.BanterZoneData = BanterZoneData;
+        this.banterZoneData = banterZoneData;
         screenWidth = width;
         //Result will be in pixels
         footballBanterViewMargin = (int) context.getResources().getDimension(R.dimen.football_banter_view_margin);
@@ -54,22 +54,22 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
 
     @Override
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
-        String text = (String) BanterZoneData.get(position);
-        if (position != BanterZoneData.size()) {
+        String text = (String) banterZoneData.get(position);
+        if (position != banterZoneData.size()) {
             holder.horizontalNewsFeedLabel.setText(text);
         }
         //Padding of single cell. footballBanterViewMargin*2 (2 sides of cell)
         // TO get equal four cell (screenWidth / 4)
         // TODO: 30-01-2018 deice number based on width
         holder.horizontalNewsCardLayout.getLayoutParams().width = (screenWidth / 4) - (footballBanterViewMargin * 2);
-        if (BanterZoneData.get(position).equals(context.getString(R.string.add_more)))
+        if (banterZoneData.get(position).equals(context.getString(R.string.add_more)))
             holder.horizontalNewsCardLayout.setOnClickListener(view -> clickListeners.addMore());
     }
 
     @Override
     public int getItemViewType(int position) {
         // TODO: 30-01-2018 change this based on server response 
-        if (BanterZoneData.get(position).equals(context.getString(R.string.add_more))) {
+        if (banterZoneData.get(position).equals(context.getString(R.string.add_more))) {
             return ADD_MORE_VIEW;
         } else {
             return NORMAL_VIEW;
@@ -78,7 +78,7 @@ public class HorizontalFootballFeedAdapter extends RecyclerView.Adapter<Horizont
 
     @Override
     public int getItemCount() {
-        return BanterZoneData.size();
+        return banterZoneData.size();
     }
 
     public interface AddMoreClickListeners {
