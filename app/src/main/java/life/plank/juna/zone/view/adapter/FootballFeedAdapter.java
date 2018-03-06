@@ -106,17 +106,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 //        } else {
 //            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
 //        }
-
-        //TODO: comment will be removed once pinboard is moved to menu items
-       /* holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
-                onLongClickListner.onLongClick(position);
-                holder.pinImage.setVisibility(View.VISIBLE);
-                return true;
-            }
-        });*/
         holder.likeImage.post(() -> imageWidth = holder.likeImage.getWidth());
 
         // TODO: 13-02-2018 remove this code, after replacing proper images

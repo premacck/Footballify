@@ -108,7 +108,6 @@
     <string-array name="calendar_array">
         <item>Today</item>
         <item>Yesterday</item>
-        <item>Today</item>
         <item>Last Weekend</item>
         <item>Last Week</item>
         <item>Last Month</item>
