@@ -5,7 +5,6 @@
     android:background="@color/spinner_item_color"
     android:orientation="vertical">
 
-
     <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/spinnerDropdownTextView"
         android:layout_width="120dp"
@@ -14,7 +13,7 @@
         android:singleLine="true"
         android:text="All"
         android:textColor="@color/white"
-        android:textSize="12sp" />
+        android:textSize="10sp" />
 
     <View
         android:layout_width="match_parent"

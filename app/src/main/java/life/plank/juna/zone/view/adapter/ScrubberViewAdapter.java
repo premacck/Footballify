@@ -173,7 +173,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     @Override
     public void clearView(int adapterPosition) {
         trigger = false;
-        scrubberPointerUpdate.moveScrubberPointer(null, -1);
     }
 
     public void setItemTouchHelper(ItemTouchHelper itemTouchHelper) {
