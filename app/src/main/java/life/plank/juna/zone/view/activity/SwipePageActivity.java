@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -97,6 +98,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
+    int TRCNumber = 20;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -104,6 +106,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
+    Context context;
     private List<FootballFeed> footballFeeds;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -133,6 +136,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
+    private int apiHitCount = 0;
     @BindView(R.id.football_menu_linear_layout)
     LinearLayout footballMenuLinearLayout;
     @BindView(R.id.football_toolbar)
@@ -143,6 +147,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
+
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
@@ -192,14 +197,27 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
+    public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
+        if (!nextPageToken.isEmpty()) {
+            String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
+            updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
+            return updatedNextPageToken;
+        }
+        return "";
+    }
+
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(nextPageToken)
+        subscription = restApi.getFootballFeed(updateToken(nextPageToken,
+               getString(R.string.replace_rt) +
+                        String.valueOf(apiHitCount), getString(R.string.replace_trc)
+                        + String.valueOf(apiHitCount*TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "In onCompleted()");
+
                     }
 
                     @Override
@@ -208,17 +226,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
-                        GlobalVariable.getInstance().setFootballFeeds(response.body());
                         hideProgress();
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                            if (apiHitCount == 0) {
+                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                            }
                             setUpAdapterWithNewData(response.body());
-
+                            apiHitCount = apiHitCount+1;
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
                     }
                 });
+
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {

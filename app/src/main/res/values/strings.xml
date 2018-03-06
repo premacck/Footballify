@@ -191,6 +191,8 @@
     <string name="me">Me</string>
     <string name="brighton_amp_hove_albiono"><![CDATA[Brighton & hove albiono]]></string>
     <string name="chelsea">Chelsea</string>
+    <string name="replace_rt">RT:</string>
+    <string name="replace_trc">TRC:</string>
     <string name="john_mclntyre">John Mclntyre</string>
     <string name="glasgow_uk">Glasgow, UK</string>
     <string name="my_profile">My Profile</string>
