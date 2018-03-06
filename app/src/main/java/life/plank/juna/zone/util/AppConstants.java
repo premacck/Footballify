@@ -14,4 +14,6 @@ public class AppConstants {
     public static final String POSITION = "position";
     public static final String CHAT_DETAILS_IMAGE = "chatdetailsimage";
     public static final String DEFAULT_IMAGE_URL = "http://avasportcentral.com/wp-content/themes/micron/images/placeholders/placeholder_large_dark.jpg";
+    public static final int REQUEST_CAMERA_STORAGE = 1001;
+    public static final int REQUEST_GALLERY = 1002;
 }
