@@ -138,8 +138,8 @@ public class SwipePageActivityTest {
         * check if FootballFeedDetailActivity is getting called*/
         closeDialog();
         if (getRecyclerViewCount() > 0) {
-            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             Intents.init();
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             intended(hasComponent(hasClassName(FootballFeedDetailActivity.class.getName())));
             Intents.release();
         }
@@ -148,16 +148,26 @@ public class SwipePageActivityTest {
     @Test
     public void feedDummyAdapterToRecyclerViewAndCheckIfRecyclerViewFucntionsProperly() {
         /*close the on boarding dialog
-        * click on the recylerview and
-        * check if FootballFeedDetailActivity is getting called*/
+        * Creat a dummy adapter
+        * feed it to the recycler view and check for the recycler view fuctionality*/
         closeDialog();
         if (getRecyclerViewCount() > 0) {
-            RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
-            FootballFeedAdapter footballFeedAdapter = new FootballFeedAdapter(activityTestRule.getActivity(),0,0,0);
-            List<FootballFeed> footballFeedList = new ArrayList<>();
-            footballFeedList.add(new FootballFeed());
-            recyclerView.setAdapter(footballFeedAdapter);
-            footballFeedAdapter.setFootballFeedList(footballFeedList);
+            try {
+                activityTestRule.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
+                        FootballFeedAdapter footballFeedAdapter = new FootballFeedAdapter(activityTestRule.getActivity(),0,0,0);
+                        List<FootballFeed> footballFeedList = new ArrayList<>();
+                        footballFeedList.add(new FootballFeed());
+                        recyclerView.setAdapter(footballFeedAdapter);
+                        footballFeedAdapter.setFootballFeedList(footballFeedList);
+                    }
+                });
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+            }
+
         }
     }
 
