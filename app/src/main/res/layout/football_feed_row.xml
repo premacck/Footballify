@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/football_feed_card"
+    android:id="@+id/relative_layout_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/football_feed_row_margin">
 
     <ImageView
         android:id="@+id/news_feed_image"
@@ -84,15 +85,15 @@
     <TextView
         android:id="@+id/news_feed_label"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_above="@+id/gradient_header"
+        android:background="@color/transparent_grey"
         android:ellipsize="end"
         android:maxLines="3"
+        android:padding="4dp"
         android:text="@string/lorem_ipsum_text"
-        android:layout_above="@+id/gradient_header"
         android:textColor="@color/white"
-        android:textSize="12sp"
-        android:background="@color/transparent_grey"
-        android:padding="4dp"/>
+        android:textSize="12sp" />
 
     <ImageView
         android:id="@+id/more_option"

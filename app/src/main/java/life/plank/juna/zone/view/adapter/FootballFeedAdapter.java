@@ -2,9 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +32,7 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
+    public PopupWindow popupWindow;
     @BindView(R.id.reaction_like)
     ImageView reactionLike;
     private int popUpPosition;
@@ -45,7 +44,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int imageWidth;
     private int popupImageWidth;
     private int gridWidth;
-    public PopupWindow popupWindow;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private OnLongClickListener onLongClickListner;
     private int popupImageHeight;
@@ -109,7 +107,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 //            holder.gradientRelativeLayout.setBackground(context.getResources().getDrawable(bgColor[position]));
 //        }
 
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        //TODO: comment will be removed once pinboard is moved to menu items
+       /* holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
@@ -117,7 +116,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                 holder.pinImage.setVisibility(View.VISIBLE);
                 return true;
             }
-        });
+        });*/
         holder.likeImage.post(() -> imageWidth = holder.likeImage.getWidth());
 
         // TODO: 13-02-2018 remove this code, after replacing proper images
@@ -202,34 +201,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         notifyDataSetChanged();
     }
 
-    public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.news_feed_label)
-        TextView newsFeedLabel;
-        @BindView(R.id.news_feed_image)
-        ImageView newsFeedImage;
-        @BindView(R.id.gradient_header)
-        RelativeLayout gradientRelativeLayout;
-        @BindView(R.id.category)
-        TextView categoryLabel;
-        @BindView(R.id.relative_layout_container)
-        RelativeLayout newsFeedRelativeLayout;
-        @BindView(R.id.football_feed_card)
-        CardView newsFeedCardView;
-        @BindView(R.id.pin_image)
-        ImageView pinImage;
-        @BindView(R.id.like_image)
-        ImageView likeImage;
-        @BindView(R.id.like_label)
-        TextView likeLabelTextView;
-        @BindView(R.id.more_option)
-        ImageView moreImageView;
-
-        FootballFeedViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-    }
-
     public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
         this.onLongClickListner = onLongClickListener;
     }
@@ -251,6 +222,30 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
         popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
         popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
+    }
+
+    public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.news_feed_label)
+        TextView newsFeedLabel;
+        @BindView(R.id.news_feed_image)
+        ImageView newsFeedImage;
+        @BindView(R.id.gradient_header)
+        RelativeLayout gradientRelativeLayout;
+        @BindView(R.id.category)
+        TextView categoryLabel;
+        @BindView(R.id.relative_layout_container)
+        RelativeLayout newsFeedRelativeLayout;
+        @BindView(R.id.like_image)
+        ImageView likeImage;
+        @BindView(R.id.like_label)
+        TextView likeLabelTextView;
+        @BindView(R.id.more_option)
+        ImageView moreImageView;
+
+        FootballFeedViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }
 
