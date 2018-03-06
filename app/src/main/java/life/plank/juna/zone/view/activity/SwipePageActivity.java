@@ -56,6 +56,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneListFragment;
+import life.plank.juna.zone.view.fragment.StandingFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -70,6 +71,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    public boolean isStandingFragmentVisible = false;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -87,6 +89,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
+    @BindView(R.id.standing_container_framelayout)
+    FrameLayout standingContainerFrameLayout;
     @BindView(R.id.calendar_spinner_textView)
     TextView calendarSpinnerTextView;
     @BindView(R.id.spinners_relative_layout)
@@ -273,7 +277,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 activeTextView.setText(arrayData[position]);
                 activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 listPopupWindow.dismiss();
-
+                if (position == 3) {
+                    scoreTableFragment();
+                }
             }
         });
         listPopupWindow.show();
@@ -338,7 +344,23 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
     }
+    public void scoreTableFragment() {
+        standingContainerFrameLayout.setVisibility(View.VISIBLE);
+        standingContainerFrameLayout.removeAllViews();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.standing_container_framelayout, new StandingFragment())
+                .commit();
+    }
 
+    public void retainHomeLayout() {
+        isStandingFragmentVisible = true;
+        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
+            standingContainerFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            standingContainerFrameLayout.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void addMore() {
         // TODO: 30-01-2018 Get data from server
