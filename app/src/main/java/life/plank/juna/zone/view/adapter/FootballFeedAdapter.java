@@ -45,7 +45,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int popupImageWidth;
     private int gridWidth;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
-    private OnLongClickListener onLongClickListner;
+    private OnLongClickListener onLongClickListener;
     private int popupImageHeight;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
@@ -191,7 +191,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     public void setOnLongClickListener(OnLongClickListener onLongClickListener) {
-        this.onLongClickListner = onLongClickListener;
+        this.onLongClickListener = onLongClickListener;
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder) {
