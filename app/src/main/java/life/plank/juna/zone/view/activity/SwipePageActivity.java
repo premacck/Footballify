@@ -70,6 +70,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    public boolean isStandingFragmentVisible = false;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -330,6 +331,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void retainHomeLayout() {
+        isStandingFragmentVisible = true;
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
             standingContainerFrameLayout.setVisibility(View.VISIBLE);
         } else {
