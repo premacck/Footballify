@@ -52,4 +52,11 @@
         <item name="android:textColor">@color/chat_header_background</item>
         <item name="android:textSize">16sp</item>
     </style>
+
+    <style name="standing_fragment_text_style">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

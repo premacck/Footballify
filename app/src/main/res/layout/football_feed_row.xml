@@ -33,7 +33,11 @@
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
             android:text="16/01\n9min"
-            android:textColor="#ffffff" />
+            android:shadowColor="@color/text_shadow"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="2"
+            android:textColor="@color/white" />
 
         <ImageView
             android:id="@+id/more_option"

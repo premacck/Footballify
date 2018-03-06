@@ -191,6 +191,8 @@
     <string name="me">Me</string>
     <string name="brighton_amp_hove_albiono"><![CDATA[Brighton & hove albiono]]></string>
     <string name="chelsea">Chelsea</string>
+    <string name="replace_rt">RT:</string>
+    <string name="replace_trc">TRC:</string>
     <string name="john_mclntyre">John Mclntyre</string>
     <string name="glasgow_uk">Glasgow, UK</string>
     <string name="my_profile">My Profile</string>
@@ -210,4 +212,6 @@
     //TODO: needs shiva's suggestion on this
     <string name="please_select_the_team_from_suggestions">Please select the team from the suggestions.</string>
     <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
+    <string name="table">Table</string>
+    <string name="standing">Standing</string>
 </resources>
