@@ -11,4 +11,5 @@
     <dimen name="football_feed_row_image_padding">2dp</dimen>
     <dimen name="live_zone_header_text_views">9sp</dimen>
     <dimen name="live_zone_team_text_view_size">12sp</dimen>
+    <dimen name="scrubber_view_width">1dp</dimen>
 </resources>

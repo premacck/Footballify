@@ -106,6 +106,7 @@
     <string name="feed_content_subtitle">It is a long established fact that a reader will be distracted by the readable content of page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using making it look like readable English.Of life, is the football interdumSed warm-up ornare justo eleifend nibh interdum.Proin maximu, ie, a consectetur lorem ultrices, small business that does not invest in sapien.Phasellus sapiensit sometimes mainstream except loborits, condimentum.Suspendisse accumsan dui nibh dui mi, vel ut diam maximumipsum law enforcement porta.Suspendisse sapien.Duis need the jaws of Liua button, the neicutur felis eleifend a, the ends of the est.Proin feugiatsollicuitudin feugiat.Etiam blandit Cras sit amet euismod accumasan him or his</string>
 
     <string-array name="calendar_array">
+        <item>Today</item>
         <item>Yesterday</item>
         <item>Last Weekend</item>
         <item>Last Week</item>
@@ -208,4 +209,7 @@
     <string name="feed_details_date">Jason Tumbridge | 16 January 2018 | 3.45pm</string>
     <string name="select_your_teams">Select your teams</string>
     <string name="livezone">LiveZone</string>
+    //TODO: needs shiva's suggestion on this
+    <string name="please_select_the_team_from_suggestions">Please select the team from the suggestions.</string>
+    <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
 </resources>
