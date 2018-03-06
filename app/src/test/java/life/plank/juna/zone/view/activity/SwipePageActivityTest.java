@@ -33,7 +33,7 @@ public class SwipePageActivityTest extends BaseUnitTest {
 
 
     @Test
-    public void checkIfIsStandingScoreVisibleFlagIsSet() {
+    public void IsStandingScoreVisibleFlagSet() {
         //call retainHomeLayout() and check if standing fragment  is set
         swipePageActivity.retainHomeLayout();
         assertThat(swipePageActivity.isStandingFragmentVisible, is(false));
