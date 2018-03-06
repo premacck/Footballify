@@ -74,7 +74,7 @@ dependencies {
     testCompile "org.robolectric:robolectric:3.7.1"
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
-
+    androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
 }
 
 repositories {
