@@ -14,17 +14,17 @@ public class StandingFeedModel {
     String win;
     String draw;
     String lost;
-    String gd;
-    String pts;
+    String goalDifference;
+    String pointTable;
 
-    public StandingFeedModel(String teamName, String played, String win, String draw, String lost, String gd, String pts) {
+    public StandingFeedModel(String teamName, String played, String win, String draw, String lost, String goalDifference, String pointTable) {
         this.teamName = teamName;
         this.played = played;
         this.win = win;
         this.draw = draw;
         this.lost = lost;
-        this.gd = gd;
-        this.pts = pts;
+        this.goalDifference = goalDifference;
+        this.pointTable = pointTable;
     }
 
     public static List<StandingFeedModel> getStandingData(Context context) {
@@ -82,19 +82,19 @@ public class StandingFeedModel {
         this.lost = lost;
     }
 
-    public String getGd() {
-        return gd;
+    public String getGoalDifference() {
+        return goalDifference;
     }
 
-    public void setGd(String gd) {
-        this.gd = gd;
+    public void setGoalDifference(String goalDifference) {
+        this.goalDifference = goalDifference;
     }
 
-    public String getPts() {
-        return pts;
+    public String getPointTable() {
+        return pointTable;
     }
 
-    public void setPts(String pts) {
-        this.pts = pts;
+    public void setPointTable(String pointTable) {
+        this.pointTable = pointTable;
     }
 }

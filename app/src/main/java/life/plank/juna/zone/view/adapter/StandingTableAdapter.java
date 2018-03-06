@@ -63,8 +63,8 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.winTextView.setText(standingFeedModelList.get(position).getWin());
             holder.drawTextView.setText(standingFeedModelList.get(position).getDraw());
             holder.lossTextView.setText(standingFeedModelList.get(position).getLost());
-            holder.goalDifferenceTextView.setText(standingFeedModelList.get(position).getGd());
-            holder.pointTableTextView.setText(standingFeedModelList.get(position).getPts());
+            holder.goalDifferenceTextView.setText(standingFeedModelList.get(position).getGoalDifference());
+            holder.pointTableTextView.setText(standingFeedModelList.get(position).getPointTable());
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
         if (position != 0)
