@@ -34,7 +34,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
     public StandingScoreTableViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.standing_fragment_row, parent, false);
-
         return new StandingScoreTableViewHolder(view);
     }
 
