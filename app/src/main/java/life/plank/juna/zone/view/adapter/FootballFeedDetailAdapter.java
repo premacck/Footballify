@@ -56,10 +56,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
 
         //TODO confirm max lines for the bottom content
-        holder.topFeedContentTextView.setText(R.string.feed_content_title);
+        holder.topFeedContentTextView.setText(footballFeedsList.get(position).getSummary());
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
         holder.titleTextView.setText(footballFeedsList.get(position).getTitle());
         holder.slidingTitleTextView.setText(footballFeedsList.get(position).getTitle());
+        holder.feedDetailsDate.setText(footballFeedsList.get(position).getDatePublished());
+        holder.slidingFeedDetailsDate.setText(footballFeedsList.get(position).getDatePublished());
         holder.populateCommentRecyclerView();
         holder.feedCommentRecyclerView.setNestedScrollingEnabled(false);
         setUpSlidingLayout(holder);
@@ -156,6 +158,10 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         Button addCommentView;
         @BindView(R.id.sliding_title_text_view)
         TextView slidingTitleTextView;
+        @BindView(R.id.feed_details_date)
+        TextView feedDetailsDate;
+        @BindView(R.id.sliding_feed_details_date)
+        TextView slidingFeedDetailsDate;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
