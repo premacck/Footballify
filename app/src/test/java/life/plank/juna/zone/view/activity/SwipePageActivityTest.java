@@ -38,5 +38,6 @@ public class SwipePageActivityTest extends BaseUnitTest {
         swipePageActivity.retainHomeLayout();
         assertThat(swipePageActivity.isStandingFragmentVisible, is(false));
     }
-    //TODO: fragment need to be test with Instrumental Testing
+    //TODO: standing fragment need to be test with Instrumental Testing
+    //TODO: instrumental test cases needs to be added for spiners,liveZone button,News feeds grid and drawer
 }
