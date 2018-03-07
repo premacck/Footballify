@@ -17,21 +17,17 @@ public class FragmentTestRule<F extends Fragment> extends ActivityTestRule<Fragm
 
     private final Class<F> mFragmentClass;
     private F mFragment;
-    private int frameLayoutId;
 
-    public FragmentTestRule(final Class<F> fragmentClass,int frameLayoutId) {
+    public FragmentTestRule(final Class<F> fragmentClass) {
         super(FragmentTestingActivity.class, true, false);
         mFragmentClass = fragmentClass;
-        this.frameLayoutId = frameLayoutId;
     }
 
     @Override
     protected void afterActivityLaunched() {
         super.afterActivityLaunched();
-
         getActivity().runOnUiThread(() -> {
             try {
-                //Instantiate and insert the fragment into the container layout
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 mFragment = mFragmentClass.newInstance();
@@ -44,8 +40,5 @@ public class FragmentTestRule<F extends Fragment> extends ActivityTestRule<Fragm
                         e.getMessage()));
             }
         });
-    }
-    public F getFragment(){
-        return mFragment;
     }
 }
