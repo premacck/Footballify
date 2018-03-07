@@ -5,14 +5,14 @@ package life.plank.juna.zone.data.network.model;
  */
 public class ChatMediaViewData {
     private String mediaData;
-    private boolean isMediaSelected;
-    private boolean isMediaTypeImage;
+    private boolean isSelected;
+    private boolean isImage;
     private int mediaType;
 
-    public ChatMediaViewData(String mediaData, boolean selected, boolean image) {
+    public ChatMediaViewData(String mediaData, boolean isSelected, boolean isImage) {
         this.mediaData = mediaData;
-        this.isMediaSelected = selected;
-        this.isMediaTypeImage = image;
+        this.isSelected = isSelected;
+        this.isImage = isImage;
     }
 
     public int getMediaType() {
@@ -23,16 +23,16 @@ public class ChatMediaViewData {
         this.mediaType = mediaType;
     }
 
-    public boolean isMediaSelected() {
-        return isMediaSelected;
+    public boolean isSelected() {
+        return isSelected;
     }
 
-    public void setMediaSelected(boolean mediaSelected) {
-        this.isMediaSelected = mediaSelected;
+    public void setSelected(boolean selected) {
+        this.isSelected = selected;
     }
 
-    public boolean isMediaTypeImage() {
-        return isMediaTypeImage;
+    public boolean isImage() {
+        return isImage;
     }
 
     public String getMediaData() {
