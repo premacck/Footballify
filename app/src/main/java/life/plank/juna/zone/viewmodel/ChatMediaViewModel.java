@@ -23,18 +23,21 @@ public class ChatMediaViewModel {
     }
 
     public void getAllMedia(ArrayList<ChatMediaViewData> mediaData) {
-        getDataFromProvider();
-        for (int i = 0; i < cursor.getCount(); i++) {
-            cursor.moveToPosition(i);
-            boolean isImage = false;
-            if (cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns.MEDIA_TYPE)) == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
-                isImage = true;
+        try {
+            getDataFromProvider();
+            for (int i = 0; i < cursor.getCount(); i++) {
+                cursor.moveToPosition(i);
+                boolean isImage = false;
+                if (cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns.MEDIA_TYPE)) == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+                    isImage = true;
+                }
+                ChatMediaViewData chatMediaViewData = new ChatMediaViewData(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)), isImage, false);
+                chatMediaViewData.setMediaType(AppConstants.CHAT_MEDIA_MEDIA_TYPE);
+                mediaData.add(chatMediaViewData);
             }
-            ChatMediaViewData chatMediaViewData = new ChatMediaViewData(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)), isImage, false);
-            chatMediaViewData.setMediaType(AppConstants.CHAT_MEDIA_MEDIA_TYPE);
-            mediaData.add(chatMediaViewData);
+        } finally {
+            cursor.close();
         }
-        cursor.close();
     }
 
     private void getDataFromProvider() {
