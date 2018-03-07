@@ -42,7 +42,7 @@ import static org.hamcrest.Matchers.equalTo;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class SwipePageActivityTest {
-    //TODO:class name should be changed to FootballFeedsActivityTest
+    //TODO:class name should be changed to FootballFeedActivityTest
     @Rule
     public ActivityTestRule<SwipePageActivity> activityTestRule = new ActivityTestRule<>(
             SwipePageActivity.class);
