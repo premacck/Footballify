@@ -91,6 +91,11 @@ public class SwipePageActivityTest {
         /*click on the team three selection edit text
         * type chelsea
         * select from the suggestions*/
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.team_three_edit_text)).
                 perform(click()).perform(typeText("Chelsea"));
         onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
