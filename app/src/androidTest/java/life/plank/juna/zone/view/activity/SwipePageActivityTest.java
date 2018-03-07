@@ -1,6 +1,8 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.res.Resources;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.RootMatchers;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
@@ -11,6 +13,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,6 +27,9 @@ import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerMatchers.isOpen;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -107,18 +113,19 @@ public class SwipePageActivityTest {
     }
 
     @Test
+    @Ignore
     public void clickingOnRecyclerViewItemShouldCallIntent() {
         /*close the onBoarding dialog
         * click on the recylerview and
         * check if FootballFeedDetailActivity is getting called*/
         //TODO: this test is failing because feed details activity is not working currently, will be done in next pull request
-       /* closeOnBoardingDialog();
+        closeOnBoardingDialog();
         if (getRecyclerViewCount() > 0) {
             Intents.init();
             onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
             intended(hasComponent(hasClassName(FootballFeedDetailActivity.class.getName())));
             Intents.release();
-        }*/
+        }
     }
 
     private int getRecyclerViewCount() {
