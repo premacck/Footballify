@@ -12,20 +12,12 @@ import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
-import junit.framework.Assert;
-
-import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -38,15 +30,10 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
-import static android.support.test.espresso.matcher.RootMatchers.isPlatformPopup;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.core.Is.is;
 
 /**
  * Created by plank-hasan on 3/2/2018.
@@ -89,6 +76,26 @@ public class SwipePageActivityTest {
     }
 
     @Test
+    public void checkIfUserIsAbleToSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
+        /*click on the team two selection edit text
+        * type chelsea
+        * select from the suggestions*/
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("Chelsea"));
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+    }
+
+    @Test
+    public void checkIfUserIsAbleToSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
+        /*click on the team three selection edit text
+        * type chelsea
+        * select from the suggestions*/
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click()).perform(typeText("Chelsea"));
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+    }
+
+    @Test
     public void clickOnMenuButtonAndCheckIfDrawerIsOpened() {
         /*close the onBoarding dialog
         * click on the menu button
@@ -116,120 +123,6 @@ public class SwipePageActivityTest {
             intended(hasComponent(hasClassName(FootballFeedDetailActivity.class.getName())));
             Intents.release();
         }
-    }
-
-    @Test
-    public void feedDummyAdapterToRecyclerViewAndCheckIfRecyclerViewFucntionsProperly() {
-        /*close the on boarding dialog
-        * Creat a dummy adapter
-        * feed it to the recycler view and check for the recycler view item count*/
-        closeDialog();
-        if (getRecyclerViewCount() > 0) {
-            try {
-                activityTestRule.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
-                        FootballFeedAdapter footballFeedAdapter = new FootballFeedAdapter(activityTestRule.getActivity(), 0, 0, 0);
-                        List<FootballFeed> footballFeedList = new ArrayList<>();
-                        footballFeedList.add(new FootballFeed());
-                        recyclerView.setAdapter(footballFeedAdapter);
-                        footballFeedAdapter.setFootballFeedList(footballFeedList);
-                        Assert.assertEquals(footballFeedAdapter.getItemCount(), 1);
-                    }
-                });
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-            }
-
-        }
-    }
-
-    @Test
-    public void checkIfFootballFilterSpinnerIsDisplayingAllTheFilters() {
-        //close on boarding dialog
-        closeDialog();
-        //click on football filter spinner is displayed
-        onView(withId(R.id.football_filter_spinner_textView)).perform(click());
-        onView(withClassName(Matchers.is("android.widget.PopupWindow$PopupBackgroundView")))
-                .inRoot(isPlatformPopup()).check(matches(isDisplayed()));
-        //check if football filter spinner matches the text with the string array stored in the resources.
-        onView(withText(resource.getStringArray(R.array.football_filter_array)[0]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.football_filter_array)[1]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.football_filter_array)[2]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.football_filter_array)[3]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void checkIfCalendarSpinnerIsDisplayingAllTheFilters() {
-        //close on boarding dialog
-        closeDialog();
-        //click on football filter spinner is displayed
-        onView(withId(R.id.calendar_spinner_textView)).perform(click());
-        onView(withClassName(Matchers.is("android.widget.PopupWindow$PopupBackgroundView")))
-                .inRoot(isPlatformPopup()).check(matches(isDisplayed()));
-        //check if football filter spinner matches the text with the string array stored in the resources.
-        onView(withText(resource.getStringArray(R.array.calendar_array)[0]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.calendar_array)[1]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.calendar_array)[2]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.calendar_array)[3]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.calendar_array)[4]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-        onView(withText(resource.getStringArray(R.array.calendar_array)[5]))
-                .inRoot(withDecorView(not(is(mainDecorView))))
-                .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void clickOnSpinnerAndCheckIfSelectedTextAdded() {
-        //TODO: will be done later
-       /* closeDialog();
-        onView(withId(R.id.calendar_spinner_textView)).perform(click());
-        onData(allOf(is(instanceOf(String.class)), is("text")))
-                .inAdapterView(withId(R.id.spinnerDropdownTextView))
-                .perform(click());*/
-    }
-
-    @Test
-    public void checkIfUserIsAbleToSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
-        /*click on the team two selection edit text
-        * type chelsea
-        * select from the suggestions*/
-        onView(withId(R.id.team_two_edit_text)).
-                perform(click()).perform(typeText("Chelsea"));
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-    }
-
-    @Test
-    public void validateEditTexts() {
-        //TODO: will be done once validation is added in the code
-    }
-
-    @Test
-    public void checkIfUserIsAbleToSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
-        /*click on the team three selection edit text
-        * type chelsea
-        * select from the suggestions*/
-        onView(withId(R.id.team_three_edit_text)).
-                perform(click()).perform(typeText("Chelsea"));
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
     private int getRecyclerViewCount() {
