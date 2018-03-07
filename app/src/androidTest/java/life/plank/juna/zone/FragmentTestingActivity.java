@@ -6,8 +6,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 
-import life.plank.juna.zone.R;
-
 /**
  * Created by plank-niraj on 07-03-2018.
  */

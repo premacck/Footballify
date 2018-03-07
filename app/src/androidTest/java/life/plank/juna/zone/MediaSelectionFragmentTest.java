@@ -79,5 +79,4 @@ public class MediaSelectionFragmentTest {
     public void closeImageViewTextViewShouldBePresent() {
         onView(withId(R.id.meme_maker_text_view)).check(matches(isDisplayed()));
     }
-
 }

@@ -12,7 +12,6 @@ import junit.framework.Assert;
  */
 
 public class FragmentTestRule<F extends Fragment> extends ActivityTestRule<FragmentTestingActivity> {
-
     private final Class<F> mFragmentClass;
     private F mFragment;
 
