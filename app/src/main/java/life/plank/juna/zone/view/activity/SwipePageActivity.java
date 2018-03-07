@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneListFragment;
+import life.plank.juna.zone.view.fragment.StandingFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -69,6 +71,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    public boolean isStandingFragmentVisible = false;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -86,6 +89,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
+    @BindView(R.id.standing_container_framelayout)
+    FrameLayout standingContainerFrameLayout;
     @BindView(R.id.calendar_spinner_textView)
     TextView calendarSpinnerTextView;
     @BindView(R.id.spinners_relative_layout)
@@ -97,6 +102,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     ProgressBar progressBar;
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
+    int TRCNumber = 20;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -104,6 +110,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
+    Context context;
     private List<FootballFeed> footballFeeds;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -133,6 +140,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
+    private int apiHitCount = 0;
     @BindView(R.id.football_menu_linear_layout)
     LinearLayout footballMenuLinearLayout;
     @BindView(R.id.football_toolbar)
@@ -143,6 +151,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
+
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
@@ -192,14 +201,27 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     }
 
+    public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
+        if (!nextPageToken.isEmpty()) {
+            String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
+            updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
+            return updatedNextPageToken;
+        }
+        return "";
+    }
+
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(nextPageToken)
+        subscription = restApi.getFootballFeed(updateToken(nextPageToken,
+               getString(R.string.replace_rt) +
+                        String.valueOf(apiHitCount), getString(R.string.replace_trc)
+                        + String.valueOf(apiHitCount*TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "In onCompleted()");
+
                     }
 
                     @Override
@@ -208,17 +230,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
-                        GlobalVariable.getInstance().setFootballFeeds(response.body());
                         hideProgress();
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                            if (apiHitCount == 0) {
+                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                            }
                             setUpAdapterWithNewData(response.body());
-
+                            apiHitCount = apiHitCount+1;
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
                     }
                 });
+
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
@@ -253,7 +277,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 activeTextView.setText(arrayData[position]);
                 activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 listPopupWindow.dismiss();
-
+                if (position == 3) {
+                    scoreTableFragment();
+                }
             }
         });
         listPopupWindow.show();
@@ -318,7 +344,23 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
     }
+    public void scoreTableFragment() {
+        standingContainerFrameLayout.setVisibility(View.VISIBLE);
+        standingContainerFrameLayout.removeAllViews();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.standing_container_framelayout, new StandingFragment())
+                .commit();
+    }
 
+    public void retainHomeLayout() {
+        isStandingFragmentVisible = true;
+        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
+            standingContainerFrameLayout.setVisibility(View.VISIBLE);
+        } else {
+            standingContainerFrameLayout.setVisibility(View.GONE);
+        }
+    }
     @Override
     public void addMore() {
         // TODO: 30-01-2018 Get data from server
