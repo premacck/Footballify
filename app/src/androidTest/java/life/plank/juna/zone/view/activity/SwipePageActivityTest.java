@@ -23,6 +23,7 @@ import life.plank.juna.zone.R;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -72,7 +73,12 @@ public class SwipePageActivityTest {
         * type chelsea
         * select from the suggestions*/
         onView(withId(R.id.team_one_edit_text)).
-                perform(click()).perform(typeText("Chelsea"));
+                perform(click()).perform(typeText("Chelsea"),closeSoftKeyboard());
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
@@ -82,7 +88,12 @@ public class SwipePageActivityTest {
         * type chelsea
         * select from the suggestions*/
         onView(withId(R.id.team_two_edit_text)).
-                perform(click()).perform(typeText("Chelsea"));
+                perform(click()).perform(typeText("Chelsea"),closeSoftKeyboard());
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
@@ -97,7 +108,12 @@ public class SwipePageActivityTest {
             e.printStackTrace();
         }
         onView(withId(R.id.team_three_edit_text)).
-                perform(click()).perform(typeText("Chelsea"));
+                perform(click()).perform(typeText("Chelsea"),closeSoftKeyboard());
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
