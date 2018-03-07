@@ -57,7 +57,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void checkIfDialogIsDisplayedWhenActivityIsLaunched() {
+    public void checkIfOnBoardingDialogIsDisplayedWhenActivityIsLaunched() {
         /*launch the activity
         * check if onBoarding dialog is displayed or not*/
         onView(ViewMatchers.withText(R.string.select_your_teams))
