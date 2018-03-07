@@ -100,7 +100,7 @@ public class SwipePageActivityTest {
         /*close the onBoarding dialog
         * click on the menu button
         * check if drawer is opened*/
-        closeDialog();
+        closeOnBoardingDialog();
         onView(withId(R.id.football_menu)).perform(click());
         try {
             Thread.sleep(5000);
@@ -116,7 +116,7 @@ public class SwipePageActivityTest {
         /*close the onBoarding dialog
         * click on the recylerview and
         * check if FootballFeedDetailActivity is getting called*/
-        closeDialog();
+        closeOnBoardingDialog();
         if (getRecyclerViewCount() > 0) {
             Intents.init();
             onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
@@ -130,7 +130,7 @@ public class SwipePageActivityTest {
         return recyclerView.getAdapter().getItemCount();
     }
 
-    private void closeDialog() {
+    private void closeOnBoardingDialog() {
         onView(withText(R.string.select_your_teams))
                 .inRoot(isDialog())
                 .perform(pressBack());
