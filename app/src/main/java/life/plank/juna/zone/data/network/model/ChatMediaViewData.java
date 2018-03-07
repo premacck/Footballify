@@ -9,10 +9,10 @@ public class ChatMediaViewData {
     private boolean isImage;
     private int mediaType;
 
-    public ChatMediaViewData(String mediaData, boolean selected, boolean image) {
+    public ChatMediaViewData(String mediaData, boolean isSelected, boolean isImage) {
         this.mediaData = mediaData;
-        this.isSelected = selected;
-        this.isImage = image;
+        this.isSelected = isSelected;
+        this.isImage = isImage;
     }
 
     public int getMediaType() {
