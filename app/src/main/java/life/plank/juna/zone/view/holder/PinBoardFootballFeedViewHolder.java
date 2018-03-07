@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.holder;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,8 +25,6 @@ public class PinBoardFootballFeedViewHolder extends RecyclerView.ViewHolder {
     TextView categoryLabel;
     @BindView(R.id.relative_layout_container)
     public RelativeLayout newsFeedRelativeLayout;
-    @BindView(R.id.football_feed_card)
-    CardView newsFeedCardView;
 
     public PinBoardFootballFeedViewHolder(View itemView) {
         super(itemView);
