@@ -38,6 +38,7 @@ public class ChatMediaViewModel {
     }
 
     private void getDataFromProvider() {
+        // TODO: 07-03-2018 write integrate tests for provider
         String[] projection = {
                 MediaStore.Files.FileColumns._ID,
                 MediaStore.Files.FileColumns.DATA,
