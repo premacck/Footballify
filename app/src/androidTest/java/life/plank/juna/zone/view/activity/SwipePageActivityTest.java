@@ -1,22 +1,20 @@
-package life.plank.juna.zone;
+package life.plank.juna.zone.view.activity;
 
 import android.content.res.Resources;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.RootMatchers;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
+import junit.framework.Assert;
+
 import org.hamcrest.Matchers;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,9 +23,8 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -58,17 +55,16 @@ import static org.hamcrest.core.Is.is;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class SwipePageActivityTest {
+    //TODO:class name should be changed to FootballFeedsActivityTest
     @Rule
     public ActivityTestRule<SwipePageActivity> activityTestRule = new ActivityTestRule<>(
             SwipePageActivity.class);
-   /* @Rule
-    public IntentsTestRule<SwipePageActivity> intentsTestRule =
-            new IntentsTestRule<>(SwipePageActivity.class);*/
     private Resources resource;
     private View mainDecorView;
 
+
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         resource = activityTestRule.getActivity().getResources();
         mainDecorView = activityTestRule.getActivity().getWindow().getDecorView();
     }
@@ -77,49 +73,26 @@ public class SwipePageActivityTest {
     public void checkIfDialogIsDisplayedWhenActivityIsLaunched() {
         /*launch the activity
         * check if onBoarding dialog is displayed or not*/
-        onView(withText(R.string.select_your_teams))
+        onView(ViewMatchers.withText(R.string.select_your_teams))
                 .inRoot(isDialog())
                 .check(matches(isDisplayed()));
     }
 
     @Test
-    public void checkIfUserIsAbleToSelectTeamOneFromSuggestionsInOnBoardingDialog(){
+    public void checkIfUserIsAbleToSelectTeamOneFromSuggestionsInOnBoardingDialog() {
         /*click on the team one selection edit text
         * type chelsea
         * select from the suggestions*/
         onView(withId(R.id.team_one_edit_text)).
-        perform(click()).perform(typeText("Chelsea"));
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-    }
-
-    @Test
-    public void checkIfUserIsAbleToSelectTeamTwoFromSuggestionsInOnBoardingDialog(){
-        /*click on the team two selection edit text
-        * type chelsea
-        * select from the suggestions*/
-        onView(withId(R.id.team_two_edit_text)).
                 perform(click()).perform(typeText("Chelsea"));
         onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
     @Test
-    public void checkIfUserIsAbleToSelectTeamThreeFromSuggestionsInOnBoardingDialog(){
-        /*click on the team three selection edit text
-        * type chelsea
-        * select from the suggestions*/
-        onView(withId(R.id.team_three_edit_text)).
-                perform(click()).perform(typeText("Chelsea"));
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-    }
-
-    @Test
-    public void validateEditTexts(){
-        //TODO: will be done once validation is added in the code
-    }
-
-    @Test
-    public void clickOnMenuButtonAndCheckIfDrawerIsOpened(){
-        //click on the menu button and check if drawer is opened
+    public void clickOnMenuButtonAndCheckIfDrawerIsOpened() {
+        /*close the onBoarding dialog
+        * click on the menu button
+        * check if drawer is opened*/
         closeDialog();
         onView(withId(R.id.football_menu)).perform(click());
         try {
@@ -133,7 +106,7 @@ public class SwipePageActivityTest {
 
     @Test
     public void checkIfRecyclerViewItemClicked() {
-        /*close the on boarding dialog
+        /*close the onBoarding dialog
         * click on the recylerview and
         * check if FootballFeedDetailActivity is getting called*/
         closeDialog();
@@ -149,7 +122,7 @@ public class SwipePageActivityTest {
     public void feedDummyAdapterToRecyclerViewAndCheckIfRecyclerViewFucntionsProperly() {
         /*close the on boarding dialog
         * Creat a dummy adapter
-        * feed it to the recycler view and check for the recycler view fuctionality*/
+        * feed it to the recycler view and check for the recycler view item count*/
         closeDialog();
         if (getRecyclerViewCount() > 0) {
             try {
@@ -157,11 +130,12 @@ public class SwipePageActivityTest {
                     @Override
                     public void run() {
                         RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
-                        FootballFeedAdapter footballFeedAdapter = new FootballFeedAdapter(activityTestRule.getActivity(),0,0,0);
+                        FootballFeedAdapter footballFeedAdapter = new FootballFeedAdapter(activityTestRule.getActivity(), 0, 0, 0);
                         List<FootballFeed> footballFeedList = new ArrayList<>();
                         footballFeedList.add(new FootballFeed());
                         recyclerView.setAdapter(footballFeedAdapter);
                         footballFeedAdapter.setFootballFeedList(footballFeedList);
+                        Assert.assertEquals(footballFeedAdapter.getItemCount(), 1);
                     }
                 });
             } catch (Throwable throwable) {
@@ -224,7 +198,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void clickOnSpinnerAndCheckIfSelectedTextAdded(){
+    public void clickOnSpinnerAndCheckIfSelectedTextAdded() {
         //TODO: will be done later
        /* closeDialog();
         onView(withId(R.id.calendar_spinner_textView)).perform(click());
@@ -233,7 +207,30 @@ public class SwipePageActivityTest {
                 .perform(click());*/
     }
 
+    @Test
+    public void checkIfUserIsAbleToSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
+        /*click on the team two selection edit text
+        * type chelsea
+        * select from the suggestions*/
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("Chelsea"));
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+    }
 
+    @Test
+    public void validateEditTexts() {
+        //TODO: will be done once validation is added in the code
+    }
+
+    @Test
+    public void checkIfUserIsAbleToSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
+        /*click on the team three selection edit text
+        * type chelsea
+        * select from the suggestions*/
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click()).perform(typeText("Chelsea"));
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+    }
 
     private int getRecyclerViewCount() {
         RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
@@ -245,24 +242,4 @@ public class SwipePageActivityTest {
                 .inRoot(isDialog())
                 .perform(pressBack());
     }
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
-
 }
