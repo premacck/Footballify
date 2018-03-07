@@ -175,6 +175,7 @@
             android:name=".view.activity.ChatDetailsActivity"
             android:screenOrientation="portrait"
             />
+        <activity android:name=".util.FragmentTestingActivity"/>
     </application>
 
 </manifest>
