@@ -44,7 +44,7 @@ public class ChatAdapterTest extends BaseUnitTest {
     @Test
     public void checkIfDataIsGettingAddedtoTheAdapter() {
         //In chat adapter constructor data is fed from the ChatModel class which is having 12 items.
-        //so equality is chekced for 12
+        //so equality is checked for 12
         chatAdapter = spy(new ChatAdapter(context));
         assertThat(chatAdapter.getItemCount() == 12, is(true));
     }
@@ -58,7 +58,7 @@ public class ChatAdapterTest extends BaseUnitTest {
 
     @Test
     public void checkIfGetItemViewTypeReturnsOutGoingChatViewBasedOnTag() {
-        //at 1st position of 12 items, isMyMessage flag is set true, so it should return outcoming view
+        //at 1st position of 12 items, isMyMessage flag is set true, so it should return outgoing view
         chatAdapter = spy(new ChatAdapter(context));
         assertThat(chatAdapter.getItemViewType(1) == ITEM_VIEW_OUTGOING, is(true));
     }
