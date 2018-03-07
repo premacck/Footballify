@@ -26,13 +26,13 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class MediaSelectionFragmentTest {
 
     @Rule
-    public FragmentTestRule<MediaSelectionFragment> mFragmentTestRule = new FragmentTestRule<>(MediaSelectionFragment.class);
+    public FragmentTestRule<MediaSelectionFragment> fragmentTestRule = new FragmentTestRule<>(MediaSelectionFragment.class);
     private Resources resource;
 
     @Before
     public void setUp() {
-        mFragmentTestRule.launchActivity(null);
-        resource = mFragmentTestRule.getActivity().getResources();
+        fragmentTestRule.launchActivity(null);
+        resource = fragmentTestRule.getActivity().getResources();
     }
 
     @Test

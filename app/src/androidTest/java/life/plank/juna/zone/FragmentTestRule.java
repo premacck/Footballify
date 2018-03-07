@@ -12,12 +12,12 @@ import junit.framework.Assert;
  */
 
 public class FragmentTestRule<F extends Fragment> extends ActivityTestRule<FragmentTestingActivity> {
-    private final Class<F> mFragmentClass;
-    private F mFragment;
+    private final Class<F> fragmentClass;
+    private F fragment;
 
     public FragmentTestRule(final Class<F> fragmentClass) {
         super(FragmentTestingActivity.class, true, false);
-        mFragmentClass = fragmentClass;
+        this.fragmentClass = fragmentClass;
     }
 
     @Override
@@ -27,13 +27,13 @@ public class FragmentTestRule<F extends Fragment> extends ActivityTestRule<Fragm
             try {
                 FragmentManager manager = getActivity().getSupportFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
-                mFragment = mFragmentClass.newInstance();
-                transaction.replace(R.id.container, mFragment);
+                fragment = fragmentClass.newInstance();
+                transaction.replace(R.id.container, fragment);
                 transaction.commit();
             } catch (InstantiationException | IllegalAccessException e) {
                 Assert.fail(String.format("%s: Could not insert %s into TestActivity: %s",
                         getClass().getSimpleName(),
-                        mFragmentClass.getSimpleName(),
+                        fragmentClass.getSimpleName(),
                         e.getMessage()));
             }
         });
