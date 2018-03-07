@@ -51,7 +51,7 @@ public class MediaSelectionFragmentTest {
     }
 
     @Test
-    public void stickersTextViewShouldText() {
+    public void stickersTextViewShouldContainText() {
         onView(withId(R.id.stickers_text_view)).check(matches(withText(resource.getString(R.string.stickers))));
     }
 
