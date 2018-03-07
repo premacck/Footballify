@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,7 +9,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import life.plank.juna.zone.data.network.model.Tile;
-import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
