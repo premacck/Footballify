@@ -16,4 +16,10 @@ public class AppConstants {
     public static final String DEFAULT_IMAGE_URL = "http://avasportcentral.com/wp-content/themes/micron/images/placeholders/placeholder_large_dark.jpg";
     public static final String REGULAR_EXPRESSION_RT="RT:(\\d*)";
     public static final String REGULAR_EXPRESSION_TRC="TRC:(\\d*)";
+    public static final String CHAT_MEDIA_OR =" OR ";
+    public static final String CHAT_MEDIA_EQUAL =" = ";
+    public static final String CHAT_MEDIA_EXTERNAL = "external";
+    public static final int CHAT_MEDIA_MEDIA_TYPE = 1;
+    public static final int CHAT_MEDIA_GIF_TYPE = 3;
+    public static final int CHAT_MEDIA_STICKER_TYPE = 2;
 }
