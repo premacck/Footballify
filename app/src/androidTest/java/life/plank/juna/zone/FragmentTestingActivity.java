@@ -1,4 +1,4 @@
-package life.plank.juna.zone.util;
+package life.plank.juna.zone;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

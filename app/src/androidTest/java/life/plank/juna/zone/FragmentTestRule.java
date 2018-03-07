@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import junit.framework.Assert;
 
-import life.plank.juna.zone.util.FragmentTestingActivity;
-
 /**
  * Created by plank-niraj on 07-03-2018.
  */
