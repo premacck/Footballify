@@ -66,7 +66,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void userShouldSelectTeamOneFromSuggestionsInOnBoardingDialog() {
+    public void userShouldBeAbleToSelectTeamOneFromSuggestionsInOnBoardingDialog() {
         /*click on the team one selection edit text
         * type chelsea
         * select from the suggestions*/
@@ -76,7 +76,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void userShouldSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
+    public void userShouldBeAbleToSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
         /*click on the team two selection edit text
         * type chelsea
         * select from the suggestions*/
@@ -86,7 +86,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void userShouldSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
+    public void userShouldBeAbleToSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
         /*click on the team three selection edit text
         * type chelsea
         * select from the suggestions*/
