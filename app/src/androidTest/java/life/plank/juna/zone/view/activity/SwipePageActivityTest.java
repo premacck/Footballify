@@ -57,7 +57,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void checkIfOnBoardingDialogIsDisplayedWhenActivityIsLaunched() {
+    public void launchOfActivityShouldDisplayBoardingDialog() {
         /*launch the activity
         * check if onBoarding dialog is displayed or not*/
         onView(ViewMatchers.withText(R.string.select_your_teams))
@@ -66,7 +66,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void checkIfUserIsAbleToSelectTeamOneFromSuggestionsInOnBoardingDialog() {
+    public void userShouldSelectTeamOneFromSuggestionsInOnBoardingDialog() {
         /*click on the team one selection edit text
         * type chelsea
         * select from the suggestions*/
@@ -76,7 +76,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void checkIfUserIsAbleToSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
+    public void userShouldSelectTeamTwoFromSuggestionsInOnBoardingDialog() {
         /*click on the team two selection edit text
         * type chelsea
         * select from the suggestions*/
@@ -86,7 +86,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void checkIfUserIsAbleToSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
+    public void userShouldSelectTeamThreeFromSuggestionsInOnBoardingDialog() {
         /*click on the team three selection edit text
         * type chelsea
         * select from the suggestions*/
@@ -96,7 +96,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void clickOnMenuButtonAndCheckIfDrawerIsOpened() {
+    public void clickingOnMenuButtonShouldOpenNavigationDrawer() {
         /*close the onBoarding dialog
         * click on the menu button
         * check if drawer is opened*/
@@ -112,7 +112,7 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void checkIfRecyclerViewItemClicked() {
+    public void clickingOnRecyclerViewItemShouldCallIntent() {
         /*close the onBoarding dialog
         * click on the recylerview and
         * check if FootballFeedDetailActivity is getting called*/
