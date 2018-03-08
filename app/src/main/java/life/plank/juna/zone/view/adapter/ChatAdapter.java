@@ -25,18 +25,16 @@ import life.plank.juna.zone.viewmodel.ChatModel;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
-    private Context context;
-    private List<ChatModel> chatModels = new ArrayList<>();
     private final int ITEM_VIEW_INCOMING = 0;
     private final int ITEM_VIEW_OUTGOING = 1;
+    private Context context;
+    private List<ChatModel> chatModelList = new ArrayList<>();
     private String text = "text";
-
 
     public ChatAdapter(Context context) {
         this.context = context;
-        chatModels.addAll(ChatModel.getChats(context));
+        chatModelList.addAll(ChatModel.getChats(context));
     }
-
 
     @Override
     public ChatHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,20 +46,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     @Override
     public void onBindViewHolder(ChatHolder holder, int position) {
         //TODO added to differentiate between media types, will be removed after getting the api
-        if (text.contentEquals(chatModels.get(position).getTag())) {
+        if (text.contentEquals(chatModelList.get(position).getTag())) {
             holder.messageImageView.setVisibility(View.GONE);
             holder.messageTextView.setVisibility(View.VISIBLE);
-            holder.messageTextView.setText(chatModels.get(position).getText());
+            holder.messageTextView.setText(chatModelList.get(position).getText());
         } else {
             holder.messageTextView.setVisibility(View.GONE);
             holder.messageImageView.setVisibility(View.VISIBLE);
-            if (!"".contentEquals(chatModels.get(position).getImageUrl())) {
+            if (!"".contentEquals(chatModelList.get(position).getImageUrl())) {
                 Picasso.with(context)
-                        .load(chatModels.get(position).getImageUrl())
+                        .load(chatModelList.get(position).getImageUrl())
                         .placeholder(R.drawable.ic_place_holder)
                         .error(R.drawable.ic_place_holder)
                         .into(holder.messageImageView);
-            }else {
+            } else {
                 Picasso.with(context)
                         .load(AppConstants.DEFAULT_IMAGE_URL)
                         .placeholder(R.drawable.ic_place_holder)
@@ -69,15 +67,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
                         .into(holder.messageImageView);
             }
         }
-        if (chatModels.get(position).isMyMessage()) {
+        if (chatModelList.get(position).isMyMessage()) {
             holder.nameTextView.setText(context.getString(R.string.me));
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!text.contentEquals(chatModels.get(position).getTag())) {
+                if (!text.contentEquals(chatModelList.get(position).getTag())) {
                     Intent intent = new Intent(context, ChatDetailsActivity.class);
-                    intent.putExtra(AppConstants.CHAT_DETAILS_IMAGE, chatModels.get(position).getImageUrl());
+                    intent.putExtra(AppConstants.CHAT_DETAILS_IMAGE, chatModelList.get(position).getImageUrl());
                     context.startActivity(intent);
                 }
             }
@@ -86,11 +84,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
 
     @Override
     public int getItemCount() {
-        return chatModels.size();
+        return chatModelList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return chatModels.get(position).isMyMessage() ? ITEM_VIEW_OUTGOING : ITEM_VIEW_INCOMING;
+        return chatModelList.get(position).isMyMessage() ? ITEM_VIEW_OUTGOING : ITEM_VIEW_INCOMING;
     }
 }

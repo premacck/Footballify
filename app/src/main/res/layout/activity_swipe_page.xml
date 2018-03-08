@@ -97,7 +97,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginStart="5dp"
-                    android:text="LiveZone" />
+                    android:text="@string/livezone" />
+
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -173,13 +174,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:visibility="gone" />
-        </RelativeLayout>
 
-        <FrameLayout
-            android:id="@+id/fragmentContainerFrameLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/football_toolbar" />
+        </RelativeLayout>
 
         <FrameLayout
             android:id="@+id/standing_container_framelayout"
@@ -187,4 +183,10 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/spinners_relative_layout" />
     </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/fragmentContainerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/football_toolbar" />
 </RelativeLayout>
