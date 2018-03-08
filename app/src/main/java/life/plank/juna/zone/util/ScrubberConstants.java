@@ -302,7 +302,7 @@ public class ScrubberConstants {
 
         tileArrayList = new ArrayList<>();
         tileArrayList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
-        tileArrayList.add(new Tile("sticker", R.drawable.goal_image_two, R.drawable.ic_sticker_one, ""));
+        tileArrayList.add(new Tile("sticker", R.drawable.goal_image_two, R.drawable.ic_sticker_one, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(12, new ScrubberViewData("Goal! Rudiger - 12",
                 ScrubberConstants.getScrubberViewGoal(), new LiveFeedTileData(tileArrayList), true));
 
@@ -364,7 +364,7 @@ public class ScrubberConstants {
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 
         tileArrayList = new ArrayList<>();
-        tileArrayList.add(new Tile("sticker", R.drawable.image_dummy_one, R.drawable.ic_sticker_two, ""));
+        tileArrayList.add(new Tile("sticker", R.drawable.image_dummy_one, R.drawable.ic_sticker_two, "Why would Mourinho do that? Isn't he done with"));
         scrubberViewDataHolder.put(72 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Moses - OUT Zappacosta - IN - 72",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 

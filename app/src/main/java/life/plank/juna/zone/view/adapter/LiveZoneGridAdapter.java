@@ -121,15 +121,18 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         tileList.add(new Tile("image", R.drawable.image0, R.drawable.ic_sticker_four, ""));
         tileList.add(new Tile("video", R.drawable.image_dummy_two, 0, ""));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker", R.drawable.image1, R.drawable.ic_sticker_four, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("sticker", R.drawable.image1, R.drawable.ic_sticker_four, ""));
         tileList.add(new Tile("image", R.drawable.image3, 0, ""));
         tileList.add(new Tile("image", R.drawable.image_dummy_four, 0, ""));
         tileList.add(new Tile("image", R.drawable.ic_grid_one, 0, ""));
+        tileList.add(new Tile("sticker", R.drawable.ic_third_dummy, R.drawable.ic_sticker_one, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("sticker", R.drawable.ic_third_dummy, R.drawable.ic_sticker_one, ""));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("image", R.drawable.ic_football_dummy_image, 0, ""));
         tileList.add(new Tile("video", R.drawable.image5, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker", R.drawable.ic_club_list_background, R.drawable.ic_sticker_two, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("sticker", R.drawable.ic_club_list_background, R.drawable.ic_sticker_two, ""));
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
