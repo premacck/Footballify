@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -404,7 +403,6 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b) {
-                    autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
                     String str = autoCompleteTextView.getText().toString();
                     if (!"".contentEquals(str)) {
                         ListAdapter listAdapter = autoCompleteTextView.getAdapter();
@@ -413,7 +411,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                                 return;
                             }
                         }
-                        autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                        autoCompleteTextView.setError(getString(R.string.not_a_valid_team));
                     }
                 }
             }
