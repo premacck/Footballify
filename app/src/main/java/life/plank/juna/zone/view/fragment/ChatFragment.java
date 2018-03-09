@@ -136,6 +136,7 @@ public class ChatFragment extends Fragment {
                 break;
         }
     }
+
     public boolean isStoragePermissionGranted(int requestCode, boolean isCamera) {
         if (Build.VERSION.SDK_INT >= 23) {
             if (isCamera) {
@@ -159,9 +160,9 @@ public class ChatFragment extends Fragment {
             return true;
         }
     }
+
     public void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_CAMERA_STORAGE);
     }
-
 }
