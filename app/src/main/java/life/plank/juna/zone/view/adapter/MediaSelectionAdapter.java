@@ -53,28 +53,23 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
         }
         Glide.with(context).load(uri).into(holder.photosImageView);
         holder.itemView.setOnClickListener(view -> {
-            if(chatMediaSelected.containsKey(chatMediaViewData.get(position).getMediaData()) &&
-                    chatMediaViewData.get(position).isSelected()){
-                 unCheckAndRemoveSelectedData(chatMediaViewData,holder.selectImageView,position);
-            }else {
-                checkAndAddSelectedData(chatMediaViewData,holder.selectImageView,position);
+            if (chatMediaSelected.containsKey(chatMediaViewData.get(position).getMediaData()) &&
+                    chatMediaViewData.get(position).isSelected()) {
+                handelSelectionAndDeselection(false, position, holder, View.GONE, true);
+            } else {
+                handelSelectionAndDeselection(true, position, holder, View.VISIBLE, false);
             }
+            notifyDataSetChanged();
         });
     }
 
-    private void checkAndAddSelectedData(ArrayList<ChatMediaViewData> chatMediaViewData,
-                                         ImageView selectImageView, int position) {
-        chatMediaViewData.get(position).setSelected(true);
-        selectImageView.setVisibility(View.VISIBLE);
-        chatMediaSelected.put(chatMediaViewData.get(position).getMediaData(),
-                chatMediaViewData.get(position));
-    }
-
-    private void unCheckAndRemoveSelectedData(ArrayList<ChatMediaViewData> chatMediaViewData,
-                                              ImageView selectImageView, int position) {
-        chatMediaViewData.get(position).setSelected(false);
-        selectImageView.setVisibility(View.GONE);
-        chatMediaSelected.remove(chatMediaViewData.get(position).getMediaData());
+    private void handelSelectionAndDeselection(Boolean isSelected, int position, MediaSelectionViewHolder holder, int visibility, Boolean shouldRemove) {
+        chatMediaViewData.get(position).setSelected(isSelected);
+        holder.selectImageView.setVisibility(visibility);
+        if (shouldRemove)
+            chatMediaSelected.remove(chatMediaViewData.get(position).getMediaData());
+        else
+            chatMediaSelected.put(chatMediaViewData.get(position).getMediaData(), chatMediaViewData.get(position));
     }
 
     @Override
