@@ -3,12 +3,12 @@ package life.plank.juna.zone.view.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -172,9 +172,9 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 getResources().getStringArray(R.array.football_teams)));
         teamThreeEditText.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line,
                 getResources().getStringArray(R.array.football_teams)));
-        validateAutoCompleteTextViews(teamOneEditText);
-        validateAutoCompleteTextViews(teamTwoEditText);
-        validateAutoCompleteTextViews(teamThreeEditText);
+        validateAutoCompleteTextViewsForInvalidTeams(teamOneEditText);
+        validateAutoCompleteTextViewsForInvalidTeams(teamTwoEditText);
+        validateAutoCompleteTextViewsForInvalidTeams(teamThreeEditText);
     }
 
     @Override
@@ -182,6 +182,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
         switch (view.getId()) {
             case R.id.apply_button: {
+                if (checkIfUserHasSelectedAtleastOneTeam())
                 setUpRegisterAndSaveView();
                 break;
             }
@@ -399,12 +400,11 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void validateAutoCompleteTextViews(AutoCompleteTextView autoCompleteTextView){
+    private void validateAutoCompleteTextViewsForInvalidTeams(AutoCompleteTextView autoCompleteTextView){
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(!b) {
-                    autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags() & (~ Paint.UNDERLINE_TEXT_FLAG));
                     String str = autoCompleteTextView.getText().toString();
                     if (!"".contentEquals(str)) {
                         ListAdapter listAdapter = autoCompleteTextView.getAdapter();
@@ -413,10 +413,24 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                                 return;
                             }
                         }
-                        autoCompleteTextView.setPaintFlags(autoCompleteTextView.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+                        autoCompleteTextView.setError(getString(R.string.not_a_valid_team));
                     }
                 }
             }
         });
+    }
+
+    private boolean checkIfUserHasSelectedAtleastOneTeam(){
+      if (TextUtils.isEmpty(teamOneEditText.getText().toString()) && TextUtils.isEmpty(teamTwoEditText.getText().toString())
+              && TextUtils.isEmpty(teamThreeEditText.getText().toString())){
+          showToast(getString(R.string.select_atleast_one_team));
+          return false;
+      }else if (!Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
+              !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
+             !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString())){
+          showToast(getString(R.string.not_a_valid_team));
+          return false;
+      }
+      return true;
     }
 }

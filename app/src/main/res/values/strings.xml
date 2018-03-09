@@ -217,4 +217,6 @@
     <string name="add_more">addMore</string>
     <string name="table">Table</string>
     <string name="standing">Standing</string>
+    <string name="not_a_valid_team">Not a valid team</string>
+    <string name="select_atleast_one_team">Select atleast one team</string>
 </resources>

@@ -22,4 +22,6 @@ public class AppConstants {
     public static final int CHAT_MEDIA_MEDIA_TYPE = 1;
     public static final int CHAT_MEDIA_GIF_TYPE = 3;
     public static final int CHAT_MEDIA_STICKER_TYPE = 2;
+    public static final int REQUEST_CAMERA_STORAGE = 1001;
+    public static final int REQUEST_GALLERY = 1002;
 }
