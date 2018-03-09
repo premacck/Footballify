@@ -231,6 +231,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
                     public void onNext(Response<List<FootballFeed>> response) {
                         hideProgress();
+                        GlobalVariable.getInstance().setFootballFeeds(response.body());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             if (apiHitCount == 0) {
                                 nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
