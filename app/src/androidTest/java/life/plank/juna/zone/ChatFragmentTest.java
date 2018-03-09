@@ -33,16 +33,19 @@ public class ChatFragmentTest {
         resources = fragmentTestRule.getActivity().getResources();
     }
 
+    //checking add image is displayed on Fragment
     @Test
     public void launchOfFragmentShouldDisplayAddImage() {
         onView(withId(R.id.add_image)).check(matches(isDisplayed()));
     }
 
+    //checking camera icon is displayed on Fragment
     @Test
     public void launchOfFragmentShouldDisplayCameraImage() {
         onView(withId(R.id.camera_image)).check(matches(isDisplayed()));
     }
 
+    //checking onclick of add image, Media Selection fragment is displaying
     @Test
     public void clickingOnAddImageShouldDisplayMediaSelectionFragment() {
         onView(withId(R.id.add_image)).perform(click());
@@ -50,7 +53,7 @@ public class ChatFragmentTest {
     }
 
     @Test
-    public void clickingOnCameraImageShouldDisplayAPermissionDialog(){
+    public void clickingOnCameraImageShouldDisplayAPermissionDialog() {
         //TODO : write unit test for verifying runtime permission dialog
         /*click on camera image
         * check if permission dialog is displayed*/
