@@ -121,9 +121,9 @@ public class MediaSelectionFragmentTest {
         onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
         onView(withIndex(withId(R.id.select_item), 1)).check(matches(isDisplayed()));
     }
-    
+
     @Test
-    public void clickOfSelectedItemShouldDisplaySelectionImage() {
+    public void clickOfSelectedItemShouldNotDisplaySelectionImage() {
         // Remove selection image on click of selected item
         mediaSelectionRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
