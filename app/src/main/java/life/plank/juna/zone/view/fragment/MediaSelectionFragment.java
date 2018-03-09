@@ -37,6 +37,7 @@ public class MediaSelectionFragment extends Fragment {
     ArrayList<ChatMediaViewData> mediaData;
     MediaSelectionAdapter mediaSelectionAdapter;
     ChatMediaViewModel chatMediaViewModel;
+    int gridCount = 4;
     private GridLayoutManager gridLayoutManager;
 
     @Override
@@ -59,7 +60,7 @@ public class MediaSelectionFragment extends Fragment {
 
     public void populateMediaSelectionRecyclerView() {
         mediaSelectionAdapter = new MediaSelectionAdapter(getActivity(), mediaData);
-        gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        gridLayoutManager = new GridLayoutManager(getActivity(), gridCount);
         mediaContainerRecyclerView.setLayoutManager(gridLayoutManager);
         mediaContainerRecyclerView.setAdapter(mediaSelectionAdapter);
         mediaContainerRecyclerView.addItemDecoration(new ItemDecorationChatMediaView());
