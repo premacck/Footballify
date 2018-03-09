@@ -16,12 +16,12 @@ import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 public class FootballFeedDetailActivity extends AppCompatActivity {
-    @BindView(R.id.football_feed_recycler_view)
-    RecyclerView footballFeedRecyclerView;
+    private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
+    @BindView(R.id.football_feed_details_recycler_view)
+    RecyclerView footballFeedDetailsRecyclerView;
     @BindView(R.id.zone_logo)
     ImageView zoneLogo;
     CustomLinearLayoutManager customLinearLayoutManager;
-    private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +34,16 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
-        footballFeedRecyclerView.setLayoutManager(customLinearLayoutManager);
-        footballFeedRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(AppConstants.POSITION))));
+        footballFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
+        try {
+            footballFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(AppConstants.POSITION))));
+        } catch (NumberFormatException e) {
+            footballFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(0);
+        }
         customLinearLayoutManager.setScrollEnabled(true);
-        footballFeedRecyclerView.setAdapter(mAdapter);
+        footballFeedDetailsRecyclerView.setAdapter(mAdapter);
         SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(footballFeedRecyclerView);
+        snapHelper.attachToRecyclerView(footballFeedDetailsRecyclerView);
     }
 
     public void setUpRecyclerViewScroll(boolean status) {
