@@ -1,6 +1,7 @@
-package life.plank.juna.zone;
+package life.plank.juna.zone.view.fragment;
 
 import android.content.res.Resources;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -9,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import life.plank.juna.zone.FragmentTestRule;
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.fragment.ChatFragment;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -36,7 +39,7 @@ public class ChatFragmentTest {
     //checking add image is displayed on Fragment
     @Test
     public void launchOfFragmentShouldDisplayAddImage() {
-        onView(withId(R.id.add_image)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.add_image)).check(matches(isDisplayed()));
     }
 
     //checking camera icon is displayed on Fragment
