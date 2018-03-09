@@ -59,7 +59,6 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
             } else {
                 handelSelectionAndDeselection(true, position, holder, View.VISIBLE, false);
             }
-            notifyDataSetChanged();
         });
     }
 
