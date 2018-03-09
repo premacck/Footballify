@@ -59,6 +59,7 @@ dependencies {
     compile viewDependencies.recyclerViewAnimator
     compile viewDependencies.slidingUpPanelVersion
     compile viewDependencies.bubbleLayout
+    compile viewDependencies.glide
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
