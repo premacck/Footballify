@@ -423,18 +423,14 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     private boolean checkIfUserHasSelectedAtleastOneTeam(){
       if (TextUtils.isEmpty(teamOneEditText.getText().toString()) && TextUtils.isEmpty(teamTwoEditText.getText().toString())
               && TextUtils.isEmpty(teamThreeEditText.getText().toString())){
-          showToasT(getString(R.string.select_atleast_one_team));
+          showToast(getString(R.string.select_atleast_one_team));
           return false;
       }else if (!Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
               !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
              !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString())){
-          showToasT(getString(R.string.not_a_valid_team));
+          showToast(getString(R.string.not_a_valid_team));
           return false;
       }
       return true;
-    }
-
-    private void showToasT(String message){
-        Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
     }
 }
