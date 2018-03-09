@@ -182,7 +182,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
         switch (view.getId()) {
             case R.id.apply_button: {
-                if (validateTeamSelection())
+                if (isTeamSelectionValid())
                     setUpRegisterAndSaveView();
                 break;
             }
@@ -420,7 +420,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    private boolean validateTeamSelection() {
+    private boolean isTeamSelectionValid() {
         if (TextUtils.isEmpty(teamOneEditText.getText().toString()) && TextUtils.isEmpty(teamTwoEditText.getText().toString())
                 && TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
             showToast(getString(R.string.select_atleast_one_team));
