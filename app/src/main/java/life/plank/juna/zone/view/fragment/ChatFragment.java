@@ -23,13 +23,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
 import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_STORAGE;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
 
-public class ChatFragment extends Fragment {
+public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface {
     Context context;
     @BindView(R.id.back_image_view)
     TextView backImageView;
@@ -86,8 +87,10 @@ public class ChatFragment extends Fragment {
             case R.id.people_count_text_view:
                 break;
             case R.id.add_image:
-                if (isStoragePermissionGranted(REQUEST_GALLERY, false))
+                if (isStoragePermissionGranted(REQUEST_GALLERY, false)) {
                     mediaSelectionFragment();
+                    addImage.setVisibility(View.GONE);
+                }
                 break;
             case R.id.camera_image:
                 if (isStoragePermissionGranted(REQUEST_CAMERA_STORAGE, true))
@@ -112,10 +115,12 @@ public class ChatFragment extends Fragment {
 
     private void mediaSelectionFragment() {
         mediaContainerFrameLayout.removeAllViews();
+        MediaSelectionFragment mediaSelectionFragment = new MediaSelectionFragment();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.media_container_frame_layout, new MediaSelectionFragment())
+                .replace(R.id.media_container_frame_layout, mediaSelectionFragment)
                 .commit();
+        mediaSelectionFragment.setMediaSelectionInterface(this);
     }
 
     private void takePicture() {
@@ -164,5 +169,11 @@ public class ChatFragment extends Fragment {
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void closeMediaFragment() {
+        addImage.setVisibility(View.VISIBLE);
+        mediaContainerFrameLayout.removeAllViews();
     }
 }
