@@ -32,6 +32,7 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -73,7 +74,7 @@ public class SwipePageActivityTest {
         * type chelsea
         * select from the suggestions*/
         onView(withId(R.id.team_one_edit_text)).
-                perform(click()).perform(typeText("Chelsea"),closeSoftKeyboard());
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
@@ -88,7 +89,7 @@ public class SwipePageActivityTest {
         * type chelsea
         * select from the suggestions*/
         onView(withId(R.id.team_two_edit_text)).
-                perform(click()).perform(typeText("Chelsea"),closeSoftKeyboard());
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
@@ -108,7 +109,7 @@ public class SwipePageActivityTest {
             e.printStackTrace();
         }
         onView(withId(R.id.team_three_edit_text)).
-                perform(click()).perform(typeText("Chelsea"),closeSoftKeyboard());
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
@@ -147,6 +148,63 @@ public class SwipePageActivityTest {
             intended(hasComponent(hasClassName(FootballFeedDetailActivity.class.getName())));
             Intents.release();
         }
+    }
+
+    @Test
+    public void typingInvalidTeamNameInTeamOneEditTextShouldDisplayErrorMessage() {
+        /*click on team one edit text
+        * type invalid team name
+        * click on team two edit text
+        * check if error message is displayed for team one edit text*/
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.team_one_edit_text)).
+                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click());
+        onView(withId(R.id.team_one_edit_text)).
+                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+    }
+
+    @Test
+    public void typingInvalidTeamNameInTeamTwoEditTextShouldDisplayErrorMessage() {
+        /*click on team two edit text
+        * type invalid team name
+        * click on team three edit text
+        * check if error message is displayed for team team edit text*/
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click());
+        onView(withId(R.id.team_two_edit_text)).
+                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+    }
+
+    @Test
+    public void typingInvalidTeamNameInTeamThreeEditTextShouldDisplayErrorMessage() {
+        /*click on team three edit text
+        * type invalid team name
+        * click on team two edit text
+        * check if error message is displayed for team three edit text*/
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click());
+        onView(withId(R.id.team_three_edit_text)).
+                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
     }
 
     private int getRecyclerViewCount() {
