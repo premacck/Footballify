@@ -12,9 +12,9 @@ import org.junit.internal.matchers.TypeSafeMatcher;
 
 public class RecyclerViewTestHelper {
     public static Matcher<View> withIndex(final Matcher<View> matcher, final int index) {
-
         return new TypeSafeMatcher<View>() {
             int currentIndex = 0;
+
             @Override
             public void describeTo(Description description) {
                 description.appendText("with index: ");
