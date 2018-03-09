@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/score_fixture_rounds"
+        android:id="@+id/score_fixture_rounds_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/aileron_bold"
@@ -21,7 +21,7 @@
         android:layout_marginTop="8dp">
 
         <TextView
-            android:id="@+id/score_fixture_time"
+            android:id="@+id/score_fixture_time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:layout_toLeftOf="@+id/score_fixture_time"
+            android:layout_toLeftOf="@+id/score_fixture_time_text_view"
             android:gravity="center_vertical|right"
             android:textColor="@color/team_name_color"
             android:textSize="18sp"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:layout_toRightOf="@+id/score_fixture_time"
+            android:layout_toRightOf="@+id/score_fixture_time_textview"
             android:gravity="center_vertical|left"
             android:textColor="@color/team_name_color"
             android:textSize="18sp"

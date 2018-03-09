@@ -13,7 +13,7 @@
         android:src="@drawable/cancel" />
 
     <TextView
-        android:id="@+id/show_scores"
+        android:id="@+id/show_scores_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -26,6 +26,6 @@
         android:id="@+id/score_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/show_scores"
+        android:layout_below="@+id/show_scores_text_view"
         android:background="@color/white" />
 </RelativeLayout>
