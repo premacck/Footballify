@@ -73,6 +73,12 @@ import rx.schedulers.Schedulers;
  */
 
 public class OnBoardDialogActivity extends AppCompatActivity implements View.OnClickListener, AuthenticationListener {
+    private static final String TAG = OnBoardDialogActivity.class.getSimpleName();
+    private static final String EMAIL = "email";
+    private static final String PUBLIC_PROFILE = "public_profile";
+    private static int RC_SIGN_IN = 100;
+    public DrawerLayout drawerLayout;
+    public NavigationView navigationView;
     TextView titleTextView;
     ImageView closeDialogImage;
     AutoCompleteTextView teamOneEditText;
@@ -88,26 +94,20 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     ImageView registerIcon;
     LinearLayout registerAndSaveLinearLayout;
     LinearLayout parentLinearLayout;
-    private Dialog dialog;
-    private TwitterAuthClient twitterAuthClient;
-    private CallbackManager callbackManager;
-    private AVLoadingIndicatorView spinner;
-    private static final String TAG = OnBoardDialogActivity.class.getSimpleName();
-    private Subscription subscription;
-    private SocialLoginViewModel socialLoginViewModel;
     @Inject
     @Named("default")
     Retrofit retrofit;
     @Inject
     @Named("instagram")
     Retrofit instagramRetrofit;
-    private static int RC_SIGN_IN = 100;
-    private static final String EMAIL = "email";
-    private static final String PUBLIC_PROFILE = "public_profile";
-    public DrawerLayout drawerLayout;
+    private Dialog dialog;
+    private TwitterAuthClient twitterAuthClient;
+    private CallbackManager callbackManager;
+    private AVLoadingIndicatorView spinner;
+    private Subscription subscription;
+    private SocialLoginViewModel socialLoginViewModel;
     private TextView textDrawerMenu;
     private AuthorizationService mAuthService;
-    public NavigationView navigationView;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -182,8 +182,8 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
 
         switch (view.getId()) {
             case R.id.apply_button: {
-                if (checkIfUserHasSelectedAtleastOneTeam())
-                setUpRegisterAndSaveView();
+                if (isTeamSelectionValid())
+                    setUpRegisterAndSaveView();
                 break;
             }
             case R.id.close_dialog_image: {
@@ -400,11 +400,11 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void validateAutoCompleteTextViewsForInvalidTeams(AutoCompleteTextView autoCompleteTextView){
+    private void validateAutoCompleteTextViewsForInvalidTeams(AutoCompleteTextView autoCompleteTextView) {
         autoCompleteTextView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(!b) {
+                if (!b) {
                     String str = autoCompleteTextView.getText().toString();
                     if (!"".contentEquals(str)) {
                         ListAdapter listAdapter = autoCompleteTextView.getAdapter();
@@ -420,17 +420,34 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         });
     }
 
-    private boolean checkIfUserHasSelectedAtleastOneTeam(){
-      if (TextUtils.isEmpty(teamOneEditText.getText().toString()) && TextUtils.isEmpty(teamTwoEditText.getText().toString())
-              && TextUtils.isEmpty(teamThreeEditText.getText().toString())){
-          showToast(getString(R.string.select_atleast_one_team));
-          return false;
-      }else if (!Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
-              !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
-             !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString())){
-          showToast(getString(R.string.not_a_valid_team));
-          return false;
-      }
-      return true;
+    private boolean isTeamSelectionValid() {
+        if (TextUtils.isEmpty(teamOneEditText.getText().toString()) && TextUtils.isEmpty(teamTwoEditText.getText().toString())
+                && TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
+            showToast(getString(R.string.select_atleast_one_team));
+            return false;
+        } else if (!Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
+                !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
+                !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString())) {
+            showToast(getString(R.string.not_a_valid_team));
+            return false;
+        } else {
+            if (!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamTwoEditText.getText().toString())) {
+                if ((teamOneEditText.getText().toString().contentEquals(teamTwoEditText.getText().toString()))) {
+                    showToast(getString(R.string.select_different_teams));
+                    return false;
+                }
+            } else if (!TextUtils.isEmpty(teamTwoEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
+                if ((teamTwoEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
+                    showToast(getString(R.string.select_different_teams));
+                    return false;
+                }
+            } else if (!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
+                if ((teamOneEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
+                    showToast(getString(R.string.select_different_teams));
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }

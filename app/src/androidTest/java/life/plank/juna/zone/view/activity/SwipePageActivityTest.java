@@ -223,6 +223,27 @@ public class SwipePageActivityTest {
         onView(withText(R.string.select_atleast_one_team)).inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void clickingOnSubmitButtonWithTwoSameTeamsShouldDisplayAToastMessage() {
+        /*type Chelsea for team one edit text
+        * type Chelsea for team two edit text
+        * click on submit buttton
+        * check if select different toast message is displayed or not*/
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.team_one_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        onView(withId(R.id.apply_button)).
+                perform(click());
+        closeOnBoardingDialog();
+        onView(withText(R.string.select_different_teams)).inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+    }
+
     private int getRecyclerViewCount() {
         RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
         return recyclerView.getAdapter().getItemCount();
