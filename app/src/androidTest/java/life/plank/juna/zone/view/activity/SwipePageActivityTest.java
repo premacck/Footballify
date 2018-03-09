@@ -32,11 +32,13 @@ import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
+import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by plank-hasan on 3/2/2018.
@@ -205,6 +207,20 @@ public class SwipePageActivityTest {
                 perform(click());
         onView(withId(R.id.team_three_edit_text)).
                 check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+    }
+
+    @Test
+    public void clickingOnSubmitButtonWithoutTeamSelectionShouldDisplayAToastMessage() {
+        /*click on submit button without selecting a team*/
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        onView(withId(R.id.apply_button)).
+                perform(click());
+        closeOnBoardingDialog();
+        onView(withText(R.string.select_atleast_one_team)).inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
 
     private int getRecyclerViewCount() {
