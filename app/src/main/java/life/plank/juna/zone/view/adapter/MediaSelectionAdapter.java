@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,11 +28,14 @@ import life.plank.juna.zone.util.AppConstants;
 public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAdapter.MediaSelectionViewHolder> {
 
     private ArrayList<ChatMediaViewData> chatMediaViewData;
+    private Map<String, ChatMediaViewData> chatMediaSelected;
     private Context context;
+
 
     public MediaSelectionAdapter(Context context, ArrayList<ChatMediaViewData> chatMediaViewData) {
         this.context = context;
         this.chatMediaViewData = chatMediaViewData;
+        chatMediaSelected = new HashMap<>();
     }
 
     @Override
@@ -48,6 +53,22 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
             uri = Uri.parse(chatMediaViewData.get(position).getMediaData());
         }
         Glide.with(context).load(uri).into(holder.photosImageView);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(chatMediaSelected.containsKey(chatMediaViewData.get(position).getMediaData()) &&
+                        chatMediaViewData.get(position).isSelected()){
+                    chatMediaViewData.get(position).setSelected(false);
+                    holder.selectImageView.setVisibility(View.GONE);
+                    chatMediaSelected.remove(chatMediaViewData.get(position).getMediaData());
+                }else {
+                    chatMediaViewData.get(position).setSelected(true);
+                    holder.selectImageView.setVisibility(View.VISIBLE);
+                    chatMediaSelected.put(chatMediaViewData.get(position).getMediaData(),
+                            chatMediaViewData.get(position));
+                }
+            }
+        });
     }
 
     @Override

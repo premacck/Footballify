@@ -31,7 +31,7 @@ public class ChatMediaViewModel {
                 if (cursor.getInt(cursor.getColumnIndex(MediaStore.Files.FileColumns.MEDIA_TYPE)) == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
                     isImage = true;
                 }
-                ChatMediaViewData chatMediaViewData = new ChatMediaViewData(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)), isImage, false);
+                ChatMediaViewData chatMediaViewData = new ChatMediaViewData(cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA)), false, isImage);
                 chatMediaViewData.setMediaType(AppConstants.CHAT_MEDIA_MEDIA_TYPE);
                 mediaData.add(chatMediaViewData);
             }
