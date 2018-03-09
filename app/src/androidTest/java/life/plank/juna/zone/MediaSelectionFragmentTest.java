@@ -83,7 +83,7 @@ public class MediaSelectionFragmentTest {
     }
 
     @Test
-    public void closeImageViewShouldBePresent() {
+    public void launchingMediaSelectionFragmentShouldDisplayCloseImageView() {
         onView(withId(R.id.meme_maker_text_view)).check(matches(isDisplayed()));
     }
 
@@ -94,7 +94,7 @@ public class MediaSelectionFragmentTest {
     }
 
     @Test
-    public void mediaSelectionIteShouldNotHaveSelectionImageView() {
+    public void mediaSelectionItemShouldNotHaveSelectionImageView() {
         mediaSelectionRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
     }
