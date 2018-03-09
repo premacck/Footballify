@@ -31,7 +31,6 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
     private Map<String, ChatMediaViewData> chatMediaSelected;
     private Context context;
 
-
     public MediaSelectionAdapter(Context context, ArrayList<ChatMediaViewData> chatMediaViewData) {
         this.context = context;
         this.chatMediaViewData = chatMediaViewData;
