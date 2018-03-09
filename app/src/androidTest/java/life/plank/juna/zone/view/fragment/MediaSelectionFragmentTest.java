@@ -1,6 +1,7 @@
-package life.plank.juna.zone;
+package life.plank.juna.zone.view.fragment;
 
 import android.content.res.Resources;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -9,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import life.plank.juna.zone.FragmentTestRule;
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.fragment.MediaSelectionFragment;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -37,7 +40,7 @@ public class MediaSelectionFragmentTest {
 
     @Test
     public void photosVideosTextViewShouldBePresent() {
-        onView(withId(R.id.photos_text_view)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.photos_text_view)).check(matches(isDisplayed()));
     }
 
     @Test
