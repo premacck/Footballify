@@ -25,28 +25,34 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 public class ChatFragmentTest {
     @Rule
     public FragmentTestRule<ChatFragment> fragmentTestRule = new FragmentTestRule<>(ChatFragment.class);
-    private Resources fragmentResource;
+    private Resources resources;
 
     @Before
     public void setUp() {
         fragmentTestRule.launchActivity(null);
-        fragmentResource = fragmentTestRule.getActivity().getResources();
+        resources = fragmentTestRule.getActivity().getResources();
     }
 
     @Test
-    public void chatPlusScreenBePresent() {
+    public void launchOfFragmentShouldDisplayAddImage() {
         onView(withId(R.id.add_image)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void cameraButtonBePresent() {
+    public void launchOfFragmentShouldDisplayCameraImage() {
         onView(withId(R.id.camera_image)).check(matches(isDisplayed()));
     }
 
     @Test
-    public void checkMediaSelectionFragmentBeDisplay() {
+    public void clickingOnAddImageShouldDisplayMediaSelectionFragment() {
         onView(withId(R.id.add_image)).perform(click());
         onView(withId(R.id.media_container_frame_layout)).check(matches(isDisplayed()));
     }
-    //TODO : check if permission is allow or deny state
+
+    @Test
+    public void clickingOnCameraImageShouldDisplayAPermissionDialog(){
+        //TODO : write unit test for verifying runtime permission dialog
+        /*click on camera image
+        * check if permission dialog is displayed*/
+    }
 }

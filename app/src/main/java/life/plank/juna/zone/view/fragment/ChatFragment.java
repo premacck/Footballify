@@ -110,12 +110,17 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public void mediaSelectionFragment() {
+    private void mediaSelectionFragment() {
         mediaContainerFrameLayout.removeAllViews();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.media_container_frame_layout, new MediaSelectionFragment())
                 .commit();
+    }
+
+    private void takePicture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA_STORAGE);
     }
 
     @Override
@@ -137,8 +142,8 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public boolean isStoragePermissionGranted(int requestCode, boolean isCamera) {
-        if (Build.VERSION.SDK_INT >= 23) {
+    private boolean isStoragePermissionGranted(int requestCode, boolean isCamera) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (isCamera) {
                 if (context.checkSelfPermission(Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED) {
@@ -156,13 +161,8 @@ public class ChatFragment extends Fragment {
                     return false;
                 }
             }
-        } else { //permission is automatically granted on sdk<23 upon installation
+        } else {
             return true;
         }
-    }
-
-    public void takePicture() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA_STORAGE);
     }
 }
