@@ -5,14 +5,10 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.view.View;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.matchers.TypeSafeMatcher;
 import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.FragmentTestRule;
@@ -20,6 +16,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.fragment.MediaSelectionFragment;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -117,5 +114,21 @@ public class MediaSelectionFragmentTest {
     public void mediaSelectionRecyclerViewShouldScroll() {
         //Checking for recycler view scroll.
         onView(withId(R.id.media_container_recycler_view)).perform(RecyclerViewActions.scrollToPosition(1));
+    }
+
+    @Test
+    public void clickOfItemShouldDisplaySelectionImage() {
+        //Check image selection on click of item
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void clickOfSelectedItemShouldNotDisplaySelectionImage() {
+        // Remove selection image on click of selected item
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
     }
 }

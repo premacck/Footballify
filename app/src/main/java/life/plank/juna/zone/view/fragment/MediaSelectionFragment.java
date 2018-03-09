@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ChatMediaViewData;
 import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.ItemDecorationChatMediaView;
 import life.plank.juna.zone.view.adapter.MediaSelectionAdapter;
 import life.plank.juna.zone.viewmodel.ChatMediaViewModel;
@@ -82,6 +83,9 @@ public class MediaSelectionFragment extends Fragment {
 
         RxView.clicks(stickersTextView)
                 .subscribe(v -> {
+                    chatMediaViewModel.addStickersData(mediaData);
+                    mediaSelectionAdapter.notifyDataSetChanged();
+                    populateMediaSelectionRecyclerView();
                     stickersTextViewFocused();
                     gifTextViewNotFocused();
                     photosTextViewNotFocused();
@@ -89,6 +93,8 @@ public class MediaSelectionFragment extends Fragment {
 
         RxView.clicks(gifTextView)
                 .subscribe(v -> {
+                    chatMediaViewModel.addGifData(mediaData);
+                    mediaSelectionAdapter.notifyDataSetChanged();
                     stickersTextViewNotFocused();
                     photosTextViewNotFocused();
                     gifTextViewFocused();
