@@ -1,7 +1,13 @@
 package life.plank.juna.zone.view.fragment;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +26,9 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 
+import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_STORAGE;
+import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
+
 public class ChatFragment extends Fragment {
     Context context;
     @BindView(R.id.back_image_view)
@@ -37,11 +46,6 @@ public class ChatFragment extends Fragment {
     @BindView(R.id.media_container_frame_layout)
     FrameLayout mediaContainerFrameLayout;
     private Unbinder unbinder;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -69,7 +73,6 @@ public class ChatFragment extends Fragment {
         chatRecyclerView.setAdapter(chatAdapter);
     }
 
-    //TODO onclick listeners will be added in next pull request
     @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -83,9 +86,14 @@ public class ChatFragment extends Fragment {
             case R.id.people_count_text_view:
                 break;
             case R.id.add_image:
-                mediaSelectionFragment();
+                if (isStoragePermissionGranted(REQUEST_GALLERY, false))
+                    mediaSelectionFragment();
                 break;
             case R.id.camera_image:
+                if (isStoragePermissionGranted(REQUEST_CAMERA_STORAGE, true))
+                    takePicture();
+                break;
+            default:
                 break;
         }
     }
@@ -102,11 +110,59 @@ public class ChatFragment extends Fragment {
         }
     }
 
-    public void mediaSelectionFragment() {
+    private void mediaSelectionFragment() {
         mediaContainerFrameLayout.removeAllViews();
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.media_container_frame_layout, new MediaSelectionFragment())
                 .commit();
+    }
+
+    private void takePicture() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CAMERA_STORAGE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_GALLERY:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mediaSelectionFragment();
+                }
+                break;
+            case REQUEST_CAMERA_STORAGE:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    takePicture();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private boolean isStoragePermissionGranted(int requestCode, boolean isCamera) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (isCamera) {
+                if (context.checkSelfPermission(Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    return true;
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA}, requestCode);
+                    return false;
+                }
+            } else {
+                if (context.checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    return true;
+                } else {
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, requestCode);
+                    return false;
+                }
+            }
+        } else {
+            return true;
+        }
     }
 }
