@@ -51,11 +51,8 @@ public class ChatFragmentTest {
         onView(withId(R.id.add_image)).perform(click());
         onView(withId(R.id.media_container_frame_layout)).check(matches(isDisplayed()));
     }
-
-    @Test
-    public void clickingOnCameraImageShouldDisplayAPermissionDialog() {
-        //TODO : write unit test for verifying runtime permission dialog
+    //TODO : write unit test for verifying runtime permission dialog
         /*click on camera image
         * check if permission dialog is displayed*/
-    }
+
 }
