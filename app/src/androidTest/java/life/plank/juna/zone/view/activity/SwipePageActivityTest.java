@@ -221,7 +221,6 @@ public class SwipePageActivityTest {
                 perform(click());
         closeOnBoardingDialog();
         onView(withText(R.string.select_atleast_one_team)).inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
-
     }
 
     private int getRecyclerViewCount() {
