@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
-            android:layout_toRightOf="@+id/score_fixture_time_textview"
+            android:layout_toRightOf="@+id/score_fixture_time_text_view"
             android:gravity="center_vertical|left"
             android:textColor="@color/team_name_color"
             android:textSize="18sp"
