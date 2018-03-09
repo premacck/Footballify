@@ -1,12 +1,17 @@
 package life.plank.juna.zone;
 
 import android.content.res.Resources;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.internal.matchers.TypeSafeMatcher;
 import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.view.fragment.MediaSelectionFragment;
@@ -16,6 +21,8 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static life.plank.juna.zone.Util.RecyclerViewTestHelper.withIndex;
+import static org.hamcrest.Matchers.not;
 
 /**
  * Created by plank-niraj on 07-03-2018.
@@ -76,7 +83,25 @@ public class MediaSelectionFragmentTest {
     }
 
     @Test
-    public void closeImageViewTextViewShouldBePresent() {
+    public void closeImageViewShouldBePresent() {
         onView(withId(R.id.meme_maker_text_view)).check(matches(isDisplayed()));
     }
+
+    @Test
+    public void mediaSelectionItemShouldHaveImageView() {
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.photos_image_view), 1)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void mediaSelectionIteShouldNotHaveSelectionImageView() {
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void mediaSelectionRecyclerViewShouldScroll() {
+        onView(withId(R.id.media_container_recycler_view)).perform(RecyclerViewActions.scrollToPosition(1));
+    }
+
 }

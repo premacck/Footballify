@@ -9,11 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.jakewharton.rxbinding2.view.RxView;
+
 import java.util.ArrayList;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ChatMediaViewData;
+import life.plank.juna.zone.util.ItemDecorationChatMediaView;
 import life.plank.juna.zone.view.adapter.MediaSelectionAdapter;
+import life.plank.juna.zone.viewmodel.ChatMediaViewModel;
 
 public class MediaSelectionFragment extends Fragment {
     @BindView(R.id.photos_text_view)
@@ -28,11 +36,89 @@ public class MediaSelectionFragment extends Fragment {
     ImageView crossImageView;
     ArrayList<ChatMediaViewData> mediaData;
     MediaSelectionAdapter mediaSelectionAdapter;
+    ChatMediaViewModel chatMediaViewModel;
     private GridLayoutManager gridLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_media_selection, container, false);
+        View view = inflater.inflate(R.layout.fragment_media_selection, container, false);
+        ButterKnife.bind(this, view);
+        mediaData = new ArrayList<>();
+        photosTextView.setBackgroundColor(getResources().getColor(R.color.white));
+        photosTextView.setTextColor(getResources().getColor(R.color.dark_grey));
+        populateMediaSelectionRecyclerView();
+        getMediaData();
+        return view;
+    }
+
+    private void getMediaData() {
+        chatMediaViewModel = new ChatMediaViewModel(getActivity());
+        chatMediaViewModel.getAllMedia(mediaData);
+    }
+
+    public void populateMediaSelectionRecyclerView() {
+        mediaSelectionAdapter = new MediaSelectionAdapter(getActivity(), mediaData);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        mediaContainerRecyclerView.setLayoutManager(gridLayoutManager);
+        mediaContainerRecyclerView.setAdapter(mediaSelectionAdapter);
+        mediaContainerRecyclerView.addItemDecoration(new ItemDecorationChatMediaView());
+    }
+
+    @OnClick({R.id.photos_text_view, R.id.stickers_text_view, R.id.gifs_text_view, R.id.close_image_view})
+    public void onViewClicked(View view) {
+        RxView.clicks(photosTextView)
+                .subscribe(v -> {
+                    mediaData.clear();
+                    chatMediaViewModel.getAllMedia(mediaData);
+                    mediaSelectionAdapter.notifyDataSetChanged();
+                    photosTextViewFocused();
+                    stickersTextViewNotFocused();
+                    gifTextViewNotFocused();
+                });
+
+        RxView.clicks(stickersTextView)
+                .subscribe(v -> {
+                    stickersTextViewFocused();
+                    gifTextViewNotFocused();
+                    photosTextViewNotFocused();
+                });
+
+        RxView.clicks(gifTextView)
+                .subscribe(v -> {
+                    stickersTextViewNotFocused();
+                    photosTextViewNotFocused();
+                    gifTextViewFocused();
+                });
+    }
+
+    private void gifTextViewFocused() {
+        gifTextView.setTextColor(getResources().getColor(R.color.dark_grey));
+        gifTextView.setBackgroundColor(getResources().getColor(R.color.white));
+    }
+
+    private void photosTextViewNotFocused() {
+        photosTextView.setTextColor(getResources().getColor(R.color.white));
+        photosTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
+    }
+
+    private void stickersTextViewFocused() {
+        stickersTextView.setBackgroundColor(getResources().getColor(R.color.white));
+        stickersTextView.setTextColor(getResources().getColor(R.color.dark_grey));
+    }
+
+    private void gifTextViewNotFocused() {
+        gifTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
+        gifTextView.setTextColor(getResources().getColor(R.color.dark_grey));
+    }
+
+    private void stickersTextViewNotFocused() {
+        stickersTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
+        stickersTextView.setTextColor(getResources().getColor(R.color.white));
+    }
+
+    private void photosTextViewFocused() {
+        photosTextView.setBackgroundColor(getResources().getColor(R.color.white));
+        photosTextView.setTextColor(getResources().getColor(R.color.dark_grey));
     }
 }

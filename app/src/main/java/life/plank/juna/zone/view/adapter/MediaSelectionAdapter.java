@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -39,6 +41,13 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
 
     @Override
     public void onBindViewHolder(MediaSelectionViewHolder holder, int position) {
+        Uri uri;
+        if (chatMediaViewData.get(position).getMediaType() == AppConstants.CHAT_MEDIA_MEDIA_TYPE) {
+            uri = Uri.fromFile(new File(chatMediaViewData.get(position).getMediaData()));
+        } else {
+            uri = Uri.parse(chatMediaViewData.get(position).getMediaData());
+        }
+        Glide.with(context).load(uri).into(holder.photosImageView);
     }
 
     @Override
