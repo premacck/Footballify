@@ -26,19 +26,18 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.pressBack;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.DrawerMatchers.isOpen;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.ComponentNameMatchers.hasClassName;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.RootMatchers.isDialog;
-import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.core.IsNot.not;
 
 /**
  * Created by plank-hasan on 3/2/2018.
@@ -212,9 +211,9 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    @Ignore
-    public void clickingOnSubmitButtonWithoutTeamSelectionShouldDisplayAToastMessage() {
-        /*click on submit button without selecting a team*/
+    public void clickingOnSubmitButtonWithoutTeamSelectionShouldNotDisplayRegisterAndSaveDialog() {
+        /*click on submit button without selecting a team
+        * check if RegisterAndSave dialog doesnot displayed*/
 
         // TODO: 3/9/2018 Will be addressed in the next release
         onView(withId(R.id.apply_button)).
@@ -225,16 +224,17 @@ public class SwipePageActivityTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        onView(withText(R.string.select_atleast_one_team)).inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
+        onView(ViewMatchers.withText(R.string.register_and_save))
+                .inRoot(isDialog())
+                .check(doesNotExist());
     }
 
     @Test
-    @Ignore
-    public void clickingOnSubmitButtonWithTwoSameTeamsShouldDisplayAToastMessage() {
+    public void clickingOnSubmitButtonWithTwoSameTeamsShouldNotDisplayRegisterAndSaveDialog() {
         /*type Chelsea for team one edit text
         * type Chelsea for team two edit text
         * click on submit buttton
-        * check if select different toast message is displayed or not*/
+        * check if RegisterAndSave dialog doesnot displayed*/
         // TODO: 3/9/2018 Will be addressed in the next release
 
         try {
@@ -248,13 +248,12 @@ public class SwipePageActivityTest {
                 perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
         onView(withId(R.id.apply_button)).
                 perform(click());
-        closeOnBoardingDialog();
-        try {
-            Thread.sleep(250);
+        onView(ViewMatchers.withText(R.string.register_and_save))
+                .inRoot(isDialog())
+                .check(doesNotExist());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        onView(withText(R.string.select_different_teams)).inRoot(withDecorView(not(activityTestRule.getActivity().getWindow().getDecorView()))).check(matches(isDisplayed()));
     }
 
     private int getRecyclerViewCount() {
