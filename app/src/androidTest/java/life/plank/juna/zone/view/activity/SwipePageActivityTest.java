@@ -211,7 +211,7 @@ public class SwipePageActivityTest {
     @Test
     public void clickingOnSubmitButtonWithoutTeamSelectionShouldNotDisplayRegisterAndSaveDialog() {
         /*click on submit button without selecting a team
-        * check if TeamSelection dialog doesnot displayed*/
+        * check if RegisterAndSave dialog doesnot displayed*/
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
@@ -229,7 +229,7 @@ public class SwipePageActivityTest {
         /*type Chelsea for team one edit text
         * type Chelsea for team two edit text
         * click on submit buttton
-        * check if TeamSelection dialog doesnot displayed*/
+        * check if RegisterAndSave dialog doesnot displayed*/
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
