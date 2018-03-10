@@ -32,7 +32,6 @@ dependencies {
     def viewTestDependencies = rootProject.ext.viewTestDependencies
 
     compile viewDependencies.butterKnife
-    compile viewDependencies.recyclerView
     compile viewDependencies.rxAndroid
     compile viewDependencies.rxJava
     compile viewDependencies.rxBinding
@@ -44,9 +43,7 @@ dependencies {
     compile viewDependencies.circleImageView
     compile viewDependencies.fabTransitionActivity
     compile viewDependencies.materialSpinner
-    compile viewDependencies.cardView
     compile viewDependencies.avLoadingIndicatorView
-    compile viewDependencies.constraintLayout
     compile viewDependencies.materialStyledDialog
     compile viewDependencies.dagger
     compile viewDependencies.progressButton
@@ -60,6 +57,7 @@ dependencies {
     compile viewDependencies.slidingUpPanelVersion
     compile viewDependencies.bubbleLayout
     compile viewDependencies.glide
+    compile viewDependencies.appCompatLibrary
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
