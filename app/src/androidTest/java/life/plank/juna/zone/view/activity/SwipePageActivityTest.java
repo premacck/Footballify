@@ -190,13 +190,11 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    @Ignore
     public void typingInvalidTeamNameInTeamThreeEditTextShouldDisplayErrorMessage() {
         /*click on team three edit text
         * type invalid team name
         * click on team two edit text
         * check if error message is displayed for team three edit text*/
-        // TODO: 3/9/2018 Will be addressed in the next release
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
@@ -214,16 +212,13 @@ public class SwipePageActivityTest {
     public void clickingOnSubmitButtonWithoutTeamSelectionShouldNotDisplayRegisterAndSaveDialog() {
         /*click on submit button without selecting a team
         * check if RegisterAndSave dialog doesnot displayed*/
-
-        // TODO: 3/9/2018 Will be addressed in the next release
-        onView(withId(R.id.apply_button)).
-                perform(click());
-        closeOnBoardingDialog();
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withId(R.id.apply_button)).
+                perform(click());
         onView(ViewMatchers.withText(R.string.register_and_save))
                 .inRoot(isDialog())
                 .check(doesNotExist());
@@ -235,8 +230,6 @@ public class SwipePageActivityTest {
         * type Chelsea for team two edit text
         * click on submit buttton
         * check if RegisterAndSave dialog doesnot displayed*/
-        // TODO: 3/9/2018 Will be addressed in the next release
-
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
