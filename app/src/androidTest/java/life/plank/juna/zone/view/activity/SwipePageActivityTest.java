@@ -251,9 +251,6 @@ public class SwipePageActivityTest {
         onView(ViewMatchers.withText(R.string.register_and_save))
                 .inRoot(isDialog())
                 .check(doesNotExist());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     private int getRecyclerViewCount() {
