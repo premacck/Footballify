@@ -1,8 +1,8 @@
 package life.plank.juna.zone.view.fragment;
 
 import android.content.res.Resources;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.FragmentTestRule;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.fragment.MediaSelectionFragment;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -127,6 +126,7 @@ public class MediaSelectionFragmentTest {
     @Test
     public void clickOfSelectedItemShouldNotDisplaySelectionImage() {
         // Remove selection image on click of selected item
+        clickOfItemShouldDisplaySelectionImage();
         mediaSelectionRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
         onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
