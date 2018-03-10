@@ -210,7 +210,8 @@ public class SwipePageActivityTest {
 
     @Test
     public void clickingOnSubmitButtonWithoutTeamSelectionShouldNotDisplayRegisterAndSaveDialog() {
-        /*click on submit button without selecting a team*/
+        /*click on submit button without selecting a team
+        * check if TeamSelection dialog doesnot displayed*/
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
@@ -224,11 +225,11 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    public void clickingOnSubmitButtonWithTwoSameTeamsShouldNotDisplayAToastMessageDisplayRegisterAndSaveDialog() {
+    public void clickingOnSubmitButtonWithTwoSameTeamsShouldNotDisplayRegisterAndSaveDialog() {
         /*type Chelsea for team one edit text
         * type Chelsea for team two edit text
         * click on submit buttton
-        * check if select different toast message is displayed or not*/
+        * check if TeamSelection dialog doesnot displayed*/
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
