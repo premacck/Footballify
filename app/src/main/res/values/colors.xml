@@ -25,4 +25,7 @@
     <color name="transparent">@android:color/transparent</color>
     <color name="light_black">#030303</color>
     <color name="text_shadow">#7F000000</color>
+    <color name="team_name_color">#060606</color>
+    <color name="score_fixture_time_label_color">#dadada</color>
+    <color name="score_fixture_background_color">#f7f7f5</color>
 </resources>

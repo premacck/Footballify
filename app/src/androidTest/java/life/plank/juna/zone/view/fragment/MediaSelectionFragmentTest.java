@@ -126,6 +126,7 @@ public class MediaSelectionFragmentTest {
     @Test
     public void clickOfSelectedItemShouldNotDisplaySelectionImage() {
         // Remove selection image on click of selected item
+        clickOfItemShouldDisplaySelectionImage();
         mediaSelectionRecyclerViewShouldScroll();
         clickOfItemShouldDisplaySelectionImage();
         onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
