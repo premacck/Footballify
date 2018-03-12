@@ -1,6 +1,8 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,9 +17,10 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
+import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 
-public class SplashScreenActivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
 
     private static final String TAG = "SplashScreenActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
@@ -26,11 +29,13 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 6000;
     private SharedPreferences loginPreferences;
     private Boolean savedLogin;
+    private NetworkStateReceiver networkStateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splash_screen_activity);
+        startNetworkBroadcastReceiver(this);
         splashScreenActivity = this;
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
@@ -111,8 +116,34 @@ public class SplashScreenActivity extends AppCompatActivity {
             @Override
             public void run() {
                 //TODO: comment will be removed latrer
-               // Toast.makeText(SplashScreenActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
+                // Toast.makeText(SplashScreenActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    @Override
+    public void networkAvailable() {
+        startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+        finish();
+    }
+
+    @Override
+    public void networkUnavailable() {
+
+    }
+
+    public void startNetworkBroadcastReceiver(Context currentContext) {
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener((NetworkStateReceiver.NetworkStateReceiverListener) currentContext);
+        registerNetworkBroadcastReceiver(currentContext);
+    }
+
+    /**
+     * Register the NetworkStateReceiver
+     *
+     * @param currentContext
+     */
+    public void registerNetworkBroadcastReceiver(Context currentContext) {
+        currentContext.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 }
