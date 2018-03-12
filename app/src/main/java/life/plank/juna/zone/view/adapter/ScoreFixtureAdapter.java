@@ -23,12 +23,12 @@ public class ScoreFixtureAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private final int ITEM_VIEW_HEADER = 0;
     private final int ITEM_VIEW_BODY = 1;
     private Context context;
-    private List<ScoreFixture> scoreModels = new ArrayList<>();
+    private List<ScoreFixture> scoreFixtures = new ArrayList<>();
     private String header = "header";
 
     public ScoreFixtureAdapter(Context context) {
         this.context = context;
-        scoreModels.addAll(ScoreFixture.getFixture(context));
+        scoreFixtures.addAll(ScoreFixture.getFixture(context));
     }
 
     @Override
@@ -42,28 +42,28 @@ public class ScoreFixtureAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ScoreFixtureHeaderHolder) {
             ScoreFixtureHeaderHolder scoreFixtureHeaderHolder = (ScoreFixtureHeaderHolder) holder;
-            scoreFixtureHeaderHolder.headerTextView.setText(scoreModels.get(position).getHeader());
+            scoreFixtureHeaderHolder.headerTextView.setText(scoreFixtures.get(position).getHeader());
         } else {
             ScoreFixtureHolder scoreFixtureHolder = (ScoreFixtureHolder) holder;
-            if (scoreModels.get(position).getRounds().contentEquals(" ")) {
+            if (scoreFixtures.get(position).getRounds().contentEquals(" ")) {
                 scoreFixtureHolder.roundsTextview.setVisibility(View.GONE);
             } else {
                 scoreFixtureHolder.roundsTextview.setVisibility(View.VISIBLE);
-                scoreFixtureHolder.roundsTextview.setText(scoreModels.get(position).getRounds());
+                scoreFixtureHolder.roundsTextview.setText(scoreFixtures.get(position).getRounds());
             }
-            scoreFixtureHolder.teamOneTextview.setText(scoreModels.get(position).getTeamOne());
-            scoreFixtureHolder.teamTwoTextview.setText(scoreModels.get(position).getTeamTwo());
-            scoreFixtureHolder.timeTextview.setText(scoreModels.get(position).getTime());
+            scoreFixtureHolder.teamOneTextview.setText(scoreFixtures.get(position).getTeamOne());
+            scoreFixtureHolder.teamTwoTextview.setText(scoreFixtures.get(position).getTeamTwo());
+            scoreFixtureHolder.timeTextview.setText(scoreFixtures.get(position).getTime());
         }
     }
 
     @Override
     public int getItemCount() {
-        return scoreModels.size();
+        return scoreFixtures.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return scoreModels.get(position).getTag().contentEquals(header) ? ITEM_VIEW_HEADER : ITEM_VIEW_BODY;
+        return scoreFixtures.get(position).getTag().contentEquals(header) ? ITEM_VIEW_HEADER : ITEM_VIEW_BODY;
     }
 }
