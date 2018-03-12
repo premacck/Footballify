@@ -72,7 +72,6 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    public boolean isStandingFragmentVisible = false;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -86,12 +85,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     FrameLayout containerRelativeLayout;
     @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
-    @BindView(R.id.fragmentContainerFrameLayout)
+    @BindView(R.id.fragment_container_frame_layout)
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
-    @BindView(R.id.standing_container_framelayout)
-    FrameLayout standingContainerFrameLayout;
     @BindView(R.id.calendar_spinner_textView)
     TextView calendarSpinnerTextView;
     @BindView(R.id.spinners_relative_layout)
@@ -104,6 +101,11 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     int TRCNumber = 20;
+    Context context;
+    @BindView(R.id.football_menu_linear_layout)
+    LinearLayout footballMenuLinearLayout;
+    @BindView(R.id.football_toolbar)
+    Toolbar footballToolbar;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -111,8 +113,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
-    Context context;
     private List<FootballFeed> footballFeeds;
+    private int apiHitCount = 0;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -141,11 +143,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
-    private int apiHitCount = 0;
-    @BindView(R.id.football_menu_linear_layout)
-    LinearLayout footballMenuLinearLayout;
-    @BindView(R.id.football_toolbar)
-    Toolbar footballToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,9 +210,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void getFootballFeed() {
         subscription = restApi.getFootballFeed(updateToken(nextPageToken,
-               getString(R.string.replace_rt) +
+                getString(R.string.replace_rt) +
                         String.valueOf(apiHitCount), getString(R.string.replace_trc)
-                        + String.valueOf(apiHitCount*TRCNumber)))
+                        + String.valueOf(apiHitCount * TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
@@ -238,7 +235,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                                 nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
                             }
                             setUpAdapterWithNewData(response.body());
-                            apiHitCount = apiHitCount+1;
+                            apiHitCount = apiHitCount + 1;
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
@@ -283,7 +280,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     scoreFixtureFragment();
                     containerRelativeLayout.setVisibility(View.GONE);
                 }
-                if (position == 3) {
+                if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
                     scoreTableFragment();
                 }
             }
@@ -326,7 +323,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneListFragment())
+                .replace(R.id.fragment_container_frame_layout, new LiveZoneListFragment())
                 .commit();
     }
 
@@ -337,7 +334,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new ScoreFixtureFragment())
+                .replace(R.id.fragment_container_frame_layout, new ScoreFixtureFragment())
                 .commit();
     }
 
@@ -361,23 +358,22 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
     }
+
     public void scoreTableFragment() {
-        standingContainerFrameLayout.setVisibility(View.VISIBLE);
-        standingContainerFrameLayout.removeAllViews();
+        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.standing_container_framelayout, new StandingFragment())
+                .replace(R.id.fragment_container_frame_layout, new StandingFragment())
                 .commit();
     }
 
     public void retainHomeLayout() {
-        isStandingFragmentVisible = true;
-        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
-            standingContainerFrameLayout.setVisibility(View.VISIBLE);
-        } else {
-            standingContainerFrameLayout.setVisibility(View.GONE);
-        }
+        footballFilterSpinnerTextView.setText(R.string.all);
+        containerRelativeLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
+
     @Override
     public void addMore() {
         // TODO: 30-01-2018 Get data from server
