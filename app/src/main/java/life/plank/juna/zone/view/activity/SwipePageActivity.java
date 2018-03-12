@@ -280,7 +280,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     scoreFixtureFragment();
                     containerRelativeLayout.setVisibility(View.GONE);
                 }
-                if (position == 3) {
+                if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
                     scoreTableFragment();
                 }
             }
