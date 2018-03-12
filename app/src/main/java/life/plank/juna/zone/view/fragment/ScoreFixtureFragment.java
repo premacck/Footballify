@@ -27,21 +27,14 @@ public class ScoreFixtureFragment extends Fragment {
     ImageView cancelImage;
     private Unbinder unbinder;
 
-    // TODO: Rename and change types and number of parameters
-    public static ScoreFixtureFragment newInstance() {
-        ScoreFixtureFragment fragment = new ScoreFixtureFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @OnClick(R.id.cancel_image_view)
-    public void onCancel() {((SwipePageActivity) getActivity()).retainFeedContainer();
+    public void onCancel() {
+        ((SwipePageActivity) getActivity()).retainFeedContainer();
     }
 
     @Override
