@@ -78,8 +78,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ZoneHomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.WarriorGameActivity"
             android:screenOrientation="portrait" />
@@ -88,35 +87,28 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.GameLaunchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.GamePickerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.PointsGameRulesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SuddenDeathRulesActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.CreateArenaActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.JoinGameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.PointsGameActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.MultipleUserJoinGameActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.PointsGameResultActivity"
             android:screenOrientation="portrait" />
@@ -131,51 +123,40 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ClubListViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ClubGameLaunchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ClubPointsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ClubWarriorResultActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.WarriorWinnerActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle"
-            android:windowSoftInputMode="adjustPan|adjustResize"/>
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".view.activity.ScrubberActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.WebViewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.PinboardActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity android:name=".view.activity.CameraActivity" />
         <activity
             android:name=".view.activity.LiveZoneActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/statusBarCustomStyle" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ChatDetailsActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity android:name=".FragmentTestingActivity"/>
+            android:screenOrientation="portrait" />
+        <activity android:name=".FragmentTestingActivity" />
     </application>
 
 </manifest>
