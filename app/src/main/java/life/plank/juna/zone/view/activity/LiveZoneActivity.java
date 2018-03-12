@@ -149,6 +149,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         // TODO: 06-02-2018 Animate grid item position = position + tilePosition
         runOnUiThread(() -> {
             if (scrubberViewData.getLiveFeedTileData().getTiles().size() > 0) {
+                int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
                 try {
                     for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
                         int tilePosition = i;
