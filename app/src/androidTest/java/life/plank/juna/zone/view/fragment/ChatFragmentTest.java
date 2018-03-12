@@ -31,6 +31,7 @@ public class ChatFragmentTest {
     @Rule
     public FragmentTestRule<ChatFragment> fragmentTestRule = new FragmentTestRule<>(ChatFragment.class);
     private Resources resources;
+    private String grant = "pm grant ";
 
     @Before
     public void setUp() {
@@ -38,7 +39,7 @@ public class ChatFragmentTest {
         resources = fragmentTestRule.getActivity().getResources();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getInstrumentation().getUiAutomation().executeShellCommand(
-                    "pm grant " + getTargetContext().getPackageName()
+                    grant + getTargetContext().getPackageName()
                             + "android.permission.WRITE_EXTERNAL_STORAGE");
         }
     }
