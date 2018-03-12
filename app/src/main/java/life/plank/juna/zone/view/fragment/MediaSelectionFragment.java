@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ChatMediaViewData;
-import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
 import life.plank.juna.zone.util.ItemDecorationChatMediaView;
 import life.plank.juna.zone.view.adapter.MediaSelectionAdapter;
 import life.plank.juna.zone.viewmodel.ChatMediaViewModel;
@@ -40,6 +40,7 @@ public class MediaSelectionFragment extends Fragment {
     ChatMediaViewModel chatMediaViewModel;
     int gridCount = 4;
     private GridLayoutManager gridLayoutManager;
+    private MediaSelectionFragmentActionInterface mediaSelectionInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +98,15 @@ public class MediaSelectionFragment extends Fragment {
                     photosTextViewNotFocused();
                     gifTextViewFocused();
                 });
+
+        RxView.clicks(crossImageView)
+                .subscribe(v -> {
+                    mediaSelectionInterface.closeMediaFragment();
+                });
+    }
+
+    public void setMediaSelectionInterface(MediaSelectionFragmentActionInterface mediaSelectionInterface) {
+        this.mediaSelectionInterface = mediaSelectionInterface;
     }
 
     private void gifTextViewFocused() {
