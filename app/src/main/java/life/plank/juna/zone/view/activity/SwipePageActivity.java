@@ -334,7 +334,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new ScoreFixtureFragment())
+                .replace(R.id.fragment_container_frame_layout, new ScoreFixtureFragment())
                 .commit();
     }
 
@@ -369,7 +369,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void retainHomeLayout() {
-        footballFilterSpinnerTextView.setText("All");
+        footballFilterSpinnerTextView.setText(R.string.all);
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
