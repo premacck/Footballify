@@ -103,6 +103,11 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     HorizontalFootballFeedAdapter horizontalfootballFeedAdapter;
     FootballFeedAdapter footballFeedAdapter;
     int TRCNumber = 20;
+    Context context;
+    @BindView(R.id.football_menu_linear_layout)
+    LinearLayout footballMenuLinearLayout;
+    @BindView(R.id.football_toolbar)
+    Toolbar footballToolbar;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -110,8 +115,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private String nextPageToken = "";
-    Context context;
     private List<FootballFeed> footballFeeds;
+    private int apiHitCount = 0;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -140,11 +145,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             }
         }
     };
-    private int apiHitCount = 0;
-    @BindView(R.id.football_menu_linear_layout)
-    LinearLayout footballMenuLinearLayout;
-    @BindView(R.id.football_toolbar)
-    Toolbar footballToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -212,9 +212,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void getFootballFeed() {
         subscription = restApi.getFootballFeed(updateToken(nextPageToken,
-               getString(R.string.replace_rt) +
+                getString(R.string.replace_rt) +
                         String.valueOf(apiHitCount), getString(R.string.replace_trc)
-                        + String.valueOf(apiHitCount*TRCNumber)))
+                        + String.valueOf(apiHitCount * TRCNumber)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
@@ -237,7 +237,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                                 nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
                             }
                             setUpAdapterWithNewData(response.body());
-                            apiHitCount = apiHitCount+1;
+                            apiHitCount = apiHitCount + 1;
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
@@ -280,6 +280,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 listPopupWindow.dismiss();
                 if (position == 3) {
                     scoreTableFragment();
+                    activeTextView.setText(arrayData[0]);
                 }
             }
         });
@@ -345,6 +346,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         }
     }
+
     public void scoreTableFragment() {
         standingContainerFrameLayout.setVisibility(View.VISIBLE);
         standingContainerFrameLayout.removeAllViews();
@@ -362,6 +364,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             standingContainerFrameLayout.setVisibility(View.GONE);
         }
     }
+
     @Override
     public void addMore() {
         // TODO: 30-01-2018 Get data from server
