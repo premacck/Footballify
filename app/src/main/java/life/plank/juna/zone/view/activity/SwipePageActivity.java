@@ -85,12 +85,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     FrameLayout containerRelativeLayout;
     @BindView(R.id.live_zone_text_view)
     TextView liveZoneTextView;
-    @BindView(R.id.fragmentContainerFrameLayout)
+    @BindView(R.id.fragment_container_frame_layout)
     FrameLayout fragmentContainerFrameLayout;
     @BindView(R.id.football_filter_spinner_textView)
     TextView footballFilterSpinnerTextView;
-    @BindView(R.id.standing_container_framelayout)
-    FrameLayout standingContainerFrameLayout;
     @BindView(R.id.calendar_spinner_textView)
     TextView calendarSpinnerTextView;
     @BindView(R.id.spinners_relative_layout)
@@ -280,7 +278,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 listPopupWindow.dismiss();
                 if (position == 3) {
                     scoreTableFragment();
-                    activeTextView.setText(arrayData[0]);
                 }
             }
         });
@@ -322,7 +319,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
-                .replace(R.id.fragmentContainerFrameLayout, new LiveZoneListFragment())
+                .replace(R.id.fragment_container_frame_layout, new LiveZoneListFragment())
                 .commit();
     }
 
@@ -348,21 +345,18 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void scoreTableFragment() {
-        standingContainerFrameLayout.setVisibility(View.VISIBLE);
-        standingContainerFrameLayout.removeAllViews();
+        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.standing_container_framelayout, new StandingFragment())
+                .replace(R.id.fragment_container_frame_layout, new StandingFragment())
                 .commit();
     }
 
     public void retainHomeLayout() {
-        isStandingFragmentVisible = true;
-        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
-            standingContainerFrameLayout.setVisibility(View.VISIBLE);
-        } else {
-            standingContainerFrameLayout.setVisibility(View.GONE);
-        }
+        footballFilterSpinnerTextView.setText("All");
+        containerRelativeLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
 
     @Override
