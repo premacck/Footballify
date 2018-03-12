@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment;
 
 import android.content.res.Resources;
+import android.os.Build;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,8 +13,9 @@ import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.FragmentTestRule;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.fragment.ChatFragment;
 
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -34,6 +36,11 @@ public class ChatFragmentTest {
     public void setUp() {
         fragmentTestRule.launchActivity(null);
         resources = fragmentTestRule.getActivity().getResources();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getInstrumentation().getUiAutomation().executeShellCommand(
+                    "pm grant " + getTargetContext().getPackageName()
+                            + "android.permission.WRITE_EXTERNAL_STORAGE");
+        }
     }
 
     //checking add image is displayed on Fragment
