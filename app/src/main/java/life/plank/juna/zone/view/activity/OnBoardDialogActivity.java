@@ -368,8 +368,12 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             //handleGoogleSignInResult(task);
         } else {
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-            twitterAuthClient.onActivityResult(requestCode, resultCode, data);
+            try {
+                callbackManager.onActivityResult(requestCode, resultCode, data);
+                twitterAuthClient.onActivityResult(requestCode, resultCode, data);
+            } catch (Exception e) {
+               //do nothing
+            }
         }
     }
 
