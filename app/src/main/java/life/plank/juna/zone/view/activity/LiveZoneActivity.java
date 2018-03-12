@@ -130,15 +130,13 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                     scrubberProgressData.add(ScrubberConstants.getScrubberViewProgress());
                 }
                 scrubberProgressData.add(ScrubberConstants.getScrubberViewCursor());
-                //TODO sleep time will be removed once we get the scrubberProgressData from backend
-                Thread.sleep(2000);
                 if (!scrubberViewAdapter.trigger) {
-                    runOnUiThread(() -> {
-                        scrubberViewAdapter.notifyItemChanged(scrubberProgressData.size() - 1);
-                    });
+                    runOnUiThread(() -> scrubberViewAdapter.notifyItemChanged(scrubberProgressData.size() - 1));
                 }
                 moveScrubberPointer(null, scrubberProgressData.size());
                 progressStatus++;
+                //TODO sleep time will be removed once we get the scrubberProgressData from backend
+                Thread.sleep(2000);
             } catch (Exception e) {
                 // TODO: 21-02-2018 remove after stable.
                 Log.e("trace scrubber", e.toString());
@@ -149,23 +147,24 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
 
     public void onNewEvent(ScrubberViewData scrubberViewData) {
         // TODO: 06-02-2018 Animate grid item position = position + tilePosition
-        if (scrubberViewData.getLiveFeedTileData().getTiles().size() > 0) {
-            int position = ((GridLayoutManager) liveZoneGridViewRecyclerView.getLayoutManager()).findFirstVisibleItemPosition();
-            try {
-                for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
-                    int tilePosition = i;
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        //do nothing
+        runOnUiThread(() -> {
+            if (scrubberViewData.getLiveFeedTileData().getTiles().size() > 0) {
+                try {
+                    for (int i = 0; i <= scrubberViewData.getLiveFeedTileData().getTiles().size() - 1; i++) {
+                        int tilePosition = i;
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            //do nothing
+                        }
+                        adapter.addGridItemsToView(0, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition));
                     }
-                    adapter.addGridItemsToView(0, scrubberViewData.getLiveFeedTileData().getTiles().get(tilePosition));
+                    liveZoneGridViewRecyclerView.scrollToPosition(0);
+                } catch (Exception e) {
+                    //do nothing, as it will take up next event
                 }
-            } catch (Exception e) {
-                //do nothing, as it will take up next event
             }
-            new Handler(Looper.getMainLooper()).post(() -> liveZoneGridViewRecyclerView.scrollToPosition(0));
-        }
+        });
     }
 
     @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
