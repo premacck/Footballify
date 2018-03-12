@@ -223,15 +223,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="header_fa_cup">FA CUP</string>
     <string name="round_fa_cup">FIFTH ROUND</string>
-    <string name="teamone_fa_cup">Wigan</string>
-    <string name="teamtwo_fa_cup">Man City</string>
+    <string name="team_one_fa_cup">Wigan</string>
+    <string name="team_two_fa_cup">Man City</string>
     <string name="time_fa_cup">19:50</string>
     <string name="header_league">LEAGUE ONE</string>
-    <string name="teamone_league">Blackburn</string>
-    <string name="teamtwo_league">Bury</string>
+    <string name="team_one_league">Blackburn</string>
+    <string name="team_two_league">Bury</string>
     <string name="time_league">19:45</string>
     <string name="header_south">NATIONAL LEAGUE SOUTH</string>
-    <string name="teamone_south">Wealdstone</string>
-    <string name="teamtwo_south">Gloucester City</string>
+    <string name="team_one_south">Wealdstone</string>
+    <string name="team_two_south">Gloucester City</string>
     <string name="time_south">19:00</string>
 </resources>

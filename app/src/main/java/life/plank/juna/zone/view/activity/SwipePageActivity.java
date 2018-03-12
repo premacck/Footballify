@@ -56,6 +56,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneListFragment;
+import life.plank.juna.zone.view.fragment.ScoreFixtureFragment;
 import life.plank.juna.zone.view.fragment.StandingFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -275,6 +276,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 activeTextView.setText(arrayData[position]);
                 activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 listPopupWindow.dismiss();
+                if (position == 2) {
+                    scoreFixtureFragment();
+                    containerRelativeLayout.setVisibility(View.GONE);
+                }
                 if (position == 3) {
                     scoreTableFragment();
                 }
@@ -319,6 +324,17 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
                 .replace(R.id.fragment_container_frame_layout, new LiveZoneListFragment())
+                .commit();
+    }
+
+    public void scoreFixtureFragment() {
+        //TODO: replace fragment will be uncommented once fragment class is added
+        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.removeAllViews();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.fragmentContainerFrameLayout, new ScoreFixtureFragment())
                 .commit();
     }
 
@@ -433,5 +449,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
             }
         });
+    }
+
+    public void retainFeedContainer(){
+        containerRelativeLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
 }
