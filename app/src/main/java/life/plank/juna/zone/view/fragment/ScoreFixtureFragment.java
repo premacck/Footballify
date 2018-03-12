@@ -28,7 +28,7 @@ public class ScoreFixtureFragment extends Fragment {
     private Unbinder unbinder;
 
     // TODO: Rename and change types and number of parameters
-    public static ScoreFixtureFragment newInstance(String param1, String param2) {
+    public static ScoreFixtureFragment newInstance(String parameter1, String paramater2) {
         ScoreFixtureFragment fragment = new ScoreFixtureFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);

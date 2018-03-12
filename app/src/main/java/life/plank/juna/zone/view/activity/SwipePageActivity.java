@@ -331,7 +331,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void scoreFixtureFragment() {
-        //TODO: reeplace fragment will be uncommented once fragment class is added
+        //TODO: replace fragment will be uncommented once fragment class is added
         fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()

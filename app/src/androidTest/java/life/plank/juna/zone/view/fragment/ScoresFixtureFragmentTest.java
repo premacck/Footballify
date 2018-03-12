@@ -76,7 +76,7 @@ public class ScoresFixtureFragmentTest {
     }
 
     @Test
-    public void scoresFixtureRecyclerviewCount() {
+    public void scoresFixtureRecyclerViewCount() {
         /*check if recyclerView is displayed
         * check the recyclerView item count*/
         onView(ViewMatchers.withId(R.id.score_recycler_view)).check(matches(isDisplayed()));

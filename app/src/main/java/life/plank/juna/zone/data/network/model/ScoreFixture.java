@@ -68,7 +68,7 @@ public class ScoreFixture {
         return teamOne;
     }
 
-    public void setTeamOneTeamOne(String teamOne) {
+    public void setTeamOne(String teamOne) {
         this.teamOne = teamOne;
     }
 
