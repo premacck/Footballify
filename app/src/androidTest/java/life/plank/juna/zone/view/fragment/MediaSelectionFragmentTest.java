@@ -126,9 +126,16 @@ public class MediaSelectionFragmentTest {
     @Test
     public void clickOfSelectedItemShouldNotDisplaySelectionImage() {
         // Remove selection image on click of selected item
-        clickOfItemShouldDisplaySelectionImage();
         mediaSelectionRecyclerViewShouldScroll();
+        clickOfItemShouldDisplaySelectionImage();
         onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
+    }
+
+    @Test
+    public void clickOfCloseViewShouldNotDisplayImageSelectionItems() {
+        // Remove fragment views on click of close image view.
+        mediaSelectionRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
     }
 }
