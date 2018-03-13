@@ -282,9 +282,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 drawerLayout.closeDrawer(GravityCompat.END);
                 break;
             }
-
         }
-
     }
 
     private void makeAuthRequest(
@@ -387,7 +385,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 callbackManager.onActivityResult(requestCode, resultCode, data);
                 twitterAuthClient.onActivityResult(requestCode, resultCode, data);
             } catch (Exception e) {
-               //do nothing
+                //do nothing
             }
         }
     }
