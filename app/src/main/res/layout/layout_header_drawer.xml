@@ -23,7 +23,7 @@
             android:src="@drawable/ic_profile_dummy" />
 
         <android.support.v7.widget.AppCompatImageButton
-            android:id="@+id/football_menu"
+            android:id="@+id/football_menu_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
