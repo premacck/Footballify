@@ -124,7 +124,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/match"
+        android:id="@+id/score_container_relative_layout"
         android:layout_margin="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -195,7 +195,6 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:minLines="3"
-            android:text=""
             android:textColor="@color/white"
             android:textSize="12sp" />
     </RelativeLayout>
@@ -204,7 +203,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/banter_zone_layout"
-        android:layout_below="@+id/match"
+        android:layout_below="@+id/score_container_relative_layout"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
