@@ -39,7 +39,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     private FootballFeedCommentAdapter commentFeedAdapter;
 
     public FootballFeedDetailAdapter(Context context,List<FootballFeed> footballFeedsList) {
-        //footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
         this.context = context;
         this.footballFeedsList = footballFeedsList;
     }
