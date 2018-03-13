@@ -30,6 +30,8 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     private SharedPreferences loginPreferences;
     private Boolean savedLogin;
     private NetworkStateReceiver networkStateReceiver;
+    private boolean isSplashScreenTimeOut = false;
+    private boolean isIntentCalled = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,9 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
         loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
         new Handler().postDelayed(() -> {
+            isSplashScreenTimeOut = true;
             if (NetworkStatus.isNetworkAvailable(this)) {
+                isIntentCalled = true;
                 startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
                 finish();
             }
@@ -97,6 +101,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     protected void onPause() {
         super.onPause();
         isVisible = false;
+        unregisterNetworkBroadcastReceiver(this);
     }
 
     @Override
@@ -123,8 +128,10 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     public void networkAvailable() {
-        startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-        finish();
+        if (isSplashScreenTimeOut && !isIntentCalled) {
+            startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+            finish();
+        }
     }
 
     @Override
@@ -145,5 +152,14 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
      */
     public void registerNetworkBroadcastReceiver(Context currentContext) {
         currentContext.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    /**
+     * Unregister the NetworkStateReceiver with your activity
+     *
+     * @param currentContext
+     */
+    public void unregisterNetworkBroadcastReceiver(Context currentContext) {
+        currentContext.unregisterReceiver(networkStateReceiver);
     }
 }
