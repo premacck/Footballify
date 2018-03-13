@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -161,7 +160,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         getFootballFeed();
         initRecyclerView();
         showOnboardingDialog();
-        addDrawerListener();
     }
 
     private void initRecyclerView() {
@@ -311,7 +309,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 retainLayout();
                 liveZoneListFragment();
                 break;
-
             case R.id.football_menu:
                 drawerLayout.openDrawer(GravityCompat.END);
                 break;
@@ -426,32 +423,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         startActivity(liveZoneIntent);
     }
 
-    private void addDrawerListener() {
-        drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                footballMenuLinearLayout.setBackgroundColor(ContextCompat.getColor(SwipePageActivity.this, R.color.white));
-                footballMenu.setImageResource(R.drawable.ic_menu_selected);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                footballMenuLinearLayout.setBackgroundColor(ContextCompat.getColor(SwipePageActivity.this, R.color.transparent));
-                footballMenu.setImageResource(R.drawable.ic_menu);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
-    }
-
-    public void retainFeedContainer(){
+    public void retainFeedContainer() {
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
     }

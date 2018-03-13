@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -157,11 +158,15 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         registerIcon = dialog.findViewById(R.id.register_icon);
         spinner = dialog.findViewById(R.id.social_signup_spinner);
         parentLinearLayout = dialog.findViewById(R.id.parent_linear_layout);
+        LinearLayout drawerLinearLayout = findViewById(R.id.drawer_linear_layout);
+        View drawerTransparentView = findViewById(R.id.drawer_transparent_view);
         applyButton.setOnClickListener(this);
         closeDialogImage.setOnClickListener(this);
         twitterIcon.setOnClickListener(this);
         facebookIcon.setOnClickListener(this);
         registerIcon.setOnClickListener(this);
+        drawerLinearLayout.setOnClickListener(this);
+        drawerTransparentView.setOnClickListener(this);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
     }
 
@@ -269,6 +274,11 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                     idp.retrieveConfig(this, retrieveCallback);
                 }
             }
+            case R.id.drawer_linear_layout: 
+            case R.id.drawer_transparent_view: {
+                drawerLayout.closeDrawer(GravityCompat.END);
+                break;
+            }
         }
     }
 
@@ -372,7 +382,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 callbackManager.onActivityResult(requestCode, resultCode, data);
                 twitterAuthClient.onActivityResult(requestCode, resultCode, data);
             } catch (Exception e) {
-               //do nothing
+                //do nothing
             }
         }
     }
