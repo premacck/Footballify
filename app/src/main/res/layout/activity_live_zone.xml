@@ -14,7 +14,7 @@
         android:id="@+id/football_toolbar"
         layout="@layout/zone_football_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignBottom="@+id/zone_logo"
         android:layout_marginBottom="@dimen/football_toolbar_margin_bottom"
         android:layout_toEndOf="@+id/zone_logo"

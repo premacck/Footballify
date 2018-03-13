@@ -26,7 +26,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 /**
@@ -39,16 +38,15 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     private Context context;
     private FootballFeedCommentAdapter commentFeedAdapter;
 
-    public FootballFeedDetailAdapter(Context context) {
-        footballFeedsList = GlobalVariable.getInstance().getFootballFeeds();
+    public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
         this.context = context;
+        this.footballFeedsList = footballFeedsList;
     }
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.football_feed_detail_row, parent, false);
-
         return new FootballFeedDetailViewHolder(view);
     }
 
@@ -78,9 +76,11 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             Picasso.with(context)
                     .load(footballFeedsList.get(position).getThumbnail().getImageUrl())
                     .fit()
+                    .error(R.drawable.ic_place_holder)
+                    .placeholder(R.drawable.ic_place_holder)
                     .into(holder.feedImageView);
         } else {
-            holder.feedImageView.setImageResource(R.drawable.ic_third_dummy);
+            holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
         }
 
     }
@@ -204,7 +204,5 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             feedCommentRecyclerView.setLayoutManager(layoutManager);
             feedCommentRecyclerView.setAdapter(commentFeedAdapter);
         }
-
     }
-
 }
