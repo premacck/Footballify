@@ -45,7 +45,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.interfaces.OnLongClickListener;
+import life.plank.juna.zone.interfaces.PinFeedsListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.PreferenceManager;
@@ -69,7 +69,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, OnLongClickListener {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, PinFeedsListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     @Inject
     @Named("azure")
@@ -190,7 +190,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         feedRecyclerView.setAdapter(footballFeedAdapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        footballFeedAdapter.setOnLongClickListener(this);
+        footballFeedAdapter.setPinFeedsListener(this);
         SnapHelper snapHelperFeedRecycler = new StartSnapHelper();
         snapHelperFeedRecycler.attachToRecyclerView(feedRecyclerView);
         footballFeeds = new ArrayList<>();
@@ -396,7 +396,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     @Override
-    public void onLongClick(int positon) {
+    public void onPinFeed(int positon) {
         savePinnedFeedsToPrefrence(positon);
     }
 

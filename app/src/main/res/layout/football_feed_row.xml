@@ -115,4 +115,13 @@
         android:shadowRadius="2"
         android:text="16/01\n9min"
         android:textColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/pin_image_view"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_pinhdpi"
+        android:layout_below="@+id/posted_time"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
 </RelativeLayout>

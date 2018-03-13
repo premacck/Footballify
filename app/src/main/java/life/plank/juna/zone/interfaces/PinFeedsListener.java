@@ -5,6 +5,6 @@ package life.plank.juna.zone.interfaces;
  */
 
 @FunctionalInterface
-public interface OnLongClickListener {
-    void onLongClick(int positon);
+public interface PinFeedsListener {
+    void onPinFeed(int positon);
 }
