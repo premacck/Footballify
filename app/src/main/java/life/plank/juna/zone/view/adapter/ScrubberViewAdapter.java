@@ -139,7 +139,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
                 .gravity(Gravity.TOP)
                 .build();
         simpleTooltip.show();
-        final Handler handler = new Handler();
+        Handler handler = new Handler();
         handler.postDelayed(simpleTooltip::dismiss, 2000);
     }
 
