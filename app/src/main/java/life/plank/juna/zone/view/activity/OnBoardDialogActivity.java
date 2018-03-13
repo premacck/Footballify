@@ -277,14 +277,14 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                     idp.retrieveConfig(this, retrieveCallback);
                 }
             }
-            case R.id.drawer_linear_layout: 
+            case R.id.drawer_linear_layout:
             case R.id.drawer_transparent_view: {
                 drawerLayout.closeDrawer(GravityCompat.END);
                 break;
             }
-            case R.id.my_pins_text_view:{
+            case R.id.my_pins_text_view: {
                 drawerLayout.closeDrawer(GravityCompat.END);
-                startActivity(new Intent(this,PinboardActivity.class));
+                startActivity(new Intent(this, PinboardActivity.class));
                 break;
             }
         }
