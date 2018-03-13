@@ -123,11 +123,87 @@
             android:src="@drawable/ic_person" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/score_container_relative_layout"
+        android:layout_margin="3dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/live_zone_header_relative_layout"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/home_team_score_text_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="0"
+            android:textAllCaps="true"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/home_team_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="6dp"
+            android:layout_toLeftOf="@+id/home_team_score_text_view"
+            android:layout_toStartOf="@+id/home_team_score_text_view"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/brighton_amp_hove_albiono"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/visiting_team_score_text_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/home_team_text_view"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
+            android:background="@color/red"
+            android:gravity="center"
+            android:text="3"
+            android:textAllCaps="true"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/visiting_team_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/home_team_text_view"
+            android:layout_margin="5dp"
+            android:layout_toStartOf="@+id/home_team_score_text_view"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/chelsea"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/commentary_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp"
+            android:layout_toRightOf="@+id/home_team_score_text_view"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:minLines="3"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/banter_zone_layout"
-        android:layout_below="@+id/live_zone_header_relative_layout"
+        android:layout_below="@+id/score_container_relative_layout"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
@@ -135,96 +211,21 @@
             android:id="@+id/scrubber_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".25"
+            android:layout_weight=".13"
             android:orientation="vertical"
-            android:padding="5dp"
+            android:layout_margin="5dp"
             android:weightSum="1">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight=".5"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/home_team_score_text_view"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="5dp"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/home_team_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_toLeftOf="@+id/home_team_score_text_view"
-                    android:layout_toStartOf="@+id/home_team_score_text_view"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/brighton_amp_hove_albiono"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/visiting_team_score_text_view"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_below="@+id/home_team_text_view"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="5dp"
-                    android:background="@color/red"
-                    android:gravity="center"
-                    android:text="3"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/visiting_team_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/home_team_text_view"
-                    android:layout_margin="5dp"
-                    android:layout_toLeftOf="@+id/home_team_score_text_view"
-                    android:layout_toStartOf="@+id/home_team_score_text_view"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:text="@string/chelsea"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/commentary_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="3dp"
-                    android:layout_marginStart="3dp"
-                    android:layout_toRightOf="@+id/home_team_score_text_view"
-                    android:ellipsize="end"
-                    android:maxLines="4"
-                    android:minLines="4"
-                    android:text=""
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight=".5"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <View
                     android:id="@+id/view"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="0.1dp"
                     android:background="#fff" />
 
                 <android.support.v7.widget.RecyclerView
@@ -232,27 +233,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_below="@+id/view"
-                    android:layout_weight="0.4"
+                    android:layout_weight="1"
                     android:background="#333333" />
 
                 <View
                     android:id="@+id/view_after"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
+                    android:layout_height="0.1dp"
                     android:background="#fff" />
 
                 <ImageView
                     android:id="@+id/arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
                     android:background="@drawable/ic_pointer"
                     android:scaleType="fitCenter"
-                    android:visibility="visible" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="0.1" />
+                    android:visibility="gone" />
             </LinearLayout>
         </LinearLayout>
 
@@ -260,7 +256,7 @@
             android:id="@+id/live_zone_grid_view_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".75" />
+            android:layout_weight=".87" />
 
         <FrameLayout
             android:id="@+id/fragment_container_frame_layout"
