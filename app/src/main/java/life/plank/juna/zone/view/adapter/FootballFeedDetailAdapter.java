@@ -38,7 +38,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     private Context context;
     private FootballFeedCommentAdapter commentFeedAdapter;
 
-    public FootballFeedDetailAdapter(Context context,List<FootballFeed> footballFeedsList) {
+    public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
         this.context = context;
         this.footballFeedsList = footballFeedsList;
     }
@@ -204,7 +204,5 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             feedCommentRecyclerView.setLayoutManager(layoutManager);
             feedCommentRecyclerView.setAdapter(commentFeedAdapter);
         }
-
     }
-
 }
