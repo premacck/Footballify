@@ -24,4 +24,7 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorControlActivated">@color/text_hint_label_color</item>
+    </style>
 </resources>
