@@ -71,7 +71,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
         holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
-        holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder,position));
+        holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder, position));
 
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(context)
@@ -88,7 +88,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             public void onClick(View view) {
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
                 intent.putExtra(AppConstants.POSITION, String.valueOf(position));
-                intent.putExtra(AppConstants.FEED_ITEMS,new Gson().toJson(footballFeedList));
+                intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeedList));
                 context.startActivity(intent);
             }
         });
@@ -186,7 +186,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         this.pinFeedsListener = pinFeedsListener;
     }
 
-    private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder,int position) {
+    private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder, int position) {
         PopupWindow popupWindowMenu;
         LinearLayout inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
         ListView listView = inflateLinearLayout.findViewById(R.id.list_item_view);
@@ -203,16 +203,16 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setPopUpLocationX(locationLikeView[0] - gridWidth + popupImageWidth);
         popUpWindowHelper.setPopUpLocationY(locationLikeView[1]);
         popupWindowMenu = popUpWindowHelper.genericPopUpWindow(context);
-       listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-           @Override
-           public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-               if (i == 0){
-                   pinFeedsListener.onPinFeed(position);
-                   popupWindowMenu.dismiss();
-                   footballFeedViewHolder.pinImageView.setVisibility(View.VISIBLE);
-               }
-           }
-       });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    pinFeedsListener.onPinFeed(position);
+                    popupWindowMenu.dismiss();
+                    footballFeedViewHolder.pinImageView.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
