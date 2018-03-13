@@ -77,9 +77,11 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             Picasso.with(context)
                     .load(footballFeedsList.get(position).getThumbnail().getImageUrl())
                     .fit()
+                    .error(R.drawable.ic_place_holder)
+                    .placeholder(R.drawable.ic_place_holder)
                     .into(holder.feedImageView);
         } else {
-            holder.feedImageView.setImageResource(R.drawable.ic_third_dummy);
+            holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
         }
 
     }

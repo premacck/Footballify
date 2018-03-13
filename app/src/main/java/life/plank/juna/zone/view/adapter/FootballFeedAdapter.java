@@ -27,6 +27,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnLongClickListener;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.PopUpWindowHelper;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
@@ -85,8 +86,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-                intent.putExtra(String.valueOf(R.string.position), String.valueOf(position));
-                intent.putExtra("feeditems",new Gson().toJson(footballFeedList));
+                intent.putExtra(AppConstants.POSITION, String.valueOf(position));
+                intent.putExtra(AppConstants.FEED_ITEMS,new Gson().toJson(footballFeedList));
                 context.startActivity(intent);
             }
         });

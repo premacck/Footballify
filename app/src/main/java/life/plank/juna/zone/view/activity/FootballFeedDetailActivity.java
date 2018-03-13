@@ -39,7 +39,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
 
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this,
-                new Gson().fromJson(getIntent().getStringExtra("feeditems"), new TypeToken<List<FootballFeed>>() {
+                new Gson().fromJson(getIntent().getStringExtra(AppConstants.FEED_ITEMS), new TypeToken<List<FootballFeed>>() {
                 }.getType())
         );
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
