@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -113,23 +114,11 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
         }
 
-        holder.view.setOnClickListener(v -> {
-            String status;
+        holder.view.setOnClickListener(itemView -> {
             if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
-                SimpleTooltip simpleTooltip = new SimpleTooltip.Builder(context)
-                        .anchorView(v)
-                        .text(scrubberViewDataHolder.get(position).getMessage())
-                        .backgroundColor(ContextCompat.getColor(context, R.color.orange))
-                        .arrowColor(ContextCompat.getColor(context, R.color.orange))
-                        .highlightShape(R.drawable.shadow_tooltip)
-                        .transparentOverlay(true)
-                        .animationDuration(1000)
-                        .gravity(Gravity.TOP)
-                        .build();
-                simpleTooltip.show();
+                displayTooltip(itemView, scrubberViewDataHolder.get(position).getMessage());
             }
         });
-
         if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
             scrubberPointerUpdate.updateRecentEvents(position);
         }
@@ -140,7 +129,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
      * @param status : String to display
      */
     private void displayTooltip(View view, String status) {
-        simpleTooltip = new SimpleTooltip.Builder(context)
+        SimpleTooltip simpleTooltip = new SimpleTooltip.Builder(context)
                 .anchorView(view)
                 .text(status)
                 .backgroundColor(ContextCompat.getColor(context, R.color.orange))
@@ -150,6 +139,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
                 .gravity(Gravity.TOP)
                 .build();
         simpleTooltip.show();
+        Handler handler = new Handler();
+        handler.postDelayed(simpleTooltip::dismiss, 2000);
     }
 
     @Override
