@@ -115,7 +115,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         }
 
         holder.view.setOnClickListener(itemView -> {
-            String status;
             if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
                 displayTooltip(itemView, scrubberViewDataHolder.get(position).getMessage());
             }
