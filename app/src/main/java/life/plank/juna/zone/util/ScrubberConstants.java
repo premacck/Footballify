@@ -22,7 +22,7 @@ public class ScrubberConstants {
     public static final int SCRUBBER_VIEW_CURSOR = 4;
     public static final int SCRUBBER_PRE_MATCH = 60;
     public static final int SCRUBBER_POST_MATCH = 60;
-    public static final int SCRUBBER_VIEW_TOTAL_WINDOW = 105;
+    public static final int SCRUBBER_VIEW_TOTAL_WINDOW = 95;
     public static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
     public static final String SCRUBBER_MATCH_NUMBER = "matchNumber";
     public static int scrubberPointerImageWidth = 20;

@@ -127,6 +127,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/live_zone_header_relative_layout"
+        android:layout_margin="3dp"
         android:gravity="center">
 
         <TextView
@@ -224,11 +225,12 @@
 
             <ImageView
                 android:id="@+id/arrow"
-                android:layout_width="15dp"
+                    android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_pointer"
                 android:scaleType="fitCenter"
                 android:visibility="invisible" />
+
         </LinearLayout>
     </RelativeLayout>
 
