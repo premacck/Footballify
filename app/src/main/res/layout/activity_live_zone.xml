@@ -236,12 +236,14 @@
         android:id="@+id/live_zone_grid_view_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/score_container_relative_layout" />
+        android:layout_below="@+id/score_container_relative_layout"
+        android:layout_above="@+id/banter_zone_layout"/>
 
     <FrameLayout
         android:id="@+id/fragment_container_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/score_container_relative_layout"
+        android:layout_above="@+id/banter_zone_layout"
         android:visibility="gone" />
 </RelativeLayout>
