@@ -101,7 +101,8 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     protected void onPause() {
         super.onPause();
         isVisible = false;
-        unregisterNetworkBroadcastReceiver(this);
+        if (networkStateReceiver != null)
+            unregisterNetworkBroadcastReceiver(this);
     }
 
     @Override
@@ -160,6 +161,10 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
      * @param currentContext
      */
     public void unregisterNetworkBroadcastReceiver(Context currentContext) {
-        currentContext.unregisterReceiver(networkStateReceiver);
+        try {
+            currentContext.unregisterReceiver(networkStateReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
