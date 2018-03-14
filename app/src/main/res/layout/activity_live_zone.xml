@@ -125,10 +125,10 @@
 
     <RelativeLayout
         android:id="@+id/score_container_relative_layout"
-        android:layout_margin="3dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/live_zone_header_relative_layout"
+        android:layout_margin="3dp"
         android:gravity="center">
 
         <TextView
@@ -188,9 +188,9 @@
             android:id="@+id/commentary_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="3dp"
             android:layout_marginStart="3dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/home_team_score_text_view"
             android:ellipsize="end"
             android:maxLines="3"
@@ -213,7 +213,6 @@
             android:layout_height="0dp"
             android:layout_weight=".13"
             android:orientation="vertical"
-            android:layout_margin="5dp"
             android:weightSum="1">
 
             <LinearLayout
@@ -244,11 +243,12 @@
 
                 <ImageView
                     android:id="@+id/arrow"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/ic_pointer"
-                    android:scaleType="fitCenter"
-                    android:visibility="gone" />
+                    android:visibility="invisible"
+                    android:scaleType="fitCenter" />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -262,7 +262,7 @@
             android:id="@+id/fragment_container_frame_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight=".75"
+            android:layout_weight=".87"
             android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>
