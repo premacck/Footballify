@@ -72,6 +72,5 @@ public class ChatModel{
         chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),"https://www.thesun.co.uk/wp-content/uploads/2017/07/nintchdbpict000342293828.jpg?strip=all&w=960&quality=100",false));
         chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text_two),"",false));
         return chatModelList;
-
     }
 }
