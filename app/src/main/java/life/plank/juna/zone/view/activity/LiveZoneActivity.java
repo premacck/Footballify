@@ -34,6 +34,7 @@ import life.plank.juna.zone.interfaces.ScrubberPointerUpdate;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.ItemTouchHelperCallback;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
@@ -135,7 +136,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                 }
                 scrubberProgressData.add(ScrubberConstants.getScrubberViewCursor());
                 if (!scrubberViewAdapter.trigger) {
-                    runOnUiThread(() -> scrubberViewAdapter.notifyItemChanged(scrubberProgressData.size() - 1));
+                    runOnUiThread(() -> scrubberViewAdapter.notifyDataSetChanged());
                 }
                 moveScrubberPointer(null, scrubberProgressData.size());
                 progressStatus++;
