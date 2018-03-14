@@ -87,11 +87,14 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
     }
 
     public void setPinnedFootballFeedList() {
-
-        footballFeedList.addAll(new Gson().fromJson(new PreferenceManager(context).getPinnedFeeds(AppConstants.PINNED_FEEDS),
-                new TypeToken<List<FootballFeed>>() {
-                }.getType()));
-        notifyDataSetChanged();
+        try {
+            footballFeedList.addAll(new Gson().fromJson(new PreferenceManager(context).getPinnedFeeds(AppConstants.PINNED_FEEDS),
+                    new TypeToken<List<FootballFeed>>() {
+                    }.getType()));
+            notifyDataSetChanged();
+        }catch (Exception e){
+            //TODO: show graphics for no pin feeds
+        }
     }
 
 }

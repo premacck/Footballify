@@ -109,6 +109,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     private SocialLoginViewModel socialLoginViewModel;
     private TextView textDrawerMenu;
     private AuthorizationService mAuthService;
+    private TextView myPinsTextView;
 
     @Override
     public void setContentView(int layoutResID) {
@@ -160,11 +161,13 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
         parentLinearLayout = dialog.findViewById(R.id.parent_linear_layout);
         LinearLayout drawerLinearLayout = findViewById(R.id.drawer_linear_layout);
         View drawerTransparentView = findViewById(R.id.drawer_transparent_view);
+        myPinsTextView = findViewById(R.id.my_pins_text_view);
         applyButton.setOnClickListener(this);
         closeDialogImage.setOnClickListener(this);
         twitterIcon.setOnClickListener(this);
         facebookIcon.setOnClickListener(this);
         registerIcon.setOnClickListener(this);
+        myPinsTextView.setOnClickListener(this);
         drawerLinearLayout.setOnClickListener(this);
         drawerTransparentView.setOnClickListener(this);
         drawerLayout.setScrimColor(Color.TRANSPARENT);
@@ -274,9 +277,14 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                     idp.retrieveConfig(this, retrieveCallback);
                 }
             }
-            case R.id.drawer_linear_layout: 
+            case R.id.drawer_linear_layout:
             case R.id.drawer_transparent_view: {
                 drawerLayout.closeDrawer(GravityCompat.END);
+                break;
+            }
+            case R.id.my_pins_text_view: {
+                drawerLayout.closeDrawer(GravityCompat.END);
+                startActivity(new Intent(this, PinboardActivity.class));
                 break;
             }
         }
