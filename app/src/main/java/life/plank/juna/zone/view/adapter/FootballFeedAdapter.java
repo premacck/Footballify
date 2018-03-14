@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.interfaces.PinFeedsListener;
+import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.PopUpWindowHelper;
@@ -48,7 +48,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int popupImageWidth;
     private int gridWidth;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
-    private PinFeedsListener pinFeedsListener;
+    private PinFeedListener pinFeedListener;
     private int popupImageHeight;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
@@ -182,8 +182,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         notifyDataSetChanged();
     }
 
-    public void setPinFeedsListener(PinFeedsListener pinFeedsListener) {
-        this.pinFeedsListener = pinFeedsListener;
+    public void setPinFeedListener(PinFeedListener pinFeedListener) {
+        this.pinFeedListener = pinFeedListener;
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder, int position) {
@@ -207,7 +207,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 0) {
-                    pinFeedsListener.onPinFeed(position);
+                    pinFeedListener.onPinFeed(position);
                     popupWindowMenu.dismiss();
                     footballFeedViewHolder.pinImageView.setVisibility(View.VISIBLE);
                 }
