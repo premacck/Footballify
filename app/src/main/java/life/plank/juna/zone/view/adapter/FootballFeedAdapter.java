@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daasuu.bl.BubbleLayout;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnLongClickListener;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.PopUpWindowHelper;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
@@ -74,16 +76,18 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             Picasso.with(context)
                     .load(footballFeed.getThumbnail().getImageUrl())
                     .fit().centerCrop()
+                    .placeholder(R.drawable.ic_place_holder)
+                    .error(R.drawable.ic_place_holder)
                     .into(holder.newsFeedImage);
         } else {
-            holder.newsFeedImage.setImageResource(R.drawable.ic_third_dummy);
+            holder.newsFeedImage.setImageResource(R.drawable.ic_place_holder);
         }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-                intent.putExtra(String.valueOf(R.string.position), String.valueOf(position));
+                intent.putExtra(AppConstants.POSITION, String.valueOf(position));
+                intent.putExtra(AppConstants.FEED_ITEMS,new Gson().toJson(footballFeedList));
                 context.startActivity(intent);
             }
         });
@@ -115,19 +119,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             holder.likeImage.getLayoutParams().height = imageWidth;
         }
         holder.likeImage.setOnClickListener((View view) -> displayPopup(position, holder, gridHeight, view));
-        if (footballFeed.getThumbnail() != null) {
-            Picasso.with(context)
-                    .load(footballFeed.getThumbnail().getImageUrl())
-                    .fit()
-                    .into(holder.newsFeedImage);
-        } else {
-            holder.newsFeedImage.setImageResource(R.drawable.ic_third_dummy);
-        }
-        holder.itemView.setOnClickListener(view -> {
-            Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-            intent.putExtra("position", String.valueOf(position));
-            context.startActivity(intent);
-        });
     }
 
     private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {

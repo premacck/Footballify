@@ -8,9 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
 import android.widget.ImageView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
@@ -32,7 +38,10 @@ public class FootballFeedDetailActivity extends AppCompatActivity {
     }
 
     public void populateRecyclerView() {
-        FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this);
+        FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this,
+                new Gson().fromJson(getIntent().getStringExtra(AppConstants.FEED_ITEMS), new TypeToken<List<FootballFeed>>() {
+                }.getType())
+        );
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         footballFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
         try {

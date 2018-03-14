@@ -28,4 +28,5 @@
     <color name="team_name_color">#060606</color>
     <color name="score_fixture_time_label_color">#dadada</color>
     <color name="score_fixture_background_color">#f7f7f5</color>
+    <color name="text_hint_label_color">#009688</color>
 </resources>
