@@ -50,8 +50,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/name_text_view"
-                android:scaleType="centerCrop"
-                android:src="@drawable/image0" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/image2"
+                android:adjustViewBounds="true"/>
         </RelativeLayout>
     </LinearLayout>
 
