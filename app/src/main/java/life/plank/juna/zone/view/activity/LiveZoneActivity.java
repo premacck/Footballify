@@ -61,8 +61,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     TextView homeTeamScoreTextView;
     @BindView(R.id.visiting_team_score_text_view)
     TextView visitingTeamScoreTextView;
-    @BindView(R.id.scrubber_linear_layout)
-    LinearLayout scrubberLinearLayout;
+    @BindView(R.id.score_container_relative_layout)
+    RelativeLayout scoreContainerRelativeLayout;
     @BindView(R.id.banter_zone_layout)
     RelativeLayout banterZoneLayout;
     Context context;
@@ -247,7 +247,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
             banterZoneLayout.setVisibility(View.GONE);
             fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         } else {
-            scrubberLinearLayout.setVisibility(View.VISIBLE);
+            scoreContainerRelativeLayout.setVisibility(View.VISIBLE);
             liveZoneGridViewRecyclerView.setVisibility(View.VISIBLE);
             banterZoneLayout.setVisibility(View.VISIBLE);
             fragmentContainerFrameLayout.setVisibility(View.GONE);
@@ -263,9 +263,9 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
 
     public void expandCollapseChatView(boolean status) {
         if (status) {
-            scrubberLinearLayout.setVisibility(View.GONE);
+            scoreContainerRelativeLayout.setVisibility(View.GONE);
         } else {
-            scrubberLinearLayout.setVisibility(View.VISIBLE);
+            scoreContainerRelativeLayout.setVisibility(View.VISIBLE);
         }
     }
 }
