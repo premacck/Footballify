@@ -71,6 +71,7 @@ public class ChatModel{
         chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),"http://img.bleacherreport.net/img/images/photos/003/661/021/hi-res-cccf19f0309762518219309b7c8fb8dc_crop_north.jpg?h=533&w=800&q=70&crop_x=center&crop_y=top",true));
         chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),"https://www.thesun.co.uk/wp-content/uploads/2017/07/nintchdbpict000342293828.jpg?strip=all&w=960&quality=100",false));
         chatModelList.add(new ChatModel("text", context.getString(R.string.lorem_ipsum_text_two),"",false));
+        chatModelList.add(new ChatModel("image", context.getString(R.string.lorem_ipsum_text),"http://www.upstart.net.au/wp-content/uploads/2017/08/2016-17_FC_Barcelona_at_the_Match_of_Champions.jpg",true));
         return chatModelList;
 
     }
