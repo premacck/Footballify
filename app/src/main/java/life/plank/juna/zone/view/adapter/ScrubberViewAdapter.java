@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -18,7 +19,9 @@ import io.github.douglasjunior.androidSimpleTooltip.SimpleTooltip;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.interfaces.ScrubberPointerUpdate;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.ScrubberConstants;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
 
 /**
@@ -26,6 +29,7 @@ import life.plank.juna.zone.util.helper.ItemTouchHelperInterface;
  */
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
     public boolean trigger = false;
+    private int viewWidth;
     ScrubberPointerUpdate scrubberPointerUpdate;
     //Temp data
     HashMap<Integer, String> detailedData;
@@ -47,7 +51,13 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         detailedData = new HashMap<>();
         this.scrubberProgressData = data;
         this.matchNumber = matchNumber;
+        calculateViewWidth();
         addHardCodedData();
+    }
+
+    private void calculateViewWidth() {
+        viewWidth =  UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth())/
+                ScrubberConstants.getScrubberViewTotalWindow();
     }
 
     private void addHardCodedData() {
@@ -56,7 +66,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public ScrubberViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         switch (viewType) {
             case ScrubberConstants.SCRUBBER_VIEW_HALF_TIME:
                 return new ScrubberViewHolder(LayoutInflater.from(parent.getContext())
@@ -97,6 +106,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     @Override
     public void onBindViewHolder(final ScrubberViewHolder holder, final int position) {
 
+        holder.view.getLayoutParams().width = viewWidth ;
         //To start the drag on touch and swipe.
         holder.view.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
