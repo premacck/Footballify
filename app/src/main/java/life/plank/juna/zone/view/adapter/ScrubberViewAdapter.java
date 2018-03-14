@@ -51,9 +51,13 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         detailedData = new HashMap<>();
         this.scrubberProgressData = data;
         this.matchNumber = matchNumber;
+        calculateViewWidth();
+        addHardCodedData();
+    }
+
+    private void calculateViewWidth() {
         viewWidth =  UIDisplayUtil.getDisplayMetricsData(context, GlobalVariable.getInstance().getDisplayWidth())/
                 ScrubberConstants.getScrubberViewTotalWindow();
-        addHardCodedData();
     }
 
     private void addHardCodedData() {
