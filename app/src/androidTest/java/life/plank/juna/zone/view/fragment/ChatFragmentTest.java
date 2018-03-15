@@ -40,10 +40,10 @@ public class ChatFragmentTest {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             getInstrumentation().getUiAutomation().executeShellCommand(
                     grant + getTargetContext().getPackageName()
-                            + "android.permission.WRITE_EXTERNAL_STORAGE");
+                            + R.string.external_storage_permission);
             getInstrumentation().getUiAutomation().executeShellCommand(
                     grant + getTargetContext().getPackageName()
-                            + "android.permission.CAMERA");
+                            + R.string.camera_permission);
         }
     }
 
