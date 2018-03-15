@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -153,7 +152,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         @BindView(R.id.add_comment)
         Button addCommentButton;
         @BindView(R.id.nested_scroll_view)
-        NestedScrollView nestedScrollView;
+        ScrollView nestedScrollView;
         @BindView(R.id.add_comment_view)
         Button addCommentView;
         @BindView(R.id.sliding_title_text_view)
