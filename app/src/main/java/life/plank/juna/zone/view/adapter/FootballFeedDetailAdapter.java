@@ -1,9 +1,9 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,6 +90,17 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     }
 
     private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
+        //holder.slideUpPanelLinearLayout.post(() ->holder.mLayout.setPanelHeight(holder.slideUpPanelLinearLayout.getHeight()));
+
+        holder.slideUpPanelLinearLayout.post(new Runnable() {
+            @Override
+            public void run() {
+              int a =  holder.slideUpPanelLinearLayout.getHeight();
+                holder.mLayout.setPanelHeight(a);
+                Log.v("trace","data"+a);
+            }
+        });
+
         holder.mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
             @Override
@@ -100,18 +111,18 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 switch (newState) {
                     case ANCHORED: {
-                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                        //holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);
                         break;
                     }
                     case EXPANDED: {
-                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
+                        //holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);
                         break;
                     }
                     case COLLAPSED: {
-                        holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent_grey));
-                        holder.slidingPanelLinearLayout.setVisibility(View.VISIBLE);
+                        //holder.dragView.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent_grey));
+                        //holder.slidingPanelLinearLayout.setVisibility(View.VISIBLE);
                         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(true);
                         break;
                     }
@@ -161,6 +172,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         TextView feedDetailsDateTextView;
         @BindView(R.id.sliding_feed_details_date_text_view)
         TextView slidingFeedDetailsDateTextView;
+        @BindView(R.id.slide_up_panel_linear_layout)
+        LinearLayout slideUpPanelLinearLayout;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
