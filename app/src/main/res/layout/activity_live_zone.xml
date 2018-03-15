@@ -27,12 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/football_toolbar"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
         android:layout_marginTop="10dp"
         android:paddingBottom="0dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
+        android:padding="3dp"
         android:paddingTop="0dp">
 
         <TextView
@@ -89,6 +88,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
+            android:padding="5dp"
             android:src="@drawable/ic_close" />
     </RelativeLayout>
 

@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/chat_header_background"
-    android:padding="16dp"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
     tools:context="life.plank.juna.zone.view.fragment.MediaSelectionFragment">
 
     <TextView
@@ -52,10 +54,14 @@
 
     <ImageView
         android:id="@+id/close_image_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:padding="5dp"
+        android:layout_marginStart="10dp"
+        android:paddingLeft="8dp"
+        android:paddingTop="3dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="8dp"
         android:src="@drawable/ic_close" />
 
     <android.support.v7.widget.RecyclerView
