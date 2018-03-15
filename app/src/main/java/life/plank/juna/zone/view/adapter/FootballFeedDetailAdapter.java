@@ -103,7 +103,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         } catch (Exception e) {
             holder.slidingUpPanelLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_place_holder));
         }
-
     }
 
     @Override
