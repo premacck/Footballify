@@ -41,6 +41,9 @@ public class ChatFragmentTest {
             getInstrumentation().getUiAutomation().executeShellCommand(
                     grant + getTargetContext().getPackageName()
                             + "android.permission.WRITE_EXTERNAL_STORAGE");
+            getInstrumentation().getUiAutomation().executeShellCommand(
+                    grant + getTargetContext().getPackageName()
+                            + "android.permission.CAMERA");
         }
     }
 
