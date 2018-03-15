@@ -62,9 +62,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         //TODO confirm max lines for the bottom content
         holder.topFeedContentTextView.setText(footballFeedsList.get(position).getSummary());
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
-        holder.titleTextView.setText(footballFeedsList.get(position).getTitle());
         holder.slidingTitleTextView.setText(footballFeedsList.get(position).getTitle());
-        holder.feedDetailsDateTextView.setText(footballFeedsList.get(position).getDatePublished());
         holder.slidingFeedDetailsDateTextView.setText(footballFeedsList.get(position).getDatePublished());
         holder.populateCommentRecyclerView();
         holder.feedCommentRecyclerView.setNestedScrollingEnabled(false);
@@ -72,7 +70,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         holder.expandArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.slidingPanelLinearLayout.setVisibility(View.GONE);
                 holder.slidingUpPanelLayout.setAnchorPoint(0.7f);
                 holder.slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
 
@@ -153,14 +150,10 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     }
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.feed_image_view)
-        ImageView feedImageView;
         @BindView(R.id.feed_comment_recycler_view)
         RecyclerView feedCommentRecyclerView;
         @BindView(R.id.tag_text_view)
         TextView tagTextView;
-        @BindView(R.id.title_text_view)
-        TextView titleTextView;
         @BindView(R.id.sliding_layout)
         SlidingUpPanelLayout slidingUpPanelLayout;
         @BindView(R.id.drag_view)
@@ -171,8 +164,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         TextView topFeedContentTextView;
         @BindView(R.id.bottom_feed_content)
         TextView bottomFeedContentTextView;
-        @BindView(R.id.sliding_panel_layout)
-        LinearLayout slidingPanelLinearLayout;
         @BindView(R.id.comment_submit)
         Button submitButton;
         @BindView(R.id.add_comment)
@@ -183,8 +174,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         Button addCommentView;
         @BindView(R.id.sliding_title_text_view)
         TextView slidingTitleTextView;
-        @BindView(R.id.feed_details_date_text_view)
-        TextView feedDetailsDateTextView;
         @BindView(R.id.sliding_feed_details_date_text_view)
         TextView slidingFeedDetailsDateTextView;
         @BindView(R.id.slide_up_panel_linear_layout)
