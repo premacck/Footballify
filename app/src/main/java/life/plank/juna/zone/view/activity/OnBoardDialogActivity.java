@@ -460,15 +460,15 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
             showToast(getString(R.string.not_a_valid_team));
             return false;
         } else if ((!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamTwoEditText.getText().toString())) &&
-                (teamOneEditText.getText().toString().contentEquals(teamTwoEditText.getText().toString()))){
+                (teamOneEditText.getText().toString().contentEquals(teamTwoEditText.getText().toString()))) {
             showToast(getString(R.string.select_different_teams));
             return false;
-        }else if ((!TextUtils.isEmpty(teamTwoEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) &&
+        } else if ((!TextUtils.isEmpty(teamTwoEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) &&
                 (teamTwoEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
             showToast(getString(R.string.select_different_teams));
             return false;
-        }else if ((!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) &&
-                (teamOneEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))){
+        } else if ((!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) &&
+                (teamOneEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
             showToast(getString(R.string.select_different_teams));
             return false;
         }
