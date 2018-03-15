@@ -9,7 +9,7 @@
     sothree:umanoOverlay="true"
     sothree:umanoPanelHeight="160dp"
     sothree:umanoParallaxOffset="100dp"
-    sothree:umanoScrollableView="@+id/nested_scroll_view"
+    sothree:umanoScrollableView="@+id/scroll_view"
     sothree:umanoShadowHeight="4dp">
 
     <FrameLayout
@@ -129,7 +129,7 @@
         </LinearLayout>
 
         <ScrollView
-            android:id="@+id/nested_scroll_view"
+            android:id="@+id/scroll_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
