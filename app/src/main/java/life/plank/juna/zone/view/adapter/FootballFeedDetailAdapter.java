@@ -78,18 +78,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
             }
         });
-       /* if (footballFeedsList.get(position).getThumbnail() != null) {
-            Picasso.with(context)
-                    .load(footballFeedsList.get(position).getThumbnail().getImageUrl())
-                    .fit()
-                    .error(R.drawable.ic_place_holder)
-                    .placeholder(R.drawable.ic_place_holder)
-                    .into(holder.feedImageView);
-        } else {
-            holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
-        }*/
-
-
         try {
             Picasso.with(context).
                     load(footballFeedsList.get(position).getThumbnail().getImageUrl())
