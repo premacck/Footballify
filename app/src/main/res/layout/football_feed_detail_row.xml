@@ -1,85 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:sothree="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="bottom"
+    sothree:umanoDragView="@+id/drag_view"
+    sothree:umanoOverlay="true"
+    sothree:umanoPanelHeight="0dp"
+    sothree:umanoParallaxOffset="100dp"
+    sothree:umanoScrollableView="@+id/scroll_view"
+    sothree:umanoShadowHeight="4dp">
 
-    <com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:sothree="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/sliding_layout"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        sothree:umanoDragView="@+id/drag_view"
-        sothree:umanoOverlay="true"
-        sothree:umanoPanelHeight="0dp"
-        sothree:umanoParallaxOffset="100dp"
-        sothree:umanoShadowHeight="4dp">
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <ImageView
-                android:id="@+id/feed_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop" />
-
-            <LinearLayout
-                android:id="@+id/sliding_panel_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:background="@color/transparent_grey"
-                android:orientation="vertical"
-                android:padding="10dp">
-
-                <TextView
-                    android:id="@+id/tag_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="teams"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="8sp" />
-
-                <TextView
-                    android:id="@+id/title_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="4"
-                    android:text="@string/feed_heading"
-                    android:textColor="@color/white"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/feed_details_date_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/feed_details_date"
-                    android:textAllCaps="true"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                <ImageView
-                    android:id="@+id/expand_arrow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_down_arrow" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/drag_view"
+        <ImageView
+            android:id="@+id/feed_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:id="@+id/sliding_panel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom"
             android:background="@color/transparent_grey"
-            android:clickable="true"
-            android:focusable="false"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tag_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="teams"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="4"
+                android:text="@string/feed_heading"
+                android:textColor="@color/white"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/feed_details_date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feed_details_date"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:id="@+id/expand_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/ic_down_arrow" />
+        </LinearLayout>
+    </FrameLayout>
+    
+    <LinearLayout
+        android:id="@+id/drag_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="teams"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="8sp" />
+
+            <TextView
+                android:id="@+id/sliding_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feed_heading"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/sliding_feed_details_date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/feed_details_date"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_down_arrow"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/white">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,126 +131,80 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="teams"
-                    android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="8sp" />
+                <include layout="@layout/like_comment_container" />
 
                 <TextView
-                    android:id="@+id/sliding_title_text_view"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/top_feed_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/feed_heading"
-                    android:textColor="@color/black"
-                    android:textSize="24sp" />
-
-                <TextView
-                    android:id="@+id/sliding_feed_details_date_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/feed_details_date"
-                    android:textAllCaps="true"
-                    android:textColor="@color/black"
+                    android:layout_marginTop="10dp"
+                    android:padding="3dp"
                     android:textSize="12sp" />
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:src="@drawable/ic_down_arrow"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <android.support.v4.widget.NestedScrollView
-                android:id="@+id/nested_scroll_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
+                    android:id="@+id/feed_content_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
+                    android:src="@drawable/ic_football_dummy_image" />
 
-                    <include layout="@layout/like_comment_container" />
+                <TextView
+                    android:id="@+id/bottom_feed_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                    <TextView
-                        android:id="@+id/top_feed_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:padding="3dp"
-                        android:textSize="12sp" />
+                <View
+                    android:id="@+id/reactions_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/grid_item_grey" />
 
-                    <ImageView
-                        android:id="@+id/feed_content_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_football_dummy_image" />
+                <include layout="@layout/like_comment_row" />
 
-                    <TextView
-                        android:id="@+id/bottom_feed_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/feed_comment_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:nestedScrollingEnabled="false" />
 
-                    <View
-                        android:id="@+id/reactions_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="20dp"
-                        android:background="@color/grid_item_grey" />
+                <View
+                    android:id="@+id/comment_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/grid_item_grey" />
 
-                    <include layout="@layout/like_comment_row" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Add Comment"
+                    android:textSize="14sp" />
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/feed_comment_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:nestedScrollingEnabled="false" />
+                <EditText
+                    android:id="@+id/edit_comment_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:background="@drawable/edit_text_border"
+                    android:gravity="top|left"
+                    android:padding="5dp" />
 
-                    <View
-                        android:id="@+id/comment_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@color/grid_item_grey" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:text="Add Comment"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/edit_comment_field"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:background="@drawable/edit_text_border"
-                        android:gravity="top|left"
-                        android:padding="5dp" />
-
-                    <Button
-                        android:id="@+id/comment_submit"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignRight="@id/edit_comment_field"
-                        android:layout_below="@+id/edit_comment_field"
-                        android:layout_gravity="right"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/ic_submit_backgroung"
-                        android:padding="10dp"
-                        android:text="Submit"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-            </android.support.v4.widget.NestedScrollView>
-        </LinearLayout>
-    </com.sothree.slidinguppanel.SlidingUpPanelLayout>
-</RelativeLayout>
+                <Button
+                    android:id="@+id/comment_submit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignRight="@id/edit_comment_field"
+                    android:layout_below="@+id/edit_comment_field"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/ic_submit_backgroung"
+                    android:padding="10dp"
+                    android:text="Submit"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

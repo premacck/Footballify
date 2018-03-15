@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -152,8 +151,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         Button submitButton;
         @BindView(R.id.add_comment)
         Button addCommentButton;
-        @BindView(R.id.nested_scroll_view)
-        NestedScrollView nestedScrollView;
+        @BindView(R.id.scroll_view)
+        ScrollView scrollView;
         @BindView(R.id.add_comment_view)
         Button addCommentView;
         @BindView(R.id.sliding_title_text_view)
@@ -170,21 +169,21 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
         @OnClick({R.id.add_comment, R.id.comment_submit, R.id.add_comment_view})
         public void onAddComment(View view) {
-            nestedScrollView.post(new Runnable() {
+            scrollView.post(new Runnable() {
                 @Override
                 public void run() {
 
                     RxView.clicks(addCommentButton)
                             .subscribe(v -> {
-                                nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
                             });
                     RxView.clicks(submitButton)
                             .subscribe(v -> {
-                                nestedScrollView.fullScroll(ScrollView.FOCUS_UP);
+                                scrollView.fullScroll(ScrollView.FOCUS_UP);
                             });
                     RxView.clicks(addCommentView)
                             .subscribe(v -> {
-                                nestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
                             });
                 }
             });
