@@ -31,7 +31,6 @@ public class PermissionGranter {
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
-           // sleep(PERMISSIONS_DIALOG_DELAY);
             IdlingPolicies.setMasterPolicyTimeout(60, TimeUnit.SECONDS);
             IdlingPolicies.setIdlingResourceTimeout(26, TimeUnit.SECONDS);
             idlingResource = new ElapsedTimeIdlingResource(PERMISSIONS_DIALOG_DELAY);
