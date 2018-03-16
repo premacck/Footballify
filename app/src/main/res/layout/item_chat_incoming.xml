@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:text="Mark F"
+                android:fontFamily="@font/roboto_condensed_bold"
                 android:textSize="8sp" />
 
             <TextView
@@ -31,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
+                android:fontFamily="@font/roboto_condensed_bold"
                 android:layout_marginBottom="5dp"
                 android:text="1:22PM"
                 android:textSize="8sp" />
@@ -42,6 +44,7 @@
                 android:layout_below="@+id/name_text_view"
                 android:text="@string/lorem_ipsum_text"
                 android:textSize="12sp"
+                android:fontFamily="@font/roboto_condensed_regular"
                 android:visibility="gone" />
 
             <ImageView
