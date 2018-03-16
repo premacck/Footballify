@@ -7,7 +7,7 @@
     android:gravity="bottom"
     sothree:umanoDragView="@+id/drag_view"
     sothree:umanoOverlay="true"
-    sothree:umanoPanelHeight="0dp"
+    sothree:umanoPanelHeight="160dp"
     sothree:umanoParallaxOffset="100dp"
     sothree:umanoScrollableView="@+id/scroll_view"
     sothree:umanoShadowHeight="4dp">
@@ -22,7 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/sliding_panel_layout"
@@ -32,10 +33,10 @@
             android:layout_gravity="bottom"
             android:background="@color/transparent_grey"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:visibility="gone">
 
             <TextView
-                android:id="@+id/tag_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="teams"
@@ -63,7 +64,6 @@
                 android:textSize="12sp" />
 
             <ImageView
-                android:id="@+id/expand_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -71,7 +71,7 @@
                 android:src="@drawable/ic_down_arrow" />
         </LinearLayout>
     </FrameLayout>
-    
+
     <LinearLayout
         android:id="@+id/drag_view"
         android:layout_width="match_parent"
@@ -79,43 +79,53 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/slide_up_panel_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="160dp"
+            android:background="@color/transparent_grey"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:weightSum="10">
 
             <TextView
+                android:id="@+id/tag_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight=".8"
                 android:text="teams"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="8sp" />
 
             <TextView
                 android:id="@+id/sliding_title_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="7.2"
+                android:ellipsize="end"
+                android:maxLines="3"
                 android:text="@string/feed_heading"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/sliding_feed_details_date_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:text="@string/feed_details_date"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
 
             <ImageView
+                android:id="@+id/expand_arrow"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_down_arrow"
-                android:visibility="gone" />
+                android:layout_weight="1"
+                android:src="@drawable/ic_down_arrow" />
         </LinearLayout>
 
         <ScrollView
