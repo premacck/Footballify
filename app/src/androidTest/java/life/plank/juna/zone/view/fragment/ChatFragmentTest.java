@@ -1,7 +1,7 @@
 package life.plank.juna.zone.view.fragment;
 
+import android.Manifest;
 import android.content.res.Resources;
-import android.os.Build;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
@@ -13,9 +13,8 @@ import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.FragmentTestRule;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.Util.PermissionGranter;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
-import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -37,11 +36,6 @@ public class ChatFragmentTest {
     public void setUp() {
         fragmentTestRule.launchActivity(null);
         resources = fragmentTestRule.getActivity().getResources();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getInstrumentation().getUiAutomation().executeShellCommand(
-                    grant + getTargetContext().getPackageName()
-                            + "android.permission.WRITE_EXTERNAL_STORAGE");
-        }
     }
 
     //checking add image is displayed on Fragment
@@ -60,10 +54,7 @@ public class ChatFragmentTest {
     @Test
     public void clickingOnAddImageShouldDisplayMediaSelectionFragment() {
         onView(withId(R.id.add_image)).perform(click());
+        PermissionGranter.allowPermissionsIfNeeded(Manifest.permission.READ_EXTERNAL_STORAGE);
         onView(withId(R.id.media_container_frame_layout)).check(matches(isDisplayed()));
     }
-    //TODO : write unit test for verifying runtime permission dialog
-        /*click on camera image
-        * check if permission dialog is displayed*/
-
 }
