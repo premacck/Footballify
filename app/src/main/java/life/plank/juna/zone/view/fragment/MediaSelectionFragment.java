@@ -41,6 +41,7 @@ public class MediaSelectionFragment extends Fragment {
     int gridCount = 4;
     private GridLayoutManager gridLayoutManager;
     private MediaSelectionFragmentActionInterface mediaSelectionInterface;
+    private boolean isMediaSelected = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +74,7 @@ public class MediaSelectionFragment extends Fragment {
         RxView.clicks(photosTextView)
                 .subscribe(v -> {
                     mediaData.clear();
+                    isMediaSelected = true;
                     chatMediaViewModel.getAllMedia(mediaData);
                     mediaSelectionAdapter.notifyDataSetChanged();
                     photosTextViewFocused();
@@ -137,5 +139,14 @@ public class MediaSelectionFragment extends Fragment {
     private void photosTextViewFocused() {
         photosTextView.setBackgroundColor(getResources().getColor(R.color.white));
         photosTextView.setTextColor(getResources().getColor(R.color.dark_grey));
+    }
+    @Override
+    public void onResume() {
+        if (isMediaSelected) {
+            mediaData.clear();
+            chatMediaViewModel.getAllMedia(mediaData);
+            mediaSelectionAdapter.notifyDataSetChanged();
+        }
+        super.onResume();
     }
 }
