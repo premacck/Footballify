@@ -37,6 +37,7 @@ public class ScrubberConstants {
     public static int SCRUBBER_CURSOR_WIDTH = 1;
     private static int POPUP_HEIGHT = 120;
     private static int POINTER_POSITION_OFFSET = 30;
+    private static int POINTER_IMAGE_DIMEN = 30;
 
     public static String getScrubberInProgress() {
         return SCRUBBER_IN_PROGRESS;
@@ -622,6 +623,10 @@ public class ScrubberConstants {
 
     public static int getPointerPositionOffset() {
         return POINTER_POSITION_OFFSET;
+    }
+
+    public static int getPointerImageDimen() {
+        return POINTER_IMAGE_DIMEN;
     }
 
     public String getScrubberHalf() {
