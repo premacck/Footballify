@@ -58,7 +58,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-
         //TODO confirm max lines for the bottom content
         holder.topFeedContentTextView.setText(footballFeedsList.get(position).getSummary());
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
@@ -72,7 +71,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             public void onClick(View view) {
                 holder.slidingUpPanelLayout.setAnchorPoint(0.7f);
                 holder.slidingUpPanelLayout.setPanelState(SlidingUpPanelLayout.PanelState.ANCHORED);
-
             }
         });
         try {
@@ -117,9 +115,9 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
                 if (COLLAPSED == newState) {
-                    setCollapsedSlideUpPanleTitle(holder);
+                    setCollapsedSlideUpPanelTitle(holder);
                 } else {
-                    setExpandedSlideUpPanleTitle(holder);
+                    setExpandedSlideUpPanelTitle(holder);
                 }
             }
         });
@@ -131,7 +129,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         });
     }
 
-    private void setExpandedSlideUpPanleTitle(FootballFeedDetailViewHolder holder) {
+    private void setExpandedSlideUpPanelTitle(FootballFeedDetailViewHolder holder) {
         holder.slideUpPanelLinearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
         holder.tagTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
         holder.slidingTitleTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
@@ -140,7 +138,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);
     }
 
-    private void setCollapsedSlideUpPanleTitle(FootballFeedDetailViewHolder holder) {
+    private void setCollapsedSlideUpPanelTitle(FootballFeedDetailViewHolder holder) {
         holder.slideUpPanelLinearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent_grey));
         holder.tagTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
         holder.slidingTitleTextView.setTextColor(ContextCompat.getColor(context, R.color.white));

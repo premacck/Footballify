@@ -13,7 +13,6 @@ import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -136,7 +135,6 @@ public class SwipePageActivityTest {
     }
 
     @Test
-    @Ignore
     public void clickingOnRecyclerViewItemShouldCallIntent() {
         /*close the onBoarding dialog
         * click on the recylerview and
