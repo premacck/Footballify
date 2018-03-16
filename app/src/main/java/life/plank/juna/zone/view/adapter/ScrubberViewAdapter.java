@@ -191,16 +191,16 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             popUpWindowHelper.setPopUpHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
             popUpWindowHelper.setPopUpWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
             popUpWindowHelper.setPopUpLocationX(itemViewXYLocation[0] - ScrubberConstants.getPointerPositionOffset());
-            popUpWindowHelper.setPopUpLocationY(itemViewXYLocation[1] - ScrubberConstants.getPopUpHeight());
+            popUpWindowHelper.setPopUpLocationY(itemViewXYLocation[1] - ScrubberConstants.getPopupHeight());
             popUpWindowHelper.setParentView(itemView);
             setPopUpTextAndLocation(message, itemViewXYLocation[0]);
             popupWindow = popUpWindowHelper.genericPopUpWindow(context);
         } else if (popupWindow != null) {
             setPopUpTextAndLocation(message, itemViewXYLocation[0]);
             popupWindow.update(itemViewXYLocation[0] - ScrubberConstants.getPointerPositionOffset(),
-                    itemViewXYLocation[1] -  ScrubberConstants.getPopUpHeight(),
+                    itemViewXYLocation[1] -  ScrubberConstants.getPopupHeight(),
                     ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ScrubberConstants.getPopUpHeight());
+                    ScrubberConstants.getPopupHeight());
         }
     }
 

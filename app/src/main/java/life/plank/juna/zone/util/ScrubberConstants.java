@@ -20,26 +20,26 @@ public class ScrubberConstants {
     public static final int SCRUBBER_VIEW_SUBSTITUTE = 5;
     public static final int SCRUBBER_VIEW_CARDS = 6;
     public static final int SCRUBBER_VIEW_CURSOR = 4;
-    public static final int SCRUBBER_PRE_MATCH = 60;
     public static final int SCRUBBER_POST_MATCH = 60;
-    public static final int SCRUBBER_VIEW_TOTAL_WINDOW = 95;
-    public static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
     public static final String SCRUBBER_MATCH_NUMBER = "matchNumber";
-    public static int scrubberPointerImageWidth = 20;
-    public static int ScrubberCursorWidth = 1;
-    private static String scrubberInProgress = "In Progress";
-    private String scrubberHalf = "half";
-    private String scrubberNormal = "normal";
-    private String scrubberGoal = "goal";
-    private String scrubberCursor = "cursor";
-    private String scrubberSubstitute = "substitute";
-    private String scrubberCard = "card";
-    private String scrubberPost = "post";
-    private static int POP_UP_HEIGHT =  120;
+    private static final int SCRUBBER_PRE_MATCH = 60;
+    private static final int SCRUBBER_VIEW_TOTAL_WINDOW = 95;
+    private static final int SCRUBBER_VIEW_HALF_TIME_WINDOW = 5;
+    private static final String SCRUBBER_IN_PROGRESS = "In Progress";
+    private static final String SCRUBBER_HALF = "half";
+    private static final String SCRUBBER_NORMAL = "normal";
+    private static final String SCRUBBER_GOAL = "goal";
+    private static final String SCRUBBER_CURSOR = "cursor";
+    private static final String SCRUBBER_SUBSTITUTE = "substitute";
+    private static final String SCRUBBER_CARD = "card";
+    private static final String SCRUBBER_POST = "post";
+    public static int SCRUBBER_POINTER_IMAGE_WIDTH = 20;
+    public static int SCRUBBER_CURSOR_WIDTH = 1;
+    private static int POPUP_HEIGHT = 120;
     private static int POINTER_POSITION_OFFSET = 30;
 
     public static String getScrubberInProgress() {
-        return scrubberInProgress;
+        return SCRUBBER_IN_PROGRESS;
     }
 
     public static int getScrubberViewHalfTimeWindow() {
@@ -616,8 +616,8 @@ public class ScrubberConstants {
 
     }
 
-    public static int getPopUpHeight() {
-        return POP_UP_HEIGHT;
+    public static int getPopupHeight() {
+        return POPUP_HEIGHT;
     }
 
     public static int getPointerPositionOffset() {
@@ -625,30 +625,30 @@ public class ScrubberConstants {
     }
 
     public String getScrubberHalf() {
-        return scrubberHalf;
+        return SCRUBBER_HALF;
     }
 
     public String getScrubberNormal() {
-        return scrubberNormal;
+        return SCRUBBER_NORMAL;
     }
 
     public String getScrubberGoal() {
-        return scrubberGoal;
+        return SCRUBBER_GOAL;
     }
 
     public String getScrubberCursor() {
-        return scrubberCursor;
+        return SCRUBBER_CURSOR;
     }
 
     public String getScrubberSubstitute() {
-        return scrubberSubstitute;
+        return SCRUBBER_SUBSTITUTE;
     }
 
     public String getScrubberCard() {
-        return scrubberCard;
+        return SCRUBBER_CARD;
     }
 
     public String getScrubberPost() {
-        return scrubberPost;
+        return SCRUBBER_POST;
     }
 }

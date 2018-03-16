@@ -84,10 +84,10 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
-        lockDrawer();
+        lockDrawerSwipe();
     }
 
-    private void lockDrawer() {
+    private void lockDrawerSwipe() {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
@@ -215,9 +215,9 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                     View scrubberViewItems = scrubberLinearLayoutManager.findViewByPosition(scrubberProgressData.size() - 2);
                     if (scrubberViewItems != null) {
                         scrubberViewItems.getLocationOnScreen(xyViewAfter);
-                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.scrubberPointerImageWidth,
-                                ScrubberConstants.scrubberPointerImageWidth);
-                        layoutParams.setMarginStart(xyViewAfter[0] - ScrubberConstants.scrubberPointerImageWidth + ScrubberConstants.ScrubberCursorWidth);
+                        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.SCRUBBER_POINTER_IMAGE_WIDTH,
+                                ScrubberConstants.SCRUBBER_POINTER_IMAGE_WIDTH);
+                        layoutParams.setMarginStart(xyViewAfter[0] - ScrubberConstants.SCRUBBER_POINTER_IMAGE_WIDTH + ScrubberConstants.SCRUBBER_CURSOR_WIDTH);
                         arrow.setLayoutParams(layoutParams);
                     }
                 }
