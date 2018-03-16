@@ -202,6 +202,7 @@
             android:layout_height="55dp"
             android:layout_below="@+id/visiting_team_text_view"
             android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
             android:orientation="vertical">
 
             <View
@@ -222,15 +223,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="0.1dp"
                 android:background="@color/white" />
-
-            <ImageView
-                android:id="@+id/arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_pointer"
-                android:scaleType="fitCenter"
-                android:visibility="invisible" />
-
         </LinearLayout>
     </RelativeLayout>
 

@@ -5,12 +5,15 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daasuu.bl.BubbleLayout;
@@ -35,7 +38,7 @@ import life.plank.juna.zone.util.helper.PopUpWindowHelper;
  */
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
     public boolean trigger = false;
-    public PopupWindow popupWindow;
+    public PopupWindow popupWindow, popupWindowPointer;
     ScrubberPointerUpdate scrubberPointerUpdate;
     //Temp data
     HashMap<Integer, String> detailedData;
@@ -44,12 +47,15 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     int matchNumber;
     @BindView(R.id.commentary_text)
     TextView commentaryTextView;
+    private int viewHeight = 0;
     private BubbleLayout bubbleLayout;
+    private RelativeLayout pointerImageRelativeLayout;
     private int totalWidth;
     private int viewWidth;
     private Context context;
     // TODO: 26-01-2018 use server data.
     private ItemTouchHelper itemTouchHelper;
+
 
     public ScrubberViewAdapter(Context context,
                                ArrayList<Integer> data,
@@ -116,6 +122,10 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     public void onBindViewHolder(final ScrubberViewHolder holder, final int position) {
 
         holder.view.getLayoutParams().width = viewWidth;
+
+        if (viewHeight == 0)
+        holder.view.post(() -> viewHeight = holder.view.getLayoutParams().height);
+
         //To start the drag on touch and swipe.
         holder.view.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
@@ -138,6 +148,36 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
             scrubberPointerUpdate.updateRecentEvents(position);
         }
+        if (position == scrubberProgressData.size() - 1) {
+            displayPointer(holder.view);
+        }
+    }
+
+    private void displayPointer(View view) {
+        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                int[] itemViewXYLocation = new int[2];
+                view.getLocationInWindow(itemViewXYLocation);
+                if (popupWindowPointer == null || !popupWindowPointer.isShowing()) {
+                    pointerImageRelativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.scrubber_view_pointer_image, null);
+                    ButterKnife.bind(this, pointerImageRelativeLayout);
+                    PopUpWindowHelper<RelativeLayout> popUpWindowHelper = new PopUpWindowHelper<>();
+                    popUpWindowHelper.setView(pointerImageRelativeLayout);
+                    Log.v("trace","data"+viewHeight);
+                    setUpPopupWindow(50, itemViewXYLocation[0], itemViewXYLocation[1]+ viewHeight, view, popUpWindowHelper);
+                    popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
+                    popupWindowPointer.setFocusable(false);
+                    popupWindowPointer.setOutsideTouchable(false);
+                } else if (popupWindowPointer != null) {
+                    popupWindowPointer.update(itemViewXYLocation[0],
+                            itemViewXYLocation[1] +viewHeight,
+                            50,
+                            50);
+                }
+                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
     /**
@@ -183,25 +223,34 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     private void displayTooltipAboveEvent(View itemView, String message) {
         int[] itemViewXYLocation = new int[2];
         itemView.getLocationInWindow(itemViewXYLocation);
+        displayPointer(itemView);
         if (popupWindow == null || !popupWindow.isShowing()) {
             bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.custom_tooltip, null);
             ButterKnife.bind(this, bubbleLayout);
             PopUpWindowHelper<BubbleLayout> popUpWindowHelper = new PopUpWindowHelper<>();
-            popUpWindowHelper.setView(bubbleLayout);
-            popUpWindowHelper.setPopUpHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-            popUpWindowHelper.setPopUpWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-            popUpWindowHelper.setPopUpLocationX(itemViewXYLocation[0] - ScrubberConstants.getPointerPositionOffset());
-            popUpWindowHelper.setPopUpLocationY(itemViewXYLocation[1] - ScrubberConstants.getPopupHeight());
-            popUpWindowHelper.setParentView(itemView);
+            setUpPopupWindow(ViewGroup.LayoutParams.WRAP_CONTENT,
+                    itemViewXYLocation[0] - ScrubberConstants.getPointerPositionOffset(),
+                    itemViewXYLocation[1] - ScrubberConstants.getPopupHeight(),
+                    itemView,
+                    popUpWindowHelper
+            );
             setPopUpTextAndLocation(message, itemViewXYLocation[0]);
             popupWindow = popUpWindowHelper.genericPopUpWindow(context);
         } else if (popupWindow != null) {
             setPopUpTextAndLocation(message, itemViewXYLocation[0]);
             popupWindow.update(itemViewXYLocation[0] - ScrubberConstants.getPointerPositionOffset(),
-                    itemViewXYLocation[1] -  ScrubberConstants.getPopupHeight(),
+                    itemViewXYLocation[1] - ScrubberConstants.getPopupHeight(),
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ScrubberConstants.getPopupHeight());
         }
+    }
+
+    private void setUpPopupWindow(int width, int viewPositionX, int viewPositionY, View parentView, PopUpWindowHelper<?> popUpWindowHelper) {
+        popUpWindowHelper.setPopUpHeight(width);
+        popUpWindowHelper.setPopUpWidth(width);
+        popUpWindowHelper.setPopUpLocationX(viewPositionX);
+        popUpWindowHelper.setPopUpLocationY(viewPositionY);
+        popUpWindowHelper.setParentView(parentView);
     }
 
     private void setPopUpTextAndLocation(String message, int itemViewXLocation) {
@@ -215,7 +264,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     private float getPointerPosition(int itemViewXLocation) {
         return itemViewXLocation + getPopUpWidth() > totalWidth ?
-                (itemViewXLocation + getPopUpWidth()) - totalWidth : ScrubberConstants.getPointerPositionOffset() ;
+                (itemViewXLocation + getPopUpWidth()) - totalWidth : ScrubberConstants.getPointerPositionOffset();
     }
 
     private int getPopUpWidth() {
