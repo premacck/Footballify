@@ -53,8 +53,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     ImageView closeImage;
     @BindView(R.id.scrubber_recycler_view)
     RecyclerView scrubberView;
-    @BindView(R.id.arrow)
-    ImageView arrow;
     @BindView(R.id.commentary_text)
     TextView commentaryTextView;
     @BindView(R.id.home_team_score_text_view)
@@ -225,7 +223,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
                         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ScrubberConstants.SCRUBBER_POINTER_IMAGE_WIDTH,
                                 ScrubberConstants.SCRUBBER_POINTER_IMAGE_WIDTH);
                         layoutParams.setMarginStart(xyViewAfter[0] - ScrubberConstants.SCRUBBER_POINTER_IMAGE_WIDTH + ScrubberConstants.SCRUBBER_CURSOR_WIDTH);
-                        arrow.setLayoutParams(layoutParams);
                     }
                 }
             }
