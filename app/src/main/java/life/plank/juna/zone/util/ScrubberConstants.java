@@ -36,7 +36,7 @@ public class ScrubberConstants {
     private String scrubberCard = "card";
     private String scrubberPost = "post";
     private static int POP_UP_HEIGHT =  120;
-    private static float POINTER_POSITION_OFFSET = 30;
+    private static int POINTER_POSITION_OFFSET = 30;
 
     public static String getScrubberInProgress() {
         return scrubberInProgress;
@@ -620,7 +620,7 @@ public class ScrubberConstants {
         return POP_UP_HEIGHT;
     }
 
-    public static float getPointerPositionOffset() {
+    public static int getPointerPositionOffset() {
         return POINTER_POSITION_OFFSET;
     }
 
