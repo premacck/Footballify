@@ -4,7 +4,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,6 +73,8 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     int progressStatus = 0;
     int currentMatch = 1;
     LinearLayoutManager scrubberLinearLayoutManager;
+    @BindView(R.id.football_menu)
+    AppCompatImageButton footballMenu;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
 
     @Override
@@ -172,7 +176,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         });
     }
 
-    @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view})
+    @OnClick({R.id.close_image, R.id.next_match_text_view, R.id.previous_match_text_view, R.id.football_menu})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.close_image:
@@ -185,6 +189,9 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
             case R.id.previous_match_text_view:
                 //TODO: comment will be removed once more than one matches will be added
                 //((SwipePageActivity) context).goToLiveMatch(currentMatch - 1);
+                break;
+            case R.id.football_menu:
+                drawerLayout.openDrawer(GravityCompat.END);
                 break;
             default:
                 break;
