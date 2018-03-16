@@ -21,6 +21,7 @@
             android:drawableLeft="@drawable/ic_arrow_previous"
             android:drawablePadding="10dp"
             android:text="@string/back"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textColor="@color/white"
             android:textSize="8sp" />
 
@@ -59,6 +60,7 @@
             android:drawableRight="@drawable/ic_down_arrow"
             android:text="23"
             android:textColor="@color/white"
+            android:fontFamily="@font/roboto_bold"
             android:textSize="8sp" />
 
         <TextView
@@ -72,6 +74,7 @@
             android:drawablePadding="10dp"
             android:ellipsize="end"
             android:text="@string/tottenham_angels"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:textAllCaps="true"
             android:textColor="@color/white"
             android:textSize="8sp" />

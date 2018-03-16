@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,7 +52,10 @@ public class MediaSelectionAdapter extends RecyclerView.Adapter<MediaSelectionAd
         } else {
             uri = Uri.parse(chatMediaViewData.get(position).getMediaData());
         }
-        Glide.with(context).load(uri).into(holder.photosImageView);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.ic_place_holder);
+        Glide.with(context).setDefaultRequestOptions(requestOptions)
+                .load(uri).into(holder.photosImageView);
         holder.itemView.setOnClickListener(view -> {
             if (chatMediaSelected.containsKey(chatMediaViewData.get(position).getMediaData()) &&
                     chatMediaViewData.get(position).isSelected()) {

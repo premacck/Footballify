@@ -447,28 +447,30 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
                 && TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
             showToast(getString(R.string.select_atleast_one_team));
             return false;
-        } else if (!Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
-                !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString()) ||
+        } else if (!TextUtils.isEmpty(teamOneEditText.getText().toString()) &&
                 !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamOneEditText.getText().toString())) {
             showToast(getString(R.string.not_a_valid_team));
             return false;
-        } else {
-            if (!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamTwoEditText.getText().toString())) {
-                if ((teamOneEditText.getText().toString().contentEquals(teamTwoEditText.getText().toString()))) {
-                    showToast(getString(R.string.select_different_teams));
-                    return false;
-                }
-            } else if (!TextUtils.isEmpty(teamTwoEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
-                if ((teamTwoEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
-                    showToast(getString(R.string.select_different_teams));
-                    return false;
-                }
-            } else if (!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) {
-                if ((teamOneEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
-                    showToast(getString(R.string.select_different_teams));
-                    return false;
-                }
-            }
+        } else if (!TextUtils.isEmpty(teamTwoEditText.getText().toString()) &&
+                !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamTwoEditText.getText().toString())) {
+            showToast(getString(R.string.not_a_valid_team));
+            return false;
+        } else if (!TextUtils.isEmpty(teamThreeEditText.getText().toString()) &&
+                !Arrays.asList(getResources().getStringArray(R.array.football_teams)).contains(teamThreeEditText.getText().toString())) {
+            showToast(getString(R.string.not_a_valid_team));
+            return false;
+        } else if ((!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamTwoEditText.getText().toString())) &&
+                (teamOneEditText.getText().toString().contentEquals(teamTwoEditText.getText().toString()))) {
+            showToast(getString(R.string.select_different_teams));
+            return false;
+        } else if ((!TextUtils.isEmpty(teamTwoEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) &&
+                (teamTwoEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
+            showToast(getString(R.string.select_different_teams));
+            return false;
+        } else if ((!TextUtils.isEmpty(teamOneEditText.getText().toString()) && !TextUtils.isEmpty(teamThreeEditText.getText().toString())) &&
+                (teamOneEditText.getText().toString().contentEquals(teamThreeEditText.getText().toString()))) {
+            showToast(getString(R.string.select_different_teams));
+            return false;
         }
         return true;
     }
