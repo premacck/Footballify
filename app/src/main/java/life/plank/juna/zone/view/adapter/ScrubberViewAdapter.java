@@ -164,14 +164,13 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
                     ButterKnife.bind(this, pointerImageRelativeLayout);
                     PopUpWindowHelper<RelativeLayout> popUpWindowHelper = new PopUpWindowHelper<>();
                     popUpWindowHelper.setView(pointerImageRelativeLayout);
-                    Log.v("trace","data"+viewHeight);
-                    setUpPopupWindow(50, itemViewXYLocation[0], itemViewXYLocation[1]+ viewHeight, view, popUpWindowHelper);
+                    setUpPopupWindow(50, itemViewXYLocation[0], itemViewXYLocation[1]+ 55, view, popUpWindowHelper);
                     popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
                     popupWindowPointer.setFocusable(false);
                     popupWindowPointer.setOutsideTouchable(false);
                 } else if (popupWindowPointer != null) {
                     popupWindowPointer.update(itemViewXYLocation[0],
-                            itemViewXYLocation[1] +viewHeight,
+                            itemViewXYLocation[1] + UIDisplayUtil.dpToPx(55,context) ,
                             50,
                             50);
                 }
