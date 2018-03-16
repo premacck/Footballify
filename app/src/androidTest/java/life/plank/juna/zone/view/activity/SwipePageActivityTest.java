@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.res.Resources;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingPolicies;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.matcher.RootMatchers;
@@ -18,7 +21,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.concurrent.TimeUnit;
+
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.Util.ElapsedTimeIdlingResource;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -52,12 +58,17 @@ public class SwipePageActivityTest {
             SwipePageActivity.class);
     private Resources resource;
     private View mainDecorView;
+    private int waitingTime = 10;
+    private IdlingResource idlingResource;
 
 
     @Before
     public void setUp() {
         resource = activityTestRule.getActivity().getResources();
         mainDecorView = activityTestRule.getActivity().getWindow().getDecorView();
+        IdlingPolicies.setMasterPolicyTimeout(60, TimeUnit.SECONDS);
+        IdlingPolicies.setIdlingResourceTimeout(26, TimeUnit.SECONDS);
+        idlingResource = new ElapsedTimeIdlingResource(waitingTime);
     }
 
     @Test
@@ -74,14 +85,16 @@ public class SwipePageActivityTest {
         /*click on the team one selection edit text
         * type chelsea
         * select from the suggestions*/
-        onView(withId(R.id.team_one_edit_text)).
-                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            onView(withId(R.id.team_one_edit_text)).
+                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+            Espresso.registerIdlingResources(idlingResource);
+            onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Exception e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
     @Test
@@ -89,14 +102,16 @@ public class SwipePageActivityTest {
         /*click on the team two selection edit text
         * type chelsea
         * select from the suggestions*/
-        onView(withId(R.id.team_two_edit_text)).
-                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            onView(withId(R.id.team_two_edit_text)).
+                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+            Espresso.registerIdlingResources(idlingResource);
+            onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Exception e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
     @Test
@@ -104,19 +119,27 @@ public class SwipePageActivityTest {
         /*click on the team three selection edit text
         * type chelsea
         * select from the suggestions*/
-        try {
+       /* try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
-        onView(withId(R.id.team_three_edit_text)).
-                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        }*/
         try {
+            Espresso.registerIdlingResources(idlingResource);
+            onView(withId(R.id.team_three_edit_text)).
+                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+      /*  try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }*/
+            Espresso.registerIdlingResources(idlingResource);
+            onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
     }
 
     @Test
@@ -124,15 +147,24 @@ public class SwipePageActivityTest {
         /*close the onBoarding dialog
         * click on the menu button
         * check if drawer is opened*/
-        closeOnBoardingDialog();
-        onView(withId(R.id.football_menu)).perform(click());
         try {
+            closeOnBoardingDialog();
+            onView(withId(R.id.football_menu)).perform(click());
+       /* try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
             e.printStackTrace();
+        }*/
+            // Now we wait
+            Espresso.registerIdlingResources(idlingResource);
+
+            onView(withId(R.id.drawer_layout))
+                    .check(matches(isOpen(GravityCompat.END)));
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onView(withId(R.id.drawer_layout))
-                .check(matches(isOpen(GravityCompat.END)));
     }
 
     @Test
@@ -158,16 +190,18 @@ public class SwipePageActivityTest {
         * click on team two edit text
         * check if error message is displayed for team one edit text*/
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            Espresso.registerIdlingResources(idlingResource);
+            onView(withId(R.id.team_one_edit_text)).
+                    perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+            onView(withId(R.id.team_two_edit_text)).
+                    perform(click());
+            onView(withId(R.id.team_one_edit_text)).
+                    check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Resources.NotFoundException e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onView(withId(R.id.team_one_edit_text)).
-                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
-        onView(withId(R.id.team_two_edit_text)).
-                perform(click());
-        onView(withId(R.id.team_one_edit_text)).
-                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
     }
 
     @Test
@@ -177,16 +211,18 @@ public class SwipePageActivityTest {
         * click on team three edit text
         * check if error message is displayed for team team edit text*/
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            Espresso.registerIdlingResources(idlingResource);
+            onView(withId(R.id.team_two_edit_text)).
+                    perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+            onView(withId(R.id.team_three_edit_text)).
+                    perform(click());
+            onView(withId(R.id.team_two_edit_text)).
+                    check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Resources.NotFoundException e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onView(withId(R.id.team_two_edit_text)).
-                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
-        onView(withId(R.id.team_three_edit_text)).
-                perform(click());
-        onView(withId(R.id.team_two_edit_text)).
-                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
     }
 
     @Test
@@ -196,16 +232,18 @@ public class SwipePageActivityTest {
         * click on team two edit text
         * check if error message is displayed for team three edit text*/
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            Espresso.registerIdlingResources(idlingResource);
+            onView(withId(R.id.team_three_edit_text)).
+                    perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+            onView(withId(R.id.team_two_edit_text)).
+                    perform(click());
+            onView(withId(R.id.team_three_edit_text)).
+                    check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Resources.NotFoundException e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onView(withId(R.id.team_three_edit_text)).
-                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
-        onView(withId(R.id.team_two_edit_text)).
-                perform(click());
-        onView(withId(R.id.team_three_edit_text)).
-                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
     }
 
     @Test
@@ -213,15 +251,17 @@ public class SwipePageActivityTest {
         /*click on submit button without selecting a team
         * check if RegisterAndSave dialog doesnot displayed*/
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            Espresso.registerIdlingResources(idlingResource);
+            onView(withId(R.id.apply_button)).
+                    perform(click());
+            onView(ViewMatchers.withText(R.string.register_and_save))
+                    .inRoot(isDialog())
+                    .check(doesNotExist());
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Exception e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onView(withId(R.id.apply_button)).
-                perform(click());
-        onView(ViewMatchers.withText(R.string.register_and_save))
-                .inRoot(isDialog())
-                .check(doesNotExist());
     }
 
     @Test
@@ -231,19 +271,21 @@ public class SwipePageActivityTest {
         * click on submit buttton
         * check if RegisterAndSave dialog doesnot displayed*/
         try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
+            Espresso.registerIdlingResources(idlingResource);
+            onView(withId(R.id.team_one_edit_text)).
+                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+            onView(withId(R.id.team_two_edit_text)).
+                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+            onView(withId(R.id.apply_button)).
+                    perform(click());
+            onView(ViewMatchers.withText(R.string.register_and_save))
+                    .inRoot(isDialog())
+                    .check(doesNotExist());
+            Espresso.unregisterIdlingResources(idlingResource);
+        } catch (Exception e) {
             e.printStackTrace();
+            Espresso.unregisterIdlingResources(idlingResource);
         }
-        onView(withId(R.id.team_one_edit_text)).
-                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-        onView(withId(R.id.team_two_edit_text)).
-                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-        onView(withId(R.id.apply_button)).
-                perform(click());
-        onView(ViewMatchers.withText(R.string.register_and_save))
-                .inRoot(isDialog())
-                .check(doesNotExist());
     }
 
     private int getRecyclerViewCount() {
