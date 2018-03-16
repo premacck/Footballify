@@ -138,4 +138,12 @@ public class MediaSelectionFragment extends Fragment {
         photosTextView.setBackgroundColor(getResources().getColor(R.color.white));
         photosTextView.setTextColor(getResources().getColor(R.color.dark_grey));
     }
+
+    @Override
+    public void onResume() {
+        mediaData.clear();
+        chatMediaViewModel.getAllMedia(mediaData);
+        mediaSelectionAdapter.notifyDataSetChanged();
+        super.onResume();
+    }
 }
