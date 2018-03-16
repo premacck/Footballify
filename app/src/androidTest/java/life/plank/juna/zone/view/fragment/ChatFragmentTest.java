@@ -38,9 +38,9 @@ public class ChatFragmentTest {
         fragmentTestRule.launchActivity(null);
         resources = fragmentTestRule.getActivity().getResources();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getInstrumentation().getUiAutomation().executeShellCommand(grant + getTargetContext().getPackageName() + R.string.external_storage_read_permission);
-            getInstrumentation().getUiAutomation().executeShellCommand(grant + getTargetContext().getPackageName() + R.string.external_storage_write_permission);
-            getInstrumentation().getUiAutomation().executeShellCommand(grant + getTargetContext().getPackageName() + R.string.camera_permission);
+            getInstrumentation().getUiAutomation().executeShellCommand(
+                    grant + getTargetContext().getPackageName()
+                            + "android.permission.WRITE_EXTERNAL_STORAGE");
         }
     }
 

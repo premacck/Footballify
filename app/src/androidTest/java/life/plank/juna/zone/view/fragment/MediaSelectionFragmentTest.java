@@ -98,23 +98,15 @@ public class MediaSelectionFragmentTest {
     @Test
     public void mediaSelectionItemShouldHaveImageView() {
         // Checking recycler view item has image view
-        try {
-            mediaSelectionRecyclerViewShouldScroll();
-            onView(withIndex(withId(R.id.photos_image_view), 1)).check(matches(isDisplayed()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.photos_image_view), 1)).check(matches(isDisplayed()));
     }
 
     @Test
     public void mediaSelectionItemShouldNotHaveSelectionImageView() {
         //Checking that item selection image is not displaying on launch of media selection fragment.
-        try {
-            mediaSelectionRecyclerViewShouldScroll();
-            onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
     }
 
     @Test
@@ -126,36 +118,24 @@ public class MediaSelectionFragmentTest {
     @Test
     public void clickOfItemShouldDisplaySelectionImage() {
         //Check image selection on click of item
-        try {
-            mediaSelectionRecyclerViewShouldScroll();
-            onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
-            onView(withIndex(withId(R.id.select_item), 1)).check(matches(isDisplayed()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(isDisplayed()));
     }
 
     @Test
     public void clickOfSelectedItemShouldNotDisplaySelectionImage() {
         // Remove selection image on click of selected item
-        try {
-            mediaSelectionRecyclerViewShouldScroll();
-            clickOfItemShouldDisplaySelectionImage();
-            onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
-            onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaSelectionRecyclerViewShouldScroll();
+        clickOfItemShouldDisplaySelectionImage();
+        onView(withIndex(withId(R.id.photos_image_view), 1)).perform(click());
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
     }
 
     @Test
     public void clickOfCloseViewShouldNotDisplayImageSelectionItems() {
         // Remove fragment views on click of close image view.
-        try {
-            mediaSelectionRecyclerViewShouldScroll();
-            onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mediaSelectionRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.select_item), 1)).check(matches(not(isDisplayed())));
     }
 }
