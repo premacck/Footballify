@@ -63,13 +63,14 @@ public class LiveZoneActivityInstrumentalTest {
             e.printStackTrace();
             Espresso.unregisterIdlingResources(idlingResource);
         }
-
     }
 
     @Test
     public void clickingOnMenuButtonShouldCloseNavigationDrawer() {
         /* click on the menu button
-        * check if drawer is opened*/
+        * check if drawer is open
+        * close drawer
+        * and check if drawer is closed*/
         try {
             onView(withId(R.id.football_menu)).perform(click());
             Espresso.registerIdlingResources(idlingResource);

@@ -53,6 +53,8 @@ import static org.hamcrest.Matchers.equalTo;
 @LargeTest
 public class SwipePageActivityTest {
     //TODO:class name should be changed to FootballFeedActivityTest
+    //TODO: needs better solution for Idling the resources
+    //TODO: try catch will be removed once a better solution is found
     @Rule
     public ActivityTestRule<SwipePageActivity> activityTestRule = new ActivityTestRule<>(
             SwipePageActivity.class);
@@ -119,20 +121,10 @@ public class SwipePageActivityTest {
         /*click on the team three selection edit text
         * type chelsea
         * select from the suggestions*/
-       /* try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
         try {
             Espresso.registerIdlingResources(idlingResource);
             onView(withId(R.id.team_three_edit_text)).
                     perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-      /*  try {
-            Thread.sleep(250);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
             Espresso.registerIdlingResources(idlingResource);
             onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
             Espresso.unregisterIdlingResources(idlingResource);
@@ -150,14 +142,7 @@ public class SwipePageActivityTest {
         try {
             closeOnBoardingDialog();
             onView(withId(R.id.football_menu)).perform(click());
-       /* try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-            // Now we wait
             Espresso.registerIdlingResources(idlingResource);
-
             onView(withId(R.id.drawer_layout))
                     .check(matches(isOpen(GravityCompat.END)));
             Espresso.unregisterIdlingResources(idlingResource);
