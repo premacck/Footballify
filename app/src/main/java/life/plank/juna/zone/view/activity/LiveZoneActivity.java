@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,6 @@ import life.plank.juna.zone.interfaces.ScrubberPointerUpdate;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.ItemTouchHelperCallback;
 import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.LiveZoneGridAdapter;
@@ -84,6 +84,11 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
+        lockDrawer();
+    }
+
+    private void lockDrawer() {
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     private void setUpGridView() {

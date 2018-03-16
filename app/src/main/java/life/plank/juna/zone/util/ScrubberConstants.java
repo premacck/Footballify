@@ -35,6 +35,8 @@ public class ScrubberConstants {
     private String scrubberSubstitute = "substitute";
     private String scrubberCard = "card";
     private String scrubberPost = "post";
+    private static int POP_UP_HEIGHT =  120;
+    private static float POINTER_POSITION_OFFSET = 30;
 
     public static String getScrubberInProgress() {
         return scrubberInProgress;
@@ -612,6 +614,14 @@ public class ScrubberConstants {
         scrubberViewDataHolder.put(81 + ScrubberConstants.getScrubberViewHalfTimeWindow(), new ScrubberViewData("Otamendi - OUT - 81 Stones - IN - 81",
                 ScrubberConstants.getScrubberViewSubstitute(), new LiveFeedTileData(tileArrayList), true));
 
+    }
+
+    public static int getPopUpHeight() {
+        return POP_UP_HEIGHT;
+    }
+
+    public static float getPointerPositionOffset() {
+        return POINTER_POSITION_OFFSET;
     }
 
     public String getScrubberHalf() {
