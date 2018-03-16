@@ -170,7 +170,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         trigger = true;
         if (scrubberViewDataHolder.containsKey(target.getLayoutPosition()) &&
                 scrubberViewDataHolder.get(target.getLayoutPosition()).isTriggerEvents()) {
-            DisplayTooltipAboveEvent(target.itemView, scrubberViewDataHolder.get(target.getLayoutPosition()).getMessage());
+            displayTooltipAboveEvent(target.itemView, scrubberViewDataHolder.get(target.getLayoutPosition()).getMessage());
         }
         return false;
     }
@@ -180,7 +180,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         trigger = false;
     }
 
-    private void DisplayTooltipAboveEvent(View itemView, String message) {
+    private void displayTooltipAboveEvent(View itemView, String message) {
         int[] itemViewXYLocation = new int[2];
         itemView.getLocationInWindow(itemViewXYLocation);
         if (popupWindow == null || !popupWindow.isShowing()) {
