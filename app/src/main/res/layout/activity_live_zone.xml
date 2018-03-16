@@ -27,12 +27,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/football_toolbar"
-        android:layout_marginEnd="3dp"
-        android:layout_marginRight="3dp"
         android:layout_marginTop="10dp"
         android:paddingBottom="0dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
+        android:padding="3dp"
         android:paddingTop="0dp">
 
         <TextView
@@ -89,6 +88,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp"
+            android:padding="5dp"
             android:src="@drawable/ic_close" />
     </RelativeLayout>
 
@@ -225,7 +225,7 @@
 
             <ImageView
                 android:id="@+id/arrow"
-                    android:layout_width="wrap_content"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_pointer"
                 android:scaleType="fitCenter"
@@ -238,14 +238,14 @@
         android:id="@+id/live_zone_grid_view_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/score_container_relative_layout"
-        android:layout_above="@+id/banter_zone_layout"/>
+        android:layout_above="@+id/banter_zone_layout"
+        android:layout_below="@+id/score_container_relative_layout" />
 
     <FrameLayout
         android:id="@+id/fragment_container_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/score_container_relative_layout"
         android:layout_above="@+id/banter_zone_layout"
+        android:layout_below="@+id/score_container_relative_layout"
         android:visibility="gone" />
 </RelativeLayout>
