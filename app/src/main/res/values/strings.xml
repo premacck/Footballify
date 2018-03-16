@@ -161,9 +161,9 @@
     <string name="stickers">STICKERS</string>
     <string name="gifs">GIFS</string>
     <string name="meme_maker">MEME MAKER</string>
-    <string name="external_storage_permission">android.permission.WRITE_EXTERNAL_STORAGE</string>
+    <string name="external_storage_write_permission">android.permission.WRITE_EXTERNAL_STORAGE</string>
+    <string name="external_storage_read_permission">android.permission.READ_EXTERNAL_STORAGE</string>
     <string name="camera_permission">android.permission.CAMERA</string>
-
     <string-array name="football_teams">
         <item>Arsenal</item>
         <item>Bournemouth</item>
