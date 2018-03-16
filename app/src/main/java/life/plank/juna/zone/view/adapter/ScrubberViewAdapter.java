@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -124,7 +123,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         holder.view.getLayoutParams().width = viewWidth;
 
         if (viewHeight == 0)
-        holder.view.post(() -> viewHeight = holder.view.getLayoutParams().height);
+            holder.view.post(() -> viewHeight = holder.view.getHeight());
 
         //To start the drag on touch and swipe.
         holder.view.setOnTouchListener((v, event) -> {
@@ -148,12 +147,13 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
             scrubberPointerUpdate.updateRecentEvents(position);
         }
+
         if (position == scrubberProgressData.size() - 1) {
-            displayPointer(holder.view);
+            displayPointerImage(holder.view);
         }
     }
 
-    private void displayPointer(View view) {
+    private void displayPointerImage(View view) {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -164,15 +164,18 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
                     ButterKnife.bind(this, pointerImageRelativeLayout);
                     PopUpWindowHelper<RelativeLayout> popUpWindowHelper = new PopUpWindowHelper<>();
                     popUpWindowHelper.setView(pointerImageRelativeLayout);
-                    setUpPopupWindow(50, itemViewXYLocation[0], itemViewXYLocation[1]+ 55, view, popUpWindowHelper);
+                    setUpPopupWindow(ScrubberConstants.getPointerImageDimen(),
+                            itemViewXYLocation[0],
+                            itemViewXYLocation[1] + viewHeight,
+                            view, popUpWindowHelper);
                     popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
                     popupWindowPointer.setFocusable(false);
                     popupWindowPointer.setOutsideTouchable(false);
                 } else if (popupWindowPointer != null) {
                     popupWindowPointer.update(itemViewXYLocation[0],
-                            itemViewXYLocation[1] + UIDisplayUtil.dpToPx(55,context) ,
-                            50,
-                            50);
+                            itemViewXYLocation[1] + viewHeight,
+                            ScrubberConstants.getPointerImageDimen(),
+                            ScrubberConstants.getPointerImageDimen());
                 }
                 view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
@@ -222,11 +225,12 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     private void displayTooltipAboveEvent(View itemView, String message) {
         int[] itemViewXYLocation = new int[2];
         itemView.getLocationInWindow(itemViewXYLocation);
-        displayPointer(itemView);
+        displayPointerImage(itemView);
         if (popupWindow == null || !popupWindow.isShowing()) {
             bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.custom_tooltip, null);
             ButterKnife.bind(this, bubbleLayout);
             PopUpWindowHelper<BubbleLayout> popUpWindowHelper = new PopUpWindowHelper<>();
+            popUpWindowHelper.setView(bubbleLayout);
             setUpPopupWindow(ViewGroup.LayoutParams.WRAP_CONTENT,
                     itemViewXYLocation[0] - ScrubberConstants.getPointerPositionOffset(),
                     itemViewXYLocation[1] - ScrubberConstants.getPopupHeight(),
