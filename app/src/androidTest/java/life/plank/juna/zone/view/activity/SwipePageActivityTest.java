@@ -36,6 +36,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasErrorText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static life.plank.juna.zone.Util.RecyclerViewTestHelper.withIndex;
 import static org.hamcrest.Matchers.equalTo;
 
 /**
@@ -139,7 +140,6 @@ public class SwipePageActivityTest {
         /*close the onBoarding dialog
         * click on the recylerview and
         * check if FootballFeedDetailActivity is getting called*/
-        //TODO: this test is failing because feed details activity is not working currently, will be done in next pull request
         closeOnBoardingDialog();
         if (getRecyclerViewCount() > 0) {
             Intents.init();
@@ -242,6 +242,42 @@ public class SwipePageActivityTest {
         onView(ViewMatchers.withText(R.string.register_and_save))
                 .inRoot(isDialog())
                 .check(doesNotExist());
+    }
+
+    @Test
+    public void clickingOnRecyclerViewItemShouldOpenFootballFeedDetailsActivityAndDisplaySlideupLayout() {
+        /*close the onBoarding dialog
+        * click on the recylerview and
+        * check if Slideup layout is displayed in FootballFeedDetailsActivity*/
+        closeOnBoardingDialog();
+        if (getRecyclerViewCount() > 0) {
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.sliding_layout), 0)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void clickingOnRecyclerViewItemShouldOpenFootballFeedDetailsActivityAndDisplayFeedItemTitle() {
+        /*close the onBoarding dialog
+        * click on the recylerview and
+        * check if feed item title is displayed in FootballFeedDetailsActivity*/
+        closeOnBoardingDialog();
+        if (getRecyclerViewCount() > 0) {
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.sliding_title_text_view), 0)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void clickingOnRecyclerViewItemShouldOpenFootballFeedDetailsActivityAndDisplayFeedItemDate() {
+        /*close the onBoarding dialog
+        * click on the recylerview and
+        * check if feed item date is displayed in FootballFeedDetailsActivity*/
+        closeOnBoardingDialog();
+        if (getRecyclerViewCount() > 0) {
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.sliding_feed_details_date_text_view), 0)).check(matches(isDisplayed()));
+        }
     }
 
     private int getRecyclerViewCount() {
