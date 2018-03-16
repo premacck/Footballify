@@ -119,12 +119,9 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public void onBindViewHolder(final ScrubberViewHolder holder, final int position) {
-
         holder.view.getLayoutParams().width = viewWidth;
-
         if (viewHeight == 0)
             holder.view.post(() -> viewHeight = holder.view.getHeight());
-
         //To start the drag on touch and swipe.
         holder.view.setOnTouchListener((v, event) -> {
             if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
@@ -132,22 +129,18 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
             }
             return false;
         });
-
         if (position == scrubberProgressData.size() - 1 && scrubberViewDataHolder.containsKey(position) &&
                 scrubberViewDataHolder.get(position).isTriggerEvents()) {
             displayTooltip(holder.view, scrubberViewDataHolder.get(position).getMessage());
         }
-
         holder.view.setOnClickListener(itemView -> {
             if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
                 displayTooltip(itemView, scrubberViewDataHolder.get(position).getMessage());
             }
         });
-
         if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
             scrubberPointerUpdate.updateRecentEvents(position);
         }
-
         if (position == scrubberProgressData.size() - 1) {
             displayPointerImage(holder.view);
         }
