@@ -51,16 +51,14 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
         SharedPreferences loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
 
-/* //TODO: Uncomment when remember me is implemented on the current version
-//            if (savedLogin) {
-//                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-//                finish();
-//            } else {
-//                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-//                finish();
-//            }
-        }, SPLASH_TIME_OUT);*/
-
+//TODO: Uncomment when remember me is implemented on the current version
+/*            if (savedLogin) {
+                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+                finish();
+            } else {
+                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+                finish();
+            }*/
         launchSplashScreen();
     }
 
@@ -84,7 +82,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                         }
                     }
                 } catch (InterruptedException e) {
-                    Log.d("error message",e.toString());
+                    Log.d("error message", e.toString());
                 }
             }
         });
