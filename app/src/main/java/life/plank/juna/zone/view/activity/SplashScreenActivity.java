@@ -84,7 +84,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                         }
                     }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Log.d("error message",e.toString());
                 }
             }
         });
