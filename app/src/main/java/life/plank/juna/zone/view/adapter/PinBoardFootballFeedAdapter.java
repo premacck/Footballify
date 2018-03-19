@@ -45,9 +45,7 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
 
     @Override
     public void onBindViewHolder(PinBoardFootballFeedViewHolder holder, int position) {
-
         holder.newsFeedLabel.setText(footballFeedList.get(position).getTitle());
-
         if (footballFeedList.get(position).getThumbnail() != null) {
             Picasso.with(context)
                     .load(footballFeedList.get(position).getThumbnail().getImageUrl())
@@ -59,12 +57,10 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent footballFeedDetails = new Intent(context.getApplicationContext(), FootballFeedDetailActivity.class);
-                Gson gson = new Gson();
-                String jsonString = gson.toJson(footballFeedList.get(position));
-                footballFeedDetails.putExtra("FOOTBALL_FEED", jsonString);
-                footballFeedDetails.putExtra("web_url", footballFeedList.get(position).getUrl());
-                context.startActivity(footballFeedDetails);
+                Intent intent = new Intent(context, FootballFeedDetailActivity.class);
+                intent.putExtra(AppConstants.POSITION, String.valueOf(position));
+                intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeedList));
+                context.startActivity(intent);
             }
         });
         holder.newsFeedRelativeLayout.getLayoutParams().width = (screenWidth / 2) - UIDisplayUtil.dpToPx(4, context);
@@ -76,14 +72,11 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
         // marginBanterRow*2 : single grid.
         holder.newsFeedRelativeLayout.getLayoutParams().height = (screenHeight - heightsToBeRemoved) / 2 -
                 (marginFeedRow * 4) - (marginBanterRow * 2) - footballToolbarMarginBottom - footballToolbarMarginMargin;
-
-
     }
 
     @Override
     public int getItemCount() {
         return footballFeedList.size();
-
     }
 
     public void setPinnedFootballFeedList() {
@@ -92,9 +85,8 @@ public class PinBoardFootballFeedAdapter extends RecyclerView.Adapter<PinBoardFo
                     new TypeToken<List<FootballFeed>>() {
                     }.getType()));
             notifyDataSetChanged();
-        }catch (Exception e){
+        } catch (Exception e) {
             //TODO: show graphics for no pin feeds
         }
     }
-
 }
