@@ -47,7 +47,7 @@ public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     @Override
     public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-        itemTouchHelperInterface.clearView(viewHolder.getAdapterPosition());
+        itemTouchHelperInterface.clearView(viewHolder.getAdapterPosition(),viewHolder);
         super.clearView(recyclerView, viewHolder);
     }
 
