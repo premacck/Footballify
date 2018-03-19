@@ -40,13 +40,12 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     // submit task to threadpool:
     Future longRunningTaskFuture = threadPoolExecutor.submit(longRunningTask);
     Thread thread;
-    private SharedPreferences loginPreferences;
     private Boolean savedLogin;
     private NetworkStateReceiver networkStateReceiver;
     private boolean isSplashScreenTimeOut = false;
     private boolean isIntentCalled = false;
     private Handler handler = new Handler();
-    private boolean isInterupted = false;
+    private boolean isInterrupted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +54,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
         splashScreenActivity = this;
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
-        loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
+        SharedPreferences loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
 
 /* //TODO: Uncomment when remember me is implemented on the current version
@@ -80,8 +79,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                     Thread.sleep(5000);
                     if (NetworkStatus.isNetworkAvailable(SplashScreenActivity.this)) {
                         isIntentCalled = true;
-                        Log.v("trace", "data" + isInterupted);
-                        if (!isInterupted) {
+                        if (!isInterrupted) {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -138,7 +136,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     protected void onPause() {
-        isInterupted = true;
+        isInterrupted = true;
         thread.interrupt();
         super.onPause();
     }
@@ -146,14 +144,14 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     @Override
     protected void onResume() {
         super.onResume();
-        isInterupted = false;
+        isInterrupted = false;
         launchSplashScreen();
         isVisible = true;
     }
 
     @Override
     protected void onStop() {
-        isInterupted = true;
+        isInterrupted = true;
         thread.interrupt();
         super.onStop();
         isVisible = false;
