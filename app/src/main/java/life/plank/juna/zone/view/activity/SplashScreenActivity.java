@@ -13,6 +13,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
@@ -21,36 +25,40 @@ import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 
 public class SplashScreenActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
-
     private static final String TAG = "SplashScreenActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static SplashScreenActivity splashScreenActivity;
     public static Boolean isVisible = false;
     private static int SPLASH_TIME_OUT = 6000;
+    ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
+    Runnable longRunningTask = new Runnable() {
+        @Override
+        public void run() {
+
+        }
+    };
+    // submit task to threadpool:
+    Future longRunningTaskFuture = threadPoolExecutor.submit(longRunningTask);
+    Thread thread;
     private SharedPreferences loginPreferences;
     private Boolean savedLogin;
     private NetworkStateReceiver networkStateReceiver;
     private boolean isSplashScreenTimeOut = false;
     private boolean isIntentCalled = false;
+    private Handler handler = new Handler();
+    private boolean isInterupted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splash_screen_activity);
-        startNetworkBroadcastReceiver(this);
         splashScreenActivity = this;
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
         loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
-        new Handler().postDelayed(() -> {
-            isSplashScreenTimeOut = true;
-            if (NetworkStatus.isNetworkAvailable(this)) {
-                isIntentCalled = true;
-                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-                finish();
-            }
-            //TODO: Uncomment when remember me is implemented on the current version
+
+/* //TODO: Uncomment when remember me is implemented on the current version
 //            if (savedLogin) {
 //                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
 //                finish();
@@ -58,7 +66,38 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 //                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
 //                finish();
 //            }
-        }, SPLASH_TIME_OUT);
+        }, SPLASH_TIME_OUT);*/
+
+        launchSplashScreen();
+    }
+
+    private void launchSplashScreen() {
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isSplashScreenTimeOut = true;
+                try {
+                    Thread.sleep(5000);
+                    if (NetworkStatus.isNetworkAvailable(SplashScreenActivity.this)) {
+                        isIntentCalled = true;
+                        Log.v("trace", "data" + isInterupted);
+                        if (!isInterupted) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+                                    finish();
+                                }
+                            });
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
     }
 
     /**
@@ -99,20 +138,23 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     protected void onPause() {
+        isInterupted = true;
+        thread.interrupt();
         super.onPause();
-        isVisible = false;
-        if (networkStateReceiver != null)
-            unregisterNetworkBroadcastReceiver(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        isInterupted = false;
+        launchSplashScreen();
         isVisible = true;
     }
 
     @Override
     protected void onStop() {
+        isInterupted = true;
+        thread.interrupt();
         super.onStop();
         isVisible = false;
     }
