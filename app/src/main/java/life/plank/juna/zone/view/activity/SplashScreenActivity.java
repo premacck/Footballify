@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -15,7 +14,6 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
@@ -34,7 +32,6 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     Runnable longRunningTask = new Runnable() {
         @Override
         public void run() {
-
         }
     };
     Thread thread;
@@ -91,7 +88,6 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                 }
             }
         });
-
         thread.start();
     }
 
