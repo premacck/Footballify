@@ -5,13 +5,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
@@ -21,44 +23,70 @@ import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 
 public class SplashScreenActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
-
     private static final String TAG = "SplashScreenActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static SplashScreenActivity splashScreenActivity;
     public static Boolean isVisible = false;
     private static int SPLASH_TIME_OUT = 6000;
-    private SharedPreferences loginPreferences;
+    ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
+    Runnable longRunningTask = new Runnable() {
+        @Override
+        public void run() {
+        }
+    };
+    Thread thread;
     private Boolean savedLogin;
     private NetworkStateReceiver networkStateReceiver;
     private boolean isSplashScreenTimeOut = false;
     private boolean isIntentCalled = false;
+    private boolean isInterrupted = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_splash_screen_activity);
-        startNetworkBroadcastReceiver(this);
         splashScreenActivity = this;
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
-        loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
+        SharedPreferences loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
-        new Handler().postDelayed(() -> {
-            isSplashScreenTimeOut = true;
-            if (NetworkStatus.isNetworkAvailable(this)) {
-                isIntentCalled = true;
+
+//TODO: Uncomment when remember me is implemented on the current version
+/*            if (savedLogin) {
                 startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
                 finish();
+            } else {
+                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+                finish();
+            }*/
+        launchSplashScreen();
+    }
+
+    private void launchSplashScreen() {
+        thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                isSplashScreenTimeOut = true;
+                try {
+                    Thread.sleep(5000);
+                    if (NetworkStatus.isNetworkAvailable(SplashScreenActivity.this)) {
+                        isIntentCalled = true;
+                        if (!isInterrupted) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
+                                    finish();
+                                }
+                            });
+                        }
+                    }
+                } catch (InterruptedException e) {
+                    Log.d("error message", e.toString());
+                }
             }
-            //TODO: Uncomment when remember me is implemented on the current version
-//            if (savedLogin) {
-//                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-//                finish();
-//            } else {
-//                startActivity(new Intent(SplashScreenActivity.this, SwipePageActivity.class));
-//                finish();
-//            }
-        }, SPLASH_TIME_OUT);
+        });
+        thread.start();
     }
 
     /**
@@ -99,20 +127,23 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     protected void onPause() {
+        isInterrupted = true;
+        thread.interrupt();
         super.onPause();
-        isVisible = false;
-        if (networkStateReceiver != null)
-            unregisterNetworkBroadcastReceiver(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        isInterrupted = false;
+        launchSplashScreen();
         isVisible = true;
     }
 
     @Override
     protected void onStop() {
+        isInterrupted = true;
+        thread.interrupt();
         super.onStop();
         isVisible = false;
     }
