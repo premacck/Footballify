@@ -31,7 +31,7 @@ import static life.plank.juna.zone.Util.RecyclerViewTestHelper.withIndex;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class StandingFragmentTest {
-    private static final String MESSAGE = "Leisester";
+    private static final String MESSAGE = "Leicester";
     @Rule
     public FragmentTestRule<StandingFragment> fragmentTestRule = new FragmentTestRule<>(StandingFragment.class);
     StandingTableAdapter standingTableAdapter;
