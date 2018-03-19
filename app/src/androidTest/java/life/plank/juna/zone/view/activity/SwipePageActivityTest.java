@@ -55,6 +55,7 @@ public class SwipePageActivityTest {
     //TODO:class name should be changed to FootballFeedActivityTest
     //TODO: needs better solution for Idling the resources
     //TODO: try catch will be removed once a better solution is found
+    //TODO: write test cases for scrolling the slideup panel
     @Rule
     public ActivityTestRule<SwipePageActivity> activityTestRule = new ActivityTestRule<>(
             SwipePageActivity.class);
@@ -62,7 +63,6 @@ public class SwipePageActivityTest {
     private View mainDecorView;
     private int waitingTime = 10;
     private IdlingResource idlingResource;
-
 
     @Before
     public void setUp() {
@@ -303,6 +303,42 @@ public class SwipePageActivityTest {
         closeOnBoardingDialog();
         if (getRecyclerViewCount() > 0) {
             onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.sliding_feed_details_date_text_view), 0)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void clickingOnExpandArrowInFootbalFeedDetailsActivityShouldExpandTheSlideUpPanel() {
+        /*click on expand arrow in FootballFeedDetailsActivity
+        * check if scrollview is visible*/
+        closeOnBoardingDialog();
+        if (getRecyclerViewCount() > 0) {
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.expand_arrow), 0)).perform(click());
+            onView(withIndex(withId(R.id.scroll_view), 0)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void clickingOnExpandArrowInFootbalFeedDetailsActivityShouldDisplaySlideupPanelTitle() {
+        /*click on expand arrow in FootballFeedDetailsActivity
+        * check if SlideupPanelTitle is displayed*/
+        closeOnBoardingDialog();
+        if (getRecyclerViewCount() > 0) {
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.expand_arrow), 0)).perform(click());
+            onView(withIndex(withId(R.id.sliding_title_text_view), 0)).check(matches(isDisplayed()));
+        }
+    }
+
+    @Test
+    public void clickingOnExpandArrowInFootbalFeedDetailsActivityShouldDisplaySlideupPanelDate() {
+        /*click on expand arrow in FootballFeedDetailsActivity
+        * check if SlideupPanelDate is displayed*/
+        closeOnBoardingDialog();
+        if (getRecyclerViewCount() > 0) {
+            onView(withId(R.id.football_feed_recycler_view)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+            onView(withIndex(withId(R.id.expand_arrow), 0)).perform(click());
             onView(withIndex(withId(R.id.sliding_feed_details_date_text_view), 0)).check(matches(isDisplayed()));
         }
     }
