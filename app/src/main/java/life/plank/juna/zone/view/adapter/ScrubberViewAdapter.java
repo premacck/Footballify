@@ -147,32 +147,30 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     }
 
     private void displayPointerImage(View view) {
-        view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                int[] itemViewXYLocation = new int[2];
-                view.getLocationInWindow(itemViewXYLocation);
-                if (popupWindowPointer == null || !popupWindowPointer.isShowing()) {
-                    pointerImageRelativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.scrubber_view_pointer_image, null);
-                    ButterKnife.bind(this, pointerImageRelativeLayout);
-                    PopUpWindowHelper<RelativeLayout> popUpWindowHelper = new PopUpWindowHelper<>();
-                    popUpWindowHelper.setView(pointerImageRelativeLayout);
-                    setUpPopupWindow(ScrubberConstants.getPointerImageDimen(),
-                            itemViewXYLocation[0],
-                            itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen()/4,
-                            view, popUpWindowHelper);
-                    popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
-                    popupWindowPointer.setFocusable(false);
-                    popupWindowPointer.setOutsideTouchable(false);
-                } else if (popupWindowPointer != null) {
-                    popupWindowPointer.update(itemViewXYLocation[0] - ScrubberConstants.getPointerImageDimen()/2 + viewWidth/2 ,
-                            itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen()/2,
-                            ScrubberConstants.getPointerImageDimen(),
-                            ScrubberConstants.getPointerImageDimen());
-                }
-                view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = () -> updatePointerPopupWindow(view);
+        view.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
+    }
+
+    private void updatePointerPopupWindow(View view) {
+        int[] itemViewXYLocation = new int[2];
+        view.getLocationInWindow(itemViewXYLocation);
+        if (popupWindowPointer == null || !popupWindowPointer.isShowing()) {
+            pointerImageRelativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.scrubber_view_pointer_image, null);
+            PopUpWindowHelper<RelativeLayout> popUpWindowHelper = new PopUpWindowHelper<>();
+            popUpWindowHelper.setView(pointerImageRelativeLayout);
+            setUpPopupWindow(ScrubberConstants.getPointerImageDimen(),
+                    itemViewXYLocation[0],
+                    itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen() / 2,
+                    view, popUpWindowHelper);
+            popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
+            popupWindowPointer.setFocusable(false);
+            popupWindowPointer.setOutsideTouchable(false);
+        } else if (popupWindowPointer != null) {
+            popupWindowPointer.update(itemViewXYLocation[0] - ScrubberConstants.getPointerImageDimen() / 2 + viewWidth / 2,
+                    itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen() / 2,
+                    ScrubberConstants.getPointerImageDimen(),
+                    ScrubberConstants.getPointerImageDimen());
+        }
     }
 
     /**
@@ -203,6 +201,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     public boolean onItemMove(int fromPosition, int toPosition, RecyclerView.ViewHolder target) {
         //TODO: Remove hardcoded code
         trigger = true;
+        if (popupWindowPointer != null && popupWindowPointer.isShowing())
+            popupWindowPointer.dismiss();
         if (scrubberViewDataHolder.containsKey(target.getLayoutPosition()) &&
                 scrubberViewDataHolder.get(target.getLayoutPosition()).isTriggerEvents()) {
             displayTooltipAboveEvent(target.itemView, scrubberViewDataHolder.get(target.getLayoutPosition()).getMessage());
@@ -211,7 +211,8 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     }
 
     @Override
-    public void clearView(int adapterPosition) {
+    public void clearView(int adapterPosition, RecyclerView.ViewHolder viewHolder) {
+        updatePointerPopupWindow(viewHolder.itemView);
         trigger = false;
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
@@ -221,7 +222,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     private void displayTooltipAboveEvent(View itemView, String message) {
         int[] itemViewXYLocation = new int[2];
         itemView.getLocationInWindow(itemViewXYLocation);
-        displayPointerImage(itemView);
         if (popupWindow == null || !popupWindow.isShowing()) {
             bubbleLayout = (BubbleLayout) LayoutInflater.from(context).inflate(R.layout.custom_tooltip, null);
             ButterKnife.bind(this, bubbleLayout);

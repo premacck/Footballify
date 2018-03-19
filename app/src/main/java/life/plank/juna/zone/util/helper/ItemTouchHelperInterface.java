@@ -10,6 +10,6 @@ public interface ItemTouchHelperInterface {
 
     boolean onItemMove(int fromPosition, int toPosition, RecyclerView.ViewHolder target);
 
-    void clearView(int adapterPosition);
+    void clearView(int adapterPosition, RecyclerView.ViewHolder viewHolder);
 
 }
