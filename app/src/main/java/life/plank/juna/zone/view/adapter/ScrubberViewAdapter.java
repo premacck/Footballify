@@ -159,14 +159,14 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
                     popUpWindowHelper.setView(pointerImageRelativeLayout);
                     setUpPopupWindow(ScrubberConstants.getPointerImageDimen(),
                             itemViewXYLocation[0],
-                            itemViewXYLocation[1] + viewHeight,
+                            itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen()/4,
                             view, popUpWindowHelper);
                     popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
                     popupWindowPointer.setFocusable(false);
                     popupWindowPointer.setOutsideTouchable(false);
                 } else if (popupWindowPointer != null) {
-                    popupWindowPointer.update(itemViewXYLocation[0],
-                            itemViewXYLocation[1] + viewHeight,
+                    popupWindowPointer.update(itemViewXYLocation[0] - ScrubberConstants.getPointerImageDimen()/2 + viewWidth/2 ,
+                            itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen()/2,
                             ScrubberConstants.getPointerImageDimen(),
                             ScrubberConstants.getPointerImageDimen());
                 }
