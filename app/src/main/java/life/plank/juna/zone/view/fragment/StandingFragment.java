@@ -50,10 +50,10 @@ public class StandingFragment extends Fragment {
         ((SwipePageActivity) getActivity()).retainHomeLayout();
     }
 
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager inputManager = (InputMethodManager) activity
+    public static void hideKeyboard(Activity swipePageActivity) {
+        InputMethodManager inputManager = (InputMethodManager) swipePageActivity
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-        View currentFocusedView = activity.getCurrentFocus();
+        View currentFocusedView = swipePageActivity.getCurrentFocus();
         if (currentFocusedView != null) {
             inputManager.hideSoftInputFromWindow(currentFocusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }

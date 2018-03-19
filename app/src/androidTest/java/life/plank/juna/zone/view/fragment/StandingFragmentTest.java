@@ -17,6 +17,8 @@ import life.plank.juna.zone.Util.RecyclerViewItemCountAssertion;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -29,6 +31,7 @@ import static life.plank.juna.zone.Util.RecyclerViewTestHelper.withIndex;
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class StandingFragmentTest {
+    private static final String MESSAGE = "Leisester";
     @Rule
     public FragmentTestRule<StandingFragment> fragmentTestRule = new FragmentTestRule<>(StandingFragment.class);
     StandingTableAdapter standingTableAdapter;
@@ -128,5 +131,13 @@ public class StandingFragmentTest {
         * check the recyclerView item count*/
         onView(ViewMatchers.withId(R.id.table_recycler_view)).check(matches(isDisplayed()));
         onView(withId(R.id.table_recycler_view)).check(new RecyclerViewItemCountAssertion(10));
+    }
+
+    // Types a message into a EditText element.
+    @Test
+    public void verifySearchTextInSearchBar() {
+        onView(withId(R.id.search_bar))
+                .perform(typeText(MESSAGE), closeSoftKeyboard());
+
     }
 }
