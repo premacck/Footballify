@@ -41,7 +41,7 @@ public class MediaSelectionFragment extends Fragment {
     int gridCount = 4;
     private GridLayoutManager gridLayoutManager;
     private MediaSelectionFragmentActionInterface mediaSelectionInterface;
-    private boolean isMediaSelected = false;
+    private boolean isMediaSelected = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,6 +90,7 @@ public class MediaSelectionFragment extends Fragment {
                     stickersTextViewFocused();
                     gifTextViewNotFocused();
                     photosTextViewNotFocused();
+                    isMediaSelected = false;
                 });
 
         RxView.clicks(gifTextView)
@@ -99,6 +100,7 @@ public class MediaSelectionFragment extends Fragment {
                     stickersTextViewNotFocused();
                     photosTextViewNotFocused();
                     gifTextViewFocused();
+                    isMediaSelected = false;
                 });
 
         RxView.clicks(crossImageView)
@@ -140,9 +142,10 @@ public class MediaSelectionFragment extends Fragment {
         photosTextView.setBackgroundColor(getResources().getColor(R.color.white));
         photosTextView.setTextColor(getResources().getColor(R.color.dark_grey));
     }
+
     @Override
     public void onResume() {
-        if (isMediaSelected = true) {
+        if (isMediaSelected) {
             mediaData.clear();
             chatMediaViewModel.getAllMedia(mediaData);
             mediaSelectionAdapter.notifyDataSetChanged();
