@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 
@@ -43,6 +44,7 @@ public class StandingFragment extends Fragment {
 
     @OnClick(R.id.cancel_image_view)
     public void onCancel() {
+        UIDisplayUtil.getInstance().hideSoftKeyboard(getView(), getActivity());
         ((SwipePageActivity) getActivity()).retainHomeLayout();
     }
 }
