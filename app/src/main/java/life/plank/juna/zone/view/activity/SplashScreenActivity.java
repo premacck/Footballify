@@ -37,14 +37,11 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
         }
     };
-    // submit task to threadpool:
-    Future longRunningTaskFuture = threadPoolExecutor.submit(longRunningTask);
     Thread thread;
     private Boolean savedLogin;
     private NetworkStateReceiver networkStateReceiver;
     private boolean isSplashScreenTimeOut = false;
     private boolean isIntentCalled = false;
-    private Handler handler = new Handler();
     private boolean isInterrupted = false;
 
     @Override
