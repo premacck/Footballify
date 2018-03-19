@@ -213,6 +213,9 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     @Override
     public void clearView(int adapterPosition) {
         trigger = false;
+        if (popupWindow != null && popupWindow.isShowing()) {
+            popupWindow.dismiss();
+        }
     }
 
     private void displayTooltipAboveEvent(View itemView, String message) {
