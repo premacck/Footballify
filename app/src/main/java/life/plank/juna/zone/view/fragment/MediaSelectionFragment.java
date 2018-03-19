@@ -142,7 +142,7 @@ public class MediaSelectionFragment extends Fragment {
     }
     @Override
     public void onResume() {
-        if (isMediaSelected) {
+        if (isMediaSelected = true) {
             mediaData.clear();
             chatMediaViewModel.getAllMedia(mediaData);
             mediaSelectionAdapter.notifyDataSetChanged();
