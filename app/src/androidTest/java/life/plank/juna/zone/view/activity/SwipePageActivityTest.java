@@ -14,12 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.RecyclerView;
 import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -60,6 +55,7 @@ public class SwipePageActivityTest {
     //TODO:class name should be changed to FootballFeedActivityTest
     //TODO: needs better solution for Idling the resources
     //TODO: try catch will be removed once a better solution is found
+    //TODO: write test cases for scrolling the slideup panel
     @Rule
     public ActivityTestRule<SwipePageActivity> activityTestRule = new ActivityTestRule<>(
             SwipePageActivity.class);
@@ -67,25 +63,6 @@ public class SwipePageActivityTest {
     private View mainDecorView;
     private int waitingTime = 10;
     private IdlingResource idlingResource;
-
-    private static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
-
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
-
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
-    }
 
     @Before
     public void setUp() {
@@ -365,7 +342,6 @@ public class SwipePageActivityTest {
             onView(withIndex(withId(R.id.sliding_feed_details_date_text_view), 0)).check(matches(isDisplayed()));
         }
     }
-
 
     private int getRecyclerViewCount() {
         RecyclerView recyclerView = (RecyclerView) activityTestRule.getActivity().findViewById(R.id.football_feed_recycler_view);
