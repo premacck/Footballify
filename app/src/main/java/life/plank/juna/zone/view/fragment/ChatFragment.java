@@ -23,6 +23,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 
@@ -77,6 +78,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_image_view:
+                UIDisplayUtil.getInstance().hideSoftKeyboard(getView(), getActivity());
                 ((LiveZoneActivity) context).isChatScreenVisible = false;
                 ((LiveZoneActivity) context).retainLayout();
                 break;
