@@ -130,7 +130,7 @@ public class MediaSelectionFragment extends Fragment {
 
     private void gifTextViewNotFocused() {
         gifTextView.setBackgroundColor(getResources().getColor(R.color.transparent));
-        gifTextView.setTextColor(getResources().getColor(R.color.dark_grey));
+        gifTextView.setTextColor(getResources().getColor(R.color.white));
     }
 
     private void stickersTextViewNotFocused() {
