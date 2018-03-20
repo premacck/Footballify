@@ -217,6 +217,7 @@
     <string name="add_more">addMore</string>
     <string name="table">Table</string>
     <string name="standing">Standings</string>
+    <string name="fixture_result">Fixtures/Results</string>
     <string name="not_a_valid_team">Not a valid team</string>
     <string name="select_atleast_one_team">Select atleast one team</string>
     <string name="select_different_teams">Select different teams</string>
