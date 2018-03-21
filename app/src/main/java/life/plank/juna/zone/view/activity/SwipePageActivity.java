@@ -432,6 +432,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void retainFeedContainer() {
+        footballFilterSpinnerTextView.setText(R.string.all);
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
