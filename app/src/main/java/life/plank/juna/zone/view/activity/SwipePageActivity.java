@@ -308,7 +308,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 footballFeedAdapter.dismissPopupDialog();
                 break;
             case R.id.football_menu:
-                if (listPopupWindow.isShowing())
+                if (listPopupWindow != null && listPopupWindow.isShowing())
                     listPopupWindow.dismiss();
                 footballFeedAdapter.dismissPopupDialog();
                 drawerLayout.openDrawer(GravityCompat.END);
