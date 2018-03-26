@@ -38,7 +38,7 @@ public class LiveZoneActivityInstrumentalTest {
     public ActivityTestRule<LiveZoneActivity> activityTestRule = new ActivityTestRule<>(
             LiveZoneActivity.class);
     private Resources resource;
-    private int waitingTime = 2000;
+    private int waitingTime = 300;
     private IdlingResource idlingResource;
 
     @Before

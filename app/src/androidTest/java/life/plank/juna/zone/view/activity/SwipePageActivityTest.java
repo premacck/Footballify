@@ -61,7 +61,7 @@ public class SwipePageActivityTest {
             SwipePageActivity.class);
     private Resources resource;
     private View mainDecorView;
-    private int waitingTime = 2000;
+    private int waitingTime = 300;
     private IdlingResource idlingResource;
 
     @Before
