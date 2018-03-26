@@ -38,7 +38,7 @@ public class LiveZoneActivityInstrumentalTest {
     public ActivityTestRule<LiveZoneActivity> activityTestRule = new ActivityTestRule<>(
             LiveZoneActivity.class);
     private Resources resource;
-    private int waitingTime = 10;
+    private int waitingTime = 300;
     private IdlingResource idlingResource;
 
     @Before
@@ -53,16 +53,11 @@ public class LiveZoneActivityInstrumentalTest {
     public void clickingOnMenuButtonShouldOpenNavigationDrawer() {
         /* click on the menu button
         * check if drawer is opened*/
-        try {
-            onView(withId(R.id.football_menu)).perform(click());
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.drawer_layout))
-                    .check(matches(isOpen(GravityCompat.END)));
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        onView(withId(R.id.football_menu)).perform(click());
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isOpen(GravityCompat.END)));
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -71,19 +66,15 @@ public class LiveZoneActivityInstrumentalTest {
         * check if drawer is open
         * close drawer
         * and check if drawer is closed*/
-        try {
-            onView(withId(R.id.football_menu)).perform(click());
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.drawer_layout))
-                    .check(matches(isOpen(GravityCompat.END)));
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.drawer_layout)).perform(DrawerActions.close(GravityCompat.END));
-            onView(withId(R.id.drawer_layout))
-                    .check(matches(isClosed(GravityCompat.END)));
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+
+        onView(withId(R.id.football_menu)).perform(click());
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isOpen(GravityCompat.END)));
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.drawer_layout)).perform(DrawerActions.close(GravityCompat.END));
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isClosed(GravityCompat.END)));
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 }
