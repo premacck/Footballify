@@ -179,7 +179,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         //Setup the horizontal recycler view
         horizontalRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         horizontalRecyclerView.setHasFixedSize(true);
-        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()), liveZoneTextView);
+        horizontalfootballFeedAdapter = new HorizontalFootballFeedAdapter(this, horizontalData, UIDisplayUtil.getDisplayMetricsData(this, GlobalVariable.getInstance().getDisplayWidth()));
         horizontalRecyclerView.setAdapter(horizontalfootballFeedAdapter);
         snapHelper.attachToRecyclerView(horizontalRecyclerView);
 
