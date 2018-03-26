@@ -71,7 +71,6 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, PinFeedListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    public boolean isShowSpinner = false;
     ListPopupWindow listPopupWindow;
     @Inject
     @Named("azure")
@@ -296,7 +295,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             case R.id.football_filter_spinner_textView:
                 showSpinner((TextView) view, calendarSpinnerTextView,
                         getResources().getStringArray(R.array.football_filter_array));
-
                 break;
             case R.id.calendar_spinner_textView:
                 showSpinner((TextView) view, footballFilterSpinnerTextView,
@@ -308,7 +306,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 retainLayout();
                 liveZoneListFragment();
                 footballFeedAdapter.dismissPopupDialog();
-
                 break;
             case R.id.football_menu:
                 if (listPopupWindow.isShowing())
