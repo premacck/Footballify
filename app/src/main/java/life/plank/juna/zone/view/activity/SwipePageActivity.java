@@ -71,6 +71,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, PinFeedListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    ListPopupWindow listPopupWindow;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -254,8 +255,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private void showSpinner(TextView activeTextView, TextView inActiveTextView, String[] arrayData) {
         activeTextView.setBackground(getResources().getDrawable(R.drawable.square_red_bg));
         inActiveTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
-
-        final ListPopupWindow listPopupWindow = new ListPopupWindow(this);
+        listPopupWindow = new ListPopupWindow(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.calendar_spinner_dropdown_item,
                 R.id.spinnerDropdownTextView, arrayData);
         listPopupWindow.setAdapter(adapter);
@@ -301,10 +301,16 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         getResources().getStringArray(R.array.calendar_array));
                 break;
             case R.id.live_zone_text_view:
+                if (listPopupWindow != null && listPopupWindow.isShowing())
+                    listPopupWindow.dismiss();
                 retainLayout();
                 liveZoneListFragment();
+                footballFeedAdapter.dismissPopupDialog();
                 break;
             case R.id.football_menu:
+                if (listPopupWindow.isShowing())
+                    listPopupWindow.dismiss();
+                footballFeedAdapter.dismissPopupDialog();
                 drawerLayout.openDrawer(GravityCompat.END);
                 break;
         }

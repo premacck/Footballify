@@ -50,6 +50,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private PinFeedListener pinFeedListener;
     private int popupImageHeight;
+    private PopupWindow popupWindowMenu;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -122,7 +123,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.likeImage.setOnClickListener((View view) -> displayPopup(position, holder, gridHeight, view));
     }
 
-    private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
+    public void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
         popUpPosition = position;
         int[] locationRecyclerContainer = new int[2];
         holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
@@ -187,7 +188,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder, int position) {
-        PopupWindow popupWindowMenu;
+        popupWindowMenu = new PopupWindow();
         LinearLayout inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
         ImageView moreOptionImageView = inflateLinearLayout.findViewById(R.id.more_option_image_view);
         ListView listView = inflateLinearLayout.findViewById(R.id.list_item_view);
@@ -220,6 +221,13 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                 popupWindowMenu.dismiss();
             }
         });
+    }
+
+    public void dismissPopupDialog() {
+        if (popupWindowMenu != null && popupWindowMenu.isShowing())
+            popupWindowMenu.dismiss();
+        if (popupWindow != null && popupWindow.isShowing())
+            popupWindow.dismiss();
     }
 
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
