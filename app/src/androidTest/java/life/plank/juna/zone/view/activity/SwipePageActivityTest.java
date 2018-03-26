@@ -61,7 +61,7 @@ public class SwipePageActivityTest {
             SwipePageActivity.class);
     private Resources resource;
     private View mainDecorView;
-    private int waitingTime = 10;
+    private int waitingTime = 2000;
     private IdlingResource idlingResource;
 
     @Before
@@ -87,16 +87,11 @@ public class SwipePageActivityTest {
         /*click on the team one selection edit text
         * type chelsea
         * select from the suggestions*/
-        try {
-            onView(withId(R.id.team_one_edit_text)).
-                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-            Espresso.registerIdlingResources(idlingResource);
-            onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        onView(withId(R.id.team_one_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        Espresso.registerIdlingResources(idlingResource);
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -104,16 +99,11 @@ public class SwipePageActivityTest {
         /*click on the team two selection edit text
         * type chelsea
         * select from the suggestions*/
-        try {
-            onView(withId(R.id.team_two_edit_text)).
-                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-            Espresso.registerIdlingResources(idlingResource);
-            onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        Espresso.registerIdlingResources(idlingResource);
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -121,17 +111,12 @@ public class SwipePageActivityTest {
         /*click on the team three selection edit text
         * type chelsea
         * select from the suggestions*/
-        try {
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.team_three_edit_text)).
-                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-            Espresso.registerIdlingResources(idlingResource);
-            onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        Espresso.registerIdlingResources(idlingResource);
+        onData(equalTo("Chelsea")).inRoot(RootMatchers.isPlatformPopup()).perform(click());
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -139,17 +124,12 @@ public class SwipePageActivityTest {
         /*close the onBoarding dialog
         * click on the menu button
         * check if drawer is opened*/
-        try {
-            closeOnBoardingDialog();
-            onView(withId(R.id.football_menu)).perform(click());
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.drawer_layout))
-                    .check(matches(isOpen(GravityCompat.END)));
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        closeOnBoardingDialog();
+        onView(withId(R.id.football_menu)).perform(click());
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.drawer_layout))
+                .check(matches(isOpen(GravityCompat.END)));
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -172,19 +152,14 @@ public class SwipePageActivityTest {
         * type invalid team name
         * click on team two edit text
         * check if error message is displayed for team one edit text*/
-        try {
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.team_one_edit_text)).
-                    perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
-            onView(withId(R.id.team_two_edit_text)).
-                    perform(click());
-            onView(withId(R.id.team_one_edit_text)).
-                    check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.team_one_edit_text)).
+                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click());
+        onView(withId(R.id.team_one_edit_text)).
+                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -193,19 +168,14 @@ public class SwipePageActivityTest {
         * type invalid team name
         * click on team three edit text
         * check if error message is displayed for team team edit text*/
-        try {
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.team_two_edit_text)).
-                    perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
-            onView(withId(R.id.team_three_edit_text)).
-                    perform(click());
-            onView(withId(R.id.team_two_edit_text)).
-                    check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click());
+        onView(withId(R.id.team_two_edit_text)).
+                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
@@ -214,19 +184,15 @@ public class SwipePageActivityTest {
         * type invalid team name
         * click on team two edit text
         * check if error message is displayed for team three edit text*/
-        try {
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.team_three_edit_text)).
-                    perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
-            onView(withId(R.id.team_two_edit_text)).
-                    perform(click());
-            onView(withId(R.id.team_three_edit_text)).
-                    check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Resources.NotFoundException e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.team_three_edit_text)).
+                perform(click()).perform(typeText("invalid"), closeSoftKeyboard());
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click());
+        onView(withId(R.id.team_three_edit_text)).
+                check(matches(hasErrorText(resource.getString(R.string.not_a_valid_team))));
+        Espresso.unregisterIdlingResources(idlingResource);
+
     }
 
     @Test
@@ -253,22 +219,17 @@ public class SwipePageActivityTest {
         * type Chelsea for team two edit text
         * click on submit buttton
         * check if RegisterAndSave dialog doesnot displayed*/
-        try {
-            Espresso.registerIdlingResources(idlingResource);
-            onView(withId(R.id.team_one_edit_text)).
-                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-            onView(withId(R.id.team_two_edit_text)).
-                    perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
-            onView(withId(R.id.apply_button)).
-                    perform(click());
-            onView(ViewMatchers.withText(R.string.register_and_save))
-                    .inRoot(isDialog())
-                    .check(doesNotExist());
-            Espresso.unregisterIdlingResources(idlingResource);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Espresso.unregisterIdlingResources(idlingResource);
-        }
+        Espresso.registerIdlingResources(idlingResource);
+        onView(withId(R.id.team_one_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        onView(withId(R.id.team_two_edit_text)).
+                perform(click()).perform(typeText("Chelsea"), closeSoftKeyboard());
+        onView(withId(R.id.apply_button)).
+                perform(click());
+        onView(ViewMatchers.withText(R.string.register_and_save))
+                .inRoot(isDialog())
+                .check(doesNotExist());
+        Espresso.unregisterIdlingResources(idlingResource);
     }
 
     @Test
