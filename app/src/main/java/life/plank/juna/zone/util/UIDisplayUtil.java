@@ -2,6 +2,7 @@ package life.plank.juna.zone.util;
 
 import android.content.Context;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.ListPopupWindow;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -71,4 +72,8 @@ public class UIDisplayUtil {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 
+    public  void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
 }
