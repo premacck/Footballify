@@ -43,6 +43,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
+                    android:fontFamily="@font/roboto_condensed_regular"
                     android:text="Show"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
@@ -60,6 +61,7 @@
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"
+                    android:fontFamily="@font/roboto_condensed_regular"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
@@ -79,6 +81,7 @@
                     android:background="@drawable/square_white_bg"
                     android:drawableEnd="@drawable/ms__menu_down"
                     android:drawableRight="@drawable/ms__menu_down"
+                    android:fontFamily="@font/roboto_condensed_regular"
                     android:gravity="center_vertical"
                     android:paddingEnd="3dp"
                     android:paddingRight="3dp"
@@ -95,7 +98,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
+                    android:fontFamily="@font/roboto_condensed_bold"
                     android:text="@string/livezone" />
             </RelativeLayout>
 

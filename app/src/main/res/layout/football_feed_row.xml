@@ -28,6 +28,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/roboto_bold"
+            android:letterSpacing=".04"
             android:text="TEAMS"
             android:textColor="@color/white"
             android:textSize="8sp" />
@@ -47,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/drop_down"
+            android:fontFamily="@font/roboto_bold"
             android:padding="@dimen/football_feed_row_image_padding"
             android:text="12K"
             android:textColor="@color/white"
@@ -67,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/comment_image"
+            android:fontFamily="@font/roboto_bold"
             android:padding="@dimen/football_feed_row_image_padding"
             android:text="1.2M"
             android:textColor="@color/white"
@@ -89,6 +93,8 @@
         android:layout_above="@+id/gradient_header"
         android:background="@color/transparent_grey"
         android:ellipsize="end"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:letterSpacing=".02"
         android:maxLines="3"
         android:padding="4dp"
         android:text="@string/lorem_ipsum_text"
@@ -109,19 +115,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_margin="5dp"
+        android:fontFamily="@font/roboto_regular"
         android:shadowColor="@color/text_shadow"
         android:shadowDx="1"
         android:shadowDy="1"
         android:shadowRadius="2"
         android:text="16/01\n9min"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="8sp" />
 
     <ImageView
         android:id="@+id/pin_image_view"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/ic_pin"
         android:layout_below="@+id/posted_time"
         android:layout_marginTop="10dp"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_pin"
+        android:visibility="gone" />
 </RelativeLayout>
