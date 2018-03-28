@@ -28,10 +28,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/football_toolbar"
         android:layout_marginTop="10dp"
+        android:padding="3dp"
         android:paddingBottom="0dp"
         android:paddingEnd="10dp"
         android:paddingRight="10dp"
-        android:padding="3dp"
         android:paddingTop="0dp">
 
         <TextView
@@ -42,28 +42,16 @@
             android:background="@android:color/transparent"
             android:text="LiveZone" />
 
-        <TextView
-            android:id="@+id/previous_match_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/line_image_view"
-            android:layout_toStartOf="@id/line_image_view"
-            android:drawableLeft="@drawable/ic_arrow_previous"
-            android:drawablePadding="10dp"
-            android:text="@string/live_zone_previous_match"
-            android:textColor="@color/white"
-            android:textSize="@dimen/live_zone_header_text_views" />
-
         <ImageView
-            android:id="@+id/line_image_view"
+            android:id="@+id/close_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_toLeftOf="@id/next_match_text_view"
-            android:src="@drawable/ic_line" />
+            android:layout_marginLeft="30dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_close" />
 
         <TextView
             android:id="@+id/next_match_text_view"
@@ -81,15 +69,26 @@
             android:textSize="@dimen/live_zone_header_text_views" />
 
         <ImageView
-            android:id="@+id/close_image"
+            android:id="@+id/line_image_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="30dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_close" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toLeftOf="@id/next_match_text_view"
+            android:src="@drawable/ic_line" />
+
+        <TextView
+            android:id="@+id/previous_match_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/line_image_view"
+            android:drawableLeft="@drawable/ic_arrow_previous"
+            android:drawablePadding="10dp"
+            android:text="@string/live_zone_previous_match"
+            android:textColor="@color/white"
+            android:textSize="@dimen/live_zone_header_text_views" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -201,8 +200,8 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_below="@+id/visiting_team_text_view"
-            android:layout_marginTop="3dp"
             android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
             android:orientation="vertical">
 
             <View

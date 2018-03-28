@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 import static com.sothree.slidinguppanel.SlidingUpPanelLayout.PanelState.COLLAPSED;
@@ -114,6 +115,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
             @Override
             public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+                UIDisplayUtil.getInstance().hideSoftKeyboard(holder.slidingUpPanelLayout, context);
                 if (COLLAPSED == newState) {
                     setCollapsedSlideUpPanelTitle(holder);
                 } else {

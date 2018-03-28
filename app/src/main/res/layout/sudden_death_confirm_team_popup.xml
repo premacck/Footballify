@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
-        android:fontFamily="@assets/aileron.bold"
+        android:fontFamily="@font/aileron_bold"
         android:text="@string/pick_label"
         android:textColor="@color/white"
         android:textSize="40sp"
