@@ -86,7 +86,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                closeAllPopUps();
+                closeAllPopUpWindows();
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
                 intent.putExtra(AppConstants.POSITION, String.valueOf(position));
                 intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeedList));
@@ -124,7 +124,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
-        closeAllPopUps();
+        closeAllPopUpWindows();
         popUpPosition = position;
         int[] locationRecyclerContainer = new int[2];
         holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
@@ -146,7 +146,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popupWindowReactions = popUpWindowHelper.genericPopUpWindow(context);
     }
 
-    private void closeAllPopUps() {
+    private void closeAllPopUpWindows() {
         if (popupWindowReactions != null && popupWindowReactions.isShowing()) {
             popupWindowReactions.dismiss();
         }
@@ -198,7 +198,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder, int position) {
-        closeAllPopUps();
+        closeAllPopUpWindows();
         LinearLayout inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
         ImageView moreOptionImageView = inflateLinearLayout.findViewById(R.id.more_option_image_view);
         ListView listView = inflateLinearLayout.findViewById(R.id.list_item_view);
