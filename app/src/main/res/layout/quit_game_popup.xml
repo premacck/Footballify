@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:fontFamily="@assets/aileron.bold"
+        android:fontFamily="@font/aileron_bold"
         android:layout_marginTop="40dp"
         android:text="QUIT GAME?"
         android:textColor="@color/dark_blue"
