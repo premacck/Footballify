@@ -35,7 +35,6 @@ import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
-    public PopupWindow popupWindow;
     @BindView(R.id.reaction_like)
     ImageView reactionLike;
     private int popUpPosition;
@@ -50,7 +49,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private PinFeedListener pinFeedListener;
     private int popupImageHeight;
-    private PopupWindow popupWindowMenu;
+    private PopupWindow popupWindowMenu, popupWindowReactions;
 
     public FootballFeedAdapter(Context context, int height, int width, int heightsToBeRemoved) {
         screenHeight = height;
@@ -87,6 +86,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                closeAllPopUps();
                 Intent intent = new Intent(context, FootballFeedDetailActivity.class);
                 intent.putExtra(AppConstants.POSITION, String.valueOf(position));
                 intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeedList));
@@ -123,7 +123,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.likeImage.setOnClickListener((View view) -> displayPopup(position, holder, gridHeight, view));
     }
 
-    public void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
+    private void displayPopup(int position, FootballFeedViewHolder holder, int gridHeight, View view) {
+        closeAllPopUps();
         popUpPosition = position;
         int[] locationRecyclerContainer = new int[2];
         holder.newsFeedRelativeLayout.getLocationInWindow(locationRecyclerContainer);
@@ -142,13 +143,22 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         popUpWindowHelper.setParentView(view);
         popUpWindowHelper.setPopUpLocationX(locationRecyclerContainer[0]);
         popUpWindowHelper.setPopUpLocationY(locationLIkeView[1] - (UIDisplayUtil.dpToPx(2, context) + gridHeight / 4));
-        popupWindow = popUpWindowHelper.genericPopUpWindow(context);
+        popupWindowReactions = popUpWindowHelper.genericPopUpWindow(context);
+    }
+
+    private void closeAllPopUps() {
+        if (popupWindowReactions != null && popupWindowReactions.isShowing()) {
+            popupWindowReactions.dismiss();
+        }
+        if (popupWindowMenu != null && popupWindowMenu.isShowing()) {
+            popupWindowMenu.dismiss();
+        }
     }
 
     @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
     public void onReactionsClicked(View view) {
-        if (popupWindow != null)
-            popupWindow.dismiss();
+        if (popupWindowReactions != null)
+            popupWindowReactions.dismiss();
         // TODO: 13-02-2018 Get the new images with different image size
         switch (view.getId()) {
             case R.id.reaction_like:
@@ -188,7 +198,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
     private void feedPopupMenu(View view, FootballFeedViewHolder footballFeedViewHolder, int position) {
-        popupWindowMenu = new PopupWindow();
+        closeAllPopUps();
         LinearLayout inflateLinearLayout = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.football_feed_popup_layout, null);
         ImageView moreOptionImageView = inflateLinearLayout.findViewById(R.id.more_option_image_view);
         ListView listView = inflateLinearLayout.findViewById(R.id.list_item_view);
@@ -226,8 +236,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void dismissPopupDialog() {
         if (popupWindowMenu != null && popupWindowMenu.isShowing())
             popupWindowMenu.dismiss();
-        if (popupWindow != null && popupWindow.isShowing())
-            popupWindow.dismiss();
+        if (popupWindowReactions != null && popupWindowReactions.isShowing())
+            popupWindowReactions.dismiss();
     }
 
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
