@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/chat_header_background"
         android:gravity="center_vertical"
-        android:padding="5dp">
+        android:padding="7dp">
 
         <TextView
             android:id="@+id/back_image_view"
