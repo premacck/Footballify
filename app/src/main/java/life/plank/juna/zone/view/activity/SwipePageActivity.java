@@ -71,6 +71,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, PinFeedListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    public boolean isStandingFragment = false;
     ListPopupWindow listPopupWindow;
     @Inject
     @Named("azure")
@@ -340,6 +341,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onBackPressed() {
         if (liveZoneTextView.isSelected()) {
             retainLayout();
+        } else if (isStandingFragment) {
+            retainHomeLayout();
         } else {
             super.onBackPressed();
         }
@@ -358,6 +361,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void scoreTableFragment() {
+        isStandingFragment = true;
         fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
@@ -367,6 +371,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void retainHomeLayout() {
+        isStandingFragment = false;
         footballFilterSpinnerTextView.setText(R.string.all);
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
