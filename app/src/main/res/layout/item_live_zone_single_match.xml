@@ -5,15 +5,16 @@
 
     <TextView
         android:id="@+id/home_team_goal_text_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
         android:background="@color/red"
         android:gravity="center"
+        android:text="0"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:text="0"/>
+        android:textSize="@dimen/live_zone_team_text_view_size" />
 
     <TextView
         android:id="@+id/home_team_text_view"
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/home_team_goal_text_view"
         android:layout_toStartOf="@+id/home_team_goal_text_view"
+        android:fontFamily="@font/roboto_condensed_bold"
         android:maxLines="1"
         android:minLines="1"
         android:padding="10dp"
@@ -30,8 +32,8 @@
 
     <TextView
         android:id="@+id/visiting_team_goal_text_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:layout_below="@+id/home_team_text_view"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
@@ -39,9 +41,10 @@
         android:layout_marginStart="10dp"
         android:background="@color/red"
         android:gravity="center"
+        android:text="3"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:text="3"/>
+        android:textSize="@dimen/live_zone_team_text_view_size" />
 
     <TextView
         android:id="@+id/visiting_team_text_view"
@@ -50,6 +53,7 @@
         android:layout_below="@+id/home_team_text_view"
         android:layout_toLeftOf="@+id/visiting_team_goal_text_view"
         android:layout_toStartOf="@+id/visiting_team_goal_text_view"
+        android:fontFamily="@font/roboto_condensed_bold"
         android:padding="10dp"
         android:textAllCaps="true"
         android:textColor="@color/white"
@@ -59,18 +63,20 @@
         android:id="@+id/commentary_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@+id/home_team_goal_text_view"
         android:layout_toRightOf="@+id/home_team_goal_text_view"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:letterSpacing=".03"
         android:maxLines="4"
         android:minLines="4"
-        android:padding="5dp"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="8sp" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="0.3dp"
         android:layout_below="@+id/visiting_team_goal_text_view"
         android:background="@color/white" />
-
 </RelativeLayout>
 
