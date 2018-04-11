@@ -26,9 +26,9 @@
         android:id="@+id/video_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_video"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_video"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tile_label_text_view"
@@ -38,14 +38,16 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/tile_content_text_view"
         android:layout_margin="3dp"
+        android:fontFamily="@font/roboto_regular"
+        android:letterSpacing=".03"
         android:text="6S: Mark F"
         android:textColor="@color/white"
         android:textSize="7sp" />
 
     <ImageView
         android:id="@+id/profile_image_view"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
@@ -61,7 +63,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_margin="3dp"
+        android:fontFamily="@font/roboto_condensed_regular"
+        android:letterSpacing=".03"
         android:text="Why would Mourinho do that? Isn't he done with this.."
         android:textColor="@color/white"
-        android:textSize="9dp" />
+        android:textSize="9sp" />
 </RelativeLayout>
