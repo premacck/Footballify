@@ -4,7 +4,7 @@
     android:viewportHeight="385.0"
     android:viewportWidth="600.0">
     <path
-        android:fillColor="@color/show_scores_fillcolor"
+        android:fillColor="#ffe100"
         android:pathData="M0,192.5l0,192.5 300,0 300,0 0,-192.5 0,-192.5 -300,0 -300,0 0,192.5z"
         android:strokeColor="@color/show_score_stroke_color" />
 </vector>
