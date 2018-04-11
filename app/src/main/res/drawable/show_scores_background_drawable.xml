@@ -6,5 +6,5 @@
     <path
         android:fillColor="#ffe100"
         android:pathData="M0,192.5l0,192.5 300,0 300,0 0,-192.5 0,-192.5 -300,0 -300,0 0,192.5z"
-        android:strokeColor="@color/show_score_stroke_color" />
+        android:strokeColor="#00000000"/>
 </vector>
