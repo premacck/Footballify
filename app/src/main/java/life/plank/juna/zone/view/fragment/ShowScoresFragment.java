@@ -18,7 +18,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.ShowScoreAdapter;
 
-
 public class ShowScoresFragment extends Fragment {
     Context context;
     @BindView(R.id.show_score_recycler_view)
@@ -30,10 +29,7 @@ public class ShowScoresFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_show_scores, container, false);
         unbinder = ButterKnife.bind(this, view);
         initializeRecyclerView();
@@ -45,18 +41,15 @@ public class ShowScoresFragment extends Fragment {
         ((SwipePageActivity) getActivity()).retainFeedContainer();
     }
 
-
     private void initializeRecyclerView() {
         showScoreRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         ShowScoreAdapter showScoreAdapter = new ShowScoreAdapter(getActivity());
         showScoreRecyclerView.setAdapter(showScoreAdapter);
     }
 
-
     @Override
     public void onAttach(Context context) {
         this.context = context;
         super.onAttach(context);
     }
-
 }

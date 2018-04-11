@@ -55,8 +55,6 @@ public class ShowScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             showScoresHolder.teamTwoScore.setText(showScores.get(position).getTeamTwoScore());
             showScoresHolder.time.setText(showScores.get(position).getTime());
         }
-
-
     }
 
     @Override

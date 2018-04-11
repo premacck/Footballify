@@ -40,10 +40,11 @@ public class ShowScoreFragmentTest {
 
     @Test
     public void launchOfShowScoreFragmentShouldDisplayCloseImageView() {
-        /*launch Showscores fragmnet
+        /*launch Showscores fragment
         * check if close image view is displayed*/
         onView(withId(R.id.cancel_image_view)).check(matches(isDisplayed()));
     }
+
     @Test
     public void showScoresRecyclerViewShouldScroll() {
         /*check if ShowScoresRecyclerview scrolls*/
@@ -53,20 +54,14 @@ public class ShowScoreFragmentTest {
     @Test
     public void showScoresShouldHaveRoundsTextView() {
         /*check if ShowScoresRecyclerview item displays  Rounds textView*/
-        showScoreRecyclerviewShouldScroll();
+        showScoresRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.show_scores_rounds), 0)).check(matches(isDisplayed()));
     }
 
     @Test
     public void showScoresRecyclerViewItemShouldDisplayRoundsTextView() {
         /*check if showScoresRecyclerView 0th item displays 0th time for show_scores_rounds textView*/
-        showScoreRecyclerviewShouldScroll();
+        showScoresRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.show_scores_rounds), 0)).check(matches(withText(resource.getString(R.string.round_fa_cup))));
-    }
-
-    @Test
-    public void showScoreRecyclerviewShouldScroll() {
-        /*check if showScoreRecyclerview scrolls*/
-        onView(withId(R.id.show_score_recycler_view)).perform(RecyclerViewActions.scrollToPosition(1));
     }
 }
