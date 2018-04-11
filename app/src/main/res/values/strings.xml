@@ -238,4 +238,6 @@
     <string name="all">All</string>
     <string name="serial_number">1</string>
     <string name="my_team">My Team</string>
+    <string name="full_match_time">FT</string>
+    <string name="half_match_time">HT</string>
 </resources>
