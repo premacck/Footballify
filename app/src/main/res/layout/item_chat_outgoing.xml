@@ -11,6 +11,7 @@
         android:layout_weight=".2" />
 
     <LinearLayout
+        android:id="@+id/chat_item_linear_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".8"
