@@ -2,7 +2,7 @@
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="life.plank.juna.zone.view.fragment.ShowScoresFragment">
+tools:context="life.plank.juna.zone.view.fragment.MatchScoreFragment">
 
 <ImageView
     android:id="@+id/cancel_image_view"
