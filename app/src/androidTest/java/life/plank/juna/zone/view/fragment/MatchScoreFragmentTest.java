@@ -12,7 +12,7 @@ import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.FragmentTestRule;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.adapter.ShowScoreAdapter;
+import life.plank.juna.zone.view.adapter.MatchScoreAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -26,10 +26,10 @@ import static life.plank.juna.zone.Util.RecyclerViewTestHelper.withIndex;
  */
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ShowScoreFragmentTest {
+public class MatchScoreFragmentTest {
     @Rule
-    public FragmentTestRule<ShowScoresFragment> fragmentTestRule = new FragmentTestRule<>(ShowScoresFragment.class);
-    ShowScoreAdapter showScoreAdapter;
+    public FragmentTestRule<MatchScoreFragment> fragmentTestRule = new FragmentTestRule<>(MatchScoreFragment.class);
+    MatchScoreAdapter matchScoreAdapter;
     private Resources resource;
 
     @Before

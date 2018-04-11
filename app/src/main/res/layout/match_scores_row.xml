@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/view"
-            android:background="@drawable/show_scores_background_drawable"
+            android:background="@drawable/match_scores_background_drawable"
             android:gravity="center"
             android:text="0"
             android:textStyle="bold" />
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/view"
-            android:background="@drawable/show_scores_background_drawable"
+            android:background="@drawable/match_scores_background_drawable"
             android:gravity="center"
             android:text="1"
             android:textStyle="bold" />

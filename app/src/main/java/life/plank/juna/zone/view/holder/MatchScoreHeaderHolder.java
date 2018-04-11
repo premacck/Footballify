@@ -12,11 +12,11 @@ import life.plank.juna.zone.R;
  * Created by plank-sharath on 4/10/2018.
  */
 
-public class ShowScoreHeaderHolder extends RecyclerView.ViewHolder {
+public class MatchScoreHeaderHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.show_score_fixture_header_text_view)
     public TextView headerTextView;
 
-    public ShowScoreHeaderHolder(View itemView) {
+    public MatchScoreHeaderHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

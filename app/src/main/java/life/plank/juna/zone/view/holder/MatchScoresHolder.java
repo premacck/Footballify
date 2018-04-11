@@ -12,7 +12,7 @@ import life.plank.juna.zone.R;
  * Created by plank-sharath on 4/10/2018.
  */
 
-public class ShowScoresHolder extends RecyclerView.ViewHolder {
+public class MatchScoresHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.show_scores_rounds)
     public TextView roundsTextview;
@@ -27,7 +27,7 @@ public class ShowScoresHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.match_time)
     public TextView time;
 
-    public ShowScoresHolder(View itemView) {
+    public MatchScoresHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

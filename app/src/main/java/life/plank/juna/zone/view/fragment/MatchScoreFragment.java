@@ -16,9 +16,9 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
-import life.plank.juna.zone.view.adapter.ShowScoreAdapter;
+import life.plank.juna.zone.view.adapter.MatchScoreAdapter;
 
-public class ShowScoresFragment extends Fragment {
+public class MatchScoreFragment extends Fragment {
     Context context;
     @BindView(R.id.show_score_recycler_view)
     RecyclerView showScoreRecyclerView;
@@ -30,7 +30,7 @@ public class ShowScoresFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_show_scores, container, false);
+        View view = inflater.inflate(R.layout.fragment_match_scores, container, false);
         unbinder = ButterKnife.bind(this, view);
         initializeRecyclerView();
         return view;
@@ -43,8 +43,8 @@ public class ShowScoresFragment extends Fragment {
 
     private void initializeRecyclerView() {
         showScoreRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        ShowScoreAdapter showScoreAdapter = new ShowScoreAdapter(getActivity());
-        showScoreRecyclerView.setAdapter(showScoreAdapter);
+        MatchScoreAdapter matchScoreAdapter = new MatchScoreAdapter(getActivity());
+        showScoreRecyclerView.setAdapter(matchScoreAdapter);
     }
 
     @Override
