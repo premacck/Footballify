@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:text="@string/liveZone" />
 
         <ImageView
@@ -39,5 +39,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/live_zone_list_relative_layout" />
-
 </RelativeLayout>
