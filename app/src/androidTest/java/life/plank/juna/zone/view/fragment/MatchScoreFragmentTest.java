@@ -64,4 +64,19 @@ public class MatchScoreFragmentTest {
         showScoresRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.show_scores_rounds), 0)).check(matches(withText(resource.getString(R.string.round_fa_cup))));
     }
+
+    @Test
+    public void showScoresShouldHaveScoreTextView() {
+        /*check if ShowScoresRecyclerview item displays  Score textView*/
+        showScoresRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.home_team_score), 0)).check(matches(isDisplayed()));
+    }
+    @Test
+    public void showScoresRecyclerViewItemShouldDisplayScoreTextView() {
+        /*check if showScoresRecyclerView 0th item displays 0th time for hometeamscore textView*/
+        showScoresRecyclerViewShouldScroll();
+        onView(withIndex(withId(R.id.home_team_score), 0)).check(matches(withText("2")));
+    }
+
+
 }

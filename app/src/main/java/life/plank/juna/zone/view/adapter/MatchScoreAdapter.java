@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.MatchScores;
+import life.plank.juna.zone.data.network.model.MatchScore;
 import life.plank.juna.zone.view.holder.MatchScoreHeaderHolder;
-import life.plank.juna.zone.view.holder.MatchScoresHolder;
+import life.plank.juna.zone.view.holder.MatchScoreHolder;
 
 /**
  * Created by plank-sharath on 4/10/2018.
@@ -21,18 +21,18 @@ public class MatchScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private final int ITEM_VIEW_HEADER = 0;
     private final int ITEM_VIEW_BODY = 1;
     private Context context;
-    private List<MatchScores> matchScores = new ArrayList<>();
+    private List<MatchScore> matchScores = new ArrayList<>();
     private String header = "header";
 
     public MatchScoreAdapter(Context context) {
         this.context = context;
-        matchScores.addAll(MatchScores.getScores(context));
+        matchScores.addAll(MatchScore.getScores(context));
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return viewType == ITEM_VIEW_HEADER ? new MatchScoreHeaderHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.match_scores_header_row, parent, false)) : new MatchScoresHolder(LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.match_scores_header_row, parent, false)) : new MatchScoreHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.match_scores_row, parent, false));
     }
 
@@ -42,18 +42,18 @@ public class MatchScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             MatchScoreHeaderHolder matchScoreHeaderHolder = (MatchScoreHeaderHolder) holder;
             matchScoreHeaderHolder.headerTextView.setText(matchScores.get(position).getHeader());
         } else {
-            MatchScoresHolder matchScoresHolder = (MatchScoresHolder) holder;
+            MatchScoreHolder matchScoreHolder = (MatchScoreHolder) holder;
             if (matchScores.get(position).getRounds().contentEquals(" ")) {
-                matchScoresHolder.roundsTextview.setVisibility(View.GONE);
+                matchScoreHolder.roundsTextview.setVisibility(View.GONE);
             } else {
-                matchScoresHolder.roundsTextview.setVisibility(View.VISIBLE);
-                matchScoresHolder.roundsTextview.setText(matchScores.get(position).getRounds());
+                matchScoreHolder.roundsTextview.setVisibility(View.VISIBLE);
+                matchScoreHolder.roundsTextview.setText(matchScores.get(position).getRounds());
             }
-            matchScoresHolder.homeTeamTextview.setText(matchScores.get(position).getTeamOne());
-            matchScoresHolder.visitingTeamTextview.setText(matchScores.get(position).getTeamTwo());
-            matchScoresHolder.homeTeamScore.setText(matchScores.get(position).getTeamOneScores());
-            matchScoresHolder.visitingTeamScore.setText(matchScores.get(position).getTeamTwoScore());
-            matchScoresHolder.matchTime.setText(matchScores.get(position).getTime());
+            matchScoreHolder.homeTeamTextview.setText(matchScores.get(position).gethomeTeam());
+            matchScoreHolder.visitingTeamTextview.setText(matchScores.get(position).getvisitingTeam());
+            matchScoreHolder.homeTeamScore.setText(matchScores.get(position).gethomeTeamScores());
+            matchScoreHolder.visitingTeamScore.setText(matchScores.get(position).getvisitingTeamScore());
+            matchScoreHolder.matchTime.setText(matchScores.get(position).getmatchTime());
         }
     }
 
