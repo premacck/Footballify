@@ -23,11 +23,11 @@
         android:layout_marginTop="5dp">
 
         <TextView
-            android:id="@+id/team_first"
+            android:id="@+id/first_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/team_first_score"
+            android:layout_toLeftOf="@+id/first_team_score"
             android:text="sheff Wed"
             android:textStyle="bold" />
 
@@ -40,31 +40,31 @@
             android:background="@color/white" />
 
         <TextView
-            android:id="@+id/team_first_score"
+            android:id="@+id/first_team_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/view"
-            android:background="@drawable/show_scores_background_drawble"
+            android:background="@drawable/show_scores_background_drawable"
             android:gravity="center"
             android:text="0"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/team_second_score"
+            android:id="@+id/second_team_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/view"
-            android:background="@drawable/show_scores_background_drawble"
+            android:background="@drawable/show_scores_background_drawable"
             android:gravity="center"
             android:text="1"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/team_second"
+            android:id="@+id/second_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/team_second_score"
+            android:layout_toRightOf="@+id/second_team_score"
             android:text="sheff Wed"
             android:textStyle="bold" />
     </RelativeLayout>
