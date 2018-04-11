@@ -238,4 +238,9 @@
     <string name="all">All</string>
     <string name="serial_number">1</string>
     <string name="my_team">My Team</string>
+
+    <string name="match_time_full">FT</string>
+    <string name="match_time_half">HT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
