@@ -70,7 +70,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
         if (chatModelList.get(position).isMyMessage()) {
             holder.nameTextView.setText(context.getString(R.string.me));
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.chatItemLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!text.contentEquals(chatModelList.get(position).getTag())) {
