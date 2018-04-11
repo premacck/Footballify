@@ -49,11 +49,11 @@ public class MatchScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 matchScoresHolder.roundsTextview.setVisibility(View.VISIBLE);
                 matchScoresHolder.roundsTextview.setText(matchScores.get(position).getRounds());
             }
-            matchScoresHolder.teamOneTextview.setText(matchScores.get(position).getTeamOne());
-            matchScoresHolder.teamTwoTextview.setText(matchScores.get(position).getTeamTwo());
-            matchScoresHolder.teamOneScore.setText(matchScores.get(position).getTeamOneScores());
-            matchScoresHolder.teamTwoScore.setText(matchScores.get(position).getTeamTwoScore());
-            matchScoresHolder.time.setText(matchScores.get(position).getTime());
+            matchScoresHolder.homeTeamTextview.setText(matchScores.get(position).getTeamOne());
+            matchScoresHolder.visitingTeamTextview.setText(matchScores.get(position).getTeamTwo());
+            matchScoresHolder.homeTeamScore.setText(matchScores.get(position).getTeamOneScores());
+            matchScoresHolder.visitingTeamScore.setText(matchScores.get(position).getTeamTwoScore());
+            matchScoresHolder.matchTime.setText(matchScores.get(position).getTime());
         }
     }
 

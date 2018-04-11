@@ -16,16 +16,16 @@ public class MatchScoresHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.show_scores_rounds)
     public TextView roundsTextview;
-    @BindView(R.id.first_team)
-    public TextView teamOneTextview;
-    @BindView(R.id.second_team)
-    public TextView teamTwoTextview;
-    @BindView(R.id.first_team_score)
-    public TextView teamOneScore;
-    @BindView(R.id.second_team_score)
-    public TextView teamTwoScore;
+    @BindView(R.id.home_team)
+    public TextView homeTeamTextview;
+    @BindView(R.id.visiting_team)
+    public TextView visitingTeamTextview;
+    @BindView(R.id.home_team_score)
+    public TextView homeTeamScore;
+    @BindView(R.id.visiting_team_score)
+    public TextView visitingTeamScore;
     @BindView(R.id.match_time)
-    public TextView time;
+    public TextView matchTime;
 
     public MatchScoresHolder(View itemView) {
         super(itemView);

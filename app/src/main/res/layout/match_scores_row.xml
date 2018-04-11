@@ -23,11 +23,11 @@
         android:layout_marginTop="5dp">
 
         <TextView
-            android:id="@+id/first_team"
+            android:id="@+id/home_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/first_team_score"
+            android:layout_toLeftOf="@+id/home_team_score"
             android:text="sheff Wed"
             android:textStyle="bold" />
 
@@ -40,7 +40,7 @@
             android:background="@color/white" />
 
         <TextView
-            android:id="@+id/first_team_score"
+            android:id="@+id/home_team_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/view"
@@ -50,7 +50,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/second_team_score"
+            android:id="@+id/visiting_team_score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/view"
@@ -60,11 +60,11 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/second_team"
+            android:id="@+id/visiting_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/second_team_score"
+            android:layout_toRightOf="@+id/visiting_team_score"
             android:text="sheff Wed"
             android:textStyle="bold" />
     </RelativeLayout>
