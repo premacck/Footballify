@@ -40,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:text="LiveZone" />
 
         <ImageView
@@ -64,6 +65,7 @@
             android:layout_toStartOf="@id/close_image"
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/ic_arrow_next"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:text="@string/live_zone_next_match"
             android:textColor="@color/white"
             android:textSize="@dimen/live_zone_header_text_views" />
@@ -86,6 +88,7 @@
             android:layout_toStartOf="@id/line_image_view"
             android:drawableLeft="@drawable/ic_arrow_previous"
             android:drawablePadding="10dp"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:text="@string/live_zone_previous_match"
             android:textColor="@color/white"
             android:textSize="@dimen/live_zone_header_text_views" />
@@ -131,15 +134,16 @@
 
         <TextView
             android:id="@+id/home_team_score_text_view"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
             android:background="@color/red"
             android:gravity="center"
             android:text="0"
             android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/live_zone_team_text_view_size" />
 
         <TextView
             android:id="@+id/home_team_text_view"
@@ -149,16 +153,17 @@
             android:layout_toLeftOf="@+id/home_team_score_text_view"
             android:layout_toStartOf="@+id/home_team_score_text_view"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:maxLines="1"
             android:text="@string/brighton_amp_hove_albiono"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="@dimen/live_zone_team_text_view_size" />
 
         <TextView
             android:id="@+id/visiting_team_score_text_view"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
             android:layout_below="@+id/home_team_text_view"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"
@@ -166,7 +171,8 @@
             android:gravity="center"
             android:text="3"
             android:textAllCaps="true"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="@dimen/live_zone_team_text_view_size" />
 
         <TextView
             android:id="@+id/visiting_team_text_view"
@@ -176,11 +182,12 @@
             android:layout_margin="5dp"
             android:layout_toStartOf="@+id/home_team_score_text_view"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto_condensed_bold"
             android:maxLines="1"
             android:text="@string/chelsea"
             android:textAllCaps="true"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="@dimen/live_zone_team_text_view_size" />
 
         <TextView
             android:id="@+id/commentary_text"
@@ -191,10 +198,12 @@
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/home_team_score_text_view"
             android:ellipsize="end"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:letterSpacing=".03"
             android:maxLines="3"
             android:minLines="3"
             android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:textSize="8sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
