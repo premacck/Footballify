@@ -315,20 +315,15 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void popListDisplay(TextView spinnerTextview, View view) {
-
-
         if (view.isSelected()) {
             view.setSelected(false);
             listPopupWindow.dismiss();
-
         } else {
-
             if (spinnerTextview == calendarSpinnerTextView) {
                 view.setSelected(true);
                 UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
                 showSpinner((TextView) view, calendarSpinnerTextView,
                         getResources().getStringArray(R.array.football_filter_array));
-
             } else {
                 view.setSelected(true);
                 UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
