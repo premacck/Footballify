@@ -295,10 +295,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.football_filter_spinner_textView:
-                popListDisplay(calendarSpinnerTextView, view);
+                popUpListDisplay(calendarSpinnerTextView, view);
                 break;
             case R.id.calendar_spinner_textView:
-                popListDisplay(footballFilterSpinnerTextView, view);
+                popUpListDisplay(footballFilterSpinnerTextView, view);
                 break;
             case R.id.live_zone_text_view:
                 UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
@@ -314,7 +314,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         }
     }
 
-    public void popListDisplay(TextView spinnerTextview, View view) {
+    public void popUpListDisplay(TextView spinnerTextview, View view) {
         if (view.isSelected()) {
             view.setSelected(false);
             listPopupWindow.dismiss();
