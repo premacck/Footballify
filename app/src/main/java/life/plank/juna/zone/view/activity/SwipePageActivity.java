@@ -295,14 +295,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.football_filter_spinner_textView:
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                showSpinner((TextView) view, calendarSpinnerTextView,
-                        getResources().getStringArray(R.array.football_filter_array));
+                popUpListDisplay(calendarSpinnerTextView, view);
                 break;
             case R.id.calendar_spinner_textView:
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                showSpinner((TextView) view, footballFilterSpinnerTextView,
-                        getResources().getStringArray(R.array.calendar_array));
+                popUpListDisplay(footballFilterSpinnerTextView, view);
                 break;
             case R.id.live_zone_text_view:
                 UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
@@ -315,6 +311,23 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 footballFeedAdapter.dismissPopupDialog();
                 drawerLayout.openDrawer(GravityCompat.END);
                 break;
+        }
+    }
+
+    public void popUpListDisplay(TextView spinnerTextview, View view) {
+        if (view.isSelected()) {
+            view.setSelected(false);
+            listPopupWindow.dismiss();
+        } else {
+            view.setSelected(true);
+            UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+            if (spinnerTextview == calendarSpinnerTextView) {
+                showSpinner((TextView) view, calendarSpinnerTextView,
+                        getResources().getStringArray(R.array.football_filter_array));
+            } else {
+                showSpinner((TextView) view, footballFilterSpinnerTextView,
+                        getResources().getStringArray(R.array.calendar_array));
+            }
         }
     }
 

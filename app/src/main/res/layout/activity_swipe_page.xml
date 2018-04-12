@@ -48,14 +48,15 @@
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
+                //TODO new designs to be done for different resolutions(Tablets)
                 <TextView
                     android:id="@+id/football_filter_spinner_textView"
                     style="@style/live_zone_text_style"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toEndOf="@+id/show_text_view"
                     android:layout_toRightOf="@+id/show_text_view"
                     android:background="@drawable/square_white_bg"
@@ -68,14 +69,16 @@
                     android:text="All"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
-
+                +
+                //TODO new designs to be done for different resolutions(Tablets)
                 <TextView
                     android:id="@+id/calendar_spinner_textView"
                     style="@style/live_zone_text_style"
-                    android:layout_width="wrap_content"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_toEndOf="@+id/football_filter_spinner_textView"
                     android:layout_toRightOf="@+id/football_filter_spinner_textView"
                     android:background="@drawable/square_white_bg"
@@ -97,7 +100,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:fontFamily="@font/roboto_condensed_bold"
                     android:text="@string/livezone" />
             </RelativeLayout>
