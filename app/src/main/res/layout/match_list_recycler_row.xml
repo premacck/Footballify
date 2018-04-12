@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/match_lists"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:background="@color/white"
+    android:clipToPadding="false"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:id="@+id/date_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/match_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ft" />
+
+        <TextView
+            android:id="@+id/match_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sun_11_13" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_view"
+        android:layout_width="0.2dp"
+        android:layout_height="50dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_toStartOf="@+id/date_linear_layout"
+        android:background="@color/background_grey" />
+
+    <TextView
+        android:id="@+id/home_team_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/line_view"
+        android:padding="5dp"
+        android:text="@string/serial_number" />
+
+    <TextView
+        android:id="@+id/visiting_team_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_team_score"
+        android:layout_toStartOf="@+id/line_view"
+        android:padding="5dp"
+        android:text="@string/serial_number" />
+
+    <ImageView
+        android:id="@+id/home_team_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_liverpool_logo" />
+
+    <TextView
+        android:id="@+id/home_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/home_team_icon"
+        android:padding="5dp"
+        android:text="@string/liverpool" />
+
+    <ImageView
+        android:id="@+id/visiting_team_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/home_team_icon"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_burnley_logo" />
+
+    <TextView
+        android:id="@+id/visiting_team_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/home_team_name"
+        android:layout_toEndOf="@+id/visiting_team_icon"
+        android:padding="5dp"
+        android:text="@string/burnley_fc" />
+</RelativeLayout>
