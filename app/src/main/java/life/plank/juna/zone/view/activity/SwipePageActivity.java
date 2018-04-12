@@ -319,14 +319,12 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             view.setSelected(false);
             listPopupWindow.dismiss();
         } else {
+            view.setSelected(true);
+            UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
             if (spinnerTextview == calendarSpinnerTextView) {
-                view.setSelected(true);
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
                 showSpinner((TextView) view, calendarSpinnerTextView,
                         getResources().getStringArray(R.array.football_filter_array));
             } else {
-                view.setSelected(true);
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
                 showSpinner((TextView) view, footballFilterSpinnerTextView,
                         getResources().getStringArray(R.array.calendar_array));
             }
