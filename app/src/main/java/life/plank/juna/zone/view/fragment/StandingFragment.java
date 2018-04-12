@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.StandingModel;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
@@ -48,6 +50,7 @@ public class StandingFragment extends Fragment {
     private String TAG = StandingFragment.class.getSimpleName();
     private RestApi restApi;
     private Integer competitionId = 2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -73,6 +76,10 @@ public class StandingFragment extends Fragment {
     public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
         standingModel.addAll(standingModelResponse);
         standingTableAdapter.notifyDataSetChanged();
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.cancel_image_view)
@@ -101,6 +108,8 @@ public class StandingFragment extends Fragment {
                         Log.e(TAG, "response: " + ", list data " + response.toString());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             populateStandingRecyclerView(response.body());
+                        } else {
+                            showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
                     }
                 });
