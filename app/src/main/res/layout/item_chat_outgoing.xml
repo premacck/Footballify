@@ -62,6 +62,13 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/image2"
                 android:adjustViewBounds="true"/>
+            <ImageView
+                android:id="@+id/play_video_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_video"
+                android:layout_centerInParent="true"
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
