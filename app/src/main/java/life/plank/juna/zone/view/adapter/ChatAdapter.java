@@ -30,6 +30,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     private Context context;
     private List<ChatModel> chatModelList = new ArrayList<>();
     private String text = "text";
+    private String video = "video";
 
     public ChatAdapter(Context context) {
         this.context = context;
@@ -50,9 +51,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
             holder.messageImageView.setVisibility(View.GONE);
             holder.messageTextView.setVisibility(View.VISIBLE);
             holder.messageTextView.setText(chatModelList.get(position).getText());
+            holder.playVideoImageView.setVisibility(View.GONE);
         } else {
             holder.messageTextView.setVisibility(View.GONE);
             holder.messageImageView.setVisibility(View.VISIBLE);
+            if (video.contentEquals(chatModelList.get(position).getTag())) {
+                holder.playVideoImageView.setVisibility(View.VISIBLE);
+            } else {
+                holder.playVideoImageView.setVisibility(View.GONE);
+            }
             if (!"".contentEquals(chatModelList.get(position).getImageUrl())) {
                 Picasso.with(context)
                         .load(chatModelList.get(position).getImageUrl())
