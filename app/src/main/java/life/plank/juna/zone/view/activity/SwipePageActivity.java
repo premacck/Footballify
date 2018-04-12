@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -299,9 +300,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     listPopupWindow.dismiss();
                 } else {
                     view.setSelected(true);
-                    UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                    showSpinner((TextView) view, calendarSpinnerTextView,
-                            getResources().getStringArray(R.array.football_filter_array));
+                    popListDisplay(calendarSpinnerTextView, view);
                 }
                 break;
             case R.id.calendar_spinner_textView:
@@ -310,11 +309,35 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     listPopupWindow.dismiss();
                 } else {
                     view.setSelected(true);
-                    UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                    showSpinner((TextView) view, footballFilterSpinnerTextView,
-                            getResources().getStringArray(R.array.calendar_array));
+                    popListDisplay(footballFilterSpinnerTextView, view);
                 }
                 break;
+            case R.id.live_zone_text_view:
+                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+                retainLayout();
+                liveZoneListFragment();
+                footballFeedAdapter.dismissPopupDialog();
+                break;
+            case R.id.football_menu:
+                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+                footballFeedAdapter.dismissPopupDialog();
+                drawerLayout.openDrawer(GravityCompat.END);
+                break;
+        }
+    }
+
+    public void popListDisplay(TextView spinnerTextview, View view) {
+
+        if (spinnerTextview == calendarSpinnerTextView) {
+            UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+            showSpinner((TextView) view, calendarSpinnerTextView,
+                    getResources().getStringArray(R.array.football_filter_array));
+
+        } else {
+            view.setSelected(true);
+            UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+            showSpinner((TextView) view, footballFilterSpinnerTextView,
+                    getResources().getStringArray(R.array.calendar_array));
         }
     }
 
