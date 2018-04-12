@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -295,25 +294,26 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.football_filter_spinner_textView:
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                showSpinner((TextView) view, calendarSpinnerTextView,
-                        getResources().getStringArray(R.array.football_filter_array));
+                if (view.isSelected()) {
+                    view.setSelected(false);
+                    listPopupWindow.dismiss();
+                } else {
+                    view.setSelected(true);
+                    UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+                    showSpinner((TextView) view, calendarSpinnerTextView,
+                            getResources().getStringArray(R.array.football_filter_array));
+                }
                 break;
             case R.id.calendar_spinner_textView:
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                showSpinner((TextView) view, footballFilterSpinnerTextView,
-                        getResources().getStringArray(R.array.calendar_array));
-                break;
-            case R.id.live_zone_text_view:
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                retainLayout();
-                liveZoneListFragment();
-                footballFeedAdapter.dismissPopupDialog();
-                break;
-            case R.id.football_menu:
-                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-                footballFeedAdapter.dismissPopupDialog();
-                drawerLayout.openDrawer(GravityCompat.END);
+                if (view.isSelected()) {
+                    view.setSelected(false);
+                    listPopupWindow.dismiss();
+                } else {
+                    view.setSelected(true);
+                    UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+                    showSpinner((TextView) view, footballFilterSpinnerTextView,
+                            getResources().getStringArray(R.array.calendar_array));
+                }
                 break;
         }
     }
