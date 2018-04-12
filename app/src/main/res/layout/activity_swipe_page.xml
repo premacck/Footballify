@@ -69,7 +69,7 @@
                     android:text="All"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
-                
+                +
                 //TODO new designs to be done for different resolutions(Tablets)
                 <TextView
                     android:id="@+id/calendar_spinner_textView"

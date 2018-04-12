@@ -295,22 +295,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.football_filter_spinner_textView:
-                if (view.isSelected()) {
-                    view.setSelected(false);
-                    listPopupWindow.dismiss();
-                } else {
-                    view.setSelected(true);
-                    popListDisplay(calendarSpinnerTextView, view);
-                }
+                popListDisplay(calendarSpinnerTextView, view);
                 break;
             case R.id.calendar_spinner_textView:
-                if (view.isSelected()) {
-                    view.setSelected(false);
-                    listPopupWindow.dismiss();
-                } else {
-                    view.setSelected(true);
-                    popListDisplay(footballFilterSpinnerTextView, view);
-                }
+                popListDisplay(footballFilterSpinnerTextView, view);
                 break;
             case R.id.live_zone_text_view:
                 UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
@@ -328,16 +316,25 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void popListDisplay(TextView spinnerTextview, View view) {
 
-        if (spinnerTextview == calendarSpinnerTextView) {
-            UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-            showSpinner((TextView) view, calendarSpinnerTextView,
-                    getResources().getStringArray(R.array.football_filter_array));
+
+        if (view.isSelected()) {
+            view.setSelected(false);
+            listPopupWindow.dismiss();
 
         } else {
-            view.setSelected(true);
-            UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
-            showSpinner((TextView) view, footballFilterSpinnerTextView,
-                    getResources().getStringArray(R.array.calendar_array));
+
+            if (spinnerTextview == calendarSpinnerTextView) {
+                view.setSelected(true);
+                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+                showSpinner((TextView) view, calendarSpinnerTextView,
+                        getResources().getStringArray(R.array.football_filter_array));
+
+            } else {
+                view.setSelected(true);
+                UIDisplayUtil.getInstance().dismissPopupListWindow(listPopupWindow);
+                showSpinner((TextView) view, footballFilterSpinnerTextView,
+                        getResources().getStringArray(R.array.calendar_array));
+            }
         }
     }
 
