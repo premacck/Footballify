@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.viewmodel.StandingFeedModel;
+import life.plank.juna.zone.data.network.model.StandingModel;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -23,11 +22,11 @@ import life.plank.juna.zone.viewmodel.StandingFeedModel;
 
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
     private Context context;
-    private List<StandingFeedModel> standingFeedModelList = new ArrayList<>();
+    private List<StandingModel> standingModelList;
 
-    public StandingTableAdapter(Context context) {
+    public StandingTableAdapter(Context context, List<StandingModel> standingModelList) {
         this.context = context;
-        standingFeedModelList.addAll(StandingFeedModel.getStandingData(context));
+        this.standingModelList = standingModelList;
     }
 
     @Override
@@ -58,13 +57,13 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.serialNumberTextView.setVisibility(View.INVISIBLE);
             holder.scoreView.setVisibility(View.INVISIBLE);
         } else {
-            holder.teamNameTextView.setText(standingFeedModelList.get(position).getTeamName());
-            holder.playedTextView.setText(standingFeedModelList.get(position).getPlayed());
-            holder.winTextView.setText(standingFeedModelList.get(position).getWin());
-            holder.drawTextView.setText(standingFeedModelList.get(position).getDraw());
-            holder.lossTextView.setText(standingFeedModelList.get(position).getLost());
-            holder.goalDifferenceTextView.setText(standingFeedModelList.get(position).getGoalDifference());
-            holder.pointTableTextView.setText(standingFeedModelList.get(position).getPointTable());
+            holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam());
+            holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
+            holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
+            holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));
+            holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getGamesLost()));
+            holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
+            holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         }
         if (position != 0)
@@ -73,7 +72,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public int getItemCount() {
-        return standingFeedModelList.size();
+        return standingModelList.size();
     }
 
     public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {
