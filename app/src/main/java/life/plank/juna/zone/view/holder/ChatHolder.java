@@ -25,6 +25,8 @@ public class ChatHolder extends RecyclerView.ViewHolder {
     public LinearLayout parentLinearLayout;
     @BindView(R.id.chat_item_linear_layout)
     public LinearLayout chatItemLinearLayout;
+    @BindView(R.id.play_video_image_view)
+    public ImageView playVideoImageView;
 
     public ChatHolder(View itemView) {
         super(itemView);
