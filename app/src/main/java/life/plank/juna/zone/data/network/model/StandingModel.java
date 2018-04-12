@@ -10,8 +10,6 @@ public class StandingModel {
     private Integer goalsFor;
     private Integer goalsAgainst;
     private Integer points;
-    private Integer trackingState;
-    private String entityIdentifier;
 
     public String getFootballTeam() {
         return footballTeam;
@@ -83,21 +81,5 @@ public class StandingModel {
 
     public void setPoints(Integer points) {
         this.points = points;
-    }
-
-    public Integer getTrackingState() {
-        return trackingState;
-    }
-
-    public void setTrackingState(Integer trackingState) {
-        this.trackingState = trackingState;
-    }
-
-    public String getEntityIdentifier() {
-        return entityIdentifier;
-    }
-
-    public void setEntityIdentifier(String entityIdentifier) {
-        this.entityIdentifier = entityIdentifier;
     }
 }

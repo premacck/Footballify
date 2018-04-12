@@ -44,10 +44,10 @@ public class StandingFragment extends Fragment {
     @BindView(R.id.cancel_image_view)
     ImageView cancleImageView;
     StandingTableAdapter standingTableAdapter;
-    List<StandingModel> standingModels;
+    List<StandingModel> standingModel;
     private String TAG = StandingFragment.class.getSimpleName();
     private RestApi restApi;
-
+    private Integer competitionId = 2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,13 +56,13 @@ public class StandingFragment extends Fragment {
         getApplication().getStandingScoreNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         setUpRecyclerViewInStandingScoreTable();
-        getStandings(2);
+        getStandings(competitionId);
         return view;
     }
 
     private void setUpRecyclerViewInStandingScoreTable() {
-        standingModels = new ArrayList<>();
-        standingTableAdapter = new StandingTableAdapter(getActivity(), standingModels);
+        standingModel = new ArrayList<>();
+        standingTableAdapter = new StandingTableAdapter(getActivity(), standingModel);
         scoreTableRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         scoreTableRecyclerView.setAdapter(standingTableAdapter);
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(scoreTableRecyclerView.getContext(),
@@ -71,7 +71,7 @@ public class StandingFragment extends Fragment {
     }
 
     public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
-        standingModels.addAll(standingModelResponse);
+        standingModel.addAll(standingModelResponse);
         standingTableAdapter.notifyDataSetChanged();
     }
 
@@ -81,7 +81,7 @@ public class StandingFragment extends Fragment {
         ((SwipePageActivity) getActivity()).retainHomeLayout();
     }
 
-    public void getStandings(int id) {
+    public void getStandings(Integer id) {
         restApi.getStandings(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -93,7 +93,7 @@ public class StandingFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        System.out.print("error--" + e);
+                        Log.d(TAG, "In onCompleted()");
                     }
 
                     @Override

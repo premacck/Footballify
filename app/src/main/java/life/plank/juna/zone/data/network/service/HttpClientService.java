@@ -2,8 +2,6 @@ package life.plank.juna.zone.data.network.service;
 
 import android.annotation.SuppressLint;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -52,8 +50,6 @@ public class HttpClientService {
             OkHttpClient okHttpClient = new OkHttpClient();
             okHttpClient = okHttpClient.newBuilder()
                     .sslSocketFactory(sslSocketFactory)
-                    .connectTimeout(7000, TimeUnit.SECONDS)
-                    .readTimeout(7000,TimeUnit.SECONDS)
                     .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
             return okHttpClient;
         } catch (Exception e) {
