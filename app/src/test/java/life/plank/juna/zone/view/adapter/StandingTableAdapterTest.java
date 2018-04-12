@@ -49,14 +49,16 @@ public class StandingTableAdapterTest {
         assertThat(standingTableAdapter.getItemCount(), is(0));
     }
 
+    //checking if list Item count having some data
     @Test
     public void isStandingDataNotEmpty() {
         addStandingData();
         assertThat(standingModelList.isEmpty(), is(false));
     }
 
+    //checking if list Item count is empty
     @Test
-    public void addItemsToStandingViewListIsNull() {
+    public void itemsCountToStandingViewListIsNull() {
         when(standingTableAdapter.getItemCount() < 0).thenThrow(NullPointerException.class);
     }
 

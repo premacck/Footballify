@@ -205,5 +205,4 @@ public class ZoneApplication extends Application {
     public StandingsNetworkComponent getStandingScoreNetworkComponent() {
         return standingsNetworkComponent;
     }
-
 }

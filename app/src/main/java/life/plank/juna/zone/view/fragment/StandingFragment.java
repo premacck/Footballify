@@ -82,7 +82,6 @@ public class StandingFragment extends Fragment {
     }
 
     public void getStandings(int id) {
-
         restApi.getStandings(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
