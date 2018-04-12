@@ -23,8 +23,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="Mark F"
                 android:fontFamily="@font/roboto_condensed_bold"
+                android:text="Mark F"
                 android:textSize="8sp" />
 
             <TextView
@@ -33,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:fontFamily="@font/roboto_condensed_bold"
                 android:layout_marginBottom="5dp"
+                android:fontFamily="@font/roboto_condensed_bold"
                 android:text="1:22PM"
                 android:textSize="8sp" />
 
@@ -43,9 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name_text_view"
+                android:fontFamily="@font/roboto_condensed_regular"
                 android:text="@string/lorem_ipsum_text"
                 android:textSize="12sp"
-                android:fontFamily="@font/roboto_condensed_regular"
                 android:visibility="gone" />
 
             <ImageView
@@ -54,16 +54,17 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/name_text_view"
+                android:adjustViewBounds="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/image2"
-                android:adjustViewBounds="true"/>
+                android:src="@drawable/image2" />
+
             <ImageView
                 android:id="@+id/play_video_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_video"
                 android:layout_centerInParent="true"
-                android:visibility="gone"/>
+                android:src="@drawable/ic_video"
+                android:visibility="gone" />
         </RelativeLayout>
     </LinearLayout>
 

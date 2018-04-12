@@ -52,12 +52,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
             holder.messageTextView.setVisibility(View.VISIBLE);
             holder.messageTextView.setText(chatModelList.get(position).getText());
             holder.playVideoImageView.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.messageTextView.setVisibility(View.GONE);
             holder.messageImageView.setVisibility(View.VISIBLE);
-            if (video.contentEquals(chatModelList.get(position).getTag())){
+            if (video.contentEquals(chatModelList.get(position).getTag())) {
                 holder.playVideoImageView.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 holder.playVideoImageView.setVisibility(View.GONE);
             }
             if (!"".contentEquals(chatModelList.get(position).getImageUrl())) {
