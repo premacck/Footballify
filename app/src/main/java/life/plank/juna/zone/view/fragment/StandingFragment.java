@@ -49,7 +49,6 @@ public class StandingFragment extends Fragment {
     List<StandingModel> standingModel;
     private String TAG = StandingFragment.class.getSimpleName();
     private RestApi restApi;
-    private Integer competitionId = 233;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +58,7 @@ public class StandingFragment extends Fragment {
         getApplication().getStandingScoreNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         setUpRecyclerViewInStandingScoreTable();
-        getStandings(competitionId);
+        getStandings(AppConstants.COMPETITION_ID);
         return view;
     }
 
