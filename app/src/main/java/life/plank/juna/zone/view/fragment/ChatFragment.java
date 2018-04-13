@@ -10,9 +10,12 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,14 +26,16 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
+import life.plank.juna.zone.interfaces.ScrollRecyclerView;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
+import life.plank.juna.zone.viewmodel.ChatModel;
 
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_STORAGE;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
 
-public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface {
+public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface, ScrollRecyclerView {
     Context context;
     @BindView(R.id.back_image_view)
     TextView backImageView;
@@ -46,6 +51,11 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     RecyclerView chatRecyclerView;
     @BindView(R.id.media_container_frame_layout)
     FrameLayout mediaContainerFrameLayout;
+    @BindView(R.id.comment_edit_text)
+    EditText commentEditText;
+    @BindView(R.id.send_text_view)
+    TextView sendTextView;
+    ChatAdapter chatAdapter;
     private Unbinder unbinder;
 
     @Override
@@ -59,6 +69,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
         View view = inflater.inflate(R.layout.fragment_chat, container, false);
         unbinder = ButterKnife.bind(this, view);
         initializeRecyclerView();
+        setUpMessageEditTextChangeListener();
         return view;
     }
 
@@ -69,12 +80,13 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     }
 
     private void initializeRecyclerView() {
-        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true));
-        ChatAdapter chatAdapter = new ChatAdapter(getActivity());
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        chatAdapter = new ChatAdapter(getActivity(), this);
         chatRecyclerView.setAdapter(chatAdapter);
+        scrollRecyclerViewToBottom();
     }
 
-    @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image})
+    @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image, R.id.send_text_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_image_view:
@@ -96,6 +108,9 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
             case R.id.camera_image:
                 if (isStoragePermissionGranted(REQUEST_CAMERA_STORAGE, true))
                     takePicture();
+                break;
+            case R.id.send_text_view:
+                sendMessage();
                 break;
             default:
                 break;
@@ -176,5 +191,42 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     public void closeMediaFragment() {
         addImage.setVisibility(View.VISIBLE);
         mediaContainerFrameLayout.removeAllViews();
+    }
+
+    private void setUpMessageEditTextChangeListener() {
+        commentEditText.addTextChangedListener(new TextWatcher() {
+                                                   @Override
+                                                   public void beforeTextChanged(CharSequence s, int start, int count,
+                                                                                 int after) {
+                                                   }
+
+                                                   @Override
+                                                   public void onTextChanged(final CharSequence s, int start, int before,
+                                                                             int count) {
+                                                   }
+
+                                                   @Override
+                                                   public void afterTextChanged(final Editable commentText) {
+                                                       //avoid triggering event when text is empty
+                                                       if (commentText.length() > 0) {
+                                                           sendTextView.setVisibility(View.VISIBLE);
+                                                       } else {
+                                                           sendTextView.setVisibility(View.GONE);
+                                                       }
+                                                   }
+                                               }
+        );
+    }
+
+    private void sendMessage() {
+        chatAdapter.addMessage(new ChatModel("text", commentEditText.getText().toString(), "", true));
+        commentEditText.setText("");
+        sendTextView.setVisibility(View.GONE);
+    }
+
+
+    @Override
+    public void scrollRecyclerViewToBottom() {
+        chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
     }
 }
