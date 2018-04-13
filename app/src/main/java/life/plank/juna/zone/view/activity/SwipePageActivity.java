@@ -137,7 +137,6 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            showProgress();
                             getFootballFeed();
                         }
                     }, AppConstants.PAGINATION_DELAY);
@@ -210,6 +209,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
 
     public void getFootballFeed() {
+        showProgress();
         subscription = restApi.getFootballFeed(updateToken(nextPageToken,
                 getString(R.string.replace_rt) +
                         String.valueOf(apiHitCount), getString(R.string.replace_trc)
