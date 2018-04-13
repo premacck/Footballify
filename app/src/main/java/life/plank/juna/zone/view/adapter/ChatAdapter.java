@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,11 @@ import android.view.ViewGroup;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.interfaces.ScrollRecyclerView;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.ChatDetailsActivity;
 import life.plank.juna.zone.view.holder.ChatHolder;
@@ -31,10 +34,18 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     private List<ChatModel> chatModelList = new ArrayList<>();
     private String text = "text";
     private String video = "video";
+    private ScrollRecyclerView scrollRecyclerView;
 
-    public ChatAdapter(Context context) {
+    public ChatAdapter(Context context, ScrollRecyclerView scrollRecyclerView) {
         this.context = context;
+        this.scrollRecyclerView = scrollRecyclerView;
         chatModelList.addAll(ChatModel.getChats(context));
+    }
+
+    public void addMessage(ChatModel chatModel) {
+        chatModelList.add(chatModel);
+        notifyItemInserted(chatModelList.size() - 1);
+        scrollRecyclerView.scrollRecyclerViewToBottom();
     }
 
     @Override
@@ -77,6 +88,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
         if (chatModelList.get(position).isMyMessage()) {
             holder.nameTextView.setText(context.getString(R.string.me));
         }
+        holder.timingTextView.setText(getCurrentTime());
         holder.chatItemLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,5 +109,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     @Override
     public int getItemViewType(int position) {
         return chatModelList.get(position).isMyMessage() ? ITEM_VIEW_OUTGOING : ITEM_VIEW_INCOMING;
+    }
+
+    private String getCurrentTime() {
+        return (String) DateFormat.format( "hh:mm aaa", Calendar.getInstance().getTime());
     }
 }
