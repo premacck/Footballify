@@ -196,13 +196,11 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     private void setUpMessageEditTextChangeListener() {
         commentEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count,
-                                          int after) {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(final CharSequence s, int start, int before,
-                                      int count) {
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
             }
 
             @Override
