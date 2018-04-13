@@ -38,7 +38,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
-        if (position == 0) {
+        if (standingModelList.get(position) == null) {
             holder.teamNameTextView.setText("Team");
             holder.playedTextView.setText("P");
             holder.winTextView.setText("W");
@@ -47,14 +47,12 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.goalDifferenceTextView.setText("GD");
             holder.pointTableTextView.setText("Pts");
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.chat_body_background));
-            holder.teamNameTextView.setTypeface(holder.teamNameTextView.getTypeface(), Typeface.BOLD);
             holder.playedTextView.setTypeface(holder.playedTextView.getTypeface(), Typeface.BOLD);
             holder.winTextView.setTypeface(holder.winTextView.getTypeface(), Typeface.BOLD);
             holder.drawTextView.setTypeface(holder.drawTextView.getTypeface(), Typeface.BOLD);
             holder.lossTextView.setTypeface(holder.lossTextView.getTypeface(), Typeface.BOLD);
             holder.goalDifferenceTextView.setTypeface(holder.goalDifferenceTextView.getTypeface(), Typeface.BOLD);
             holder.pointTableTextView.setTypeface(holder.pointTableTextView.getTypeface(), Typeface.BOLD);
-            holder.serialNumberTextView.setVisibility(View.INVISIBLE);
             holder.scoreView.setVisibility(View.INVISIBLE);
             holder.serialNumberTextView.setText("");
         } else {
@@ -67,6 +65,12 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
             holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
+            holder.playedTextView.setTypeface(null, Typeface.NORMAL);
+            holder.winTextView.setTypeface(null, Typeface.NORMAL);
+            holder.drawTextView.setTypeface(null, Typeface.NORMAL);
+            holder.lossTextView.setTypeface(null, Typeface.NORMAL);
+            holder.goalDifferenceTextView.setTypeface(null, Typeface.NORMAL);
+            holder.pointTableTextView.setTypeface(null, Typeface.NORMAL);
         }
     }
 
