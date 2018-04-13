@@ -49,7 +49,7 @@ public class StandingFragment extends Fragment {
     List<StandingModel> standingModel;
     private String TAG = StandingFragment.class.getSimpleName();
     private RestApi restApi;
-    private Integer competitionId = 1;
+    private Integer competitionId = 233;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
