@@ -195,27 +195,26 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
 
     private void setUpMessageEditTextChangeListener() {
         commentEditText.addTextChangedListener(new TextWatcher() {
-                                                   @Override
-                                                   public void beforeTextChanged(CharSequence s, int start, int count,
-                                                                                 int after) {
-                                                   }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+            }
 
-                                                   @Override
-                                                   public void onTextChanged(final CharSequence s, int start, int before,
-                                                                             int count) {
-                                                   }
+            @Override
+            public void onTextChanged(final CharSequence s, int start, int before,
+                                      int count) {
+            }
 
-                                                   @Override
-                                                   public void afterTextChanged(final Editable commentText) {
-                                                       //avoid triggering event when text is empty
-                                                       if (commentText.length() > 0) {
-                                                           sendTextView.setVisibility(View.VISIBLE);
-                                                       } else {
-                                                           sendTextView.setVisibility(View.GONE);
-                                                       }
-                                                   }
-                                               }
-        );
+            @Override
+            public void afterTextChanged(final Editable commentText) {
+                //avoid triggering event when text is empty
+                if (commentText.length() > 0) {
+                    sendTextView.setVisibility(View.VISIBLE);
+                } else {
+                    sendTextView.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     private void sendMessage() {
