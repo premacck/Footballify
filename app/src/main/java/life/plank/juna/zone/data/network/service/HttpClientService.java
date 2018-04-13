@@ -51,7 +51,6 @@ public class HttpClientService {
             okHttpClient = okHttpClient.newBuilder()
                     .sslSocketFactory(sslSocketFactory)
                     .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER).build();
-
             return okHttpClient;
         } catch (Exception e) {
             throw new RuntimeException(e);

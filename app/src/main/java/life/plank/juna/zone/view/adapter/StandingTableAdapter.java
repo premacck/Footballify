@@ -9,13 +9,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.viewmodel.StandingFeedModel;
+import life.plank.juna.zone.data.network.model.StandingModel;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -23,11 +22,11 @@ import life.plank.juna.zone.viewmodel.StandingFeedModel;
 
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
     private Context context;
-    private List<StandingFeedModel> standingFeedModelList = new ArrayList<>();
+    private List<StandingModel> standingModelList;
 
-    public StandingTableAdapter(Context context) {
+    public StandingTableAdapter(Context context, List<StandingModel> standingModelList) {
         this.context = context;
-        standingFeedModelList.addAll(StandingFeedModel.getStandingData(context));
+        this.standingModelList = standingModelList;
     }
 
     @Override
@@ -39,7 +38,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
-        if (position == 0) {
+        if (standingModelList.get(position) == null) {
             holder.teamNameTextView.setText("Team");
             holder.playedTextView.setText("P");
             holder.winTextView.setText("W");
@@ -48,32 +47,36 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.goalDifferenceTextView.setText("GD");
             holder.pointTableTextView.setText("Pts");
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.chat_body_background));
-            holder.teamNameTextView.setTypeface(holder.teamNameTextView.getTypeface(), Typeface.BOLD);
             holder.playedTextView.setTypeface(holder.playedTextView.getTypeface(), Typeface.BOLD);
             holder.winTextView.setTypeface(holder.winTextView.getTypeface(), Typeface.BOLD);
             holder.drawTextView.setTypeface(holder.drawTextView.getTypeface(), Typeface.BOLD);
             holder.lossTextView.setTypeface(holder.lossTextView.getTypeface(), Typeface.BOLD);
             holder.goalDifferenceTextView.setTypeface(holder.goalDifferenceTextView.getTypeface(), Typeface.BOLD);
             holder.pointTableTextView.setTypeface(holder.pointTableTextView.getTypeface(), Typeface.BOLD);
-            holder.serialNumberTextView.setVisibility(View.INVISIBLE);
             holder.scoreView.setVisibility(View.INVISIBLE);
+            holder.serialNumberTextView.setText("");
         } else {
-            holder.teamNameTextView.setText(standingFeedModelList.get(position).getTeamName());
-            holder.playedTextView.setText(standingFeedModelList.get(position).getPlayed());
-            holder.winTextView.setText(standingFeedModelList.get(position).getWin());
-            holder.drawTextView.setText(standingFeedModelList.get(position).getDraw());
-            holder.lossTextView.setText(standingFeedModelList.get(position).getLost());
-            holder.goalDifferenceTextView.setText(standingFeedModelList.get(position).getGoalDifference());
-            holder.pointTableTextView.setText(standingFeedModelList.get(position).getPointTable());
+            holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam());
+            holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
+            holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
+            holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));
+            holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getGamesLost()));
+            holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
+            holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
+            holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
+            holder.playedTextView.setTypeface(null, Typeface.NORMAL);
+            holder.winTextView.setTypeface(null, Typeface.NORMAL);
+            holder.drawTextView.setTypeface(null, Typeface.NORMAL);
+            holder.lossTextView.setTypeface(null, Typeface.NORMAL);
+            holder.goalDifferenceTextView.setTypeface(null, Typeface.NORMAL);
+            holder.pointTableTextView.setTypeface(null, Typeface.NORMAL);
         }
-        if (position != 0)
-            holder.serialNumberTextView.setText(String.valueOf(position));
     }
 
     @Override
     public int getItemCount() {
-        return standingFeedModelList.size();
+        return standingModelList.size();
     }
 
     public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {
