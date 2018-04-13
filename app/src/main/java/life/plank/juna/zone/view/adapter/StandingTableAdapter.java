@@ -36,6 +36,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         return new StandingScoreTableViewHolder(view);
     }
 
+    //todo:-condition will change because of recyckerview property heading is repeating every 10 item
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
         if (position == 0) {
