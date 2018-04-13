@@ -36,7 +36,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         return new StandingScoreTableViewHolder(view);
     }
 
-    //todo:-condition will change because of recyckerview property heading is repeating every 10 item
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
         if (position == 0) {
@@ -57,6 +56,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.pointTableTextView.setTypeface(holder.pointTableTextView.getTypeface(), Typeface.BOLD);
             holder.serialNumberTextView.setVisibility(View.INVISIBLE);
             holder.scoreView.setVisibility(View.INVISIBLE);
+            holder.serialNumberTextView.setText("");
         } else {
             holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam());
             holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
@@ -66,9 +66,8 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
             holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
             holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
+            holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
         }
-        if (position != 0)
-            holder.serialNumberTextView.setText(String.valueOf(position));
     }
 
     @Override

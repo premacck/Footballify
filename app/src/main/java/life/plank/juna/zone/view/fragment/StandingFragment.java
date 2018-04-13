@@ -73,6 +73,7 @@ public class StandingFragment extends Fragment {
     }
 
     public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
+        standingModel.add(new StandingModel());
         standingModel.addAll(standingModelResponse);
         standingTableAdapter.notifyDataSetChanged();
     }
