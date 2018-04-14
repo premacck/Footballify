@@ -40,7 +40,7 @@
                 android:layout_margin="10dp"
                 android:background="@drawable/search_edit_text_border"
                 android:hint="Enter a team or competition"
-                android:maxLines="1"
+                android:inputType="text"
                 android:paddingLeft="10dp" />
         </LinearLayout>
 

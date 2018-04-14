@@ -5,10 +5,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -47,6 +50,8 @@ public class StandingFragment extends Fragment {
     ImageView cancleImageView;
     StandingTableAdapter standingTableAdapter;
     List<StandingModel> standingModel;
+    @BindView(R.id.search_bar)
+    EditText standingSearchBar;
     private String TAG = StandingFragment.class.getSimpleName();
     private RestApi restApi;
 
@@ -59,7 +64,36 @@ public class StandingFragment extends Fragment {
         restApi = retrofit.create(RestApi.class);
         setUpRecyclerViewInStandingScoreTable();
         getStandings(AppConstants.COMPETITION_ID);
+        standingSearchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
         return view;
+    }
+
+    private void filter(String text) {
+        List<StandingModel> temp = new ArrayList();
+        for (int i = 0; i < standingModel.size(); i++) {
+            if(i == 0){
+                temp.add(null);
+            }
+            else {
+                if(standingModel.get(i).getFootballTeam().toLowerCase().contains(text))
+                temp.add(standingModel.get(i));
+            }
+        }
+        standingTableAdapter.updateList(temp);
     }
 
     private void setUpRecyclerViewInStandingScoreTable() {
