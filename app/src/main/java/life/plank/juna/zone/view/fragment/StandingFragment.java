@@ -82,7 +82,6 @@ public class StandingFragment extends Fragment {
     }
 
     public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
-        standingModel.add(null);
         standingModel.addAll(standingModelResponse);
         standingTableAdapter.notifyDataSetChanged();
     }
@@ -148,12 +147,8 @@ public class StandingFragment extends Fragment {
     private void searchFootballTeamByCharacter(String text) {
         List<StandingModel> standingSearchList = new ArrayList();
         for (int teamList = 0; teamList < standingModel.size(); teamList++) {
-            if (teamList == 0) {
-                standingSearchList.add(null);
-            } else {
-                if (standingModel.get(teamList).getFootballTeam().toLowerCase().contains(text))
-                    standingSearchList.add(standingModel.get(teamList));
-            }
+            if (standingModel.get(teamList).getFootballTeam().toLowerCase().contains(text))
+                standingSearchList.add(standingModel.get(teamList));
         }
         standingTableAdapter.updateListAfterSearch(standingSearchList);
     }

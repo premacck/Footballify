@@ -246,4 +246,11 @@
     <string name="ft">FT</string>
     <string name="match_day_32_of_38">Match day 32 of 38</string>
     <string name="enter_a_team_or_competition">Enter a team or competition</string>
+    <string name="team">Team</string>
+    <string name="team_played">P</string>
+    <string name="team_won">W</string>
+    <string name="team_draw">D</string>
+    <string name="team_lost">L</string>
+    <string name="goal_difference">GD</string>
+    <string name="points_table">Pts</string>
 </resources>
