@@ -39,6 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/search_edit_text_border"
+                android:drawableEnd="@drawable/ic_search"
                 android:hint="Enter a team or competition"
                 android:maxLines="1"
                 android:paddingLeft="10dp" />

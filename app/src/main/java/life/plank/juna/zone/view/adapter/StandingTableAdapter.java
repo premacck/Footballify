@@ -71,6 +71,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.lossTextView.setTypeface(null, Typeface.NORMAL);
             holder.goalDifferenceTextView.setTypeface(null, Typeface.NORMAL);
             holder.pointTableTextView.setTypeface(null, Typeface.NORMAL);
+            holder.scoreView.setVisibility(View.VISIBLE);
         }
     }
 
