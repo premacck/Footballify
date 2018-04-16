@@ -116,6 +116,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     }
 
     private String getCurrentTime() {
-        return (String) DateFormat.format("hh:mm aaa", Calendar.getInstance().getTime());
+        return (String) DateFormat.format(context.getString(R.string.time_string), Calendar.getInstance().getTime());
     }
 }
