@@ -39,7 +39,7 @@
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/search_edit_text_border"
-                android:hint="Enter a team or competition"
+                android:hint="@string/enter_a_team_or_competition"
                 android:maxLines="1"
                 android:paddingLeft="10dp" />
         </LinearLayout>
@@ -50,5 +50,12 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/edit_text_relative_layout"
             android:nestedScrollingEnabled="false" />
+
+        <ProgressBar
+            android:id="@+id/standing_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible" />
     </RelativeLayout>
 </LinearLayout>
