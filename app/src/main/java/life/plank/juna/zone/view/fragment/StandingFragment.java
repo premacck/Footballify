@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.net.HttpURLConnection;
@@ -45,6 +46,8 @@ public class StandingFragment extends Fragment {
     RecyclerView scoreTableRecyclerView;
     @BindView(R.id.cancel_image_view)
     ImageView cancleImageView;
+    @BindView(R.id.standing_progress_bar)
+    ProgressBar standingProgressBar;
     StandingTableAdapter standingTableAdapter;
     List<StandingModel> standingModel;
     private String TAG = StandingFragment.class.getSimpleName();
@@ -89,6 +92,7 @@ public class StandingFragment extends Fragment {
     }
 
     public void getStandings(Integer id) {
+        standingProgressBar.setVisibility(View.VISIBLE);
         restApi.getStandings(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -101,6 +105,7 @@ public class StandingFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "In onCompleted()");
+                        standingProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -111,6 +116,7 @@ public class StandingFragment extends Fragment {
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
+                        standingProgressBar.setVisibility(View.GONE);
                     }
                 });
     }

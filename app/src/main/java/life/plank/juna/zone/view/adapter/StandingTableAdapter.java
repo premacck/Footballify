@@ -52,7 +52,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.drawTextView.setTypeface(holder.drawTextView.getTypeface(), Typeface.BOLD);
             holder.lossTextView.setTypeface(holder.lossTextView.getTypeface(), Typeface.BOLD);
             holder.goalDifferenceTextView.setTypeface(holder.goalDifferenceTextView.getTypeface(), Typeface.BOLD);
-            holder.pointTableTextView.setTypeface(holder.pointTableTextView.getTypeface(), Typeface.BOLD);
             holder.scoreView.setVisibility(View.INVISIBLE);
             holder.serialNumberTextView.setText("");
         } else {
@@ -70,7 +69,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
             holder.drawTextView.setTypeface(null, Typeface.NORMAL);
             holder.lossTextView.setTypeface(null, Typeface.NORMAL);
             holder.goalDifferenceTextView.setTypeface(null, Typeface.NORMAL);
-            holder.pointTableTextView.setTypeface(null, Typeface.NORMAL);
             holder.scoreView.setVisibility(View.VISIBLE);
         }
     }
