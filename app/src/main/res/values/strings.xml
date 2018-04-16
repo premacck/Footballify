@@ -248,6 +248,6 @@
     <string name="match_day_32_of_38">Match day 32 of 38</string>
     <string name="enter_a_team_or_competition">Enter a team or competition</string>
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
-    <string name="application_videoplayer">JUNA_PLAYER</string>
+    <string name="application_video_player">JUNA_PLAYER</string>
     <string name="time_string">hh:mm aaa</string>
 </resources>
