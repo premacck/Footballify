@@ -53,7 +53,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         simpleExoPlayerView.setPlayer(player);
         Uri mp4VideoUri = Uri.parse(getString(R.string.sample_video_url));
         DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, getString(R.string.application_videoplayer)), bandwidthMeterA);
+        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, getString(R.string.application_video_player)), bandwidthMeterA);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         MediaSource videoSource = new ExtractorMediaSource(mp4VideoUri, dataSourceFactory, extractorsFactory, null, null);
         final LoopingMediaSource loopingSource = new LoopingMediaSource(videoSource);
