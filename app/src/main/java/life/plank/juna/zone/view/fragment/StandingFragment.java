@@ -140,12 +140,12 @@ public class StandingFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                filter(editable.toString());
+                searchFootballTeamByCharacter(editable.toString());
             }
         });
     }
 
-    private void filter(String text) {
+    private void searchFootballTeamByCharacter(String text) {
         List<StandingModel> standingSearchList = new ArrayList();
         for (int teamList = 0; teamList < standingModel.size(); teamList++) {
             if (teamList == 0) {
