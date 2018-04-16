@@ -77,7 +77,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         return standingModelList.size();
     }
 
-    public void updateList(List<StandingModel> list) {
+    public void updateListAfterSearch(List<StandingModel> list) {
         standingModelList = list;
         notifyDataSetChanged();
     }

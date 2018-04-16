@@ -155,6 +155,6 @@ public class StandingFragment extends Fragment {
                     standingSearchList.add(standingModel.get(teamList));
             }
         }
-        standingTableAdapter.updateList(standingSearchList);
+        standingTableAdapter.updateListAfterSearch(standingSearchList);
     }
 }
