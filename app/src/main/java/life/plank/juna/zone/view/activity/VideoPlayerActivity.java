@@ -4,15 +4,12 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Surface;
 import android.widget.FrameLayout;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.LoadControl;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
@@ -27,12 +24,14 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.exoplayer2.video.VideoRendererEventListener;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
-public class VideoPlayerActivity extends AppCompatActivity implements VideoRendererEventListener {
-    private SimpleExoPlayerView simpleExoPlayerView;
-    private SimpleExoPlayer player;
+public class VideoPlayerActivity extends AppCompatActivity {
+    @BindView(R.id.player_view)
+    public SimpleExoPlayerView simpleExoPlayerView;
+    SimpleExoPlayer player;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,47 +43,21 @@ public class VideoPlayerActivity extends AppCompatActivity implements VideoRende
         LoadControl loadControl = new DefaultLoadControl();
         player = ExoPlayerFactory.newSimpleInstance(this, trackSelector, loadControl);
         player.setPlayWhenReady(true);
-        player.setVideoDebugListener(this);
     }
 
     public void intializePlayer() {
         simpleExoPlayerView = new SimpleExoPlayerView(this);
-        simpleExoPlayerView = (SimpleExoPlayerView) findViewById(R.id.player_view);
+        ButterKnife.bind(this);
         simpleExoPlayerView.setUseController(true);
         simpleExoPlayerView.requestFocus();
         simpleExoPlayerView.setPlayer(player);
-        Uri mp4VideoUri = Uri.parse("http://techslides.com/demos/sample-videos/small.mp4");
+        Uri mp4VideoUri = Uri.parse(getString(R.string.video_url));
         DefaultBandwidthMeter bandwidthMeterA = new DefaultBandwidthMeter();
-        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, "exoplayer2example"), bandwidthMeterA);
+        DefaultDataSourceFactory dataSourceFactory = new DefaultDataSourceFactory(this, Util.getUserAgent(this, getString(R.string.application_videoplayer)), bandwidthMeterA);
         ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
         MediaSource videoSource = new ExtractorMediaSource(mp4VideoUri, dataSourceFactory, extractorsFactory, null, null);
         final LoopingMediaSource loopingSource = new LoopingMediaSource(videoSource);
         player.prepare(loopingSource);
-    }
-
-
-    @Override
-    public void onVideoEnabled(DecoderCounters counters) {
-    }
-
-    @Override
-    public void onVideoDecoderInitialized(String decoderName, long initializedTimestampMs, long initializationDurationMs) {
-    }
-
-    @Override
-    public void onVideoInputFormatChanged(Format format) {
-    }
-
-    @Override
-    public void onDroppedFrames(int count, long elapsedMs) {
-    }
-
-    @Override
-    public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
-    }
-
-    @Override
-    public void onRenderedFirstFrame(Surface surface) {
     }
 
     @Override
@@ -95,16 +68,7 @@ public class VideoPlayerActivity extends AppCompatActivity implements VideoRende
             params.width = params.MATCH_PARENT;
             params.height = params.MATCH_PARENT;
             simpleExoPlayerView.setLayoutParams(params);
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) simpleExoPlayerView.getLayoutParams();
-            params.width = params.MATCH_PARENT;
-            params.height = params.MATCH_PARENT;
-            simpleExoPlayerView.setLayoutParams(params);
         }
-    }
-
-    @Override
-    public void onVideoDisabled(DecoderCounters counters) {
     }
 
     private void releasePlayer() {

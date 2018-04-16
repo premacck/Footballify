@@ -78,10 +78,6 @@ dependencies {
     androidTestCompile 'com.android.support.test.espresso:espresso-contrib:2.2.2'
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
-    compile 'com.google.android.exoplayer:exoplayer:r2.5.1'
-    compile 'com.google.android.exoplayer:exoplayer-core:r2.5.1'
-    compile 'com.google.android.exoplayer:exoplayer-dash:r2.5.1'
-    compile 'com.google.android.exoplayer:exoplayer-ui:r2.5.1'
 }
 
 repositories {
