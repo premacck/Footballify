@@ -241,6 +241,7 @@
     <string name="full_match_time">FT</string>
     <string name="half_match_time">HT</string>
     <string name="burnley_fc">Burnley FC</string>
+    <string name="title_activity_video_player">VideoPlayerActivity</string>
     <string name="liverpool">LiverPool</string>
     <string name="sun_11_13">Sun, 11/13</string>
     <string name="ft">FT</string>
