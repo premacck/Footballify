@@ -250,4 +250,11 @@
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
     <string name="time_string">hh:mm aaa</string>
+    <string name="team">Team</string>
+    <string name="team_played">P</string>
+    <string name="team_won">W</string>
+    <string name="team_draw">D</string>
+    <string name="team_lost">L</string>
+    <string name="goal_difference">GD</string>
+    <string name="points_table">Pts</string>
 </resources>
