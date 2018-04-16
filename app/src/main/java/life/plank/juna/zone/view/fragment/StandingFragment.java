@@ -64,36 +64,8 @@ public class StandingFragment extends Fragment {
         restApi = retrofit.create(RestApi.class);
         setUpRecyclerViewInStandingScoreTable();
         getStandings(AppConstants.COMPETITION_ID);
-        standingSearchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                filter(editable.toString());
-            }
-        });
+        setUpStandingSearchWithFootballTeamName();
         return view;
-    }
-
-    private void filter(String text) {
-        List<StandingModel> temp = new ArrayList();
-        for (int i = 0; i < standingModel.size(); i++) {
-            if(i == 0){
-                temp.add(null);
-            }
-            else {
-                if(standingModel.get(i).getFootballTeam().toLowerCase().contains(text))
-                temp.add(standingModel.get(i));
-            }
-        }
-        standingTableAdapter.updateList(temp);
     }
 
     private void setUpRecyclerViewInStandingScoreTable() {
@@ -147,5 +119,36 @@ public class StandingFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void setUpStandingSearchWithFootballTeamName() {
+        standingSearchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                filter(editable.toString());
+            }
+        });
+    }
+
+    private void filter(String text) {
+        List<StandingModel> standingSearchList = new ArrayList();
+        for (int teamList = 0; teamList < standingModel.size(); teamList++) {
+            if (teamList == 0) {
+                standingSearchList.add(null);
+            } else {
+                if (standingModel.get(teamList).getFootballTeam().toLowerCase().contains(text))
+                    standingSearchList.add(standingModel.get(teamList));
+            }
+        }
+        standingTableAdapter.updateList(standingSearchList);
     }
 }
