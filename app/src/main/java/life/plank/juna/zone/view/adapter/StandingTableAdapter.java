@@ -47,11 +47,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
         holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
-        holder.playedTextView.setTypeface(null, Typeface.NORMAL);
-        holder.winTextView.setTypeface(null, Typeface.NORMAL);
-        holder.drawTextView.setTypeface(null, Typeface.NORMAL);
-        holder.lossTextView.setTypeface(null, Typeface.NORMAL);
-        holder.goalDifferenceTextView.setTypeface(null, Typeface.NORMAL);
     }
 
     @Override
