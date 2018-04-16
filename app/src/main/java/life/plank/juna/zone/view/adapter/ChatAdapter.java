@@ -98,8 +98,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
                     intent.putExtra(AppConstants.CHAT_DETAILS_IMAGE, chatModelList.get(position).getImageUrl());
                     context.startActivity(intent);
                 } else if (video.contentEquals(chatModelList.get(position).getTag())) {
-                    Intent intentvideo = new Intent(context, VideoPlayerActivity.class);
-                    context.startActivity(intentvideo);
+                    Intent intentVideo = new Intent(context, VideoPlayerActivity.class);
+                    context.startActivity(intentVideo);
                 }
             }
         });
