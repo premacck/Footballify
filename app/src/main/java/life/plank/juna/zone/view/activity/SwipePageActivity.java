@@ -278,9 +278,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 activeTextView.setText(arrayData[position]);
                 activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 listPopupWindow.dismiss();
-                scoreFixtureResult();
-                standingTableLayout();
-                matchListLayout();
+                spinnerView();
             }
         });
         listPopupWindow.show();
@@ -412,20 +410,14 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
 
-    public void scoreFixtureResult() {
+    public void spinnerView() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.fixture_result))) {
             containerRelativeLayout.setVisibility(View.GONE);
             scoreFixtureFragment();
         }
-    }
-
-    public void standingTableLayout() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
             scoreTableFragment();
         }
-    }
-
-    public void matchListLayout() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.matches))) {
             matchListFragment();
         }

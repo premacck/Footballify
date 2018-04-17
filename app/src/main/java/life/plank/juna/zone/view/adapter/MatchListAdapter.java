@@ -26,7 +26,7 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.Matc
     public MatchListAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
         view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.match_list_recycler_row, parent, false);
+                .inflate(R.layout.match_list_row, parent, false);
         return new MatchListAdapterViewHolder(view);
     }
 

@@ -7,15 +7,6 @@ public class MatchListModel {
     private int awayGoals;
     private boolean hasExtraTime;
     private String startDate;
-    private boolean isList = true;
-
-    public boolean isList() {
-        return isList;
-    }
-
-    public void setList(boolean list) {
-        isList = list;
-    }
 
     public int getId() {
         return id;
