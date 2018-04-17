@@ -491,10 +491,10 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
 
-    private void saveDataToCacheMemory(String json){
+    private void saveDataToCacheMemory(String feedItems){
         try {
             ObjectOutput objectOutput = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir(),"") + AppConstants.CACHE_FILE_NAME));
-            objectOutput.writeObject(json);
+            objectOutput.writeObject(feedItems);
             objectOutput.close();
         } catch (IOException e) {
             e.printStackTrace();
