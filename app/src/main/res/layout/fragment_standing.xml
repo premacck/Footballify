@@ -41,8 +41,8 @@
                 android:background="@drawable/search_edit_text_border"
                 android:hint="@string/enter_a_team_or_competition"
                 android:inputType="text"
-                android:drawableEnd="@drawable/ic_search"
                 android:maxLines="1"
+                android:drawableEnd="@drawable/ic_search"
                 android:paddingLeft="10dp" />
         </LinearLayout>
 
