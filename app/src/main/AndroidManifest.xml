@@ -8,8 +8,7 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:name=".ZoneApplication"
         android:allowBackup="true"
@@ -84,8 +83,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FootballFeedDetailActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activity.GameLaunchActivity"
             android:screenOrientation="portrait" />
@@ -158,6 +157,12 @@
             android:name=".view.activity.ChatDetailsActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".FragmentTestingActivity" />
+        <activity
+            android:name=".view.activity.VideoPlayerActivity"
+            android:label="@string/title_activity_video_player"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:theme="@style/AppTheme">
+        </activity>
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="life.plank.juna.zone.fileprovider"

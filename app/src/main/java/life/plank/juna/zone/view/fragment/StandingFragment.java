@@ -5,11 +5,15 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.net.HttpURLConnection;
@@ -45,8 +49,12 @@ public class StandingFragment extends Fragment {
     RecyclerView scoreTableRecyclerView;
     @BindView(R.id.cancel_image_view)
     ImageView cancleImageView;
+    @BindView(R.id.standing_progress_bar)
+    ProgressBar standingProgressBar;
     StandingTableAdapter standingTableAdapter;
     List<StandingModel> standingModel;
+    @BindView(R.id.search_bar)
+    EditText standingSearchBar;
     private String TAG = StandingFragment.class.getSimpleName();
     private RestApi restApi;
 
@@ -59,6 +67,7 @@ public class StandingFragment extends Fragment {
         restApi = retrofit.create(RestApi.class);
         setUpRecyclerViewInStandingScoreTable();
         getStandings(AppConstants.COMPETITION_ID);
+        setUpStandingSearchWithFootballTeamName();
         return view;
     }
 
@@ -73,7 +82,6 @@ public class StandingFragment extends Fragment {
     }
 
     public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
-        standingModel.add(null);
         standingModel.addAll(standingModelResponse);
         standingTableAdapter.notifyDataSetChanged();
     }
@@ -89,6 +97,7 @@ public class StandingFragment extends Fragment {
     }
 
     public void getStandings(Integer id) {
+        standingProgressBar.setVisibility(View.VISIBLE);
         restApi.getStandings(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -101,6 +110,7 @@ public class StandingFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "In onCompleted()");
+                        standingProgressBar.setVisibility(View.GONE);
                     }
 
                     @Override
@@ -111,7 +121,35 @@ public class StandingFragment extends Fragment {
                         } else {
                             showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
                         }
+                        standingProgressBar.setVisibility(View.GONE);
                     }
                 });
+    }
+
+    private void setUpStandingSearchWithFootballTeamName() {
+        standingSearchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                searchFootballTeamByCharacter(editable.toString());
+            }
+        });
+    }
+
+    private void searchFootballTeamByCharacter(String text) {
+        List<StandingModel> standingSearchList = new ArrayList();
+        for (int teamList = 0; teamList < standingModel.size(); teamList++) {
+            if (standingModel.get(teamList).getFootballTeam().toLowerCase().contains(text))
+                standingSearchList.add(standingModel.get(teamList));
+        }
+        standingTableAdapter.updateListAfterSearch(standingSearchList);
     }
 }
