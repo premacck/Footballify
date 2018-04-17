@@ -379,6 +379,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void scoreTableFragment() {
         isStandingFragmentDisplayed = true;
+        feedRecyclerView.setVisibility(View.GONE);
         fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.removeAllViews();
         getSupportFragmentManager()
@@ -389,6 +390,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void retainHomeLayout() {
         isStandingFragmentDisplayed = false;
+        feedRecyclerView.setVisibility(View.VISIBLE);
         footballFilterSpinnerTextView.setText(R.string.all);
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
