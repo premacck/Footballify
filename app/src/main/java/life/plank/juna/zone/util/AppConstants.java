@@ -26,4 +26,11 @@ public class AppConstants {
     public static final int REQUEST_GALLERY = 1002;
     public static final int COMPETITION_ID = 233;
     public static final String FEED_ITEMS = "feeditems";
+    public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
+    public static final String CAPTURED_IMAGE_NAME = "Zone_";
+    public static final String CAPTURED_IMAGES_FOLDER_NAME = "Zone";
+    public static final String CAPTURED_IMAGES_SUB_FOLDER_NAME = "Images";
+    public static final String CAPTURED_IMAGE_FORMAT = ".png";
+    public static final String FILE_PROVIDER_TO_CAPTURE_IMAGE = "life.plank.juna.zone.fileprovider";
+    public static final int CAMERA_IMAGE_RESULT = 5;
 }
