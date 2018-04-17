@@ -18,9 +18,9 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.ScrollRecyclerView;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.ChatDetailsActivity;
+import life.plank.juna.zone.view.activity.VideoPlayerActivity;
 import life.plank.juna.zone.view.holder.ChatHolder;
 import life.plank.juna.zone.viewmodel.ChatModel;
-
 
 /**
  * Created by plank-hasan on 2/16/2018.
@@ -35,6 +35,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     private String text = "text";
     private String video = "video";
     private ScrollRecyclerView scrollRecyclerView;
+    private String image = "image";
 
     public ChatAdapter(Context context, ScrollRecyclerView scrollRecyclerView) {
         this.context = context;
@@ -92,10 +93,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
         holder.chatItemLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!text.contentEquals(chatModelList.get(position).getTag())) {
+                if (image.contentEquals(chatModelList.get(position).getTag())) {
                     Intent intent = new Intent(context, ChatDetailsActivity.class);
                     intent.putExtra(AppConstants.CHAT_DETAILS_IMAGE, chatModelList.get(position).getImageUrl());
                     context.startActivity(intent);
+                } else if (video.contentEquals(chatModelList.get(position).getTag())) {
+                    Intent intentVideo = new Intent(context, VideoPlayerActivity.class);
+                    context.startActivity(intentVideo);
                 }
             }
         });
@@ -112,6 +116,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatHolder> {
     }
 
     private String getCurrentTime() {
-        return (String) DateFormat.format( "hh:mm aaa", Calendar.getInstance().getTime());
+        return (String) DateFormat.format(context.getString(R.string.time_string), Calendar.getInstance().getTime());
     }
 }
