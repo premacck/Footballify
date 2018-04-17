@@ -31,6 +31,16 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +58,7 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
+import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -137,7 +148,9 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            getFootballFeed();
+                            if (NetworkStatus.isNetworkAvailable(SwipePageActivity.this)) {
+                                getFootballFeed();
+                            }
                         }
                     }, AppConstants.PAGINATION_DELAY);
                 }
@@ -159,10 +172,19 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         horizontalData.add("addMore");
         ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        getFootballFeed();
         initRecyclerView();
+        setUpData();
         showOnboardingDialog();
     }
+
+    private void setUpData(){
+        if (NetworkStatus.isNetworkAvailable(this)) {
+            getFootballFeed();
+        }else {
+            retriveDataFromCacheMemory();
+        }
+    }
+
 
     private void initRecyclerView() {
         // Calculate ActionBar height
@@ -234,6 +256,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             if (apiHitCount == 0) {
                                 nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                                saveDataToCacheMemory(new Gson().toJson(response.body()));
                             }
                             setUpAdapterWithNewData(response.body());
                             apiHitCount = apiHitCount + 1;
@@ -466,5 +489,26 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         footballFilterSpinnerTextView.setText(R.string.all);
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
+    }
+
+    private void saveDataToCacheMemory(String json){
+        try {
+            ObjectOutput objectOutput = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir(),"") + AppConstants.CACHE_FILE_NAME));
+            objectOutput.writeObject(json);
+            objectOutput.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void retriveDataFromCacheMemory(){
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(new File(getCacheDir(),"") + AppConstants.CACHE_FILE_NAME)));
+            String jsonObject = (String) objectInputStream.readObject();
+            objectInputStream.close();
+            setUpAdapterWithNewData(new Gson().fromJson(jsonObject, new TypeToken<List<FootballFeed>>(){}.getType()));
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

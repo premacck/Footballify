@@ -1,5 +1,6 @@
 package life.plank.juna.zone.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,7 +18,11 @@ public class NetworkStatus {
         NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService(context
                 .CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnected()) {
-            Toast.makeText(context, context.getString(R.string.cannot_connect_to_the_internet), Toast.LENGTH_SHORT).show();
+            ((Activity) context).runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(context, context.getString(R.string.cannot_connect_to_the_internet), Toast.LENGTH_SHORT).show();
+                }
+            });
             return false;
         }
         return true;
