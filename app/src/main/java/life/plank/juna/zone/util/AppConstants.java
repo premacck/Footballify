@@ -31,6 +31,6 @@ public class AppConstants {
     public static final String CAPTURED_IMAGES_FOLDER_NAME = "Zone";
     public static final String CAPTURED_IMAGES_SUB_FOLDER_NAME = "Images";
     public static final String CAPTURED_IMAGE_FORMAT = ".png";
-    public static final String CAPTURE_IMAGE_FILE_PROVIDER = "life.plank.juna.zone.fileprovider";
+    public static final String FILE_PROVIDER_TO_CAPTURE_IMAGE = "life.plank.juna.zone.fileprovider";
     public static final int CAMERA_IMAGE_RESULT = 5;
 }

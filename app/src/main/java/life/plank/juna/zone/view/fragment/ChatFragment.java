@@ -155,7 +155,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     private void takePicture() {
         try {
             File file = createImageFile();
-            imageUri = FileProvider.getUriForFile(context, AppConstants.CAPTURE_IMAGE_FILE_PROVIDER, file);
+            imageUri = FileProvider.getUriForFile(context, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, file);
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
