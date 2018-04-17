@@ -1,11 +1,13 @@
 package life.plank.juna.zone.view.fragment;
 
 import android.content.res.Resources;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -13,8 +15,7 @@ import org.junit.runner.RunWith;
 
 import life.plank.juna.zone.FragmentTestRule;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.Util.RecyclerViewItemCountAssertion;
-import life.plank.juna.zone.view.adapter.StandingTableAdapter;
+import life.plank.juna.zone.Util.ElapsedTimeIdlingResource;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -34,24 +35,34 @@ public class StandingFragmentTest {
     private static final String MESSAGE = "Leicester";
     @Rule
     public FragmentTestRule<StandingFragment> fragmentTestRule = new FragmentTestRule<>(StandingFragment.class);
-    StandingTableAdapter standingTableAdapter;
     private Resources resource;
+    private IdlingResource idlingResource;
 
     @Before
     public void setUp() {
         fragmentTestRule.launchActivity(null);
         resource = fragmentTestRule.getActivity().getResources();
+        int waitingTime = 300;
+        idlingResource = new ElapsedTimeIdlingResource(waitingTime);
+        Espresso.registerIdlingResources(idlingResource);
+    }
+
+    @After
+    public void setIdlingResource() {
+        Espresso.unregisterIdlingResources(idlingResource);
+
     }
 
     @Test
     public void launchOfStandingFragmentShouldDisplayCloseImageView() {
         /*launch StandingFragment
-        * check if cancel image view is displayed*/
+         * check if cancel image view is displayed*/
         onView(withId(R.id.cancel_image_view)).check(matches(isDisplayed()));
     }
 
     @Test
     public void launchOfStandingFragmentShouldDisplaySearchBar() {
+        Espresso.registerIdlingResources(idlingResource);
         /*launch StandingFragment check if searchBar  view is displayed*/
         onView(withId(R.id.search_bar)).check(matches(isDisplayed()));
     }
@@ -67,12 +78,13 @@ public class StandingFragmentTest {
         /*check if standingFragment RecyclerView  item displays */
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.serial_number_text_view), 1)).check(matches(withText(resource.getString(R.string.serial_number))));
+
     }
 
     @Test
     public void launchOfStandingFragmentShouldDisplayTeamName() {
         /*launch StandingFragment fragmnet
-        * check if TeamName is displayed*/
+         * check if TeamName is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.team_name_text_view), 1)).check(matches((isDisplayed())));
     }
@@ -80,15 +92,16 @@ public class StandingFragmentTest {
     @Test
     public void launchOfStandingFragmentShouldDisplayTotalPlayedMatch() {
         /*launch Standing fragment
-        * check if TotalPlayedMatch  is displayed*/
+         * check if TotalPlayedMatch  is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.played_text_view), 1)).check(matches((isDisplayed())));
+
     }
 
     @Test
     public void launchOfStandingFragmentShouldDisplayTotalWinMatch() {
         /*launch Standing fragment
-        * check if TotalWin In a match is displayed*/
+         * check if TotalWin In a match is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.win_text_view), 1)).check(matches((isDisplayed())));
     }
@@ -96,7 +109,7 @@ public class StandingFragmentTest {
     @Test
     public void launchOfStandingFragmentShouldDisplayTotalDrawMatch() {
         /*launch Standing fragment
-        * check if draw textView  is displayed*/
+         * check if draw textView  is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.draw_text_view), 1)).check(matches((isDisplayed())));
     }
@@ -104,7 +117,7 @@ public class StandingFragmentTest {
     @Test
     public void launchOfStandingFragmentShouldDisplayTotalLossInMatch() {
         /*launch Standing fragment
-        * check if Loss textView  is displayed*/
+         * check if Loss textView  is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.loss_text_view), 1)).check(matches((isDisplayed())));
     }
@@ -112,7 +125,7 @@ public class StandingFragmentTest {
     @Test
     public void launchOfStandingFragmentShouldDisplaGoalDifference() {
         /*launch Standing fragment
-        * check if GoalDifference textView  is displayed*/
+         * check if GoalDifference textView  is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.goal_difference_text_view), 1)).check(matches((isDisplayed())));
     }
@@ -120,17 +133,9 @@ public class StandingFragmentTest {
     @Test
     public void launchOfStandingFragmentShouldDisplaPointTable() {
         /*launch Standing fragment
-        * check if PointTable textView  is displayed*/
+         * check if PointTable textView  is displayed*/
         standingRecyclerViewShouldScroll();
         onView(withIndex(withId(R.id.point_table_text_view), 1)).check(matches((isDisplayed())));
-    }
-
-    @Test
-    public void standingFragmentRecyclerViewCount() {
-        /*check if recyclerView is displayed
-        * check the recyclerView item count*/
-        onView(ViewMatchers.withId(R.id.table_recycler_view)).check(matches(isDisplayed()));
-        onView(withId(R.id.table_recycler_view)).check(new RecyclerViewItemCountAssertion(10));
     }
 
     // Types a message into a EditText element.
@@ -138,6 +143,6 @@ public class StandingFragmentTest {
     public void verifySearchTextInSearchBar() {
         onView(withId(R.id.search_bar))
                 .perform(typeText(MESSAGE), closeSoftKeyboard());
-
     }
+    //todo :->test case to check if toast message is displayed when standings data is empty.
 }

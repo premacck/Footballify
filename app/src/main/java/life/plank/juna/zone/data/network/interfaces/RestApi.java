@@ -8,6 +8,7 @@ import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
+import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import retrofit2.Response;
@@ -69,4 +70,7 @@ public interface RestApi {
 
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
+
+    @GET("competitions/{id}/standings")
+    Observable<Response<List<StandingModel>>> getStandings(@Path("id") Integer id);
 }

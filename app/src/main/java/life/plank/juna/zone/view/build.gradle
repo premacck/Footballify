@@ -58,7 +58,9 @@ dependencies {
     compile viewDependencies.bubbleLayout
     compile viewDependencies.glide
     compile viewDependencies.appCompatLibrary
+    compile viewDependencies.videoPlayer
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
+
 }
