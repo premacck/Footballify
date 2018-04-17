@@ -43,11 +43,11 @@ import life.plank.juna.zone.view.adapter.ChatAdapter;
 import life.plank.juna.zone.viewmodel.ChatModel;
 
 import static android.app.Activity.RESULT_OK;
+import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_STORAGE;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
 
 public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface, ScrollRecyclerView {
-    private static final String CAPTURE_IMAGE_FILE_PROVIDER = "life.plank.juna.zone.fileprovider";
     Context context;
     @BindView(R.id.back_image_view)
     TextView backImageView;
@@ -155,11 +155,11 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     private void takePicture() {
         try {
             File file = createImageFile();
-            imageUri = FileProvider.getUriForFile(context, CAPTURE_IMAGE_FILE_PROVIDER, file);
+            imageUri = FileProvider.getUriForFile(context, AppConstants.CAPTURE_IMAGE_FILE_PROVIDER, file);
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            startActivityForResult(cameraIntent, REQUEST_CAMERA_STORAGE);
+            startActivityForResult(cameraIntent, CAMERA_IMAGE_RESULT);
         } catch (IOException e) {
             e.printStackTrace();
         }
