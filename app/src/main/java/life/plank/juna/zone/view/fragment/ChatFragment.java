@@ -4,14 +4,18 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +23,12 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,15 +37,20 @@ import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
 import life.plank.juna.zone.interfaces.ScrollRecyclerView;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 import life.plank.juna.zone.viewmodel.ChatModel;
 
+import static android.app.Activity.RESULT_OK;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_STORAGE;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
 
 public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface, ScrollRecyclerView {
+    private static final String CAPTURE_IMAGE_FILE_PROVIDER = "life.plank.juna.zone.fileprovider";
+    public final String APP_TAG = "ZONEAPP";
+    public String photoFileName = "photo.jpg";
     Context context;
     @BindView(R.id.back_image_view)
     TextView backImageView;
@@ -56,6 +71,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     @BindView(R.id.send_text_view)
     TextView sendTextView;
     ChatAdapter chatAdapter;
+    private Uri imageUri;
     private Unbinder unbinder;
 
     @Override
@@ -140,8 +156,18 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     }
 
     private void takePicture() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_CAMERA_STORAGE);
+        try {
+            File file = createImageFile();
+            imageUri = FileProvider.getUriForFile(context,
+                    CAPTURE_IMAGE_FILE_PROVIDER, file);
+            Log.d("uri", imageUri.toString());
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(cameraIntent, REQUEST_CAMERA_STORAGE);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -205,7 +231,6 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
 
             @Override
             public void afterTextChanged(final Editable commentText) {
-                //avoid triggering event when text is empty
                 if (commentText.length() > 0) {
                     sendTextView.setVisibility(View.VISIBLE);
                 } else {
@@ -225,5 +250,37 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     @Override
     public void scrollRecyclerViewToBottom() {
         chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CAMERA_STORAGE) {
+            if (resultCode == RESULT_OK) {
+                if (imageUri != null) {
+                    sendImage(imageUri.getPath().replace("//", "/"));
+                }
+            } else {
+                Toast.makeText(context, context.getString(R.string.unable_to_capture_image), Toast.LENGTH_SHORT).show();
+                if (imageUri != null) {
+                    new File(imageUri.getPath().replace("//", "/")).delete();
+                }
+            }
+        }
+    }
+
+    private void sendImage(String imageUri) {
+        chatAdapter.addMessage(new ChatModel("image", context.getString(R.string.lorem_ipsum_text), Uri.fromFile(new File(imageUri)).toString(), true));
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat(AppConstants.DATE_FORMAT).format(new Date());
+        String imageFileName = AppConstants.CAPTURED_IMAGE_NAME + timeStamp + AppConstants.CAPTURED_IMAGE_FORMAT;
+        File mediaStorageDirectory = new File(Environment.getExternalStorageDirectory(),
+                AppConstants.CAPTURED_IMAGES_FOLDER_NAME);
+        File storageDirectory = new File(mediaStorageDirectory + File.separator + AppConstants.CAPTURED_IMAGES_SUB_FOLDER_NAME);
+        if (!storageDirectory.exists()) {
+            storageDirectory.mkdirs();
+        }
+        return new File(storageDirectory, imageFileName);
     }
 }

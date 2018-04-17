@@ -245,4 +245,5 @@
     <string name="sun_11_13">Sun, 11/13</string>
     <string name="ft">FT</string>
     <string name="match_day_32_of_38">Match day 32 of 38</string>
+    <string name="unable_to_capture_image">Unable to capture the image.</string>
 </resources>
