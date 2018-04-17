@@ -2,11 +2,20 @@ package life.plank.juna.zone.data.network.model;
 
 public class MatchListModel {
     int id;
-    int foreignId;
-    int homeGoals;
-    int awayGoals;
-    boolean hasExtraTime;
-    String startDate;
+    private int foreignId;
+    private int homeGoals;
+    private int awayGoals;
+    private boolean hasExtraTime;
+    private String startDate;
+    private boolean isList = true;
+
+    public boolean isList() {
+        return isList;
+    }
+
+    public void setList(boolean list) {
+        isList = list;
+    }
 
     public int getId() {
         return id;
