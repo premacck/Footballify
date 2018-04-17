@@ -1,17 +1,13 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchListModel;
@@ -29,8 +25,8 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.Matc
     @Override
     public MatchListAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-            view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.match_list_recycler_row, parent, false);
+        view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.match_list_recycler_row, parent, false);
         return new MatchListAdapterViewHolder(view);
     }
 
