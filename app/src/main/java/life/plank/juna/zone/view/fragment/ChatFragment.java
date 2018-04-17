@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,8 +48,6 @@ import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
 
 public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface, ScrollRecyclerView {
     private static final String CAPTURE_IMAGE_FILE_PROVIDER = "life.plank.juna.zone.fileprovider";
-    public final String APP_TAG = "ZONEAPP";
-    public String photoFileName = "photo.jpg";
     Context context;
     @BindView(R.id.back_image_view)
     TextView backImageView;
@@ -158,9 +155,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     private void takePicture() {
         try {
             File file = createImageFile();
-            imageUri = FileProvider.getUriForFile(context,
-                    CAPTURE_IMAGE_FILE_PROVIDER, file);
-            Log.d("uri", imageUri.toString());
+            imageUri = FileProvider.getUriForFile(context, CAPTURE_IMAGE_FILE_PROVIDER, file);
             Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
             cameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
