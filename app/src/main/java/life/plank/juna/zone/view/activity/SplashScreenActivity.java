@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -15,6 +17,7 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import butterknife.BindView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
@@ -40,7 +43,8 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     private boolean isSplashScreenTimeOut = false;
     private boolean isIntentCalled = false;
     private boolean isInterrupted = false;
-
+    @BindView(R.id.parent__layout)
+    RelativeLayout parentLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,6 +144,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     protected void onStop() {
+        unregisterNetworkBroadcastReceiver();
         isInterrupted = true;
         thread.interrupt();
         super.onStop();
@@ -166,9 +171,9 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     public void networkUnavailable() {
-
+        Snackbar.make(parentLayout,getString(R.string.cannot_connect_to_the_internet),Snackbar.LENGTH_SHORT).show();
     }
-
+    //TODO: it will be make common in future
     public void startNetworkBroadcastReceiver(Context currentContext) {
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener((NetworkStateReceiver.NetworkStateReceiverListener) currentContext);
@@ -187,11 +192,11 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     /**
      * Unregister the NetworkStateReceiver with your activity
      *
-     * @param currentContext
+     * @param
      */
-    public void unregisterNetworkBroadcastReceiver(Context currentContext) {
+    public void unregisterNetworkBroadcastReceiver() {
         try {
-            currentContext.unregisterReceiver(networkStateReceiver);
+            this.unregisterReceiver(networkStateReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,9 +2,11 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.widget.AppCompatImageButton;
@@ -53,11 +55,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
+import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.ScrubberConstants;
@@ -81,7 +85,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-arfaa on 19/01/18.
  */
 
-public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, PinFeedListener {
+public class SwipePageActivity extends OnBoardDialogActivity implements HorizontalFootballFeedAdapter.AddMoreClickListeners, PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public boolean isStandingFragmentDisplayed = false;
     public boolean isScoreFixtureFragmentDisplayed = false;
@@ -121,6 +125,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     LinearLayout footballMenuLinearLayout;
     @BindView(R.id.football_toolbar)
     Toolbar footballToolbar;
+    @BindView(R.id.parent_layout)
+    RelativeLayout parentLayout;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -130,6 +136,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private String nextPageToken = "";
     private List<FootballFeed> footballFeeds;
     private int apiHitCount = 0;
+    private NetworkStateReceiver networkStateReceiver;
+    public static SwipePageActivity swipePageActivity;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -150,7 +158,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (NetworkStatus.isNetworkAvailable(SwipePageActivity.this)) {
+                            if (NetworkStatus.isNetworkAvailable(parentLayout,SwipePageActivity.this)) {
                                 getFootballFeed();
                             }
                         }
@@ -165,22 +173,24 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
-
+        swipePageActivity = this;
         horizontalData = new ArrayList<>();
         horizontalData.add("6S: MARK F");
         horizontalData.add("23S: SUE M");
         horizontalData.add("27S: GRAHAM");
         horizontalData.add("6S: MARK F");
         horizontalData.add("addMore");
+        startNetworkBroadcastReceiver(this);
         ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
+
         initRecyclerView();
         setUpData();
         showOnboardingDialog();
     }
 
     private void setUpData(){
-        if (NetworkStatus.isNetworkAvailable(this)) {
+        if (NetworkStatus.isNetworkAvailable(parentLayout,this)) {
             getFootballFeed();
         }else {
             retriveDataFromCacheMemory();
@@ -188,6 +198,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     }
     
     private void initRecyclerView() {
+        NetworkStatus.isNetworkAvailable(parentLayout, SwipePageActivity.this);
         // Calculate ActionBar height
         int actionBarHeight = 0;
         TypedValue typedValue = new TypedValue();
@@ -530,5 +541,65 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NetworkStatus.isNetworkAvailable(parentLayout, SwipePageActivity.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterNetworkBroadcastReceiver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public void startNetworkBroadcastReceiver(Context currentContext) {
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener((NetworkStateReceiver.NetworkStateReceiverListener) currentContext);
+        registerNetworkBroadcastReceiver(currentContext);
+    }
+
+    /**
+     * Register the NetworkStateReceiver
+     *
+     * @param currentContext
+     */
+    public void registerNetworkBroadcastReceiver(Context currentContext) {
+        currentContext.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    /**
+     * Unregister the NetworkStateReceiver with your activity
+     *
+     * @param
+     */
+    public void unregisterNetworkBroadcastReceiver() {
+        try {
+            this.unregisterReceiver(networkStateReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void networkAvailable() {
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Snackbar.make(parentLayout,getString(R.string.cannot_connect_to_the_internet),Snackbar.LENGTH_SHORT).show();
     }
 }

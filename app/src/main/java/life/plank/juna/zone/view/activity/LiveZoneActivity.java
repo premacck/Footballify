@@ -1,9 +1,11 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.AppCompatImageButton;
@@ -33,6 +35,8 @@ import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.interfaces.ScrubberPointerUpdate;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.NetworkStateReceiver;
+import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.ScrubberConstants;
 import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.util.helper.ItemTouchHelperCallback;
@@ -42,7 +46,7 @@ import life.plank.juna.zone.view.adapter.ScrubberViewAdapter;
 import life.plank.juna.zone.view.fragment.ChatFragment;
 
 public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberPointerUpdate,
-        OnItemClickListener {
+        OnItemClickListener, NetworkStateReceiver.NetworkStateReceiverListener {
 
     public boolean isChatScreenVisible = false;
     @BindView(R.id.live_zone_text_view)
@@ -75,14 +79,17 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     LinearLayoutManager scrubberLinearLayoutManager;
     @BindView(R.id.football_menu)
     AppCompatImageButton footballMenu;
+    @BindView(R.id.parent_layout)
+    RelativeLayout parentLayout;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
+    private NetworkStateReceiver networkStateReceiver;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
-        context = this;
+        startNetworkBroadcastReceiver(this);
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
@@ -268,6 +275,55 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
             scoreContainerRelativeLayout.setVisibility(View.GONE);
         } else {
             scoreContainerRelativeLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NetworkStatus.isNetworkAvailable(parentLayout, LiveZoneActivity.this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterNetworkBroadcastReceiver();
+    }
+
+    @Override
+    public void networkAvailable() {
+    }
+
+    @Override
+    public void networkUnavailable() {
+        Snackbar.make(parentLayout, context.getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void startNetworkBroadcastReceiver(Context currentContext) {
+        networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener((NetworkStateReceiver.NetworkStateReceiverListener) currentContext);
+        registerNetworkBroadcastReceiver(currentContext);
+    }
+
+    /**
+     * Register the NetworkStateReceiver
+     *
+     * @param currentContext
+     */
+    public void registerNetworkBroadcastReceiver(Context currentContext) {
+        currentContext.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+    }
+
+    /**
+     * Unregister the NetworkStateReceiver with your activity
+     *
+     * @param
+     */
+    public void unregisterNetworkBroadcastReceiver() {
+        try {
+            this.unregisterReceiver(networkStateReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
