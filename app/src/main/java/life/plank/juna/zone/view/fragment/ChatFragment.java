@@ -249,7 +249,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_CAMERA_STORAGE) {
+        if (requestCode == CAMERA_IMAGE_RESULT) {
             if (resultCode == RESULT_OK) {
                 if (imageUri != null) {
                     sendImage(imageUri.getPath().replace("//", "/"));
