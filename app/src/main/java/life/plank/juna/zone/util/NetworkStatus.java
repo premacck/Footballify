@@ -4,7 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
+import android.support.design.widget.Snackbar;
+import android.view.View;
 
 import life.plank.juna.zone.R;
 
@@ -13,16 +14,18 @@ import life.plank.juna.zone.R;
  */
 
 public class NetworkStatus {
-    public static boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable(View view, Context context) {
         @SuppressWarnings("static-access")
         NetworkInfo networkInfo = ((ConnectivityManager) context.getSystemService(context
                 .CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnected()) {
             ((Activity) context).runOnUiThread(new Runnable() {
+                @Override
                 public void run() {
-                    Toast.makeText(context, context.getString(R.string.cannot_connect_to_the_internet), Toast.LENGTH_SHORT).show();
+                    Snackbar.make(view, context.getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
                 }
             });
+
             return false;
         }
         return true;
