@@ -69,7 +69,6 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                 isSplashScreenTimeOut = true;
                 try {
                     Thread.sleep(5000);
-                    if (NetworkStatus.isNetworkAvailable(SplashScreenActivity.this)) {
                         isIntentCalled = true;
                         if (!isInterrupted) {
                             runOnUiThread(new Runnable() {
@@ -80,7 +79,6 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                                 }
                             });
                         }
-                    }
                 } catch (InterruptedException e) {
                     Log.d("error message", e.toString());
                 }
