@@ -173,7 +173,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     public void networkUnavailable() {
         Snackbar.make(parentLayout,getString(R.string.cannot_connect_to_the_internet),Snackbar.LENGTH_SHORT).show();
     }
-
+    //TODO: it will be make common in future
     public void startNetworkBroadcastReceiver(Context currentContext) {
         networkStateReceiver = new NetworkStateReceiver();
         networkStateReceiver.addListener((NetworkStateReceiver.NetworkStateReceiverListener) currentContext);
