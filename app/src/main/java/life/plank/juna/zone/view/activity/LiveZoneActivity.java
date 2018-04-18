@@ -90,6 +90,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
         startNetworkBroadcastReceiver(this);
+        context = this;
         setUpScrubber();
         getHeightDetails();
         setUpGridView();
