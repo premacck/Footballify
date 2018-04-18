@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 
@@ -63,7 +67,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         holder.topFeedContentTextView.setText(footballFeedsList.get(position).getSummary());
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
         holder.slidingTitleTextView.setText(footballFeedsList.get(position).getTitle());
-        holder.slidingFeedDetailsDateTextView.setText(footballFeedsList.get(position).getDatePublished());
+        holder.slidingFeedDetailsDateTextView.setText(getDateAndTime(footballFeedsList.get(position).getDatePublished()));
         holder.populateCommentRecyclerView();
         holder.feedCommentRecyclerView.setNestedScrollingEnabled(false);
         setUpSlidingLayout(holder);
@@ -147,6 +151,22 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         holder.slidingFeedDetailsDateTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
         holder.expandArrow.setVisibility(View.VISIBLE);
         ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(true);
+    }
+
+    private String getDateAndTime(String date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
+        try {
+            return DateFormat.format(AppConstants.DAY_FORMAT, simpleDateFormat.parse(date))
+                    + " "
+                    + DateFormat.format(AppConstants.MONTH_FORMAT, simpleDateFormat.parse(date))
+                    + " "
+                    + DateFormat.format(AppConstants.YEAR_FORMAT, simpleDateFormat.parse(date))
+                    + " | "
+                    + DateFormat.format(AppConstants.TIME_FORMAT, simpleDateFormat.parse(date));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
