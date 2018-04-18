@@ -184,8 +184,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             retriveDataFromCacheMemory();
         }
     }
-
-
+    
     private void initRecyclerView() {
         // Calculate ActionBar height
         int actionBarHeight = 0;
