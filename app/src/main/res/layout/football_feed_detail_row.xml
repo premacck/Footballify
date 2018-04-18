@@ -95,35 +95,37 @@
                 android:text="teams"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="8sp" />
+                android:textSize="8sp"
+                android:fontFamily="@font/roboto_bold"/>
 
             <TextView
                 android:id="@+id/sliding_title_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="7.2"
+                android:layout_weight="7"
                 android:ellipsize="end"
                 android:maxLines="3"
                 android:text="@string/feed_heading"
                 android:textColor="@color/white"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:fontFamily="@font/roboto_condensed_regular"/>
 
             <TextView
                 android:id="@+id/sliding_feed_details_date_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="1.2"
                 android:text="@string/feed_details_date"
-                android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:fontFamily="@font/roboto_regular"/>
 
             <ImageView
                 android:id="@+id/expand_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:src="@drawable/ic_down_arrow" />
         </LinearLayout>
