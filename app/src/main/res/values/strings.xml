@@ -120,6 +120,7 @@
         <item>My Pundits</item>
         <item>Fixtures/Results</item>
         <item>Standings</item>
+        <item>Matches</item>
     </string-array>
 
     <string-array name="football_feed_popup_array">
@@ -218,6 +219,7 @@
     <string name="table">Table</string>
     <string name="standing">Standings</string>
     <string name="fixture_result">Fixtures/Results</string>
+    <string name="matches">Matches</string>
     <string name="not_a_valid_team">Not a valid team</string>
     <string name="select_atleast_one_team">Select atleast one team</string>
     <string name="select_different_teams">Select different teams</string>

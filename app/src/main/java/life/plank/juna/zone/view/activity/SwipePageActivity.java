@@ -55,6 +55,7 @@ import life.plank.juna.zone.util.helper.StartSnapHelper;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.HorizontalFootballFeedAdapter;
 import life.plank.juna.zone.view.fragment.LiveZoneListFragment;
+import life.plank.juna.zone.view.fragment.MatchListFragment;
 import life.plank.juna.zone.view.fragment.ScoreFixtureFragment;
 import life.plank.juna.zone.view.fragment.StandingFragment;
 import retrofit2.Response;
@@ -73,6 +74,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public boolean isStandingFragmentDisplayed = false;
     public boolean isScoreFixtureFragmentDisplayed = false;
+    public boolean isMatchListFragmentDisplayed = false;
     ListPopupWindow listPopupWindow;
     @Inject
     @Named("azure")
@@ -276,8 +278,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 activeTextView.setText(arrayData[position]);
                 activeTextView.setBackground(getResources().getDrawable(R.drawable.square_white_bg));
                 listPopupWindow.dismiss();
-                scoreFixtureResult();
-                standingTableLayout();
+                spinnerView();
             }
         });
         listPopupWindow.show();
@@ -360,6 +361,8 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
             retainHomeLayout();
         } else if (isScoreFixtureFragmentDisplayed) {
             retainFeedContainer();
+        } else if (isMatchListFragmentDisplayed) {
+            retainMatchListContainer();
         } else {
             super.onBackPressed();
         }
@@ -388,6 +391,17 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
                 .commit();
     }
 
+    public void matchListFragment() {
+        isMatchListFragmentDisplayed = true;
+        feedRecyclerView.setVisibility(View.GONE);
+        fragmentContainerFrameLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.removeAllViews();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container_frame_layout, new MatchListFragment())
+                .commit();
+    }
+
     public void retainHomeLayout() {
         isStandingFragmentDisplayed = false;
         feedRecyclerView.setVisibility(View.VISIBLE);
@@ -396,16 +410,16 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
         fragmentContainerFrameLayout.setVisibility(View.GONE);
     }
 
-    public void scoreFixtureResult() {
+    public void spinnerView() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.fixture_result))) {
             containerRelativeLayout.setVisibility(View.GONE);
             scoreFixtureFragment();
         }
-    }
-
-    public void standingTableLayout() {
         if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.standing))) {
             scoreTableFragment();
+        }
+        if (footballFilterSpinnerTextView.getText().toString().equalsIgnoreCase(getString(R.string.matches))) {
+            matchListFragment();
         }
     }
 
@@ -463,6 +477,13 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
 
     public void retainFeedContainer() {
         isScoreFixtureFragmentDisplayed = false;
+        footballFilterSpinnerTextView.setText(R.string.all);
+        containerRelativeLayout.setVisibility(View.VISIBLE);
+        fragmentContainerFrameLayout.setVisibility(View.GONE);
+    }
+
+    public void retainMatchListContainer() {
+        isMatchListFragmentDisplayed = false;
         footballFilterSpinnerTextView.setText(R.string.all);
         containerRelativeLayout.setVisibility(View.VISIBLE);
         fragmentContainerFrameLayout.setVisibility(View.GONE);
