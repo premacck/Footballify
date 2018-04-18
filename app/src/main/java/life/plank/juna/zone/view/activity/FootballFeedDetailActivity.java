@@ -34,7 +34,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
     ImageView zoneLogo;
     @BindView(R.id.parent__layout)
     RelativeLayout parentLayout;
-    FootballFeedDetailActivity footballFeedDetailActivity;
     CustomLinearLayoutManager customLinearLayoutManager;
     private NetworkStateReceiver networkStateReceiver;
 
@@ -43,7 +42,6 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
-        footballFeedDetailActivity = this;
         startNetworkBroadcastReceiver(this);
         populateRecyclerView();
     }

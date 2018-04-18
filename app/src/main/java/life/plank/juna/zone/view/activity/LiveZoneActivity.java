@@ -79,7 +79,7 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
     LinearLayoutManager scrubberLinearLayoutManager;
     @BindView(R.id.football_menu)
     AppCompatImageButton footballMenu;
-    @BindView(R.id.parent__layout)
+    @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
     private NetworkStateReceiver networkStateReceiver;
@@ -89,7 +89,6 @@ public class LiveZoneActivity extends OnBoardDialogActivity implements ScrubberP
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_live_zone);
         ButterKnife.bind(this);
-        context = this;
         startNetworkBroadcastReceiver(this);
         setUpScrubber();
         getHeightDetails();

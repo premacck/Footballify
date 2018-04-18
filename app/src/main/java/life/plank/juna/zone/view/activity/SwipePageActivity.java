@@ -125,7 +125,7 @@ public class SwipePageActivity extends OnBoardDialogActivity implements Horizont
     LinearLayout footballMenuLinearLayout;
     @BindView(R.id.football_toolbar)
     Toolbar footballToolbar;
-    @BindView(R.id.parent__layout)
+    @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     private Subscription subscription;
     private RestApi restApi;

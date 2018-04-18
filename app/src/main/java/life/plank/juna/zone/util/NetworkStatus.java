@@ -25,7 +25,6 @@ public class NetworkStatus {
                     Snackbar.make(view, context.getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
                 }
             });
-
             return false;
         }
         return true;
