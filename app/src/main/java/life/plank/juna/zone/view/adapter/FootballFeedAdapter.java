@@ -2,7 +2,9 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ParseException;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import com.daasuu.bl.BubbleLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +35,7 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.PopUpWindowHelper;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
+import java.text.SimpleDateFormat;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
@@ -71,6 +75,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
         holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
+        holder.postedTimeTextView.setText(getDateAndTime(footballFeed.getDatePublished()));
         holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder, position));
 
         if (footballFeed.getThumbnail() != null) {
@@ -152,6 +157,23 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         }
         if (popupWindowMenu != null && popupWindowMenu.isShowing()) {
             popupWindowMenu.dismiss();
+        }
+    }
+
+
+    private String getDateAndTime(String date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
+        try {
+            return DateFormat.format(AppConstants.DAY_FORMAT, simpleDateFormat.parse(date))
+                    + " "
+                    + DateFormat.format(AppConstants.MONTH_FORMAT, simpleDateFormat.parse(date))
+                    + " "
+                    + DateFormat.format(AppConstants.YEAR_FORMAT, simpleDateFormat.parse(date))
+                    + " | "
+                    + DateFormat.format(AppConstants.TIME_FORMAT, simpleDateFormat.parse(date));
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -259,6 +281,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         ImageView moreImageView;
         @BindView(R.id.pin_image_view)
         ImageView pinImageView;
+        @BindView(R.id.posted_time)
+        TextView postedTimeTextView;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
