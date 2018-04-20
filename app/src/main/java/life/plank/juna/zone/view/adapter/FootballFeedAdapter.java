@@ -157,9 +157,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             popupWindowMenu.dismiss();
         }
     }
-
-
-
+    
     @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
     public void onReactionsClicked(View view) {
         if (popupWindowReactions != null)
