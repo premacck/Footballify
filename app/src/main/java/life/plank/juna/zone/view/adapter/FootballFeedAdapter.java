@@ -73,7 +73,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
         holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
-        holder.postedTimeTextView.setText(getDateAndTime(footballFeed.getDatePublished()));
+        holder.postedTimeTextView.setText(AppConstants.getDateAndTime(footballFeed.getDatePublished()));
         holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder, position));
 
         if (footballFeed.getThumbnail() != null) {
@@ -159,21 +159,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     }
 
 
-    private String getDateAndTime(String date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
-        try {
-            return DateFormat.format(AppConstants.DAY_FORMAT, simpleDateFormat.parse(date))
-                    + " "
-                    + DateFormat.format(AppConstants.MONTH_FORMAT, simpleDateFormat.parse(date))
-                    + " "
-                    + DateFormat.format(AppConstants.YEAR_FORMAT, simpleDateFormat.parse(date))
-                    + " | "
-                    + DateFormat.format(AppConstants.TIME_FORMAT, simpleDateFormat.parse(date));
-        } catch (java.text.ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
     @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
     public void onReactionsClicked(View view) {
