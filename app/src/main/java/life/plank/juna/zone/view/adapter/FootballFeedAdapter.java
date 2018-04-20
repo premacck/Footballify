@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.daasuu.bl.BubbleLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.newsFeedLabel.setText(footballFeed.getTitle());
         holder.moreImageView.post(() -> popupImageWidth = holder.moreImageView.getWidth());
         holder.newsFeedImage.post(() -> popupImageHeight = holder.newsFeedImage.getHeight());
+        holder.postedTimeTextView.setText(AppConstants.getDateAndTime(footballFeed.getDatePublished()));
         holder.moreImageView.setOnClickListener((View view) -> feedPopupMenu(view, holder, position));
 
         if (footballFeed.getThumbnail() != null) {
@@ -154,7 +157,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
             popupWindowMenu.dismiss();
         }
     }
-
+    
     @OnClick({R.id.reaction_like, R.id.reaction_angry, R.id.reaction_cry, R.id.reaction_smile})
     public void onReactionsClicked(View view) {
         if (popupWindowReactions != null)
@@ -259,6 +262,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         ImageView moreImageView;
         @BindView(R.id.pin_image_view)
         ImageView pinImageView;
+        @BindView(R.id.posted_time)
+        TextView postedTimeTextView;
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
