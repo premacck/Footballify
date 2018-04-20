@@ -1,5 +1,9 @@
 package life.plank.juna.zone.util;
 
+import android.text.format.DateFormat;
+
+import java.text.SimpleDateFormat;
+
 /**
  * Created by plank-hasan on 2/9/2018.
  */
@@ -14,10 +18,10 @@ public class AppConstants {
     public static final String POSITION = "position";
     public static final String CHAT_DETAILS_IMAGE = "chatdetailsimage";
     public static final String DEFAULT_IMAGE_URL = "http://avasportcentral.com/wp-content/themes/micron/images/placeholders/placeholder_large_dark.jpg";
-    public static final String REGULAR_EXPRESSION_RT="RT:(\\d*)";
-    public static final String REGULAR_EXPRESSION_TRC="TRC:(\\d*)";
-    public static final String CHAT_MEDIA_OR =" OR ";
-    public static final String CHAT_MEDIA_EQUAL =" = ";
+    public static final String REGULAR_EXPRESSION_RT = "RT:(\\d*)";
+    public static final String REGULAR_EXPRESSION_TRC = "TRC:(\\d*)";
+    public static final String CHAT_MEDIA_OR = " OR ";
+    public static final String CHAT_MEDIA_EQUAL = " = ";
     public static final String CHAT_MEDIA_EXTERNAL = "external";
     public static final int CHAT_MEDIA_MEDIA_TYPE = 1;
     public static final int CHAT_MEDIA_GIF_TYPE = 3;
@@ -39,4 +43,20 @@ public class AppConstants {
     public static final String MONTH_FORMAT = "MMM";
     public static final String YEAR_FORMAT = "yyyy";
     public static final String TIME_FORMAT = "h:mm a";
+
+    public static String getDateAndTime(String date) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
+        try {
+            return DateFormat.format(AppConstants.DAY_FORMAT, simpleDateFormat.parse(date))
+                    + " "
+                    + DateFormat.format(AppConstants.MONTH_FORMAT, simpleDateFormat.parse(date))
+                    + " "
+                    + DateFormat.format(AppConstants.YEAR_FORMAT, simpleDateFormat.parse(date))
+                    + " | "
+                    + DateFormat.format(AppConstants.TIME_FORMAT, simpleDateFormat.parse(date));
+        } catch (java.text.ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
