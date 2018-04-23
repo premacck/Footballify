@@ -71,6 +71,6 @@ public interface RestApi {
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
 
-    @GET("competitions/{id}/standings")
-    Observable<Response<List<StandingModel>>> getStandings(@Path("id") Integer id);
+    @GET("seasons/current/standings")
+    Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName);
 }

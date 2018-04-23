@@ -28,7 +28,6 @@ public class AppConstants {
     public static final int CHAT_MEDIA_STICKER_TYPE = 2;
     public static final int REQUEST_CAMERA_STORAGE = 1001;
     public static final int REQUEST_GALLERY = 1002;
-    public static final int COMPETITION_ID = 233;
     public static final String FEED_ITEMS = "feeditems";
     public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
     public static final String CAPTURED_IMAGE_NAME = "Zone_";
@@ -43,6 +42,7 @@ public class AppConstants {
     public static final String MONTH_FORMAT = "MMM";
     public static final String YEAR_FORMAT = "yyyy";
     public static final String TIME_FORMAT = "h:mm a";
+    public static final String LEAGUE_NAME = "Premier League";
 
     public static String getDateAndTime(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
