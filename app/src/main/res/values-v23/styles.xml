@@ -27,4 +27,22 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorControlActivated">@color/text_hint_label_color</item>
     </style>
+
+    <style name="AuthActiveCardTitle">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+    <style name="InputPlaceholder">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:textColor">#80555555</item>
+    </style>
+
+    <style name="AuthLink">
+        <item name="android:gravity">end</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@color/dark_sky_blue</item>
+    </style>
 </resources>
