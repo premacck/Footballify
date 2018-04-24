@@ -66,7 +66,7 @@ public class StandingFragment extends Fragment {
         getApplication().getStandingScoreNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         setUpRecyclerViewInStandingScoreTable();
-        getStandings(AppConstants.COMPETITION_ID);
+        getStandings(AppConstants.LEAGUE_NAME);
         setUpStandingSearchWithFootballTeamName();
         return view;
     }
@@ -96,9 +96,9 @@ public class StandingFragment extends Fragment {
         ((SwipePageActivity) getActivity()).retainHomeLayout();
     }
 
-    public void getStandings(Integer id) {
+    public void getStandings(String leagueName) {
         standingProgressBar.setVisibility(View.VISIBLE);
-        restApi.getStandings(id)
+        restApi.getStandings(leagueName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<StandingModel>>>() {
