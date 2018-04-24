@@ -43,6 +43,8 @@ public class AppConstants {
     public static final String YEAR_FORMAT = "yyyy";
     public static final String TIME_FORMAT = "h:mm a";
     public static final String LEAGUE_NAME = "Premier League";
+    //todo : Retrieve this from the api. will do in next pull request
+    public static final String SEASON_NAME = "2017/2018";
 
     public static String getDateAndTime(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);

@@ -8,6 +8,7 @@ import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
+import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
@@ -73,4 +74,7 @@ public interface RestApi {
 
     @GET("seasons/current/standings")
     Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName);
+
+    @GET("seasons/matches")
+    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName);
 }
