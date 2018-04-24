@@ -111,7 +111,7 @@ public class ScoreFixtureFragment extends Fragment implements View.OnClickListen
     }
 
     public void getScoreFixture(String seasonName) {
-        restApi.getScoreFixture(seasonName)
+        restApi.getScoresAndFixtures(seasonName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<ScoreFixtureModel>>>() {

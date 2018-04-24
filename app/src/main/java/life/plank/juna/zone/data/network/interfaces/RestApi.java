@@ -76,5 +76,5 @@ public interface RestApi {
     Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName);
 
     @GET("seasons/matches")
-    Observable<Response<List<ScoreFixtureModel>>> getScoreFixture(@Query("seasonName") String seasonName);
+    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName);
 }

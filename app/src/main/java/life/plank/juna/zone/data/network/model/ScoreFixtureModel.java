@@ -1,6 +1,6 @@
 package life.plank.juna.zone.data.network.model;
 
-
+//todo: streamline this model in next pull request
 public class ScoreFixtureModel {
 
     private Integer id;
