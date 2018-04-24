@@ -1,0 +1,9 @@
+diff a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml	(rejected hunks)
+@@ -170,7 +170,6 @@
+             android:grantUriPermissions="true">
+             <meta-data
+                 android:name="android.support.FILE_PROVIDER_PATHS"
+-                android:resource="@xml/provider_path"/>
+         </provider>
+         <activity android:name=".view.activity.SignInActivity"></activity>
+     </application>
