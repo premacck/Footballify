@@ -59,6 +59,7 @@ dependencies {
     compile viewDependencies.glide
     compile viewDependencies.appCompatLibrary
     compile viewDependencies.videoPlayer
+    compile viewDependencies.lottie
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
