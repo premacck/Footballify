@@ -262,8 +262,6 @@
     <string name="points_table">Pts</string>
     <string name="text_message_password_screen">Don’t worry, everybody forget passwords.</string>
     <string name="registered_email_text">Tell us your registered email ID, and we’ll help you to reset your password.</string>
-    <string name="rediff">Rediff</string>
-    <string name="yahoo">Yahoo</string>
     <string name="outlook">Outlook</string>
     <string name="gmail">Gmail</string>
     <string name="forgot_password_message">Don’t remember password of the mail too? Reach your mail provider to reset mail password.</string>
