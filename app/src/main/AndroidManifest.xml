@@ -49,7 +49,7 @@
             android:name=".view.activity.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SpalshScreenTheme">
-            <intent-filter>
+           <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -172,7 +172,8 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path"/>
         </provider>
-        <activity android:name=".view.activity.SignInActivity"></activity>
+        <activity android:name=".view.activity.SignInActivity">
+        </activity>
     </application>
 
 </manifest>
