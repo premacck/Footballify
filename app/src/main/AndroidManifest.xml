@@ -177,7 +177,8 @@
         <activity android:name=".view.activity.SignInActivity">
         </activity>
         <activity android:name=".view.activity.SignupPageActivity">
-
+        </activity>
+        <activity android:name=".view.activity.AuthForgotPasswordActivity">
         </activity>
     </application>
 

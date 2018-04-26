@@ -6,6 +6,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -19,7 +21,8 @@ public class SignInActivity extends AppCompatActivity {
     TextInputLayout passwordInputLayout;
     @BindView(R.id.submit_button)
     ImageView submitImageview;
-
+    @BindView(R.id.forgot_password)
+    TextView forgotPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
