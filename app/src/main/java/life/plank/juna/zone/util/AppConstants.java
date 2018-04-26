@@ -1,21 +1,11 @@
 package life.plank.juna.zone.util;
 
-import android.content.Context;
-import android.support.design.widget.TextInputLayout;
+
 import android.text.format.DateFormat;
-import android.view.Gravity;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-
-import life.plank.juna.zone.R;
-
 /**
  * Created by plank-hasan on 2/9/2018.
  */
-
 public class AppConstants {
     public static final String FOOTBALL_FEEDS_HEADER_KEY = "newsfeed-continuation-token";
     public static final String DEFAULT_ERROR_MESSAGE = "Something went wrong, Please try again later!";
