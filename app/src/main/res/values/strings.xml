@@ -260,11 +260,14 @@
     <string name="team_lost">L</string>
     <string name="goal_difference">GD</string>
     <string name="points_table">Pts</string>
-    <string name="text_message_password_screen">Don’t worry, everybody forget passwords.</string>
-    <string name="registered_email_text">Tell us your registered email ID, and we’ll help you to reset your password.</string>
+    <string name="text_message_password_screen">Don’t worry, everybody forgets password.</string>
+    <string name="registered_email_text">Tell us your registered email ID, and we’ll help you reset your password.</string>
     <string name="outlook">Outlook</string>
     <string name="gmail">Gmail</string>
     <string name="forgot_password_message">Don’t remember password of the mail too? Reach your mail provider to reset mail password.</string>
     <string name="go_to_login">Go to Login</string>
     <string name="please_check_your_inbox_for_password_reset_instructions">Please check your inbox for password reset instructions.</string>
+    <string name="don_t_remember_your_password">Don’t remember your password?</string>
+    <string name="or_login_using_social_media">or login using social media</string>
+    <string name="login">Login</string>
 </resources>
