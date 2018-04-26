@@ -104,9 +104,10 @@
                         <TextView
                             android:id="@+id/forgot_password"
                             style="@style/AuthLink"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="10dp"
+                            android:layout_gravity="end"
                             android:text="Don’t remember your password?" />
 
                         <TextView

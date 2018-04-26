@@ -1,24 +1,28 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kyleduo.blurpopupwindow.library.BlurPopupWindow;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
 public class AuthForgotPasswordActivity extends AppCompatActivity {
-    private ImageView forgotPasswordImageView;
-
+    @BindView(R.id.forgot_password_image_view)
+    ImageView forgotPasswordImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_forgot_password);
-        forgotPasswordImageView = (ImageView) findViewById(R.id.forgot_password_image_view);
+        ButterKnife.bind(this);
         forgotPasswordImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -33,7 +37,8 @@ public class AuthForgotPasswordActivity extends AppCompatActivity {
                 .bindClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(v.getContext(), "Navigate to Login Page", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(),SignInActivity.class);
+                        startActivity(intent);
                     }
                 }, R.id.text_navigate_to_login)
                 .setGravity(Gravity.CENTER)
