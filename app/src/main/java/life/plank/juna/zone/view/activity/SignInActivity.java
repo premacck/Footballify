@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.ActivityUtil;
 import life.plank.juna.zone.util.AppConstants;
 
 public class SignInActivity extends AppCompatActivity {
@@ -32,8 +33,8 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-        AppConstants.setCollapsedHintMiddle(usernameInputLayout,this);
-        AppConstants.setCollapsedHintMiddle(passwordInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout,this);
     }
 
     @OnClick({R.id.forgot_password,R.id.submit_button})

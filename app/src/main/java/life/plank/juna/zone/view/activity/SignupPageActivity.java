@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.ActivityUtil;
 import life.plank.juna.zone.util.AppConstants;
 
 public class SignupPageActivity extends AppCompatActivity {
@@ -28,8 +29,8 @@ public class SignupPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_page);
         ButterKnife.bind(this);
-        AppConstants.setCollapsedHintMiddle(usernameInputLayout,this);
-        AppConstants.setCollapsedHintMiddle(emailInputLayout,this);
-        AppConstants.setCollapsedHintMiddle(passwordInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(emailInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout,this);
     }
 }
