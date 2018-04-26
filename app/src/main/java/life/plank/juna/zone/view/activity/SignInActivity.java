@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 
 public class SignInActivity extends AppCompatActivity {
@@ -19,13 +20,15 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-        forgotPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), AuthForgotPasswordActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
 
+    @OnClick({R.id.forgot_password})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.forgot_password:
+                Intent intent = new Intent(SignInActivity.this, AuthForgotPasswordActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }

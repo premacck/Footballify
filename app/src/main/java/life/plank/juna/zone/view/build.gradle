@@ -60,7 +60,7 @@ dependencies {
     compile viewDependencies.appCompatLibrary
     compile viewDependencies.videoPlayer
     compile viewDependencies.lottie
-    compile viewDependencies.blurpopupwindow
+    compile viewDependencies.blurPopupWindow
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation

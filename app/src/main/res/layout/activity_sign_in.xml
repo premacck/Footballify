@@ -43,7 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Login"
+                    android:text="@string/login"
                     android:textColor="@color/grey"
                     android:textSize="20sp" />
 
@@ -64,7 +64,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:hint="Username"
                             android:padding="16dp">
 
                             <EditText
@@ -88,8 +87,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
-                                android:gravity="center"
-                                android:hint="password" />
+                                android:gravity="center" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -106,16 +104,16 @@
                             style="@style/AuthLink"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="10dp"
                             android:layout_gravity="end"
-                            android:text="Don’t remember your password?" />
+                            android:padding="10dp"
+                            android:text="@string/don_t_remember_your_password" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
                             android:padding="10dp"
-                            android:text="or login using social media"
+                            android:text="@string/or_login_using_social_media"
                             android:textColor="@color/black_40"
                             android:textSize="10sp" />
 
