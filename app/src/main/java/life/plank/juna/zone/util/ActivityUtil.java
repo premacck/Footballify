@@ -1,19 +1,14 @@
 package life.plank.juna.zone.util;
-
 import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.view.Gravity;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import life.plank.juna.zone.R;
-
 /**
  * Created by plank-sharath on 4/26/2018.
  */
-
 public class ActivityUtil {
     public static void setCollapsedHintMiddle(TextInputLayout textInputLayout, Context context) {
         try {
