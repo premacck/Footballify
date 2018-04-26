@@ -270,4 +270,6 @@
     <string name="don_t_remember_your_password">Don’t remember your password?</string>
     <string name="or_login_using_social_media">or login using social media</string>
     <string name="login">Login</string>
+    <string name="decalred_field_parameter">mCollapsingTextHelper</string>
+    <string name="declared_method_parameter">setCollapsedTextGravity</string>
 </resources>

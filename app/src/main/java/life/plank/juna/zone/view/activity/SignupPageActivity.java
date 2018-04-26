@@ -1,15 +1,28 @@
 package life.plank.juna.zone.view.activity;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-
+import life.plank.juna.zone.util.ActivityUtil;
 public class SignupPageActivity extends AppCompatActivity {
+
+    @BindView(R.id.username_text_input_layout)
+    TextInputLayout usernameInputLayout;
+    @BindView(R.id.password_input_layout)
+    TextInputLayout passwordInputLayout;
+    @BindView(R.id.email_input_layout)
+    TextInputLayout emailInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_page);
+        ButterKnife.bind(this);
+        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(emailInputLayout,this);
+        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout,this);
     }
 }
