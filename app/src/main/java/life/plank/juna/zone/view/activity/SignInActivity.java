@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.AppConstants;
 
 public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.username_text_input_layout)
@@ -31,8 +32,8 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ButterKnife.bind(this);
-        setCollapsedHintMiddle(usernameInputLayout);
-        setCollapsedHintMiddle(passwordInputLayout);
+        AppConstants.setCollapsedHintMiddle(usernameInputLayout,this);
+        AppConstants.setCollapsedHintMiddle(passwordInputLayout,this);
     }
 
     @OnClick({R.id.forgot_password,R.id.submit_button})
@@ -46,25 +47,6 @@ public class SignInActivity extends AppCompatActivity {
                 Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
                 startActivity(intentSubmit);
                 break;
-        }
-    }
-    private void setCollapsedHintMiddle(TextInputLayout textInputLayout) {
-        try {
-            Field helperField = TextInputLayout.class.getDeclaredField(getString(R.string.decalred_field_parameter));
-            helperField.setAccessible(true);
-            Object helper = helperField.get(textInputLayout);
-
-            Method setterMethod = helper.getClass().getDeclaredMethod(getString(R.string.declared_method_parameter), int.class);
-            setterMethod.setAccessible(true);
-            setterMethod.invoke(helper, Gravity.TOP | Gravity.LEFT);
-        } catch (NoSuchFieldException e) {
-            // TODO
-        } catch (IllegalAccessException e) {
-            // TODO
-        } catch (NoSuchMethodException e) {
-            // TODO
-        } catch (InvocationTargetException e) {
-            // TODO
         }
     }
 }
