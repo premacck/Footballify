@@ -47,9 +47,9 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.SplashScreenActivity"
+            android:name=".view.activity.LineUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SpalshScreenTheme">
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                  <action android:name="android.intent.action.MAIN" />
 
@@ -174,12 +174,9 @@
                 android:resource="@xml/provider_path" />
         </provider>
 
-        <activity android:name=".view.activity.SignInActivity">
-        </activity>
-        <activity android:name=".view.activity.SignupPageActivity">
-        </activity>
-        <activity android:name=".view.activity.AuthForgotPasswordActivity">
-        </activity>
+        <activity android:name=".view.activity.SignInActivity"></activity>
+        <activity android:name=".view.activity.SignupPageActivity"/>
+        <activity android:name=".view.activity.AuthForgotPasswordActivity"/>
     </application>
 
 </manifest>

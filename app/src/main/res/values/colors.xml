@@ -35,4 +35,9 @@
     <color name="grey">#555555</color>
     <color name="dark_sky_blue">#4a90e2</color>
     <color name="black_40">#66000000</color>
+    <color name="dark_green">#66875d</color>
+    <color name="purple">#530D1B</color>
+    <color name="football_ground_green">#0F9D58</color>
+    <color name="teams_background_green">#0B8449</color>
+    <color name="white_40_opacity">#40FFFFFF</color>
 </resources>

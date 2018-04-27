@@ -272,4 +272,9 @@
     <string name="login">Login</string>
     <string name="decalred_field_parameter">mCollapsingTextHelper</string>
     <string name="declared_method_parameter">setCollapsedTextGravity</string>
+    <string name="arsenal">Arsenal</string>
+    <string name="_4_3_3">4-3-3</string>
+    <string name="west_ham">West Ham</string>
+    <string name="_3_4_2_1">3-4-2-1</string>
+    <string name="h_bellerin">H. Bellerin</string>
 </resources>
