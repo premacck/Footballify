@@ -1,13 +1,11 @@
 package life.plank.juna.zone.util;
 
+
 import android.text.format.DateFormat;
-
 import java.text.SimpleDateFormat;
-
 /**
  * Created by plank-hasan on 2/9/2018.
  */
-
 public class AppConstants {
     public static final String FOOTBALL_FEEDS_HEADER_KEY = "newsfeed-continuation-token";
     public static final String DEFAULT_ERROR_MESSAGE = "Something went wrong, Please try again later!";
