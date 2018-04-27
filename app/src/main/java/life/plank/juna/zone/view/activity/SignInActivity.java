@@ -43,6 +43,10 @@ public class SignInActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ActivityUtil.setCollapsedHintMiddle(usernameInputLayout, this);
         ActivityUtil.setCollapsedHintMiddle(passwordInputLayout, this);
+        initStackAnimation();
+    }
+
+    private void initStackAnimation() {
         stackAnimation = new StackAnimation(AppConstants.ANIMATION_DURATION,
                 AppConstants.ANIMATION_START_SCALE,
                 AppConstants.ANIMATION_PIVOT_VALUE);
