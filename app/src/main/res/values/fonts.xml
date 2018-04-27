@@ -18,4 +18,9 @@
     <string name="roboto_condensed_bold">font/roboto_condensed_bold.ttf</string>
     <string name="roboto_thin">font/roboto_thin.ttf</string>
     <string name="roboto_regular">font/roboto_regular.ttf</string>
+    <string name="rajdhani_bold">font/rajdhani_bold.ttf</string>
+    <string name="rajdhani_light">font/rajdhani_light.ttf</string>
+    <string name="rajdhani_medium">font/rajdhani_medium.ttf</string>
+    <string name="rajdhani_regular">font/rajdhani_regular.ttf</string>
+    <string name="rajdhani_semibold">font/rajdhani_semibold.ttf</string>
 </resources>
