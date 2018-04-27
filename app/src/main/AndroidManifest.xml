@@ -49,7 +49,7 @@
         <activity
             android:name=".view.activity.LineUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SpalshScreenTheme">
+            android:theme="@style/SplashScreenTheme">
             <intent-filter>
                  <action android:name="android.intent.action.MAIN" />
 

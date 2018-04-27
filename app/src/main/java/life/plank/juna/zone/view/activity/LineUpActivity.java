@@ -56,14 +56,14 @@ public class LineUpActivity extends AppCompatActivity {
     }
 
     private void setUpVisitingTeamGrid(){
-        for (Integer formation : visitingTeamFormation) {
+        for (Integer formationSegment : visitingTeamFormation) {
             LinearLayout visitingTeamLineUpLinearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,1);
             visitingTeamLineUpLinearLayout.setLayoutParams(layoutParams);
             visitingTeamLineUpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
             visitingTeamLinearLayout.addView(visitingTeamLineUpLinearLayout);
-            for ( int j =1 ; j<= formation; j++){
-                visitingTeamLineUpLinearLayout.setWeightSum(formation);
+            for ( int j =1 ; j<= formationSegment; j++){
+                visitingTeamLineUpLinearLayout.setWeightSum(formationSegment);
                 View child = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_visiting_team, null);
                 child.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
                 visitingTeamLineUpLinearLayout.addView(child);
@@ -72,14 +72,14 @@ public class LineUpActivity extends AppCompatActivity {
     }
 
     private void setUpHomeTeamGrid(){
-        for (Integer formation : homeTeamFormation) {
+        for (Integer formationSegment : homeTeamFormation) {
             LinearLayout homeTeamLineUpLinearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,1);
             homeTeamLineUpLinearLayout.setLayoutParams(layoutParams);
             homeTeamLineUpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
             homeTeamLinearLayout.addView(homeTeamLineUpLinearLayout);
-            for ( int j =1 ; j<= formation; j++){
-                homeTeamLineUpLinearLayout.setWeightSum(formation);
+            for ( int j =1 ; j<= formationSegment; j++){
+                homeTeamLineUpLinearLayout.setWeightSum(formationSegment);
                 View playerView = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_home_team, null);
                 playerView.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
                 homeTeamLineUpLinearLayout.addView(playerView);
