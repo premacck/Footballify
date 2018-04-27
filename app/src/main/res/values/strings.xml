@@ -270,4 +270,8 @@
     <string name="don_t_remember_your_password">Don’t remember your password?</string>
     <string name="or_login_using_social_media">or login using social media</string>
     <string name="login">Login</string>
+    <string name="arsenal">Arsenal</string>
+    <string name="_4_3_3">4-3-3</string>
+    <string name="west_hom">West Hom</string>
+    <string name="_3_4_2_1">3-4-2-1</string>
 </resources>

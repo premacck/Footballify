@@ -170,10 +170,12 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_path"/>
+                android:resource="@xml/provider_path" />
         </provider>
-        <activity android:name=".view.activity.SignInActivity">
-        </activity>
+
+        <activity android:name=".view.activity.SignInActivity"></activity>
+        <activity android:name=".view.activity.LineUpActivity"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
