@@ -18,72 +18,71 @@ public class LineUpActivity extends AppCompatActivity {
     LinearLayout visitingTeamLinearLayout;
     @BindView(R.id.home_team_linear_layout)
     LinearLayout homeTeamLinearLayout;
-    private ArrayList<Integer> formationVisitingTeam;
-    private ArrayList<Integer> formationHomeTeam;
+    private ArrayList<Integer> visitingTeamFormation;
+    private ArrayList<Integer> homeTeamFormation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_up);
         ButterKnife.bind(this);
-        setUpArrayList();
+        setUpFormations();
         setWeightSumToVisitingTeamLinearLayout();
         setWeightSumToHomeTeamLinearLayout();
         setUpVisitingTeamGrid();
         setUpHomeTeamGrid();
     }
 
-    private void setUpArrayList(){
-        formationVisitingTeam = new ArrayList<>();
-        formationHomeTeam = new ArrayList<>();
-
-        formationHomeTeam.add(1);
-        formationHomeTeam.add(4);
-        formationHomeTeam.add(3);
-        formationHomeTeam.add(3);
-
-        formationVisitingTeam.add(1);
-        formationVisitingTeam.add(2);
-        formationVisitingTeam.add(4);
-        formationVisitingTeam.add(3);
-        formationVisitingTeam.add(1);
+    private void setUpFormations(){
+        visitingTeamFormation = new ArrayList<>();
+        homeTeamFormation = new ArrayList<>();
+        homeTeamFormation.add(1);
+        homeTeamFormation.add(4);
+        homeTeamFormation.add(3);
+        homeTeamFormation.add(3);
+        visitingTeamFormation.add(1);
+        visitingTeamFormation.add(2);
+        visitingTeamFormation.add(4);
+        visitingTeamFormation.add(3);
+        visitingTeamFormation.add(1);
     }
 
     private void setWeightSumToVisitingTeamLinearLayout(){
-        visitingTeamLinearLayout.setWeightSum(formationVisitingTeam.size());
+        visitingTeamLinearLayout.setWeightSum(visitingTeamFormation.size());
     }
+
     private void setWeightSumToHomeTeamLinearLayout(){
-        homeTeamLinearLayout.setWeightSum(formationHomeTeam.size());
+        homeTeamLinearLayout.setWeightSum(homeTeamFormation.size());
     }
 
     private void setUpVisitingTeamGrid(){
-        for (Integer formation : formationVisitingTeam) {
-            LinearLayout visitingTeamLinearLayout = new LinearLayout(this);
+        for (Integer formation : visitingTeamFormation) {
+            LinearLayout visitingTeamLineUpLinearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,1);
-            visitingTeamLinearLayout.setLayoutParams(layoutParams);
-            visitingTeamLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            this.visitingTeamLinearLayout.addView(visitingTeamLinearLayout);
+            visitingTeamLineUpLinearLayout.setLayoutParams(layoutParams);
+            visitingTeamLineUpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            visitingTeamLinearLayout.addView(visitingTeamLineUpLinearLayout);
             for ( int j =1 ; j<= formation; j++){
-                visitingTeamLinearLayout.setWeightSum(formation);
+                visitingTeamLineUpLinearLayout.setWeightSum(formation);
                 View child = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_visiting_team, null);
                 child.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
-                visitingTeamLinearLayout.addView(child);
+                visitingTeamLineUpLinearLayout.addView(child);
             }
         }
     }
 
     private void setUpHomeTeamGrid(){
-        for (Integer formation : formationHomeTeam) {
-            LinearLayout homeTeamLinearLayout = new LinearLayout(this);
+        for (Integer formation : homeTeamFormation) {
+            LinearLayout homeTeamLineUpLinearLayout = new LinearLayout(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0,1);
-            homeTeamLinearLayout.setLayoutParams(layoutParams);
-            homeTeamLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-            this.homeTeamLinearLayout.addView(homeTeamLinearLayout);
+            homeTeamLineUpLinearLayout.setLayoutParams(layoutParams);
+            homeTeamLineUpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            homeTeamLinearLayout.addView(homeTeamLineUpLinearLayout);
             for ( int j =1 ; j<= formation; j++){
-                homeTeamLinearLayout.setWeightSum(formation);
-                View child = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_home_team, null);
-                child.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
-                homeTeamLinearLayout.addView(child);
+                homeTeamLineUpLinearLayout.setWeightSum(formation);
+                View playerView = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_home_team, null);
+                playerView.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
+                homeTeamLineUpLinearLayout.addView(playerView);
             }
         }
     }

@@ -4,6 +4,6 @@
     <solid android:color="@color/teams_background_green" />
 
     <corners
-        android:topLeftRadius="11dp"
-        android:topRightRadius="11dp"/>
+        android:topLeftRadius="10dp"
+        android:topRightRadius="10dp"/>
 </shape>

@@ -46,7 +46,7 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.SplashScreenActivity"
+            android:name=".view.activity.LineUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SpalshScreenTheme">
            <intent-filter>
@@ -174,8 +174,6 @@
         </provider>
 
         <activity android:name=".view.activity.SignInActivity"></activity>
-        <activity android:name=".view.activity.LineUpActivity"
-            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
