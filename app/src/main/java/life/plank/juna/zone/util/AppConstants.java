@@ -2,7 +2,9 @@ package life.plank.juna.zone.util;
 
 
 import android.text.format.DateFormat;
+
 import java.text.SimpleDateFormat;
+
 /**
  * Created by plank-hasan on 2/9/2018.
  */
@@ -43,6 +45,10 @@ public class AppConstants {
     public static final String LEAGUE_NAME = "Premier League";
     //todo : Retrieve this from the api. will do in next pull request
     public static final String SEASON_NAME = "2017/2018";
+    public static final int ANIMATION_DURATION = 200;
+    public static final float ANIMATION_START_SCALE = 1.0f;
+    public static final float ANIMATION_END_SCALE = 1.08f;
+    public static final float ANIMATION_PIVOT_VALUE = 0.5f;
 
     public static String getDateAndTime(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
