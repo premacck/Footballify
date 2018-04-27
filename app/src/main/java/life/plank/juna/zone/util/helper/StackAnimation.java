@@ -23,15 +23,15 @@ public class StackAnimation {
         scaleView(cardViewFront, startScale, startScale - (endScale - startScale), startScale, startScale - (endScale - startScale));
     }
 
-    private void scaleView(View v, float startScale, float endScale, float startScaleX,
+    private void scaleView(View view, float startScaleY, float endScaleY, float startScaleX,
                            float endScaleX) {
         Animation anim = new ScaleAnimation(
                 startScaleX, endScaleX, // Start and end values for the X axis scaling
-                startScale, endScale, // Start and end values for the Y axis scaling
+                startScaleY, endScaleY, // Start and end values for the Y axis scaling
                 Animation.RELATIVE_TO_PARENT, pivot, // Pivot point of X scaling
                 Animation.RELATIVE_TO_PARENT, pivot); // Pivot point of Y scaling
         anim.setFillAfter(true); // Needed to keep the result of the animation
         anim.setDuration(duration);
-        v.startAnimation(anim);
+        view.startAnimation(anim);
     }
 }
