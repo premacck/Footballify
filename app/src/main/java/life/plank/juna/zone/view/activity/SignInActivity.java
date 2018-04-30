@@ -56,8 +56,9 @@ public class SignInActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.forgot_password:
-                Intent intent = new Intent(SignInActivity.this, AuthForgotPasswordActivity.class);
+                Intent intent = new Intent(SignInActivity.this,AuthForgotPasswordActivity.class);
                 startActivity(intent);
+                overridePendingTransition(R.animator.swipe_up_animation,R.animator.no_change);
                 break;
             case R.id.submit_button:
                 Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
