@@ -47,6 +47,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
@@ -153,7 +154,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         footballFeedAdapter.setPinFeedListener(this);
         footballFeedAdapter.setOnLongPressListener(this);
-        footballFeeds = new ArrayList<>();
         renderScript = RenderScript.create(this);
     }
 
@@ -186,11 +186,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
-                        GlobalVariable.getInstance().setFootballFeeds(response.body());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             if (apiHitCount == 0) {
                                 nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
                                 saveDataToCacheMemory(new Gson().toJson(response.body()));
+                                setUpStaticItemsToFeeds();
                             }
                             setUpAdapterWithNewData(response.body());
                             apiHitCount = apiHitCount + 1;
@@ -205,9 +205,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
         if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
             if ("".contentEquals(nextPageToken) ? (isLastPage = true) : (isLoading = false)) ;
+            footballFeeds.addAll(footballFeedsList);
             footballFeedAdapter.setFootballFeedList(footballFeedsList);
             PAGE_SIZE = footballFeedsList.size();
-            footballFeeds.addAll(footballFeedsList);
         }
     }
 
@@ -380,5 +380,13 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));
         intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeeds));
         startActivity(intent);
+    }
+
+    private void setUpStaticItemsToFeeds(){
+        footballFeeds = new ArrayList<>();
+        footballFeeds.add(new FootballFeed("","Standings","","","","",new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg",0,0),null,"","",null,0));
+        footballFeeds.add(new FootballFeed("","Schedules","","","","",new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg",0,0),null,"","",null,0));
+        footballFeeds.add(new FootballFeed("","Premier League","","","","",new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png",0,0),null,"","",null,0));
+        footballFeedAdapter.setFootballFeedList(footballFeeds);
     }
 }
