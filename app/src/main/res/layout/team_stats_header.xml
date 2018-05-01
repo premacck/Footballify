@@ -39,7 +39,7 @@
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/played_text_view"
+        android:id="@+id/win_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -49,7 +49,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/win_text_view"
+        android:id="@+id/loss_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -58,7 +58,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/draw_text_view"
+        android:id="@+id/goal_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -67,7 +67,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/loss_text_view"
+        android:id="@+id/pass_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -76,7 +76,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/goal_for_text_view"
+        android:id="@+id/shat_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -85,7 +85,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/goal_againts_text_view"
+        android:id="@+id/yellow_card_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -95,7 +95,7 @@
 
 
     <TextView
-        android:id="@+id/goal_difference_text_view"
+        android:id="@+id/red_card_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
