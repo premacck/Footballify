@@ -33,8 +33,7 @@
         android:layout_marginStart="10dp"
         android:layout_weight="4"
         android:gravity="start"
-        android:singleLine="true"
-        android:text="@string/my_team" />
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/win_text_view"
@@ -42,43 +41,38 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="center_horizontal"
-        android:text="Win"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/loss_text_view"
+        android:id="@+id/losses_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center"
-        android:text="Loss"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/goal_text_view"
+        android:id="@+id/goals_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:text="Goal"
         android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/pass_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:text="Pass"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/shat_text_view"
+        android:id="@+id/shot_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:text="Shat"
         android:textColor="@color/black" />
 
 
@@ -86,17 +80,15 @@
         android:id="@+id/yellow_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:text="341"
         android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/red_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="3"
         android:gravity="center_horizontal"
-        android:text="341"
         android:textColor="@color/black" />
 </LinearLayout>

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:weightSum="19.7">
+    android:weightSum="10">
 
     <TextView
         android:id="@+id/serial_number_text_view"
@@ -32,63 +32,63 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_weight="4"
+        android:layout_weight="1"
         android:gravity="start"
         android:singleLine="true"
         android:text="@string/my_team"
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/win_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/wins_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/win"
+        android:text="@string/wins"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/loss_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/losses_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="@string/loss"
+        android:text="@string/losses"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/goal_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/goals_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/goal"
+        android:text="@string/goals"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/pass_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/passes_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/pass"
+        android:text="@string/passes"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/shat_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/shots_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/shat"
+        android:text="@string/shots"
         android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/yellow_card_text_view"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="341"
         android:textColor="@color/black" />
@@ -96,9 +96,9 @@
 
     <TextView
         android:id="@+id/red_card_text_view"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="341"
         android:textColor="@color/black" />
