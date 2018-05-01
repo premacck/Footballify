@@ -40,8 +40,9 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
         holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));
         holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getGamesLost()));
-        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
+        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsFor()));
         holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
+        holder.goalAgaintsTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
         holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
     }
@@ -70,6 +71,8 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         TextView pointTableTextView;
         @BindView(R.id.score_view)
         View scoreView;
+        @BindView(R.id.goal_againts_text_view)
+        TextView goalAgaintsTextView;
         @BindView(R.id.score_board_liner_layout)
         LinearLayout scoreBoardLinerLayout;
 

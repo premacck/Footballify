@@ -92,10 +92,8 @@ public class MatchResultActivity extends AppCompatActivity {
                         Log.e( "", "response: " + ", list data " + response.toString() );
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             populateStandingRecyclerView( response.body() );
-                        }
-                        else {
+                        } else {
                             Toast.makeText( MatchResultActivity.this, "Responce Not Found", Toast.LENGTH_SHORT ).show();
-
                         }
                     }
                 } );
