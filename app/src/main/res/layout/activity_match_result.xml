@@ -95,7 +95,7 @@
                 android:fontFamily="@font/rajdhani_regular"
                 android:lineSpacingExtra="5sp"
                 android:padding="5dp"
-                android:text="@string/see_complete_standing"
+                android:text="@string/see_more"
                 android:textColor="@color/dark_sky_blue"
                 android:textSize="10sp" />
 
