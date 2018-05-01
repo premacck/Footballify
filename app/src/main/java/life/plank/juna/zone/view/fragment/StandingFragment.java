@@ -93,7 +93,6 @@ public class StandingFragment extends Fragment {
     @OnClick(R.id.cancel_image_view)
     public void onCancel() {
         UIDisplayUtil.getInstance().hideSoftKeyboard(getView(), getActivity());
-        ((SwipePageActivity) getActivity()).retainHomeLayout();
     }
 
     public void getStandings(String leagueName) {

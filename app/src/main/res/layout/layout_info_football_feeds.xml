@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/football_feed_background"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/feed_info_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:lineSpacingExtra="1sp"
+        android:text="@string/football_zone_info"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/number_of_people_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feed_info_text_view"
+        android:layout_marginEnd="10dp"
+        android:drawableLeft="@drawable/ic_people"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/rajdhani_semibold"
+        android:lineSpacingExtra="3sp"
+        android:text="1.4M"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/number_of_comments_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feed_info_text_view"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/number_of_people_text_view"
+        android:drawableLeft="@drawable/ic_card"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/rajdhani_semibold"
+        android:lineSpacingExtra="3sp"
+        android:text="3.8M"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/number_of_likes_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/feed_info_text_view"
+        android:layout_marginEnd="10dp"
+        android:layout_toEndOf="@+id/number_of_comments_text_view"
+        android:drawableLeft="@drawable/ic_likes"
+        android:drawablePadding="5dp"
+        android:fontFamily="@font/rajdhani_semibold"
+        android:lineSpacingExtra="3sp"
+        android:text="16.2M"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/feed_info_text_view"
+        android:gravity="end"
+        android:lineSpacingExtra="5sp"
+        android:text="Tap for more info"
+        android:textColor="@color/info_text_color"
+        android:textSize="10sp" />
+</RelativeLayout>

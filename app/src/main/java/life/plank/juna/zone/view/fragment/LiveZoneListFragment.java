@@ -52,12 +52,10 @@ public class LiveZoneListFragment extends Fragment implements LiveZoneMatchListA
 
     @OnClick(R.id.close_image)
     public void onCloseImageClicked() {
-        ((SwipePageActivity) getActivity()).retainLayout();
     }
 
     @Override
     public void onClick(int matchNumber) {
-        ((SwipePageActivity) getActivity()).goToLiveMatch(matchNumber);
     }
 
 }

@@ -1,190 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/parent_layout"
-    android:background="@color/background_grey">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_feeds"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="8dp"
+    android:paddingTop="8dp">
 
-    <ImageView
-        android:id="@+id/zone_logo"
-        android:layout_width="wrap_content"
+    <include layout="@layout/header_football_feeds" />
+
+    <include layout="@layout/layout_info_football_feeds" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/football_feed_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_zone_logo" />
-
-    <include
-        android:id="@+id/football_toolbar"
-        layout="@layout/zone_football_header"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:layout_alignBottom="@+id/zone_logo"
-        android:layout_marginBottom="@dimen/football_toolbar_margin_bottom"
-        android:layout_toEndOf="@+id/zone_logo"
-        android:layout_toRightOf="@+id/zone_logo" />
-
-    <FrameLayout
-        android:id="@+id/container_relative_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/football_toolbar">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <RelativeLayout
-                android:id="@+id/spinners_relative_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/show_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:fontFamily="@font/roboto_condensed_regular"
-                    android:text="Show"
-                    android:textColor="@color/white"
-                    android:textSize="12sp" />
-
-                //TODO new designs to be done for different resolutions(Tablets)
-                <TextView
-                    android:id="@+id/football_filter_spinner_textView"
-                    style="@style/live_zone_text_style"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toEndOf="@+id/show_text_view"
-                    android:layout_toRightOf="@+id/show_text_view"
-                    android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ms__menu_down"
-                    android:drawableRight="@drawable/ms__menu_down"
-                    android:fontFamily="@font/roboto_condensed_regular"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="3dp"
-                    android:paddingRight="3dp"
-                    android:text="All"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white" />
-                +
-                //TODO new designs to be done for different resolutions(Tablets)
-                <TextView
-                    android:id="@+id/calendar_spinner_textView"
-                    style="@style/live_zone_text_style"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toEndOf="@+id/football_filter_spinner_textView"
-                    android:layout_toRightOf="@+id/football_filter_spinner_textView"
-                    android:background="@drawable/square_white_bg"
-                    android:drawableEnd="@drawable/ms__menu_down"
-                    android:drawableRight="@drawable/ms__menu_down"
-                    android:fontFamily="@font/roboto_condensed_regular"
-                    android:gravity="center_vertical"
-                    android:paddingEnd="3dp"
-                    android:paddingRight="3dp"
-                    android:text="Today"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white" />
-
-                <TextView
-                    android:id="@+id/live_zone_text_view"
-                    style="@style/live_zone_text_style"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:fontFamily="@font/roboto_condensed_bold"
-                    android:text="@string/livezone" />
-            </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_horizontal_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/banter_zone_layout" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_recycler_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/football_feed_horizontal_view"
-                android:layout_below="@+id/spinners_relative_layout" />
-
-            <RelativeLayout
-                android:id="@+id/banter_zone_layout"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/swipe_page_banter_zone_height"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="@dimen/swipe_page_banter_zone_margin"
-                android:background="@drawable/football_header_orange_gradient">
-
-                <TextView
-                    android:id="@+id/banter_zone_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:text="BANTERZONE"
-                    android:textColor="@color/white"
-                    android:textSize="8sp" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="5dp">
-
-                    <ImageView
-                        android:id="@+id/person"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/ic_person" />
-
-                    <TextView
-                        android:id="@+id/person_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@+id/person"
-                        android:text="23"
-                        android:textColor="@color/white"
-                        android:textSize="8sp" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_margin="3dp"
-                        android:layout_toRightOf="@+id/person_number"
-                        android:src="@drawable/ic_dropdown" />
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <ProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:visibility="gone" />
-        </RelativeLayout>
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_container_frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/football_toolbar" />
-</RelativeLayout>
+        android:layout_marginTop="10dp" />
+</LinearLayout>
