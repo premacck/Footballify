@@ -1,224 +1,302 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:sothree="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/sliding_layout"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_layout_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="bottom"
-    sothree:umanoDragView="@+id/drag_view"
-    sothree:umanoOverlay="true"
-    sothree:umanoPanelHeight="160dp"
-    sothree:umanoParallaxOffset="100dp"
-    sothree:umanoScrollableView="@+id/scroll_view"
-    sothree:umanoShadowHeight="4dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/feed_card_corner_radius"
+    app:cardUseCompatPadding="true">
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/bullet_image_view"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/circle_background_grey" />
+
+            <TextView
+                android:id="@+id/name_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_toEndOf="@+id/bullet_image_view"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:lineSpacingExtra="5sp"
+                android:text="CR7_lover"
+                android:textColor="@color/grey"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/created_date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/name_text_view"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="Created 2 weeks ago"
+                android:textColor="@color/created_date_text_view"
+                android:textSize="10sp" />
+
+            <ImageView
+                android:id="@+id/menu_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="5dp"
+                android:src="@drawable/ic_options" />
+
+            <TextView
+                android:id="@+id/number_of_likes_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toStartOf="@+id/menu_image_view"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="16.2M"
+                android:textColor="@color/grey"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/number_of_people_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/number_of_likes_text_view"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="1.4M"
+                android:textColor="@color/grey"
+                android:textSize="10sp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/feed_image_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:adjustViewBounds="true"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:visibility="gone" />
+            android:src="@drawable/football_image_one" />
 
-        <LinearLayout
-            android:id="@+id/sliding_panel_layout"
+        <RelativeLayout
+            android:id="@+id/feed_title_relative_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/transparent_grey"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:visibility="gone">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="teams"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="8sp" />
-
-            <TextView
-                android:id="@+id/title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:maxLines="4"
-                android:text="@string/feed_heading"
-                android:textColor="@color/white"
-                android:textSize="24sp" />
-
-            <TextView
-                android:id="@+id/feed_details_date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/feed_details_date"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="12sp" />
+            android:layout_height="35dp">
 
             <ImageView
+                android:id="@+id/share_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:src="@drawable/ic_down_arrow" />
-        </LinearLayout>
-    </FrameLayout>
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp"
+                android:src="@drawable/ic_arrow_downward_black_24dp" />
 
-    <LinearLayout
-        android:id="@+id/drag_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/slide_up_panel_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="160dp"
-            android:background="@color/transparent_grey"
-            android:orientation="vertical"
-            android:padding="10dp"
-            android:weightSum="10">
-
-            <TextView
-                android:id="@+id/tag_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight=".8"
-                android:text="teams"
-                android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textSize="8sp"
-                android:fontFamily="@font/roboto_bold"/>
-
-            <TextView
-                android:id="@+id/sliding_title_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="7"
-                android:ellipsize="end"
-                android:maxLines="3"
-                android:text="@string/feed_heading"
-                android:textColor="@color/white"
-                android:textSize="24sp"
-                android:fontFamily="@font/roboto_condensed_regular"/>
-
-            <TextView
-                android:id="@+id/sliding_feed_details_date_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1.2"
-                android:text="@string/feed_details_date"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                android:fontFamily="@font/roboto_regular"/>
+            <View
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/share_image_view"
+                android:background="@color/grey" />
 
             <ImageView
-                android:id="@+id/expand_arrow"
+                android:id="@+id/unlike_image_view"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_down_arrow" />
-        </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/share_image_view"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp"
+                android:src="@drawable/ic_arrow_downward_black_24dp" />
 
-        <ScrollView
-            android:id="@+id/scroll_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="@color/white">
+            <View
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/unlike_image_view"
+                android:background="@color/grey" />
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/like_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/unlike_image_view"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp"
+                android:src="@drawable/ic_arrow_downward_black_24dp" />
+
+            <View
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/like_image_view"
+                android:background="@color/grey" />
+
+            <TextView
+                android:id="@+id/feed_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:layout_toStartOf="@+id/like_image_view"
+                android:ellipsize="end"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:lineSpacingExtra="1sp"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:text="Cristiano Ronaldo Top 10 Unimaginable Goals"
+                android:textColor="@color/grey"
+                android:textSize="14sp" />
 
-                <include layout="@layout/like_comment_container" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/grey" />
+        </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/top_feed_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:padding="3dp"
-                    android:textSize="12sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/rajdhani_medium"
+            android:lineSpacingExtra="3sp"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="Cristiano Ronaldo top 10 goals list vs Atletico Madrid-crazy freekick, Osasuna-crazy rocket shot, Portsmouth-magical left foot roc…"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
 
-                <ImageView
-                    android:id="@+id/feed_content_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_football_dummy_image" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp">
 
-                <TextView
-                    android:id="@+id/bottom_feed_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/bullet_comment_image_view"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/circle_background_grey" />
 
-                <View
-                    android:id="@+id/reactions_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@color/grid_item_grey" />
+            <TextView
+                android:id="@+id/comment_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/bullet_comment_image_view"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:lineSpacingExtra="5sp"
+                android:text="PikaPerfect He&apos;s not human, he is the best player in the world ⚽️ Isn&apos;t that right Messi﻿?"
+                android:textColor="@color/grey"
+                android:textSize="10sp" />
 
-                <include layout="@layout/like_comment_row" />
+            <TextView
+                android:id="@+id/like_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/comment_text_view"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="@string/like"
+                android:textColor="@color/feed_details_text_view_grey"
+                android:textSize="10sp" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/feed_comment_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:nestedScrollingEnabled="false" />
+            <TextView
+                android:id="@+id/reply_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/comment_text_view"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/like_text_view"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="@string/reply"
+                android:textColor="@color/feed_details_text_view_grey"
+                android:textSize="10sp" />
 
-                <View
-                    android:id="@+id/comment_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginBottom="5dp"
-                    android:background="@color/grid_item_grey" />
+            <TextView
+                android:id="@+id/view_all_replies_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/comment_text_view"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/reply_text_view"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="View 3 replies"
+                android:textColor="@color/feed_details_text_view_grey"
+                android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Add Comment"
-                    android:textSize="14sp" />
+            <TextView
+                android:id="@+id/view_all_comments_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/like_text_view"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="@string/view_all_comments"
+                android:textColor="@color/feed_details_text_view_grey"
+                android:textSize="10sp" />
+        </RelativeLayout>
 
-                <EditText
-                    android:id="@+id/edit_comment_field"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:background="@drawable/edit_text_border"
-                    android:gravity="top|left"
-                    android:padding="5dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.4dp"
+            android:background="@color/grey" />
 
-                <Button
-                    android:id="@+id/comment_submit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignRight="@id/edit_comment_field"
-                    android:layout_below="@+id/edit_comment_field"
-                    android:layout_gravity="right"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/ic_submit_backgroung"
-                    android:padding="10dp"
-                    android:text="Submit"
-                    android:textColor="@color/white" />
-            </LinearLayout>
-        </ScrollView>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/profile_image_view"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/football_image_one"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"/>
+
+            <TextView
+                android:id="@+id/post_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:gravity="end"
+                android:lineSpacingExtra="5sp"
+                android:text="@string/post"
+                android:textColor="@color/dark_sky_blue"
+                android:textSize="10sp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/profile_image_view"
+                android:layout_toStartOf="@+id/post_text_view"
+                android:backgroundTint="@color/grey"
+                android:hint="Write a comment"
+                android:textColorHint="@color/hint_text_color_edit_text"
+                android:textSize="10sp" />
+        </RelativeLayout>
     </LinearLayout>
-</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+</android.support.v7.widget.CardView>

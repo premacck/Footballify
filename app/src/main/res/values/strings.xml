@@ -285,10 +285,6 @@
     <string name="feed_discription">Cristiano Ronaldo top 10 goals list vs Atletico Madrid-crazy freekick, Osasuna-crazy rocket shot, Portsmouth-magical left foot roc…</string>
     <string name="dummy_text">PikaPerfect He\'s not human, he is the best player in the world ⚽️ Isn\'t that right Messi﻿?</string>
     <string name="view_3_replies">View 3 replies</string>
-    <string name="reply">Reply</string>
-    <string name="like">Like</string>
-    <string name="post">Post</string>
-    <string name="view_all_comments">View all comments</string>
     <string name="football_zone_info">Global football zone. Cheer, shout and feel the game along with millions around the word!</string>
     <string name="premier_league">Premier League</string>
     <string name="following">FOLLOWING</string>
@@ -296,6 +292,10 @@
     <string name="_1_4m">1.4M</string>
     <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
+    <string name="like">Like</string>
+    <string name="reply">Reply</string>
+    <string name="view_all_comments">View all comments</string>
+    <string name="post">Post</string>
     <string name="see_complete_standing">See complete standings</string>
     <string name="wins">Wins</string>
     <string name="losses">Losses</string>
