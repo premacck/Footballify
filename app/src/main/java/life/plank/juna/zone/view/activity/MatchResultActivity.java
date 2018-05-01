@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -47,11 +48,10 @@ public class MatchResultActivity extends AppCompatActivity {
         setContentView( R.layout.activity_match_result );
         ((ZoneApplication) getApplication()).getStandingNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-
         ButterKnife.bind( this );
         getStandings( AppConstants.LEAGUE_NAME );
         populateStandingRecyclerView();
-        teamStatsAdapter();
+        populateTeamStatsAdapter();
     }
 
     public void populateStandingRecyclerView() {
@@ -61,12 +61,12 @@ public class MatchResultActivity extends AppCompatActivity {
         standingRecyclerView.setAdapter( standingTableAdapter );
     }
 
-    public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
-        standingModel.addAll( standingModelResponse );
+    public void populateStandingRecyclerView(List<StandingModel> standingModels) {
+        standingModel.addAll( standingModels );
         standingTableAdapter.notifyDataSetChanged();
     }
 
-    public void teamStatsAdapter() {
+    public void populateTeamStatsAdapter() {
         teamStatsAdapter = new TeamStatsAdapter( this );
         teamStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         teamStatsRecyclerView.setAdapter( teamStatsAdapter );
@@ -92,6 +92,10 @@ public class MatchResultActivity extends AppCompatActivity {
                         Log.e( "", "response: " + ", list data " + response.toString() );
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             populateStandingRecyclerView( response.body() );
+                        }
+                        else {
+                            Toast.makeText( MatchResultActivity.this, "Responce Not Found", Toast.LENGTH_SHORT ).show();
+
                         }
                     }
                 } );
