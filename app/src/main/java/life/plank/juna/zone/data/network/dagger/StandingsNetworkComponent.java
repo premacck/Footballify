@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.view.fragment.StandingFragment;
+import life.plank.juna.zone.view.activity.MatchResultActivity;
 
 /**
  * Created by plank-prachi on 12/01/18.
@@ -14,5 +14,5 @@ import life.plank.juna.zone.view.fragment.StandingFragment;
 @Component(modules = {RestServiceModule.class})
 @FunctionalInterface
 public interface StandingsNetworkComponent {
-    void inject(StandingFragment standingFragment);
+    void inject(MatchResultActivity matchResultActivity);
 }
