@@ -71,6 +71,7 @@ public class ZoneApplication extends Application {
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
     private ScoreFixtureNetworkComponent scoreFixtureNetworkComponent;
+    private StandingsNetworkComponent standingsNetworkComponent;
 
 
     public static ZoneApplication getApplication() {
@@ -86,66 +87,70 @@ public class ZoneApplication extends Application {
         super.onCreate();
         zoneApplication = this;
         newsFeedsNetworkComponent = DaggerNewsFeedsNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         loginUserNetworkComponent = DaggerLoginUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         registerUserNetworkComponent = DaggerRegisterUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         createArenaNetworkComponent = DaggerCreateArenaNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         pointsGameComponent = DaggerPointsGameComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule())
+                .restServiceModule( new RestServiceModule() )
+                .gameServiceModule( new GameServiceModule() )
                 .build();
 
         multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         socialLoginNetworkComponent = DaggerSocialLoginNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         suddenDeathGameComponent = DaggerSuddenDeathGameComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule())
+                .restServiceModule( new RestServiceModule() )
+                .gameServiceModule( new GameServiceModule() )
                 .build();
 
         footballMatchNetworkComponent = DaggerFootballMatchNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         pointsGameResultComponent = DaggerPointsGameResultComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         joinGameNetworkComponent = DaggerJoinGameNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         suddenDeathResultComponent = DaggerSuddenDeathResultComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         footballFeedNetworkComponent = DaggerFootballFeedNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         onBoardSocialLoginNetworkComponent = DaggerOnBoardSocialLoginNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
 
         scoreFixtureNetworkComponent = DaggerScoreFixtureNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
+                .restServiceModule( new RestServiceModule() )
                 .build();
+
+        standingsNetworkComponent = DaggerStandingsNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -207,5 +212,9 @@ public class ZoneApplication extends Application {
 
     public ScoreFixtureNetworkComponent getScoreFixtureNetworkComponent() {
         return scoreFixtureNetworkComponent;
+    }
+
+    public StandingsNetworkComponent getStandingNetworkComponent() {
+        return standingsNetworkComponent;
     }
 }
