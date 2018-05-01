@@ -209,8 +209,8 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
-                android:text="Like"
-                android:textColor="#80000000"
+                android:text="@string/like"
+                android:textColor="@color/feed_details_text_view_grey"
                 android:textSize="10sp" />
 
             <TextView
@@ -222,8 +222,8 @@
                 android:layout_toEndOf="@+id/like_text_view"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
-                android:text="Reply"
-                android:textColor="#80000000"
+                android:text="@string/reply"
+                android:textColor="@color/feed_details_text_view_grey"
                 android:textSize="10sp" />
 
             <TextView
@@ -237,7 +237,7 @@
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
                 android:text="View 3 replies"
-                android:textColor="#80000000"
+                android:textColor="@color/feed_details_text_view_grey"
                 android:textSize="10sp" />
 
             <TextView
@@ -248,8 +248,8 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
-                android:text="View all comments"
-                android:textColor="#80000000"
+                android:text="@string/view_all_comments"
+                android:textColor="@color/feed_details_text_view_grey"
                 android:textSize="10sp" />
         </RelativeLayout>
 
@@ -269,19 +269,20 @@
                 android:id="@+id/profile_image_view"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/football_image_one" />
+                android:src="@drawable/football_image_one"
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/post_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:gravity="end"
                 android:lineSpacingExtra="5sp"
-                android:text="Post"
+                android:text="@string/post"
                 android:textColor="@color/dark_sky_blue"
                 android:textSize="10sp" />
 
@@ -294,7 +295,7 @@
                 android:layout_toStartOf="@+id/post_text_view"
                 android:backgroundTint="@color/grey"
                 android:hint="Write a comment"
-                android:textColorHint="#80555555"
+                android:textColorHint="@color/hint_text_color_edit_text"
                 android:textSize="10sp" />
         </RelativeLayout>
     </LinearLayout>
