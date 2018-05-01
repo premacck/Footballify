@@ -297,5 +297,10 @@
     <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
     <string name="see_complete_standing">See complete standing</string>
+    <string name="win">Win</string>
+    <string name="loss">Loss</string>
+    <string name="goal">Goal</string>
+    <string name="pass">Pass</string>
+    <string name="shat">Shat</string>
 
 </resources>
