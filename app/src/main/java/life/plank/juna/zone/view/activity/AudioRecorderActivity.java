@@ -159,7 +159,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onPlay(startPlaying);
                 if (startPlaying) {
-                    setText("Stop playing");
+                    setText("SEND");
                 } else {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra(AppConstants.RECORDED_AUDIO, fileName);
