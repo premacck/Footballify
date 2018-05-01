@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,6 +16,8 @@ public class MatchLeagueActivity extends AppCompatActivity {
 
     @BindView(R.id.league_recycler_view)
     RecyclerView leagueRecyclerView;
+    @BindView(R.id.info)
+    TextView textInfo;
     MatchLeagueAdapter matchLeagueAdapter;
 
     @Override
