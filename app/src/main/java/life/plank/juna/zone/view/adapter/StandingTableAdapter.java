@@ -72,7 +72,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         @BindView(R.id.score_view)
         View scoreView;
         @BindView(R.id.goal_againts_text_view)
-        TextView goalAgaintsTextView;
+        TextView goalAgainsTextView;
         @BindView(R.id.score_board_liner_layout)
         LinearLayout scoreBoardLinerLayout;
 
