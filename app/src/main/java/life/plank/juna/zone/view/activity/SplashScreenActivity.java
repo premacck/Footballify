@@ -43,7 +43,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     private boolean isSplashScreenTimeOut = false;
     private boolean isIntentCalled = false;
     private boolean isInterrupted = false;
-    @BindView(R.id.parent__layout)
+    @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

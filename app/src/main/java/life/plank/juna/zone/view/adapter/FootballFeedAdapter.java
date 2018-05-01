@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.RoundedTransformation;
@@ -32,6 +33,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int heightsToBeRemoved;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private PinFeedListener pinFeedListener;
+    private OnLongPressListener onLongPressListener;
 
     public FootballFeedAdapter(Context context) {
         this.heightsToBeRemoved = heightsToBeRemoved;
@@ -69,6 +71,13 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                 context.startActivity(intent);
             }
         });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onLongPressListener.onItemLongPress(position);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -88,12 +97,15 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         this.pinFeedListener = pinFeedListener;
     }
 
+    public void setOnLongPressListener(OnLongPressListener onLongPressListener) {
+        this.onLongPressListener = onLongPressListener;
+    }
+
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
-
 
         FootballFeedViewHolder(View itemView) {
             super(itemView);
