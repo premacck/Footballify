@@ -33,8 +33,8 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
     RecyclerView footballFeedDetailsRecyclerView;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
-    @BindView(R.id.blurr_background_image_view)
-    ImageView blurrBackgroundImageView;
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
     CustomLinearLayoutManager customLinearLayoutManager;
     private NetworkStateReceiver networkStateReceiver;
 
@@ -44,7 +44,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
         startNetworkBroadcastReceiver(this);
-        blurrBackgroundImageView.setBackground(new BitmapDrawable(getResources(), SwipePageActivity.parentViewBitmap));
+        blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), SwipePageActivity.parentViewBitmap));
         populateRecyclerView();
     }
 

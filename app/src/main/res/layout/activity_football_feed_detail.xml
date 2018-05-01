@@ -8,11 +8,11 @@
     tools:context="life.plank.juna.zone.view.activity.FootballFeedDetailActivity">
 
     <ImageView
-        android:id="@+id/blurr_background_image_view"
+        android:id="@+id/blur_background_image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY" />
-    
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/football_feed_details_recycler_view"
         android:layout_width="wrap_content"
