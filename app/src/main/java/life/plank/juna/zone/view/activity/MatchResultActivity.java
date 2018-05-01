@@ -36,10 +36,11 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView standingRecyclerView;
     @BindView(R.id.team_stats_recycler_view)
     RecyclerView teamStatsRecyclerView;
+    List<StandingModel> standingModel;
     private StandingTableAdapter standingTableAdapter;
     private TeamStatsAdapter teamStatsAdapter;
     private RestApi restApi;
-    List<StandingModel> standingModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -55,14 +56,16 @@ public class MatchResultActivity extends AppCompatActivity {
 
     public void populateStandingRecyclerView() {
         standingModel = new ArrayList<>();
-        standingTableAdapter = new StandingTableAdapter( this,standingModel);
+        standingTableAdapter = new StandingTableAdapter( this, standingModel );
         standingRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         standingRecyclerView.setAdapter( standingTableAdapter );
     }
+
     public void populateStandingRecyclerView(List<StandingModel> standingModelResponse) {
-        standingModel.addAll(standingModelResponse);
+        standingModel.addAll( standingModelResponse );
         standingTableAdapter.notifyDataSetChanged();
     }
+
     public void teamStatsAdapter() {
         teamStatsAdapter = new TeamStatsAdapter( this );
         teamStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
@@ -88,7 +91,7 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<StandingModel>> response) {
                         Log.e( "", "response: " + ", list data " + response.toString() );
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populateStandingRecyclerView(response.body());
+                            populateStandingRecyclerView( response.body() );
                         }
                     }
                 } );
