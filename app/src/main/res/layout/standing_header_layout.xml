@@ -85,7 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/goal_Againts"
+        android:text="@string/goal_Against"
         android:textColor="@color/black" />
 
     <TextView
