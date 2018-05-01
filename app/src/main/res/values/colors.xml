@@ -46,4 +46,6 @@
     <color name="purple_toolbar_background">#37003c</color>
     <color name="light_purple">#7c0986</color>
     <color name="info_color">#ccffffff</color>
+    <color name="created_date_text_view">#80000000</color>
+    <color name="circle_background_color">#d8d8d8</color>
 </resources>

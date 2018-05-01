@@ -64,7 +64,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         //TODO confirm max lines for the bottom content
-        holder.topFeedContentTextView.setText(footballFeedsList.get(position).getSummary());
+       /* holder.topFeedContentTextView.setText(footballFeedsList.get(position).getSummary());
         holder.bottomFeedContentTextView.setText(R.string.feed_content_subtitle);
         holder.slidingTitleTextView.setText(footballFeedsList.get(position).getTitle());
         holder.slidingFeedDetailsDateTextView.setText(AppConstants.getDateAndTime(footballFeedsList.get(position).getDatePublished()));
@@ -102,7 +102,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                     });
         } catch (Exception e) {
             holder.slidingUpPanelLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_place_holder));
-        }
+        }*/
     }
 
     @Override
@@ -110,51 +110,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         return footballFeedsList.size();
     }
 
-    private void setUpSlidingLayout(FootballFeedDetailViewHolder holder) {
-        holder.slidingUpPanelLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
 
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-            }
 
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                UIDisplayUtil.getInstance().hideSoftKeyboard(holder.slidingUpPanelLayout, context);
-                if (COLLAPSED == newState) {
-                    setCollapsedSlideUpPanelTitle(holder);
-                } else {
-                    setExpandedSlideUpPanelTitle(holder);
-                }
-            }
-        });
-        holder.slidingUpPanelLayout.setFadeOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.slidingUpPanelLayout.setPanelState(COLLAPSED);
-            }
-        });
-    }
 
-    private void setExpandedSlideUpPanelTitle(FootballFeedDetailViewHolder holder) {
-        holder.slideUpPanelLinearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.white));
-        holder.tagTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
-        holder.slidingTitleTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
-        holder.slidingFeedDetailsDateTextView.setTextColor(ContextCompat.getColor(context, R.color.black));
-        holder.expandArrow.setVisibility(View.GONE);
-        ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(false);
-    }
-
-    private void setCollapsedSlideUpPanelTitle(FootballFeedDetailViewHolder holder) {
-        holder.slideUpPanelLinearLayout.setBackgroundColor(ContextCompat.getColor(context, R.color.transparent_grey));
-        holder.tagTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
-        holder.slidingTitleTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
-        holder.slidingFeedDetailsDateTextView.setTextColor(ContextCompat.getColor(context, R.color.white));
-        holder.expandArrow.setVisibility(View.VISIBLE);
-        ((FootballFeedDetailActivity) context).setUpRecyclerViewScroll(true);
-    }
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.feed_comment_recycler_view)
+       /* @BindView(R.id.feed_comment_recycler_view)
         RecyclerView feedCommentRecyclerView;
         @BindView(R.id.tag_text_view)
         TextView tagTextView;
@@ -181,48 +142,11 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         @BindView(R.id.sliding_feed_details_date_text_view)
         TextView slidingFeedDetailsDateTextView;
         @BindView(R.id.slide_up_panel_linear_layout)
-        LinearLayout slideUpPanelLinearLayout;
+        LinearLayout slideUpPanelLinearLayout;*/
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-
-        @OnClick({R.id.add_comment, R.id.comment_submit, R.id.add_comment_view})
-        public void onAddComment(View view) {
-            scrollView.post(new Runnable() {
-                @Override
-                public void run() {
-
-                    RxView.clicks(addCommentButton)
-                            .subscribe(v -> {
-                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            });
-                    RxView.clicks(submitButton)
-                            .subscribe(v -> {
-                                scrollView.fullScroll(ScrollView.FOCUS_UP);
-                            });
-                    RxView.clicks(addCommentView)
-                            .subscribe(v -> {
-                                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                            });
-                }
-            });
-        }
-
-        private ArrayList<String> getCommentsList() {
-            ArrayList<String> commentList = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                commentList.add(context.getString(R.string.comment_data));
-            }
-            return commentList;
-        }
-
-        private void populateCommentRecyclerView() {
-            commentFeedAdapter = new FootballFeedCommentAdapter(context, getCommentsList());
-            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-            feedCommentRecyclerView.setLayoutManager(layoutManager);
-            feedCommentRecyclerView.setAdapter(commentFeedAdapter);
         }
     }
 }
