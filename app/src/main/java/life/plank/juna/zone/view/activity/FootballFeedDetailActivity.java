@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.IntentFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -30,10 +31,10 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
     @BindView(R.id.football_feed_details_recycler_view)
     RecyclerView footballFeedDetailsRecyclerView;
-    @BindView(R.id.zone_logo)
-    ImageView zoneLogo;
-    @BindView(R.id.parent__layout)
+    @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
+    @BindView(R.id.blurr_background_image_view)
+    ImageView blurrBackgroundImageView;
     CustomLinearLayoutManager customLinearLayoutManager;
     private NetworkStateReceiver networkStateReceiver;
 
@@ -43,6 +44,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
         setContentView(R.layout.activity_football_feed_detail);
         ButterKnife.bind(this);
         startNetworkBroadcastReceiver(this);
+        blurrBackgroundImageView.setBackground(new BitmapDrawable(getResources(), SwipePageActivity.parentViewBitmap));
         populateRecyclerView();
     }
 

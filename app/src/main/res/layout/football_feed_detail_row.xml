@@ -10,7 +10,9 @@
     sothree:umanoPanelHeight="160dp"
     sothree:umanoParallaxOffset="100dp"
     sothree:umanoScrollableView="@+id/scroll_view"
-    sothree:umanoShadowHeight="4dp">
+    sothree:umanoShadowHeight="4dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp">
 
     <FrameLayout
         android:layout_width="match_parent"

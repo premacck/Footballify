@@ -1,14 +1,26 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -35,12 +47,14 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -54,7 +68,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener {
+public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     @Inject
     @Named("azure")
@@ -76,6 +90,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private List<FootballFeed> footballFeeds;
     private int apiHitCount = 0;
     private NetworkStateReceiver networkStateReceiver;
+    public static Bitmap parentViewBitmap = null;
+    RenderScript renderScript;
+    Bitmap blurredBitmap = null;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -135,8 +152,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         footballFeedAdapter.setPinFeedListener(this);
+        footballFeedAdapter.setOnLongPressListener(this);
         footballFeeds = new ArrayList<>();
-
+        renderScript = RenderScript.create(this);
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
@@ -298,5 +316,69 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     @Override
     public void networkUnavailable() {
         Snackbar.make(parentLayout, getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
+    }
+
+    private Bitmap loadBitmap(View backgroundView, View targetView) {
+        Rect backgroundBounds = new Rect();
+        backgroundView.getHitRect(backgroundBounds);
+        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
+            return null;
+        }
+        Bitmap blurredBitmap = captureView(backgroundView);
+        int[] location = new int[2];
+        int[] backgroundViewLocation = new int[2];
+        backgroundView.getLocationInWindow(backgroundViewLocation);
+        targetView.getLocationInWindow(location);
+        int height = targetView.getHeight();
+        int y = location[1];
+        if (backgroundViewLocation[1] >= location[1]) {
+            height -= (backgroundViewLocation[1] - location[1]);
+            if (y < 0)
+                y = 0;
+        }
+        if (y + height > blurredBitmap.getHeight()) {
+            height = blurredBitmap.getHeight() - y;
+            if (height <= 0) {
+                return null;
+            }
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(0.5f, 0.5f);
+        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
+                (int) targetView.getX(),
+                y,
+                targetView.getMeasuredWidth(),
+                height,
+                matrix,
+                true);
+        return bitmap;
+    }
+
+    public Bitmap captureView(View view) {
+        if (blurredBitmap != null) {
+            return blurredBitmap;
+        }
+        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(blurredBitmap);
+        view.draw(canvas);
+        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        //ColorFilter filter = new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
+        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
+        paint.setColorFilter(filter);
+        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
+        return blurredBitmap;
+    }
+
+    @Override
+    public void onItemLongPress(int position) {
+        parentViewBitmap = loadBitmap(parentLayout, parentLayout);
+        Intent intent = new Intent(this, FootballFeedDetailActivity.class);
+        intent.putExtra(AppConstants.POSITION, String.valueOf(position));
+        intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeeds));
+        startActivity(intent);
     }
 }
