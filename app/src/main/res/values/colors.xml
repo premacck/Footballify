@@ -43,4 +43,7 @@
     <color name="football_feed_background">#dd5873</color>
     <color name="white_19_opacity">#19ffffff</color>
     <color name="info_text_color">#99ffffff</color>
+    <color name="purple_toolbar_background">#37003c</color>
+    <color name="light_purple">#7c0986</color>
+    <color name="info_color">#ccffffff</color>
 </resources>
