@@ -22,11 +22,9 @@ import life.plank.juna.zone.data.network.model.StandingModel;
 
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
     private Context context;
-    private List<StandingModel> standingModelList;
 
-    public StandingTableAdapter(Context context, List<StandingModel> standingModelList) {
+    public StandingTableAdapter(Context context) {
         this.context = context;
-        this.standingModelList = standingModelList;
     }
 
     @Override
@@ -38,25 +36,12 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
-        holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam());
-        holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
-        holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
-        holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));
-        holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getGamesLost()));
-        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
-        holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
-        holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
-        holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
+
     }
 
     @Override
     public int getItemCount() {
-        return standingModelList.size();
-    }
-
-    public void updateListAfterSearch(List<StandingModel> list) {
-        standingModelList = list;
-        notifyDataSetChanged();
+        return 10;
     }
 
     public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {

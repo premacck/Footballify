@@ -254,10 +254,12 @@
     <string name="application_video_player">JUNA_PLAYER</string>
     <string name="time_string">hh:mm aaa</string>
     <string name="team">Team</string>
-    <string name="team_played">P</string>
+    <string name="team_played">MP</string>
     <string name="team_won">W</string>
     <string name="team_draw">D</string>
     <string name="team_lost">L</string>
+    <string name="goal_for">GF</string>
+    <string name="goal_Againts">GA</string>
     <string name="goal_difference">GD</string>
     <string name="points_table">Pts</string>
     <string name="text_message_password_screen">Don’t worry, everybody forgets password.</string>
@@ -294,5 +296,6 @@
     <string name="_1_4m">1.4M</string>
     <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
+    <string name="see_complete_standing">See complete standing</string>
 
 </resources>

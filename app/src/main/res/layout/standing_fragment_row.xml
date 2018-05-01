@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="horizontal"
     android:padding="10dp"
-    android:weightSum="10.3">
+    >
 
     <TextView
         android:id="@+id/serial_number_text_view"
@@ -17,13 +17,14 @@
         android:text="@string/serial_number"
         android:textColor="@color/black" />
 
-    <View
+    <ImageView
         android:id="@+id/score_view"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight=".3"
-        android:background="@color/transparent_grey" />
+        android:layout_weight="1"
+        android:src="@drawable/ic_west_brom_logo"
+         />
 
     <TextView
         android:id="@+id/team_name_text_view"
@@ -72,6 +73,23 @@
         android:gravity="center_horizontal"
         android:text="8"
         android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/goal_for_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="10"
+        android:textColor="@color/black" />
+    <TextView
+        android:id="@+id/goal_againts_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="10"
+        android:textColor="@color/black" />
+
 
     <TextView
         android:id="@+id/goal_difference_text_view"
