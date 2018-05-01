@@ -31,6 +31,7 @@ public class AppConstants {
     public static final int REQUEST_VIDEO_CAPTURE = 1111;
     public static final int REQUEST_AUDIO_RECORDER = 2222;
     public static final String RECORDED_AUDIO = "recordedAudio";
+    public static final String DEFAULT_RECORDED_AUDIO_IMAGE = "https://lh3.ggpht.com/DUPr-ZmdjIwT1x-mq8tESQehLM_hLocsl2QYvaV5_5lMfYsf56WxMI7FvaOd-KBMWDs=h300";
     public static final String FEED_ITEMS = "feeditems";
     public static final String DATE_FORMAT = "yyyyMMdd_HHmmss";
     public static final String CAPTURED_IMAGE_NAME = "Zone_";
