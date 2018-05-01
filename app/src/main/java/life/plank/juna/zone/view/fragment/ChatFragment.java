@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,14 +39,19 @@ import life.plank.juna.zone.interfaces.MediaSelectionFragmentActionInterface;
 import life.plank.juna.zone.interfaces.ScrollRecyclerView;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.AudioRecorderActivity;
 import life.plank.juna.zone.view.activity.LiveZoneActivity;
 import life.plank.juna.zone.view.adapter.ChatAdapter;
 import life.plank.juna.zone.viewmodel.ChatModel;
 
 import static android.app.Activity.RESULT_OK;
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
+import static life.plank.juna.zone.util.AppConstants.RECORDED_AUDIO;
+import static life.plank.juna.zone.util.AppConstants.REQUEST_AUDIO_RECORDER;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_STORAGE;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_GALLERY;
+import static life.plank.juna.zone.util.AppConstants.REQUEST_VIDEO_CAPTURE;
 
 public class ChatFragment extends Fragment implements MediaSelectionFragmentActionInterface, ScrollRecyclerView {
     Context context;
@@ -67,7 +73,12 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
     EditText commentEditText;
     @BindView(R.id.send_text_view)
     TextView sendTextView;
+    @BindView(R.id.video_recorder)
+    ImageView videoRecorder;
+    @BindView(R.id.audio_recorder)
+    ImageView audioRecorder;
     ChatAdapter chatAdapter;
+    String recordedVideoUrl;
     private Uri imageUri;
     private Unbinder unbinder;
 
@@ -99,7 +110,7 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
         scrollRecyclerViewToBottom();
     }
 
-    @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image, R.id.send_text_view})
+    @OnClick({R.id.back_image_view, R.id.expand_collapse_image_view, R.id.people_count_text_view, R.id.add_image, R.id.camera_image, R.id.send_text_view, R.id.video_recorder, R.id.audio_recorder})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.back_image_view:
@@ -125,8 +136,25 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
             case R.id.send_text_view:
                 sendMessage();
                 break;
+
+            case R.id.video_recorder:
+                dispatchTakeVideoIntent();
+            case R.id.audio_recorder:
+                dispatchRecordAudioIntent();
             default:
                 break;
+        }
+    }
+
+    private void dispatchRecordAudioIntent() {
+        Intent intent = new Intent(getApplicationContext(),AudioRecorderActivity.class);
+        startActivityForResult(intent,REQUEST_AUDIO_RECORDER);
+    }
+
+    private void dispatchTakeVideoIntent() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getApplicationContext().getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
         }
     }
 
@@ -241,7 +269,6 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
         sendTextView.setVisibility(View.GONE);
     }
 
-
     @Override
     public void scrollRecyclerViewToBottom() {
         chatRecyclerView.scrollToPosition(chatAdapter.getItemCount() - 1);
@@ -260,6 +287,12 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
                     new File(imageUri.getPath().replace("//", "/")).delete();
                 }
             }
+        }
+        if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
+            recordedVideoUrl = String.valueOf(data.getData());
+        }
+        if (requestCode == REQUEST_AUDIO_RECORDER && resultCode == RESULT_OK) {
+            String res =  data.getExtras().getString(RECORDED_AUDIO);
         }
     }
 

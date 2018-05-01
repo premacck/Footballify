@@ -97,6 +97,24 @@
             android:src="@drawable/ic_add" />
 
         <ImageView
+            android:id="@+id/video_recorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/audio_recorder"
+            android:layout_marginRight="5dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_video" />
+        <ImageView
+            android:id="@+id/audio_recorder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/camera_image"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_arenas_user_icon" />
+        <ImageView
             android:id="@+id/camera_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -112,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/camera_image"
+            android:layout_toLeftOf="@+id/video_recorder"
             android:layout_toRightOf="@+id/add_image"
             android:background="@drawable/rounded_corner_background">
 
