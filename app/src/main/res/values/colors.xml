@@ -40,4 +40,7 @@
     <color name="football_ground_green">#0F9D58</color>
     <color name="teams_background_green">#0B8449</color>
     <color name="white_40_opacity">#40FFFFFF</color>
+    <color name="purple_toolbar_background">#37003c</color>
+    <color name="light_purple">#7c0986</color>
+    <color name="info_color">#ccffffff</color>
 </resources>
