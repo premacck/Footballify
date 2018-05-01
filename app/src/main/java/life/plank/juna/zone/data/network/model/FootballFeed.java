@@ -17,6 +17,22 @@ public class FootballFeed {
     private String ContentType;
     private List<Object> DomainEvents = null;
     private int reactionType = -1;
+
+    public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, life.plank.juna.zone.data.network.model.Thumbnail thumbnail, Object tags, String dateCreated, String contentType, List<Object> domainEvents, int reactionType) {
+        Id = id;
+        Title = title;
+        Url = url;
+        Source = source;
+        DatePublished = datePublished;
+        Summary = summary;
+        Thumbnail = thumbnail;
+        Tags = tags;
+        DateCreated = dateCreated;
+        ContentType = contentType;
+        DomainEvents = domainEvents;
+        this.reactionType = reactionType;
+    }
+
     public String getId() {
         return Id;
     }

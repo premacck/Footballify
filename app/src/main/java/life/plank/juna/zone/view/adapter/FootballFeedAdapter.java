@@ -25,6 +25,8 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
+import life.plank.juna.zone.view.activity.MatchLeagueActivity;
+import life.plank.juna.zone.view.activity.MatchResultActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
@@ -65,7 +67,25 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onLongPressListener.onItemLongPress(position);
+                switch (position){
+                    case 0:{
+                        context.startActivity(new Intent(context, MatchResultActivity.class));
+                        break;
+                    }
+                    case 1:{
+                        context.startActivity(new Intent(context, MatchResultActivity.class));
+                        break;
+                    }
+                    case 2:{
+                        context.startActivity(new Intent(context, MatchLeagueActivity.class));
+                        break;
+                    }
+                    default:{
+                        onLongPressListener.onItemLongPress(position);
+                        break;
+                    }
+                }
+
                 return true;
             }
         });

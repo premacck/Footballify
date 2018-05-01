@@ -8,6 +8,12 @@ public class Thumbnail {
     private int ImageHeight;
     private int ImageWidth;
 
+    public Thumbnail(String imageUrl, int imageHeight, int imageWidth) {
+        ImageUrl = imageUrl;
+        ImageHeight = imageHeight;
+        ImageWidth = imageWidth;
+    }
+
     public String getImageUrl() {
         return this.ImageUrl;
     }
