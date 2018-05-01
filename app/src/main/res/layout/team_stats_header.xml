@@ -5,25 +5,25 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:weightSum="10.3">
+    android:weightSum="10">
 
     <TextView
         android:id="@+id/serial_number_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight=".3"
         android:gravity="center_horizontal"
         android:text="@string/serial_number"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:visibility="invisible" />
 
-    <View
+    <ImageView
         android:id="@+id/score_view"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:layout_gravity="center_vertical"
-        android:layout_weight=".3"
-        android:background="@color/transparent_grey" />
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight=".7"
+        android:src="@drawable/ic_west_brom_logo"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/team_name_text_view"
@@ -32,63 +32,75 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_weight="3"
+        android:layout_weight="1"
         android:gravity="start"
         android:singleLine="true"
-        android:text="@string/my_team" />
+        android:text="@string/my_team"
+        android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/played_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/wins_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="27"
+        android:text="@string/wins"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/win_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/losses_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="6"
+        android:gravity="center"
+        android:text="@string/losses"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/draw_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/goals_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="5"
+        android:text="@string/goals"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/loss_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/passes_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="8"
+        android:text="@string/passes"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/goal_difference_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/shots_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="8"
+        android:text="@string/shots"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/point_table_text_view"
-        android:layout_width="0dp"
+        android:id="@+id/yellow_card_text_view"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="58"
-        style="@style/standing_fragment_text_style"
+        android:text="341"
         android:textColor="@color/black" />
+
+
+    <TextView
+        android:id="@+id/red_card_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="341"
+        android:textColor="@color/black" />
+
 </LinearLayout>
