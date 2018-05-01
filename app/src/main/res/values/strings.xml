@@ -33,7 +33,7 @@
     <string name="zone_talent">Talent</string>
     <string name="zone_games">Games</string>
     <string name="zone_trader">Trader</string>
-    <string name="base_url">http://192.169.1.13:54504/</string>
+    <string name="base_url">http://192.169.1.19:54504/</string>
     <string name="secret_code">SECRET CODE</string>
     <string name="share_secret_code">GIVE THIS CODE TO YOUR FRIENDS</string>
     <string name="login_pref">loginPrefs</string>
@@ -279,8 +279,6 @@
     <string name="h_bellerin">H. Bellerin</string>
     <string name="cr7_lover">CR7_lover</string>
     <string name="created_2_weeks_ago">Created 2 weeks ago</string>
-    <string name="_1_4m">1.4M</string>
-    <string name="_16_2m">16.2M</string>
     <string name="cristiano_ronaldo_top_10_unimaginable_goals">Cristiano Ronaldo Top 10 Unimaginable Goals</string>
     <string name="feed_discription">Cristiano Ronaldo top 10 goals list vs Atletico Madrid-crazy freekick, Osasuna-crazy rocket shot, Portsmouth-magical left foot roc…</string>
     <string name="dummy_text">PikaPerfect He\'s not human, he is the best player in the world ⚽️ Isn\'t that right Messi﻿?</string>
@@ -289,5 +287,11 @@
     <string name="like">Like</string>
     <string name="post">Post</string>
     <string name="view_all_comments">View all comments</string>
+    <string name="premier_league">Premier League</string>
+    <string name="following">FOLLOWING</string>
+    <string name="matchday_36">Matchday 36</string>
+    <string name="_1_4m">1.4M</string>
+    <string name="_3_8m">3.8M</string>
+    <string name="_16_2m">16.2M</string>
 
 </resources>
