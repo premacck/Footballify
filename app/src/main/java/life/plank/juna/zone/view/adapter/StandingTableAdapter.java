@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.StandingModel;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -18,9 +21,10 @@ import life.plank.juna.zone.R;
 
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
     private Context context;
-
-    public StandingTableAdapter(Context context) {
+    private List<StandingModel> standingModelList;
+    public StandingTableAdapter(Context context, List<StandingModel> standingModel) {
         this.context = context;
+        this.standingModelList = standingModel;
     }
 
     @Override
@@ -32,12 +36,20 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
-
+        holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam());
+        holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
+        holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
+        holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));
+        holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getGamesLost()));
+        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
+        holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
+        holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
+        holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return standingModelList.size();
     }
 
     public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {
