@@ -136,9 +136,9 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
             case R.id.send_text_view:
                 sendMessage();
                 break;
-
             case R.id.video_recorder:
                 dispatchTakeVideoIntent();
+                break;
             case R.id.audio_recorder:
                 dispatchRecordAudioIntent();
             default:
@@ -290,10 +290,20 @@ public class ChatFragment extends Fragment implements MediaSelectionFragmentActi
         }
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
             recordedVideoUrl = String.valueOf(data.getData());
+            sendVideoToChat(recordedVideoUrl);
         }
         if (requestCode == REQUEST_AUDIO_RECORDER && resultCode == RESULT_OK) {
-            String res =  data.getExtras().getString(RECORDED_AUDIO);
+            String recordedAudio =  data.getExtras().getString(RECORDED_AUDIO);
+            sendAudioToChat(recordedAudio);
         }
+    }
+
+    private void sendVideoToChat(String recordedVideoUrl) {
+        chatAdapter.addMessage(new ChatModel("image", context.getString(R.string.lorem_ipsum_text), Uri.fromFile(new File(recordedVideoUrl)).toString(), true));
+    }
+
+    private void sendAudioToChat(String recordedAudio) {
+        chatAdapter.addMessage(new ChatModel("image", context.getString(R.string.lorem_ipsum_text), AppConstants.DEFAULT_RECORDED_AUDIO_IMAGE, true));
     }
 
     private void sendImage(String imageUri) {

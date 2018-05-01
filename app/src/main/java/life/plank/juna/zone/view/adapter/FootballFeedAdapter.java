@@ -62,15 +62,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, FootballFeedDetailActivity.class);
-                intent.putExtra(AppConstants.POSITION, String.valueOf(position));
-                intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeedList));
-                context.startActivity(intent);
-            }
-        });
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

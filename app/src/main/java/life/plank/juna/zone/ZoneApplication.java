@@ -70,7 +70,6 @@ public class ZoneApplication extends Application {
     private SuddenDeathResultComponent suddenDeathResultComponent;
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
-    private StandingsNetworkComponent standingsNetworkComponent;
     private ScoreFixtureNetworkComponent scoreFixtureNetworkComponent;
 
 
@@ -144,10 +143,6 @@ public class ZoneApplication extends Application {
                 .restServiceModule(new RestServiceModule())
                 .build();
 
-        standingsNetworkComponent = DaggerStandingsNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
         scoreFixtureNetworkComponent = DaggerScoreFixtureNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
@@ -209,9 +204,7 @@ public class ZoneApplication extends Application {
         return onBoardSocialLoginNetworkComponent;
     }
 
-    public StandingsNetworkComponent getStandingScoreNetworkComponent() {
-        return standingsNetworkComponent;
-    }
+
     public ScoreFixtureNetworkComponent getScoreFixtureNetworkComponent() {
         return scoreFixtureNetworkComponent;
     }

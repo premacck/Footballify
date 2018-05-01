@@ -92,7 +92,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private NetworkStateReceiver networkStateReceiver;
     public static Bitmap parentViewBitmap = null;
     RenderScript renderScript;
-    Bitmap bluredBitmap = null;
+    Bitmap blurredBitmap = null;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -324,7 +324,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         if (!targetView.getLocalVisibleRect(backgroundBounds)) {
             return null;
         }
-        Bitmap bluredBitmap = captureView(backgroundView);
+        Bitmap blurredBitmap = captureView(backgroundView);
         int[] location = new int[2];
         int[] backgroundViewLocation = new int[2];
         backgroundView.getLocationInWindow(backgroundViewLocation);
@@ -336,15 +336,15 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             if (y < 0)
                 y = 0;
         }
-        if (y + height > bluredBitmap.getHeight()) {
-            height = bluredBitmap.getHeight() - y;
+        if (y + height > blurredBitmap.getHeight()) {
+            height = blurredBitmap.getHeight() - y;
             if (height <= 0) {
                 return null;
             }
         }
         Matrix matrix = new Matrix();
         matrix.setScale(0.5f, 0.5f);
-        Bitmap bitmap = Bitmap.createBitmap(bluredBitmap,
+        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
                 (int) targetView.getX(),
                 y,
                 targetView.getMeasuredWidth(),
@@ -355,22 +355,22 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     public Bitmap captureView(View view) {
-        if (bluredBitmap != null) {
-            return bluredBitmap;
+        if (blurredBitmap != null) {
+            return blurredBitmap;
         }
-        bluredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
                 view.getMeasuredHeight(),
                 Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(bluredBitmap);
+        Canvas canvas = new Canvas(blurredBitmap);
         view.draw(canvas);
-        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, bluredBitmap);
+        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
         Paint paint = new Paint();
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         //ColorFilter filter = new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
         ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
         paint.setColorFilter(filter);
-        canvas.drawBitmap(bluredBitmap, 0, 0, paint);
-        return bluredBitmap;
+        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
+        return blurredBitmap;
     }
 
     @Override
