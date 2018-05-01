@@ -62,7 +62,6 @@ public class ScoreFixtureFragment extends Fragment implements View.OnClickListen
 
     @OnClick(R.id.cancel_image_view)
     public void onCancel() {
-        ((SwipePageActivity) getActivity()).retainFeedContainer();
     }
 
     @Override
