@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
@@ -41,8 +42,10 @@ public class MatchResultActivity extends AppCompatActivity {
     @BindView(R.id.player_stats_recycler_view)
     RecyclerView playerStatsRecyclerView;
     List<StandingModel> standingModel;
+    List<PlayerStatsModel> playerStatsModelList;
     private StandingTableAdapter standingTableAdapter;
     private RestApi restApi;
+    private PlayerStatsAdapter playerStatsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,10 @@ public class MatchResultActivity extends AppCompatActivity {
         restApi = retrofit.create( RestApi.class );
         ButterKnife.bind( this );
         getStandings( AppConstants.LEAGUE_NAME );
+        getPlayerStats( AppConstants.SEASON_NAME );
         populateStandingRecyclerView();
+        populatePlayerStatsRecyclerView();
         populateTeamStatsAdapter();
-        populatePlayerStatsAdapter();
     }
 
     public void populateStandingRecyclerView() {
@@ -64,9 +68,21 @@ public class MatchResultActivity extends AppCompatActivity {
         standingRecyclerView.setAdapter( standingTableAdapter );
     }
 
+    public void populatePlayerStatsRecyclerView() {
+        playerStatsModelList = new ArrayList<>();
+        playerStatsAdapter = new PlayerStatsAdapter( this, playerStatsModelList );
+        playerStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
+        playerStatsRecyclerView.setAdapter( playerStatsAdapter );
+    }
+
     public void populateStandingRecyclerView(List<StandingModel> standingModels) {
         standingModel.addAll( standingModels );
         standingTableAdapter.notifyDataSetChanged();
+    }
+
+    public void populatePlayerStatsRecyclerView(List<PlayerStatsModel> playerStatsModels) {
+        playerStatsModelList.addAll( playerStatsModels );
+        playerStatsAdapter.notifyDataSetChanged();
     }
 
     public void populateTeamStatsAdapter() {
@@ -75,11 +91,7 @@ public class MatchResultActivity extends AppCompatActivity {
         teamStatsRecyclerView.setAdapter( teamStatsAdapter );
     }
 
-    public void populatePlayerStatsAdapter() {
-        PlayerStatsAdapter playerStatsAdapter = new PlayerStatsAdapter( this );
-        playerStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        playerStatsRecyclerView.setAdapter( playerStatsAdapter );
-    }
+
     public void getStandings(String leagueName) {
         restApi.getStandings( leagueName )
                 .subscribeOn( Schedulers.io() )
@@ -103,6 +115,32 @@ public class MatchResultActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText( MatchResultActivity.this, "Responce Not Found", Toast.LENGTH_SHORT ).show();
                         }
+                    }
+                } );
+    }
+
+    public void getPlayerStats(String seasonName) {
+        restApi.getPlayerStats( seasonName )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<List<PlayerStatsModel>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( "", "response: " );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d( "", "In onCompleted()" );
+                    }
+
+                    @Override
+                    public void onNext(Response<List<PlayerStatsModel>> response) {
+                        Log.e( "", "response: " + ", list data " + response.toString() );
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
+                            populatePlayerStatsRecyclerView( response.body() );
+                        }
+
                     }
                 } );
     }
