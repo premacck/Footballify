@@ -18,8 +18,7 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
 
     @Override
     public MatchLeagueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from( parent.getContext()).inflate( R.layout.player_stats_row, parent, false );
-        return new MatchLeagueViewHolder( view );
+        return new MatchLeagueViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.player_stats_row, parent, false ) );
     }
 
     @Override

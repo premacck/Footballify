@@ -18,9 +18,7 @@ public class MatchLeagueAdapter extends RecyclerView.Adapter<MatchLeagueAdapter.
 
     @Override
     public MatchLeagueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from( parent.getContext() )
-                .inflate( R.layout.match_league_row, parent, false );
-        return new MatchLeagueViewHolder( view );
+        return new MatchLeagueViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.match_league_row, parent, false ));
     }
 
     @Override

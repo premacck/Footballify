@@ -42,9 +42,7 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView playerStatsRecyclerView;
     List<StandingModel> standingModel;
     private StandingTableAdapter standingTableAdapter;
-    private TeamStatsAdapter teamStatsAdapter;
     private RestApi restApi;
-    private PlayerStatsAdapter playerStatsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +70,13 @@ public class MatchResultActivity extends AppCompatActivity {
     }
 
     public void populateTeamStatsAdapter() {
-        teamStatsAdapter = new TeamStatsAdapter( this );
+        TeamStatsAdapter teamStatsAdapter = new TeamStatsAdapter( this );
         teamStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         teamStatsRecyclerView.setAdapter( teamStatsAdapter );
     }
 
     public void populatePlayerStatsAdapter() {
-        playerStatsAdapter = new PlayerStatsAdapter( this );
+        PlayerStatsAdapter playerStatsAdapter = new PlayerStatsAdapter( this );
         playerStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         playerStatsRecyclerView.setAdapter( playerStatsAdapter );
     }
