@@ -88,7 +88,7 @@ public class UIDisplayUtil {
         final Allocation output = Allocation.createTyped(rs, input.getType());
         final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
         // must be >0 and <= 25
-        script.setRadius(25f);
+        script.setRadius(10f);
         script.setInput(input);
         script.forEach(output);
         output.copyTo(bitmap2);
