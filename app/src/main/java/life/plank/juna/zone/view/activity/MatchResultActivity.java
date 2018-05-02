@@ -21,6 +21,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
 import retrofit2.Response;
@@ -37,10 +38,13 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView standingRecyclerView;
     @BindView(R.id.team_stats_recycler_view)
     RecyclerView teamStatsRecyclerView;
+    @BindView(R.id.player_stats_recycler_view)
+    RecyclerView playerStatsRecyclerView;
     List<StandingModel> standingModel;
     private StandingTableAdapter standingTableAdapter;
     private TeamStatsAdapter teamStatsAdapter;
     private RestApi restApi;
+    private PlayerStatsAdapter playerStatsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,7 @@ public class MatchResultActivity extends AppCompatActivity {
         getStandings( AppConstants.LEAGUE_NAME );
         populateStandingRecyclerView();
         populateTeamStatsAdapter();
+        populatePlayerStatsAdapter();
     }
 
     public void populateStandingRecyclerView() {
@@ -72,6 +77,11 @@ public class MatchResultActivity extends AppCompatActivity {
         teamStatsRecyclerView.setAdapter( teamStatsAdapter );
     }
 
+    public void populatePlayerStatsAdapter() {
+        playerStatsAdapter = new PlayerStatsAdapter( this );
+        playerStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
+        playerStatsRecyclerView.setAdapter( playerStatsAdapter );
+    }
     public void getStandings(String leagueName) {
         restApi.getStandings( leagueName )
                 .subscribeOn( Schedulers.io() )

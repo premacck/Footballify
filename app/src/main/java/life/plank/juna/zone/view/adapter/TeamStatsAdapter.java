@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import life.plank.juna.zone.R;
-
 import butterknife.ButterKnife;
+import life.plank.juna.zone.R;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -23,9 +22,9 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
 
     @Override
     public TeamStateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.team_stats_row, parent, false);
-        return new TeamStateViewHolder(view);
+        View view = LayoutInflater.from( parent.getContext() )
+                .inflate( R.layout.team_stats_row, parent, false );
+        return new TeamStateViewHolder( view );
     }
 
     @Override
@@ -41,8 +40,8 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
     public class TeamStateViewHolder extends RecyclerView.ViewHolder {
 
         public TeamStateViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+            super( itemView );
+            ButterKnife.bind( this, itemView );
         }
     }
 }
