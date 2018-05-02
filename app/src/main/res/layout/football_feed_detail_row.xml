@@ -54,20 +54,22 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_options" />
+                android:src="@drawable/ic_options_grey" />
 
             <TextView
                 android:id="@+id/number_of_likes_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginStart="16dp"
                 android:layout_toStartOf="@+id/menu_image_view"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
                 android:text="16.2M"
                 android:textColor="@color/grey"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:drawableLeft="@drawable/ic_like_grey"
+                android:drawablePadding="5dp"/>
 
             <TextView
                 android:id="@+id/number_of_people_text_view"
@@ -78,7 +80,9 @@
                 android:lineSpacingExtra="5sp"
                 android:text="1.4M"
                 android:textColor="@color/grey"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:drawableLeft="@drawable/ic_person_grey"
+                android:drawablePadding="5dp"/>
         </RelativeLayout>
 
         <ImageView
@@ -99,9 +103,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:paddingEnd="2dp"
-                android:paddingStart="2dp"
-                android:src="@drawable/ic_arrow_downward_black_24dp" />
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:src="@drawable/ic_share_grey" />
 
             <View
                 android:layout_width="0.4dp"
@@ -115,9 +119,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/share_image_view"
-                android:paddingEnd="2dp"
-                android:paddingStart="2dp"
-                android:src="@drawable/ic_arrow_downward_black_24dp" />
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:src="@drawable/ic_arrow_up_grey" />
 
             <View
                 android:layout_width="0.4dp"
@@ -131,9 +135,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/unlike_image_view"
-                android:paddingEnd="2dp"
-                android:paddingStart="2dp"
-                android:src="@drawable/ic_arrow_downward_black_24dp" />
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:src="@drawable/ic_arrow_down_grey" />
 
             <View
                 android:layout_width="0.4dp"
