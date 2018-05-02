@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
-public class MatchLeagueAdapter extends RecyclerView.Adapter<MatchLeagueAdapter.MatchLeagueViewHolder> {
+public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.MatchLeagueViewHolder> {
     private Context context;
 
-    public MatchLeagueAdapter(Context context) {
+    public PlayerStatsAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public MatchLeagueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MatchLeagueViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.match_league_row, parent, false ));
+        return new MatchLeagueViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.player_stats_row, parent, false ) );
     }
 
     @Override
@@ -28,7 +28,7 @@ public class MatchLeagueAdapter extends RecyclerView.Adapter<MatchLeagueAdapter.
 
     @Override
     public int getItemCount() {
-        return 8;
+        return 2;
     }
 
 
