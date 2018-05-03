@@ -3,10 +3,8 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
@@ -17,7 +15,6 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -77,6 +74,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    public static Bitmap parentViewBitmap = null;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -89,6 +87,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     RelativeLayout parentLayout;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu9;
+    RenderScript renderScript;
+    Bitmap blurredBitmap = null;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -99,12 +99,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private List<FootballFeed> footballFeeds;
     private int apiHitCount = 0;
     private NetworkStateReceiver networkStateReceiver;
-    public static Bitmap parentViewBitmap = null;
-    RenderScript renderScript;
-    Bitmap blurredBitmap = null;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                arcMenu9.show();
+            }
             super.onScrollStateChanged(recyclerView, newState);
         }
 
@@ -128,6 +128,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         }
                     }, AppConstants.PAGINATION_DELAY);
                 }
+            }
+            if (dy > 0 || dy < 0 && arcMenu9.isShown()) {
+                arcMenu9.hide();
             }
         }
     };
@@ -400,23 +403,23 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void setUpBoomMenu() {
-        int[] fabImages = { R.drawable.ic_settings_white,
-                R.drawable.ic_person, R.drawable.ic_home_purple,R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic,R.drawable.ic_link };
-        int[] backgroundColors = { R.drawable.fab_circle_background_grey,
-                R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white,R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink,R.drawable.fab_circle_background_pink };
+        arcMenu9.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        int[] fabImages = {R.drawable.ic_settings_white,
+                R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
+                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
+        int[] backgroundColors = {R.drawable.fab_circle_background_grey,
+                R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
             ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
-            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this,backgroundColors[i]));
+            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
             fabImageVIew.setImageResource(fabImages[i]);
-            arcMenu9.addItem(child, "",new View.OnClickListener() {
-
+            arcMenu9.addItem(child, "", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SwipePageActivity.this,  "Item clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SwipePageActivity.this, "Item clicked", Toast.LENGTH_SHORT).show();
                 }
             });
         }
