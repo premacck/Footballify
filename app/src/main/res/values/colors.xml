@@ -50,4 +50,6 @@
     <color name="circle_background_color">#d8d8d8</color>
     <color name="feed_details_text_view_grey">#80000000</color>
     <color name="hint_text_color_edit_text">#80555555</color>
+    <color name="audio_player_background">#19000000</color>
+    <color name="audio_recorder_start_background_color">#555555</color>
 </resources>

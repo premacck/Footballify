@@ -306,5 +306,6 @@
     <string name="standings">Standings</string>
     <string name="assist">Assist</string>
     <string name="team_stats">Team Stats</string>
+    <string name="title_activity_post_recorded_audio">PostRecordedAudioActivity</string>
 
 </resources>

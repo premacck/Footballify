@@ -13,4 +13,5 @@
     <dimen name="live_zone_team_text_view_size">10sp</dimen>
     <dimen name="scrubber_view_width">1dp</dimen>
     <dimen name="feed_card_corner_radius">8dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

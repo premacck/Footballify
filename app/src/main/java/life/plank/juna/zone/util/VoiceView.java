@@ -1,4 +1,4 @@
-package com.yugy.github.voiceanimation;
+package life.plank.juna.zone.util;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -13,9 +13,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by yugy on 2014/3/23.
- */
+import life.plank.juna.zone.R;
+
 public class VoiceView extends View {
 
     private static final String TAG = VoiceView.class.getName();
@@ -75,7 +74,7 @@ public class VoiceView extends View {
         int height = canvas.getHeight();
 
         if(mCurrentRadius > mMinRadius){
-            canvas.drawCircle(width / 2, height / 2, mCurrentRadius, mPaint);
+            canvas.drawCircle(width / 4, height / 4, mCurrentRadius, mPaint);
         }
 
         switch (mState){

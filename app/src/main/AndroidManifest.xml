@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".ZoneApplication"
@@ -50,13 +51,7 @@
         <activity
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashScreenTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/SplashScreenTheme" />
         <activity
             android:name=".view.activity.SocialLoginActivity"
             android:screenOrientation="portrait">
@@ -180,11 +175,24 @@
         <activity android:name=".view.activity.SignInActivity" />
         <activity android:name=".view.activity.SignupPageActivity" />
         <activity android:name=".view.activity.AuthForgotPasswordActivity" />
-        <activity android:name=".view.activity.AudioRecorderActivity"/>
-        <activity android:name=".view.activity.MatchLeagueActivity"
+        <activity android:name=".view.activity.AudioRecorderActivity" />
+        <activity
+            android:name=".view.activity.MatchLeagueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.MatchResultActivity"
+        <activity
+            android:name=".view.activity.MatchResultActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.RecordAudioActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.activity.PostRecordedAudioActivity"
+            android:label="@string/title_activity_post_recorded_audio"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
