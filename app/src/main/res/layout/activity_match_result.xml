@@ -12,6 +12,33 @@
         android:id="@+id/include_layout"
         layout="@layout/toolbar_layout" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#6b1459">
+
+        <TextView
+            android:id="@+id/match_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/matchday_36"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tap_for_score_and_fixtures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity=""
+            android:lineSpacingExtra="5sp"
+            android:padding="2dp"
+            android:text="@string/tap_to_see_tiles"
+            android:textColor="#99ffffff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"

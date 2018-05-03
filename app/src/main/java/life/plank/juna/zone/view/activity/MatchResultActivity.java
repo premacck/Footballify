@@ -1,10 +1,13 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.HttpURLConnection;
@@ -16,6 +19,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -42,6 +46,8 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView teamStatsRecyclerView;
     @BindView(R.id.player_stats_recycler_view)
     RecyclerView playerStatsRecyclerView;
+    @BindView(R.id.tap_for_score_and_fixtures)
+    TextView tapForScoreAndFixture;
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
     List<TeamStatsModel> teamStatsModelList;
@@ -180,6 +186,14 @@ public class MatchResultActivity extends AppCompatActivity {
                     }
                 } );
     }
-
+    @OnClick({R.id.tap_for_score_and_fixtures})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tap_for_score_and_fixtures:
+                Intent intent = new Intent( this,FixtureAndResult.class );
+                startActivity( intent );
+                break;
+        }
+    }
 }
 
