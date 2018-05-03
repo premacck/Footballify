@@ -37,5 +37,4 @@ public class BoardActivity extends AppCompatActivity {
         /*footballFeedAdapter.setPinFeedListener(this);
         footballFeedAdapter.setOnLongPressListener(this);*/
     }
-
 }
