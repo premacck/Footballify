@@ -59,6 +59,7 @@ ext {
     dexmakerVersion = '1.0'
     espressoVersion = '2.2.2'
     testingSupportLibVersion = '0.1'
+    mpAndroidChart= 'v3.0.3'
 
     viewDependencies = [
             butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
