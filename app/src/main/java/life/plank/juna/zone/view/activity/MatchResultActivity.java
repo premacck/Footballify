@@ -190,6 +190,8 @@ public class MatchResultActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tap_for_score_and_fixtures:
+                Intent intent = new Intent( this,FixtureAndResultActivity.class );
+                startActivity( intent );
                 break;
         }
     }
