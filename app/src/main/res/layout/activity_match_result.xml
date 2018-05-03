@@ -170,7 +170,7 @@
                         android:fontFamily="@font/rajdhani_regular"
                         android:lineSpacingExtra="5sp"
                         android:padding="5dp"
-                        android:text="@string/team_stats"
+                        android:text="@string/player_stats"
                         android:textColor="@color/grey"
                         android:textSize="12sp" />
 
