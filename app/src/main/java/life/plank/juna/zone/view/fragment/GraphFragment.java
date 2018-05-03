@@ -1,27 +1,23 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.view.fragment;
 
+import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -29,61 +25,28 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
 import life.plank.juna.zone.util.ScrubberConstants;
 
-public class GraphActivity extends AppCompatActivity {
-
-    LineChart lineChart;
-    long now;
-    ArrayList<Entry> values = new ArrayList<Entry>();
-    int data = 0;
+public class GraphFragment extends Fragment {
     RelativeLayout linearLayout;
-    private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
+    LineChart lineChart;
+    ArrayList<Entry> values = new ArrayList<>();
+    long now;
+    private HashMap<Integer, ScrubberViewData> graphData;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_graph);
-        //linearLayout = findViewById(R.id.root);
-        //setUpChart();
-        //setUpThread();
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.graph_fragment, container, false);
+        linearLayout = view.findViewById(R.id.root);
+        lineChart = view.findViewById(R.id.line_chart);
+        setUpGraph();
+        return view;
     }
-/*
-    private void setUpThread() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        Thread.sleep(1000);
-                        now = now + 1;
-                        float y = getRandom(100, 0);
-                        data = data + 1;
-                        values.add(data, new Entry(now, y));
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (data % 20 == 0) {
-                                    ImageView imageView = new ImageView(GraphActivity.this);
-                                    imageView.setImageResource(R.drawable.ic_aston_villa_logo);
-                                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(50, 50);
-                                    layoutParams.setMargins(data, 0, 0, 0);
-                                    imageView.setLayoutParams(layoutParams);
-                                    linearLayout.addView(imageView);
-                                }
-                                lineChart.invalidate();
-                            }
-                        });
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+
+    private void setUpGraph() {
+        setUpChart();
     }
 
     private void setUpChart() {
-        scrubberViewDataHolder = new HashMap<>();
-        ScrubberConstants.getHighLightsMatchOne(scrubberViewDataHolder);
-        lineChart = (LineChart) findViewById(R.id.line_chart);
+        graphData = new HashMap<>();
+        ScrubberConstants.getHighLightsMatchOne(graphData);
         // no description text
         lineChart.getDescription().setEnabled(false);
         // enable touch gestures
@@ -166,5 +129,5 @@ public class GraphActivity extends AppCompatActivity {
             lineChart.setData(data);
             lineChart.invalidate();
         }
-    }*/
+    }
 }

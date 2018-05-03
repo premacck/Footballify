@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:id="@+id/root"
     android:layout_height="match_parent"
-    android:clipChildren="false">
-
-    <fragment
-        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
-        android:id="@+id/title_fragment"
+    android:clipChildren="false"
+    android:background="@color/grey">
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
         android:layout_width="match_parent"
+        android:visibility="visible"
         android:layout_height="100dp" />
 </RelativeLayout>
