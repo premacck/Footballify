@@ -74,6 +74,7 @@ public class RegistrationIntentService extends IntentService {
             }
         } catch (Exception e) {
             Log.e(TAG, "Failed to complete registration", e);
+            e.printStackTrace();
             // If an exception happens while fetching the new token or updating our registration data
             // on a third-party server, this ensures that we'll attempt the update at a later time.
         }
