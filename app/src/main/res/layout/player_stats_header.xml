@@ -5,10 +5,11 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:padding="10dp"
     android:weightSum="7">
 
     <TextView
-        android:id="@+id/serial_number_text_view"
+        android:id="@+id/player_stats_serial_number_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight=".3"
@@ -18,7 +19,7 @@
         android:visibility="invisible" />
 
     <ImageView
-        android:id="@+id/score_view"
+        android:id="@+id/player_stats_team_logo"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_weight=".7"
@@ -26,7 +27,7 @@
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/team_name_text_view"
+        android:id="@+id/player_stats_player_name"
         style="@style/standing_fragment_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -39,7 +40,7 @@
         android:visibility="invisible" />
 
     <TextView
-        android:id="@+id/goals_text"
+        android:id="@+id/player_stats_goals_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -49,7 +50,7 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/assist_text"
+        android:id="@+id/player_stats_assist_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -59,21 +60,17 @@
 
     <ImageView
         android:id="@+id/yellow_card_text"
-        android:layout_width="20dp"
+        android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:src="@drawable/ic_west_brom_logo"
-        android:text="Yellow Card"
-        android:textColor="@color/black" />
+        android:src="@drawable/ic_west_brom_logo" />
 
     <ImageView
         android:id="@+id/red_card_text"
-        android:layout_width="20dp"
+        android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:src="@drawable/ic_west_brom_logo"
-        android:text="Red Card"
-        android:textColor="@color/black" />
+        android:src="@drawable/ic_west_brom_logo" />
 </LinearLayout>
