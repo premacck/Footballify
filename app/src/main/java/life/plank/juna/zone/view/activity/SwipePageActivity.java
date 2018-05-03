@@ -420,9 +420,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             arcMenu.addItem(child, titles[i], new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(SwipePageActivity.this, "Item clicked", Toast.LENGTH_SHORT).show();
                     switch (position) {
                         case 0: {
+                            startActivity(new Intent(SwipePageActivity.this, BoardActivity.class));
                             break;
                         }
                         case 1: {
@@ -439,6 +439,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 5: {
+                            startActivity(new Intent(SwipePageActivity.this, RecordAudioActivity.class));
                             break;
                         }
                         case 6: {

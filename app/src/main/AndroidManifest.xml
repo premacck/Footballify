@@ -29,7 +29,8 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <service android:name=".pushnotification.NotificationInstanceIDService">
@@ -54,7 +55,9 @@
         <activity
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashScreenTheme" />
+            android:theme="@style/SplashScreenTheme">
+
+        </activity>
         <activity
             android:name=".view.activity.SocialLoginActivity"
             android:screenOrientation="portrait">
@@ -176,28 +179,29 @@
         </provider>
 
         <activity android:name=".view.activity.SignInActivity" />
-        <activity android:name=".view.activity.SplashScreenActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        <activity android:name=".view.activity.SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+
         <activity android:name=".view.activity.SignupPageActivity" />
         <activity android:name=".view.activity.AuthForgotPasswordActivity" />
-        <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.MatchResultActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.RecordAudioActivity">
-
-        </activity>
+        <activity
+            android:name=".view.activity.BoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RecordAudioActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.PostRecordedAudioActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
     </application>
-
 </manifest>
