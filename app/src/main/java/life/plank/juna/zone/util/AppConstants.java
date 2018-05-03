@@ -53,7 +53,8 @@ public class AppConstants {
     public static final float ANIMATION_START_SCALE = 1.0f;
     public static final float ANIMATION_END_SCALE = 1.08f;
     public static final float ANIMATION_PIVOT_VALUE = 0.5f;
-
+    public static final int REQUEST_CAMERA_PERMISSION = 1002;
+    
     public static String getDateAndTime(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);
         try {
