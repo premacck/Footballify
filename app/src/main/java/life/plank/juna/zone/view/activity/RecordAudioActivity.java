@@ -83,7 +83,7 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
                 tapTextView.setVisibility(View.VISIBLE);
                 chronometer.stop();
                 Intent in = new Intent(this, PostRecordedAudioActivity.class);
-                in.putExtra(AppConstants.AUDIOPATH, fileName);
+                in.putExtra(AppConstants.AUDIO_PATH, fileName);
                 startActivity(in);
                 finish();
                 return true;
