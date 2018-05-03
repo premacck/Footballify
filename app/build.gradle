@@ -67,7 +67,6 @@ dependencies {
     compile 'net.openid:appauth:0.7.0'
     compile 'com.microsoft.azure:azure-notifications-handler:1.0.1@aar'
     compile 'com.microsoft.azure:notification-hubs-android-sdk:0.4@aar'
-    compile 'com.maxproj.simplewaveform:app:1.0.0'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

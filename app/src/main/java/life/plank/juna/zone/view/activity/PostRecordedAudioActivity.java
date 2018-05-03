@@ -6,12 +6,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+
 import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.AppConstants;
 
-public class PostRecordedAudioActivity extends AppCompatActivity implements View.OnClickListener {
+public class PostRecordedAudioActivity extends AppCompatActivity {
     private static final String LOG_TAG = "PostRecordingActivity";
     String audioFile;
     @BindView(R.id.play_button)
@@ -23,13 +27,22 @@ public class PostRecordedAudioActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_recorded_audio);
         ButterKnife.bind(this);
-        Bundle extras = getIntent().getExtras();
-        if (extras == null) {
-            audioFile = null;
-        } else {
-            audioFile = extras.getString("audiopath");
+        audioFile = getIntent().getStringExtra(AppConstants.AUDIOPATH);
+    }
+
+    @OnClick({R.id.play_button})
+    public void onViewClicked(View view) {
+        boolean startPlaying = true;
+        switch (view.getId()) {
+            case R.id.play_button:
+                if (view.isSelected()) {
+                    stopPlaying();
+                } else {
+                    view.setSelected(true);
+                    onPlay(startPlaying);
+                }
+                break;
         }
-        playImageView.setOnClickListener(this);
     }
 
     private void onPlay(boolean start) {
@@ -62,17 +75,6 @@ public class PostRecordedAudioActivity extends AppCompatActivity implements View
         if (player != null) {
             player.release();
             player = null;
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        boolean startPlaying = true;
-        if (view.isSelected()) {
-            stopPlaying();
-        } else {
-            view.setSelected(true);
-            onPlay(startPlaying);
         }
     }
 }
