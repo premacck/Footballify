@@ -52,4 +52,9 @@
     <color name="hint_text_color_edit_text">#80555555</color>
     <color name="audio_player_background">#19000000</color>
     <color name="audio_recorder_start_background_color">#555555</color>
+    <color name="fab_button_pink">#cb0068</color>
+    <color name="fab_button_grey">#434343</color>
+    <color name="text_input_bright_sky_blue">#00cff7</color>
+    <color name="others_color_grey">#cccccc</color>
+    <color name="light_grey">#dcdcdc</color>
 </resources>

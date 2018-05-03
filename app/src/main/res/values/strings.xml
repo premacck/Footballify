@@ -288,7 +288,6 @@
     <string name="football_zone_info">Global football zone. Cheer, shout and feel the game along with millions around the word!</string>
     <string name="premier_league">Premier League</string>
     <string name="following">FOLLOWING</string>
-    <string name="matchday_36">Matchday 36</string>
     <string name="_1_4m">1.4M</string>
     <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
@@ -306,6 +305,10 @@
     <string name="standings">Standings</string>
     <string name="assist">Assist</string>
     <string name="team_stats">Team Stats</string>
-    <string name="title_activity_post_recorded_audio">PostRecordedAudioActivity</string>
-
+    <string name="draw">Draw</string>
+    <string name="team_goals">G</string>
+    <string name="team_losses">L</string>
+    <string name="tap_to_see_tiles">Tap to see tiles</string>
+    <string name="player_stats">Player Stats</string>
+    <string name="matchday_36">Matchday_36</string>
 </resources>

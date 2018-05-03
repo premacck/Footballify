@@ -5,28 +5,26 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:padding="10dp"
     android:weightSum="7">
 
     <TextView
-        android:id="@+id/player_stats_serial_number_text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".3"
+        android:layout_weight=".7"
         android:gravity="center_horizontal"
         android:text="@string/serial_number"
-        android:textColor="@color/black"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:textColor="@color/black" />
 
     <ImageView
-        android:id="@+id/player_stats_team_logo"
-        android:layout_width="20dp"
+        android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_weight=".7"
-        android:src="@drawable/ic_west_brom_logo"
-        android:visibility="invisible" />
+        android:layout_weight=".3"
+        android:visibility="invisible"
+        android:src="@drawable/ic_west_brom_logo" />
 
     <TextView
-        android:id="@+id/player_stats_player_name"
         style="@style/standing_fragment_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,21 +33,19 @@
         android:layout_weight="2"
         android:gravity="start"
         android:singleLine="true"
-        android:text="@string/my_team"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:text="@string/my_team" />
 
     <TextView
-        android:id="@+id/player_stats_goals_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/goals"
+        android:text="G"
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/player_stats_assist_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -58,20 +54,17 @@
         android:textColor="@color/black" />
 
     <ImageView
-        android:id="@+id/yellow_card_text"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:src="@drawable/ic_west_brom_logo"
-        android:textColor="@color/black" />
+        android:src="@drawable/yellow_right" />
 
     <ImageView
-        android:id="@+id/red_card_text"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:src="@drawable/ic_west_brom_logo"
-        android:textColor="@color/black" />
+        android:src="@drawable/red_right" />
 </LinearLayout>
