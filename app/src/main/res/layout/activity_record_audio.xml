@@ -1,59 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="life.plank.juna.zone.view.activity.RecordAudioActivity">
+    <ImageView
+        android:id="@+id/audio_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="130dp" />
+    <RelativeLayout
+        android:id="@+id/time_relative_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="90dp"
+        android:visibility="invisible">
+        <ImageView
+            android:id="@+id/start_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:src="@drawable/audio_recorder_circle" />
+        <Chronometer
+            android:id="@+id/chronometer_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/start_indicator" />
+    </RelativeLayout>
 
+    <ImageButton
+        android:id="@+id/start_image_button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/audio_recorder_circle" />
 
-      <ImageView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:id="@+id/audio_image_view"
-          android:layout_marginTop="130dp"
-          android:layout_gravity="center_horizontal"/>
-
-
-      <RelativeLayout
-          android:id="@+id/time_relative_layout"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
-          android:layout_marginTop="90dp">
-
-            <ImageView
-                android:id="@+id/start_indicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:src="@drawable/audio_recorder_circle" />
-
-
-            <Chronometer
-                android:id="@+id/chronometer_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/start_indicator"
-                android:text="00:00:00" />
-
-
-            <ImageButton
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:id="@+id/start_image_button"
-                android:layout_gravity="center"
-                android:layout_marginTop="60dp"
-                android:background="@drawable/audio_recorder_circle"/>
-
-      </RelativeLayout>
-      <TextView
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_horizontal"
-          android:layout_marginTop="20dp"
-          android:fontFamily="@font/rajdhani_medium"
-          android:text="Tap and hold to record"/>
-
+    <TextView
+        android:id="@+id/tap_to_hold_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:text="Tap and hold to record" />
 </LinearLayout>
