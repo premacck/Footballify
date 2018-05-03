@@ -306,5 +306,9 @@
     <string name="standings">Standings</string>
     <string name="assist">Assist</string>
     <string name="team_stats">Team Stats</string>
+    <string name="draw">Draw</string>
+    <string name="team_goals">G</string>
+    <string name="team_losses">L</string>
+
 
 </resources>
