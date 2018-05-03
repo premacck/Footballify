@@ -39,6 +39,7 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
     public LiveZoneGridAdapter(Context context) {
         this.context = context;
         this.tileList = new ArrayList<>();
+        setUpData();
     }
 
     public void addGridItemsToView(int position, Tile data) {
@@ -54,10 +55,6 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
 
     @Override
     public void onBindViewHolder(LiveZoneGridAdapter.LiveZoneGridViewHolder holder, final int position) {
-        int data = (int) context.getResources().getDimension(R.dimen.cardview_compat_inset_shadow);
-        holder.liveZoneRelativeLayout.getLayoutParams().width = (UIDisplayUtil.getDisplayMetricsData(context,
-                GlobalVariable.getInstance().getDisplayWidth()) / 4) - data;
-        holder.liveZoneRelativeLayout.getLayoutParams().height = (gridViewHeight / 5);
         //TODO: tags will be changed once api is ready so hardcoded
         switch (tileList.get(position).getTag()) {
             case "image": {
@@ -137,7 +134,15 @@ public class LiveZoneGridAdapter extends RecyclerView.Adapter<LiveZoneGridAdapte
         tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
         tileList.add(new Tile("video", R.drawable.image3, 0, "Why would Mourinho do that? Isn't he done with"));
-
+        tileList.add(new Tile("video", R.drawable.image5, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker", R.drawable.ic_club_list_background, R.drawable.ic_sticker_two, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("sticker", R.drawable.ic_club_list_background, R.drawable.ic_sticker_two, ""));
+        tileList.add(new Tile("text", 0, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("image", R.drawable.football_image_one, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("video", R.drawable.image3, 0, "Why would Mourinho do that? Isn't he done with"));
+        tileList.add(new Tile("video", R.drawable.image_dummy_two, 0, ""));
+        tileList.add(new Tile("video", R.drawable.image_dummy_two, 0, ""));
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

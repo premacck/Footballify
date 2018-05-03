@@ -41,7 +41,6 @@
     <color name="teams_background_green">#0B8449</color>
     <color name="white_40_opacity">#40FFFFFF</color>
     <color name="football_feed_background">#dd5873</color>
-    <color name="white_19_opacity">#19ffffff</color>
     <color name="info_text_color">#99ffffff</color>
     <color name="purple_toolbar_background">#37003c</color>
     <color name="light_purple">#7c0986</color>
@@ -55,4 +54,5 @@
     <color name="text_input_bright_sky_blue">#00cff7</color>
     <color name="others_color_grey">#cccccc</color>
     <color name="light_grey">#dcdcdc</color>
+    <color name="white_19_opacity">#19ffffff</color>
 </resources>

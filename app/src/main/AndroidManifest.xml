@@ -185,6 +185,8 @@
             android:screenOrientation="portrait" />
         <activity android:name=".view.activity.MatchResultActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".view.activity.BoardActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
