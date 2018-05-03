@@ -62,6 +62,7 @@ dependencies {
     compile viewDependencies.lottie
     compile viewDependencies.blurPopupWindow
     compile viewDependencies.archMenu
+    implementation viewDependencies.circularImageView
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation

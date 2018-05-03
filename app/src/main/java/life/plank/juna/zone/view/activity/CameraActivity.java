@@ -1,104 +1,131 @@
 package life.plank.juna.zone.view.activity;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.RoundedTransformation;
+import life.plank.juna.zone.util.UIDisplayUtil;
+
+import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
+import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
+
 
 public class CameraActivity extends AppCompatActivity {
 
-    static Context context;
-    @BindView(R.id.camera_button)
-    Button cameraButton;
-    @BindView(R.id.gallery_button)
-    Button galleryButton;
-    Uri file;
-
-    public static File getOutputMediaFile() {
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), context.getString(R.string.child_parameter));
-        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
-            return null;
-        }
-
-        String timeStamp = new SimpleDateFormat(context.getString(R.string.date_format)).format(new Date());
-        return new File(mediaStorageDir.getPath() + File.separator +
-                context.getString(R.string.image_name) + timeStamp + context.getString(R.string.extention));
-    }
+    @BindView(R.id.captured_image_view)
+    ImageView capturedImageView;
+    private Uri imageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_open_camera);
+        if (isStoragePermissionGranted())
+            takePicture();
+    }
+
+    private void setUpUi() {
+        setContentView(R.layout.activity_camera);
         ButterKnife.bind(this);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            cameraButton.setEnabled(false);
-            galleryButton.setEnabled(false);
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        loadImage();
+    }
+
+    private void loadImage() {
+        Picasso.with(this)
+                .load(Uri.fromFile(new File(imageUri.getPath().replace("//", "/"))))
+                .fit().centerCrop()
+                .placeholder(R.drawable.ic_place_holder)
+                .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, this), 0))
+                .error(R.drawable.ic_place_holder)
+                .into(capturedImageView);
+    }
+
+
+    private void takePicture() {
+        try {
+            File file = createImageFile();
+            imageUri = FileProvider.getUriForFile(this, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, file);
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(cameraIntent, CAMERA_IMAGE_RESULT);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        context = this;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
-                    && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-                cameraButton.setEnabled(true);
-                galleryButton.setEnabled(true);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    takePicture();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.CAMERA)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+                return false;
             }
         }
+        return false;
     }
 
-    public void takePicture(View view) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-        startActivityForResult(intent, 100);
-    }
-
-    @OnClick({R.id.camera_button, R.id.gallery_button})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.camera_button:
-                takePicture(view);
-                break;
-            case R.id.gallery_button:
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                intent.setAction(android.content.Intent.ACTION_VIEW);
-                intent.setType(getString(R.string.set_image_type));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                break;
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat(AppConstants.DATE_FORMAT).format(new Date());
+        String imageFileName = AppConstants.CAPTURED_IMAGE_NAME + timeStamp + AppConstants.CAPTURED_IMAGE_FORMAT;
+        File mediaStorageDirectory = new File(Environment.getExternalStorageDirectory(),
+                AppConstants.CAPTURED_IMAGES_FOLDER_NAME);
+        File storageDirectory = new File(mediaStorageDirectory + File.separator + AppConstants.CAPTURED_IMAGES_SUB_FOLDER_NAME);
+        if (!storageDirectory.exists()) {
+            storageDirectory.mkdirs();
         }
+        return new File(storageDirectory, imageFileName);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_IMAGE_RESULT) {
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this, R.string.saved_message, Toast.LENGTH_SHORT).show();
+                if (imageUri != null) {
+                    setUpUi();
+                }
+            } else {
+                Toast.makeText(this, getString(R.string.unable_to_capture_image), Toast.LENGTH_SHORT).show();
+                if (imageUri != null) {
+                    new File(imageUri.getPath().replace("//", "/")).delete();
+                    finish();
+                }
             }
         }
     }
