@@ -86,7 +86,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     @BindView(R.id.arc_menu)
-    ArcMenu arcMenu9;
+    ArcMenu arcMenu;
     RenderScript renderScript;
     Bitmap blurredBitmap = null;
     private Subscription subscription;
@@ -102,9 +102,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                arcMenu9.show();
-            }
+            if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                arcMenu.show();
             super.onScrollStateChanged(recyclerView, newState);
         }
 
@@ -129,9 +128,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                     }, AppConstants.PAGINATION_DELAY);
                 }
             }
-            if (dy > 0 || dy < 0 && arcMenu9.isShown()) {
-                arcMenu9.hide();
-            }
+            if (dy > 0 || dy < 0 && arcMenu.isShown())
+                arcMenu.hide();
         }
     };
 
@@ -403,7 +401,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void setUpBoomMenu() {
-        arcMenu9.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
                 R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
@@ -416,7 +414,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
             fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
             fabImageVIew.setImageResource(fabImages[i]);
-            arcMenu9.addItem(child, "", new View.OnClickListener() {
+            arcMenu.addItem(child, "", new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(SwipePageActivity.this, "Item clicked", Toast.LENGTH_SHORT).show();
