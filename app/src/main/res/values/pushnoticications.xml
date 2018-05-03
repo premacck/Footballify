@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="sender_id">11745346201</string>
-    <string name="hub_name">ZoneNotification</string>
-    <string name="hub_listen_connection">Endpoint=sb://zonenotificationnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=msETri+62xvzd29mAf9P/WwJ255vd+znwYxe2mTU7zU=</string>
+    <string name="sender_id">352371041300</string>
+    <string name="hub_name">Juna</string>
+    <string name="hub_listen_connection">Endpoint=sb://footballworkflows.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=4A+EfZpslHcXYSMWU8NjfnhE9fesSzp+Zh+9wuRABTI=</string>
     <string name="hub_full_access">Endpoint=sb://zonenotificationnamespace.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=szXItNcNQC4/Y8jDL8lHFIkeIoZSzrQQqzcPiu447eI=</string>
     <string name="registration_id">registrationID</string>
     <string name="fcm_token">FCMtoken</string>

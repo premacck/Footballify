@@ -12,5 +12,4 @@ public class NotificationSettings {
     public static String senderId = SplashScreenActivity.splashScreenActivity.getString(R.string.sender_id);
     public static String hubName = SplashScreenActivity.splashScreenActivity.getString(R.string.hub_name);
     public static String hubListenConnectionString = SplashScreenActivity.splashScreenActivity.getString(R.string.hub_listen_connection);
-    public static String hubFullAccess = SplashScreenActivity.splashScreenActivity.getString(R.string.hub_full_access);
 }
