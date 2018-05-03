@@ -5,12 +5,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="life.plank.juna.zone.view.activity.RecordAudioActivity">
+
     <ImageView
         android:id="@+id/audio_image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="130dp" />
+
     <RelativeLayout
         android:id="@+id/time_relative_layout"
         android:layout_width="wrap_content"
@@ -18,12 +20,14 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="90dp"
         android:visibility="invisible">
+
         <ImageView
             android:id="@+id/start_indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:src="@drawable/audio_recorder_circle" />
+
         <Chronometer
             android:id="@+id/chronometer_text_view"
             android:layout_width="wrap_content"
