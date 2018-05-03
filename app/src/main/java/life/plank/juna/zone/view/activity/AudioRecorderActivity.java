@@ -31,7 +31,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
     private MediaPlayer player = null;
     // Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
-    private String[] permissions = {Manifest.permission.RECORD_AUDIO};
+    private String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
