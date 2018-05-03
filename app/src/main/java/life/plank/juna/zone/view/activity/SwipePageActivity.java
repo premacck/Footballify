@@ -408,16 +408,43 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         int[] backgroundColors = {R.drawable.fab_circle_background_grey,
                 R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
                 R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
+        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
+            //child.setId(i);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
             ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
             fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
             fabImageVIew.setImageResource(fabImages[i]);
-            arcMenu.addItem(child, "", new View.OnClickListener() {
+            final int position = i;
+            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(SwipePageActivity.this, "Item clicked", Toast.LENGTH_SHORT).show();
+                    switch (position) {
+                        case 0: {
+                            break;
+                        }
+                        case 1: {
+                            break;
+                        }
+                        case 2: {
+                            break;
+                        }
+                        case 3: {
+                            break;
+                        }
+                        case 4: {
+                            startActivity(new Intent(SwipePageActivity.this, CameraActivity.class));
+                            break;
+                        }
+                        case 5: {
+                            break;
+                        }
+                        case 6: {
+                            break;
+                        }
+                    }
                 }
             });
         }
