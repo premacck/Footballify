@@ -22,8 +22,7 @@ public class TommorowMatchSheduleAdapter extends RecyclerView.Adapter<TommorowMa
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.upcoming_match_list, parent, false ) );
-
+        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.tommorow_match_list, parent, false ) );
     }
 
     @Override
@@ -32,11 +31,10 @@ public class TommorowMatchSheduleAdapter extends RecyclerView.Adapter<TommorowMa
 
     @Override
     public int getItemCount() {
-        return 10;
+        return 3;
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
-
 
         public MatchFixtureAndResultViewHolder(View itemView) {
             super( itemView );

@@ -21,9 +21,7 @@ public class UpcomingMatchSheduleAdapter extends RecyclerView.Adapter<UpcomingMa
 
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-                return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() )
-                        .inflate( R.layout.upcoming_match_list, parent, false ) );
+        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.upcoming_match_list, parent, false ) );
 
     }
 
@@ -37,8 +35,6 @@ public class UpcomingMatchSheduleAdapter extends RecyclerView.Adapter<UpcomingMa
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
-
-
         public MatchFixtureAndResultViewHolder(View itemView) {
             super( itemView );
             ButterKnife.bind( this, itemView );

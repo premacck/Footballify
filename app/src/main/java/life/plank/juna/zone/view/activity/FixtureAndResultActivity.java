@@ -23,6 +23,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     private CurrentMatchScoreAdapter currentMatchScoreAdapter;
     private TommorowMatchSheduleAdapter tommorowMatchSheduleAdapter;
     private UpcomingMatchSheduleAdapter upcomingMatchSheduleAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -31,19 +32,23 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         populateScoreFixtureRecyclerView();
         populateTommorowMatchFixtureRecyclerView();
         populateCurrentMatchScoreRecyclerView();
-
     }
+
     public void populateCurrentMatchScoreRecyclerView() {
-        currentMatchScoreAdapter  = new CurrentMatchScoreAdapter( this );
+        currentMatchScoreAdapter = new CurrentMatchScoreAdapter( this );
         currentMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         currentMatchRecyclerView.setAdapter( currentMatchScoreAdapter );
 
-    } public void populateTommorowMatchFixtureRecyclerView() {
+    }
+
+    public void populateTommorowMatchFixtureRecyclerView() {
         tommorowMatchSheduleAdapter = new TommorowMatchSheduleAdapter( this );
         tommorowMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         tommorowMatchRecyclerView.setAdapter( tommorowMatchSheduleAdapter );
 
-    } public void populateScoreFixtureRecyclerView() {
+    }
+
+    public void populateScoreFixtureRecyclerView() {
         upcomingMatchSheduleAdapter = new UpcomingMatchSheduleAdapter( this );
         weekendMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         weekendMatchRecyclerView.setAdapter( upcomingMatchSheduleAdapter );

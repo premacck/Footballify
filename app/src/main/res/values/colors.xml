@@ -52,4 +52,5 @@
     <color name="hint_text_color_edit_text">#80555555</color>
     <color name="fab_button_pink">#cb0068</color>
     <color name="fab_button_grey">#434343</color>
+    <color name="light_header">#19490064</color>
 </resources>

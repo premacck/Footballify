@@ -180,10 +180,15 @@
         <activity android:name=".view.activity.SignInActivity" />
         <activity android:name=".view.activity.SignupPageActivity" />
         <activity android:name=".view.activity.AuthForgotPasswordActivity" />
-        <activity android:name=".view.activity.AudioRecorderActivity"/>
-        <activity android:name=".view.activity.MatchLeagueActivity"
+        <activity android:name=".view.activity.AudioRecorderActivity" />
+        <activity
+            android:name=".view.activity.MatchLeagueActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.MatchResultActivity"
+        <activity
+            android:name=".view.activity.MatchResultActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.FixtureAndResultActivity"
             android:screenOrientation="portrait" />
     </application>
 
