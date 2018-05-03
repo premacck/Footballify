@@ -439,6 +439,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 5: {
+                            startActivity(new Intent(SwipePageActivity.this, RecordAudioActivity.class));
                             break;
                         }
                         case 6: {
