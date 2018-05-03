@@ -51,7 +51,12 @@
         <activity
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashScreenTheme" />
+            android:theme="@style/SplashScreenTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".view.activity.SocialLoginActivity"
             android:screenOrientation="portrait">
@@ -175,23 +180,20 @@
         <activity android:name=".view.activity.SignInActivity" />
         <activity android:name=".view.activity.SignupPageActivity" />
         <activity android:name=".view.activity.AuthForgotPasswordActivity" />
-        <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.MatchResultActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".view.activity.RecordAudioActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity
+            android:name=".view.activity.BoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RecordAudioActivity"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.PostRecordedAudioActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
     </application>
-
 </manifest>
