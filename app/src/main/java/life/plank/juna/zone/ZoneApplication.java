@@ -26,6 +26,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponen
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerTeamStatsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
@@ -42,6 +43,7 @@ import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathResultComponent;
+import life.plank.juna.zone.data.network.dagger.TeamStatsNetworkComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.domain.module.GameServiceModule;
@@ -75,7 +77,7 @@ public class ZoneApplication extends Application {
     private ScoreFixtureNetworkComponent scoreFixtureNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
     private PlayerStatsNetworkComponent playerStatsNetworkComponent;
-
+    private TeamStatsNetworkComponent teamStatsNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -157,6 +159,9 @@ public class ZoneApplication extends Application {
         playerStatsNetworkComponent = DaggerPlayerStatsNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
+        teamStatsNetworkComponent = DaggerTeamStatsNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -227,5 +232,9 @@ public class ZoneApplication extends Application {
 
     public PlayerStatsNetworkComponent getPlayerStatsNetworkComponent() {
         return playerStatsNetworkComponent;
+    }
+
+    public TeamStatsNetworkComponent getTeamStatsNetworkComponent() {
+        return teamStatsNetworkComponent;
     }
 }

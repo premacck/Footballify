@@ -5,13 +5,14 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:padding="10dp"
     android:weightSum="7">
 
     <TextView
         android:id="@+id/player_stats_serial_number_text"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".3"
+        android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="@string/serial_number"
         android:textColor="@color/black" />
@@ -20,8 +21,9 @@
         android:id="@+id/player_stats_team_logo"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_weight=".7"
-        android:src="@drawable/ic_west_brom_logo" />
+        android:layout_weight=".3"
+        android:src="@drawable/ic_west_brom_logo"
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/player_stats_player_name"
@@ -42,7 +44,7 @@
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="@string/goals"
+        android:text="@string/team_goals"
         android:textColor="@color/black" />
 
     <TextView
@@ -56,15 +58,15 @@
 
     <TextView
         android:id="@+id/player_stats_yellow_card_text"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".5" />
 
     <TextView
         android:id="@+id/player_stats_red_card_text"
-        android:layout_width="0dp"
-        android:layout_height="30dp"
-        android:layout_weight="1"
-        android:gravity="center_horizontal" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight=".5" />
 </LinearLayout>

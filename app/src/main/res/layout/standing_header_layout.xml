@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:weightSum="12"
     android:padding="10dp">
 
     <TextView
@@ -19,12 +20,11 @@
 
     <ImageView
         android:id="@+id/score_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
+        android:layout_weight="0"
         android:src="@drawable/ic_west_brom_logo"
-        android:text="@string/serial_number"
         android:visibility="invisible" />
 
     <TextView
@@ -68,6 +68,15 @@
         android:text="@string/team_draw"
         android:textColor="@color/black" />
 
+    <TextView
+        android:id="@+id/loss_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="@string/team_losses"
+        style="@style/standing_fragment_text_style"
+        android:textColor="@color/black" />
     <TextView
         android:id="@+id/goal_for_text_view"
         style="@style/standing_fragment_text_style"

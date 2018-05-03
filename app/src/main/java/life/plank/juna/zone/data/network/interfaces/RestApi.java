@@ -11,6 +11,7 @@ import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
+import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import retrofit2.Response;
@@ -81,4 +82,6 @@ public interface RestApi {
 
     @GET("seasons/playerstats")
     Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
+    @GET("teams/stats")
+    Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
 }
