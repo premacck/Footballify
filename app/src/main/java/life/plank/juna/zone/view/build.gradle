@@ -62,6 +62,7 @@ dependencies {
     compile viewDependencies.lottie
     compile viewDependencies.blurPopupWindow
     compile viewDependencies.archMenu
+    compile viewDependencies.mpAndroidChart
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     provided viewDependencies.javaxAnnotation
