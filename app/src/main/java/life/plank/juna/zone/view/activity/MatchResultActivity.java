@@ -1,10 +1,13 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.HttpURLConnection;
@@ -16,11 +19,13 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
+import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
@@ -41,11 +46,15 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView teamStatsRecyclerView;
     @BindView(R.id.player_stats_recycler_view)
     RecyclerView playerStatsRecyclerView;
+    @BindView(R.id.tap_for_score_and_fixtures)
+    TextView tapForScoreAndFixture;
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
+    List<TeamStatsModel> teamStatsModelList;
     private StandingTableAdapter standingTableAdapter;
     private RestApi restApi;
     private PlayerStatsAdapter playerStatsAdapter;
+    private TeamStatsAdapter teamStatsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +67,8 @@ public class MatchResultActivity extends AppCompatActivity {
         getPlayerStats( AppConstants.SEASON_NAME );
         populateStandingRecyclerView();
         populatePlayerStatsRecyclerView();
-        populateTeamStatsAdapter();
+        populateTeamStatsRecyclerView();
+        getTeamStats( AppConstants.SEASON_NAME );
     }
 
     public void populateStandingRecyclerView() {
@@ -85,8 +95,14 @@ public class MatchResultActivity extends AppCompatActivity {
         playerStatsAdapter.notifyDataSetChanged();
     }
 
-    public void populateTeamStatsAdapter() {
-        TeamStatsAdapter teamStatsAdapter = new TeamStatsAdapter( this );
+    public void populateTeamStatsRecyclerView(List<TeamStatsModel> teamStatsModels) {
+        teamStatsModelList.addAll( teamStatsModels );
+        teamStatsAdapter.notifyDataSetChanged();
+    }
+
+    public void populateTeamStatsRecyclerView() {
+        teamStatsModelList = new ArrayList<>();
+        teamStatsAdapter = new TeamStatsAdapter( this, teamStatsModelList );
         teamStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         teamStatsRecyclerView.setAdapter( teamStatsAdapter );
     }
@@ -143,6 +159,39 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     }
                 } );
+    }
+
+    public void getTeamStats(String seasonName) {
+        restApi.getTeamStats( seasonName )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<List<TeamStatsModel>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( "", "response: " );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d( "", "In onCompleted()" );
+                    }
+
+                    @Override
+                    public void onNext(Response<List<TeamStatsModel>> response) {
+                        Log.e( "", "response: " + ", list data " + response.toString() );
+                        if (response.code() == HttpURLConnection.HTTP_OK) {
+                            populateTeamStatsRecyclerView( response.body() );
+                        }
+
+                    }
+                } );
+    }
+    @OnClick({R.id.tap_for_score_and_fixtures})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tap_for_score_and_fixtures:
+                break;
+        }
     }
 }
 

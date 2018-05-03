@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="horizontal"
     android:padding="10dp"
-    >
+    android:weightSum="12">
 
     <TextView
         android:id="@+id/serial_number_text_view"
@@ -19,12 +19,11 @@
 
     <ImageView
         android:id="@+id/score_view"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:src="@drawable/ic_west_brom_logo"
-         />
+        android:layout_weight="0"
+        android:src="@drawable/ic_west_brom_logo" />
 
     <TextView
         android:id="@+id/team_name_text_view"
@@ -73,6 +72,7 @@
         android:gravity="center_horizontal"
         android:text="8"
         android:textColor="@color/black" />
+
     <TextView
         android:id="@+id/goal_for_text_view"
         android:layout_width="0dp"
@@ -81,6 +81,7 @@
         android:gravity="center_horizontal"
         android:text="10"
         android:textColor="@color/black" />
+
     <TextView
         android:id="@+id/goal_against_text_view"
         android:layout_width="0dp"
@@ -102,11 +103,11 @@
 
     <TextView
         android:id="@+id/point_table_text_view"
+        style="@style/standing_fragment_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
         android:text="58"
-        style="@style/standing_fragment_text_style"
         android:textColor="@color/black" />
 </LinearLayout>
