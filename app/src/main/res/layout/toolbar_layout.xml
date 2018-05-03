@@ -20,9 +20,10 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:padding="3dp"
+            android:layout_marginTop="5dp"
             android:src="@drawable/ic_west_brom_logo" />
 
         <TextView
@@ -30,28 +31,22 @@
             android:layout_height="wrap_content"
             android:text="@string/premier_league"
             android:textColor="@color/white"
+            android:padding="3dp"
             android:fontFamily="@font/rajdhani_regular"
             android:textSize="25sp" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:src="@drawable/share" />
-
     </LinearLayout>
-
+    <ImageView
+        android:layout_alignLeft="@+id/following"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/share" />
     <TextView
+        android:id="@+id/following"
+        style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/toolbar_linear_layout"
-        android:background="@drawable/text_rectangle_white_background"
-        android:padding="4dp"
-        android:layout_marginBottom="5dp"
-        android:text="@string/following"
-        android:textColor="@color/white"
-        android:fontFamily="@font/rajdhani_regular"
-        android:textSize="10sp" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="25dp"
+        android:text="FOLLOWING" />
 </RelativeLayout>
