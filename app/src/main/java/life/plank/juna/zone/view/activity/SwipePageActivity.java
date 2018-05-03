@@ -12,18 +12,22 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -51,7 +55,6 @@ import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
@@ -71,6 +74,7 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    public static Bitmap parentViewBitmap = null;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -80,7 +84,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     int TRCNumber = 20;
     Context context;
     @BindView(R.id.parent_layout)
-    LinearLayout parentLayout;
+    RelativeLayout parentLayout;
+    @BindView(R.id.arc_menu)
+    ArcMenu arcMenu;
+    RenderScript renderScript;
+    Bitmap blurredBitmap = null;
     private Subscription subscription;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
@@ -91,12 +99,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private List<FootballFeed> footballFeeds;
     private int apiHitCount = 0;
     private NetworkStateReceiver networkStateReceiver;
-    public static Bitmap parentViewBitmap = null;
-    RenderScript renderScript;
-    Bitmap blurredBitmap = null;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                arcMenu.show();
             super.onScrollStateChanged(recyclerView, newState);
         }
 
@@ -121,6 +128,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                     }, AppConstants.PAGINATION_DELAY);
                 }
             }
+            if (dy > 0 || dy < 0 && arcMenu.isShown())
+                arcMenu.hide();
         }
     };
 
@@ -134,6 +143,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         restApi = retrofit.create(RestApi.class);
         initRecyclerView();
         setUpData();
+        setUpBoomMenu();
     }
 
     private void setUpData() {
@@ -293,7 +303,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
      * @param currentContext
      */
     public void registerNetworkBroadcastReceiver(Context currentContext) {
-        currentContext.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        currentContext.registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     /**
@@ -382,11 +392,34 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         startActivity(intent);
     }
 
-    private void setUpStaticItemsToFeeds(){
+    private void setUpStaticItemsToFeeds() {
         footballFeeds = new ArrayList<>();
-        footballFeeds.add(new FootballFeed("","Standings","","","","",new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg",0,0),null,"","",null,0));
-        footballFeeds.add(new FootballFeed("","Schedules","","","","",new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg",0,0),null,"","",null,0));
-        footballFeeds.add(new FootballFeed("","Premier League","","","","",new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png",0,0),null,"","",null,0));
+        footballFeeds.add(new FootballFeed("", "Standings", "", "", "", "", new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg", 0, 0), null, "", "", null, 0));
+        footballFeeds.add(new FootballFeed("", "Schedules", "", "", "", "", new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg", 0, 0), null, "", "", null, 0));
+        footballFeeds.add(new FootballFeed("", "Premier League", "", "", "", "", new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0), null, "", "", null, 0));
         footballFeedAdapter.setFootballFeedList(footballFeeds);
+    }
+
+    private void setUpBoomMenu() {
+        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        int[] fabImages = {R.drawable.ic_settings_white,
+                R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
+                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
+        int[] backgroundColors = {R.drawable.fab_circle_background_grey,
+                R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
+        for (int i = 0; i < fabImages.length; i++) {
+            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
+            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
+            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
+            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
+            fabImageVIew.setImageResource(fabImages[i]);
+            arcMenu.addItem(child, "", new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(SwipePageActivity.this, "Item clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
