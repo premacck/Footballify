@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relative_layout_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/feed_card_corner_radius"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/created_date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/name_text_view"
+                android:fontFamily="@font/rajdhani_medium"
+                android:lineSpacingExtra="5sp"
+                android:text="  Do you wanna share the link that you’ve copied recently?"
+                android:textColor="@color/created_date_text_view"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/created_date_text_view"
+                android:lineSpacingExtra="1sp"
+                android:padding="5dp"
+                android:text="https://www.premierleague.com/news/675769"
+                android:textColor="@color/dark_sky_blue"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/feed_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/football_image_one" />
+
+        <RelativeLayout
+            android:id="@+id/feed_title_relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="35dp">
+
+            <TextView
+                android:id="@+id/feed_title_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/like_image_view"
+                android:ellipsize="end"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:lineSpacingExtra="1sp"
+                android:maxLines="1"
+                android:padding="10dp"
+                android:text="Cristiano Ronaldo Top 10 Unimaginable Goals"
+                android:textColor="@color/grey"
+                android:textSize="14sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.4dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/grey" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:fontFamily="@font/rajdhani_medium"
+            android:lineSpacingExtra="3sp"
+            android:maxLines="2"
+            android:padding="10dp"
+            android:text="A look at the teams fighting relegation as Mark Hughes and Saints look to repeat strong finish of 1998/99 to avoid drop."
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/no_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="97dp"
+                android:text="NO"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/yes_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
+                android:text="YES"
+                android:textColor="@color/blue_grey"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
