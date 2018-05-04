@@ -48,6 +48,8 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView playerStatsRecyclerView;
     @BindView(R.id.tap_for_score_and_fixtures)
     TextView tapForScoreAndFixture;
+    @BindView(R.id.following)
+    TextView followingTextVIew;
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
     List<TeamStatsModel> teamStatsModelList;
@@ -186,13 +188,16 @@ public class MatchResultActivity extends AppCompatActivity {
                     }
                 } );
     }
-    @OnClick({R.id.tap_for_score_and_fixtures})
+    @OnClick({R.id.tap_for_score_and_fixtures,R.id.following})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tap_for_score_and_fixtures:
                 Intent intent = new Intent( this,FixtureAndResultActivity.class );
                 startActivity( intent );
                 break;
+            case R.id.following:{
+                break;
+            }
         }
     }
 }

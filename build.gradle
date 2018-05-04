@@ -39,6 +39,9 @@ allprojects {
         }
         jcenter()
         maven {
+            url "http://dl.bintray.com/microsoftazuremobile/SDK"
+        }
+        maven {
             url "http://repository.excilys.com/content/groups/public"
         }
         maven {

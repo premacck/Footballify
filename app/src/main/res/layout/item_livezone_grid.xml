@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/card_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grid_item_grey">
+    android:layout_height="80dp"
+    android:background="@color/grid_item_grey"
+    android:layout_margin="1dp">
 
     <ImageView
         android:id="@+id/tile_image_view"

@@ -41,7 +41,6 @@
     <color name="teams_background_green">#0B8449</color>
     <color name="white_40_opacity">#40FFFFFF</color>
     <color name="football_feed_background">#dd5873</color>
-    <color name="white_19_opacity">#19ffffff</color>
     <color name="info_text_color">#99ffffff</color>
     <color name="purple_toolbar_background">#37003c</color>
     <color name="light_purple">#7c0986</color>
@@ -50,7 +49,13 @@
     <color name="circle_background_color">#d8d8d8</color>
     <color name="feed_details_text_view_grey">#80000000</color>
     <color name="hint_text_color_edit_text">#80555555</color>
+    <color name="audio_player_background">#19000000</color>
+    <color name="audio_recorder_start_background_color">#555555</color>
     <color name="fab_button_pink">#cb0068</color>
     <color name="fab_button_grey">#434343</color>
     <color name="light_header">#19490064</color>
+    <color name="text_input_bright_sky_blue">#00cff7</color>
+    <color name="others_color_grey">#cccccc</color>
+    <color name="light_grey">#dcdcdc</color>
+    <color name="white_19_opacity">#19ffffff</color>
 </resources>
