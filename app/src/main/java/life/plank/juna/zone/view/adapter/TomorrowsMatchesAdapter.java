@@ -14,17 +14,17 @@ import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-public class UpcomingMatchSheduleAdapter extends RecyclerView.Adapter<UpcomingMatchSheduleAdapter.MatchFixtureAndResultViewHolder> {
+public class TomorrowsMatchesAdapter extends RecyclerView.Adapter<TomorrowsMatchesAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
 
-    public UpcomingMatchSheduleAdapter(Context context) {
+    public TomorrowsMatchesAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.upcoming_match_list, parent, false ) );
 
+        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.tommorow_match_list, parent, false ) );
     }
 
     @Override
@@ -35,10 +35,11 @@ public class UpcomingMatchSheduleAdapter extends RecyclerView.Adapter<UpcomingMa
 
     @Override
     public int getItemCount() {
-        return 8;
+        return 3;
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
+
         public MatchFixtureAndResultViewHolder(View itemView) {
             super( itemView );
             ButterKnife.bind( this, itemView );

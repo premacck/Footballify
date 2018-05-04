@@ -10,10 +10,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.adapter.CurrentMatchScoreAdapter;
-import life.plank.juna.zone.view.adapter.TommorowMatchSheduleAdapter;
-import life.plank.juna.zone.view.adapter.UpcomingMatchSheduleAdapter;
+import life.plank.juna.zone.view.adapter.TomorrowsMatchesAdapter;
+import life.plank.juna.zone.view.adapter.ScheduledMatchesAdapter;
 
-import static android.widget.GridLayout.HORIZONTAL;
 import static android.widget.GridLayout.VERTICAL;
 
 public class FixtureAndResultActivity extends AppCompatActivity {
@@ -25,8 +24,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     @BindView(R.id.weekend_match_recycler_view)
     RecyclerView weekendMatchRecyclerView;
     private CurrentMatchScoreAdapter currentMatchScoreAdapter;
-    private TommorowMatchSheduleAdapter tommorowMatchSheduleAdapter;
-    private UpcomingMatchSheduleAdapter upcomingMatchSheduleAdapter;
+    private TomorrowsMatchesAdapter tomorrowsMatchesAdapter;
+    private ScheduledMatchesAdapter upcomingMatchSheduleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,16 +47,16 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populateTommorowMatchFixtureRecyclerView() {
-        tommorowMatchSheduleAdapter = new TommorowMatchSheduleAdapter( this );
+        tomorrowsMatchesAdapter = new TomorrowsMatchesAdapter( this );
         tommorowMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        tommorowMatchRecyclerView.setAdapter( tommorowMatchSheduleAdapter );
+        tommorowMatchRecyclerView.setAdapter( tomorrowsMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
         tommorowMatchRecyclerView.addItemDecoration(itemDecor);
 
     }
 
     public void populateScoreFixtureRecyclerView() {
-        upcomingMatchSheduleAdapter = new UpcomingMatchSheduleAdapter( this );
+        upcomingMatchSheduleAdapter = new ScheduledMatchesAdapter( this );
         weekendMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         weekendMatchRecyclerView.setAdapter( upcomingMatchSheduleAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
