@@ -61,8 +61,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:paddingBottom="2dp"
-                    android:paddingStart="2dp"
-                    android:paddingEnd="2dp">
+                    android:paddingEnd="2dp"
+                    android:paddingStart="2dp">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -110,6 +110,7 @@
                         android:name="life.plank.juna.zone.view.fragment.GraphFragment"
                         android:layout_width="match_parent"
                         android:layout_height="70dp" />
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
