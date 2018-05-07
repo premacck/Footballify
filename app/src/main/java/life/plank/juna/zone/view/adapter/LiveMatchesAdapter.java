@@ -14,10 +14,10 @@ import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-public class CurrentMatchScoreAdapter extends RecyclerView.Adapter<CurrentMatchScoreAdapter.MatchFixtureAndResultViewHolder> {
+public class LiveMatchesAdapter extends RecyclerView.Adapter<LiveMatchesAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
 
-    public CurrentMatchScoreAdapter(Context context) {
+    public LiveMatchesAdapter(Context context) {
         this.context = context;
     }
 

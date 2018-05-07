@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.adapter.CurrentMatchScoreAdapter;
+import life.plank.juna.zone.view.adapter.LiveMatchesAdapter;
 import life.plank.juna.zone.view.adapter.TomorrowsMatchesAdapter;
 import life.plank.juna.zone.view.adapter.ScheduledMatchesAdapter;
 
@@ -23,7 +23,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     RecyclerView tommorowMatchRecyclerView;
     @BindView(R.id.weekend_match_recycler_view)
     RecyclerView weekendMatchRecyclerView;
-    private CurrentMatchScoreAdapter currentMatchScoreAdapter;
+    private LiveMatchesAdapter liveMatchesAdapter;
     private TomorrowsMatchesAdapter tomorrowsMatchesAdapter;
     private ScheduledMatchesAdapter upcomingMatchSheduleAdapter;
 
@@ -38,9 +38,9 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populateCurrentMatchScoreRecyclerView() {
-        currentMatchScoreAdapter = new CurrentMatchScoreAdapter( this );
+        liveMatchesAdapter = new LiveMatchesAdapter( this );
         currentMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        currentMatchRecyclerView.setAdapter( currentMatchScoreAdapter );
+        currentMatchRecyclerView.setAdapter( liveMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
         currentMatchRecyclerView.addItemDecoration(itemDecor);
 
