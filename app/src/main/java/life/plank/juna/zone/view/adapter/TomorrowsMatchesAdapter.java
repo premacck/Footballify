@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,15 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-public class TommorowMatchSheduleAdapter extends RecyclerView.Adapter<TommorowMatchSheduleAdapter.MatchFixtureAndResultViewHolder> {
+public class TomorrowsMatchesAdapter extends RecyclerView.Adapter<TomorrowsMatchesAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
 
-    public TommorowMatchSheduleAdapter(Context context) {
+    public TomorrowsMatchesAdapter(Context context) {
         this.context = context;
     }
 
@@ -27,6 +29,8 @@ public class TommorowMatchSheduleAdapter extends RecyclerView.Adapter<TommorowMa
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
+        Intent intent = new Intent( context, MatchLeagueActivity.class );
+        context.startActivity( intent );
     }
 
     @Override
