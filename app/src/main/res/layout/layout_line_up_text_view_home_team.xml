@@ -8,6 +8,7 @@
     android:layout_gravity="center"
     android:orientation="vertical">
     <TextView
+        android:id="@+id/player_number"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="18dp"
         android:layout_height="18dp"
@@ -21,6 +22,7 @@
         android:fontFamily="@font/rajdhani_semibold"
         android:layout_marginBottom="2dp"/>
     <TextView
+        android:id="@+id/player_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="H. Bellerin"

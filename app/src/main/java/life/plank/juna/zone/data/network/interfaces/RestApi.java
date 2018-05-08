@@ -6,6 +6,7 @@ import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
+import life.plank.juna.zone.data.network.model.LineupsModel;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
@@ -46,7 +47,6 @@ public interface RestApi {
     @POST("authentication/register/")
     Observable<Response<Void>> socialSignUp(@Body JunaUser junaUser);
 
-
     @POST("authentication/login/")
     Observable<Response<Void>> socialSignIn(@Body JunaUser junaUser);
 
@@ -82,6 +82,10 @@ public interface RestApi {
 
     @GET("seasons/playerstats")
     Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
+
     @GET("teams/stats")
     Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
+
+    @GET("matches/1711146/lineups")
+    Observable<Response<LineupsModel>> getLineUpsData();
 }
