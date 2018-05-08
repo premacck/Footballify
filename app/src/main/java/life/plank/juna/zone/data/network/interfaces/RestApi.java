@@ -1,11 +1,14 @@
 package life.plank.juna.zone.data.network.interfaces;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
+import life.plank.juna.zone.data.network.model.LineUpsModel;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
@@ -16,6 +19,7 @@ import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -45,7 +49,6 @@ public interface RestApi {
 
     @POST("authentication/register/")
     Observable<Response<Void>> socialSignUp(@Body JunaUser junaUser);
-
 
     @POST("authentication/login/")
     Observable<Response<Void>> socialSignIn(@Body JunaUser junaUser);
@@ -82,6 +85,13 @@ public interface RestApi {
 
     @GET("seasons/playerstats")
     Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
+
     @GET("teams/stats")
     Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
+
+    @GET("matches/1711146/lineups")
+    Observable<Response<LineUpsModel>> getLineUpsData();
+
+    @POST("feedItems/52ad9164-d7dc-4b13-8051-369cf14fc59b/shares")
+    Observable<JsonObject> postShare(@Field("userId") String UserId, @Field("shareTo") String shareTo, @Field("boardId") String boiardId);
 }
