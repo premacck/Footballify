@@ -130,7 +130,6 @@ public class LineUpActivity extends AppCompatActivity {
             homeTeamLineUpLinearLayout.setOrientation( LinearLayout.HORIZONTAL );
             homeTeamLinearLayout.addView( homeTeamLineUpLinearLayout );
             for (int j = 1; j <= formationSegment; j++) {
-                homeTeamFormation.add( homeTeamLineups.get( 0 ).get( 0 ).getNumber() );
                 homeTeamLineUpLinearLayout.setWeightSum( formationSegment );
                 View playerView = getLayoutInflater().inflate( R.layout.layout_line_up_text_view_home_team, null );
                 playerView.setLayoutParams( new TableLayout.LayoutParams( 0, TableLayout.LayoutParams.MATCH_PARENT, 1f ) );
