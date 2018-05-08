@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LineUpsModel {
+public class LineupsModel {
     private List<List<Formation>> homeTeamFormation = null;
     private List<List<Formation>> awayTeamFormation = null;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();

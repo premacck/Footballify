@@ -13,7 +13,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponen
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerJoinGameNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerLineUpNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
@@ -31,7 +31,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerTeamStatsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.LineUpNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
@@ -80,7 +80,7 @@ public class ZoneApplication extends Application {
     private StandingsNetworkComponent standingsNetworkComponent;
     private PlayerStatsNetworkComponent playerStatsNetworkComponent;
     private TeamStatsNetworkComponent teamStatsNetworkComponent;
-    private LineUpNetworkComponent lineUpNetworkComponent;
+    private LineupNetworkComponent lineupNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -165,7 +165,7 @@ public class ZoneApplication extends Application {
         teamStatsNetworkComponent = DaggerTeamStatsNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
-        lineUpNetworkComponent = DaggerLineUpNetworkComponent.builder()
+        lineupNetworkComponent = DaggerLineupNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
     }
 
@@ -242,7 +242,7 @@ public class ZoneApplication extends Application {
         return teamStatsNetworkComponent;
     }
 
-    public LineUpNetworkComponent getLineUpNetworkComponent() {
-        return lineUpNetworkComponent;
+    public LineupNetworkComponent getLineupNetworkComponent() {
+        return lineupNetworkComponent;
     }
 }

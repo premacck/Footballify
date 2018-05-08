@@ -20,14 +20,14 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.LineUpsModel;
+import life.plank.juna.zone.data.network.model.LineupsModel;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class LineUpActivity extends AppCompatActivity {
+public class LineupActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -35,8 +35,8 @@ public class LineUpActivity extends AppCompatActivity {
     LinearLayout visitingTeamLinearLayout;
     @BindView(R.id.home_team_linear_layout)
     LinearLayout homeTeamLinearLayout;
-    List<List<LineUpsModel.Formation>> homeTeamLineups;
-    List<List<LineUpsModel.Formation>> awayTeamLineups;
+    List<List<LineupsModel.Formation>> homeTeamLineups;
+    List<List<LineupsModel.Formation>> awayTeamLineups;
     private RestApi restApi;
     private ArrayList<Integer> visitingTeamFormation;
     private ArrayList<Integer> homeTeamFormation;
@@ -45,7 +45,7 @@ public class LineUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_line_up );
-        ((ZoneApplication) getApplication()).getLineUpNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getLineupNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         ButterKnife.bind( this );
         getLineUpData();
@@ -55,7 +55,7 @@ public class LineUpActivity extends AppCompatActivity {
         restApi.getLineUpsData()
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<LineUpsModel>>() {
+                .subscribe( new Subscriber<Response<LineupsModel>>() {
                     @Override
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
@@ -68,7 +68,7 @@ public class LineUpActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<LineUpsModel> listResponse) {
+                    public void onNext(Response<LineupsModel> listResponse) {
                         Log.e( "", "response: " + ", list data " + listResponse.toString() );
                         if (listResponse.code() == HttpURLConnection.HTTP_OK) {
                             if (listResponse.body() != null) {
@@ -81,7 +81,7 @@ public class LineUpActivity extends AppCompatActivity {
                                 setUpHomeTeamGrid();
                             }
                         } else {
-                            Toast.makeText( LineUpActivity.this, "Response Not Found", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( LineupActivity.this, "Response Not Found", Toast.LENGTH_SHORT ).show();
                         }
                     }
                 } );

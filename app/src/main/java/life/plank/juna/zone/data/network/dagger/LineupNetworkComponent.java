@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.view.activity.LineUpActivity;
+import life.plank.juna.zone.view.activity.LineupActivity;
 
 /**
  * Created by plank-prachi on 12/01/18.
@@ -13,6 +13,6 @@ import life.plank.juna.zone.view.activity.LineUpActivity;
 @Singleton
 @Component(modules = {RestServiceModule.class})
 @FunctionalInterface
-public interface LineUpNetworkComponent {
-    void inject(LineUpActivity lineUpActivity);
+public interface LineupNetworkComponent {
+    void inject(LineupActivity lineupActivity);
 }

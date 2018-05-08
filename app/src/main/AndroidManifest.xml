@@ -53,7 +53,7 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.SwipePageActivity"
+            android:name=".view.activity.AuthForgotPasswordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -63,7 +63,7 @@
 
         </activity>
         <activity
-            android:name=".view.activity.SocialLoginActivity"
+            android:name=".view.activity.LineupActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -185,7 +185,6 @@
         <activity android:name=".view.activity.SignInActivity" />
         <activity android:name=".view.activity.SplashScreenActivity" />
         <activity android:name=".view.activity.SignupPageActivity" />
-        <activity android:name=".view.activity.AuthForgotPasswordActivity" />
         <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"
@@ -202,6 +201,9 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.PostRecordedAudioActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.activity.SwipePageActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.BoardActivity"
