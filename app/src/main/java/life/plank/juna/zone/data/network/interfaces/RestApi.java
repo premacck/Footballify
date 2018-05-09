@@ -1,5 +1,7 @@
 package life.plank.juna.zone.data.network.interfaces;
 
+import com.google.gson.JsonObject;
+
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
@@ -11,6 +13,7 @@ import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.SignupModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
@@ -88,4 +91,7 @@ public interface RestApi {
 
     @GET("matches/1711146/lineups")
     Observable<Response<LineupsModel>> getLineUpsData();
+
+    @POST("users")
+    Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel );
 }

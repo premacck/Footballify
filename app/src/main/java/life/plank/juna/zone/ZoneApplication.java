@@ -23,6 +23,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerScoreFixtureNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerSignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
@@ -41,6 +42,7 @@ import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.ScoreFixtureNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.SignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
@@ -81,6 +83,7 @@ public class ZoneApplication extends Application {
     private PlayerStatsNetworkComponent playerStatsNetworkComponent;
     private TeamStatsNetworkComponent teamStatsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
+    private SignupUserNetworkComponent signupUserNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -167,6 +170,9 @@ public class ZoneApplication extends Application {
 
         lineupNetworkComponent = DaggerLineupNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
+
+        signupUserNetworkComponent = DaggerSignupUserNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -244,5 +250,10 @@ public class ZoneApplication extends Application {
 
     public LineupNetworkComponent getLineupNetworkComponent() {
         return lineupNetworkComponent;
+    }
+
+    public SignupUserNetworkComponent getSignupUserNetworkComponent()
+    {
+        return signupUserNetworkComponent;
     }
 }
