@@ -10,22 +10,23 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.LineupActivity;
-import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-public class TomorrowsMatchesAdapter extends RecyclerView.Adapter<TomorrowsMatchesAdapter.MatchFixtureAndResultViewHolder> {
+public class MatchStatsAdapter extends RecyclerView.Adapter<MatchStatsAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
 
-    public TomorrowsMatchesAdapter(Context context) {
+    public MatchStatsAdapter(Context context) {
         this.context = context;
     }
 
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.tommorow_match_list, parent, false ) );
+        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() )
+                .inflate( R.layout.lineup_match_stats, parent, false ) );
+
     }
 
     @Override
@@ -41,10 +42,11 @@ public class TomorrowsMatchesAdapter extends RecyclerView.Adapter<TomorrowsMatch
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 8;
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
+
 
         public MatchFixtureAndResultViewHolder(View itemView) {
             super( itemView );

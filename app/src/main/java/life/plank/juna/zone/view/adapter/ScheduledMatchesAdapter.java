@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.LineupActivity;
 import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 
 /**
@@ -29,8 +30,13 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        Intent intent = new Intent( context, MatchLeagueActivity.class );
-        context.startActivity( intent );
+        holder.itemView.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent( context, LineupActivity.class );
+                context.startActivity( intent );
+            }
+        } );
     }
 
     @Override
