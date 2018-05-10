@@ -1,114 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     tools:context="life.plank.juna.zone.view.activity.LineupActivity">
 
+    <include
+        android:id="@+id/lineup_toolbar_layout"
+        layout="@layout/lineup_toolbar_layout" />
+
     <RelativeLayout
+        android:id="@+id/match_day"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/lineup_toolbar_layout"
+        android:background="#543a4f">
+
+        <TextView
+            android:id="@+id/match_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/matchday_36"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tap_for_score_and_fixtures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity=""
+            android:lineSpacingExtra="5sp"
+            android:padding="2dp"
+            android:text="@string/tap_to_see_tiles"
+            android:textColor="#99ffffff"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/team_logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/match_day"
+        android:background="#19000000"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/home_team_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_west_brom_logo" />
+
+        <ImageView
+            android:id="@+id/away_team_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_west_brom_logo" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/match_stats_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@+id/team_logo_layout" />
+
+    <include
+        android:id="@+id/lineup_row"
+        layout="@layout/line_up_row"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="@drawable/rounded_corner_background_linear_layout"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <LinearLayout
-            android:id="@+id/lineup_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_background_home_team"
-            android:padding="7dp"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:text="@string/arsenal"
-                android:textColor="@color/white"
-                android:fontFamily="@font/rajdhani_medium" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="@string/_4_3_3"
-                android:textColor="@color/white"
-                android:fontFamily="@font/rajdhani_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bottom_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:background="@drawable/rounded_corner_background_visiting_team"
-            android:padding="7dp"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_weight="1"
-                android:text="@string/west_ham"
-                android:textColor="@color/white"
-                android:fontFamily="@font/rajdhani_medium" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="@string/_3_4_2_1"
-                android:textColor="@color/white"
-               android:fontFamily="@font/rajdhani_medium" />
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/lineup_linear_layout"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/goal_box_home_team" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/bottom_linear_layout"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/goal_box_visiting_team" />
-
-        <View
-            android:id="@+id/view_center_line"
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp"
-            android:layout_centerInParent="true"
-            android:background="@color/white_40_opacity" />
-
-        <View
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/circle_background" />
-
-        <LinearLayout
-            android:id="@+id/visiting_team_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/bottom_linear_layout"
-            android:layout_below="@+id/view_center_line"
-            android:orientation="vertical"/>
-        <LinearLayout
-            android:id="@+id/home_team_linear_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_above="@+id/view_center_line"
-            android:layout_below="@+id/lineup_linear_layout"
-            android:orientation="vertical"/>
-    </RelativeLayout>
-</LinearLayout>
+        android:layout_below="@+id/match_stats_recyclerview" />
+</RelativeLayout>

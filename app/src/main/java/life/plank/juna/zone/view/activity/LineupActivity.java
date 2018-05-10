@@ -2,6 +2,8 @@ package life.plank.juna.zone.view.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -22,6 +24,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.LineupsModel;
+import life.plank.juna.zone.view.adapter.MatchStatsAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -34,6 +37,8 @@ public class LineupActivity extends AppCompatActivity {
     Retrofit retrofit;
     @BindView(R.id.visiting_team_linear_layout)
     LinearLayout visitingTeamLinearLayout;
+    @BindView(R.id.match_stats_recyclerview)
+    RecyclerView matchStatsRecyclerView;
     @BindView(R.id.home_team_linear_layout)
     LinearLayout homeTeamLinearLayout;
     List<List<LineupsModel.Formation>> homeTeamLineups;
@@ -41,6 +46,7 @@ public class LineupActivity extends AppCompatActivity {
     private RestApi restApi;
     private ArrayList<Integer> visitingTeamFormation;
     private ArrayList<Integer> homeTeamFormation;
+    private MatchStatsAdapter matchStatsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,7 @@ public class LineupActivity extends AppCompatActivity {
         restApi = retrofit.create( RestApi.class );
         ButterKnife.bind( this );
         getLineUpData();
+        populateMatchStatsRecyclerView();
     }
 
     public void getLineUpData() {
@@ -153,5 +160,11 @@ public class LineupActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void populateMatchStatsRecyclerView() {
+        matchStatsAdapter = new MatchStatsAdapter( this );
+        matchStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
+        matchStatsRecyclerView.setAdapter( matchStatsAdapter );
     }
 }

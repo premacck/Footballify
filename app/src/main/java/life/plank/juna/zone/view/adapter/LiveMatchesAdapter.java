@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.LineupActivity;
 import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 
 /**
@@ -34,7 +35,7 @@ public class LiveMatchesAdapter extends RecyclerView.Adapter<LiveMatchesAdapter.
         holder.itemView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( context, MatchLeagueActivity.class );
+                Intent intent = new Intent( context, LineupActivity.class );
                 context.startActivity( intent );
             }
         } );
