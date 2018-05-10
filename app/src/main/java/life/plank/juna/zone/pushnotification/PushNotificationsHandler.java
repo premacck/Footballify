@@ -16,6 +16,7 @@ import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
+import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class PushNotificationsHandler extends NotificationsHandler {
     public static final int NOTIFICATION_ID = 1;
@@ -28,8 +29,8 @@ public class PushNotificationsHandler extends NotificationsHandler {
         this.context = context;
         String nhMessage = bundle.getString("message");
         sendNotification(nhMessage);
-        if (SplashScreenActivity.isVisible) {
-            SplashScreenActivity.splashScreenActivity.ToastNotify(nhMessage);
+        if (SwipePageActivity.isVisible) {
+            SwipePageActivity.swipePageActivity.ToastNotify(nhMessage);
         }
     }
 
