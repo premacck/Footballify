@@ -78,12 +78,12 @@ public class ZoneApplication extends Application {
     private SuddenDeathResultComponent suddenDeathResultComponent;
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
-    private ScoreFixtureNetworkComponent scoreFixtureNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
     private PlayerStatsNetworkComponent playerStatsNetworkComponent;
     private TeamStatsNetworkComponent teamStatsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
     private SignupUserNetworkComponent signupUserNetworkComponent;
+    private ScoreFixtureNetworkComponent scoreFixtureNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -155,9 +155,6 @@ public class ZoneApplication extends Application {
                 .restServiceModule( new RestServiceModule() )
                 .build();
 
-        scoreFixtureNetworkComponent = DaggerScoreFixtureNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() )
-                .build();
 
         standingsNetworkComponent = DaggerStandingsNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
@@ -173,6 +170,9 @@ public class ZoneApplication extends Application {
 
         signupUserNetworkComponent = DaggerSignupUserNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
+
+        scoreFixtureNetworkComponent = DaggerScoreFixtureNetworkComponent.builder().
+                restServiceModule( new RestServiceModule() ).build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -231,10 +231,6 @@ public class ZoneApplication extends Application {
         return onBoardSocialLoginNetworkComponent;
     }
 
-    public ScoreFixtureNetworkComponent getScoreFixtureNetworkComponent() {
-        return scoreFixtureNetworkComponent;
-    }
-
     public StandingsNetworkComponent getStandingNetworkComponent() {
         return standingsNetworkComponent;
 
@@ -252,8 +248,11 @@ public class ZoneApplication extends Application {
         return lineupNetworkComponent;
     }
 
-    public SignupUserNetworkComponent getSignupUserNetworkComponent()
-    {
+    public SignupUserNetworkComponent getSignupUserNetworkComponent() {
         return signupUserNetworkComponent;
+    }
+
+    public ScoreFixtureNetworkComponent getScoreFixtureNetworkComponent() {
+        return scoreFixtureNetworkComponent;
     }
 }
