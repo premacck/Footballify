@@ -13,6 +13,6 @@ import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
 @Singleton
 @Component(modules = {RestServiceModule.class})
 @FunctionalInterface
-public interface ScoreFixtureNetworkComponent {
+public interface FixtureAndResultNetworkComponent {
     void inject(FixtureAndResultActivity fixtureAndResultActivity);
 }

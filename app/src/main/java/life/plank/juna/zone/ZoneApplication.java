@@ -10,6 +10,7 @@ import java.util.Map;
 
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerJoinGameNetworkComponent;
@@ -22,13 +23,13 @@ import life.plank.juna.zone.data.network.dagger.DaggerPlayerStatsNetworkComponen
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerScoreFixtureNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerTeamStatsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
@@ -41,7 +42,6 @@ import life.plank.juna.zone.data.network.dagger.PlayerStatsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.ScoreFixtureNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
@@ -83,7 +83,7 @@ public class ZoneApplication extends Application {
     private TeamStatsNetworkComponent teamStatsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
     private SignupUserNetworkComponent signupUserNetworkComponent;
-    private ScoreFixtureNetworkComponent scoreFixtureNetworkComponent;
+    private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -171,8 +171,8 @@ public class ZoneApplication extends Application {
         signupUserNetworkComponent = DaggerSignupUserNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
-        scoreFixtureNetworkComponent = DaggerScoreFixtureNetworkComponent.builder().
-                restServiceModule( new RestServiceModule() ).build();
+        fixtureAndResultNetworkComponent = DaggerFixtureAndResultNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -252,7 +252,7 @@ public class ZoneApplication extends Application {
         return signupUserNetworkComponent;
     }
 
-    public ScoreFixtureNetworkComponent getScoreFixtureNetworkComponent() {
-        return scoreFixtureNetworkComponent;
+    public FixtureAndResultNetworkComponent getFixtureAndResultNetworkComponent() {
+        return fixtureAndResultNetworkComponent;
     }
 }

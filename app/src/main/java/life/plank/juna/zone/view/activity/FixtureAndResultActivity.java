@@ -56,7 +56,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         ButterKnife.bind( this );
         populateTommorowMatchFixtureRecyclerView();
         populateCurrentMatchScoreRecyclerView();
-        ((ZoneApplication) getApplication()).getScoreFixtureNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         getScoreFixture( AppConstants.SEASON_NAME );
         populateSheduledScoreFixtureRecyclerView();
