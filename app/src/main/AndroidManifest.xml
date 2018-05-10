@@ -8,7 +8,6 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
@@ -53,7 +52,7 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.AuthForgotPasswordActivity"
+            android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -191,9 +190,6 @@
 
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.MatchResultActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.FixtureAndResultActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -203,7 +199,7 @@
             android:name=".view.activity.PostRecordedAudioActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activity.SwipePageActivity"
+            android:name=".view.activity.AuthForgotPasswordActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.BoardActivity"
