@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -40,6 +42,8 @@ public class SignupPageActivity extends AppCompatActivity {
     EditText userNameEditText;
     @BindView(R.id.email_editext)
     EditText emailEditText;
+    @BindView(R.id.image_button)
+    Button imageButtton;
     @BindView(R.id.password_editext)
     EditText passwordEditText;
     private RestApi restApi;
@@ -55,7 +59,25 @@ public class SignupPageActivity extends AppCompatActivity {
         ActivityUtil.setCollapsedHintMiddle(usernameInputLayout,this);
         ActivityUtil.setCollapsedHintMiddle(emailInputLayout,this);
         ActivityUtil.setCollapsedHintMiddle(passwordInputLayout,this);
-        signup();
+        String emailText = emailEditText.getText().toString();
+        String passwordText = passwordEditText.getText().toString();
+        String userNameText = userNameEditText.getText().toString();
+        imageButtton.setOnClickListener( new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(userNameText.isEmpty())
+                {
+                    userNameEditText.setError( "User Name Can not be Empty");
+                }
+                else if(emailText.isEmpty())
+                {
+                    emailEditText.setError( "Email Can not be Empty");
+                }
+                else {
+                    signup();
+                }
+            }
+        } );
     }
 
     private void signup() {

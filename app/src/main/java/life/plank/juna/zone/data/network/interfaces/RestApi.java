@@ -94,4 +94,7 @@ public interface RestApi {
 
     @POST("users")
     Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel );
+
+    @GET("users")
+    Observable<Response<JsonObject>> getSignIn(@Query("emailId") String emailId);
 }
