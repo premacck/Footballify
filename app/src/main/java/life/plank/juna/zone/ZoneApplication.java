@@ -14,6 +14,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkCom
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerJoinGameNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerLikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
@@ -34,6 +35,7 @@ import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.LikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
@@ -87,6 +89,7 @@ public class ZoneApplication extends Application {
     private SignupUserNetworkComponent signupUserNetworkComponent;
     private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
     private SigninUserNetworkComponent signinUserNetworkComponent;
+    private LikeFeedNetworkComponent likeFeedNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -179,6 +182,8 @@ public class ZoneApplication extends Application {
 
         signinUserNetworkComponent = DaggerSigninUserNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
+        likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -262,8 +267,11 @@ public class ZoneApplication extends Application {
         return fixtureAndResultNetworkComponent;
     }
 
-    public SigninUserNetworkComponent getSigninUserNetworkComponent()
-    {
+    public SigninUserNetworkComponent getSigninUserNetworkComponent() {
         return signinUserNetworkComponent;
+    }
+
+    public LikeFeedNetworkComponent getLikeFeedNetworkComponent() {
+        return likeFeedNetworkComponent;
     }
 }
