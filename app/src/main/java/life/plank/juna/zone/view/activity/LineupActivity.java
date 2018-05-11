@@ -131,7 +131,7 @@ public class LineupActivity extends AppCompatActivity {
                 for (int i = 0; i < awayTeamLineups.size(); i++) {
                     for (int k = 0; k < awayTeamLineups.get( i ).size(); k++) {
                         visitingPlayerName.setText( awayTeamLineups.get( i ).get( k ).getFullName() );
-                        visitingPlayerNumber.setText( awayTeamLineups.get( i ).get( k ).getNumber().toString() );
+                        visitingPlayerNumber.setText( awayTeamLineups.get( i ).get( k ).getNumber() );
                     }
                 }
             }
@@ -155,7 +155,7 @@ public class LineupActivity extends AppCompatActivity {
                 for (int i = 0; i < homeTeamLineups.size(); i++) {
                     for (int k = 0; k < homeTeamLineups.get( i ).size(); k++) {
                         playerName.setText( homeTeamLineups.get( i ).get( k ).getFullName() );
-                        playerNumber.setText( homeTeamLineups.get( i ).get( k ).getNumber().toString() );
+                        playerNumber.setText(String.valueOf(homeTeamLineups.get( i ).get( k ).getNumber( )));
                     }
                 }
             }
