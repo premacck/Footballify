@@ -42,7 +42,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        holder.dateShadule.setText( scoreFixtureModelList.get( position ).getMatchStartTime() );
+        holder.dateSchedule.setText( scoreFixtureModelList.get( position ).getMatchStartTime() );
         if (scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
                     .load( scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() )
@@ -80,8 +80,8 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
         ImageView homeTeamLogo;
         @BindView(R.id.away_team_logo)
         ImageView awayTeamLogo;
-        @BindView(R.id.date_shadule)
-        TextView dateShadule;
+        @BindView(R.id.date_schedule)
+        TextView dateSchedule;
 
         public MatchFixtureAndResultViewHolder(View itemView) {
 
