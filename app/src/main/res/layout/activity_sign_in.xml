@@ -194,13 +194,13 @@
                         android:padding="16dp">
 
                         <EditText
-                            android:id="@+id/username_editext__sign_up"
+                            android:id="@+id/email_editext__sign_in"
                             style="@style/InputPlaceholder"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:backgroundTint="@color/grey"
                             android:gravity="center_horizontal"
-                            android:hint="UserName" />
+                            android:hint="Email Id" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -210,6 +210,7 @@
                         android:layout_below="@+id/username_text_input_layout__sign_up">
 
                         <EditText
+                            android:id="@+id/password_editext_sign_in"
                             style="@style/InputPlaceholder"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
