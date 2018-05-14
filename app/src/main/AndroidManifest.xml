@@ -204,5 +204,8 @@
         <activity
             android:name=".view.activity.BoardActivity"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".view.activity.MatchResultActivity"
+            android:theme="@style/AppTheme" />
     </application>
 </manifest>
