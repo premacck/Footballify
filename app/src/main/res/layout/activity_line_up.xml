@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="life.plank.juna.zone.view.activity.LineupActivity">
 
     <include
@@ -14,6 +13,7 @@
         android:id="@+id/match_day"
         android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:layout_below="@+id/lineup_toolbar_layout"
         android:background="#543a4f">
 
         <TextView
@@ -42,6 +42,7 @@
         android:id="@+id/team_stats_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/match_day"
         android:background="@color/white"
         android:padding="5dp">
 
@@ -64,6 +65,7 @@
         android:id="@+id/team_logo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/team_stats_layout"
         android:background="#aba5a5"
         android:padding="3dp">
 
@@ -83,29 +85,32 @@
             android:src="@drawable/ic_west_brom_logo" />
     </RelativeLayout>
 
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/parent_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/team_logo_layout"
+        android:background="@color/white"
+        android:scrollbars="vertical">
 
-        <include
-            android:id="@+id/lineup_match_stats"
-            layout="@layout/lineup_match_stats"
+        <RelativeLayout
+            android:id="@+id/parent_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/team_logo_layout" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/lineup_row"
-            layout="@layout/line_up_row"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/lineup_match_stats" />
-    </LinearLayout>
-</ScrollView>
+            <include
+                android:id="@+id/lineup_match_stats"
+                layout="@layout/lineup_match_stats"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-</LinearLayout>
+            <include
+                android:id="@+id/lineup_row"
+                layout="@layout/line_up_row"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/lineup_match_stats" />
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

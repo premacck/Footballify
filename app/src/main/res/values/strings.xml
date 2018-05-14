@@ -33,7 +33,7 @@
     <string name="zone_talent">Talent</string>
     <string name="zone_games">Games</string>
     <string name="zone_trader">Trader</string>
-    <string name="base_url">http://10.0.0.54:54504/</string>
+    <string name="base_url">http://10.0.0.220:54504/</string>
     <string name="secret_code">SECRET CODE</string>
     <string name="share_secret_code">GIVE THIS CODE TO YOUR FRIENDS</string>
     <string name="login_pref">loginPrefs</string>
