@@ -1,104 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="life.plank.juna.zone.view.activity.LineupActivity">
 
+    <include
+        android:id="@+id/lineup_toolbar_layout"
+        layout="@layout/lineup_toolbar_layout" />
+
     <RelativeLayout
+        android:id="@+id/match_day"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#543a4f">
+
+        <TextView
+            android:id="@+id/match_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="2dp"
+            android:text="@string/matchday_36"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tap_for_score_and_fixtures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity=""
+            android:lineSpacingExtra="5sp"
+            android:padding="2dp"
+            android:text="@string/tap_to_see_tiles"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/team_stats_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/team_stats"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/away_team"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="Emirates Stadium"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/team_logo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#aba5a5"
+        android:padding="3dp">
+
+        <ImageView
+            android:id="@+id/home_team_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_west_brom_logo" />
+
+        <ImageView
+            android:id="@+id/away_team_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:padding="5dp"
+            android:src="@drawable/ic_west_brom_logo" />
+    </RelativeLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
         android:id="@+id/parent_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <include
-            android:id="@+id/lineup_toolbar_layout"
-            layout="@layout/lineup_toolbar_layout" />
-
-        <RelativeLayout
-            android:id="@+id/match_day"
+            android:id="@+id/lineup_match_stats"
+            layout="@layout/lineup_match_stats"
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_below="@+id/lineup_toolbar_layout"
-            android:background="#543a4f">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/team_logo_layout" />
 
-            <TextView
-                android:id="@+id/match_list"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="2dp"
-                android:text="@string/matchday_36"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/tap_for_score_and_fixtures"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_gravity=""
-                android:lineSpacingExtra="5sp"
-                android:padding="2dp"
-                android:text="@string/tap_to_see_tiles"
-                android:textColor="#99ffffff"
-                android:textSize="12sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
+        <include
+            android:id="@+id/lineup_row"
+            layout="@layout/line_up_row"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/match_day"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/team_stats"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/away_team"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:text="Emirates Stadium"
-                android:textSize="12sp" />
-
-            <RelativeLayout
-                android:id="@+id/team_logo_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/away_team"
-                android:background="#19000000"
-                android:padding="3dp">
-
-                <ImageView
-                    android:id="@+id/home_team_logo"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_west_brom_logo" />
-
-                <ImageView
-                    android:id="@+id/away_team_logo"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:padding="5dp"
-                    android:src="@drawable/ic_west_brom_logo" />
-            </RelativeLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/match_stats_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/team_logo_layout" />
-
-            <include
-                android:id="@+id/lineup_row"
-                layout="@layout/line_up_row"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/match_stats_recyclerview" />
-        </RelativeLayout>
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/lineup_match_stats" />
+    </LinearLayout>
 </ScrollView>
+
+</LinearLayout>
