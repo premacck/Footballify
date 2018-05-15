@@ -31,6 +31,13 @@
         android:layout_below="@+id/feed_info"
         android:layout_marginTop="10dp" />
 
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+
     <com.bvapp.arcmenulibrary.ArcMenu
         android:id="@+id/arc_menu"
         android:layout_width="wrap_content"
