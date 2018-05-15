@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="sender_id">1061001784593</string>
-<string name="hub_name">juna-app</string>
-<string name="hub_listen_connection">Endpoint=sb://footballworkflows.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ywU+kaiYwofBfWDB3IiW/rbiVnQPEQQAlpmHz6pJgMU=</string>
-<string name="hub_full_access">Endpoint=sb://footballworkflows.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=BIIvu25Z+djqvANi1O2rTc1W3K6jnYFuEJe5A3L8+Os=</string>
-<string name="registration_id">registrationID</string>
-<string name="fcm_token">FCMtoken</string>
+    <string name="registration_id">registrationID</string>
+    <string name="fcm_token">FCMtoken</string>
 </resources>
