@@ -9,7 +9,7 @@ import life.plank.juna.zone.view.activity.SwipePageActivity;
  */
 
 public class NotificationSettings {
-    public static String hubListenConnectionString  = "Endpoint=sb://footballworkflows.servicebus.windows.net/;SharedAccessKeyName=DefaultFullSharedAccessSignature;SharedAccessKey=N5BxHQ/p8ssBVJAfF6YUQhyQJLfskbUGLkR4WT9lriM=";
+    public static String hubListenConnectionString  = "Endpoint=sb://footballworkflows.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=ywU+kaiYwofBfWDB3IiW/rbiVnQPEQQAlpmHz6pJgMU=";
     public static String senderId = "1061001784593";
-    public static String hubName = "Juna";
+    public static String hubName = "juna-app";
 }

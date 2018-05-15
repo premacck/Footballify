@@ -8,6 +8,37 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:1061001784593:android:b3c13afbe2129570",
+        "android_client_info": {
+          "package_name": "com.example.plank_prachi.pushnotificationdem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1061001784593-46eo80rca2gtbbf0nsrsddrs6au934km.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1gl2K2mBPR_UL9Xlw9Ye0-Dhsp1950sU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:1061001784593:android:237450576df0bb67",
         "android_client_info": {
           "package_name": "life.plank.juna.zone"

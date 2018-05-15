@@ -158,8 +158,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
-        NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
-        registerWithNotificationHubs();
+        try {
+            NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
+            registerWithNotificationHubs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         SharedPreferences loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
         savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
     }
@@ -218,7 +222,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         runOnUiThread( new Runnable() {
             @Override
             public void run() {
-                Log.e( "CHECK",notificationMessage );
+                System.out.print(notificationMessage );
                 Toast.makeText( SwipePageActivity.this, notificationMessage, Toast.LENGTH_LONG ).show();
                /* TextView helloText = (TextView) findViewById( R.id.text_hello );
                 helloText.setText( notificationMessage );*/
