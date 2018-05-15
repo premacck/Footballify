@@ -3,13 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="life.plank.juna.zone">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".ZoneApplication"
@@ -41,16 +37,6 @@
             android:name=".pushnotification.RegistrationIntentService"
             android:exported="false" />
 
-        <receiver
-            android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-
-                <category android:name="life.plank.juna.zone" />
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
@@ -75,6 +61,16 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="life.plank.juna.zone" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />
@@ -208,4 +204,8 @@
             android:name=".view.activity.MatchResultActivity"
             android:theme="@style/AppTheme" />
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 </manifest>

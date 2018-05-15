@@ -9,12 +9,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
+import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -33,7 +35,7 @@ public class RegistrationIntentService extends IntentService {
 
         try {
             String fcmToken = FirebaseInstanceId.getInstance().getToken();
-            Log.d(TAG, "FCM Registration Token: " + fcmToken);
+            Log.e(TAG, "FCM Registration Token: " + fcmToken);
 
             // Storing the registration id that indicates whether the generated token has been
             // sent to your server. If it is not stored, send the token to your server,
@@ -69,6 +71,7 @@ public class RegistrationIntentService extends IntentService {
 
                 sharedPreferences.edit().putString(getString(R.string.registration_id), regID).apply();
                 sharedPreferences.edit().putString(getString(R.string.fcm_token), fcmToken).apply();
+                hub.register( regID );
             } else {
                 resultString = "Previously Registered Successfully - RegId : " + regID;
             }
@@ -80,8 +83,9 @@ public class RegistrationIntentService extends IntentService {
         }
 
         // Notify UI that registration has completed.
-        if (SplashScreenActivity.isVisible) {
-            SplashScreenActivity.splashScreenActivity.ToastNotify(resultString);
+        if (SwipePageActivity.isVisible) {
+            Toast.makeText( this, "completed", Toast.LENGTH_SHORT ).show();
+          //  SwipePageActivity.swipePageActivity.ToastNotify(resultString);
         }
     }
 }

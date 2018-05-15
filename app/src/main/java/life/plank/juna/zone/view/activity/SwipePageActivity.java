@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -29,8 +30,11 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -55,6 +59,9 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
+import life.plank.juna.zone.pushnotification.NotificationSettings;
+import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
+import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
@@ -75,7 +82,10 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static Bitmap parentViewBitmap = null;
+    public static SwipePageActivity swipePageActivity;
+    public static Boolean isVisible = false;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -101,6 +111,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private String nextPageToken = "";
     private List<FootballFeed> footballFeeds;
     private int apiHitCount = 0;
+    private Boolean savedLogin;
     private NetworkStateReceiver networkStateReceiver;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -141,13 +152,48 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_swipe_page );
         ButterKnife.bind( this );
+        swipePageActivity = SwipePageActivity.this;
         startNetworkBroadcastReceiver( this );
         ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
+        try {
+            NotificationsManager.handleNotifications( this, NotificationSettings.senderId, PushNotificationsHandler.class );
+            registerWithNotificationHubs();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        SharedPreferences loginPreferences = getSharedPreferences( getString( R.string.login_pref ), MODE_PRIVATE );
+        savedLogin = loginPreferences.getBoolean( getString( R.string.shared_pref_save_login ), false );
     }
+
+    public void registerWithNotificationHubs() {
+        if (checkPlayServices()) {
+            // Start IntentService to register this application with FCM.
+            Intent intent = new Intent( this, RegistrationIntentService.class );
+            startService( intent );
+        }
+    }
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable( this );
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError( resultCode )) {
+                apiAvailability.getErrorDialog( this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST )
+                        .show();
+            } else {
+                Log.i( TAG, "This device is not supported by Google Play Services." );
+                ToastNotify( "This device is not supported by Google Play Services." );
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
 
     private void setUpData() {
         if (NetworkStatus.isNetworkAvailable( parentLayout, this )) {
@@ -155,6 +201,37 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         } else {
             retriveDataFromCacheMemory();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isVisible = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isVisible = false;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isVisible = true;
+    }
+
+
+    public void ToastNotify(final String notificationMessage) {
+        runOnUiThread( new Runnable() {
+            @Override
+            public void run() {
+                System.out.print( notificationMessage );
+                Toast.makeText( SwipePageActivity.this, notificationMessage, Toast.LENGTH_LONG ).show();
+               /* TextView helloText = (TextView) findViewById( R.id.text_hello );
+                helloText.setText( notificationMessage );*/
+            }
+        } );
     }
 
     private void initRecyclerView() {
@@ -274,7 +351,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         }
     }
 
-    @Override
+   /* @Override
     protected void onStart() {
         super.onStart();
 
@@ -283,7 +360,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     @Override
     protected void onResume() {
         super.onResume();
-        NetworkStatus.isNetworkAvailable( parentLayout, SwipePageActivity.this );
+        NetworkStatus.isNetworkAvailable(parentLayout, SwipePageActivity.this);
     }
 
     @Override
@@ -295,7 +372,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     @Override
     protected void onPause() {
         super.onPause();
-    }
+    }*/
 
     public void startNetworkBroadcastReceiver(Context currentContext) {
         networkStateReceiver = new NetworkStateReceiver();
