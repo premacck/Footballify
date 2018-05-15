@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -26,8 +25,8 @@ import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
@@ -83,19 +82,22 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static Bitmap parentViewBitmap = null;
+    public static SwipePageActivity swipePageActivity;
+    public static Boolean isVisible = false;
     @Inject
     @Named("azure")
     Retrofit retrofit;
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     FootballFeedAdapter footballFeedAdapter;
-    public static SwipePageActivity swipePageActivity;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     int TRCNumber = 20;
     Context context;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
     RenderScript renderScript;
@@ -110,19 +112,18 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private List<FootballFeed> footballFeeds;
     private int apiHitCount = 0;
     private Boolean savedLogin;
-    public static Boolean isVisible = false;
     private NetworkStateReceiver networkStateReceiver;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             if (newState == RecyclerView.SCROLL_STATE_IDLE)
                 arcMenu.show();
-            super.onScrollStateChanged(recyclerView, newState);
+            super.onScrollStateChanged( recyclerView, newState );
         }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
+            super.onScrolled( recyclerView, dx, dy );
             int visibleItemCount = gridLayoutManager.getChildCount();
             int totalItemCount = gridLayoutManager.getItemCount();
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
@@ -131,14 +132,14 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= PAGE_SIZE) {
                     isLoading = true;
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler().postDelayed( new Runnable() {
                         @Override
                         public void run() {
-                            if (NetworkStatus.isNetworkAvailable(parentLayout, SwipePageActivity.this)) {
+                            if (NetworkStatus.isNetworkAvailable( parentLayout, SwipePageActivity.this )) {
                                 getFootballFeed();
                             }
                         }
-                    }, AppConstants.PAGINATION_DELAY);
+                    }, AppConstants.PAGINATION_DELAY );
                 }
             }
             if (dy > 0 || dy < 0 && arcMenu.isShown())
@@ -148,42 +149,44 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_swipe_page);
-        ButterKnife.bind(this);
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_swipe_page );
+        ButterKnife.bind( this );
         swipePageActivity = SwipePageActivity.this;
-        startNetworkBroadcastReceiver(this);
-        ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+        startNetworkBroadcastReceiver( this );
+        ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject( this );
+        restApi = retrofit.create( RestApi.class );
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
         try {
-            NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
+            NotificationsManager.handleNotifications( this, NotificationSettings.senderId, PushNotificationsHandler.class );
             registerWithNotificationHubs();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        SharedPreferences loginPreferences = getSharedPreferences(getString(R.string.login_pref), MODE_PRIVATE);
-        savedLogin = loginPreferences.getBoolean(getString(R.string.shared_pref_save_login), false);
+        SharedPreferences loginPreferences = getSharedPreferences( getString( R.string.login_pref ), MODE_PRIVATE );
+        savedLogin = loginPreferences.getBoolean( getString( R.string.shared_pref_save_login ), false );
     }
+
     public void registerWithNotificationHubs() {
         if (checkPlayServices()) {
             // Start IntentService to register this application with FCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
+            Intent intent = new Intent( this, RegistrationIntentService.class );
+            startService( intent );
         }
     }
+
     private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable( this );
         if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+            if (apiAvailability.isUserResolvableError( resultCode )) {
+                apiAvailability.getErrorDialog( this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST )
                         .show();
             } else {
-                Log.i(TAG, "This device is not supported by Google Play Services.");
-                ToastNotify("This device is not supported by Google Play Services.");
+                Log.i( TAG, "This device is not supported by Google Play Services." );
+                ToastNotify( "This device is not supported by Google Play Services." );
                 finish();
             }
             return false;
@@ -193,12 +196,13 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
 
     private void setUpData() {
-        if (NetworkStatus.isNetworkAvailable(parentLayout, this)) {
+        if (NetworkStatus.isNetworkAvailable( parentLayout, this )) {
             getFootballFeed();
         } else {
             retriveDataFromCacheMemory();
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -222,109 +226,113 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         runOnUiThread( new Runnable() {
             @Override
             public void run() {
-                System.out.print(notificationMessage );
+                System.out.print( notificationMessage );
                 Toast.makeText( SwipePageActivity.this, notificationMessage, Toast.LENGTH_LONG ).show();
                /* TextView helloText = (TextView) findViewById( R.id.text_hello );
                 helloText.setText( notificationMessage );*/
             }
         } );
     }
+
     private void initRecyclerView() {
         int numberOfRows = 3;
-        gridLayoutManager = new GridLayoutManager(this, numberOfRows, GridLayoutManager.VERTICAL, false);
-        feedRecyclerView.setLayoutManager(gridLayoutManager);
-        footballFeedAdapter = new FootballFeedAdapter(this);
-        feedRecyclerView.setAdapter(footballFeedAdapter);
-        feedRecyclerView.setHasFixedSize(true);
-        feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        footballFeedAdapter.setPinFeedListener(this);
-        footballFeedAdapter.setOnLongPressListener(this);
-        renderScript = RenderScript.create(this);
+        gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
+        feedRecyclerView.setLayoutManager( gridLayoutManager );
+        footballFeedAdapter = new FootballFeedAdapter( this );
+        feedRecyclerView.setAdapter( footballFeedAdapter );
+        feedRecyclerView.setHasFixedSize( true );
+        feedRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
+        footballFeedAdapter.setPinFeedListener( this );
+        footballFeedAdapter.setOnLongPressListener( this );
+        renderScript = RenderScript.create( this );
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
         if (!nextPageToken.isEmpty()) {
-            String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
-            updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
+            String updatedNextPageToken = nextPageToken.replaceFirst( AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT );
+            updatedNextPageToken = updatedNextPageToken.replaceFirst( AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC );
             return updatedNextPageToken;
         }
         return "";
     }
 
     public void getFootballFeed() {
-        subscription = restApi.getFootballFeed(updateToken(nextPageToken,
-                getString(R.string.replace_rt) +
-                        String.valueOf(apiHitCount), getString(R.string.replace_trc)
-                        + String.valueOf(apiHitCount * TRCNumber)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
+        progressBar.setVisibility( View.VISIBLE );
+        subscription = restApi.getFootballFeed( updateToken( nextPageToken,
+                getString( R.string.replace_rt ) +
+                        String.valueOf( apiHitCount ), getString( R.string.replace_trc )
+                        + String.valueOf( apiHitCount * TRCNumber ) ) )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "In onCompleted()");
+                        Log.d( TAG, "In onCompleted()" );
+                        progressBar.setVisibility( View.INVISIBLE );
 
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "In onCompleted()");
+                        Log.d( TAG, "In onCompleted()" );
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
+                        progressBar.setVisibility( View.INVISIBLE );
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             if (apiHitCount == 0) {
-                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
-                                saveDataToCacheMemory(new Gson().toJson(response.body()));
+                                nextPageToken = response.headers().get( AppConstants.FOOTBALL_FEEDS_HEADER_KEY );
+                                saveDataToCacheMemory( new Gson().toJson( response.body() ) );
                                 setUpStaticItemsToFeeds();
                             }
-                            setUpAdapterWithNewData(response.body());
+                            setUpAdapterWithNewData( response.body() );
                             apiHitCount = apiHitCount + 1;
                         } else {
-                            showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
+                            showToast( AppConstants.DEFAULT_ERROR_MESSAGE );
                         }
                     }
-                });
+                } );
 
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
         if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
-            if ("".contentEquals(nextPageToken) ? (isLastPage = true) : (isLoading = false)) ;
-            footballFeeds.addAll(footballFeedsList);
-            footballFeedAdapter.setFootballFeedList(footballFeedsList);
+            if ("".contentEquals( nextPageToken ) ? (isLastPage = true) : (isLoading = false)) ;
+            footballFeeds.addAll( footballFeedsList );
+            footballFeedAdapter.setFootballFeedList( footballFeedsList );
             PAGE_SIZE = footballFeedsList.size();
         }
     }
 
     private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        Toast.makeText( this, message, Toast.LENGTH_SHORT ).show();
     }
 
     @Override
     public void onPinFeed(int positon) {
-        savePinnedFeedsToPrefrence(positon);
+        savePinnedFeedsToPrefrence( positon );
     }
 
     private void savePinnedFeedsToPrefrence(int position) {
-        PreferenceManager preferenceManager = new PreferenceManager(this);
+        PreferenceManager preferenceManager = new PreferenceManager( this );
         Gson gson = new Gson();
-        String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.PINNED_FEEDS);
+        String pinnedList = preferenceManager.getPinnedFeeds( AppConstants.PINNED_FEEDS );
         List<FootballFeed> pinnedFeedsList;
-        if ("".contentEquals(pinnedList)) {
+        if ("".contentEquals( pinnedList )) {
             pinnedFeedsList = new ArrayList<>();
         } else {
-            pinnedFeedsList = gson.fromJson(pinnedList,
+            pinnedFeedsList = gson.fromJson( pinnedList,
                     new TypeToken<List<FootballFeed>>() {
-                    }.getType());
+                    }.getType() );
         }
-        pinnedFeedsList.add(footballFeeds.get(position));
-        preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
+        pinnedFeedsList.add( footballFeeds.get( position ) );
+        preferenceManager.savePinnedFeeds( gson.toJson( pinnedFeedsList ) );
     }
 
     private void saveDataToCacheMemory(String feedItems) {
         try {
-            ObjectOutput objectOutput = new ObjectOutputStream(new FileOutputStream(new File(getCacheDir(), "") + AppConstants.CACHE_FILE_NAME));
-            objectOutput.writeObject(feedItems);
+            ObjectOutput objectOutput = new ObjectOutputStream( new FileOutputStream( new File( getCacheDir(), "" ) + AppConstants.CACHE_FILE_NAME ) );
+            objectOutput.writeObject( feedItems );
             objectOutput.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -333,11 +341,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     private void retriveDataFromCacheMemory() {
         try {
-            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(new File(new File(getCacheDir(), "") + AppConstants.CACHE_FILE_NAME)));
+            ObjectInputStream objectInputStream = new ObjectInputStream( new FileInputStream( new File( new File( getCacheDir(), "" ) + AppConstants.CACHE_FILE_NAME ) ) );
             String jsonObject = (String) objectInputStream.readObject();
             objectInputStream.close();
-            setUpAdapterWithNewData(new Gson().fromJson(jsonObject, new TypeToken<List<FootballFeed>>() {
-            }.getType()));
+            setUpAdapterWithNewData( new Gson().fromJson( jsonObject, new TypeToken<List<FootballFeed>>() {
+            }.getType() ) );
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -368,8 +376,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     public void startNetworkBroadcastReceiver(Context currentContext) {
         networkStateReceiver = new NetworkStateReceiver();
-        networkStateReceiver.addListener((NetworkStateReceiver.NetworkStateReceiverListener) currentContext);
-        registerNetworkBroadcastReceiver(currentContext);
+        networkStateReceiver.addListener( (NetworkStateReceiver.NetworkStateReceiverListener) currentContext );
+        registerNetworkBroadcastReceiver( currentContext );
     }
 
     /**
@@ -378,7 +386,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
      * @param currentContext
      */
     public void registerNetworkBroadcastReceiver(Context currentContext) {
-        currentContext.registerReceiver(networkStateReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+        currentContext.registerReceiver( networkStateReceiver, new IntentFilter( ConnectivityManager.CONNECTIVITY_ACTION ) );
     }
 
     /**
@@ -388,7 +396,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
      */
     public void unregisterNetworkBroadcastReceiver() {
         try {
-            this.unregisterReceiver(networkStateReceiver);
+            this.unregisterReceiver( networkStateReceiver );
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -400,20 +408,20 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     @Override
     public void networkUnavailable() {
-        Snackbar.make(parentLayout, getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make( parentLayout, getString( R.string.cannot_connect_to_the_internet ), Snackbar.LENGTH_SHORT ).show();
     }
 
     private Bitmap loadBitmap(View backgroundView, View targetView) {
         Rect backgroundBounds = new Rect();
-        backgroundView.getHitRect(backgroundBounds);
-        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
+        backgroundView.getHitRect( backgroundBounds );
+        if (!targetView.getLocalVisibleRect( backgroundBounds )) {
             return null;
         }
-        Bitmap blurredBitmap = captureView(backgroundView);
+        Bitmap blurredBitmap = captureView( backgroundView );
         int[] location = new int[2];
         int[] backgroundViewLocation = new int[2];
-        backgroundView.getLocationInWindow(backgroundViewLocation);
-        targetView.getLocationInWindow(location);
+        backgroundView.getLocationInWindow( backgroundViewLocation );
+        targetView.getLocationInWindow( location );
         int height = targetView.getHeight();
         int y = location[1];
         if (backgroundViewLocation[1] >= location[1]) {
@@ -428,14 +436,14 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             }
         }
         Matrix matrix = new Matrix();
-        matrix.setScale(0.5f, 0.5f);
-        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
+        matrix.setScale( 0.5f, 0.5f );
+        Bitmap bitmap = Bitmap.createBitmap( blurredBitmap,
                 (int) targetView.getX(),
                 y,
                 targetView.getMeasuredWidth(),
                 height,
                 matrix,
-                true);
+                true );
         return bitmap;
     }
 
@@ -443,40 +451,40 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         if (blurredBitmap != null) {
             return blurredBitmap;
         }
-        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+        blurredBitmap = Bitmap.createBitmap( view.getMeasuredWidth(),
                 view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(blurredBitmap);
-        view.draw(canvas);
-        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
+                Bitmap.Config.ARGB_4444 );
+        Canvas canvas = new Canvas( blurredBitmap );
+        view.draw( canvas );
+        UIDisplayUtil.blurBitmapWithRenderscript( renderScript, blurredBitmap );
         Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        paint.setXfermode( new PorterDuffXfermode( PorterDuff.Mode.SRC_IN ) );
         //ColorFilter filter = new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
-        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
-        paint.setColorFilter(filter);
-        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
+        ColorFilter filter = new LightingColorFilter( 0xFF7F7F7F, 0x00000000 );    // darken
+        paint.setColorFilter( filter );
+        canvas.drawBitmap( blurredBitmap, 0, 0, paint );
         return blurredBitmap;
     }
 
     @Override
     public void onItemLongPress(int position) {
-        parentViewBitmap = loadBitmap(parentLayout, parentLayout);
-        Intent intent = new Intent(this, FootballFeedDetailActivity.class);
-        intent.putExtra(AppConstants.POSITION, String.valueOf(position));
-        intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeeds));
-        startActivity(intent);
+        parentViewBitmap = loadBitmap( parentLayout, parentLayout );
+        Intent intent = new Intent( this, FootballFeedDetailActivity.class );
+        intent.putExtra( AppConstants.POSITION, String.valueOf( position ) );
+        intent.putExtra( AppConstants.FEED_ITEMS, new Gson().toJson( footballFeeds ) );
+        startActivity( intent );
     }
 
     private void setUpStaticItemsToFeeds() {
         footballFeeds = new ArrayList<>();
-        footballFeeds.add(new FootballFeed("", "Standings", "", "", "", "", new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg", 0, 0), null, "", "", null, 0));
-        footballFeeds.add(new FootballFeed("", "Schedules", "", "", "", "", new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg", 0, 0), null, "", "", null, 0));
-        footballFeeds.add(new FootballFeed("", "Premier League", "", "", "", "", new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0), null, "", "", null, 0));
-        footballFeedAdapter.setFootballFeedList(footballFeeds);
+        footballFeeds.add( new FootballFeed( "", "Standings", "", "", "", "", new Thumbnail( "http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg", 0, 0 ), null, "", "", null, 0 ) );
+        footballFeeds.add( new FootballFeed( "", "Schedules", "", "", "", "", new Thumbnail( "http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg", 0, 0 ), null, "", "", null, 0 ) );
+        footballFeeds.add( new FootballFeed( "", "Premier League", "", "", "", "", new Thumbnail( "https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0 ), null, "", "", null, 0 ) );
+        footballFeedAdapter.setFootballFeedList( footballFeeds );
     }
 
     private void setUpBoomMenu() {
-        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
                 R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
@@ -485,19 +493,19 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                 R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
         String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment"};
         for (int i = 0; i < fabImages.length; i++) {
-            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
+            View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
             //child.setId(i);
-            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
-            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
-            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
-            fabImageVIew.setImageResource(fabImages[i]);
+            RelativeLayout fabRelativeLayout = child.findViewById( R.id.fab_relative_layout );
+            ImageView fabImageVIew = child.findViewById( R.id.fab_image_view );
+            fabRelativeLayout.setBackground( ContextCompat.getDrawable( this, backgroundColors[i] ) );
+            fabImageVIew.setImageResource( fabImages[i] );
             final int position = i;
-            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
+            arcMenu.addItem( child, titles[i], new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch (position) {
                         case 0: {
-                            startActivity(new Intent(SwipePageActivity.this, BoardActivity.class));
+                            startActivity( new Intent( SwipePageActivity.this, BoardActivity.class ) );
                             break;
                         }
                         case 1: {
@@ -510,11 +518,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 4: {
-                            startActivity(new Intent(SwipePageActivity.this, CameraActivity.class));
+                            startActivity( new Intent( SwipePageActivity.this, CameraActivity.class ) );
                             break;
                         }
                         case 5: {
-                            startActivity(new Intent(SwipePageActivity.this, RecordAudioActivity.class));
+                            startActivity( new Intent( SwipePageActivity.this, RecordAudioActivity.class ) );
                             break;
                         }
                         case 6: {
@@ -522,7 +530,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         }
                     }
                 }
-            });
+            } );
         }
     }
 }
