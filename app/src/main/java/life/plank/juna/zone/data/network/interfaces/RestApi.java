@@ -9,6 +9,7 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.LineupsModel;
+import life.plank.juna.zone.data.network.model.MatchSummaryModel;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
@@ -100,4 +101,8 @@ public interface RestApi {
 
     @POST("feedItems/f87f341d-2c7d-41f6-ba44-7e9f4920f533/likes")
     Observable<Response<JsonObject>> getLikedFeedItem(@Query("userId") String userId);
+
+    @GET("matches/1711170/matchsummary")
+    Observable<Response<MatchSummaryModel>> getMatchSummary();
+
 }
