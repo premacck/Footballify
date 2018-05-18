@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -72,6 +73,7 @@ public class LineupActivity extends AppCompatActivity {
     List<List<LineupsModel.Formation>> homeTeamLineups;
     List<List<LineupsModel.Formation>> awayTeamLineups;
     private RestApi restApi;
+    private Long currentMatchId;
     private ArrayList<Integer> visitingTeamFormation;
     private ArrayList<Integer> homeTeamFormation;
 
@@ -79,16 +81,16 @@ public class LineupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_line_up );
+        ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getLineupNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-        ButterKnife.bind( this );
-        getLineUpData();
-        getMatchSummary( 1711170 );
-
+        currentMatchId = getIntent().getLongExtra("MATCH_ID",0L );
+        getLineUpData(currentMatchId);
+        getMatchSummary( currentMatchId );
     }
 
-    public void getLineUpData() {
-        restApi.getLineUpsData()
+    public void getLineUpData(long matchId) {
+        restApi.getLineUpsData(matchId)
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Subscriber<Response<LineupsModel>>() {

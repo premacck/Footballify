@@ -90,8 +90,8 @@ public interface RestApi {
     @GET("teams/stats")
     Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
 
-    @GET("matches/1711146/lineups")
-    Observable<Response<LineupsModel>> getLineUpsData();
+    @GET("matches/{matchId}/lineups")
+    Observable<Response<LineupsModel>> getLineUpsData(@Path( "matchId" ) long matchId);
 
     @POST("users")
     Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel);
