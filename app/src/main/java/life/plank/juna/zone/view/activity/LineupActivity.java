@@ -41,7 +41,7 @@ public class LineupActivity extends AppCompatActivity {
     TextView homeTeamShots;
     @BindView(R.id.away_team_shots)
     TextView awayTeamShots;
-    @BindView(R.id.home_team_stots_on_target)
+    @BindView(R.id.home_team_shots_on_target)
     TextView homeTeamShotsOnTarget;
     @BindView(R.id.away_team_shots_on_target)
     TextView awayTeamShotsOnTarget;
@@ -69,7 +69,6 @@ public class LineupActivity extends AppCompatActivity {
     TextView homeTeamCorner;
     @BindView(R.id.away_team_corner)
     TextView awayTeamCorner;
-    List<MatchSummaryModel> matchSummaryModelList;
     List<List<LineupsModel.Formation>> homeTeamLineups;
     List<List<LineupsModel.Formation>> awayTeamLineups;
     private RestApi restApi;
