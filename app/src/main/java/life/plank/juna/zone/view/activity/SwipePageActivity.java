@@ -483,7 +483,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         footballFeedAdapter.setFootballFeedList( footballFeeds );
     }
 
-    private void setUpBoomMenu() {
+    public void setUpBoomMenu() {
+        //todo: will be add in Utils so we can Reuse the Code
         arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
