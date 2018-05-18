@@ -1,12 +1,16 @@
 package life.plank.juna.zone.view.fragment;
 
-import android.app.Fragment;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Legend;
@@ -16,6 +20,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,19 +29,23 @@ import java.util.concurrent.TimeUnit;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.firebasepushnotification.PushNotificationFirebaseMessagingService;
+import life.plank.juna.zone.interfaces.UpdateDataOnChartFragment;
 import life.plank.juna.zone.util.ScrubberConstants;
+import life.plank.juna.zone.view.activity.MatchResultActivity;
 
-public class GraphFragment extends Fragment {
+public class GraphFragment extends Fragment implements UpdateDataOnChartFragment{
     RelativeLayout linearLayout;
     LineChart lineChart;
     ArrayList<Entry> values = new ArrayList<>();
+
     long now;
     private HashMap<Integer, ScrubberViewData> graphData;
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.graph_fragment, container, false);
         linearLayout = view.findViewById(R.id.root);
         lineChart = view.findViewById(R.id.line_chart);
+        PushNotificationFirebaseMessagingService.setUpdateDataOnChartFragment(this);
         setUpGraph();
         return view;
     }
@@ -66,6 +76,7 @@ public class GraphFragment extends Fragment {
         // dont forget to refresh the drawing
         //mChart.invalidate();
         // get the legend (only possible after setting data)
+
         Legend legend = lineChart.getLegend();
         legend.setEnabled(false);
         XAxis xAxis = lineChart.getXAxis();
@@ -129,5 +140,13 @@ public class GraphFragment extends Fragment {
             lineChart.setData(data);
             lineChart.invalidate();
         }
+    }
+
+    @Override
+    public void updateData(String id, int minute) {
+        //updateData(MyModel model)
+        //class with name get parameter , model.getId
+        Log.e( "Graph Frag","remote msg "+minute );
+        Toast.makeText( getActivity(), "Triggered", Toast.LENGTH_SHORT ).show();
     }
 }
