@@ -22,6 +22,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.LiveMatchesAdapter;
+import life.plank.juna.zone.view.adapter.PastMatchAdapter;
 import life.plank.juna.zone.view.adapter.ScheduledMatchesAdapter;
 import life.plank.juna.zone.view.adapter.TomorrowsMatchesAdapter;
 import retrofit2.Response;
@@ -36,18 +37,24 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
-    @BindView(R.id.current_match_recycler_view)
+    @BindView(R.id.live_match_recycler_view)
     RecyclerView currentMatchRecyclerView;
     @BindView(R.id.tommorow_match_recycler_view)
     RecyclerView tommorowMatchRecyclerView;
-    @BindView(R.id.weekend_match_recycler_view)
-    RecyclerView weekendMatchRecyclerView;
+    @BindView(R.id.scheduled_match_recycler_view)
+    RecyclerView upcomingMatchRecyclerView;
+    @BindView(R.id.past_match_recycler_view)
+    RecyclerView pastMatchRecyclerView;
     List<ScoreFixtureModel> scoreFixtureModelList;
     private LiveMatchesAdapter liveMatchesAdapter;
     private TomorrowsMatchesAdapter tomorrowsMatchesAdapter;
     private ScheduledMatchesAdapter scheduledMatchesAdapter;
+    private PastMatchAdapter pastMatchAdapter;
     private RestApi restApi;
     private String TAG = FixtureAndResultActivity.class.getSimpleName();
+    private List<ScoreFixtureModel> liveMatchModelList;
+    private List<ScoreFixtureModel> tomorrowMatchModelList;
+    private List<ScoreFixtureModel> pastMatchModelList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +62,15 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         setContentView( R.layout.activity_fixture_and_result );
         ButterKnife.bind( this );
         populateTommorowMatchFixtureRecyclerView();
-        populateCurrentMatchScoreRecyclerView();
+        populateLiveMatchScoreRecyclerView();
         ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         getScoreFixture( AppConstants.SEASON_NAME );
         populateSheduledScoreFixtureRecyclerView();
-
+        populatePastMatchFixtureRecyclerView();
     }
 
-    public void populateCurrentMatchScoreRecyclerView() {
+    public void populateLiveMatchScoreRecyclerView() {
         liveMatchesAdapter = new LiveMatchesAdapter( this );
         currentMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         currentMatchRecyclerView.setAdapter( liveMatchesAdapter );
@@ -81,13 +88,22 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
     }
 
+    public void populatePastMatchFixtureRecyclerView() {
+        pastMatchAdapter = new PastMatchAdapter( this );
+        pastMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
+        pastMatchRecyclerView.setAdapter( pastMatchAdapter );
+        DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
+        pastMatchRecyclerView.addItemDecoration( itemDecor );
+
+    }
+
     public void populateSheduledScoreFixtureRecyclerView() {
         scoreFixtureModelList = new ArrayList<>();
         scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, scoreFixtureModelList );
-        weekendMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        weekendMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
+        upcomingMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
+        upcomingMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
-        weekendMatchRecyclerView.addItemDecoration( itemDecor );
+        upcomingMatchRecyclerView.addItemDecoration( itemDecor );
     }
 
     public void populateScoreFixtureRecyclerView(List<ScoreFixtureModel> scoreFixtureModelResponse) {
@@ -114,6 +130,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<ScoreFixtureModel>> response) {
                         Log.e( TAG, "response: " + ", list data " + response.toString() );
                         if (response.code() == HttpURLConnection.HTTP_OK) {
+
                             populateScoreFixtureRecyclerView( response.body() );
                         }
                     }

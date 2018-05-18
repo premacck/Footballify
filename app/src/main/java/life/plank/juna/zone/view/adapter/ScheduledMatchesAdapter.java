@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.util.DateUtil;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.LineupActivity;
@@ -42,7 +43,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        holder.dateSchedule.setText( scoreFixtureModelList.get( position ).getMatchStartTime() );
+        holder.dateSchedule.setText( DateUtil.ISO_DATE_FORMAT.format(scoreFixtureModelList.get( position ).getMatchStartTime() ));
         Long matchId = Long.valueOf( scoreFixtureModelList.get( position ).getForeignId() );
         if (scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )

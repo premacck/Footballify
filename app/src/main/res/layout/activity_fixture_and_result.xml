@@ -24,19 +24,24 @@
                 android:text="Matches,FixtureResults" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/current_match_recycler_view"
+                android:id="@+id/past_match_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/matchday_header"
                 android:nestedScrollingEnabled="false" />
 
             <TextView
-                android:id="@+id/tommorow_match_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/light_header"
                 android:padding="5dp"
                 android:text="Match Day 36" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/live_match_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/matchday_header"
+                android:nestedScrollingEnabled="false" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/tommorow_match_recycler_view"
@@ -54,7 +59,7 @@
                 android:text="Match Day 37" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/weekend_match_recycler_view"
+                android:id="@+id/scheduled_match_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

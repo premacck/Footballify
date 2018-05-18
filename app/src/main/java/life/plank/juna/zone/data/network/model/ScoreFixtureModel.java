@@ -1,8 +1,12 @@
 package life.plank.juna.zone.data.network.model;
 
+import java.text.ParseException;
+import java.util.Date;
+
+import life.plank.juna.zone.util.DateUtil;
+
 //todo: streamline this model in next pull request
 public class ScoreFixtureModel {
-
     private Integer id;
     private Integer foreignId;
     private League league;
@@ -16,7 +20,7 @@ public class ScoreFixtureModel {
     private Integer homeGoals;
     private Integer awayGoals;
     private Boolean hasExtraTime;
-    private String startDate;
+    private Date startDate;
     private Boolean commentaries;
     private Boolean winningOddsCalculated;
     private Integer homeTeamScore;
@@ -28,9 +32,11 @@ public class ScoreFixtureModel {
     private Integer minute;
     private Integer extraMinute;
     private Integer injuryTime;
-    private String matchStartTime;
+    private Date matchStartTime;
     private Integer trackingState;
     private String entityIdentifier;
+    private int matchDay;
+
 
     public Integer getId() {
         return id;
@@ -136,12 +142,16 @@ public class ScoreFixtureModel {
         this.hasExtraTime = hasExtraTime;
     }
 
-    public String getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStartDate(String startDateString) {
+        try {
+            this.startDate = DateUtil.getIsoFormattedDate(startDateString);
+        } catch (ParseException e) {
+            this.startDate = null;
+        }
     }
 
     public Boolean getCommentaries() {
@@ -232,12 +242,16 @@ public class ScoreFixtureModel {
         this.injuryTime = injuryTime;
     }
 
-    public String getMatchStartTime() {
+    public Date getMatchStartTime() {
         return matchStartTime;
     }
 
-    public void setMatchStartTime(String matchStartTime) {
-        this.matchStartTime = matchStartTime;
+    public void setMatchStartTime(String matchStartTimeString) {
+        try {
+            this.matchStartTime = DateUtil.getIsoFormattedDate(matchStartTimeString);
+        } catch (ParseException e) {
+            this.matchStartTime = null;
+        }
     }
 
     public Integer getTrackingState() {
@@ -255,6 +269,15 @@ public class ScoreFixtureModel {
     public void setEntityIdentifier(String entityIdentifier) {
         this.entityIdentifier = entityIdentifier;
     }
+
+    public int getMatchDay() {
+        return matchDay;
+    }
+
+    public void setMatchDay(int matchDay) {
+        this.matchDay = matchDay;
+    }
+
 
     public class League {
 
