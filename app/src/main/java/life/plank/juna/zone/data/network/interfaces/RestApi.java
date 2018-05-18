@@ -102,7 +102,7 @@ public interface RestApi {
     @POST("feedItems/f87f341d-2c7d-41f6-ba44-7e9f4920f533/likes")
     Observable<Response<JsonObject>> getLikedFeedItem(@Query("userId") String userId);
 
-    @GET("matches/1711170/matchsummary")
-    Observable<Response<MatchSummaryModel>> getMatchSummary();
+    @GET("matches/{matchId}/matchsummary")
+    Observable<Response<MatchSummaryModel>> getMatchSummary(@Path( "matchId" ) long matchId);
 
 }

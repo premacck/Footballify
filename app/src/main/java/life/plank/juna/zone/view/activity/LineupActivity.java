@@ -83,7 +83,8 @@ public class LineupActivity extends AppCompatActivity {
         restApi = retrofit.create( RestApi.class );
         ButterKnife.bind( this );
         getLineUpData();
-        getMatchSummary();
+        getMatchSummary( 1711170 );
+
     }
 
     public void getLineUpData() {
@@ -189,8 +190,8 @@ public class LineupActivity extends AppCompatActivity {
         }
     }
 
-    public void getMatchSummary() {
-        restApi.getMatchSummary()
+    public void getMatchSummary(long matchId) {
+        restApi.getMatchSummary( matchId )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Subscriber<Response<MatchSummaryModel>>() {
