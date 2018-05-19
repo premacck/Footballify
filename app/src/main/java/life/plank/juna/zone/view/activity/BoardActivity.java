@@ -1,7 +1,10 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +13,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,10 +31,14 @@ import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 
 public class BoardActivity extends AppCompatActivity {
 
+    private static final int RESULT_LOAD_IMG = 123456;
+    private static final int SELECT_PICTURE = 234;
     @BindView(R.id.board_recycler_view)
     RecyclerView boardRecyclerView;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
+    List<Uri> listOfImageOnView = new ArrayList<>();
+    private Uri selectedImageUri;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,10 +48,12 @@ public class BoardActivity extends AppCompatActivity {
         initRecyclerView();
         setUpBoomMenu();
     }
+
     //todo: Inject adapter
     private void initRecyclerView() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 4, GridLayoutManager.VERTICAL, false );
         boardRecyclerView.setLayoutManager( gridLayoutManager );
+        listOfImageOnView.add( selectedImageUri );
         BoardMediaAdapter boardMediaAdapter = new BoardMediaAdapter( this );
         boardRecyclerView.setAdapter( boardMediaAdapter );
         boardRecyclerView.setHasFixedSize( true );
@@ -80,6 +93,7 @@ public class BoardActivity extends AppCompatActivity {
                             break;
                         }
                         case 3: {
+                            getImageResourceFromGallery();
                             break;
                         }
                         case 4: {
@@ -97,6 +111,40 @@ public class BoardActivity extends AppCompatActivity {
                 }
             } );
         }
+    }
+
+    //todo: code write in Utils
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_PICTURE) {
+                selectedImageUri = data.getData();
+                if (null != selectedImageUri) {
+                    String path = getPathFromURI( selectedImageUri );
+                    Toast.makeText( this, "Image Loaded Successfully", Toast.LENGTH_SHORT ).show();
+                }
+            }
+        }
+    }
+
+    /* Get the real path from the URI */
+    public String getPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query( contentUri, proj, null, null, null );
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+            res = cursor.getString( column_index );
+        }
+        cursor.close();
+        return res;
+    }
+
+    public void getImageResourceFromGallery() {
+        Intent intent = new Intent();
+        intent.setType( "image/*" );
+        intent.setAction( Intent.ACTION_GET_CONTENT );
+        startActivityForResult( Intent.createChooser( intent, "Select Picture" ), SELECT_PICTURE );
+        Toast.makeText( BoardActivity.this, "get Image From Gallery", Toast.LENGTH_SHORT ).show();
     }
 
 }
