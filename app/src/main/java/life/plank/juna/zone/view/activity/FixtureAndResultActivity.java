@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +20,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.domain.service.FootballFixtureClassifierService;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.LiveMatchesAdapter;
 import life.plank.juna.zone.view.adapter.PastMatchAdapter;
@@ -37,6 +38,10 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
+   // @Inject
+    // todo: Make this a dagger component
+    FootballFixtureClassifierService footballFixtureClassifierService = new FootballFixtureClassifierService();
+
     @BindView(R.id.live_match_recycler_view)
     RecyclerView currentMatchRecyclerView;
     @BindView(R.id.tommorow_match_recycler_view)
@@ -52,22 +57,18 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     private PastMatchAdapter pastMatchAdapter;
     private RestApi restApi;
     private String TAG = FixtureAndResultActivity.class.getSimpleName();
-    private List<ScoreFixtureModel> liveMatchModelList;
-    private List<ScoreFixtureModel> tomorrowMatchModelList;
-    private List<ScoreFixtureModel> pastMatchModelList;
+    private HashMap<Integer, List<ScoreFixtureModel>> matchDayMap;
+    private HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_fixture_and_result );
         ButterKnife.bind( this );
-        populateTommorowMatchFixtureRecyclerView();
-        populateLiveMatchScoreRecyclerView();
-        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
+
+       ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         getScoreFixture( AppConstants.SEASON_NAME );
-        populateSheduledScoreFixtureRecyclerView();
-        populatePastMatchFixtureRecyclerView();
     }
 
     public void populateLiveMatchScoreRecyclerView() {
@@ -89,7 +90,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populatePastMatchFixtureRecyclerView() {
-        pastMatchAdapter = new PastMatchAdapter( this );
+        pastMatchAdapter = new PastMatchAdapter( this);
         pastMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         pastMatchRecyclerView.setAdapter( pastMatchAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
@@ -98,17 +99,11 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populateSheduledScoreFixtureRecyclerView() {
-        scoreFixtureModelList = new ArrayList<>();
-        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, scoreFixtureModelList );
+        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, matchDayMap,classifiedMatchesMap );
         upcomingMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         upcomingMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
         upcomingMatchRecyclerView.addItemDecoration( itemDecor );
-    }
-
-    public void populateScoreFixtureRecyclerView(List<ScoreFixtureModel> scoreFixtureModelResponse) {
-        scoreFixtureModelList.addAll( scoreFixtureModelResponse );
-        scheduledMatchesAdapter.notifyDataSetChanged();
     }
 
     public void getScoreFixture(String seasonName) {
@@ -118,20 +113,25 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                 .subscribe( new Observer<Response<List<ScoreFixtureModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( TAG, "response: " );
+                        Log.e( TAG, "onCompleted-->: " );
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d( TAG, "In onCompleted()" + e );
+                        Log.e( TAG, "In onError()" + e );
                     }
 
                     @Override
                     public void onNext(Response<List<ScoreFixtureModel>> response) {
                         Log.e( TAG, "response: " + ", list data " + response.toString() );
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
+                        if (response.code() == HttpURLConnection.HTTP_OK && response.body()!= null) {
+                            matchDayMap = footballFixtureClassifierService.GetMatchDayMap( response.body() );
+                            classifiedMatchesMap = footballFixtureClassifierService.GetClassifiedMatchesMap( response.body() );
+                            populateSheduledScoreFixtureRecyclerView();
+                            populatePastMatchFixtureRecyclerView();
+                            populateTommorowMatchFixtureRecyclerView();
+                            populateLiveMatchScoreRecyclerView();
 
-                            populateScoreFixtureRecyclerView( response.body() );
                         }
                     }
                 } );

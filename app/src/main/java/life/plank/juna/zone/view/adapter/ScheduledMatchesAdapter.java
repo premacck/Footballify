@@ -11,13 +11,17 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
-import life.plank.juna.zone.util.DateUtil;
+import life.plank.juna.zone.domain.service.FootballFixtureClassifierService;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.LineupActivity;
@@ -27,13 +31,15 @@ import life.plank.juna.zone.view.activity.LineupActivity;
  */
 public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatchesAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
-    private List<ScoreFixtureModel> scoreFixtureModelList;
+    private HashMap<Integer, List<ScoreFixtureModel>> matchDayMap;
+    private HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap;
 
-
-    public ScheduledMatchesAdapter(Context context, List<ScoreFixtureModel> scoreFixtureModelList) {
+    public ScheduledMatchesAdapter(Context context, HashMap<Integer, List<ScoreFixtureModel>> matchDayMap, HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap) {
         this.context = context;
-        this.scoreFixtureModelList = scoreFixtureModelList;
+        this.matchDayMap = matchDayMap;
+        this.classifiedMatchesMap = classifiedMatchesMap;
     }
+
 
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -43,20 +49,20 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        holder.dateSchedule.setText( DateUtil.ISO_DATE_FORMAT.format(scoreFixtureModelList.get( position ).getMatchStartTime() ));
-        Long matchId = Long.valueOf( scoreFixtureModelList.get( position ).getForeignId() );
-        if (scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() != null) {
+      //  Long matchId = Long.valueOf( classifiedMatchesMap.get( 0 ).get( position ).getForeignId() );
+       // holder.dateSchedule.setText( parseDateToddMMyyyy( classifiedMatchesMap.get(2).get( position ).getMatchStartTime() ) );
+        if (classifiedMatchesMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() )
+                    .load( classifiedMatchesMap.get(2).get( position ).getHomeTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
                     .error( R.drawable.ic_place_holder )
                     .into( holder.homeTeamLogo );
         }
-        if (scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() != null) {
+        if (classifiedMatchesMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( scoreFixtureModelList.get( position ).getAwayTeam().getLogoLink() )
+                    .load( classifiedMatchesMap.get( 2 ).get( position ).getAwayTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -67,7 +73,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent( context, LineupActivity.class );
-                intent.putExtra( "MATCH_ID", matchId );
+               // intent.putExtra( "MATCH_ID", matchId );
                 context.startActivity( intent );
             }
         } );
@@ -75,7 +81,23 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public int getItemCount() {
-        return scoreFixtureModelList.size();
+        return classifiedMatchesMap.get( 2 ).size();
+    }
+
+    public String parseDateToddMMyyyy(String time) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd-MMM-yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat( inputPattern );
+        SimpleDateFormat outputFormat = new SimpleDateFormat( outputPattern );
+        Date date = null;
+        String str = null;
+        try {
+            date = inputFormat.parse( time );
+            str = outputFormat.format( date );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {

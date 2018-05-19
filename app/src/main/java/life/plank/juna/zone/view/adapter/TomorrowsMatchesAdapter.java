@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.LineupActivity;
-import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 
 /**
  * Created by plank-prachi on 4/10/2018.

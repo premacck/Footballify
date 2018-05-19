@@ -38,8 +38,8 @@ public class FootballFixtureClassifierService {
 
         // todo: Fix the tomorrow's scheduled matches appropriately
         for(ScoreFixtureModel fixture: fixtures) {
-            if (fixture.getMatchStartTime() != null) {
-                long timeDifferenceInHours = DateUtil.getDifferenceInHours(fixture.getMatchStartTime(), currentTime);
+
+                long timeDifferenceInHours = DateUtil.getDifferenceInHours((fixture.getMatchStartTime()), currentTime);
                 if (timeDifferenceInHours > 48) {
                     classifiedMatchesMap.get( FixtureClassification.SCHEDULED_MATCHES ).add( fixture );
                 } else if (timeDifferenceInHours > 0) {
@@ -51,7 +51,6 @@ public class FootballFixtureClassifierService {
                     classifiedMatchesMap.get( FixtureClassification.PAST_MATCHES ).add( fixture );
                 }
             }
-        }
         return classifiedMatchesMap;
     }
 }

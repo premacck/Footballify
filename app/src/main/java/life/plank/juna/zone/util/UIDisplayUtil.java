@@ -13,6 +13,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by plank-sobia on 11/8/2017.
  */
@@ -92,5 +96,20 @@ public class UIDisplayUtil {
         script.setInput(input);
         script.forEach(output);
         output.copyTo(bitmap2);
+    }
+    public static String parseDateToddMMyyyy(String time) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd-MMM-yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat( inputPattern );
+        SimpleDateFormat outputFormat = new SimpleDateFormat( outputPattern );
+        Date date = null;
+        String str = null;
+        try {
+            date = inputFormat.parse( time );
+            str = outputFormat.format( date );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 }

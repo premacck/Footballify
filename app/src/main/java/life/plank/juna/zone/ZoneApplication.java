@@ -87,9 +87,9 @@ public class ZoneApplication extends Application {
     private TeamStatsNetworkComponent teamStatsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
     private SignupUserNetworkComponent signupUserNetworkComponent;
-    private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
     private SigninUserNetworkComponent signinUserNetworkComponent;
     private LikeFeedNetworkComponent likeFeedNetworkComponent;
+    private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -177,13 +177,16 @@ public class ZoneApplication extends Application {
         signupUserNetworkComponent = DaggerSignupUserNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
-        fixtureAndResultNetworkComponent = DaggerFixtureAndResultNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() ).build();
 
         signinUserNetworkComponent = DaggerSigninUserNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
+
         likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
+
+        fixtureAndResultNetworkComponent = DaggerFixtureAndResultNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -262,16 +265,15 @@ public class ZoneApplication extends Application {
     public SignupUserNetworkComponent getSignupUserNetworkComponent() {
         return signupUserNetworkComponent;
     }
-
-    public FixtureAndResultNetworkComponent getFixtureAndResultNetworkComponent() {
-        return fixtureAndResultNetworkComponent;
-    }
-
     public SigninUserNetworkComponent getSigninUserNetworkComponent() {
         return signinUserNetworkComponent;
     }
 
     public LikeFeedNetworkComponent getLikeFeedNetworkComponent() {
         return likeFeedNetworkComponent;
+    }
+
+    public FixtureAndResultNetworkComponent getFixtureAndResultNetworkComponent() {
+        return fixtureAndResultNetworkComponent;
     }
 }

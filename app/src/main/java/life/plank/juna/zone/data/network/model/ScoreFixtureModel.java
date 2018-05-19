@@ -1,6 +1,5 @@
 package life.plank.juna.zone.data.network.model;
 
-import java.text.ParseException;
 import java.util.Date;
 
 import life.plank.juna.zone.util.DateUtil;
@@ -20,7 +19,7 @@ public class ScoreFixtureModel {
     private Integer homeGoals;
     private Integer awayGoals;
     private Boolean hasExtraTime;
-    private Date startDate;
+    private String startDate;
     private Boolean commentaries;
     private Boolean winningOddsCalculated;
     private Integer homeTeamScore;
@@ -142,14 +141,14 @@ public class ScoreFixtureModel {
         this.hasExtraTime = hasExtraTime;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
     public void setStartDate(String startDateString) {
         try {
-            this.startDate = DateUtil.getIsoFormattedDate(startDateString);
-        } catch (ParseException e) {
+            this.startDate = startDateString;// DateUtil.getIsoFormattedDate(startDateString);
+        } catch (Exception e) {
             this.startDate = null;
         }
     }
@@ -249,7 +248,7 @@ public class ScoreFixtureModel {
     public void setMatchStartTime(String matchStartTimeString) {
         try {
             this.matchStartTime = DateUtil.getIsoFormattedDate(matchStartTimeString);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             this.matchStartTime = null;
         }
     }
