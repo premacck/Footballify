@@ -1,47 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:arc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    android:paddingEnd="16dp"
+    android:paddingStart="8dp"
+    android:paddingTop="8dp">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/relative_layout_container"
+
+    <include
+        android:id="@+id/header_board"
+        layout="@layout/header_board" />
+
+    <include
+        android:id="@+id/layout_board_engagement"
+        layout="@layout/layout_board_engagement"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="10dp"
-        android:clipChildren="true"
-        app:cardCornerRadius="@dimen/feed_card_corner_radius"
-        app:cardElevation="6dp">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/header_board" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/glass_image"
-            android:orientation="vertical"
-            android:paddingTop="16dp">
+    <fragment
+        android:id="@+id/title_fragment"
+        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/layout_board_engagement" />
 
-            <include layout="@layout/header_board" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/board_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_fragment"
+        android:layout_marginTop="10dp" />
 
-            <include layout="@layout/layout_board_engagement" />
-
-            <fragment
-                android:name="life.plank.juna.zone.view.fragment.GraphFragment"
-                android:id="@+id/title_fragment"
-                android:layout_width="match_parent"
-                android:layout_height="70dp" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/board_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="1dp" />
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-</LinearLayout>
+    <com.bvapp.arcmenulibrary.ArcMenu
+        android:id="@+id/arc_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        arc:menuChildAnim="false"
+        arc:menuClickAnim="true"
+        arc:menuGravity="Bottom_Middle"
+        arc:menuImage="@drawable/ic_un"
+        arc:menuNormalColor="@color/fab_button_pink"
+        arc:menuShadowElevation="true"
+        arc:menuType="normal" />
+</RelativeLayout>

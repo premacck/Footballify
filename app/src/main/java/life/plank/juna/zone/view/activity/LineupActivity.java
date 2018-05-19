@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -161,7 +160,7 @@ public class LineupActivity extends AppCompatActivity {
                 for (int i = 0; i < awayTeamLineups.size(); i++) {
                     for (int k = 0; k < awayTeamLineups.get( i ).size(); k++) {
                         visitingPlayerName.setText( awayTeamLineups.get( i ).get( k ).getFullName() );
-                        visitingPlayerNumber.setText( awayTeamLineups.get( i ).get( k ).getNumber() );
+                        visitingPlayerNumber.setText( String.valueOf(awayTeamLineups.get( i ).get( k ).getNumber()));
                     }
                 }
             }

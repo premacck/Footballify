@@ -19,7 +19,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.activity.LineupActivity;
+import life.plank.juna.zone.view.activity.BoardActivity;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -65,7 +65,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
         holder.itemView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( context, LineupActivity.class );
+                Intent intent = new Intent( context, BoardActivity.class );
                 intent.putExtra( "MATCH_ID", matchId );
                 context.startActivity( intent );
             }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_content"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_margin="1dp"
+    android:background="@color/grid_item_grey">
+
+    <ImageView
+        android:id="@+id/tile_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="@color/transparent_grey"
+        android:scaleType="centerCrop"
+        android:src="@drawable/football_image_one" />
+</RelativeLayout>
