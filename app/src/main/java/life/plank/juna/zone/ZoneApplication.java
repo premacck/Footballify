@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
@@ -90,6 +92,7 @@ public class ZoneApplication extends Application {
     private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
     private SigninUserNetworkComponent signinUserNetworkComponent;
     private LikeFeedNetworkComponent likeFeedNetworkComponent;
+    private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -182,7 +185,11 @@ public class ZoneApplication extends Application {
 
         signinUserNetworkComponent = DaggerSigninUserNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
+
         likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
+        imageUploaderNetworkComponent = DaggerImageUploaderNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
     }
 
@@ -273,5 +280,9 @@ public class ZoneApplication extends Application {
 
     public LikeFeedNetworkComponent getLikeFeedNetworkComponent() {
         return likeFeedNetworkComponent;
+    }
+
+    public ImageUploaderNetworkComponent getImageUploaderNetworkComponent() {
+        return imageUploaderNetworkComponent;
     }
 }

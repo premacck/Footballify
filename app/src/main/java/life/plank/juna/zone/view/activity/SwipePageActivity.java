@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -15,10 +14,8 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -520,11 +517,15 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 3: {
-                            getImageResourceFromGallery();
+                            Intent intent =  new Intent(SwipePageActivity.this, CameraActivity.class);
+                            intent.putExtra( "OPEN_FROM" ,"Gallery");
+                            startActivity(intent);
                             break;
                         }
                         case 4: {
-                            startActivity( new Intent( SwipePageActivity.this, CameraActivity.class ) );
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM" ,"Camera");
+                            startActivity(intent );
                             break;
                         }
                         case 5: {
@@ -539,41 +540,4 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             } );
         }
     }
-    //todo: code write in Utils
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                // Get the url from data
-                Uri selectedImageUri = data.getData();
-                if (null != selectedImageUri) {
-                    // Get the path from the Uri
-                    String path = getPathFromURI(selectedImageUri);
-                    Log.i("", "Image Path : " + path);
-                    Toast.makeText( this, "Image Loaded Successfully", Toast.LENGTH_SHORT ).show();
-
-                }
-            }
-        }
-    }
-
-    /* Get the real path from the URI */
-    public String getPathFromURI(Uri contentUri) {
-        String res = null;
-        String[] proj = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
-        if (cursor.moveToFirst()) {
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            res = cursor.getString(column_index);
-        }
-        cursor.close();
-        return res;
-    }
-    public void getImageResourceFromGallery()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
-    }
-
 }
