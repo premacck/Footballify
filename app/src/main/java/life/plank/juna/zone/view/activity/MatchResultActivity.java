@@ -1,20 +1,14 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +34,6 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
-import life.plank.juna.zone.view.fragment.GraphFragment;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -71,6 +64,7 @@ public class MatchResultActivity extends AppCompatActivity {
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
     private BroadcastReceiver mReciever;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -203,18 +197,20 @@ public class MatchResultActivity extends AppCompatActivity {
                     }
                 } );
     }
-    @OnClick({R.id.tap_for_score_and_fixtures,R.id.following})
+
+    @OnClick({R.id.tap_for_score_and_fixtures, R.id.following})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tap_for_score_and_fixtures:
-                Intent intent = new Intent( this,FixtureAndResultActivity.class );
+                Intent intent = new Intent( this, FixtureAndResultActivity.class );
                 startActivity( intent );
                 break;
-            case R.id.following:{
+            case R.id.following: {
                 break;
             }
         }
     }
+
     @Override
     protected void onStart() {
         super.onStart();
