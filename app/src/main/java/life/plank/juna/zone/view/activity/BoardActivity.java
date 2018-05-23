@@ -11,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
 
@@ -19,6 +21,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 
@@ -34,6 +37,8 @@ public class BoardActivity extends AppCompatActivity {
     RecyclerView boardRecyclerView;
     @BindView(R.id.board_arc_menu)
     ArcMenu arcMenu;
+    @BindView(R.id.following_text_view)
+    TextView followingTextView;
     List<Uri> listOfImageOnView = new ArrayList<>();
 
     @Override
@@ -115,4 +120,13 @@ public class BoardActivity extends AppCompatActivity {
             } );
         }
     }
+    @OnClick({R.id.following_text_view})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.following_text_view:
+                Toast.makeText( this, "gfhdfh", Toast.LENGTH_SHORT ).show();
+                break;
+
+            }
+        }
 }
