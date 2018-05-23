@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -63,7 +62,6 @@ public class MatchResultActivity extends AppCompatActivity {
     private RestApi restApi;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
-    private BroadcastReceiver mReciever;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +204,11 @@ public class MatchResultActivity extends AppCompatActivity {
                 startActivity( intent );
                 break;
             case R.id.following: {
+                if (followingTextVIew.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
+                    followingTextVIew.setText( R.string.following );
+                } else {
+                    followingTextVIew.setText( R.string.unfollow );
+                }
                 break;
             }
         }
