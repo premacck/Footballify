@@ -23,20 +23,23 @@ import java.util.concurrent.TimeUnit;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScrubberViewData;
+import life.plank.juna.zone.firebasepushnotification.PushNotificationFirebaseMessagingService;
+import life.plank.juna.zone.interfaces.UpdateDataOnChartFragment;
 import life.plank.juna.zone.util.ScrubberConstants;
 
-public class GraphFragment extends Fragment {
+public class GraphFragment extends Fragment implements UpdateDataOnChartFragment{
     RelativeLayout linearLayout;
     LineChart lineChart;
     ArrayList<Entry> values = new ArrayList<>();
     long now;
     private HashMap<Integer, ScrubberViewData> graphData;
-
+    UpdateDataOnChartFragment updateDataOnChartFragment;
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.graph_fragment, container, false);
         linearLayout = view.findViewById(R.id.root);
         lineChart = view.findViewById(R.id.line_chart);
         setUpGraph();
+        PushNotificationFirebaseMessagingService.setUpdateDataOnChartFragment(this);
         return view;
     }
 
@@ -129,5 +132,9 @@ public class GraphFragment extends Fragment {
             lineChart.setData(data);
             lineChart.invalidate();
         }
+    }
+    @Override
+    public void updateData(String id, int minute) {
+        //todo: display data on graph here
     }
 }

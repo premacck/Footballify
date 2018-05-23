@@ -57,6 +57,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/following_text_view"
         style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

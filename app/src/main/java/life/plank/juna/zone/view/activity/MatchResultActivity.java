@@ -7,8 +7,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -48,6 +51,8 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView playerStatsRecyclerView;
     @BindView(R.id.tap_for_score_and_fixtures)
     TextView tapForScoreAndFixture;
+    @BindView(R.id.frame_layout_container)
+    FrameLayout frameLayoutGraph;
     @BindView(R.id.following)
     TextView followingTextVIew;
     List<StandingModel> standingModel;
@@ -64,6 +69,8 @@ public class MatchResultActivity extends AppCompatActivity {
         setContentView( R.layout.activity_match_result );
         ((ZoneApplication) getApplication()).getStandingNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
+        Log.e( "Device ID", FirebaseInstanceId.getInstance().getToken() );
+
         ButterKnife.bind( this );
         getStandings( AppConstants.LEAGUE_NAME );
         getPlayerStats( AppConstants.SEASON_NAME );
@@ -188,17 +195,29 @@ public class MatchResultActivity extends AppCompatActivity {
                     }
                 } );
     }
-    @OnClick({R.id.tap_for_score_and_fixtures,R.id.following})
+
+    @OnClick({R.id.tap_for_score_and_fixtures, R.id.following})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tap_for_score_and_fixtures:
-                Intent intent = new Intent( this,FixtureAndResultActivity.class );
+                Intent intent = new Intent( this, FixtureAndResultActivity.class );
                 startActivity( intent );
                 break;
-            case R.id.following:{
+            case R.id.following: {
+                if (followingTextVIew.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
+                    followingTextVIew.setText( R.string.following );
+                } else {
+                    followingTextVIew.setText( R.string.unfollow );
+                }
                 break;
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 }
 

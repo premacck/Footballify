@@ -1,24 +1,25 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 
@@ -28,17 +29,17 @@ import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 
 public class BoardActivity extends AppCompatActivity {
 
-    private static final int RESULT_LOAD_IMG = 123456;
-    private static final int SELECT_PICTURE = 234;
     @BindView(R.id.board_recycler_view)
     RecyclerView boardRecyclerView;
     @BindView(R.id.board_arc_menu)
     ArcMenu arcMenu;
-    List<Uri> listOfImageOnView = new ArrayList<>();
+    @BindView(R.id.following_text_view)
+    TextView followingTextView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
+        Log.e( "Device ID", FirebaseInstanceId.getInstance().getToken() );
         setContentView( R.layout.activity_board );
         ButterKnife.bind( this );
         initRecyclerView();
@@ -113,6 +114,21 @@ public class BoardActivity extends AppCompatActivity {
                     }
                 }
             } );
+        }
+    }
+
+    @OnClick({R.id.following_text_view})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.following_text_view:
+                if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
+                    followingTextView.setText( R.string.following );
+                    FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
+                } else {
+                    followingTextView.setText( R.string.unfollow );
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
+                }
+                break;
         }
     }
 }
