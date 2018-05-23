@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
@@ -160,25 +161,25 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
-        try {
+       /* try {
             NotificationsManager.handleNotifications( this, NotificationSettings.senderId, PushNotificationsHandler.class );
             registerWithNotificationHubs();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         SharedPreferences loginPreferences = getSharedPreferences( getString( R.string.login_pref ), MODE_PRIVATE );
         savedLogin = loginPreferences.getBoolean( getString( R.string.shared_pref_save_login ), false );
     }
 
-    public void registerWithNotificationHubs() {
+    /*public void registerWithNotificationHubs() {
         if (checkPlayServices()) {
             // Start IntentService to register this application with FCM.
             Intent intent = new Intent( this, RegistrationIntentService.class );
             startService( intent );
         }
     }
-
-    private boolean checkPlayServices() {
+*/
+   /* private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable( this );
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -193,7 +194,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             return false;
         }
         return true;
-    }
+    }*/
 
 
     private void setUpData() {
@@ -223,17 +224,17 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
 
-    public void ToastNotify(final String notificationMessage) {
+    /*public void ToastNotify(final String notificationMessage) {
         runOnUiThread( new Runnable() {
             @Override
             public void run() {
                 System.out.print( notificationMessage );
                 Toast.makeText( SwipePageActivity.this, notificationMessage, Toast.LENGTH_LONG ).show();
-               /* TextView helloText = (TextView) findViewById( R.id.text_hello );
-                helloText.setText( notificationMessage );*/
+               *//* TextView helloText = (TextView) findViewById( R.id.text_hello );
+                helloText.setText( notificationMessage );*//*
             }
         } );
-    }
+    }*/
 
     private void initRecyclerView() {
         int numberOfRows = 3;

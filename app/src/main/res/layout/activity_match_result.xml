@@ -65,6 +65,7 @@
                     android:paddingStart="2dp">
 
                     <RelativeLayout
+                        android:id="@+id/relative_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -94,22 +95,36 @@
                             android:textSize="10sp" />
                     </RelativeLayout>
 
-                    <fragment
-                        android:id="@+id/fragment_one"
-                        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+                    <FrameLayout
+                        android:id="@+id/frame_layout_container"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:id="@+id/fragment_one"
+                            android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp" />
+                    </FrameLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
                         android:background="@color/light_grey" />
-
-                    <fragment
-                        android:id="@+id/fragment_two"
-                        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+<!--
+                    <FrameLayout
+                        android:id="@+id/frame_layout_container"
                         android:layout_width="match_parent"
-                        android:layout_height="70dp" />
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <fragment
+                            android:id="@+id/fragment_two"
+                            android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="70dp" />
+                    </FrameLayout>-->
 
                     <View
                         android:layout_width="match_parent"

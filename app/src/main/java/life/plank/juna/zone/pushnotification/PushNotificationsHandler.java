@@ -12,6 +12,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
+
 import com.microsoft.windowsazure.notifications.NotificationsHandler;
 
 import life.plank.juna.zone.R;
@@ -26,17 +28,18 @@ public class PushNotificationsHandler extends NotificationsHandler {
 
     @Override
     public void onReceive(Context context, Bundle bundle) {
-        this.context = context;
+       /* this.context = context;
         String nhMessage = bundle.getString("message");
+        Log.e("","Json Push notification" +nhMessage);
         sendNotification(nhMessage);
         if (SwipePageActivity.isVisible) {
             SwipePageActivity.swipePageActivity.ToastNotify(nhMessage);
-        }
+        }*/
     }
 
     private void sendNotification(String msg) {
 
-        Intent intent = new Intent(context, SplashScreenActivity.class);
+        Intent intent = new Intent(context, SwipePageActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
         mNotificationManager = (NotificationManager)
