@@ -46,6 +46,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
@@ -65,7 +66,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private Uri imageUri;
     private Uri selectedImageFromGallery;
     private int GALLERY_IMAGE_RESULT = 7;
-    private int AUDIO_PICKER_RESULT = 8;
     private RestApi restApi;
     private Uri selectedImage;
     private String filePath;
@@ -163,27 +163,30 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         } else if (requestCode == AUDIO_PICKER_RESULT) {
-            uri = data.getData();
-            setUpUi();
-            try {
-                String uriString = uri.toString();
-                File file = new File( uriString );
-                String path = file.getAbsolutePath();
-                String absolutePath = UIDisplayUtil.getAudioPath( uri );
-                File absolutefile = new File( absolutePath );
-                long fileSizeInBytes = absolutefile.length();
-                long fileSizeInKB = fileSizeInBytes / 1024;
-                long fileSizeInMB = fileSizeInKB / 1024;
-                if (fileSizeInMB > 8) {
-                    Toast.makeText( this, "ghghg", Toast.LENGTH_SHORT ).show();
-                } else {
-                    profilePicUrl = absolutePath;
+            if (data != null) {
+                uri = data.getData();
+                if(null != uri) {
+                    try {
+                        String uriString = uri.toString();
+                        File file = new File( uriString );
+                        String path = file.getAbsolutePath();
+                        String absolutePath = UIDisplayUtil.getAudioPath( uri );
+                        File absolutefile = new File( absolutePath );
+                        long fileSizeInBytes = absolutefile.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        long fileSizeInMB = fileSizeInKB / 1024;
+                        if (fileSizeInMB > 8) {
+                            Toast.makeText( this, "ghghg", Toast.LENGTH_SHORT ).show();
+                        } else {
+                            profilePicUrl = absolutePath;
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
+                    }
                 }
-            } catch (Exception e) {
-                Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
-            }
 
-        } else if (requestCode == GALLERY_IMAGE_RESULT) {
+            }
+        }else if (requestCode == GALLERY_IMAGE_RESULT) {
             if (data != null) {
                 selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
@@ -202,13 +205,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText( this, getString( R.string.unable_to_capture_image ), Toast.LENGTH_SHORT ).show();
         }
     }
-
-    public void getImageResourceFromGallery() {
-        Intent intent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
-        intent.setType( "image/*" );
-        startActivityForResult( intent, GALLERY_IMAGE_RESULT );
-    }
-
     private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
         File file = new File( selectedImageUri );
@@ -263,9 +259,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void openGalleryForAudio() {
-        Intent videoIntent = new Intent(
-                Intent.ACTION_PICK,
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
-        startActivityForResult( Intent.createChooser( videoIntent, "Select Audio" ), AUDIO_REQUEST );
+        Intent audioIntent = new Intent( Intent.ACTION_PICK,android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
+        startActivityForResult( Intent.createChooser( audioIntent, "Select Audio" ), AUDIO_PICKER_RESULT );
+    }
+    public void getImageResourceFromGallery() {
+        Intent galleryIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+        galleryIntent.setType( "image/*" );
+        startActivityForResult( galleryIntent, GALLERY_IMAGE_RESULT );
     }
 }
