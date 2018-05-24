@@ -30,12 +30,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,9 +56,6 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
-import life.plank.juna.zone.pushnotification.NotificationSettings;
-import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
-import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
@@ -530,7 +523,10 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 5: {
-                            startActivity( new Intent( SwipePageActivity.this, RecordAudioActivity.class ) );
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Audio" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 6: {
