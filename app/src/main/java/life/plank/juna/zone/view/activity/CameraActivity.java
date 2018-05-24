@@ -52,7 +52,6 @@ import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int AUDIO_REQUEST = 3;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -64,19 +63,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     ProgressBar progressBar;
     String apiCallFromBoardActivity;
     private Uri imageUri;
-    private Uri selectedImageFromGallery;
     private int GALLERY_IMAGE_RESULT = 7;
     private RestApi restApi;
-    private Uri selectedImage;
     private String filePath;
-    private Uri uri;
-    private String profilePicUrl;
-
+    private String absolutePath;
+    File absolutefile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         String openFrom = getIntent().getStringExtra( "OPEN_FROM" );
         ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         apiCallFromBoardActivity = getIntent().getStringExtra( "API" );
         if (openFrom.equalsIgnoreCase( "Camera" )) {
@@ -150,7 +147,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_IMAGE_RESULT) {
             if (imageUri != null) {
-                selectedImage = imageUri;
+                Uri selectedImage = imageUri;
                 getContentResolver().notifyChange( selectedImage, null );
                 ContentResolver cr = getContentResolver();
                 Bitmap bitmap;
@@ -164,31 +161,34 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             }
         } else if (requestCode == AUDIO_PICKER_RESULT) {
             if (data != null) {
-                uri = data.getData();
+                Uri uri = data.getData();
                 if(null != uri) {
                     try {
                         String uriString = uri.toString();
                         File file = new File( uriString );
                         String path = file.getAbsolutePath();
-                        String absolutePath = UIDisplayUtil.getAudioPath( uri );
-                        File absolutefile = new File( absolutePath );
+                        absolutePath = UIDisplayUtil.getAudioPath( uri );
+                        absolutefile = new File( absolutePath );
                         long fileSizeInBytes = absolutefile.length();
                         long fileSizeInKB = fileSizeInBytes / 1024;
                         long fileSizeInMB = fileSizeInKB / 1024;
                         if (fileSizeInMB > 8) {
                             Toast.makeText( this, "file size is big", Toast.LENGTH_SHORT ).show();
                         } else {
-                            profilePicUrl = absolutePath;
+                            String profilePicUrl = absolutePath;
                         }
                     } catch (Exception e) {
+                        Log.e( "TAG", "message" + e );
                         Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
                     }
+                    postAudioFile( absolutePath, "ManCityVsManU", "Board", "audio", "3cebd56b-ff80-4212-80aa-a84fc19cd955", "13-02-2018+04%3A50%3A23" );
+                    finish();
+                }
                 }
 
-            }
         }else if (requestCode == GALLERY_IMAGE_RESULT) {
             if (data != null) {
-                selectedImageFromGallery = data.getData();
+                Uri selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
                     setUpUi();
                     try {
@@ -231,6 +231,31 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         progressBar.setVisibility( View.INVISIBLE );
+                        Log.e( "", "onNext: " + jsonObjectResponse );
+                        Toast.makeText( CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT ).show();
+                    }
+                } );
+    }
+    private void postAudioFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
+        File file = new File( selectedAudioUri );
+        RequestBody requestBody = RequestBody.create( MediaType.parse( "audio" ), file );
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody ); // SERVER key name is image
+
+        restApi.postAudioFile( body, targetId, targetType, contentType, userId, dateCreated )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( "", "onCompleted: " );
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e( "", "onError: " + e );
+                        Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT ).show();
+                    }
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
                         Toast.makeText( CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT ).show();
                     }

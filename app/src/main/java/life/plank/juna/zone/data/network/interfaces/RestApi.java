@@ -111,5 +111,10 @@ public interface RestApi {
     @Multipart
     @POST("feedItems/upload")
     Observable<Response<JsonObject>> postImageFromGallery(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+
+    @Multipart
+    @POST("feedItems/upload")
+    Observable<Response<JsonObject>> postAudioFile(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+
 }
 
