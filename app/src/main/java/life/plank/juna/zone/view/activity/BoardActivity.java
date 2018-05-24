@@ -1,11 +1,8 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 
 /**
@@ -156,7 +154,7 @@ public class BoardActivity extends AppCompatActivity {
                     String uriString = uri.toString();
                     File file = new File( uriString );
                     String path = file.getAbsolutePath();
-                    String absolutePath = getAudioPath( uri );
+                    String absolutePath = UIDisplayUtil.getAudioPath( uri );
                     File absolutefile = new File( absolutePath );
                     long fileSizeInBytes = absolutefile.length();
                     long fileSizeInKB = fileSizeInBytes / 1024;
@@ -173,12 +171,5 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private String getAudioPath(Uri uri) {
-        String[] data = {MediaStore.Audio.Media.DATA};
-        CursorLoader loader = new CursorLoader( getApplicationContext(), uri, data, null, null, null );
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow( MediaStore.Audio.Media.DATA );
-        cursor.moveToFirst();
-        return cursor.getString( column_index );
-    }
+
 }
