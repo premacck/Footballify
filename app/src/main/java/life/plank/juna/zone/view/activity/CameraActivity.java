@@ -176,7 +176,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         long fileSizeInKB = fileSizeInBytes / 1024;
                         long fileSizeInMB = fileSizeInKB / 1024;
                         if (fileSizeInMB > 8) {
-                            Toast.makeText( this, "ghghg", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText( this, "file size is big", Toast.LENGTH_SHORT ).show();
                         } else {
                             profilePicUrl = absolutePath;
                         }
