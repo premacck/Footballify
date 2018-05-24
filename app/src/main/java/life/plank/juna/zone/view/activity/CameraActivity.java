@@ -36,6 +36,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -45,11 +46,13 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int AUDIO_REQUEST = 3;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -66,6 +69,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private RestApi restApi;
     private Uri selectedImage;
     private String filePath;
+    private Uri uri;
+    private String profilePicUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +82,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (openFrom.equalsIgnoreCase( "Camera" )) {
             if (isStoragePermissionGranted())
                 takePicture();
+        } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
+            getImageResourceFromGallery();
         } else {
-                getImageResourceFromGallery();
-            }
+            openGalleryForAudio();
+        }
     }
 
     private void setUpUi() {
@@ -119,8 +126,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission( Manifest.permission.CAMERA ) == PackageManager.PERMISSION_GRANTED) {
                 return true;
-            }
-            else {
+            } else {
                 requestPermissions( new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION );
                 return false;
             }
@@ -144,7 +150,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_IMAGE_RESULT) {
             if (imageUri != null) {
-                setUpUi();
                 selectedImage = imageUri;
                 getContentResolver().notifyChange( selectedImage, null );
                 ContentResolver cr = getContentResolver();
@@ -153,10 +158,35 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     bitmap = android.provider.MediaStore.Images.Media.getBitmap( cr, selectedImage );
                     capturedImageView.setImageBitmap( bitmap );
                 } catch (Exception e) {
-                    Toast.makeText( this, "Failed to load", Toast.LENGTH_SHORT ).show();Log.e( "Camera", e.toString() );
+                    Toast.makeText( this, "Failed to load", Toast.LENGTH_SHORT ).show();
+                    Log.e( "Camera", e.toString() );
                 }
             }
-        } else if (requestCode == GALLERY_IMAGE_RESULT) {
+        } else if (requestCode == AUDIO_PICKER_RESULT) {
+            if (data != null) {
+                uri = data.getData();
+                if(null != uri) {
+                    try {
+                        String uriString = uri.toString();
+                        File file = new File( uriString );
+                        String path = file.getAbsolutePath();
+                        String absolutePath = UIDisplayUtil.getAudioPath( uri );
+                        File absolutefile = new File( absolutePath );
+                        long fileSizeInBytes = absolutefile.length();
+                        long fileSizeInKB = fileSizeInBytes / 1024;
+                        long fileSizeInMB = fileSizeInKB / 1024;
+                        if (fileSizeInMB > 8) {
+                            Toast.makeText( this, "file size is big", Toast.LENGTH_SHORT ).show();
+                        } else {
+                            profilePicUrl = absolutePath;
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
+                    }
+                }
+
+            }
+        }else if (requestCode == GALLERY_IMAGE_RESULT) {
             if (data != null) {
                 selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
@@ -175,12 +205,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText( this, getString( R.string.unable_to_capture_image ), Toast.LENGTH_SHORT ).show();
         }
     }
-    public void getImageResourceFromGallery() {
-        Intent intent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
-        intent.setType( "image/*" );
-        startActivityForResult( intent, GALLERY_IMAGE_RESULT );
-    }
-
     private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
         File file = new File( selectedImageUri );
@@ -195,6 +219,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
@@ -202,6 +227,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT ).show();
 
                     }
+
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         progressBar.setVisibility( View.INVISIBLE );
@@ -210,11 +236,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 } );
     }
+
     @Override
     public void onClick(View v) {
         if (apiCallFromBoardActivity.equalsIgnoreCase( "BoardActivity" ))
             postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
     }
+
     public String getRealPathFromURI(Uri uri) {
         String filePath = "";
         try {
@@ -228,5 +256,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
         return filePath;
+    }
+
+    public void openGalleryForAudio() {
+        Intent audioIntent = new Intent( Intent.ACTION_PICK,android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
+        startActivityForResult( Intent.createChooser( audioIntent, "Select Audio" ), AUDIO_PICKER_RESULT );
+    }
+    public void getImageResourceFromGallery() {
+        Intent galleryIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
+        galleryIntent.setType( "image/*" );
+        startActivityForResult( galleryIntent, GALLERY_IMAGE_RESULT );
     }
 }

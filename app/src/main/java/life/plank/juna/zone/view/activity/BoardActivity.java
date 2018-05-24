@@ -99,13 +99,14 @@ public class BoardActivity extends AppCompatActivity {
                             Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Camera" );
                             intent.putExtra( "API", "BoardActivity" );
-
-
                             startActivity( intent );
                             break;
                         }
                         case 5: {
-                            startActivity( new Intent( BoardActivity.this, RecordAudioActivity.class ) );
+                            Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Audio" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 6: {
@@ -122,10 +123,10 @@ public class BoardActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.following_text_view:
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
-                    followingTextView.setText( R.string.following );
+                    followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
                 } else {
-                    followingTextView.setText( R.string.unfollow );
+                    followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
                 }
                 break;
