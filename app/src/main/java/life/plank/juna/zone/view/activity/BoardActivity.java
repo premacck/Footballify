@@ -62,11 +62,11 @@ public class BoardActivity extends AppCompatActivity {
         arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
+                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link,R.drawable.ic_video};
         int[] backgroundColors = {R.drawable.fab_circle_background_grey,
                 R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment"};
+                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink,R.drawable.fab_circle_background_pink};
+        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment","Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
             //child.setId(i);
@@ -110,6 +110,12 @@ public class BoardActivity extends AppCompatActivity {
                             break;
                         }
                         case 6: {
+                            break;
+                        } case 7: {
+                            Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Video" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                     }
