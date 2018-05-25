@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +53,7 @@ import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final int VIDEO_CAPTURE = 101;
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -62,12 +64,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     String apiCallFromBoardActivity;
+    File absolutefile;
     private Uri imageUri;
     private int GALLERY_IMAGE_RESULT = 7;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
-    File absolutefile;
+    private Bitmap thumbnail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -81,6 +85,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 takePicture();
         } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
             getImageResourceFromGallery();
+        } else if (openFrom.equalsIgnoreCase( "Video" )) {
+            openVideo();
         } else {
             openGalleryForAudio();
         }
@@ -104,6 +110,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -162,7 +169,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else if (requestCode == AUDIO_PICKER_RESULT) {
             if (data != null) {
                 Uri uri = data.getData();
-                if(null != uri) {
+                if (null != uri) {
                     try {
                         String uriString = uri.toString();
                         File file = new File( uriString );
@@ -184,9 +191,29 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     postAudioFile( absolutePath, "ManCityVsManU", "Board", "audio", "3cebd56b-ff80-4212-80aa-a84fc19cd955", "13-02-2018+04%3A50%3A23" );
                     finish();
                 }
-                }
+            }
 
-        }else if (requestCode == GALLERY_IMAGE_RESULT) {
+        } else if (requestCode == VIDEO_CAPTURE) {
+            if (resultCode == RESULT_OK) {
+                Uri videoUri = data.getData();
+                File mediaFile = new File( Environment.getExternalStorageDirectory().getAbsolutePath() + "/myvideo.mp4" );
+                if (null != videoUri) {
+                    setUpUi();
+                    try {
+                        thumbnail = ThumbnailUtils.createVideoThumbnail( mediaFile.toString(), MediaStore.Images.Thumbnails.MINI_KIND );
+                        capturedImageView.setImageBitmap( thumbnail );
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                Toast.makeText( this, "Video saved to:\n" + data.getData(), Toast.LENGTH_LONG ).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText( this, "Video recording cancelled.", Toast.LENGTH_LONG ).show();
+            } else {
+                Toast.makeText( this, "Failed to record video", Toast.LENGTH_LONG ).show();
+            }
+        } else if (requestCode == GALLERY_IMAGE_RESULT) {
             if (data != null) {
                 Uri selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
@@ -205,6 +232,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             Toast.makeText( this, getString( R.string.unable_to_capture_image ), Toast.LENGTH_SHORT ).show();
         }
     }
+
     private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
         File file = new File( selectedImageUri );
@@ -236,6 +264,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 } );
     }
+
     private void postAudioFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         File file = new File( selectedAudioUri );
         RequestBody requestBody = RequestBody.create( MediaType.parse( "audio" ), file );
@@ -249,11 +278,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
                         Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT ).show();
                     }
+
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
@@ -284,9 +315,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void openGalleryForAudio() {
-        Intent audioIntent = new Intent( Intent.ACTION_PICK,android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
+        Intent audioIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
         startActivityForResult( Intent.createChooser( audioIntent, "Select Audio" ), AUDIO_PICKER_RESULT );
     }
+
+    public void openVideo() {
+        Intent captureVideoIntent = new Intent( android.provider.MediaStore.ACTION_VIDEO_CAPTURE );
+        startActivityForResult( captureVideoIntent, VIDEO_CAPTURE );
+    }
+
     public void getImageResourceFromGallery() {
         Intent galleryIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
         galleryIntent.setType( "image/*" );
