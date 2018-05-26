@@ -508,35 +508,38 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 2: {
+
                             break;
                         }
                         case 3: {
                             Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Gallery" );
+                            intent.putExtra( "API", "SwipePageActivity" );
                             startActivity( intent );
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Camera" );
+                            intent.putExtra( "API", "SwipePageActivity" );
                             startActivity( intent );
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Audio" );
-                            intent.putExtra( "API", "BoardActivity" );
+                            intent.putExtra( "API", "SwipePageActivity" );
                             startActivity( intent );
                             break;
                         }
                         case 6: {
-                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
-                            intent.putExtra( "OPEN_FROM", "Video" );
-                            intent.putExtra( "API", "BoardActivity" );
-                            startActivity( intent );
-                            break;
+
                         }
                         case 7: {
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Video" );
+                            intent.putExtra( "API", "SwipePageActivity" );
+                            startActivity( intent );
                             break;
                         }
                     }
