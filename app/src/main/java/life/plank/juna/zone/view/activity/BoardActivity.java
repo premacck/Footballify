@@ -35,7 +35,6 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -71,6 +70,8 @@ public class BoardActivity extends AppCompatActivity {
     private int PAGE_SIZE;
     private boolean isLastPage = false;
     private boolean isLoading = false;
+    private RenderScript renderScript;
+
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -103,8 +104,6 @@ public class BoardActivity extends AppCompatActivity {
                 arcMenu.hide();
         }
     };
-    private NetworkStateReceiver networkStateReceiver;
-    private RenderScript renderScript;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,20 +120,16 @@ public class BoardActivity extends AppCompatActivity {
 
     //todo: Inject adapter
     private void initRecyclerView() {
+        int numberOfRows = 3;
         footballFeeds = new ArrayList<>();
-
-        gridLayoutManager = new GridLayoutManager( this, 4, GridLayoutManager.VERTICAL, false );
+        gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
         boardRecyclerView.setLayoutManager( gridLayoutManager );
-        boardMediaAdapter = new BoardMediaAdapter( this ,footballFeeds);
+        boardMediaAdapter = new BoardMediaAdapter( this, footballFeeds );
         boardRecyclerView.setAdapter( boardMediaAdapter );
         boardRecyclerView.setHasFixedSize( true );
         boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
         renderScript = RenderScript.create( this );
-
-        /*footballFeedAdapter.setPinFeedListener(this);
-        footballFeedAdapter.setOnLongPressListener(this);*/
     }
-
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
         if (!nextPageToken.isEmpty()) {
@@ -147,9 +142,7 @@ public class BoardActivity extends AppCompatActivity {
 
     public void getBoardApiCall() {
         subscription = restApi.getBoardFeed( updateToken( nextPageToken,
-                getString( R.string.replace_rt ) +
-                        String.valueOf( apiHitCount ), getString( R.string.replace_trc )
-                        + String.valueOf( apiHitCount * TRCNumber ) ) )
+                getString( R.string.replace_rt ) + String.valueOf( apiHitCount ), getString( R.string.replace_trc ) + String.valueOf( apiHitCount * TRCNumber ) ) )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Observer<Response<List<FootballFeed>>>() {
@@ -183,7 +176,6 @@ public class BoardActivity extends AppCompatActivity {
             footballFeeds.addAll( footballFeedsList );
             boardMediaAdapter.notifyDataSetChanged();
             PAGE_SIZE = footballFeedsList.size();
-
         }
     }
 

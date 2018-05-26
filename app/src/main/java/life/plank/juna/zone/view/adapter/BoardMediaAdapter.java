@@ -22,8 +22,9 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
+    private List<FootballFeed> footballFeeds;
     private Context context;
-    List<FootballFeed> footballFeeds;
+
     public BoardMediaAdapter(Context context, List<FootballFeed> footballFeeds) {
         this.context = context;
         this.footballFeeds = footballFeeds;
@@ -37,26 +38,18 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        FootballFeed footballFeed = footballFeeds.get(position);
+        FootballFeed footballFeed = footballFeeds.get( position );
         if (footballFeed.getThumbnail() != null) {
-            Picasso.with(context)
-                    .load(footballFeed.getThumbnail().getImageUrl())
+            Picasso.with( context )
+                    .load( footballFeed.getThumbnail().getImageUrl() )
                     .fit().centerCrop()
-                    .placeholder(R.drawable.ic_place_holder)
-                    .transform(new RoundedTransformation( UIDisplayUtil.dpToPx(8, context), 0))
-                    .error(R.drawable.ic_place_holder)
-                    .into(holder.tileImageView);
+                    .placeholder( R.drawable.ic_place_holder )
+                    .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
+                    .error( R.drawable.ic_place_holder )
+                    .into( holder.tileImageView );
         } else {
-            holder.tileImageView.setImageResource(R.drawable.ic_place_holder);
+            holder.tileImageView.setImageResource( R.drawable.ic_place_holder );
         }
-
-    }
-    public  void setFootballFeedList(List<FootballFeed> footballFeeds) {
-        if (footballFeeds == null) {
-            return;
-        }
-        footballFeeds.addAll(footballFeeds);
-        notifyDataSetChanged();
     }
 
     @Override
@@ -65,7 +58,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     }
 
     public class BoardMediaViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.tile_image_view)
+        @BindView(R.id.feed_image_view)
         ImageView tileImageView;
 
         public BoardMediaViewHolder(View itemView) {
