@@ -16,25 +16,38 @@ import android.widget.TextView;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonObject;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by plank-hasan on 5/3/2018.
  */
 
 public class BoardActivity extends AppCompatActivity {
-
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
     @BindView(R.id.board_recycler_view)
     RecyclerView boardRecyclerView;
     @BindView(R.id.board_arc_menu)
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
+    private RestApi restApi;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +55,8 @@ public class BoardActivity extends AppCompatActivity {
         Log.e( "Device ID", FirebaseInstanceId.getInstance().getToken() );
         setContentView( R.layout.activity_board );
         ButterKnife.bind( this );
+        ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
+        restApi = retrofit.create( RestApi.class );
         initRecyclerView();
         setUpBoomMenu();
     }
@@ -62,11 +77,11 @@ public class BoardActivity extends AppCompatActivity {
         arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link,R.drawable.ic_video};
+                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link, R.drawable.ic_video};
         int[] backgroundColors = {R.drawable.fab_circle_background_grey,
                 R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink,R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment","Video"};
+                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
+        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
             //child.setId(i);
@@ -111,7 +126,8 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 6: {
                             break;
-                        } case 7: {
+                        }
+                        case 7: {
                             Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Video" );
                             intent.putExtra( "API", "BoardActivity" );
@@ -131,11 +147,35 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
+                    enterTheBoardApiCall( "54a1e691-003f-4cff-829e-a8da42c5fcd9" );
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
                 }
                 break;
         }
+    }
+
+    private void enterTheBoardApiCall(String userId) {
+        restApi.enterTheBoard( userId )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new rx.Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( "", "onCompleted: " );
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e( "", "onError: " + e );
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e( "", "onNext: " + jsonObjectResponse );
+                    }
+                } );
     }
 }

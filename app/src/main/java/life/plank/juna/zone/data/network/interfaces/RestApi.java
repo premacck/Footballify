@@ -116,5 +116,8 @@ public interface RestApi {
     @POST("feedItems/upload")
     Observable<Response<JsonObject>> postAudioFile(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
 
+    @POST("borads/422e50c3-ac95-4d29-8b96-4ae0edc91b6f/activities/enter")
+    Observable<Response<JsonObject>> enterTheBoard(@Query("userId") String userId);
+
 }
 

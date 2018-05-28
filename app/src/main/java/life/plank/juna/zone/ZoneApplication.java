@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import life.plank.juna.zone.data.network.dagger.DaggerEnterTheBoardNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerUploadAudioNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.EnterTheBoardNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
@@ -96,7 +98,7 @@ public class ZoneApplication extends Application {
     private LikeFeedNetworkComponent likeFeedNetworkComponent;
     private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
     private UploadAudioNetworkComponent uploadAudioNetworkComponent;
-
+private EnterTheBoardNetworkComponent enterTheBoardNetworkComponent;
     public static ZoneApplication getApplication() {
         return zoneApplication;
     }
@@ -195,8 +197,12 @@ public class ZoneApplication extends Application {
         imageUploaderNetworkComponent = DaggerImageUploaderNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
-          uploadAudioNetworkComponent = DaggerUploadAudioNetworkComponent.builder()
+        uploadAudioNetworkComponent = DaggerUploadAudioNetworkComponent.builder()
                   .restServiceModule( new RestServiceModule() ).build();
+
+        enterTheBoardNetworkComponent = DaggerEnterTheBoardNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -293,5 +299,8 @@ public class ZoneApplication extends Application {
     }
     public UploadAudioNetworkComponent getUploadAudioNetworkComponent() {
         return uploadAudioNetworkComponent;
+    }
+    public EnterTheBoardNetworkComponent getEnterTheBoardNetworkComponent() {
+        return enterTheBoardNetworkComponent;
     }
 }
