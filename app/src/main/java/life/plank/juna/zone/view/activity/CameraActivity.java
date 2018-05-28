@@ -65,7 +65,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     TextView postImageView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    String apiCallFromBoardActivity;
+    String apiCallFromActivity;
     File absolutefile;
     String openFrom;
     private Uri imageUri;
@@ -81,8 +81,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject( this );
         ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-
-        apiCallFromBoardActivity = getIntent().getStringExtra( "API" );
+        apiCallFromActivity = getIntent().getStringExtra( "API" );
         if (openFrom.equalsIgnoreCase( "Camera" )) {
             if (isStoragePermissionGranted())
                 takePicture();
@@ -296,7 +295,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (apiCallFromBoardActivity.equalsIgnoreCase( "BoardActivity" )) {
+        //todo:-change hardcoded data and
+        if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
+            if (openFrom.equalsIgnoreCase( "Camera" )) {
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+            } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+            } else {
+                Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
+            }
+        } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
                 postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
@@ -305,6 +313,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         }
+
     }
 
     public String getRealPathFromURIForGalleryImage(Uri uri) {
