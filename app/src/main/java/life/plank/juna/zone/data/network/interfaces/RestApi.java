@@ -116,5 +116,7 @@ public interface RestApi {
     @POST("feedItems/upload")
     Observable<Response<JsonObject>> postAudioFile(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
 
+    @GET("api/feeditems")
+    Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
 }
 

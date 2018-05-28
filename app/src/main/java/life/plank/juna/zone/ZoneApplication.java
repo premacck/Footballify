@@ -8,14 +8,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import life.plank.juna.zone.data.network.dagger.DaggerUploadAudioNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
@@ -23,7 +23,6 @@ import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerOnBoardSocialLoginNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerPlayerStatsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
@@ -33,10 +32,11 @@ import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponen
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerTeamStatsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerUploadAudioNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
@@ -44,7 +44,6 @@ import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.OnBoardSocialLoginNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.PlayerStatsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
 import life.plank.juna.zone.data.network.dagger.PointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
@@ -54,7 +53,6 @@ import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathResultComponent;
-import life.plank.juna.zone.data.network.dagger.TeamStatsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.UploadAudioNetworkComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
@@ -87,8 +85,6 @@ public class ZoneApplication extends Application {
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
-    private PlayerStatsNetworkComponent playerStatsNetworkComponent;
-    private TeamStatsNetworkComponent teamStatsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
     private SignupUserNetworkComponent signupUserNetworkComponent;
     private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
@@ -96,6 +92,7 @@ public class ZoneApplication extends Application {
     private LikeFeedNetworkComponent likeFeedNetworkComponent;
     private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
     private UploadAudioNetworkComponent uploadAudioNetworkComponent;
+    private BoardFeedNetworkComponent boardFeedNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -167,14 +164,7 @@ public class ZoneApplication extends Application {
                 .restServiceModule( new RestServiceModule() )
                 .build();
 
-
         standingsNetworkComponent = DaggerStandingsNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() ).build();
-
-        playerStatsNetworkComponent = DaggerPlayerStatsNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() ).build();
-
-        teamStatsNetworkComponent = DaggerTeamStatsNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
         lineupNetworkComponent = DaggerLineupNetworkComponent.builder()
@@ -195,8 +185,12 @@ public class ZoneApplication extends Application {
         imageUploaderNetworkComponent = DaggerImageUploaderNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
-          uploadAudioNetworkComponent = DaggerUploadAudioNetworkComponent.builder()
-                  .restServiceModule( new RestServiceModule() ).build();
+        uploadAudioNetworkComponent = DaggerUploadAudioNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
+        boardFeedNetworkComponent = DaggerBoardFeedNetworkComponent.builder()
+                .restServiceModule( new RestServiceModule() ).build();
+
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -260,14 +254,6 @@ public class ZoneApplication extends Application {
 
     }
 
-    public PlayerStatsNetworkComponent getPlayerStatsNetworkComponent() {
-        return playerStatsNetworkComponent;
-    }
-
-    public TeamStatsNetworkComponent getTeamStatsNetworkComponent() {
-        return teamStatsNetworkComponent;
-    }
-
     public LineupNetworkComponent getLineupNetworkComponent() {
         return lineupNetworkComponent;
     }
@@ -291,7 +277,12 @@ public class ZoneApplication extends Application {
     public ImageUploaderNetworkComponent getImageUploaderNetworkComponent() {
         return imageUploaderNetworkComponent;
     }
+
     public UploadAudioNetworkComponent getUploadAudioNetworkComponent() {
         return uploadAudioNetworkComponent;
+    }
+
+    public BoardFeedNetworkComponent getBoardFeedNetworkComponent() {
+        return boardFeedNetworkComponent;
     }
 }
