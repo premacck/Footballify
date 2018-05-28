@@ -63,7 +63,7 @@ public class BoardActivity extends AppCompatActivity {
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
     private int apiHitCount = 0;
-    private List<FootballFeed> footballFeeds;
+    private List<FootballFeed> boardFeeds;
     private RestApi restApi;
     private Subscription subscription;
     private String nextPageToken = "";
@@ -121,10 +121,10 @@ public class BoardActivity extends AppCompatActivity {
     //todo: Inject adapter
     private void initRecyclerView() {
         int numberOfRows = 3;
-        footballFeeds = new ArrayList<>();
+        boardFeeds = new ArrayList<>();
         gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
         boardRecyclerView.setLayoutManager( gridLayoutManager );
-        boardMediaAdapter = new BoardMediaAdapter( this, footballFeeds );
+        boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
         boardRecyclerView.setAdapter( boardMediaAdapter );
         boardRecyclerView.setHasFixedSize( true );
         boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
@@ -173,7 +173,7 @@ public class BoardActivity extends AppCompatActivity {
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
         if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
             if ("".contentEquals( nextPageToken ) ? (isLastPage = true) : (isLoading = false)) ;
-            footballFeeds.addAll( footballFeedsList );
+            boardFeeds.addAll( footballFeedsList );
             boardMediaAdapter.notifyDataSetChanged();
             PAGE_SIZE = footballFeedsList.size();
         }

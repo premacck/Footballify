@@ -22,12 +22,12 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    private List<FootballFeed> footballFeeds;
+    private List<FootballFeed> boardFeeds;
     private Context context;
 
-    public BoardMediaAdapter(Context context, List<FootballFeed> footballFeeds) {
+    public BoardMediaAdapter(Context context, List<FootballFeed> boardFeeds) {
         this.context = context;
-        this.footballFeeds = footballFeeds;
+        this.boardFeeds = boardFeeds;
     }
 
     @Override
@@ -38,10 +38,10 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        FootballFeed footballFeed = footballFeeds.get( position );
-        if (footballFeed.getThumbnail() != null) {
+        FootballFeed boardFeeds = this.boardFeeds.get( position );
+        if (boardFeeds.getThumbnail() != null) {
             Picasso.with( context )
-                    .load( footballFeed.getThumbnail().getImageUrl() )
+                    .load( boardFeeds.getThumbnail().getImageUrl() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -54,7 +54,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public int getItemCount() {
-        return footballFeeds.size();
+        return boardFeeds.size();
     }
 
     public class BoardMediaViewHolder extends RecyclerView.ViewHolder {
