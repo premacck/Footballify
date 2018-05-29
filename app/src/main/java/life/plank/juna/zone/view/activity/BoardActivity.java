@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -34,6 +35,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotificationModel;
+import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
@@ -58,6 +61,11 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
+    @BindView(R.id.image_view)
+    ImageView firebaseImageView;
+    ArrayList<BoardNotificationModel> boardNotificationModelArrayList = new ArrayList<>();
+    ;
+    DBHelper dbHelper;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
@@ -94,7 +102,7 @@ public class BoardActivity extends AppCompatActivity {
                     new Handler().postDelayed( new Runnable() {
                         @Override
                         public void run() {
-                            getBoardApiCall();
+                            //getBoardApiCall();
 
                         }
                     }, AppConstants.PAGINATION_DELAY );
@@ -113,22 +121,42 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-        getBoardApiCall();
+        dbHelper = new DBHelper( this );
+        populateUplaodedData();
         initRecyclerView();
         setUpBoomMenu();
     }
 
+    /*  //todo: Inject adapter
+      private void initRecyclerView() {
+          int numberOfRows = 3;
+          boardFeeds = new ArrayList<>();
+          gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
+          boardRecyclerView.setLayoutManager( gridLayoutManager );
+          boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
+          boardRecyclerView.setAdapter( boardMediaAdapter );
+          boardRecyclerView.setHasFixedSize( true );
+          boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
+          renderScript = RenderScript.create( this );
+      }*/
+    public void populateUplaodedData() {
+        ArrayList<String> dataList = dbHelper.getDataList();
+        if (dataList != null && dataList.size() > 0) {
+            for (int i = 0; i < dataList.size(); i++) {
+                Gson gson = new Gson();
+                BoardNotificationModel boardNotificationModel = gson.fromJson( dataList.get( i ), BoardNotificationModel.class );
+                boardNotificationModelArrayList.add( boardNotificationModel );
+            }
+        }
+    }
+
     //todo: Inject adapter
     private void initRecyclerView() {
-        int numberOfRows = 3;
-        boardFeeds = new ArrayList<>();
-        gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
+        boardMediaAdapter = new BoardMediaAdapter( this, boardNotificationModelArrayList );
+        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 4, GridLayoutManager.VERTICAL, false );
         boardRecyclerView.setLayoutManager( gridLayoutManager );
-        boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
         boardRecyclerView.setAdapter( boardMediaAdapter );
         boardRecyclerView.setHasFixedSize( true );
-        boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
-        renderScript = RenderScript.create( this );
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
