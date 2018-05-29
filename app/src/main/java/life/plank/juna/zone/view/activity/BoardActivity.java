@@ -23,6 +23,7 @@ import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -128,7 +129,10 @@ public class BoardActivity extends AppCompatActivity {
     public void populateUplaodedData() {
         ArrayList<String> dataList = dbHelper.getDataList();
         if (dataList != null && dataList.size() > 0) {
+
             for (int i = 0; i < dataList.size(); i++) {
+                Collections.sort( dataList);
+
                 Gson gson = new Gson();
                 BoardNotificationModel boardNotificationModel = gson.fromJson( dataList.get( i ), BoardNotificationModel.class );
                 boardNotificationModelArrayList.add( boardNotificationModel );
