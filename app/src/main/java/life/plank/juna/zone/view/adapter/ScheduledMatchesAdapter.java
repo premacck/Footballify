@@ -51,18 +51,18 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
       //  Long matchId = Long.valueOf( classifiedMatchesMap.get( 0 ).get( position ).getForeignId() );
        // holder.dateSchedule.setText( parseDateToddMMyyyy( classifiedMatchesMap.get(2).get( position ).getMatchStartTime() ) );
-        if (classifiedMatchesMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
+        if (classifiedMatchesMap.get( 0 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( classifiedMatchesMap.get(2).get( position ).getHomeTeam().getLogoLink() )
+                    .load( classifiedMatchesMap.get(0).get( position ).getHomeTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
                     .error( R.drawable.ic_place_holder )
                     .into( holder.homeTeamLogo );
         }
-        if (classifiedMatchesMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
+        if (classifiedMatchesMap.get( 0 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( classifiedMatchesMap.get( 2 ).get( position ).getAwayTeam().getLogoLink() )
+                    .load( classifiedMatchesMap.get( 0 ).get( position ).getAwayTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -81,7 +81,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public int getItemCount() {
-        return classifiedMatchesMap.get( 2 ).size();
+        return classifiedMatchesMap.get( 0 ).size();
     }
 
     public String parseDateToddMMyyyy(String time) {

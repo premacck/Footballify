@@ -99,6 +99,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populateSheduledScoreFixtureRecyclerView() {
+
         scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, matchDayMap,classifiedMatchesMap );
         upcomingMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         upcomingMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
@@ -128,9 +129,9 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                             matchDayMap = footballFixtureClassifierService.GetMatchDayMap( response.body() );
                             classifiedMatchesMap = footballFixtureClassifierService.GetClassifiedMatchesMap( response.body() );
                             populateSheduledScoreFixtureRecyclerView();
-                            populatePastMatchFixtureRecyclerView();
+                            /*populatePastMatchFixtureRecyclerView();
                             populateTommorowMatchFixtureRecyclerView();
-                            populateLiveMatchScoreRecyclerView();
+                            populateLiveMatchScoreRecyclerView();*/
 
                         }
                     }

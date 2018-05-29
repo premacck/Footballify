@@ -3,6 +3,8 @@ package life.plank.juna.zone.data.network.module;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.Date;
+
 import javax.inject.Named;
 import javax.inject.Singleton;
 
@@ -11,6 +13,7 @@ import dagger.Provides;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.service.HttpClientService;
+import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,9 +30,9 @@ public class RestServiceModule {
     @Provides
     public Gson provideGson() {
         GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter( Date.class, new ISO8601DateSerializer());
         return builder.create();
     }
-
     @Singleton
     @Provides
     @Named("default")

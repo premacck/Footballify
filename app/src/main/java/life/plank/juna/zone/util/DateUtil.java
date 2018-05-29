@@ -1,5 +1,7 @@
 package life.plank.juna.zone.util;
 
+import android.util.Log;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +15,7 @@ public class DateUtil {
 
     public static long getDifferenceInHours(Date firstDate, Date secondDate) {
         long millisDifference = firstDate.getTime() - secondDate.getTime();
+        Log.e("Date","get_Time" +millisDifference);
         return millisDifference/(3600000L);
     }
 }
