@@ -81,7 +81,7 @@ public class DBHelper extends SQLiteOpenHelper {
         database.execSQL( deleteQuery );
     }
 /*
-    public void updateFavoriteNews(String list, String contentId) {
+    public void updateDataList(String list, String contentId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_CLASS_NAME, subjectNewName);
@@ -90,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }*/
 
     // Deleting single contact
-  /*  public void deleteFavoriteNews(int contentId) {
+  /*  public void deleteDataList(int contentId) {
         SQLiteDatabase db = this.getWritableDatabase();
         int deleted = db.delete( TABLE_UPLOADS, KEY_CONTENT_ID + " = ?", new String[]{String.valueOf( contentId )} );
         Log.e( TAG, "deleted " + deleted );
