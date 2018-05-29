@@ -52,7 +52,7 @@ import rx.schedulers.Schedulers;
 
 public class BoardActivity extends AppCompatActivity {
     @Inject
-    @Named("azure")
+    @Named("default")
     Retrofit retrofit;
     int TRCNumber = 20;
     @BindView(R.id.board_recycler_view)
@@ -61,10 +61,7 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
-    @BindView(R.id.image_view)
-    ImageView firebaseImageView;
     ArrayList<BoardNotificationModel> boardNotificationModelArrayList = new ArrayList<>();
-    ;
     DBHelper dbHelper;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
@@ -127,18 +124,7 @@ public class BoardActivity extends AppCompatActivity {
         setUpBoomMenu();
     }
 
-    /*  //todo: Inject adapter
-      private void initRecyclerView() {
-          int numberOfRows = 3;
-          boardFeeds = new ArrayList<>();
-          gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
-          boardRecyclerView.setLayoutManager( gridLayoutManager );
-          boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
-          boardRecyclerView.setAdapter( boardMediaAdapter );
-          boardRecyclerView.setHasFixedSize( true );
-          boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
-          renderScript = RenderScript.create( this );
-      }*/
+
     public void populateUplaodedData() {
         ArrayList<String> dataList = dbHelper.getDataList();
         if (dataList != null && dataList.size() > 0) {
@@ -153,7 +139,7 @@ public class BoardActivity extends AppCompatActivity {
     //todo: Inject adapter
     private void initRecyclerView() {
         boardMediaAdapter = new BoardMediaAdapter( this, boardNotificationModelArrayList );
-        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 4, GridLayoutManager.VERTICAL, false );
+        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 3, GridLayoutManager.VERTICAL, false );
         boardRecyclerView.setLayoutManager( gridLayoutManager );
         boardRecyclerView.setAdapter( boardMediaAdapter );
         boardRecyclerView.setHasFixedSize( true );
@@ -167,7 +153,18 @@ public class BoardActivity extends AppCompatActivity {
         }
         return "";
     }
-
+    /*  //todo: Inject adapter
+        private void initRecyclerView() {
+            int numberOfRows = 3;
+            boardFeeds = new ArrayList<>();
+            gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
+            boardRecyclerView.setLayoutManager( gridLayoutManager );
+            boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
+            boardRecyclerView.setAdapter( boardMediaAdapter );
+            boardRecyclerView.setHasFixedSize( true );
+            boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
+            renderScript = RenderScript.create( this );
+        }*/
     public void getBoardApiCall() {
         subscription = restApi.getBoardFeed( updateToken( nextPageToken,
                 getString( R.string.replace_rt ) + String.valueOf( apiHitCount ), getString( R.string.replace_trc ) + String.valueOf( apiHitCount * TRCNumber ) ) )
