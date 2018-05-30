@@ -17,6 +17,10 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -41,7 +45,7 @@ public class UIDisplayUtil {
      */
     public static int dpToPx(int dp, Context context) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        return Math.round( dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT) );
     }
 
     /**
@@ -53,9 +57,9 @@ public class UIDisplayUtil {
      */
     public static int getDisplayMetricsData(Context context, int status) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        WindowManager windowManager = (WindowManager) context.getSystemService( Context.WINDOW_SERVICE );
         if (windowManager != null) {
-            windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+            windowManager.getDefaultDisplay().getMetrics( displayMetrics );
         }
         switch (status) {
             case GlobalVariable.DISPLAY_HEIGHT:
@@ -68,14 +72,14 @@ public class UIDisplayUtil {
     }
 
     public void displaySnackBar(View currentView, String message) {
-        Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
+        Snackbar.make( currentView, message, Snackbar.LENGTH_LONG ).show();
     }
 
     public void hideSoftKeyboard(View view, Context context) {
         if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService( Context.INPUT_METHOD_SERVICE );
             assert inputMethodManager != null;
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            inputMethodManager.hideSoftInputFromWindow( view.getWindowToken(), 0 );
         }
     }
 
@@ -83,22 +87,23 @@ public class UIDisplayUtil {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 
-    public  void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
         if (listPopupWindow != null && listPopupWindow.isShowing())
             listPopupWindow.dismiss();
     }
 
     public static void blurBitmapWithRenderscript(RenderScript rs, Bitmap bitmap2) {
         //this will blur the bitmapOriginal with a radius of 25 and save it in bitmapOriginal
-        final Allocation input = Allocation.createFromBitmap(rs, bitmap2); //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
-        final Allocation output = Allocation.createTyped(rs, input.getType());
-        final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+        final Allocation input = Allocation.createFromBitmap( rs, bitmap2 ); //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
+        final Allocation output = Allocation.createTyped( rs, input.getType() );
+        final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create( rs, Element.U8_4( rs ) );
         // must be >0 and <= 25
-        script.setRadius(10f);
-        script.setInput(input);
-        script.forEach(output);
-        output.copyTo(bitmap2);
+        script.setRadius( 10f );
+        script.setInput( input );
+        script.forEach( output );
+        output.copyTo( bitmap2 );
     }
+
     public static String getAudioPath(Uri uri) {
         String[] data = {MediaStore.Audio.Media.DATA};
         CursorLoader loader = new CursorLoader( getApplicationContext(), uri, data, null, null, null );
@@ -107,4 +112,21 @@ public class UIDisplayUtil {
         cursor.moveToFirst();
         return cursor.getString( column_index );
     }
+
+    public static String parseDateToddMMyyyy(Date time) {
+        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
+        String outputPattern = "dd-MMM-yyyy";
+        SimpleDateFormat inputFormat = new SimpleDateFormat( inputPattern );
+        SimpleDateFormat outputFormat = new SimpleDateFormat( outputPattern );
+        Date date = null;
+        String str = null;
+        try {
+            date = inputFormat.parse( String.valueOf( time ) );
+            str = outputFormat.format( date );
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return str;
+    }
+
 }
