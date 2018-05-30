@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -48,7 +45,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
         // Long matchId = matchDayMap.get( 0 ).get( position ).getForeignId();
-        // holder.dateSchedule.setText( parseDateToddMMyyyy( matchDayMap.get(2).get( position ).getMatchStartTime()));
+        // holder.dateSchedule.setText( UIDisplayUtil.parseDateToddMMyyyy( matchDayMap.get(2).get( position ).getMatchStartTime()));
         if (matchDayMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
                     .load( matchDayMap.get(2).get( position ).getHomeTeam().getLogoLink() )
@@ -80,22 +77,6 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
     @Override
     public int getItemCount() {
         return matchDayMap.get(2).size();
-    }
-
-    public String parseDateToddMMyyyy(Date time) {
-        String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
-        String outputPattern = "dd-MMM-yyyy";
-        SimpleDateFormat inputFormat = new SimpleDateFormat( inputPattern );
-        SimpleDateFormat outputFormat = new SimpleDateFormat( outputPattern );
-        Date date = null;
-        String str = null;
-        try {
-            date = inputFormat.parse( String.valueOf( time ) );
-            str = outputFormat.format( date );
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return str;
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {

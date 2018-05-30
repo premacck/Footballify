@@ -51,7 +51,7 @@
         </service>
 
         <activity
-            android:name=".view.activity.MatchResultActivity"
+            android:name=".view.activity.SwipePageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -207,7 +207,7 @@
             android:name=".view.activity.BoardActivity"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activity.SwipePageActivity"
+            android:name=".view.activity.MatchResultActivity"
             android:theme="@style/AppTheme" />
     </application>
 
