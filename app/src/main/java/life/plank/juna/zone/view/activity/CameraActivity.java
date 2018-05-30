@@ -237,7 +237,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         progressBar.setVisibility( View.VISIBLE );
         File file = new File( selectedImageUri );
         RequestBody requestBody = RequestBody.create( MediaType.parse( "image" ), file );
-        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody ); // SERVER key name is image
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
 
         restApi.postImageFromGallery( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
@@ -268,7 +268,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private void postAudioFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         File file = new File( selectedAudioUri );
         RequestBody requestBody = RequestBody.create( MediaType.parse( "audio" ), file );
-        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody ); // SERVER key name is image
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
 
         restApi.postAudioFile( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
