@@ -26,37 +26,37 @@ import life.plank.juna.zone.view.activity.LineupActivity;
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatchesAdapter.MatchFixtureAndResultViewHolder> {
+public class PastMatchAdapter extends RecyclerView.Adapter<PastMatchAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
     private HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap;
 
-    public ScheduledMatchesAdapter(Context context, HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap) {
+
+    public PastMatchAdapter(Context context, HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap) {
         this.context = context;
-        this.classifiedMatchesMap = classifiedMatchesMap;
-    }
+        this.classifiedMatchesMap = classifiedMatchesMap;    }
 
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.scheduled_match_list, parent, false ) );
 
+        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.past_match_list, parent, false ) );
     }
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        Long matchId = classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).get( position ).getForeignId();
-        holder.dateSchedule.setText( String.valueOf( classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).get( position ).getMatchStartTime() ) );
-        if (classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).get( position ).getHomeTeam().getLogoLink() != null) {
+        Long matchId = classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES ).get( position ).getForeignId();
+        holder.dateSchedule.setText( String.valueOf(classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES  ).get( position ).getMatchStartTime()));
+        if (classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).get( position ).getHomeTeam().getLogoLink() )
+                    .load( classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES  ).get( position ).getHomeTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
                     .error( R.drawable.ic_place_holder )
                     .into( holder.homeTeamLogo );
         }
-        if (classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).get( position ).getHomeTeam().getLogoLink() != null) {
+        if (classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).get( position ).getAwayTeam().getLogoLink() )
+                    .load( classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES  ).get( position ).getAwayTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -72,10 +72,9 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
             }
         } );
     }
-
     @Override
     public int getItemCount() {
-        return classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.SCHEDULED_MATCHES ).size();
+        return classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES  ).size();
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
@@ -85,9 +84,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
         ImageView awayTeamLogo;
         @BindView(R.id.date_schedule)
         TextView dateSchedule;
-
         public MatchFixtureAndResultViewHolder(View itemView) {
-
             super( itemView );
             ButterKnife.bind( this, itemView );
         }
