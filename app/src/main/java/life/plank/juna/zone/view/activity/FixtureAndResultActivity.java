@@ -39,10 +39,9 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
-   // @Inject
+    // @Inject
     // todo: Make this a dagger component
     FootballFixtureClassifierService footballFixtureClassifierService = new FootballFixtureClassifierService();
-
     @BindView(R.id.live_match_recycler_view)
     RecyclerView currentMatchRecyclerView;
     @BindView(R.id.tommorow_match_recycler_view)
@@ -67,8 +66,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         super.onCreate( savedInstanceState );
         setContentView( R.layout.activity_fixture_and_result );
         ButterKnife.bind( this );
-
-       ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         getScoreFixture( AppConstants.SEASON_NAME );
     }
@@ -92,7 +90,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populatePastMatchFixtureRecyclerView() {
-        pastMatchAdapter = new PastMatchAdapter( this);
+        pastMatchAdapter = new PastMatchAdapter( this );
         pastMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         pastMatchRecyclerView.setAdapter( pastMatchAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
@@ -101,8 +99,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populateSheduledScoreFixtureRecyclerView() {
-
-        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, matchDayMap,classifiedMatchesMap );
+        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, matchDayMap, classifiedMatchesMap );
         upcomingMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         upcomingMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
@@ -127,13 +124,13 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<List<ScoreFixtureModel>> response) {
                         Log.e( TAG, "response: " + ", list data " + response.toString() );
-                        if (response.code() == HttpURLConnection.HTTP_OK && response.body()!= null) {
+                        if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             matchDayMap = footballFixtureClassifierService.GetMatchDayMap( response.body() );
                             classifiedMatchesMap = footballFixtureClassifierService.GetClassifiedMatchesMap( response.body() );
                             populateSheduledScoreFixtureRecyclerView();
-                            /*populatePastMatchFixtureRecyclerView();
+                            populatePastMatchFixtureRecyclerView();
                             populateTommorowMatchFixtureRecyclerView();
-                            populateLiveMatchScoreRecyclerView();*/
+                            populateLiveMatchScoreRecyclerView();
 
                         }
                     }

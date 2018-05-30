@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.LineupActivity;
@@ -44,20 +45,20 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-         Long matchId = matchDayMap.get( 2 ).get( position ).getForeignId();
-         holder.dateSchedule.setText( String.valueOf(matchDayMap.get(2).get( position ).getMatchStartTime()));
-        if (matchDayMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
+         Long matchId = matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getForeignId();
+         holder.dateSchedule.setText( String.valueOf(matchDayMap.get(AppConstants.SCHEDULED_MATCH).get( position ).getMatchStartTime()));
+        if (matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( matchDayMap.get(2).get( position ).getHomeTeam().getLogoLink() )
+                    .load( matchDayMap.get(AppConstants.SCHEDULED_MATCH).get( position ).getHomeTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
                     .error( R.drawable.ic_place_holder )
                     .into( holder.homeTeamLogo );
         }
-        if (matchDayMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
+        if (matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( matchDayMap.get( 2 ).get( position ).getAwayTeam().getLogoLink() )
+                    .load( matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getAwayTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -76,7 +77,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public int getItemCount() {
-        return matchDayMap.get(2).size();
+        return matchDayMap.get(AppConstants.SCHEDULED_MATCH).size();
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
