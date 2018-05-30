@@ -255,6 +255,8 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
+                    //todo: change this constant user id to actuall parameter
+                    enterTheBoardApiCall("54a1e691-003f-4cff-829e-a8da42c5fcd9");
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
