@@ -96,7 +96,6 @@ public class BoardActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             getBoardApiCall();
-
                         }
                     }, AppConstants.PAGINATION_DELAY );
                 }
@@ -114,7 +113,6 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
         ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
-
         restApi = retrofit.create( RestApi.class );
         getBoardApiCall();
         initRecyclerView();
@@ -273,17 +271,16 @@ public class BoardActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
                     }
-
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
+                        Toast.makeText( BoardActivity.this, "You entered in Board Successfully", Toast.LENGTH_SHORT ).show();
                     }
                 } );
     }
