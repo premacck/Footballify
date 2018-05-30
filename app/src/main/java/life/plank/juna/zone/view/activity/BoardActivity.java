@@ -19,10 +19,12 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,6 +37,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotificationModel;
+import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
@@ -59,6 +63,8 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
+    ArrayList<BoardNotificationModel> boardNotificationModelArrayList = new ArrayList<>();
+    DBHelper dbHelper;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
@@ -95,7 +101,8 @@ public class BoardActivity extends AppCompatActivity {
                     new Handler().postDelayed( new Runnable() {
                         @Override
                         public void run() {
-                            getBoardApiCall();
+                            //getBoardApiCall();
+
                         }
                     }, AppConstants.PAGINATION_DELAY );
                 }
@@ -114,22 +121,32 @@ public class BoardActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
         ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-        getBoardApiCall();
+        dbHelper = new DBHelper( this );
+        populateUplaodedDataFromPushNotification();
         initRecyclerView();
         setUpBoomMenu();
     }
 
+
+    public void populateUplaodedDataFromPushNotification() {
+        ArrayList<String> dataList = dbHelper.getDataList();
+        if (dataList != null && dataList.size() > 0) {
+            for (int i = 0; i < dataList.size(); i++) {
+                Collections.sort( dataList);
+                Gson gson = new Gson();
+                BoardNotificationModel boardNotificationModel = gson.fromJson( dataList.get( i ), BoardNotificationModel.class );
+                boardNotificationModelArrayList.add( boardNotificationModel );
+            }
+        }
+    }
+
     //todo: Inject adapter
     private void initRecyclerView() {
-        int numberOfRows = 3;
-        boardFeeds = new ArrayList<>();
-        gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
+        boardMediaAdapter = new BoardMediaAdapter( this, boardNotificationModelArrayList );
+        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 3, GridLayoutManager.VERTICAL, false );
         boardRecyclerView.setLayoutManager( gridLayoutManager );
-        boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
         boardRecyclerView.setAdapter( boardMediaAdapter );
         boardRecyclerView.setHasFixedSize( true );
-        boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
-        renderScript = RenderScript.create( this );
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
@@ -140,7 +157,18 @@ public class BoardActivity extends AppCompatActivity {
         }
         return "";
     }
-
+    /*  //todo: Inject adapter
+        private void initRecyclerView() {
+            int numberOfRows = 3;
+            boardFeeds = new ArrayList<>();
+            gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
+            boardRecyclerView.setLayoutManager( gridLayoutManager );
+            boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
+            boardRecyclerView.setAdapter( boardMediaAdapter );
+            boardRecyclerView.setHasFixedSize( true );
+            boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
+            renderScript = RenderScript.create( this );
+        }*/
     public void getBoardApiCall() {
         subscription = restApi.getBoardFeed( updateToken( nextPageToken,
                 getString( R.string.replace_rt ) + String.valueOf( apiHitCount ), getString( R.string.replace_trc ) + String.valueOf( apiHitCount * TRCNumber ) ) )
