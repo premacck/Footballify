@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -49,7 +50,7 @@ import rx.schedulers.Schedulers;
 
 public class BoardActivity extends AppCompatActivity {
     @Inject
-    @Named("azure")
+    @Named("default")
     Retrofit retrofit;
     int TRCNumber = 20;
     @BindView(R.id.board_recycler_view)
@@ -95,7 +96,6 @@ public class BoardActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             getBoardApiCall();
-
                         }
                     }, AppConstants.PAGINATION_DELAY );
                 }
@@ -112,6 +112,7 @@ public class BoardActivity extends AppCompatActivity {
         setContentView( R.layout.activity_board );
         ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         getBoardApiCall();
         initRecyclerView();
@@ -254,11 +255,35 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
+                    //todo: change this constant user id to actuall parameter
+                    enterTheBoardApiCall("54a1e691-003f-4cff-829e-a8da42c5fcd9");
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
                 }
                 break;
         }
+    }
+
+    private void enterTheBoardApiCall(String userId) {
+        restApi.enterTheBoard( userId )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new rx.Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( "", "onCompleted: " );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e( "", "onError: " + e );
+                    }
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e( "", "onNext: " + jsonObjectResponse );
+                        Toast.makeText( BoardActivity.this, "You entered in Board Successfully", Toast.LENGTH_SHORT ).show();
+                    }
+                } );
     }
 }
