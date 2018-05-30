@@ -175,14 +175,24 @@
                 android:layout_above="@+id/post_relative_layout"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:src="@drawable/football_image_one" />
+                android:src="@drawable/football_image_one"
+                android:visibility="visible" />
+
+            <VideoView
+                android:id="@+id/captured_video_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/post_relative_layout"
+                android:adjustViewBounds="true"
+                android:visibility="invisible"
+                android:scaleType="fitXY" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
-                android:layout_centerInParent="true"
-                android:visibility="invisible"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="invisible" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </LinearLayout>

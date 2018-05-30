@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
 
@@ -59,27 +59,29 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     Retrofit retrofit;
     @BindView(R.id.captured_image_view)
     ImageView capturedImageView;
+    @BindView(R.id.captured_video_view)
+    VideoView capturedVideoView;
     @BindView(R.id.post_image)
     TextView postImageView;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    String apiCallFromBoardActivity;
+    String apiCallFromActivity;
     File absolutefile;
+    String openFrom;
     private Uri imageUri;
     private int GALLERY_IMAGE_RESULT = 7;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
-    private Bitmap thumbnail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
-        String openFrom = getIntent().getStringExtra( "OPEN_FROM" );
+        openFrom = getIntent().getStringExtra( "OPEN_FROM" );
         ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject( this );
         ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-        apiCallFromBoardActivity = getIntent().getStringExtra( "API" );
+        apiCallFromActivity = getIntent().getStringExtra( "API" );
         if (openFrom.equalsIgnoreCase( "Camera" )) {
             if (isStoragePermissionGranted())
                 takePicture();
@@ -92,9 +94,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void setUpUi() {
+    private void setUpUi(String type) {
         setContentView( R.layout.activity_camera );
         ButterKnife.bind( this );
+        if (type.equalsIgnoreCase( "video" )) {
+            capturedVideoView.setVisibility( View.VISIBLE );
+            capturedImageView.setVisibility( View.GONE );
+        } else {
+            capturedVideoView.setVisibility( View.GONE );
+            capturedImageView.setVisibility( View.VISIBLE );
+        }
         postImageView.setOnClickListener( this );
     }
 
@@ -110,7 +119,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -154,16 +162,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_IMAGE_RESULT) {
             if (imageUri != null) {
-                Uri selectedImage = imageUri;
-                getContentResolver().notifyChange( selectedImage, null );
+                setUpUi( "image" );
+                filePath = getPathForCameraImage( imageUri );
+                getContentResolver().notifyChange( imageUri, null );
                 ContentResolver cr = getContentResolver();
                 Bitmap bitmap;
                 try {
-                    bitmap = android.provider.MediaStore.Images.Media.getBitmap( cr, selectedImage );
+                    bitmap = android.provider.MediaStore.Images.Media.getBitmap( cr, imageUri );
                     capturedImageView.setImageBitmap( bitmap );
                 } catch (Exception e) {
                     Toast.makeText( this, "Failed to load", Toast.LENGTH_SHORT ).show();
-                    Log.e( "Camera", e.toString() );
                 }
             }
         } else if (requestCode == AUDIO_PICKER_RESULT) {
@@ -195,19 +203,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         } else if (requestCode == VIDEO_CAPTURE) {
             if (resultCode == RESULT_OK) {
+                setUpUi( "Video" );
+                Toast.makeText( this, "Video has been saved to:\n" + data.getData(), Toast.LENGTH_LONG ).show();
                 Uri videoUri = data.getData();
-                File mediaFile = new File( Environment.getExternalStorageDirectory().getAbsolutePath() + "/myvideo.mp4" );
-                if (null != videoUri) {
-                    setUpUi();
-                    try {
-                        thumbnail = ThumbnailUtils.createVideoThumbnail( mediaFile.toString(), MediaStore.Images.Thumbnails.MINI_KIND );
-                        capturedImageView.setImageBitmap( thumbnail );
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                Toast.makeText( this, "Video saved to:\n" + data.getData(), Toast.LENGTH_LONG ).show();
+                String path = getRealPathFromURIForVideo( videoUri );
+                capturedVideoView.setVideoURI( videoUri );
+                capturedVideoView.start();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText( this, "Video recording cancelled.", Toast.LENGTH_LONG ).show();
             } else {
@@ -217,12 +218,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if (data != null) {
                 Uri selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
-                    setUpUi();
+                    setUpUi( "image" );
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap( getContentResolver(), selectedImageFromGallery );
                         capturedImageView.setImageBitmap( bitmap );
                         imageUri = selectedImageFromGallery;
-                        filePath = getRealPathFromURI( imageUri );
+                        filePath = getRealPathFromURIForGalleryImage( imageUri );
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -253,7 +254,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e( "", "onError: " + e );
                         progressBar.setVisibility( View.VISIBLE );
                         Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT ).show();
-
                     }
 
                     @Override
@@ -295,11 +295,28 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        if (apiCallFromBoardActivity.equalsIgnoreCase( "BoardActivity" ))
-            postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+        //todo:-change hardcoded data and
+        if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
+            if (openFrom.equalsIgnoreCase( "Camera" )) {
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+            } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+            } else {
+                Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
+            }
+        } else {
+            if (openFrom.equalsIgnoreCase( "Camera" )) {
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+            } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+            } else {
+                Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
+            }
+        }
+
     }
 
-    public String getRealPathFromURI(Uri uri) {
+    public String getRealPathFromURIForGalleryImage(Uri uri) {
         String filePath = "";
         try {
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -314,14 +331,40 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return filePath;
     }
 
+    private String getPathForCameraImage(Uri uri) {
+
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = managedQuery( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null );
+        int column_index_data = cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+        cursor.moveToLast();
+        return cursor.getString( column_index_data );
+    }
+
+    public String getRealPathFromURIForVideo(Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.Media.DATA};
+            cursor = getContentResolver().query( contentUri, proj, null, null, null );
+            int column_index = cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
+            cursor.moveToFirst();
+            return cursor.getString( column_index );
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     public void openGalleryForAudio() {
         Intent audioIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
         startActivityForResult( Intent.createChooser( audioIntent, "Select Audio" ), AUDIO_PICKER_RESULT );
     }
 
     public void openVideo() {
-        Intent captureVideoIntent = new Intent( android.provider.MediaStore.ACTION_VIDEO_CAPTURE );
-        startActivityForResult( captureVideoIntent, VIDEO_CAPTURE );
+        Intent takeVideoIntent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE );
+        if (takeVideoIntent.resolveActivity( getPackageManager() ) != null) {
+            startActivityForResult( takeVideoIntent, VIDEO_CAPTURE );
+        }
     }
 
     public void getImageResourceFromGallery() {
@@ -329,4 +372,5 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         galleryIntent.setType( "image/*" );
         startActivityForResult( galleryIntent, GALLERY_IMAGE_RESULT );
     }
+
 }
