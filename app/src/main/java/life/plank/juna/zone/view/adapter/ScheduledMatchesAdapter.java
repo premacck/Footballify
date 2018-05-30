@@ -11,29 +11,32 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.domain.service.FootballFixtureClassifierService;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.LineupActivity;
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
 public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatchesAdapter.MatchFixtureAndResultViewHolder> {
     private Context context;
-    private List<ScoreFixtureModel> scoreFixtureModelList;
+    private HashMap<Integer, List<ScoreFixtureModel>> matchDayMap;
+    private HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap;
 
-
-    public ScheduledMatchesAdapter(Context context, List<ScoreFixtureModel> scoreFixtureModelList) {
+    public ScheduledMatchesAdapter(Context context, HashMap<Integer, List<ScoreFixtureModel>> matchDayMap, HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap) {
         this.context = context;
-        this.scoreFixtureModelList = scoreFixtureModelList;
+        this.matchDayMap = matchDayMap;
+        this.classifiedMatchesMap = classifiedMatchesMap;
     }
-
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.scheduled_match_list, parent, false ) );
@@ -42,20 +45,20 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        holder.dateSchedule.setText( scoreFixtureModelList.get( position ).getMatchStartTime() );
-        Long matchId = Long.valueOf( scoreFixtureModelList.get( position ).getForeignId() );
-        if (scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() != null) {
+         Long matchId = matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getForeignId();
+         holder.dateSchedule.setText( String.valueOf(matchDayMap.get(AppConstants.SCHEDULED_MATCH).get( position ).getMatchStartTime()));
+        if (matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() )
+                    .load( matchDayMap.get(AppConstants.SCHEDULED_MATCH).get( position ).getHomeTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
                     .error( R.drawable.ic_place_holder )
                     .into( holder.homeTeamLogo );
         }
-        if (scoreFixtureModelList.get( position ).getHomeTeam().getLogoLink() != null) {
+        if (matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( scoreFixtureModelList.get( position ).getAwayTeam().getLogoLink() )
+                    .load( matchDayMap.get( AppConstants.SCHEDULED_MATCH ).get( position ).getAwayTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -65,8 +68,8 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
         holder.itemView.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( context, BoardActivity.class );
-                intent.putExtra( "MATCH_ID", matchId );
+                Intent intent = new Intent( context, LineupActivity.class );
+                 intent.putExtra( "MATCH_ID", matchId );
                 context.startActivity( intent );
             }
         } );
@@ -74,7 +77,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public int getItemCount() {
-        return scoreFixtureModelList.size();
+        return matchDayMap.get(AppConstants.SCHEDULED_MATCH).size();
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {

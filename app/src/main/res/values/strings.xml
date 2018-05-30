@@ -33,7 +33,7 @@
     <string name="zone_talent">Talent</string>
     <string name="zone_games">Games</string>
     <string name="zone_trader">Trader</string>
-    <string name="base_url">http://10.0.0.220:61000/</string>
+    <string name="base_url">http://192.169.1.14:61000/</string>
     <string name="secret_code">SECRET CODE</string>
     <string name="share_secret_code">GIVE THIS CODE TO YOUR FRIENDS</string>
     <string name="login_pref">loginPrefs</string>
@@ -101,6 +101,7 @@
     <string name="club_image_name">clubImageName</string>
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
     <string name="position">position</string>
+    <string name="second_position">2</string>
     <string name="comment_data">Lorem Ipsum is simply dummy text of the printing and typesetting industries. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s.</string>
     <string name="feed_content_title"> Lorem Ipsum is simply dummy text of the printing and typesetting industries. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
     <string name="feed_content_subtitle">It is a long established fact that a reader will be distracted by the readable content of page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using making it look like readable English.Of life, is the football interdumSed warm-up ornare justo eleifend nibh interdum.Proin maximu, ie, a consectetur lorem ultrices, small business that does not invest in sapien.Phasellus sapiensit sometimes mainstream except loborits, condimentum.Suspendisse accumsan dui nibh dui mi, vel ut diam maximumipsum law enforcement porta.Suspendisse sapien.Duis need the jaws of Liua button, the neicutur felis eleifend a, the ends of the est.Proin feugiatsollicuitudin feugiat.Etiam blandit Cras sit amet euismod accumasan him or his</string>
@@ -312,4 +313,7 @@
     <string name="matchday_36">Matchday_36</string>
     <string name="see_all">See All</string>
     <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
+    <string name="match_day_36">Match Day 36</string>
+    <string name="matches_fixtureresults">Matches,FixtureResults</string>
+    <string name="match_day_37">Match Day 37</string>
 </resources>

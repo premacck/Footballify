@@ -9,6 +9,7 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.util.DateUtil;
 import life.plank.juna.zone.view.holder.ScoreFixtureHolder;
 
 /**
@@ -37,7 +38,8 @@ public class ScoreFixtureAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ScoreFixtureHolder scoreFixtureHolder = (ScoreFixtureHolder) holder;
         scoreFixtureHolder.teamOneTextview.setText(scoreFixtureModelList.get(position).getHomeTeam().getName());
         scoreFixtureHolder.teamTwoTextview.setText(scoreFixtureModelList.get(position).getAwayTeam().getName());
-        scoreFixtureHolder.timeTextview.setText(scoreFixtureModelList.get(position).getMatchStartTime());
+        // Todo: Use a better format
+        scoreFixtureHolder.timeTextview.setText( DateUtil.ISO_DATE_FORMAT.format( scoreFixtureModelList.get(position).getMatchStartTime()));
     }
 
     @Override

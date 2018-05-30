@@ -122,6 +122,5 @@ public interface RestApi {
     //todo: id will be replace with board creation id
     @POST("borads/422e50c3-ac95-4d29-8b96-4ae0edc91b6f/activities/enter")
     Observable<Response<JsonObject>> enterTheBoard(@Query("userId") String userId);
-
 }
 

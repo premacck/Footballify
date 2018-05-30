@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -43,13 +42,14 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
 /**
  * Created by plank-hasan on 5/3/2018.
  */
 
 public class BoardActivity extends AppCompatActivity {
     @Inject
-    @Named("default")
+    @Named("azure")
     Retrofit retrofit;
     int TRCNumber = 20;
     @BindView(R.id.board_recycler_view)
@@ -58,13 +58,13 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
-    private RestApi restApi;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
     private int apiHitCount = 0;
     private List<FootballFeed> boardFeeds;
+    private RestApi restApi;
     private Subscription subscription;
     private String nextPageToken = "";
     private int PAGE_SIZE;
@@ -111,7 +111,7 @@ public class BoardActivity extends AppCompatActivity {
         Log.e( "Device ID", FirebaseInstanceId.getInstance().getToken() );
         setContentView( R.layout.activity_board );
         ButterKnife.bind( this );
-        ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         getBoardApiCall();
         initRecyclerView();
@@ -260,28 +260,5 @@ public class BoardActivity extends AppCompatActivity {
                 }
                 break;
         }
-    }
-
-    private void enterTheBoardApiCall(String userId) {
-        restApi.enterTheBoard( userId )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new rx.Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e( "", "onCompleted: " );
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e( "", "onError: " + e );
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e( "", "onNext: " + jsonObjectResponse );
-                    }
-                } );
     }
 }
