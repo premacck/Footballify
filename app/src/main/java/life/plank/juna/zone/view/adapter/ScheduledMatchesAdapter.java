@@ -39,8 +39,6 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
         this.matchDayMap = matchDayMap;
         this.classifiedMatchesMap = classifiedMatchesMap;
     }
-
-
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.scheduled_match_list, parent, false ) );
@@ -49,20 +47,20 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-      //  Long matchId = Long.valueOf( classifiedMatchesMap.get( 0 ).get( position ).getForeignId() );
-       // holder.dateSchedule.setText( parseDateToddMMyyyy( classifiedMatchesMap.get(2).get( position ).getMatchStartTime() ) );
-        if (classifiedMatchesMap.get( 0 ).get( position ).getHomeTeam().getLogoLink() != null) {
+      // Long matchId = matchDayMap.get( 0 ).get( position ).getForeignId();
+      // holder.dateSchedule.setText( parseDateToddMMyyyy( matchDayMap.get(2).get( position ).getMatchStartTime()));
+        if (matchDayMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( classifiedMatchesMap.get(0).get( position ).getHomeTeam().getLogoLink() )
+                    .load( matchDayMap.get(2).get( position ).getHomeTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
                     .error( R.drawable.ic_place_holder )
                     .into( holder.homeTeamLogo );
         }
-        if (classifiedMatchesMap.get( 0 ).get( position ).getHomeTeam().getLogoLink() != null) {
+        if (matchDayMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
-                    .load( classifiedMatchesMap.get( 0 ).get( position ).getAwayTeam().getLogoLink() )
+                    .load( matchDayMap.get( 2 ).get( position ).getAwayTeam().getLogoLink() )
                     .fit().centerCrop()
                     .placeholder( R.drawable.ic_place_holder )
                     .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
@@ -81,10 +79,10 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public int getItemCount() {
-        return classifiedMatchesMap.get( 0 ).size();
+        return matchDayMap.get(2).size();
     }
 
-    public String parseDateToddMMyyyy(String time) {
+    public String parseDateToddMMyyyy(Date time) {
         String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         String outputPattern = "dd-MMM-yyyy";
         SimpleDateFormat inputFormat = new SimpleDateFormat( inputPattern );
@@ -92,7 +90,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
         Date date = null;
         String str = null;
         try {
-            date = inputFormat.parse( time );
+            date = inputFormat.parse( String.valueOf( time ) );
             str = outputFormat.format( date );
         } catch (ParseException e) {
             e.printStackTrace();

@@ -6,6 +6,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.net.HttpURLConnection;
 import java.util.HashMap;
@@ -50,7 +51,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     RecyclerView upcomingMatchRecyclerView;
     @BindView(R.id.past_match_recycler_view)
     RecyclerView pastMatchRecyclerView;
-    List<ScoreFixtureModel> scoreFixtureModelList;
+    @BindView(R.id.match_day)
+    TextView matchDayTextView;
     private LiveMatchesAdapter liveMatchesAdapter;
     private TomorrowsMatchesAdapter tomorrowsMatchesAdapter;
     private ScheduledMatchesAdapter scheduledMatchesAdapter;
