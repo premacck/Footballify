@@ -1,7 +1,11 @@
 package life.plank.juna.zone.util;
 
 import android.content.Context;
+import android.content.CursorLoader;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v8.renderscript.Allocation;
@@ -16,6 +20,8 @@ import android.view.inputmethod.InputMethodManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
  * Created by plank-sobia on 11/8/2017.
@@ -97,6 +103,15 @@ public class UIDisplayUtil {
         script.forEach(output);
         output.copyTo(bitmap2);
     }
+    public static String getAudioPath(Uri uri) {
+        String[] data = {MediaStore.Audio.Media.DATA};
+        CursorLoader loader = new CursorLoader( getApplicationContext(), uri, data, null, null, null );
+        Cursor cursor = loader.loadInBackground();
+        int column_index = cursor.getColumnIndexOrThrow( MediaStore.Audio.Media.DATA );
+        cursor.moveToFirst();
+        return cursor.getString( column_index );
+    }
+
     public static String parseDateToddMMyyyy(String time) {
         String inputPattern = "yyyy-MM-dd'T'HH:mm:ss";
         String outputPattern = "dd-MMM-yyyy";
@@ -111,5 +126,4 @@ public class UIDisplayUtil {
             e.printStackTrace();
         }
         return str;
-    }
 }

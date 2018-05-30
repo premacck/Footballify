@@ -30,11 +30,8 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,9 +56,6 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
-import life.plank.juna.zone.pushnotification.NotificationSettings;
-import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
-import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
@@ -83,6 +77,7 @@ import rx.schedulers.Schedulers;
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final int SELECT_PICTURE = 456;
     public static Bitmap parentViewBitmap = null;
     public static SwipePageActivity swipePageActivity;
     public static Boolean isVisible = false;
@@ -159,25 +154,25 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
-        try {
+       /* try {
             NotificationsManager.handleNotifications( this, NotificationSettings.senderId, PushNotificationsHandler.class );
             registerWithNotificationHubs();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
         SharedPreferences loginPreferences = getSharedPreferences( getString( R.string.login_pref ), MODE_PRIVATE );
         savedLogin = loginPreferences.getBoolean( getString( R.string.shared_pref_save_login ), false );
     }
 
-    public void registerWithNotificationHubs() {
+    /*public void registerWithNotificationHubs() {
         if (checkPlayServices()) {
             // Start IntentService to register this application with FCM.
             Intent intent = new Intent( this, RegistrationIntentService.class );
             startService( intent );
         }
     }
-
-    private boolean checkPlayServices() {
+*/
+   /* private boolean checkPlayServices() {
         GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = apiAvailability.isGooglePlayServicesAvailable( this );
         if (resultCode != ConnectionResult.SUCCESS) {
@@ -192,7 +187,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             return false;
         }
         return true;
-    }
+    }*/
 
 
     private void setUpData() {
@@ -222,17 +217,17 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
 
-    public void ToastNotify(final String notificationMessage) {
+    /*public void ToastNotify(final String notificationMessage) {
         runOnUiThread( new Runnable() {
             @Override
             public void run() {
                 System.out.print( notificationMessage );
                 Toast.makeText( SwipePageActivity.this, notificationMessage, Toast.LENGTH_LONG ).show();
-               /* TextView helloText = (TextView) findViewById( R.id.text_hello );
-                helloText.setText( notificationMessage );*/
+               *//* TextView helloText = (TextView) findViewById( R.id.text_hello );
+                helloText.setText( notificationMessage );*//*
             }
         } );
-    }
+    }*/
 
     private void initRecyclerView() {
         int numberOfRows = 3;
@@ -488,11 +483,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
+                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link, R.drawable.ic_video};
         int[] backgroundColors = {R.drawable.fab_circle_background_grey,
                 R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment"};
+                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
+        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
             //child.setId(i);
@@ -513,20 +508,38 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 2: {
+
                             break;
                         }
                         case 3: {
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Gallery" );
+                            intent.putExtra( "API", "SwipePageActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 4: {
-                            startActivity( new Intent( SwipePageActivity.this, CameraActivity.class ) );
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Camera" );
+                            intent.putExtra( "API", "SwipePageActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 5: {
-                            startActivity( new Intent( SwipePageActivity.this, RecordAudioActivity.class ) );
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Audio" );
+                            intent.putExtra( "API", "SwipePageActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 6: {
+
+                        }
+                        case 7: {
+                            Intent intent = new Intent( SwipePageActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Video" );
+                            intent.putExtra( "API", "SwipePageActivity" );
+                            startActivity( intent );
                             break;
                         }
                     }

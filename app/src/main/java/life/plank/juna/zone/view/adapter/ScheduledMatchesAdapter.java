@@ -47,8 +47,8 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-      // Long matchId = matchDayMap.get( 0 ).get( position ).getForeignId();
-      // holder.dateSchedule.setText( parseDateToddMMyyyy( matchDayMap.get(2).get( position ).getMatchStartTime()));
+        // Long matchId = matchDayMap.get( 0 ).get( position ).getForeignId();
+        // holder.dateSchedule.setText( parseDateToddMMyyyy( matchDayMap.get(2).get( position ).getMatchStartTime()));
         if (matchDayMap.get( 2 ).get( position ).getHomeTeam().getLogoLink() != null) {
             Picasso.with( context )
                     .load( matchDayMap.get(2).get( position ).getHomeTeam().getLogoLink() )
@@ -71,7 +71,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent( context, LineupActivity.class );
-               // intent.putExtra( "MATCH_ID", matchId );
+                // intent.putExtra( "MATCH_ID", matchId );
                 context.startActivity( intent );
             }
         } );

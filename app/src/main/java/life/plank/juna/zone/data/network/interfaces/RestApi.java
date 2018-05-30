@@ -19,12 +19,15 @@ import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
 import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
+import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -91,7 +94,7 @@ public interface RestApi {
     Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
 
     @GET("matches/{matchId}/lineups")
-    Observable<Response<LineupsModel>> getLineUpsData(@Path( "matchId" ) long matchId);
+    Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
 
     @POST("users")
     Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel);
@@ -103,6 +106,17 @@ public interface RestApi {
     Observable<Response<JsonObject>> getLikedFeedItem(@Query("userId") String userId);
 
     @GET("matches/{matchId}/matchsummary")
-    Observable<Response<MatchSummaryModel>> getMatchSummary(@Path( "matchId" ) long matchId);
+    Observable<Response<MatchSummaryModel>> getMatchSummary(@Path("matchId") long matchId);
 
+    @Multipart
+    @POST("feedItems/upload")
+    Observable<Response<JsonObject>> postImageFromGallery(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+
+    @Multipart
+    @POST("feedItems/upload")
+    Observable<Response<JsonObject>> postAudioFile(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+
+    @GET("api/feeditems")
+    Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
 }
+

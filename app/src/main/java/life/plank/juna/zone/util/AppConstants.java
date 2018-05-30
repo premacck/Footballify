@@ -41,6 +41,7 @@ public class AppConstants {
     public static final String CAPTURED_IMAGE_FORMAT = ".png";
     public static final String FILE_PROVIDER_TO_CAPTURE_IMAGE = "life.plank.juna.zone.fileprovider";
     public static final int CAMERA_IMAGE_RESULT = 5;
+    public static final int AUDIO_PICKER_RESULT = 8;
     public static final String CACHE_FILE_NAME = "feeditems.txt";
     public static final String DATE_FORMAT_FEED_DETAILS = "yyyy-MM-dd'T'HH:mm:ss'Z'";
     public static final String DAY_FORMAT = "dd";

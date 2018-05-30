@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,8 +20,9 @@ import life.plank.juna.zone.data.network.model.TeamStatsModel;
  */
 
 public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.TeamStateViewHolder> {
-    private Context context;
     List<TeamStatsModel> teamStatsModelList;
+    private Context context;
+
     public TeamStatsAdapter(Context context, List<TeamStatsModel> teamStatsModelList) {
         this.context = context;
         this.teamStatsModelList = teamStatsModelList;
@@ -37,14 +37,13 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
 
     @Override
     public void onBindViewHolder(TeamStateViewHolder holder, int position) {
-        holder.teamStatsWinsTextView.setText( String.valueOf(teamStatsModelList.get( position ).getTotalWins()) );
-        holder.teamStatsLossesTextView.setText( String.valueOf(teamStatsModelList.get( position ).getTotalLosses()) );
-        holder.teamsStatsGoalForTextView.setText( String.valueOf(teamStatsModelList.get( position ).getTotalGoalsFor()) );
-        holder.teamStatsDrawTextView.setText( String.valueOf(teamStatsModelList.get( position ).getTotalDraws()) );
-        holder.teamsStatsGoalAgaintsTextView.setText( String.valueOf(teamStatsModelList.get( position ).getTotalGoalsAgainst()) );
-        holder.teamStatsSerialNumber.setText( String.valueOf(teamStatsModelList.get( position ).getId()));
-        holder.teamStatsTeamNameTextView.setText( String.valueOf(teamStatsModelList.get( position ).getFootballTeam().getName()) );
-
+        holder.teamStatsWinsTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalWins() ) );
+        holder.teamStatsLossesTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalLosses() ) );
+        holder.teamsStatsGoalForTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalGoalsFor() ) );
+        holder.teamStatsDrawTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalDraws() ) );
+        holder.teamsStatsGoalAgaintsTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalGoalsAgainst() ) );
+        holder.teamStatsSerialNumber.setText( String.valueOf( teamStatsModelList.get( position ).getId() ) );
+        holder.teamStatsTeamNameTextView.setText( String.valueOf( teamStatsModelList.get( position ).getFootballTeam().getName() ) );
     }
 
     @Override
