@@ -50,8 +50,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     RecyclerView upcomingMatchRecyclerView;
     @BindView(R.id.past_match_recycler_view)
     RecyclerView pastMatchRecyclerView;
-    @BindView(R.id.match_day)
-    TextView matchDayTextView;
+    @BindView(R.id.past_match)
+    TextView pastMatchDayTextView;
     private LiveMatchesAdapter liveMatchesAdapter;
     private TomorrowsMatchesAdapter tomorrowsMatchesAdapter;
     private ScheduledMatchesAdapter scheduledMatchesAdapter;
@@ -90,7 +90,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populatePastMatchFixtureRecyclerView() {
-        pastMatchAdapter = new PastMatchAdapter( this );
+        pastMatchAdapter = new PastMatchAdapter( this ,classifiedMatchesMap);
         pastMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         pastMatchRecyclerView.setAdapter( pastMatchAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
@@ -99,7 +99,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void populateSheduledScoreFixtureRecyclerView() {
-        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, matchDayMap, classifiedMatchesMap );
+        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, classifiedMatchesMap );
         upcomingMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
         upcomingMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
@@ -127,11 +127,13 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             matchDayMap = footballFixtureClassifierService.GetMatchDayMap( response.body() );
                             classifiedMatchesMap = footballFixtureClassifierService.GetClassifiedMatchesMap( response.body() );
-                            populateSheduledScoreFixtureRecyclerView();
+                           // populateSheduledScoreFixtureRecyclerView();
                             populatePastMatchFixtureRecyclerView();
-                            populateTommorowMatchFixtureRecyclerView();
-                            populateLiveMatchScoreRecyclerView();
-
+                           // populateTommorowMatchFixtureRecyclerView();
+                            //populateLiveMatchScoreRecyclerView();
+                            for (int i = 0; i < classifiedMatchesMap.size(); i++) {
+                                pastMatchDayTextView.setText( classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES ).get( i ).getMatchDay());
+                            }
                         }
                     }
                 } );
