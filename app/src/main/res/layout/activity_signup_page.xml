@@ -187,7 +187,5 @@
             android:padding="15dp"
             android:src="@drawable/arrow" />
     </RelativeLayout>
-
-
 </RelativeLayout>
 

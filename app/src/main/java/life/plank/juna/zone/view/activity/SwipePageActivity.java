@@ -160,8 +160,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         } catch (Exception e) {
             e.printStackTrace();
         }*/
-        SharedPreferences loginPreferences = getSharedPreferences( getString( R.string.login_pref ), MODE_PRIVATE );
-        savedLogin = loginPreferences.getBoolean( getString( R.string.shared_pref_save_login ), false );
+        /*SharedPreferences loginPreferences = getSharedPreferences( getString( R.string.login_pref ), MODE_PRIVATE );
+        savedLogin = loginPreferences.getBoolean( getString( R.string.shared_pref_save_login ), false );*/
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
+        String emailId = preference.getString( "emailAddress", "NA" );
+        String displayName = preference.getString( "displayName", "NA" );
+        Log.e( TAG, "Value:::" + emailId + "  " + displayName );
     }
 
     /*public void registerWithNotificationHubs() {

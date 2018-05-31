@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -14,6 +15,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.service.HttpClientService;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -37,12 +40,20 @@ public class RestServiceModule {
     @Provides
     @Named("default")
     public Retrofit getRetrofit(Gson gson) {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor( );
+        httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor( httpLoggingInterceptor );
+        builder.connectTimeout( 60, TimeUnit.SECONDS );
+        builder.readTimeout( 60, TimeUnit.SECONDS );
+        OkHttpClient okHttpClient = builder.build();
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
+                .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
+
     }
 
     @Singleton

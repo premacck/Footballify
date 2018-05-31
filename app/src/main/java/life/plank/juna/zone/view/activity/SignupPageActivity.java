@@ -1,15 +1,13 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import java.net.HttpURLConnection;
+import android.widget.ImageView;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,7 +41,7 @@ public class SignupPageActivity extends AppCompatActivity {
     @BindView(R.id.email_editext)
     EditText emailEditText;
     @BindView(R.id.image_button)
-    Button imageButtton;
+    ImageView imageButtton;
     @BindView(R.id.password_editext)
     EditText passwordEditText;
     private RestApi restApi;
@@ -51,58 +49,55 @@ public class SignupPageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup_page);
-        ((ZoneApplication) getApplication()).getSignupUserNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
-        ButterKnife.bind(this);
-        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout,this);
-        ActivityUtil.setCollapsedHintMiddle(emailInputLayout,this);
-        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout,this);
-        String emailText = emailEditText.getText().toString();
-        String passwordText = passwordEditText.getText().toString();
-        String userNameText = userNameEditText.getText().toString();
+        super.onCreate( savedInstanceState );
+        setContentView( R.layout.activity_signup_page );
+        ((ZoneApplication) getApplication()).getSignupUserNetworkComponent().inject( this );
+        restApi = retrofit.create( RestApi.class );
+        ButterKnife.bind( this );
+        ActivityUtil.setCollapsedHintMiddle( usernameInputLayout, this );
+        ActivityUtil.setCollapsedHintMiddle( emailInputLayout, this );
+        ActivityUtil.setCollapsedHintMiddle( passwordInputLayout, this );
         imageButtton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(userNameText.isEmpty())
-                {
-                    userNameEditText.setError( "User Name Can not be Empty");
-                }
-                else if(emailText.isEmpty())
-                {
-                    emailEditText.setError( "Email Can not be Empty");
-                }
-                else {
-                    signup();
+                String emailText = emailEditText.getText().toString();
+                String passwordText = passwordEditText.getText().toString();
+                String userNameText = userNameEditText.getText().toString();
+                if (userNameText.isEmpty()) {
+                    userNameEditText.setError( "User Name Can not be Empty" );
+                } else if (emailText.isEmpty()) {
+                    emailEditText.setError( "Email Can not be Empty" );
+                } else if (passwordText.isEmpty()) {
+                    passwordEditText.setError( "password Can not be Empty" );
+                } else {
+                    signup( emailText, passwordText, userNameText );
                 }
             }
         } );
     }
 
-    private void signup() {
-        SignupModel signupModel = new SignupModel( "969f1c52-92c0-4591-b9fd-14d4406efafc","Praneeth Muskula","praneeth@plank.life","USA","Washington DC","email","Praneeth", "Muskula");
-        restApi.getSignup(signupModel)
-                    .subscribeOn( Schedulers.io() )
-                    .observeOn( AndroidSchedulers.mainThread() )
-                    .subscribe( new Subscriber<Response<SignupModel>>() {
-                        @Override
-                        public void onCompleted() {
-                            Log.e( "", "onCompleted: " );
-                        }
+    private void signup(String emailText, String passwordText, String userNameText) {
+        restApi.getSignup( emailText, passwordText, userNameText )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Subscriber<Response<SignupModel>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( "", "onCompleted: " );
+                    }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.e( "", "onError: " + e );
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e( "", "onError: " + e );
 
-                        }
+                    }
 
-                        @Override
-                        public void onNext(Response<SignupModel> signupModel) {
-                                Log.e( "", "onNext: "+signupModel );
-
-                        }
-
-                    } );
+                    @Override
+                    public void onNext(Response<SignupModel> signupModel) {
+                        Log.e( "", "onNext: " + signupModel );
+                        Intent intentSubmit = new Intent( SignupPageActivity.this, SwipePageActivity.class );
+                        startActivity( intentSubmit );
+                    }
+                } );
     }
 }
