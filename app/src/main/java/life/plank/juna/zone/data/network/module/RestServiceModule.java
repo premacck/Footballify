@@ -43,7 +43,6 @@ public class RestServiceModule {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor( );
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-
         builder.addInterceptor( httpLoggingInterceptor );
         builder.connectTimeout( 60, TimeUnit.SECONDS );
         builder.readTimeout( 60, TimeUnit.SECONDS );

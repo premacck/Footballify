@@ -100,7 +100,7 @@ public interface RestApi {
     Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel);
 
     @GET("/users")
-    Observable<Response<JsonObject>> getSignIn(@Query("emailId") String emailId);
+    Observable<Response<SignupModel>> getSignIn(@Query("emailId") String emailId);
 
     @POST("feedItems/f87f341d-2c7d-41f6-ba44-7e9f4920f533/likes")
     Observable<Response<JsonObject>> getLikedFeedItem(@Query("userId") String userId);

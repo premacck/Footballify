@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.util.UUID;
 
@@ -79,7 +80,6 @@ public class SignupPageActivity extends AppCompatActivity {
     }
 
     private void signup() {
-
         SignupModel signupModel = new SignupModel(  UUID.randomUUID().toString(),userNameText,emailText,"USA","Washington DC","email","Praneeth", "Muskula");
         Log.e("TAG","signUp" +signupModel);
         restApi.getSignup( signupModel )
@@ -94,6 +94,7 @@ public class SignupPageActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
+                        Toast.makeText( SignupPageActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT ).show();
 
                     }
 

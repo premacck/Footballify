@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -24,8 +22,10 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.SignupModel;
 import life.plank.juna.zone.util.ActivityUtil;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StackAnimation;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -42,7 +42,7 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.password_input_layout)
     TextInputLayout passwordInputLayout;
     @Nullable
-    @BindView(R.id.google_login)
+    @BindView(R.id.image_button)
     ImageView submitImageview;
     @BindView(R.id.forgot_password)
     TextView forgotPassword;
@@ -77,7 +77,7 @@ public class SignInActivity extends AppCompatActivity {
                 AppConstants.ANIMATION_PIVOT_VALUE );
     }
 
-    @OnClick({R.id.forgot_password, R.id.card_view_sign_in, R.id.card_view_sign_up})
+    @OnClick({R.id.forgot_password, R.id.image_button, R.id.card_view_sign_in, R.id.card_view_sign_up})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
@@ -87,20 +87,21 @@ public class SignInActivity extends AppCompatActivity {
                 overridePendingTransition( R.animator.swipe_up_animation, R.animator.no_change );
                 break;
             case R.id.image_button:
+                Toast.makeText( this, "clickedSignIn", Toast.LENGTH_SHORT ).show();
                 passwordText = passwordEditTextSignIn.getText().toString();
                 emailText = emailEditTextSignIn.getText().toString();
                 if (emailText.isEmpty()) {
                     emailEditTextSignIn.setError( "Enter Valid Email Address" );
                 } else {
                     Toast.makeText( this, "response", Toast.LENGTH_SHORT ).show();
-                    getSignInResponse( emailText ,passwordText);
+                    getSignInResponse( emailText, passwordText );
                 }
                 break;
             case R.id.card_view_sign_in:
-                stackAnimation.animateStacks( cardViewSignIn, cardViewSignUp, AppConstants.ANIMATION_END_SCALE );
+                // stackAnimation.animateStacks( cardViewSignIn, cardViewSignUp, AppConstants.ANIMATION_END_SCALE );
                 break;
             case R.id.card_view_sign_up:
-                stackAnimation.animateStacks( cardViewSignUp, cardViewSignIn, AppConstants.ANIMATION_END_SCALE );
+                // stackAnimation.animateStacks( cardViewSignUp, cardViewSignIn, AppConstants.ANIMATION_END_SCALE );
                 break;
         }
     }
@@ -110,7 +111,7 @@ public class SignInActivity extends AppCompatActivity {
         restApi.getSignIn( emailId )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<JsonObject>>() {
+                .subscribe( new Subscriber<Response<SignupModel>>() {
                     @Override
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
@@ -123,10 +124,9 @@ public class SignInActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                    public void onNext(Response<SignupModel> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
-                        //todo: pass Sign in response which is coming from backend
-                       // UIDisplayUtil.saveSignUpUserDetails(SignInActivity.this,"1","1","1","1","1","2","3","4");
+                        UIDisplayUtil.saveSignUpUserDetails( SignInActivity.this, jsonObjectResponse.body().getObjectId().toString(), jsonObjectResponse.body().getEmailAddress(), jsonObjectResponse.body().getDisplayName(), jsonObjectResponse.body().getCountry(), jsonObjectResponse.body().getCity(), jsonObjectResponse.body().getIdentityProvider(), jsonObjectResponse.body().getGivenName(), jsonObjectResponse.body().getSurname() );
                         Intent intentSubmit = new Intent( SignInActivity.this, SwipePageActivity.class );
                         startActivity( intentSubmit );
                     }
