@@ -14,6 +14,7 @@ import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignupModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
@@ -96,11 +97,11 @@ public interface RestApi {
     @GET("matches/{matchId}/lineups")
     Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
 
-    @POST("users")
+    @POST("/users")
     Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel);
 
-    @GET("users")
-    Observable<Response<JsonObject>> getSignIn(@Query("emailId") String emailId);
+    @GET("/users")
+    Observable<Response<SignInModel>> getSignIn(@Query("emailAddress") String emailAddress);
 
     @POST("feedItems/f87f341d-2c7d-41f6-ba44-7e9f4920f533/likes")
     Observable<Response<JsonObject>> getLikedFeedItem(@Query("userId") String userId);

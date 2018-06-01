@@ -2,6 +2,7 @@ package life.plank.juna.zone.util;
 
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -21,6 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 /**
@@ -28,6 +30,8 @@ import static com.facebook.FacebookSdk.getApplicationContext;
  */
 
 public class UIDisplayUtil {
+
+    private static String SIGN_UP_USER_DETAILS = "signUpPageDetails";
 
     private UIDisplayUtil() {
 
@@ -71,27 +75,6 @@ public class UIDisplayUtil {
         }
     }
 
-    public void displaySnackBar(View currentView, String message) {
-        Snackbar.make( currentView, message, Snackbar.LENGTH_LONG ).show();
-    }
-
-    public void hideSoftKeyboard(View view, Context context) {
-        if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService( Context.INPUT_METHOD_SERVICE );
-            assert inputMethodManager != null;
-            inputMethodManager.hideSoftInputFromWindow( view.getWindowToken(), 0 );
-        }
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
     public static void blurBitmapWithRenderscript(RenderScript rs, Bitmap bitmap2) {
         //this will blur the bitmapOriginal with a radius of 25 and save it in bitmapOriginal
         final Allocation input = Allocation.createFromBitmap( rs, bitmap2 ); //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
@@ -129,4 +112,42 @@ public class UIDisplayUtil {
         return str;
     }
 
+    public static void saveSignUpUserDetails(Context mContext, String objectId, String emailAddress, String dispalyName, String country, String city, String identityProvider,
+                                             String givenName, String surname) {
+        SharedPreferences.Editor editor = mContext.getSharedPreferences( SIGN_UP_USER_DETAILS, MODE_PRIVATE ).edit();
+        editor.putString( "objectId", objectId );
+        editor.putString( "displayName", dispalyName );
+        editor.putString( "emailAddress", emailAddress );
+        editor.putString( "country", country );
+        editor.putString( "city", city );
+        editor.putString( "identityProvider", identityProvider );
+        editor.putString( "givenName", givenName );
+        editor.putString( "surname", surname );
+        editor.apply();
+    }
+
+    public static SharedPreferences getSignupUserData(Context mContext) {
+        return mContext.getSharedPreferences( SIGN_UP_USER_DETAILS, MODE_PRIVATE );
+    }
+
+    public void displaySnackBar(View currentView, String message) {
+        Snackbar.make( currentView, message, Snackbar.LENGTH_LONG ).show();
+    }
+
+    public void hideSoftKeyboard(View view, Context context) {
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService( Context.INPUT_METHOD_SERVICE );
+            assert inputMethodManager != null;
+            inputMethodManager.hideSoftInputFromWindow( view.getWindowToken(), 0 );
+        }
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    }
 }

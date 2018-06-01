@@ -167,9 +167,7 @@
                                 android:layout_toRightOf="@+id/twitter_login"
                                 android:src="@drawable/google" />
                         </RelativeLayout>
-
                     </LinearLayout>
-
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
@@ -187,7 +185,5 @@
             android:padding="15dp"
             android:src="@drawable/arrow" />
     </RelativeLayout>
-
-
 </RelativeLayout>
 
