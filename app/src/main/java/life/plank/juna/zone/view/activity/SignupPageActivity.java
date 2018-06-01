@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -46,7 +48,7 @@ public class SignupPageActivity extends AppCompatActivity {
     EditText passwordEditText;
     private RestApi restApi;
     private Subscription subscription;
-
+    String emailText,passwordText,userNameText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -60,9 +62,9 @@ public class SignupPageActivity extends AppCompatActivity {
         imageButtton.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String emailText = emailEditText.getText().toString();
-                String passwordText = passwordEditText.getText().toString();
-                String userNameText = userNameEditText.getText().toString();
+                emailText = emailEditText.getText().toString();
+                passwordText = passwordEditText.getText().toString();
+                userNameText= userNameEditText.getText().toString();
                 if (userNameText.isEmpty()) {
                     userNameEditText.setError( "User Name Can not be Empty" );
                 } else if (emailText.isEmpty()) {
@@ -70,14 +72,17 @@ public class SignupPageActivity extends AppCompatActivity {
                 } else if (passwordText.isEmpty()) {
                     passwordEditText.setError( "password Can not be Empty" );
                 } else {
-                    signup( emailText, passwordText, userNameText );
+                    signup();
                 }
             }
         } );
     }
 
-    private void signup(String emailText, String passwordText, String userNameText) {
-        restApi.getSignup( emailText, passwordText, userNameText )
+    private void signup() {
+
+        SignupModel signupModel = new SignupModel(  UUID.randomUUID().toString(),userNameText,emailText,"USA","Washington DC","email","Praneeth", "Muskula");
+        Log.e("TAG","signUp" +signupModel);
+        restApi.getSignup( signupModel )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Subscriber<Response<SignupModel>>() {
@@ -95,7 +100,7 @@ public class SignupPageActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<SignupModel> signupModel) {
                         Log.e( "", "onNext: " + signupModel );
-                        Intent intentSubmit = new Intent( SignupPageActivity.this, SwipePageActivity.class );
+                        Intent intentSubmit = new Intent( SignupPageActivity.this, SignInActivity.class );
                         startActivity( intentSubmit );
                     }
                 } );

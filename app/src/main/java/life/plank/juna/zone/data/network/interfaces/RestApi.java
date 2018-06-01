@@ -22,8 +22,6 @@ import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResp
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -98,11 +96,10 @@ public interface RestApi {
     @GET("matches/{matchId}/lineups")
     Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
 
-    @FormUrlEncoded
-    @POST("users")
-    Observable<Response<SignupModel>> getSignup(@Field("emailAddress") String emailAddress, @Field("username") String UserName, @Field("password") String password);
+    @POST("/users")
+    Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel);
 
-    @GET("users")
+    @GET("/users")
     Observable<Response<JsonObject>> getSignIn(@Query("emailId") String emailId);
 
     @POST("feedItems/f87f341d-2c7d-41f6-ba44-7e9f4920f533/likes")

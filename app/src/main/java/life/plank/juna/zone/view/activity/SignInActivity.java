@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -41,7 +42,7 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.password_input_layout)
     TextInputLayout passwordInputLayout;
     @Nullable
-    @BindView(R.id.submit_button)
+    @BindView(R.id.google_login)
     ImageView submitImageview;
     @BindView(R.id.forgot_password)
     TextView forgotPassword;
@@ -85,12 +86,13 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity( intent );
                 overridePendingTransition( R.animator.swipe_up_animation, R.animator.no_change );
                 break;
-            case R.id.submit_button:
+            case R.id.image_button:
                 passwordText = passwordEditTextSignIn.getText().toString();
                 emailText = emailEditTextSignIn.getText().toString();
                 if (emailText.isEmpty()) {
                     emailEditTextSignIn.setError( "Enter Valid Email Address" );
                 } else {
+                    Toast.makeText( this, "response", Toast.LENGTH_SHORT ).show();
                     getSignInResponse( emailText ,passwordText);
                 }
                 break;
