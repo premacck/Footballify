@@ -45,7 +45,8 @@ public class RestServiceModule {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor( httpLoggingInterceptor );
         builder.connectTimeout( 60, TimeUnit.SECONDS );
-        builder.readTimeout( 60, TimeUnit.SECONDS );
+        builder.readTimeout( 30, TimeUnit.SECONDS );
+        builder.writeTimeout(15, TimeUnit.SECONDS);
         OkHttpClient okHttpClient = builder.build();
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.base_url))

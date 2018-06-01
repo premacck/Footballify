@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.UUID;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -22,7 +24,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.SignupModel;
+import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.util.ActivityUtil;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -107,11 +109,11 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    private void getSignInResponse(String emailId, String password) {
-        restApi.getSignIn( emailId )
+    private void getSignInResponse(String emailAddress, String password) {
+        restApi.getSignIn( emailAddress )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<SignupModel>>() {
+                .subscribe( new Subscriber<Response<SignInModel>>() {
                     @Override
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
@@ -124,9 +126,9 @@ public class SignInActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<SignupModel> jsonObjectResponse) {
+                    public void onNext(Response<SignInModel> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
-                        UIDisplayUtil.saveSignUpUserDetails( SignInActivity.this, jsonObjectResponse.body().getObjectId().toString(), jsonObjectResponse.body().getEmailAddress(), jsonObjectResponse.body().getDisplayName(), jsonObjectResponse.body().getCountry(), jsonObjectResponse.body().getCity(), jsonObjectResponse.body().getIdentityProvider(), jsonObjectResponse.body().getGivenName(), jsonObjectResponse.body().getSurname() );
+                        UIDisplayUtil.saveSignUpUserDetails( SignInActivity.this, UUID.randomUUID().toString() , jsonObjectResponse.body().getEmailAddress(), jsonObjectResponse.body().getDisplayName(), jsonObjectResponse.body().getCountry(), jsonObjectResponse.body().getCity(), jsonObjectResponse.body().getIdentityProvider(), jsonObjectResponse.body().getGivenName(), jsonObjectResponse.body().getSurname() );
                         Intent intentSubmit = new Intent( SignInActivity.this, SwipePageActivity.class );
                         startActivity( intentSubmit );
                     }
