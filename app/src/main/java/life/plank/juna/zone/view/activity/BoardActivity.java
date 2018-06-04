@@ -82,7 +82,7 @@ public class BoardActivity extends AppCompatActivity {
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
-    Integer matchId;
+    String matchId;
     String objectId;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -293,7 +293,7 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
-                    enterTheBoardApiCall(objectId);
+                    enterTheBoardApiCall(matchId,objectId);
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
@@ -302,8 +302,8 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private void enterTheBoardApiCall(String userId) {
-        restApi.enterTheBoard( userId )
+    private void enterTheBoardApiCall(String matchId,String userId) {
+        restApi.enterTheBoard( matchId ,userId)
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new rx.Subscriber<Response<JsonObject>>() {
@@ -342,7 +342,8 @@ public class BoardActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<BoardCreationModel> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            matchId =response.body().getBoardEvent().getForeignId();
+                            matchId =response.body().getId();
+                            Log.e(TAG,"matchId"+matchId);
                         }
                     }
                 } );

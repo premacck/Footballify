@@ -121,9 +121,8 @@ public interface RestApi {
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
 
-    //todo: id will be replace with board creation id
-    @POST("borads/422e50c3-ac95-4d29-8b96-4ae0edc91b6f/activities/enter")
-    Observable<Response<JsonObject>> enterTheBoard(@Query("userId") String userId);
+    @POST("borads/{matchId}/activities/enter")
+    Observable<Response<JsonObject>> enterTheBoard(@Path( "matchId" ) String matchId,@Query("userId") String userId);
 
     @GET("/boards")
     Observable<Response<BoardCreationModel>> getCreateTheBoard(@Query("foreignId") Integer foreignId, @Query("boardType") String boardType);
