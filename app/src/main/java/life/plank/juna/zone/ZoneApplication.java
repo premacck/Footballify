@@ -8,13 +8,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import life.plank.juna.zone.data.network.dagger.BoardCreationNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerBoardCreationNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerEnterTheBoardNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
@@ -36,7 +33,6 @@ import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerUploadAudioNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.EnterTheBoardNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
@@ -97,8 +93,7 @@ public class ZoneApplication extends Application {
     private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
     private UploadAudioNetworkComponent uploadAudioNetworkComponent;
     private BoardFeedNetworkComponent boardFeedNetworkComponent;
-    private EnterTheBoardNetworkComponent enterTheBoardNetworkComponent;
-    private BoardCreationNetworkComponent boardCreationNetworkComponent;
+
     public static ZoneApplication getApplication() {
         return zoneApplication;
     }
@@ -195,13 +190,6 @@ public class ZoneApplication extends Application {
 
         boardFeedNetworkComponent = DaggerBoardFeedNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
-
-        enterTheBoardNetworkComponent = DaggerEnterTheBoardNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() ).build();
-
-        boardCreationNetworkComponent = DaggerBoardCreationNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() ).build();
-
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -295,12 +283,5 @@ public class ZoneApplication extends Application {
 
     public BoardFeedNetworkComponent getBoardFeedNetworkComponent() {
         return boardFeedNetworkComponent;
-    }
-    public EnterTheBoardNetworkComponent getEnterTheBoardNetworkComponent() {
-        return enterTheBoardNetworkComponent;
-    }
-
-    public BoardCreationNetworkComponent getBoardCreationNetworkComponent(){
-        return boardCreationNetworkComponent;
     }
 }
