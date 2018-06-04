@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -41,6 +42,7 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotificationModel;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -81,6 +83,7 @@ public class BoardActivity extends AppCompatActivity {
     private boolean isLoading = false;
     private RenderScript renderScript;
     Integer matchId;
+    String objectId;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -128,6 +131,9 @@ public class BoardActivity extends AppCompatActivity {
         populateUplaodedDataFromPushNotification();
         initRecyclerView();
         setUpBoomMenu();
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
+        objectId = preference.getString( "objectId", "NA" );
+        Log.e( TAG, "Value--:" + objectId );
         createTheBoard(AppConstants.MATCH_ID, AppConstants.BOARD_TYPE);
     }
 
@@ -287,8 +293,7 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
-                    //todo: change this constant user id to actuall parameter
-                    enterTheBoardApiCall("54a1e691-003f-4cff-829e-a8da42c5fcd9");
+                    enterTheBoardApiCall(objectId);
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
