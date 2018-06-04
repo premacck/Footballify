@@ -36,6 +36,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotificationModel;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
@@ -53,6 +54,7 @@ import rx.schedulers.Schedulers;
  */
 
 public class BoardActivity extends AppCompatActivity {
+    private static final String TAG = BoardActivity.class.getSimpleName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -78,7 +80,7 @@ public class BoardActivity extends AppCompatActivity {
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
-
+    Integer matchId;
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -120,11 +122,13 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
         ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
+        ((ZoneApplication) getApplication()).getBoardCreationNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         dbHelper = new DBHelper( this );
         populateUplaodedDataFromPushNotification();
         initRecyclerView();
         setUpBoomMenu();
+        createTheBoard(AppConstants.MATCH_ID, AppConstants.BOARD_TYPE);
     }
 
 
@@ -314,4 +318,29 @@ public class BoardActivity extends AppCompatActivity {
                     }
                 } );
     }
+
+    public void createTheBoard(Integer foreignId,String boardType) {
+        restApi.getCreateTheBoard( foreignId,boardType )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<BoardCreationModel>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e( TAG, "onCompleted-->: " );
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e( TAG, "In onError()" + e );
+                    }
+
+                    @Override
+                    public void onNext(Response<BoardCreationModel> response) {
+                        if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
+                            matchId =response.body().getBoardEvent().getForeignId();
+                        }
+                    }
+                } );
+    }
+
 }

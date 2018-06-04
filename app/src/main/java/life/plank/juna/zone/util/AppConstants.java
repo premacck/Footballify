@@ -57,10 +57,9 @@ public class AppConstants {
     public static final float ANIMATION_PIVOT_VALUE = 0.5f;
     public static final int REQUEST_CAMERA_PERMISSION = 1002;
     public static final String AUDIO_PATH = "audio_path";
-    public static final int TOMMOROW_MATCH = 3;
-    public static final int PAST_MATCH = 0;
-    public static final int SCHEDULED_MATCH = 2;
-    public static final int LIVE_MATCH = 1;
+    public static final int MATCH_ID = 1711161;
+    public static final String BOARD_TYPE = "FootballMatch";
+
 
     public static String getDateAndTime(String date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(AppConstants.DATE_FORMAT_FEED_DETAILS);

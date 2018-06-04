@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
+import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
@@ -123,5 +124,8 @@ public interface RestApi {
     //todo: id will be replace with board creation id
     @POST("borads/422e50c3-ac95-4d29-8b96-4ae0edc91b6f/activities/enter")
     Observable<Response<JsonObject>> enterTheBoard(@Query("userId") String userId);
+
+    @GET("/boards")
+    Observable<Response<BoardCreationModel>> getCreateTheBoard(@Query("foreignId") Integer foreignId, @Query("boardType") String boardType);
 }
 
