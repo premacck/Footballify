@@ -58,7 +58,7 @@ import rx.schedulers.Schedulers;
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = BoardActivity.class.getSimpleName();
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
     int TRCNumber = 20;
     @BindView(R.id.board_recycler_view)
@@ -82,8 +82,10 @@ public class BoardActivity extends AppCompatActivity {
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
-    String matchId;
-    String objectId;
+    private String enterBoard;
+    private String objectId;
+    private long currentMatchId;
+
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -124,9 +126,8 @@ public class BoardActivity extends AppCompatActivity {
         setContentView( R.layout.activity_board );
         ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
-        ((ZoneApplication) getApplication()).getEnterTheBoardNetworkComponent().inject( this );
-        ((ZoneApplication) getApplication()).getBoardCreationNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
+        currentMatchId = getIntent().getLongExtra("MATCH_ID",0L );
         dbHelper = new DBHelper( this );
         populateUplaodedDataFromPushNotification();
         initRecyclerView();
@@ -134,15 +135,14 @@ public class BoardActivity extends AppCompatActivity {
         SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
         objectId = preference.getString( "objectId", "NA" );
         Log.e( TAG, "Value--:" + objectId );
-        createTheBoard(AppConstants.MATCH_ID, AppConstants.BOARD_TYPE);
+        retrieveBoard( (int) currentMatchId, AppConstants.BOARD_TYPE );
     }
-
 
     public void populateUplaodedDataFromPushNotification() {
         ArrayList<String> dataList = dbHelper.getDataList();
         if (dataList != null && dataList.size() > 0) {
             for (int i = 0; i < dataList.size(); i++) {
-                Collections.sort( dataList);
+                Collections.sort( dataList );
                 Gson gson = new Gson();
                 BoardNotificationModel boardNotificationModel = gson.fromJson( dataList.get( i ), BoardNotificationModel.class );
                 boardNotificationModelArrayList.add( boardNotificationModel );
@@ -167,6 +167,7 @@ public class BoardActivity extends AppCompatActivity {
         }
         return "";
     }
+
     /*  //todo: Inject adapter
         private void initRecyclerView() {
             int numberOfRows = 3;
@@ -293,7 +294,7 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
-                    enterTheBoardApiCall(matchId,objectId);
+                    enterBoardApiCall( enterBoard, objectId );
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
@@ -302,8 +303,8 @@ public class BoardActivity extends AppCompatActivity {
         }
     }
 
-    private void enterTheBoardApiCall(String matchId,String userId) {
-        restApi.enterTheBoard( matchId ,userId)
+    private void enterBoardApiCall(String enterBoard, String userId) {
+        restApi.enterBoard( enterBoard, userId )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new rx.Subscriber<Response<JsonObject>>() {
@@ -316,6 +317,7 @@ public class BoardActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
                     }
+
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
@@ -324,8 +326,8 @@ public class BoardActivity extends AppCompatActivity {
                 } );
     }
 
-    public void createTheBoard(Integer foreignId,String boardType) {
-        restApi.getCreateTheBoard( foreignId,boardType )
+    public void retrieveBoard(Integer foreignId, String boardType) {
+        restApi.retrieveBoard( foreignId, boardType )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Observer<Response<BoardCreationModel>>() {
@@ -342,8 +344,7 @@ public class BoardActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<BoardCreationModel> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            matchId =response.body().getId();
-                            Log.e(TAG,"matchId"+matchId);
+                            enterBoard = response.body().getId();
                         }
                     }
                 } );

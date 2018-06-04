@@ -121,10 +121,10 @@ public interface RestApi {
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
 
-    @POST("borads/{matchId}/activities/enter")
-    Observable<Response<JsonObject>> enterTheBoard(@Path( "matchId" ) String matchId,@Query("userId") String userId);
+    @POST("boards/{boardId}/activities/enter")
+    Observable<Response<JsonObject>> enterBoard(@Path( "boardId" ) String boardId, @Query("userId") String userId);
 
     @GET("/boards")
-    Observable<Response<BoardCreationModel>> getCreateTheBoard(@Query("foreignId") Integer foreignId, @Query("boardType") String boardType);
+    Observable<Response<BoardCreationModel>> retrieveBoard(@Query("foreignId") Integer foreignId, @Query("boardType") String boardType);
 }
 

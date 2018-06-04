@@ -45,7 +45,7 @@ import static life.plank.juna.zone.view.activity.PointsGameActivity.dimBehind;
 public class SuddenDeathGameActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
     @Inject
     GameService gameService;

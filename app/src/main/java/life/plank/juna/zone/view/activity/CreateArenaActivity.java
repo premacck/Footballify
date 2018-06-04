@@ -41,7 +41,7 @@ import rx.schedulers.Schedulers;
 public class CreateArenaActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @BindView(R.id.text_secret_code)

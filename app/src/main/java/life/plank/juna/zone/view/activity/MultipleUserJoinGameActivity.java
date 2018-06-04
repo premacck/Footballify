@@ -37,7 +37,7 @@ import rx.schedulers.Schedulers;
 public class MultipleUserJoinGameActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @BindView(R.id.invitation_code_label1)

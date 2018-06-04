@@ -18,7 +18,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballMatch;
-import life.plank.juna.zone.data.network.model.HomeTeam;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.TeamNameMap;
@@ -37,7 +36,7 @@ import static life.plank.juna.zone.util.Font.getFont;
 public class ClubWarriorResultActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @BindView(R.id.title)

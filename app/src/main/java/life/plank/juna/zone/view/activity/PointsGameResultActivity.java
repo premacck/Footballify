@@ -34,7 +34,7 @@ import rx.schedulers.Schedulers;
 public class PointsGameResultActivity extends AppCompatActivity implements Serializable {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @BindView(R.id.results_round_number)

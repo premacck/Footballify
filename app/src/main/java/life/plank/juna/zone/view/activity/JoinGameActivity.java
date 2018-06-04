@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
-import java.util.concurrent.TimeUnit;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -19,18 +17,16 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Arena;
-import life.plank.juna.zone.data.network.model.Player;
 import life.plank.juna.zone.util.CustomizeStatusBar;
 import retrofit2.Retrofit;
 import rx.Observer;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class JoinGameActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @BindView(R.id.league_name)

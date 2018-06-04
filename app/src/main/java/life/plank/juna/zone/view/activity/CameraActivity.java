@@ -55,7 +55,7 @@ import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int VIDEO_CAPTURE = 101;
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
     @BindView(R.id.captured_image_view)
     ImageView capturedImageView;

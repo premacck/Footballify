@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
 
 public class LineupActivity extends AppCompatActivity {
     @Inject
-    @Named("default")
+    @Named("footballData")
     Retrofit retrofit;
     @BindView(R.id.visiting_team_linear_layout)
     LinearLayout visitingTeamLinearLayout;
@@ -83,7 +83,6 @@ public class LineupActivity extends AppCompatActivity {
         ButterKnife.bind( this );
         ((ZoneApplication) getApplication()).getLineupNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
-        currentMatchId = getIntent().getLongExtra("MATCH_ID",0L );
         getLineUpData(currentMatchId);
         getMatchSummary( currentMatchId );
     }

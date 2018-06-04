@@ -37,7 +37,7 @@ import static android.widget.GridLayout.VERTICAL;
 
 public class FixtureAndResultActivity extends AppCompatActivity {
     @Inject
-    @Named("default")
+    @Named("footballData")
     Retrofit retrofit;
     // @Inject
     // todo: Make this a dagger component

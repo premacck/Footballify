@@ -96,7 +96,7 @@ public class OnBoardDialogActivity extends AppCompatActivity implements View.OnC
     LinearLayout registerAndSaveLinearLayout;
     LinearLayout parentLinearLayout;
     @Inject
-    @Named("default")
+    @Named("footballData")
     Retrofit retrofit;
     @Inject
     @Named("instagram")

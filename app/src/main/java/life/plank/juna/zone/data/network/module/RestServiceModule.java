@@ -38,8 +38,8 @@ public class RestServiceModule {
     }
     @Singleton
     @Provides
-    @Named("default")
-    public Retrofit getRetrofit(Gson gson) {
+    @Named("feed")
+    public Retrofit getFeed(Gson gson) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor( );
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -49,7 +49,28 @@ public class RestServiceModule {
         builder.writeTimeout(15, TimeUnit.SECONDS);
         OkHttpClient okHttpClient = builder.build();
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.base_url))
+                .baseUrl(ZoneApplication.getContext().getString(R.string.feed_data_base_url))
+                .client(okHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+    }
+    @Singleton
+    @Provides
+    @Named("footballData")
+    public Retrofit getFootballData(Gson gson) {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor( );
+        httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor( httpLoggingInterceptor );
+        builder.connectTimeout( 60, TimeUnit.SECONDS );
+        builder.readTimeout( 30, TimeUnit.SECONDS );
+        builder.writeTimeout(15, TimeUnit.SECONDS);
+        OkHttpClient okHttpClient = builder.build();
+        return new Retrofit.Builder()
+                .baseUrl(ZoneApplication.getContext().getString(R.string.football_data_base_url))
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(new NullOnEmptyConverterFactory())

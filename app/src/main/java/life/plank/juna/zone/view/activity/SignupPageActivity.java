@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
 
 public class SignupPageActivity extends AppCompatActivity {
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
     @BindView(R.id.username_text_input_layout)
     TextInputLayout usernameInputLayout;
@@ -80,7 +80,7 @@ public class SignupPageActivity extends AppCompatActivity {
     }
 
     private void signup() {
-        SignupModel signupModel = new SignupModel(  UUID.randomUUID().toString(),userNameText,emailText,"USA","Washington DC","email","Praneeth", "Muskula");
+        SignupModel signupModel = new SignupModel(UUID.randomUUID().toString(),userNameText,emailText,"USA","Washington DC","email","Praneeth", "Muskula");
         Log.e("TAG","signUp" +signupModel);
         restApi.getSignup( signupModel )
                 .subscribeOn( Schedulers.io() )
@@ -95,7 +95,6 @@ public class SignupPageActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
                         Toast.makeText( SignupPageActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT ).show();
-
                     }
 
                     @Override

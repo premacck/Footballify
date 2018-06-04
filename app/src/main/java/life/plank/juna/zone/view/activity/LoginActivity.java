@@ -39,7 +39,7 @@ import rx.subscriptions.CompositeSubscription;
 public class LoginActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     private static final String TAG = LoginActivity.class.getSimpleName();

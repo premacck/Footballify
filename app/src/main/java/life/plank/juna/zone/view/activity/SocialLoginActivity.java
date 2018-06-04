@@ -59,7 +59,7 @@ import rx.schedulers.Schedulers;
 public class SocialLoginActivity extends AppCompatActivity implements AuthenticationListener {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @Inject

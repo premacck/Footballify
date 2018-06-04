@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +40,7 @@ import static life.plank.juna.zone.ZoneApplication.getApplication;
 
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
     List<FootballFeed> footballFeedsList = new ArrayList<>();
     private Context context;

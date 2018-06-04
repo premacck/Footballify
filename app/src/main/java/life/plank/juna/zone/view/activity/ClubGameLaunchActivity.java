@@ -32,7 +32,7 @@ import rx.schedulers.Schedulers;
 public class ClubGameLaunchActivity extends AppCompatActivity {
 
     @Inject
-    @Named("default")
+    @Named("feed")
     Retrofit retrofit;
 
     @BindView(R.id.club_image)

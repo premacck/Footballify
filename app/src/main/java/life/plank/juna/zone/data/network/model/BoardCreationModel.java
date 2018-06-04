@@ -1,9 +1,5 @@
 package life.plank.juna.zone.data.network.model;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class BoardCreationModel {
     private String id;
     private String displayname;
@@ -16,7 +12,6 @@ public class BoardCreationModel {
     private Object boardMetrics;
     private BoardEvent boardEvent;
     private Object interactions;
-    private List<Object> domainEvents = null;
 
     public String getId() {
         return id;
@@ -106,18 +101,9 @@ public class BoardCreationModel {
         this.interactions = interactions;
     }
 
-    public List<Object> getDomainEvents() {
-        return domainEvents;
-    }
-
-    public void setDomainEvents(List<Object> domainEvents) {
-        this.domainEvents = domainEvents;
-    }
-
     public class BoardEvent {
         private String type;
         private Integer foreignId;
-        private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
         public String getType() {
             return type;
@@ -133,14 +119,6 @@ public class BoardCreationModel {
 
         public void setForeignId(Integer foreignId) {
             this.foreignId = foreignId;
-        }
-
-        public Map<String, Object> getAdditionalProperties() {
-            return this.additionalProperties;
-        }
-
-        public void setAdditionalProperty(String name, Object value) {
-            this.additionalProperties.put( name, value );
         }
     }
 }
