@@ -193,7 +193,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         return true;
     }*/
 
-
     private void setUpData() {
         if (NetworkStatus.isNetworkAvailable( parentLayout, this )) {
             getFootballFeed();
@@ -295,6 +294,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
+        footballFeeds = new ArrayList<>();
         if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
             if ("".contentEquals( nextPageToken ) ? (isLastPage = true) : (isLoading = false)) ;
             footballFeeds.addAll( footballFeedsList );
