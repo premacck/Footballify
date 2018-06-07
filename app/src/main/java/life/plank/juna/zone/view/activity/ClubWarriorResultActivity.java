@@ -36,7 +36,7 @@ import static life.plank.juna.zone.util.Font.getFont;
 public class ClubWarriorResultActivity extends AppCompatActivity {
 
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
 
     @BindView(R.id.title)

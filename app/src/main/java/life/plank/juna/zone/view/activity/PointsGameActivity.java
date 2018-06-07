@@ -60,7 +60,7 @@ import rx.schedulers.Schedulers;
 public class PointsGameActivity extends AppCompatActivity {
 
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
     @Inject
     GameService gameService;

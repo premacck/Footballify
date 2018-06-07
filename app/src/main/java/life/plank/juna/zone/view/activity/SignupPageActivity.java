@@ -100,7 +100,7 @@ public class SignupPageActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<SignupModel> signupModel) {
                         Log.e( "", "onNext: " + signupModel );
-                        Intent intentSubmit = new Intent( SignupPageActivity.this, SignInActivity.class );
+                        Intent intentSubmit = new Intent( SignupPageActivity.this, SwipePageActivity.class );
                         startActivity( intentSubmit );
                     }
                 } );

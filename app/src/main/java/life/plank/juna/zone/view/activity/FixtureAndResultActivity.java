@@ -6,6 +6,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.net.HttpURLConnection;
@@ -60,7 +62,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     private String TAG = FixtureAndResultActivity.class.getSimpleName();
     private HashMap<Integer, List<ScoreFixtureModel>> matchDayMap;
     private HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap;
-
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -107,12 +110,14 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     }
 
     public void getScoreFixture(String seasonName) {
+        progressBar.setVisibility( View.VISIBLE );
         restApi.getScoresAndFixtures( seasonName )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Observer<Response<List<ScoreFixtureModel>>>() {
                     @Override
                     public void onCompleted() {
+                        progressBar.setVisibility( View.INVISIBLE );
                         Log.e( TAG, "onCompleted-->: " );
                     }
 
@@ -123,6 +128,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<List<ScoreFixtureModel>> response) {
+                        progressBar.setVisibility( View.INVISIBLE );
                         Log.e( TAG, "response: " + ", list data " + response.toString() );
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             matchDayMap = footballFixtureClassifierService.GetMatchDayMap( response.body() );

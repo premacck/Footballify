@@ -31,7 +31,7 @@ import rx.schedulers.Schedulers;
 
 public class SuddenDeathResultActivity extends AppCompatActivity {
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
 
     @BindView(R.id.sudden_death_result_recycler_view)

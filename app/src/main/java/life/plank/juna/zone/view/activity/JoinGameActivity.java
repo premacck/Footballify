@@ -26,7 +26,7 @@ import rx.schedulers.Schedulers;
 public class JoinGameActivity extends AppCompatActivity {
 
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
 
     @BindView(R.id.league_name)
