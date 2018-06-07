@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.Manifest;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -73,7 +74,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
-
+    String userId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -92,6 +93,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             openGalleryForAudio();
         }
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
+        userId = preference.getString( "objectId", "NA" );
     }
 
     private void setUpUi(String type) {
@@ -236,9 +239,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
-        File file = new File( selectedImageUri );
-        RequestBody requestBody = RequestBody.create( MediaType.parse( "image" ), file );
-        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
+        if(selectedImageUri!=null) {
+            File file = new File( selectedImageUri );
+            Log.e( "selectedImageUri", "filePath:--" + file );
+            RequestBody requestBody = RequestBody.create( MediaType.parse( "image/*" ), file );
+            MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
+        }
 
         restApi.postImageFromGallery( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
@@ -298,17 +304,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         //todo:-change hardcoded data and
         if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -36,6 +37,7 @@ public class RestServiceModule {
         return builder.create();
     }
 
+    //todo:combine these two url feed and Football Data
     @Singleton
     @Provides
     @Named("feed")
@@ -44,6 +46,9 @@ public class RestServiceModule {
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor( httpLoggingInterceptor );
+        builder.connectTimeout( 60, TimeUnit.SECONDS );
+        builder.readTimeout( 30, TimeUnit.SECONDS );
+        builder.writeTimeout( 15, TimeUnit.SECONDS );
         OkHttpClient okHttpClient = builder.build();
         return new Retrofit.Builder()
                 .baseUrl( ZoneApplication.getContext().getString( R.string.feed_data_base_url ) )
@@ -63,6 +68,9 @@ public class RestServiceModule {
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor( httpLoggingInterceptor );
+        builder.connectTimeout( 60, TimeUnit.SECONDS );
+        builder.readTimeout( 30, TimeUnit.SECONDS );
+        builder.writeTimeout( 15, TimeUnit.SECONDS );
         OkHttpClient okHttpClient = builder.build();
         return new Retrofit.Builder()
                 .baseUrl( ZoneApplication.getContext().getString( R.string.football_data_base_url ) )
