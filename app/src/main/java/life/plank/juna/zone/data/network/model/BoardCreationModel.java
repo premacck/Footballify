@@ -3,15 +3,15 @@ package life.plank.juna.zone.data.network.model;
 public class BoardCreationModel {
     private String id;
     private String displayname;
-    private Object name;
+    private String name;
     private String matchStartTime;
-    private Object topicName;
+    private String topicName;
     private String boardType;
     private Boolean isActive;
-    private Object createdBy;
-    private Object boardMetrics;
+    private String createdBy;
+    private String boardMetrics;
     private BoardEvent boardEvent;
-    private Object interactions;
+    private String interactions;
 
     public String getId() {
         return id;
@@ -29,11 +29,11 @@ public class BoardCreationModel {
         this.displayname = displayname;
     }
 
-    public Object getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(Object name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -45,11 +45,11 @@ public class BoardCreationModel {
         this.matchStartTime = matchStartTime;
     }
 
-    public Object getTopicName() {
+    public String getTopicName() {
         return topicName;
     }
 
-    public void setTopicName(Object topicName) {
+    public void setTopicName(String topicName) {
         this.topicName = topicName;
     }
 
@@ -69,19 +69,19 @@ public class BoardCreationModel {
         this.isActive = isActive;
     }
 
-    public Object getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Object createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Object getBoardMetrics() {
+    public String getBoardMetrics() {
         return boardMetrics;
     }
 
-    public void setBoardMetrics(Object boardMetrics) {
+    public void setBoardMetrics(String boardMetrics) {
         this.boardMetrics = boardMetrics;
     }
 
@@ -93,11 +93,11 @@ public class BoardCreationModel {
         this.boardEvent = boardEvent;
     }
 
-    public Object getInteractions() {
+    public String getInteractions() {
         return interactions;
     }
 
-    public void setInteractions(Object interactions) {
+    public void setInteractions(String interactions) {
         this.interactions = interactions;
     }
 
