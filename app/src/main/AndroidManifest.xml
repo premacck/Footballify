@@ -48,7 +48,7 @@
         </service>
 
         <activity
-            android:name=".view.activity.SwipePageActivity"
+            android:name=".view.activity.SignInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -82,7 +82,7 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.SignUpActivity"
+            android:name=".view.activity.SignupPageActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.LoginActivity"
@@ -180,9 +180,9 @@
                 android:resource="@xml/provider_path" />
         </provider>
 
-        <activity android:name=".view.activity.SignInActivity" />
+        <activity android:name=".view.activity.SwipePageActivity" />
         <activity android:name=".view.activity.SplashScreenActivity" />
-        <activity android:name=".view.activity.SignupPageActivity" />
+        <activity android:name=".view.activity.SignUpActivity" />
         <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"
