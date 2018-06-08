@@ -289,15 +289,18 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     @OnClick({R.id.following_text_view})
+    //todo: can subscribe to Board,card and User field
     public void onViewClicked(View view) {
+        String id = "Board-"+enterBoardId;
         switch (view.getId()) {
             case R.id.following_text_view:
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
-                    FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
+                    Log.e( "Board id", "onCompleted: " + id);
+                    FirebaseMessaging.getInstance().subscribeToTopic(id);
                 } else {
                     followingTextView.setText( R.string.following );
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
                 }
                 break;
         }
