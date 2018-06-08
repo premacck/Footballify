@@ -125,6 +125,6 @@ public interface RestApi {
     Observable<Response<JsonObject>> enterBoard(@Path( "boardId" ) String boardId, @Query("userId") String userId);
 
     @GET("/boards")
-    Observable<Response<BoardCreationModel>> retrieveBoard(@Query("foreignId") Integer foreignId, @Query("boardType") String boardType);
+    Observable<Response<BoardCreationModel>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType);
 }
 

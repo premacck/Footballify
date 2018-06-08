@@ -136,7 +136,7 @@ public class BoardActivity extends AppCompatActivity {
         objectId = preference.getString( "objectId", "NA" );
         Log.e( TAG, "Value--:" + objectId );
         enterBoardApiCall( enterBoardId, objectId );
-        retrieveBoard( (int) currentMatchId, AppConstants.BOARD_TYPE );
+        retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE );
     }
 
     public void populateUplaodedDataFromPushNotification() {
@@ -326,7 +326,7 @@ public class BoardActivity extends AppCompatActivity {
                 } );
     }
 
-    public void retrieveBoard(Integer foreignId, String boardType) {
+    public void retrieveBoard(Long foreignId, String boardType) {
         restApi.retrieveBoard( foreignId, boardType )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )

@@ -506,7 +506,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                 public void onClick(View v) {
                     switch (position) {
                         case 0: {
-                            startActivity( new Intent( SwipePageActivity.this, BoardActivity.class ) );
                             break;
                         }
                         case 1: {
