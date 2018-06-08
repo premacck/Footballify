@@ -37,7 +37,7 @@ import rx.subscriptions.CompositeSubscription;
 public class SignUpActivity extends AppCompatActivity {
 
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
 
     private static final String TAG = SignUpActivity.class.getSimpleName();

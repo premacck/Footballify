@@ -56,7 +56,7 @@ import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int VIDEO_CAPTURE = 101;
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
     @BindView(R.id.captured_image_view)
     ImageView capturedImageView;
@@ -69,12 +69,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     String apiCallFromActivity;
     File absolutefile;
     String openFrom;
+    String userId;
     private Uri imageUri;
     private int GALLERY_IMAGE_RESULT = 7;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
-    String userId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -239,13 +240,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
-        if(selectedImageUri!=null) {
-            File file = new File( selectedImageUri );
-            Log.e( "selectedImageUri", "filePath:--" + file );
-            RequestBody requestBody = RequestBody.create( MediaType.parse( "image/*" ), file );
-            MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
-        }
-
+        File file = new File( selectedImageUri );
+        Log.e( "selectedImageUri", "filePath:--" + file );
+        RequestBody requestBody = RequestBody.create( MediaType.parse( "image/*" ), file );
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
         restApi.postImageFromGallery( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )

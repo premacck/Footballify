@@ -58,7 +58,7 @@ import rx.schedulers.Schedulers;
 public class BoardActivity extends AppCompatActivity {
     private static final String TAG = BoardActivity.class.getSimpleName();
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
     int TRCNumber = 20;
     @BindView(R.id.board_recycler_view)
@@ -82,7 +82,7 @@ public class BoardActivity extends AppCompatActivity {
     private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
-    private String enterBoard;
+    private String enterBoardId;
     private String objectId;
     private long currentMatchId;
 
@@ -135,6 +135,7 @@ public class BoardActivity extends AppCompatActivity {
         SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
         objectId = preference.getString( "objectId", "NA" );
         Log.e( TAG, "Value--:" + objectId );
+        enterBoardApiCall( enterBoardId, objectId );
         retrieveBoard( (int) currentMatchId, AppConstants.BOARD_TYPE );
     }
 
@@ -294,7 +295,6 @@ public class BoardActivity extends AppCompatActivity {
                 if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
                     followingTextView.setText( R.string.unfollow );
                     FirebaseMessaging.getInstance().subscribeToTopic( "ManUvsManCity" );
-                    enterBoardApiCall( enterBoard, objectId );
                 } else {
                     followingTextView.setText( R.string.following );
                     FirebaseMessaging.getInstance().unsubscribeFromTopic( "ManUvsManCity" );
@@ -344,7 +344,7 @@ public class BoardActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<BoardCreationModel> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            enterBoard = response.body().getId();
+                            enterBoardId = response.body().getId();
                         }
                     }
                 } );

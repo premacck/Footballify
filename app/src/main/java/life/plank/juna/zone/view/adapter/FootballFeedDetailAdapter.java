@@ -40,7 +40,7 @@ import static life.plank.juna.zone.ZoneApplication.getApplication;
 
 public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeedDetailAdapter.FootballFeedDetailViewHolder> {
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
     List<FootballFeed> footballFeedsList = new ArrayList<>();
     private Context context;

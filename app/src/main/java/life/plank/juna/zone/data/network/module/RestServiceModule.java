@@ -40,8 +40,8 @@ public class RestServiceModule {
     //todo:combine these two url feed and Football Data
     @Singleton
     @Provides
-    @Named("feed")
-    public Retrofit getFeed(Gson gson) {
+    @Named("default")
+    public Retrofit getRetrofit(Gson gson) {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
@@ -100,18 +100,6 @@ public class RestServiceModule {
     public Retrofit getAzureRetrofit(Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl( ZoneApplication.getContext().getString( R.string.azure_base_url ) )
-                .client( HttpClientService.getUnsafeOkHttpClient() )
-                .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
-                .addConverterFactory( GsonConverterFactory.create( gson ) )
-                .build();
-    }
-
-    @Singleton
-    @Provides
-    @Named("default")
-    public Retrofit getRetrofit(Gson gson) {
-        return new Retrofit.Builder()
-                .baseUrl( ZoneApplication.getContext().getString( R.string.base_url ) )
                 .client( HttpClientService.getUnsafeOkHttpClient() )
                 .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
                 .addConverterFactory( GsonConverterFactory.create( gson ) )

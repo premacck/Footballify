@@ -57,7 +57,6 @@ public class AppConstants {
     public static final float ANIMATION_PIVOT_VALUE = 0.5f;
     public static final int REQUEST_CAMERA_PERMISSION = 1002;
     public static final String AUDIO_PATH = "audio_path";
-    public static final int MATCH_ID = 1711161;
     public static final String BOARD_TYPE = "FootballMatch";
 
 

@@ -35,7 +35,7 @@ import rx.schedulers.Schedulers;
 
 public class SignInActivity extends AppCompatActivity {
     @Inject
-    @Named("feed")
+    @Named("default")
     Retrofit retrofit;
     @BindView(R.id.username_text_input_layout)
     TextInputLayout usernameInputLayout;
