@@ -244,12 +244,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void postImageFromGallery(String targetId, String targetType, String contentType, String userId, String dateCreated) {
+    //TODO: Pass the extension. Remove hardcoded value
+    private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
-        Log.e( "finalImage", "filePath:--" + filePath );
-        File file = new File( filePath );
-        Log.e( "file", "file:--" + file );
-        RequestBody requestFile = RequestBody.create( MediaType.parse( "image" ), file );
+        File file = new File( selectedImageUri );
+        RequestBody requestFile = RequestBody.create( MediaType.parse( "image/png" ), file );
         MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestFile );
 
         restApi.postImageFromGallery( body, targetId, targetType, contentType, userId, dateCreated )
@@ -307,20 +306,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        //todo:-change hardcoded data and
+        //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                //  postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }

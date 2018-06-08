@@ -36,24 +36,48 @@ public class RestServiceModule {
         builder.registerTypeAdapter( Date.class, new ISO8601DateSerializer());
         return builder.create();
     }
+
+    //todo:combine these two url feed and Football Data
     @Singleton
     @Provides
     @Named("default")
-    public Retrofit getRetrofit(Gson gson) {
-        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor( );
+    public Retrofit getFeed(Gson gson) {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
         httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.addInterceptor( httpLoggingInterceptor );
         builder.connectTimeout( 60, TimeUnit.SECONDS );
         builder.readTimeout( 30, TimeUnit.SECONDS );
-        builder.writeTimeout(15, TimeUnit.SECONDS);
+        builder.writeTimeout( 15, TimeUnit.SECONDS );
         OkHttpClient okHttpClient = builder.build();
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.base_url))
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(new NullOnEmptyConverterFactory())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl( ZoneApplication.getContext().getString( R.string.feed_data_base_url ) )
+                .client( okHttpClient )
+                .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
+                .addConverterFactory( new NullOnEmptyConverterFactory() )
+                .addConverterFactory( GsonConverterFactory.create( gson ) )
+                .build();
+
+    }
+
+    @Singleton
+    @Provides
+    @Named("footballData")
+    public Retrofit getFootballData(Gson gson) {
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel( HttpLoggingInterceptor.Level.BODY );
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        builder.addInterceptor( httpLoggingInterceptor );
+        builder.connectTimeout( 60, TimeUnit.SECONDS );
+        builder.readTimeout( 30, TimeUnit.SECONDS );
+        builder.writeTimeout( 15, TimeUnit.SECONDS );
+        OkHttpClient okHttpClient = builder.build();
+        return new Retrofit.Builder()
+                .baseUrl( ZoneApplication.getContext().getString( R.string.football_data_base_url ) )
+                .client( okHttpClient )
+                .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
+                .addConverterFactory( new NullOnEmptyConverterFactory() )
+                .addConverterFactory( GsonConverterFactory.create( gson ) )
                 .build();
 
     }
@@ -63,10 +87,10 @@ public class RestServiceModule {
     @Named("instagram")
     public Retrofit getInstagramRetrofitService() {
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.instagram_base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .baseUrl( ZoneApplication.getContext().getString( R.string.instagram_base_url ) )
+                .client( HttpClientService.getUnsafeOkHttpClient() )
+                .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
+                .addConverterFactory( GsonConverterFactory.create() )
                 .build();
     }
 
@@ -75,10 +99,22 @@ public class RestServiceModule {
     @Named("azure")
     public Retrofit getAzureRetrofit(Gson gson) {
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.azure_base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl( ZoneApplication.getContext().getString( R.string.azure_base_url ) )
+                .client( HttpClientService.getUnsafeOkHttpClient() )
+                .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
+                .addConverterFactory( GsonConverterFactory.create( gson ) )
+                .build();
+    }
+
+    @Singleton
+    @Provides
+    @Named("default")
+    public Retrofit getRetrofit(Gson gson) {
+        return new Retrofit.Builder()
+                .baseUrl( ZoneApplication.getContext().getString( R.string.base_url ) )
+                .client( HttpClientService.getUnsafeOkHttpClient() )
+                .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
+                .addConverterFactory( GsonConverterFactory.create( gson ) )
                 .build();
     }
 }

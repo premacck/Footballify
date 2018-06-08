@@ -13,8 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.UUID;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -128,7 +126,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onNext(Response<SignInModel> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
-                        UIDisplayUtil.saveSignUpUserDetails( SignInActivity.this, UUID.randomUUID().toString() , jsonObjectResponse.body().getEmailAddress(), jsonObjectResponse.body().getDisplayName(), jsonObjectResponse.body().getCountry(), jsonObjectResponse.body().getCity(), jsonObjectResponse.body().getIdentityProvider(), jsonObjectResponse.body().getGivenName(), jsonObjectResponse.body().getSurname() );
+                        UIDisplayUtil.saveSignUpUserDetails( SignInActivity.this,jsonObjectResponse.body().getObjectId() , jsonObjectResponse.body().getEmailAddress(), jsonObjectResponse.body().getDisplayName(), jsonObjectResponse.body().getCountry(), jsonObjectResponse.body().getCity(), jsonObjectResponse.body().getIdentityProvider(), jsonObjectResponse.body().getGivenName(), jsonObjectResponse.body().getSurname() );
                         Intent intentSubmit = new Intent( SignInActivity.this, SwipePageActivity.class );
                         startActivity( intentSubmit );
                     }
