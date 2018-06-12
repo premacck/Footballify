@@ -43,10 +43,10 @@ public class SignInActivity extends AppCompatActivity {
     TextInputLayout passwordInputLayout;
     @Nullable
     @BindView(R.id.image_button)
-    ImageView submitImageview;
+    ImageView submitImageView;
     @BindView(R.id.forgot_password)
     TextView forgotPassword;
-    @BindView(R.id.email_editext__sign_in)
+    @BindView(R.id.email_editext_sign_in)
     EditText emailEditTextSignIn;
     @BindView(R.id.password_editext_sign_in)
     EditText passwordEditTextSignIn;
@@ -55,26 +55,25 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.card_view_sign_up)
     CardView cardViewSignUp;
     StackAnimation stackAnimation;
-    String passwordText, emailText;
+    String emailText;
     private RestApi restApi;
-    private Subscriber subscriber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_sign_in );
-        ((ZoneApplication) getApplication()).getSigninUserNetworkComponent().inject( this );
-        restApi = retrofit.create( RestApi.class );
-        ButterKnife.bind( this );
-        ActivityUtil.setCollapsedHintMiddle( usernameInputLayout, this );
-        ActivityUtil.setCollapsedHintMiddle( passwordInputLayout, this );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_in);
+        ((ZoneApplication) getApplication()).getSigninUserNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
+        ButterKnife.bind(this);
+        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout, this);
+        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout, this);
         initStackAnimation();
     }
 
     private void initStackAnimation() {
-        stackAnimation = new StackAnimation( AppConstants.ANIMATION_DURATION,
+        stackAnimation = new StackAnimation(AppConstants.ANIMATION_DURATION,
                 AppConstants.ANIMATION_START_SCALE,
-                AppConstants.ANIMATION_PIVOT_VALUE );
+                AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
     @OnClick({R.id.forgot_password, R.id.image_button, R.id.card_view_sign_in, R.id.card_view_sign_up})
@@ -82,19 +81,17 @@ public class SignInActivity extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.forgot_password:
-                Intent intent = new Intent( SignInActivity.this, AuthForgotPasswordActivity.class );
-                startActivity( intent );
-                overridePendingTransition( R.animator.swipe_up_animation, R.animator.no_change );
+                Intent intent = new Intent(SignInActivity.this, AuthForgotPasswordActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.animator.swipe_up_animation, R.animator.no_change);
                 break;
             case R.id.image_button:
-                Toast.makeText( this, "clickedSignIn", Toast.LENGTH_SHORT ).show();
-                passwordText = passwordEditTextSignIn.getText().toString();
                 emailText = emailEditTextSignIn.getText().toString();
                 if (emailText.isEmpty()) {
-                    emailEditTextSignIn.setError( "Enter Valid Email Address" );
+                    emailEditTextSignIn.setError("Email address cannot be empty");
                 } else {
-                    Toast.makeText( this, "response", Toast.LENGTH_SHORT ).show();
-                    getSignInResponse( emailText, passwordText );
+                    Toast.makeText(this, "response", Toast.LENGTH_SHORT).show();
+                    getSignInResponse(emailText);
                 }
                 break;
             case R.id.card_view_sign_in:
@@ -107,30 +104,31 @@ public class SignInActivity extends AppCompatActivity {
     }
 
 
-    private void getSignInResponse(String emailAddress, String password) {
-        restApi.getSignIn( emailAddress )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<SignInModel>>() {
+    private void getSignInResponse(String emailAddress) {
+        restApi.getUser(emailAddress)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<SignInModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( "", "onCompleted: " );
+                        Log.e("", "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e( "", "onError: " + e );
-
+                        Log.e("", "onError: " + e);
                     }
 
                     @Override
                     public void onNext(Response<SignInModel> jsonObjectResponse) {
-                        Log.e( "", "onNext: " + jsonObjectResponse );
-                        UIDisplayUtil.saveSignUpUserDetails( SignInActivity.this, jsonObjectResponse.body().getObjectId(), jsonObjectResponse.body().getEmailAddress(), jsonObjectResponse.body().getDisplayName(), jsonObjectResponse.body().getCountry(), jsonObjectResponse.body().getCity(), jsonObjectResponse.body().getIdentityProvider(), jsonObjectResponse.body().getGivenName(), jsonObjectResponse.body().getSurname() );
-                        Intent intentSubmit = new Intent( SignInActivity.this, SwipePageActivity.class );
-                        startActivity( intentSubmit );
+
+                        Log.e("", "onNext: " + jsonObjectResponse);
+                        UIDisplayUtil.saveSignInUserDetails(SignInActivity.this,
+                                jsonObjectResponse.body());
+                        Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
+                        startActivity(intentSubmit);
                     }
-                } );
+                });
     }
 
 }

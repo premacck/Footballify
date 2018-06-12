@@ -1,6 +1,6 @@
 package life.plank.juna.zone.data.network.model;
 
-public class SignupModel {
+public class SignUpModel {
     private String objectId;
     private String displayName;
     private String emailAddress;
@@ -10,7 +10,7 @@ public class SignupModel {
     private String givenName;
     private String surname;
 
-    public SignupModel(String objectId,String displayName, String emailAddress, String country, String city, String identityProvider, String givenName, String surname) {
+    public SignUpModel(String objectId, String displayName, String emailAddress, String country, String city, String identityProvider, String givenName, String surname) {
 
         this.objectId = objectId;
         this.displayName = displayName;
@@ -85,8 +85,4 @@ public class SignupModel {
     public void setSurname(String surname) {
         this.surname = surname;
     }
-
-
 }
-
-

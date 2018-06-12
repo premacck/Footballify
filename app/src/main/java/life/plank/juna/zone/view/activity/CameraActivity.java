@@ -308,17 +308,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
