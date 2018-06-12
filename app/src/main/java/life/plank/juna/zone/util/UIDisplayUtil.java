@@ -14,6 +14,7 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -21,6 +22,8 @@ import android.view.inputmethod.InputMethodManager;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import life.plank.juna.zone.data.network.model.SignInModel;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -112,17 +115,16 @@ public class UIDisplayUtil {
         return str;
     }
 
-    public static void saveSignUpUserDetails(Context mContext, String objectId, String emailAddress, String dispalyName, String country, String city, String identityProvider,
-                                             String givenName, String surname) {
+    public static void saveSignInUserDetails(Context mContext, SignInModel body) {
         SharedPreferences.Editor editor = mContext.getSharedPreferences( SIGN_UP_USER_DETAILS, MODE_PRIVATE ).edit();
-        editor.putString( "objectId", objectId );
-        editor.putString( "displayName", dispalyName );
-        editor.putString( "emailAddress", emailAddress );
-        editor.putString( "country", country );
-        editor.putString( "city", city );
-        editor.putString( "identityProvider", identityProvider );
-        editor.putString( "givenName", givenName );
-        editor.putString( "surname", surname );
+        editor.putString( "objectId", body.getObjectId() );
+        editor.putString( "displayName", body.getDisplayName() );
+        editor.putString( "emailAddress", body.getEmailAddress() );
+        editor.putString( "country", body.getCountry() );
+        editor.putString( "city", body.getCity() );
+        editor.putString( "identityProvider", body.getIdentityProvider() );
+        editor.putString( "givenName", body.getGivenName() );
+        editor.putString( "surname", body.getSurname() );
         editor.apply();
     }
 

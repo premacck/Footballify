@@ -41,7 +41,7 @@ import rx.schedulers.Schedulers;
 
 public class MatchResultActivity extends AppCompatActivity {
     @Inject
-    @Named("default")
+    @Named("footballData")
     Retrofit retrofit;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;

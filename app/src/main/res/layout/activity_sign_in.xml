@@ -195,7 +195,7 @@
                         android:padding="16dp">
 
                         <EditText
-                            android:id="@+id/email_editext__sign_in"
+                            android:id="@+id/email_editext_sign_in"
                             style="@style/InputPlaceholder"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"

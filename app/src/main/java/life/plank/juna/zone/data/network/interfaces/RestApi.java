@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Arena;
+import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FootballMatch;
 import life.plank.juna.zone.data.network.model.JunaUser;
@@ -15,7 +16,7 @@ import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.data.network.model.SignInModel;
-import life.plank.juna.zone.data.network.model.SignupModel;
+import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.UserChoice;
@@ -98,10 +99,10 @@ public interface RestApi {
     Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
 
     @POST("/users")
-    Observable<Response<SignupModel>> getSignup(@Body SignupModel signupModel);
+    Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
 
     @GET("/users")
-    Observable<Response<SignInModel>> getSignIn(@Query("emailAddress") String emailAddress);
+    Observable<Response<SignInModel>> getUser(@Query("emailAddress") String emailAddress);
 
     @POST("feedItems/f87f341d-2c7d-41f6-ba44-7e9f4920f533/likes")
     Observable<Response<JsonObject>> getLikedFeedItem(@Query("userId") String userId);
@@ -120,8 +121,10 @@ public interface RestApi {
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
 
-    //todo: id will be replace with board creation id
-    @POST("borads/422e50c3-ac95-4d29-8b96-4ae0edc91b6f/activities/enter")
-    Observable<Response<JsonObject>> enterTheBoard(@Query("userId") String userId);
+    @POST("boards/{boardId}/activities/enter")
+    Observable<Response<JsonObject>> enterBoard(@Path( "boardId" ) String boardId, @Query("userId") String userId);
+
+    @GET("/boards")
+    Observable<Response<BoardCreationModel>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType);
 }
 

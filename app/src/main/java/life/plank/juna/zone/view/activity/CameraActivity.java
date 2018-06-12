@@ -1,11 +1,13 @@
 package life.plank.juna.zone.view.activity;
 
 import android.Manifest;
-import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -68,11 +70,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     String apiCallFromActivity;
     File absolutefile;
     String openFrom;
-    private Uri imageUri;
+    String userId;
     private int GALLERY_IMAGE_RESULT = 7;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
+    private Uri fileUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             openGalleryForAudio();
         }
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
+        userId = preference.getString( "objectId", "NA" );
     }
 
     private void setUpUi(String type) {
@@ -108,16 +113,33 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void takePicture() {
+        Intent takePictureIntent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+        takePictureIntent.setFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
+        fileUri = getOutputMediaFileUri( CameraActivity.this );
+        takePictureIntent.putExtra( MediaStore.EXTRA_OUTPUT, fileUri );
+        startActivityForResult( takePictureIntent, CAMERA_IMAGE_RESULT );
+    }
+
+    public Uri getOutputMediaFileUri(Context mContext) {
+
         try {
-            File file = createImageFile();
-            imageUri = FileProvider.getUriForFile( this, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, file );
-            Intent cameraIntent = new Intent( android.provider.MediaStore.ACTION_IMAGE_CAPTURE );
-            cameraIntent.setFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
-            cameraIntent.putExtra( MediaStore.EXTRA_OUTPUT, imageUri );
-            startActivityForResult( cameraIntent, CAMERA_IMAGE_RESULT );
+            return FileProvider.getUriForFile( mContext, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, createImageFileName() );
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+    }
+
+    private File createImageFileName() throws IOException {
+        String timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss" ).format( new Date() );
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = new File( Environment.getExternalStorageDirectory().getAbsolutePath() + "/juna/" + "Images" + "/" );
+        if (!storageDir.exists()) {
+            storageDir.mkdirs();
+        }
+        File image = File.createTempFile( imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */ );
+        return image;
     }
 
     @Override
@@ -146,34 +168,23 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return false;
     }
 
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat( AppConstants.DATE_FORMAT ).format( new Date() );
-        String imageFileName = AppConstants.CAPTURED_IMAGE_NAME + timeStamp + AppConstants.CAPTURED_IMAGE_FORMAT;
-        File mediaStorageDirectory = new File( Environment.getExternalStorageDirectory(),
-                AppConstants.CAPTURED_IMAGES_FOLDER_NAME );
-        File storageDirectory = new File( mediaStorageDirectory + File.separator + AppConstants.CAPTURED_IMAGES_SUB_FOLDER_NAME );
-        if (!storageDirectory.exists()) {
-            storageDirectory.mkdirs();
-        }
-        return new File( storageDirectory, imageFileName );
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_IMAGE_RESULT) {
-            if (imageUri != null) {
+            try {
                 setUpUi( "image" );
-                filePath = getPathForCameraImage( imageUri );
-                getContentResolver().notifyChange( imageUri, null );
-                ContentResolver cr = getContentResolver();
-                Bitmap bitmap;
-                try {
-                    bitmap = android.provider.MediaStore.Images.Media.getBitmap( cr, imageUri );
-                    capturedImageView.setImageBitmap( bitmap );
-                } catch (Exception e) {
-                    Toast.makeText( this, "Failed to load", Toast.LENGTH_SHORT ).show();
+                filePath = fileUri.getPath();
+                Log.e( "filePath Camera ", "" + filePath );
+                File imgFile = new File( filePath );
+                if (imgFile.exists()) {
+                    Bitmap myBitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );
+                    capturedImageView.setImageBitmap( myBitmap );
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+
         } else if (requestCode == AUDIO_PICKER_RESULT) {
             if (data != null) {
                 Uri uri = data.getData();
@@ -222,8 +233,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap( getContentResolver(), selectedImageFromGallery );
                         capturedImageView.setImageBitmap( bitmap );
-                        imageUri = selectedImageFromGallery;
-                        filePath = getRealPathFromURIForGalleryImage( imageUri );
+                        filePath = getRealPathFromURIForGalleryImage( selectedImageFromGallery );
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -234,12 +244,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    //TODO: Pass the extension. Remove hardcoded value
     private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
         File file = new File( selectedImageUri );
-        RequestBody requestBody = RequestBody.create( MediaType.parse( "image" ), file );
-        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
-
+        RequestBody requestFile = RequestBody.create( MediaType.parse( "image/png" ), file );
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestFile );
         restApi.postImageFromGallery( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
@@ -295,20 +305,20 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        //todo:-change hardcoded data and
+        //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "ManCityVsManU", "Board", "image", "54a1e691-003f-4cff-829e-a8da42c5fcd9", "13-02-2018+04%3A50%3A23" );
+                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
@@ -329,15 +339,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             e.printStackTrace();
         }
         return filePath;
-    }
-
-    private String getPathForCameraImage(Uri uri) {
-
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = managedQuery( MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, null );
-        int column_index_data = cursor.getColumnIndexOrThrow( MediaStore.Images.Media.DATA );
-        cursor.moveToLast();
-        return cursor.getString( column_index_data );
     }
 
     public String getRealPathFromURIForVideo(Uri contentUri) {
@@ -372,5 +373,4 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         galleryIntent.setType( "image/*" );
         startActivityForResult( galleryIntent, GALLERY_IMAGE_RESULT );
     }
-
 }

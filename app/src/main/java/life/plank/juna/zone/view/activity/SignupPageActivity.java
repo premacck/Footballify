@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.SignupModel;
+import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.util.ActivityUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -80,12 +80,11 @@ public class SignupPageActivity extends AppCompatActivity {
     }
 
     private void signup() {
-        SignupModel signupModel = new SignupModel(  UUID.randomUUID().toString(),userNameText,emailText,"USA","Washington DC","email","Praneeth", "Muskula");
-        Log.e("TAG","signUp" +signupModel);
-        restApi.getSignup( signupModel )
+        SignUpModel signUpModel = new SignUpModel(UUID.randomUUID().toString(),userNameText,emailText,"USA","Washington DC","email","Praneeth", "Muskula");
+        restApi.createUser(signUpModel)
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<SignupModel>>() {
+                .subscribe( new Subscriber<Response<SignUpModel>>() {
                     @Override
                     public void onCompleted() {
                         Log.e( "", "onCompleted: " );
@@ -95,11 +94,10 @@ public class SignupPageActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
                         Toast.makeText( SignupPageActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT ).show();
-
                     }
 
                     @Override
-                    public void onNext(Response<SignupModel> signupModel) {
+                    public void onNext(Response<SignUpModel> signupModel) {
                         Log.e( "", "onNext: " + signupModel );
                         Intent intentSubmit = new Intent( SignupPageActivity.this, SignInActivity.class );
                         startActivity( intentSubmit );

@@ -63,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 // get the data into array, or class variable
-                data = cursor.getString( 2 );
+                data = cursor.getString( 1 );
                 dataList.add( data );
             } while (cursor.moveToNext());
         }

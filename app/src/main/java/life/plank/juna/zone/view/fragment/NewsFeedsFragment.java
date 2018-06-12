@@ -40,7 +40,7 @@ public class NewsFeedsFragment extends Fragment {
     RecyclerView recyclerView;
 
     @Inject
-    @Named("default")
+    @Named("footballData")
     Retrofit retrofit;
 
     private static final String TAG = NewsFeedsFragment.class.getSimpleName();

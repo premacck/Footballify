@@ -165,7 +165,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
         String emailId = preference.getString( "emailAddress", "NA" );
         String displayName = preference.getString( "displayName", "NA" );
-        Log.e( TAG, "Value:::" + emailId + "  " + displayName );
+        String userId = preference.getString( "objectId", "NA" );
+        Log.e( TAG, "userValue:;" + emailId + "  " + userId );
     }
 
     /*public void registerWithNotificationHubs() {
@@ -505,7 +506,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                 public void onClick(View v) {
                     switch (position) {
                         case 0: {
-                            startActivity( new Intent( SwipePageActivity.this, BoardActivity.class ) );
                             break;
                         }
                         case 1: {
