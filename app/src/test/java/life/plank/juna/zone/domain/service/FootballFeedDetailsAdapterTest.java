@@ -60,7 +60,6 @@ public class FootballFeedDetailsAdapterTest {
         footballFeed.setId("1");
         footballFeed.setUrl("web_url");
         footballFeed.setContentType("Southampton");
-        footballFeed.setReactionType(1);
         footballFeed.setSource("Chelsea");
         footballFeedsList.add(footballFeed);
 
