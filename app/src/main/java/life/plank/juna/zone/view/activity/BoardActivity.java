@@ -39,7 +39,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotificationModel;
+import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -67,7 +67,7 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
-    ArrayList<BoardNotificationModel> boardNotificationModelArrayList = new ArrayList<>();
+    ArrayList<BoardNotification> boardNotificationArrayList = new ArrayList<>();
     DBHelper dbHelper;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
@@ -145,15 +145,15 @@ public class BoardActivity extends AppCompatActivity {
             for (int i = 0; i < dataList.size(); i++) {
                 Collections.sort(dataList);
                 Gson gson = new Gson();
-                BoardNotificationModel boardNotificationModel = gson.fromJson(dataList.get(i), BoardNotificationModel.class);
-                boardNotificationModelArrayList.add(boardNotificationModel);
+                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
+                boardNotificationArrayList.add(boardNotification);
             }
         }
     }
 
     //todo: Inject adapter
     private void initRecyclerView() {
-        boardMediaAdapter = new BoardMediaAdapter(this, boardNotificationModelArrayList);
+        boardMediaAdapter = new BoardMediaAdapter(this, boardNotificationArrayList);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardRecyclerView.setAdapter(boardMediaAdapter);

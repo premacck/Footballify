@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotificationModel;
+import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
@@ -22,38 +22,38 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    ArrayList<BoardNotificationModel> boardNotificationModelArrayList;
+    private ArrayList<BoardNotification> boardNotificationArrayList = new ArrayList<>();
     private Context context;
 
-    public BoardMediaAdapter(Context context, ArrayList<BoardNotificationModel> boardNotificationModelArrayList) {
+    public BoardMediaAdapter(Context context, ArrayList<BoardNotification> boardNotificationArrayList) {
         this.context = context;
-        this.boardNotificationModelArrayList = boardNotificationModelArrayList;
+        this.boardNotificationArrayList = boardNotificationArrayList;
     }
 
     @Override
     public BoardMediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BoardMediaViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.item_board_grid_row, parent, false ) );
+        return new BoardMediaViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_grid_row, parent, false));
 
     }
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
 
-        if (boardNotificationModelArrayList.get( position ).getThumbnail().getImageUrl() != null) {
-            Picasso.with( context )
-                    .load( boardNotificationModelArrayList.get( position ).getThumbnail().getImageUrl() )
+        if (boardNotificationArrayList.get(position).getFeedItem().getThumbnail().getImageUrl() != null) {
+            Picasso.with(context)
+                    .load(boardNotificationArrayList.get(position).getFeedItem().getThumbnail().getImageUrl())
                     .fit().centerCrop()
-                    .placeholder( R.drawable.ic_place_holder )
-                    .transform( new RoundedTransformation( UIDisplayUtil.dpToPx( 8, context ), 0 ) )
-                    .error( R.drawable.ic_place_holder )
-                    .into( holder.tileImageView );
+                    .placeholder(R.drawable.ic_place_holder)
+                    .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
+                    .error(R.drawable.ic_place_holder)
+                    .into(holder.tileImageView);
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return boardNotificationModelArrayList.size();
+        return boardNotificationArrayList.size();
     }
 
     public class BoardMediaViewHolder extends RecyclerView.ViewHolder {
@@ -62,8 +62,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
         public BoardMediaViewHolder(View itemView) {
 
-            super( itemView );
-            ButterKnife.bind( this, itemView );
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }
