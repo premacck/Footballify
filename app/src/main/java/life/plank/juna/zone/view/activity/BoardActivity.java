@@ -20,12 +20,10 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -39,7 +37,6 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -67,14 +64,13 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
-    ArrayList<BoardNotification> boardNotificationArrayList = new ArrayList<>();
     DBHelper dbHelper;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
     private int apiHitCount = 0;
-    private List<FootballFeed> boardFeeds;
+    private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
     private Subscription subscription;
     private String nextPageToken = "";
@@ -129,7 +125,6 @@ public class BoardActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         currentMatchId = getIntent().getLongExtra("MATCH_ID", 0L);
         dbHelper = new DBHelper(this);
-        populateUplaodedDataFromPushNotification();
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
@@ -139,21 +134,9 @@ public class BoardActivity extends AppCompatActivity {
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
     }
 
-    public void populateUplaodedDataFromPushNotification() {
-        ArrayList<String> dataList = dbHelper.getDataList();
-        if (dataList != null && dataList.size() > 0) {
-            for (int i = 0; i < dataList.size(); i++) {
-                Collections.sort(dataList);
-                Gson gson = new Gson();
-                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
-                boardNotificationArrayList.add(boardNotification);
-            }
-        }
-    }
-
     //todo: Inject adapter
     private void initRecyclerView() {
-        boardMediaAdapter = new BoardMediaAdapter(this, boardNotificationArrayList);
+        boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardRecyclerView.setAdapter(boardMediaAdapter);
@@ -211,14 +194,25 @@ public class BoardActivity extends AppCompatActivity {
                 });
     }
 
-    private void setUpAdapterWithNewData(List<FootballFeed> footballFeedsList) {
-        if (!footballFeedsList.isEmpty() && footballFeedsList.size() > 0) {
-            if ("".contentEquals(nextPageToken) ? (isLastPage = true) : (isLoading = false)) ;
-            boardFeeds.addAll(footballFeedsList);
+    private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
+        if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
+            boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
-            PAGE_SIZE = footballFeedsList.size();
         }
     }
+
+    //TODO: Delete after push notifications is implemented completely
+//    public void populateUplaodedDataFromPushNotification() {
+//        ArrayList<String> dataList = dbHelper.getDataList();
+//        if (dataList != null && dataList.size() > 0) {
+//            for (int i = 0; i < dataList.size(); i++) {
+//                Collections.sort(dataList);
+//                Gson gson = new Gson();
+//                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
+//                boardNotificationArrayList.add(boardNotification);
+//            }
+//        }
+//    }
 
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
@@ -373,7 +367,7 @@ public class BoardActivity extends AppCompatActivity {
                     public void onNext(Response<List<FootballFeed>> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             Log.e(TAG, "Retrieved details: ");
-
+                            setUpAdapterWithNewData(response.body());
                         }
                     }
                 });

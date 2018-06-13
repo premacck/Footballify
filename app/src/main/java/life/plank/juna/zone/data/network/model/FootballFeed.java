@@ -5,97 +5,97 @@ package life.plank.juna.zone.data.network.model;
  */
 
 public class FootballFeed {
-    private String Id;
-    private String Title;
-    private String Url;
-    private String Source;
-    private String DatePublished;
-    private String Summary;
-    private Thumbnail Thumbnail;
-    private String DateCreated;
-    private String ContentType;
+    private String id;
+    private String title;
+    private String url;
+    private String source;
+    private String datePublished;
+    private String summary;
+    private Thumbnail thumbnail;
+    private String dateCreated;
+    private String contentType;
 
     public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType) {
-        Id = id;
-        Title = title;
-        Url = url;
-        Source = source;
-        DatePublished = datePublished;
-        Summary = summary;
-        Thumbnail = thumbnail;
-        DateCreated = dateCreated;
-        ContentType = contentType;
+        this.id = id;
+        this.title = title;
+        this.url = url;
+        this.source = source;
+        this.datePublished = datePublished;
+        this.summary = summary;
+        this.thumbnail = thumbnail;
+        this.dateCreated = dateCreated;
+        this.contentType = contentType;
     }
 
     public String getId() {
-        return Id;
+        return id;
     }
 
     public void setId(String id) {
-        this.Id = id;
+        this.id = id;
     }
 
     public String getTitle() {
-        return Title;
+        return title;
     }
 
     public void setTitle(String title) {
-        this.Title = title;
+        this.title = title;
     }
 
     public String getUrl() {
-        return Url;
+        return url;
     }
 
     public void setUrl(String url) {
-        this.Url = url;
+        this.url = url;
     }
 
     public String getSource() {
-        return Source;
+        return source;
     }
 
     public void setSource(String source) {
-        this.Source = source;
+        this.source = source;
     }
 
     public String getDatePublished() {
-        return DatePublished;
+        return datePublished;
     }
 
     public void setDatePublished(String datePublished) {
-        this.DatePublished = datePublished;
+        this.datePublished = datePublished;
     }
 
     public String getSummary() {
-        return Summary;
+        return summary;
     }
 
     public void setSummary(String summary) {
-        this.Summary = summary;
+        this.summary = summary;
     }
 
     public Thumbnail getThumbnail() {
-        return Thumbnail;
+        return thumbnail;
     }
 
     public void setThumbnail(Thumbnail thumbnail) {
-        this.Thumbnail = thumbnail;
+        this.thumbnail = thumbnail;
     }
 
     public String getDateCreated() {
-        return DateCreated;
+        return dateCreated;
     }
 
     public void setDateCreated(String dateCreated) {
-        this.DateCreated = dateCreated;
+        this.dateCreated = dateCreated;
     }
 
     public String getContentType() {
-        return ContentType;
+        return contentType;
     }
 
     public void setContentType(String contentType) {
-        this.ContentType = contentType;
+        this.contentType = contentType;
     }
 }

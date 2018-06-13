@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
@@ -22,12 +23,12 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    private ArrayList<BoardNotification> boardNotificationArrayList = new ArrayList<>();
+    private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private Context context;
 
-    public BoardMediaAdapter(Context context, ArrayList<BoardNotification> boardNotificationArrayList) {
+    public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
         this.context = context;
-        this.boardNotificationArrayList = boardNotificationArrayList;
+        this.boardFeed = boardFeed;
     }
 
     @Override
@@ -39,26 +40,29 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
 
-        if (boardNotificationArrayList.get(position).getFeedItem().getThumbnail().getImageUrl() != null) {
+        if (boardFeed.get(position).getThumbnail().getImageUrl() != null) {
             Picasso.with(context)
-                    .load(boardNotificationArrayList.get(position).getFeedItem().getThumbnail().getImageUrl())
+                    .load(boardFeed.get(position).getThumbnail().getImageUrl())
                     .fit().centerCrop()
                     .placeholder(R.drawable.ic_place_holder)
                     .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
                     .error(R.drawable.ic_place_holder)
                     .into(holder.tileImageView);
+            holder.titleTextView.setText(boardFeed.get(position).getTitle());
         }
 
     }
 
     @Override
     public int getItemCount() {
-        return boardNotificationArrayList.size();
+        return boardFeed.size();
     }
 
     public class BoardMediaViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tile_image_view)
         ImageView tileImageView;
+        @BindView(R.id.feed_title_text_view)
+        TextView titleTextView;
 
         public BoardMediaViewHolder(View itemView) {
 
