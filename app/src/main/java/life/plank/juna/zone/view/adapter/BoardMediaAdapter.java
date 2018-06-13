@@ -23,7 +23,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    private ArrayList<FootballFeed> boardFeed;
+    private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private Context context;
 
     public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
