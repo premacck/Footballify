@@ -22,7 +22,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    ArrayList<BoardNotification> boardNotificationArrayList;
+    private ArrayList<BoardNotification> boardNotificationArrayList = new ArrayList<>();
     private Context context;
 
     public BoardMediaAdapter(Context context, ArrayList<BoardNotification> boardNotificationArrayList) {
