@@ -4,37 +4,37 @@ package life.plank.juna.zone.data.network.model;
  */
 
 public class Thumbnail {
-    private String ImageUrl;
-    private int ImageHeight;
-    private int ImageWidth;
+    private String imageUrl;
+    private int imageHeight;
+    private int imageWidth;
 
     public Thumbnail(String imageUrl, int imageHeight, int imageWidth) {
-        ImageUrl = imageUrl;
-        ImageHeight = imageHeight;
-        ImageWidth = imageWidth;
+        this.imageUrl = imageUrl;
+        this.imageHeight = imageHeight;
+        this.imageWidth = imageWidth;
     }
 
     public String getImageUrl() {
-        return this.ImageUrl;
+        return imageUrl;
     }
 
-    public void setImageUrl(String ImageUrl) {
-        this.ImageUrl = ImageUrl;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public int getImageHeight() {
-        return this.ImageHeight;
+        return imageHeight;
     }
 
-    public void setImageHeight(int ImageHeight) {
-        this.ImageHeight = ImageHeight;
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
     }
 
     public int getImageWidth() {
-        return this.ImageWidth;
+        return imageWidth;
     }
 
-    public void setImageWidth(int ImageWidth) {
-        this.ImageWidth = ImageWidth;
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
     }
 }
