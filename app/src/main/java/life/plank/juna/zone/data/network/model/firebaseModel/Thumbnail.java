@@ -1,28 +1,15 @@
 package life.plank.juna.zone.data.network.model.firebaseModel;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Thumbnail {
 
     private String imageUrl;
     private Integer height;
     private Integer width;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     public Thumbnail(String imageUrl, Integer height, Integer width) {
         this.imageUrl = imageUrl;
         this.height = height;
         this.width = width;
-    }
-
-    @Override
-    public String toString() {
-        return "Thumbnail{" +
-                "imageUrl='" + imageUrl + '\'' +
-                ", height=" + height +
-                ", width=" + width +
-                '}';
     }
 
     public String getImageUrl() {
