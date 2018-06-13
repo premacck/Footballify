@@ -1,5 +1,5 @@
 package life.plank.juna.zone.data.network.model;
-import java.util.List;
+
 /**
  * Created by plank-arfaa on 06/02/18.
  */
@@ -12,13 +12,10 @@ public class FootballFeed {
     private String DatePublished;
     private String Summary;
     private Thumbnail Thumbnail;
-    private Object Tags;
     private String DateCreated;
     private String ContentType;
-    private List<Object> DomainEvents = null;
-    private int reactionType = -1;
 
-    public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, life.plank.juna.zone.data.network.model.Thumbnail thumbnail, Object tags, String dateCreated, String contentType, List<Object> domainEvents, int reactionType) {
+    public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType) {
         Id = id;
         Title = title;
         Url = url;
@@ -26,11 +23,8 @@ public class FootballFeed {
         DatePublished = datePublished;
         Summary = summary;
         Thumbnail = thumbnail;
-        Tags = tags;
         DateCreated = dateCreated;
         ContentType = contentType;
-        DomainEvents = domainEvents;
-        this.reactionType = reactionType;
     }
 
     public String getId() {
@@ -77,7 +71,7 @@ public class FootballFeed {
         return Summary;
     }
 
-    public void setSummary(String  summary) {
+    public void setSummary(String summary) {
         this.Summary = summary;
     }
 
@@ -87,14 +81,6 @@ public class FootballFeed {
 
     public void setThumbnail(Thumbnail thumbnail) {
         this.Thumbnail = thumbnail;
-    }
-
-    public Object getTags() {
-        return Tags;
-    }
-
-    public void setTags(Object tags) {
-        this.Tags = tags;
     }
 
     public String getDateCreated() {
@@ -111,21 +97,5 @@ public class FootballFeed {
 
     public void setContentType(String contentType) {
         this.ContentType = contentType;
-    }
-
-    public List<Object> getDomainEvents() {
-        return DomainEvents;
-    }
-
-    public void setDomainEvents(List<Object> domainEvents) {
-        this.DomainEvents = domainEvents;
-    }
-
-    public int getReactionType() {
-        return reactionType;
-    }
-
-    public void setReactionType(int reactionType) {
-        this.reactionType = reactionType;
     }
 }
