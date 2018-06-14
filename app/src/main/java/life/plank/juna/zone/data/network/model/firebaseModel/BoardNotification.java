@@ -1,9 +1,10 @@
 package life.plank.juna.zone.data.network.model.firebaseModel;
 
+
 public class BoardNotification {
 
     private NotificationFeedItem FeedItem;
-    private String Operation;
+    private Activity Activity;
 
     public NotificationFeedItem getFeedItem() {
         return FeedItem;
@@ -13,12 +14,11 @@ public class BoardNotification {
         FeedItem = feedItem;
     }
 
-    public String getOperation() {
-        return Operation;
+    public life.plank.juna.zone.data.network.model.firebaseModel.Activity getActivity() {
+        return Activity;
     }
 
-    public void setOperation(String operation) {
-        this.Operation = operation;
+    public void setActivity(life.plank.juna.zone.data.network.model.firebaseModel.Activity activity) {
+        Activity = activity;
     }
-
 }
