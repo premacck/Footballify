@@ -4,12 +4,12 @@ public class NotificationFeedItem {
 
     private String datePublished;
     private Object summary;
-    private Thumbnail thumbnail;
+    private Thumbnail Thumbnail;
     private String dateCreated;
     private String id;
     private String title;
-    private String contentType;
-    private String url;
+    private String ContentType;
+    private String Url;
 
     public String getDatePublished() {
         return datePublished;
@@ -28,11 +28,11 @@ public class NotificationFeedItem {
     }
 
     public Thumbnail getThumbnail() {
-        return thumbnail;
+        return Thumbnail;
     }
 
     public void setThumbnail(Thumbnail thumbnail) {
-        this.thumbnail = thumbnail;
+        Thumbnail = thumbnail;
     }
 
     public String getDateCreated() {
@@ -60,18 +60,18 @@ public class NotificationFeedItem {
     }
 
     public String getContentType() {
-        return contentType;
+        return ContentType;
     }
 
     public void setContentType(String contentType) {
-        this.contentType = contentType;
+        ContentType = contentType;
     }
 
     public String getUrl() {
-        return url;
+        return Url;
     }
 
     public void setUrl(String url) {
-        this.url = url;
+        Url = url;
     }
 }

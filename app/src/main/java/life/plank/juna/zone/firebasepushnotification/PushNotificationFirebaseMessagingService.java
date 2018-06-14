@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -11,6 +12,9 @@ import android.support.v4.app.NotificationCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
@@ -22,6 +26,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
     private static UpdateDataOnChartFragment updateDataOnChartFragment;
     private DBHelper dbHelper = new DBHelper(this);
+    private Bitmap bitmap;
 
     public static void setUpdateDataOnChartFragment(UpdateDataOnChartFragment updateDataChartFragment) {
         updateDataOnChartFragment = updateDataChartFragment;
@@ -44,13 +49,29 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+        //TODO: Remove this and make it general, Such that the message is appropriate when the user uploads a video , image or any other content
+        //Will be done in the next pull request
+        String messageBody = boardNotification.getActivity().getActor()
+                + " "
+                + boardNotification.getActivity().getAction()
+                + "ed" + " " + "an" + " "
+                + boardNotification.getFeedItem().getContentType();
+        try {
+            bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getFeedItem().getThumbnail().getImageUrl()).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("FCM Message")
-                .setContentText(boardNotification.getFeedItem().getContentType())
+                .setContentTitle("Zone")
+                .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bitmap))/*Notification with Image*/
+                .setAutoCancel(true);
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
