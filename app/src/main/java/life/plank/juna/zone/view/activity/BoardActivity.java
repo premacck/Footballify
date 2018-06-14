@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +27,7 @@ import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -123,19 +127,47 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        currentMatchId = getIntent().getLongExtra("MATCH_ID", 0L);
         dbHelper = new DBHelper(this);
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        objectId = preference.getString("objectId", "NA");
-        Log.e(TAG, "Value--:" + objectId);
+        objectId = preference.getString(getString(R.string.object_id_string), "NA");
+        SharedPreferences matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(mMessageReceiver, new IntentFilter("board_intent"));
+    }
+
+    //Must unregister onPause()
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mMessageReceiver);
+    }
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            // Extract data included in the Intent
+            String message = intent.getStringExtra("notification");
+            Log.d("", "Data from Broadcast Receiver" + message);
+
+            //do other stuff here
+        }
+    };
+
+
+
     //todo: Inject adapter
     private void initRecyclerView() {
+        Collections.reverse(boardFeed);
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
@@ -196,6 +228,7 @@ public class BoardActivity extends AppCompatActivity {
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
+            Collections.reverse(boardFeedList);
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
         }
@@ -324,6 +357,8 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     public void retrieveBoard(Long foreignId, String boardType) {
+        Log.e(TAG, "Board Activity foreign id " + foreignId);
+        Log.e(TAG, "Board Activity Board Type " + boardType);
         restApi.retrieveBoard(foreignId, boardType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

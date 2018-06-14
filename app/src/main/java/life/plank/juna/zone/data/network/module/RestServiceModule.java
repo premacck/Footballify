@@ -37,6 +37,12 @@ public class RestServiceModule {
         return builder.create();
     }
 
+    OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
+            .build();
+
     //todo:combine these two url feed and Football Data
     @Singleton
     @Provides
@@ -44,7 +50,7 @@ public class RestServiceModule {
     public Retrofit getRetrofit(Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl( ZoneApplication.getContext().getString( R.string.feed_data_base_url ) )
-                .client( HttpClientService.getUnsafeOkHttpClient() )
+                .client(okHttpClient)
                 .addCallAdapterFactory( RxJavaCallAdapterFactory.create() )
                 .addConverterFactory( new NullOnEmptyConverterFactory() )
                 .addConverterFactory( GsonConverterFactory.create( gson ) )

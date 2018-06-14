@@ -40,7 +40,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         Gson gson = new Gson();
         boardNotification = gson.fromJson(notificationString, BoardNotification.class);
         dbHelper.insertNotificationDataInDatabase(notificationString);
-
+        updateMyActivity(getApplicationContext(),boardNotification);
         sendNotification(boardNotification);
     }
 
@@ -70,9 +70,20 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
                 .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bitmap))/*Notification with Image*/
-                .setAutoCancel(true);
+                        .bigPicture(bitmap))/*Notification with Image*/;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    static void updateMyActivity(Context context, BoardNotification boardNotification) {
+
+        Intent intent = new Intent("board_intent");
+
+        //put whatever data you want to send, if any
+        intent.putExtra("notification", boardNotification.getActivity().getActor());
+
+
+        //send broadcast
+        context.sendBroadcast(intent);
     }
 }
