@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -120,7 +119,23 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(takePictureIntent, CAMERA_IMAGE_RESULT);
     }
+    public void openGalleryForAudio() {
+        Intent audioIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(audioIntent, "Select Audio"), AUDIO_PICKER_RESULT);
+    }
 
+    public void openVideo() {
+        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takeVideoIntent, VIDEO_CAPTURE);
+        }
+    }
+
+    public void getImageResourceFromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("image/*");
+        startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
+    }
     public Uri getOutputMediaFileUri(Context mContext) {
 
         try {
@@ -209,16 +224,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
                     postAudioFile(absolutePath, "ManCityVsManU", "Board", "audio", "3cebd56b-ff80-4212-80aa-a84fc19cd955", "13-02-2018+04%3A50%3A23");
-                    finish();
                 }
-            }
-
-        } else if (requestCode == VIDEO_CAPTURE) {
+            } }
+            else if (requestCode == VIDEO_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 setUpUi("Video");
                 Toast.makeText(this, "Video has been saved to:\n" + data.getData(), Toast.LENGTH_LONG).show();
                 Uri videoUri = data.getData();
-                String path = getRealPathFromURIForVideo(videoUri);
+                String path = UIDisplayUtil.getRealPathFromURIForVideo(videoUri,this);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
             } else if (resultCode == RESULT_CANCELED) {
@@ -234,7 +247,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageFromGallery);
                         capturedImageView.setImageBitmap(bitmap);
-                        filePath = getRealPathFromURIForGalleryImage(selectedImageFromGallery);
+                        filePath = UIDisplayUtil.getRealPathFromURIForGalleryImage(selectedImageFromGallery,this);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -330,53 +343,5 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
 
-    }
-
-    public String getRealPathFromURIForGalleryImage(Uri uri) {
-        String filePath = "";
-        try {
-            String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            filePath = cursor.getString(columnIndex);
-            cursor.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return filePath;
-    }
-
-    public String getRealPathFromURIForVideo(Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    public void openGalleryForAudio() {
-        Intent audioIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(audioIntent, "Select Audio"), AUDIO_PICKER_RESULT);
-    }
-
-    public void openVideo() {
-        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, VIDEO_CAPTURE);
-        }
-    }
-
-    public void getImageResourceFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType("image/*");
-        startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 }
