@@ -25,6 +25,7 @@ import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -228,7 +229,6 @@ public class BoardActivity extends AppCompatActivity {
         String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
-            //child.setId(i);
             RelativeLayout fabRelativeLayout = child.findViewById( R.id.fab_relative_layout );
             ImageView fabImageVIew = child.findViewById( R.id.fab_image_view );
             fabRelativeLayout.setBackground( ContextCompat.getDrawable( this, backgroundColors[i] ) );
@@ -349,6 +349,7 @@ public class BoardActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             enterBoardId = response.body().getId();
                             retrieveBoardByBoardId( enterBoardId );
+
                         }
                     }
                 } );
@@ -375,6 +376,7 @@ public class BoardActivity extends AppCompatActivity {
                         progressBar.setVisibility( View.INVISIBLE );
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             Log.e( TAG, "Retrieved details: " );
+                            Collections.reverse( response.body() );
                             setUpAdapterWithNewData( response.body() );
                         }
                     }

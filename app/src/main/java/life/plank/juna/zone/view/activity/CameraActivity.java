@@ -69,8 +69,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     String apiCallFromActivity;
     File absolutefile;
     String openFrom;
-    String userId, targetId;
-    String timeStamp;
+    String userId,boardId;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
@@ -84,7 +83,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         apiCallFromActivity = getIntent().getStringExtra( "API" );
-        targetId = getIntent().getStringExtra( "BOARD_ID" );
+        boardId = getIntent().getStringExtra( "BOARD_ID" );
         if (openFrom.equalsIgnoreCase( "Camera" )) {
             if (isStoragePermissionGranted())
                 takePicture();
@@ -150,7 +149,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private File createImageFileName() throws IOException {
-        timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss" ).format( new Date() );
+        String timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss" ).format( new Date() );
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new File( Environment.getExternalStorageDirectory().getAbsolutePath() + "/juna/" + "Images" + "/" );
         if (!storageDir.exists()) {
@@ -225,7 +224,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e( "TAG", "message" + e );
                         Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
                     }
-                    postAudioFile( absolutePath, targetId, "Board", "audio", userId, "04-02-2018" );
+                    postAudioFile( absolutePath, boardId, "Board", "audio", userId, "04-02-2018" );
                     finish();
                 }
             }
@@ -290,6 +289,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
                             Toast.makeText( CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT ).show();
+                            finish();
                         } else {
                             Toast.makeText( CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT ).show();
                         }
@@ -330,17 +330,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, boardId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, boardId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, boardId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, boardId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
