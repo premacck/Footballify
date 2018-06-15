@@ -13,6 +13,7 @@ import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,6 +70,8 @@ public class BoardActivity extends AppCompatActivity {
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     private int apiHitCount = 0;
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
@@ -81,18 +84,17 @@ public class BoardActivity extends AppCompatActivity {
     private String enterBoardId;
     private String objectId;
     private long currentMatchId;
-
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             if (newState == RecyclerView.SCROLL_STATE_IDLE)
                 arcMenu.show();
-            super.onScrollStateChanged(recyclerView, newState);
+            super.onScrollStateChanged( recyclerView, newState );
         }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
+            super.onScrolled( recyclerView, dx, dy );
             int visibleItemCount = gridLayoutManager.getChildCount();
             int totalItemCount = gridLayoutManager.getItemCount();
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
@@ -101,13 +103,13 @@ public class BoardActivity extends AppCompatActivity {
                         && firstVisibleItemPosition >= 0
                         && totalItemCount >= PAGE_SIZE) {
                     isLoading = true;
-                    new Handler().postDelayed(new Runnable() {
+                    new Handler().postDelayed( new Runnable() {
                         @Override
                         public void run() {
                             //getBoardApiCall();
 
                         }
-                    }, AppConstants.PAGINATION_DELAY);
+                    }, AppConstants.PAGINATION_DELAY );
                 }
             }
             if (dy > 0 || dy < 0 && arcMenu.isShown())
@@ -117,36 +119,37 @@ public class BoardActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
-        setContentView(R.layout.activity_board);
-        ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
-        currentMatchId = getIntent().getLongExtra("MATCH_ID", 0L);
-        dbHelper = new DBHelper(this);
+        super.onCreate( savedInstanceState );
+        Log.e( "Device ID", FirebaseInstanceId.getInstance().getToken() );
+        setContentView( R.layout.activity_board );
+        ButterKnife.bind( this );
+        ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
+        restApi = retrofit.create( RestApi.class );
+        progressBar.setVisibility( View.VISIBLE );
+        currentMatchId = getIntent().getLongExtra( "MATCH_ID", 0L );
+        dbHelper = new DBHelper( this );
         initRecyclerView();
         setUpBoomMenu();
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        objectId = preference.getString("objectId", "NA");
-        Log.e(TAG, "Value--:" + objectId);
-        enterBoardApiCall(enterBoardId, objectId);
-        retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
+        objectId = preference.getString( "objectId", "NA" );
+        Log.e( TAG, "Value--:" + objectId );
+        enterBoardApiCall( enterBoardId, objectId );
+        retrieveBoard( currentMatchId, AppConstants.BOARD_TYPE );
     }
 
     //todo: Inject adapter
     private void initRecyclerView() {
-        boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        boardRecyclerView.setLayoutManager(gridLayoutManager);
-        boardRecyclerView.setAdapter(boardMediaAdapter);
-        boardRecyclerView.setHasFixedSize(true);
+        boardMediaAdapter = new BoardMediaAdapter( this, boardFeed );
+        GridLayoutManager gridLayoutManager = new GridLayoutManager( this, 3, GridLayoutManager.VERTICAL, false );
+        boardRecyclerView.setLayoutManager( gridLayoutManager );
+        boardRecyclerView.setAdapter( boardMediaAdapter );
+        boardRecyclerView.setHasFixedSize( true );
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
         if (!nextPageToken.isEmpty()) {
-            String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
-            updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
+            String updatedNextPageToken = nextPageToken.replaceFirst( AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT );
+            updatedNextPageToken = updatedNextPageToken.replaceFirst( AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC );
             return updatedNextPageToken;
         }
         return "";
@@ -165,38 +168,38 @@ public class BoardActivity extends AppCompatActivity {
             renderScript = RenderScript.create( this );
         }*/
     public void getBoardApiCall() {
-        subscription = restApi.getBoardFeed(updateToken(nextPageToken,
-                getString(R.string.replace_rt) + String.valueOf(apiHitCount), getString(R.string.replace_trc) + String.valueOf(apiHitCount * TRCNumber)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
+        subscription = restApi.getBoardFeed( updateToken( nextPageToken,
+                getString( R.string.replace_rt ) + String.valueOf( apiHitCount ), getString( R.string.replace_trc ) + String.valueOf( apiHitCount * TRCNumber ) ) )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d("", "In onCompleted()");
+                        Log.d( "", "In onCompleted()" );
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("", "In onCompleted()");
+                        Log.d( "", "In onCompleted()" );
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             if (apiHitCount == 0) {
-                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                                nextPageToken = response.headers().get( AppConstants.FOOTBALL_FEEDS_HEADER_KEY );
                             }
-                            setUpAdapterWithNewData(response.body());
+                            setUpAdapterWithNewData( response.body() );
                             apiHitCount = apiHitCount + 1;
                         } else {
-                            Toast.makeText(BoardActivity.this, "Error message", Toast.LENGTH_SHORT).show();
+                            Toast.makeText( BoardActivity.this, "Error message", Toast.LENGTH_SHORT ).show();
                         }
                     }
-                });
+                } );
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
-            boardFeed.addAll(boardFeedList);
+            boardFeed.addAll( boardFeedList );
             boardMediaAdapter.notifyDataSetChanged();
         }
     }
@@ -216,7 +219,7 @@ public class BoardActivity extends AppCompatActivity {
 
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
-        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
                 R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link, R.drawable.ic_video};
@@ -225,14 +228,14 @@ public class BoardActivity extends AppCompatActivity {
                 R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
         String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
-            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
+            View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
             //child.setId(i);
-            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
-            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
-            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
-            fabImageVIew.setImageResource(fabImages[i]);
+            RelativeLayout fabRelativeLayout = child.findViewById( R.id.fab_relative_layout );
+            ImageView fabImageVIew = child.findViewById( R.id.fab_image_view );
+            fabRelativeLayout.setBackground( ContextCompat.getDrawable( this, backgroundColors[i] ) );
+            fabImageVIew.setImageResource( fabImages[i] );
             final int position = i;
-            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
+            arcMenu.addItem( child, titles[i], new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch (position) {
@@ -246,39 +249,39 @@ public class BoardActivity extends AppCompatActivity {
                             break;
                         }
                         case 3: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Gallery");
-                            intent.putExtra("API", "BoardActivity");
-                            startActivity(intent);
+                            Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Gallery" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 4: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Camera");
-                            intent.putExtra("API", "BoardActivity");
-                            startActivity(intent);
+                            Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Camera" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 5: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Audio");
-                            intent.putExtra("API", "BoardActivity");
-                            startActivity(intent);
+                            Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Audio" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                         case 6: {
                             break;
                         }
                         case 7: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Video");
-                            intent.putExtra("API", "BoardActivity");
-                            startActivity(intent);
+                            Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
+                            intent.putExtra( "OPEN_FROM", "Video" );
+                            intent.putExtra( "API", "BoardActivity" );
+                            startActivity( intent );
                             break;
                         }
                     }
                 }
-            });
+            } );
         }
     }
 
@@ -288,89 +291,90 @@ public class BoardActivity extends AppCompatActivity {
         String id = "Board-" + enterBoardId;
         switch (view.getId()) {
             case R.id.following_text_view:
-                if (followingTextView.getText().toString().equalsIgnoreCase("FOLLOWING")) {
-                    followingTextView.setText(R.string.unfollow);
-                    Log.e("Board id", "onCompleted: " + id);
-                    FirebaseMessaging.getInstance().subscribeToTopic(id);
+                if (followingTextView.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
+                    followingTextView.setText( R.string.unfollow );
+                    Log.e( "Board id", "onCompleted: " + id );
+                    FirebaseMessaging.getInstance().subscribeToTopic( id );
                 } else {
-                    followingTextView.setText(R.string.following);
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
+                    followingTextView.setText( R.string.following );
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic( id );
                 }
                 break;
         }
     }
 
     private void enterBoardApiCall(String enterBoard, String userId) {
-        restApi.enterBoard(enterBoard, userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new rx.Subscriber<Response<JsonObject>>() {
+        restApi.enterBoard( enterBoard, userId )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new rx.Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.e( "", "onCompleted: " );
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e( "", "onError: " + e );
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
-                        Toast.makeText(BoardActivity.this, "You entered in Board Successfully", Toast.LENGTH_SHORT).show();
+                        Log.e( "", "onNext: " + jsonObjectResponse );
+                        Toast.makeText( BoardActivity.this, "You entered in Board Successfully", Toast.LENGTH_SHORT ).show();
                     }
-                });
+                } );
     }
 
     public void retrieveBoard(Long foreignId, String boardType) {
-        restApi.retrieveBoard(foreignId, boardType)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<BoardCreationModel>>() {
+        restApi.retrieveBoard( foreignId, boardType )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<BoardCreationModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted-->: ");
+                        Log.e( TAG, "onCompleted-->: " );
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "In onError()" + e);
+                        Log.e( TAG, "In onError()" + e );
                     }
 
                     @Override
                     public void onNext(Response<BoardCreationModel> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             enterBoardId = response.body().getId();
-                            retrieveBoardByBoardId(enterBoardId);
+                            retrieveBoardByBoardId( enterBoardId );
                         }
                     }
-                });
+                } );
     }
 
     public void retrieveBoardByBoardId(String boardId) {
-        restApi.retrieveByBoardId(boardId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
+        progressBar.setVisibility( View.VISIBLE );
+        restApi.retrieveByBoardId( boardId )
+                .subscribeOn( Schedulers.io() )
+                .observeOn( AndroidSchedulers.mainThread() )
+                .subscribe( new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted: ");
+                        Log.e( TAG, "onCompleted: " );
+                        progressBar.setVisibility( View.INVISIBLE );
                     }
-
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "On Error()" + e);
+                        Log.e( TAG, "On Error()" + e );
                     }
 
                     @Override
                     public void onNext(Response<List<FootballFeed>> response) {
+                        progressBar.setVisibility( View.INVISIBLE );
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            Log.e(TAG, "Retrieved details: ");
-                            setUpAdapterWithNewData(response.body());
+                            setUpAdapterWithNewData( response.body() );
                         }
                     }
-                });
+                } );
     }
 
 }

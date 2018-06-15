@@ -1,292 +1,294 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/purple_toolbar_background"
+android:orientation="vertical"
+tools:context=".view.activity.MatchResultActivity">
+
+<include
+    android:id="@+id/include_layout"
+    layout="@layout/toolbar_layout" />
+
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/purple_toolbar_background"
-    android:orientation="vertical"
-    tools:context=".view.activity.MatchResultActivity">
+    android:layout_height="20dp"
+    android:background="#6b1459">
 
-    <include
-        android:id="@+id/include_layout"
-        layout="@layout/toolbar_layout" />
+    <TextView
+        android:id="@+id/match_list"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:text="@string/matchday_36"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/tap_for_score_and_fixtures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity=""
+        android:lineSpacingExtra="5sp"
+        android:padding="2dp"
+        android:text="@string/tap_to_see_tiles"
+        android:textColor="#99ffffff"
+        android:textSize="12sp" />
+</RelativeLayout>
+
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="#6b1459">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/match_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="2dp"
-            android:text="@string/matchday_36"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <TextView
-            android:id="@+id/tap_for_score_and_fixtures"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity=""
-            android:lineSpacingExtra="5sp"
-            android:padding="2dp"
-            android:text="@string/tap_to_see_tiles"
-            android:textColor="#99ffffff"
-            android:textSize="12sp" />
-    </RelativeLayout>
-
-    <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="@dimen/feed_card_corner_radius"
+            app:cardUseCompatPadding="true">
 
-            <android.support.v7.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                app:cardCornerRadius="@dimen/feed_card_corner_radius"
-                app:cardUseCompatPadding="true">
+                android:orientation="vertical"
+                android:paddingBottom="2dp"
+                android:paddingEnd="2dp"
+                android:paddingStart="2dp">
 
-                <LinearLayout
+                <RelativeLayout
+                    android:id="@+id/relative_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="2dp"
-                    android:paddingEnd="2dp"
-                    android:paddingStart="2dp">
-
-                    <RelativeLayout
-                        android:id="@+id/relative_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginStart="10dp"
-                        android:padding="5dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:lineSpacingExtra="5sp"
-                            android:text="@string/matches_fixtures_amp_results"
-                            android:textColor="@color/grey"
-                            android:textSize="10sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:gravity="end"
-                            android:lineSpacingExtra="5sp"
-                            android:text="@string/see_all"
-                            android:textColor="@color/dark_sky_blue"
-                            android:textSize="10sp" />
-                    </RelativeLayout>
-
-                    <FrameLayout
-                        android:id="@+id/frame_layout_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <fragment
-                            android:id="@+id/fragment_one"
-                            android:name="life.plank.juna.zone.view.fragment.GraphFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp" />
-                    </FrameLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/light_grey" />
-<!--
-                    <FrameLayout
-                        android:id="@+id/frame_layout_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <fragment
-                            android:id="@+id/fragment_two"
-                            android:name="life.plank.juna.zone.view.fragment.GraphFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="70dp" />
-                    </FrameLayout>-->
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:background="@color/light_grey" />
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/standing_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="5dp"
-                app:cardCornerRadius="@dimen/feed_card_corner_radius"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:id="@+id/standing_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="10dp"
+                    android:padding="5dp">
 
                     <TextView
-                        android:id="@+id/standing_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/rajdhani_regular"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/rajdhani_semibold"
                         android:lineSpacingExtra="5sp"
-                        android:padding="5dp"
-                        android:text="@string/standings"
+                        android:text="@string/matches_fixtures_amp_results"
                         android:textColor="@color/grey"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/see_complete"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/rajdhani_regular"
-                        android:lineSpacingExtra="5sp"
-                        android:padding="5dp"
-                        android:text="@string/see_complete_standing"
-                        android:textColor="@color/dark_sky_blue"
-                        android:textSize="12sp" />
-
-                    <include
-                        android:id="@+id/standing_header_layout"
-                        layout="@layout/standing_header_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/see_complete" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/standing_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_below="@+id/standing_header_layout" />
-                </RelativeLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/team_stats_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:cardCornerRadius="@dimen/feed_card_corner_radius"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:id="@+id/team_stats_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/team_stats_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/rajdhani_regular"
-                        android:lineSpacingExtra="5sp"
-                        android:padding="5dp"
-                        android:text="Team Stats"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/see_more"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/rajdhani_regular"
-                        android:lineSpacingExtra="5sp"
-                        android:padding="5dp"
-                        android:text="@string/see_more"
-                        android:textColor="@color/dark_sky_blue"
                         android:textSize="10sp" />
 
-                    <include
-                        android:id="@+id/team_stats_header_layout"
-                        layout="@layout/team_stats_header"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/see_more" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/team_stats_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_below="@+id/team_stats_header_layout" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/player_stats_card_view"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                app:cardCornerRadius="@dimen/feed_card_corner_radius"
-                app:cardUseCompatPadding="true">
-
-                <RelativeLayout
-                    android:id="@+id/player_stats"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
                     <TextView
-                        android:id="@+id/player_stats_text"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/rajdhani_regular"
-                        android:lineSpacingExtra="5sp"
-                        android:padding="5dp"
-                        android:text="@string/player_stats"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/see_more_player_stats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        android:fontFamily="@font/rajdhani_regular"
+                        android:layout_centerVertical="true"
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:gravity="end"
                         android:lineSpacingExtra="5sp"
-                        android:padding="5dp"
-                        android:text="@string/see_more"
+                        android:text="@string/see_all"
                         android:textColor="@color/dark_sky_blue"
-                        android:textSize="12sp" />
-
-                    <include
-                        android:id="@+id/player_stats_header"
-                        layout="@layout/player_stats_header"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/see_more_player_stats" />
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/player_stats_recycler_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/player_stats_header" />
+                        android:textSize="10sp" />
                 </RelativeLayout>
 
+                <FrameLayout
+                    android:id="@+id/frame_layout_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-            </android.support.v7.widget.CardView>
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+                    <fragment
+                        android:id="@+id/fragment_one"
+                        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/light_grey" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <fragment
+                        android:id="@+id/fragment_two"
+                        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp" />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/light_grey" />
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/standing_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="5dp"
+            app:cardCornerRadius="@dimen/feed_card_corner_radius"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:id="@+id/standing_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/standing_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rajdhani_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:padding="5dp"
+                    android:text="@string/standings"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/see_complete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/rajdhani_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:padding="5dp"
+                    android:text="@string/see_complete_standing"
+                    android:textColor="@color/dark_sky_blue"
+                    android:textSize="12sp" />
+
+                <include
+                    android:id="@+id/standing_header_layout"
+                    layout="@layout/standing_header_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/see_complete" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/standing_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/standing_header_layout" />
+            </RelativeLayout>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/team_stats_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="@dimen/feed_card_corner_radius"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:id="@+id/team_stats_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/team_stats_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rajdhani_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:padding="5dp"
+                    android:text="Team Stats"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/see_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/rajdhani_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:padding="5dp"
+                    android:text="@string/see_more"
+                    android:textColor="@color/dark_sky_blue"
+                    android:textSize="10sp" />
+
+                <include
+                    android:id="@+id/team_stats_header_layout"
+                    layout="@layout/team_stats_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/see_more" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/team_stats_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_below="@+id/team_stats_header_layout" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/player_stats_card_view"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:cardCornerRadius="@dimen/feed_card_corner_radius"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:id="@+id/player_stats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/player_stats_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rajdhani_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:padding="5dp"
+                    android:text="@string/player_stats"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/see_more_player_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:fontFamily="@font/rajdhani_regular"
+                    android:lineSpacingExtra="5sp"
+                    android:padding="5dp"
+                    android:text="@string/see_more"
+                    android:textColor="@color/dark_sky_blue"
+                    android:textSize="12sp" />
+
+                <include
+                    android:id="@+id/player_stats_header"
+                    layout="@layout/player_stats_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/see_more_player_stats" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/player_stats_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/player_stats_header" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
 </LinearLayout>

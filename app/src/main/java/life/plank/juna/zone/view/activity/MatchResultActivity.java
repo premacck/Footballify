@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,8 @@ public class MatchResultActivity extends AppCompatActivity {
     private RestApi restApi;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
-
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
@@ -118,12 +120,14 @@ public class MatchResultActivity extends AppCompatActivity {
 
 
     public void getStandings(String leagueName) {
+        progressBar.setVisibility( View.VISIBLE );
         restApi.getStandings( leagueName )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
                 .subscribe( new Observer<Response<List<StandingModel>>>() {
                     @Override
                     public void onCompleted() {
+                        progressBar.setVisibility( View.INVISIBLE );
                         Log.e( "", "response: " );
                     }
 
@@ -134,6 +138,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<List<StandingModel>> response) {
+                        progressBar.setVisibility( View.VISIBLE );
                         Log.e( "", "response: " + ", list data " + response.toString() );
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             populateStandingRecyclerView( response.body() );
@@ -171,6 +176,7 @@ public class MatchResultActivity extends AppCompatActivity {
     }
 
     public void getTeamStats(String seasonName) {
+        progressBar.setVisibility( View.VISIBLE );
         restApi.getTeamStats( seasonName )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
