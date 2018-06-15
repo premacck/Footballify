@@ -225,7 +225,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e( "TAG", "message" + e );
                         Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
                     }
-                    postAudioFile( absolutePath, targetId, "Board", "audio", userId, timeStamp );
+                    postAudioFile( absolutePath, targetId, "Board", "audio", userId, "04-02-2018" );
                     finish();
                 }
             }
