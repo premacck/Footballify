@@ -69,7 +69,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     String apiCallFromActivity;
     File absolutefile;
     String openFrom;
-    String userId;
+    String userId, targetId;
+    String timeStamp;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
@@ -83,6 +84,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         apiCallFromActivity = getIntent().getStringExtra( "API" );
+        targetId = getIntent().getStringExtra( "BOARD_ID" );
         if (openFrom.equalsIgnoreCase( "Camera" )) {
             if (isStoragePermissionGranted())
                 takePicture();
@@ -148,7 +150,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private File createImageFileName() throws IOException {
-        String timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss" ).format( new Date() );
+        timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss" ).format( new Date() );
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new File( Environment.getExternalStorageDirectory().getAbsolutePath() + "/juna/" + "Images" + "/" );
         if (!storageDir.exists()) {
@@ -223,7 +225,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e( "TAG", "message" + e );
                         Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
                     }
-                    postAudioFile( absolutePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "audio", userId, "04-02-2018" );
+                    postAudioFile( absolutePath, targetId, "Board", "audio", userId, timeStamp );
                     finish();
                 }
             }
@@ -328,17 +330,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase( "Camera" )) {
-                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
-                postImageFromGallery( filePath, "8316683d-15df-45ad-8719-e3ba8f59b6ef", "Board", "image", userId, "04-02-2018 04:50:23" );
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
             } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }

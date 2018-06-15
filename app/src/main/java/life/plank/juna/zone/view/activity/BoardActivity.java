@@ -78,12 +78,10 @@ public class BoardActivity extends AppCompatActivity {
     private Subscription subscription;
     private String nextPageToken = "";
     private int PAGE_SIZE;
-    private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
     private String enterBoardId;
-    private String objectId;
-    private long currentMatchId;
+
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -98,6 +96,7 @@ public class BoardActivity extends AppCompatActivity {
             int visibleItemCount = gridLayoutManager.getChildCount();
             int totalItemCount = gridLayoutManager.getItemCount();
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+            boolean isLastPage = false;
             if (!isLoading && !isLastPage) {
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0
@@ -126,12 +125,12 @@ public class BoardActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject( this );
         restApi = retrofit.create( RestApi.class );
         progressBar.setVisibility( View.VISIBLE );
-        currentMatchId = getIntent().getLongExtra( "MATCH_ID", 0L );
+        long currentMatchId = getIntent().getLongExtra( "MATCH_ID", 0L );
         dbHelper = new DBHelper( this );
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
-        objectId = preference.getString( "objectId", "NA" );
+        String objectId = preference.getString( "objectId", "NA" );
         Log.e( TAG, "Value--:" + objectId );
         enterBoardApiCall( enterBoardId, objectId );
         retrieveBoard( currentMatchId, AppConstants.BOARD_TYPE );
@@ -205,18 +204,18 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     //TODO: Delete after push notifications is implemented completely
-//    public void populateUplaodedDataFromPushNotification() {
-//        ArrayList<String> dataList = dbHelper.getDataList();
-//        if (dataList != null && dataList.size() > 0) {
-//            for (int i = 0; i < dataList.size(); i++) {
-//                Collections.sort(dataList);
-//                Gson gson = new Gson();
-//                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
-//                boardNotificationArrayList.add(boardNotification);
-//            }
-//        }
-//    }
-
+  /*  public void populateUplaodedDataFromPushNotification() {
+        ArrayList<String> dataList = dbHelper.getDataList();
+        if (dataList != null && dataList.size() > 0) {
+           for (int i = 0; i < dataList.size(); i++) {
+               Collections.sort( dataList );
+               Gson gson = new Gson();
+               BoardNotification boardNotification = gson.fromJson( dataList.get( i ), BoardNotification.class );
+               boardNotificationArrayList.add( boardNotification );
+           }
+        }
+   }
+*/
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
         arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
@@ -251,6 +250,7 @@ public class BoardActivity extends AppCompatActivity {
                         case 3: {
                             Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Gallery" );
+                            intent.putExtra( "BOARD_ID", enterBoardId );
                             intent.putExtra( "API", "BoardActivity" );
                             startActivity( intent );
                             break;
@@ -258,6 +258,7 @@ public class BoardActivity extends AppCompatActivity {
                         case 4: {
                             Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Camera" );
+                            intent.putExtra( "BOARD_ID", enterBoardId );
                             intent.putExtra( "API", "BoardActivity" );
                             startActivity( intent );
                             break;
@@ -265,6 +266,7 @@ public class BoardActivity extends AppCompatActivity {
                         case 5: {
                             Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Audio" );
+                            intent.putExtra( "BOARD_ID", enterBoardId );
                             intent.putExtra( "API", "BoardActivity" );
                             startActivity( intent );
                             break;
@@ -275,6 +277,7 @@ public class BoardActivity extends AppCompatActivity {
                         case 7: {
                             Intent intent = new Intent( BoardActivity.this, CameraActivity.class );
                             intent.putExtra( "OPEN_FROM", "Video" );
+                            intent.putExtra( "BOARD_ID", enterBoardId );
                             intent.putExtra( "API", "BoardActivity" );
                             startActivity( intent );
                             break;
@@ -360,8 +363,8 @@ public class BoardActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         Log.e( TAG, "onCompleted: " );
-                        progressBar.setVisibility( View.INVISIBLE );
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         Log.e( TAG, "On Error()" + e );
@@ -371,10 +374,10 @@ public class BoardActivity extends AppCompatActivity {
                     public void onNext(Response<List<FootballFeed>> response) {
                         progressBar.setVisibility( View.INVISIBLE );
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
+                            Log.e( TAG, "Retrieved details: " );
                             setUpAdapterWithNewData( response.body() );
                         }
                     }
                 } );
     }
-
 }
