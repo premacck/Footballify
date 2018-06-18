@@ -64,8 +64,7 @@ public class UIDisplayUtil{
      */
     public static int getDisplayMetricsData(Context context, int status){
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) context.getSystemService( Context
-                .WINDOW_SERVICE );
+        WindowManager windowManager = (WindowManager) context.getSystemService( Context.WINDOW_SERVICE );
         if(windowManager != null){
             windowManager.getDefaultDisplay().getMetrics( displayMetrics );
         }
@@ -95,7 +94,7 @@ public class UIDisplayUtil{
     public static String getAudioPath(Uri uri){
         String[] data = {MediaStore.Audio.Media.DATA};
         CursorLoader loader = new CursorLoader( getApplicationContext(), uri, data, null, null,
-                null );
+                                                null );
         Cursor cursor = loader.loadInBackground();
         int column_index = cursor.getColumnIndexOrThrow( MediaStore.Audio.Media.DATA );
         cursor.moveToFirst();
@@ -119,7 +118,8 @@ public class UIDisplayUtil{
     }
 
     public static void saveSignInUserDetails(Context mContext, SignInModel body){
-        SharedPreferences.Editor editor = mContext.getSharedPreferences( SIGN_UP_USER_DETAILS, MODE_PRIVATE ).edit();
+        SharedPreferences.Editor editor = mContext.getSharedPreferences( SIGN_UP_USER_DETAILS,
+                                                                         MODE_PRIVATE ).edit();
         editor.putString( "objectId", body.getObjectId() );
         editor.putString( "displayName", body.getDisplayName() );
         editor.putString( "emailAddress", body.getEmailAddress() );
@@ -157,7 +157,8 @@ public class UIDisplayUtil{
         String filePath = "";
         try{
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = mContext.getContentResolver().query( uri, filePathColumn, null, null, null );
+            Cursor cursor = mContext.getContentResolver().query( uri, filePathColumn, null, null,
+                                                                 null );
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex( filePathColumn[0] );
             filePath = cursor.getString( columnIndex );
@@ -182,8 +183,7 @@ public class UIDisplayUtil{
     }
 
     public void dismissPopupListWindow(ListPopupWindow listPopupWindow){
-        if(listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
+        if(listPopupWindow != null && listPopupWindow.isShowing()) listPopupWindow.dismiss();
     }
 
     private static class UIDisplayUtilWrapper{
