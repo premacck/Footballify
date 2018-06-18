@@ -80,8 +80,7 @@ public class UIDisplayUtil{
 
     public static void blurBitmapWithRenderscript(RenderScript rs, Bitmap bitmap2){
         //this will blur the bitmapOriginal with a radius of 25 and save it in bitmapOriginal
-        final Allocation input = Allocation.createFromBitmap( rs, bitmap2 ); //use this
-        // constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
+        final Allocation input = Allocation.createFromBitmap( rs, bitmap2 ); //use this constructor for best performance, because it uses USAGE_SHARED mode which reuses memory
         final Allocation output = Allocation.createTyped( rs, input.getType() );
         final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create( rs, Element.U8_4( rs ) );
         // must be >0 and <= 25
@@ -172,8 +171,7 @@ public class UIDisplayUtil{
 
     public void hideSoftKeyboard(View view, Context context){
         if(view != null){
-            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService
-                    ( Context.INPUT_METHOD_SERVICE );
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService( Context.INPUT_METHOD_SERVICE );
             assert inputMethodManager != null;
             inputMethodManager.hideSoftInputFromWindow( view.getWindowToken(), 0 );
         }
