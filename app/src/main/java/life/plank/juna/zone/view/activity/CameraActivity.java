@@ -54,7 +54,7 @@ import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
 
-public class CameraActivity extends AppCompatActivity implements View.OnClickListener{
+public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -76,7 +76,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private Uri fileUri;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate( savedInstanceState );
         openFrom = getIntent().getStringExtra( "OPEN_FROM" );
         ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject( this );
@@ -84,34 +84,34 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         restApi = retrofit.create( RestApi.class );
         apiCallFromActivity = getIntent().getStringExtra( "API" );
         targetId = getIntent().getStringExtra( "BOARD_ID" );
-        if(openFrom.equalsIgnoreCase( "Camera" )){
-            if(isStoragePermissionGranted())
+        if (openFrom.equalsIgnoreCase( "Camera" )) {
+            if (isStoragePermissionGranted())
                 takePicture();
-        } else if(openFrom.equalsIgnoreCase( "Gallery" )){
+        } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
             getImageResourceFromGallery();
-        } else if(openFrom.equalsIgnoreCase( "Video" )){
+        } else if (openFrom.equalsIgnoreCase( "Video" )) {
             openVideo();
-        } else{
+        } else {
             openGalleryForAudio();
         }
         SharedPreferences preference = UIDisplayUtil.getSignupUserData( this );
         userId = preference.getString( "objectId", "NA" );
     }
 
-    private void setUpUi(String type){
+    private void setUpUi(String type) {
         setContentView( R.layout.activity_camera );
         ButterKnife.bind( this );
-        if(type.equalsIgnoreCase( "video" )){
+        if (type.equalsIgnoreCase( "video" )) {
             capturedVideoView.setVisibility( View.VISIBLE );
             capturedImageView.setVisibility( View.GONE );
-        } else{
+        } else {
             capturedVideoView.setVisibility( View.GONE );
             capturedImageView.setVisibility( View.VISIBLE );
         }
         postImageView.setOnClickListener( this );
     }
 
-    private void takePicture(){
+    private void takePicture() {
         Intent takePictureIntent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
         takePictureIntent.setFlags( Intent.FLAG_GRANT_READ_URI_PERMISSION );
         fileUri = getOutputMediaFileUri( CameraActivity.this );
@@ -119,59 +119,52 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         startActivityForResult( takePictureIntent, CAMERA_IMAGE_RESULT );
     }
 
-    public void openGalleryForAudio(){
-        Intent audioIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Audio
-                .Media.EXTERNAL_CONTENT_URI );
-        startActivityForResult( Intent.createChooser( audioIntent, "Select Audio" ),
-                AUDIO_PICKER_RESULT );
+    public void openGalleryForAudio() {
+        Intent audioIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI );
+        startActivityForResult( Intent.createChooser( audioIntent, "Select Audio" ), AUDIO_PICKER_RESULT );
     }
 
-    public void openVideo(){
+    public void openVideo() {
         Intent takeVideoIntent = new Intent( MediaStore.ACTION_VIDEO_CAPTURE );
-        if(takeVideoIntent.resolveActivity( getPackageManager() ) != null){
+        if (takeVideoIntent.resolveActivity( getPackageManager() ) != null) {
             startActivityForResult( takeVideoIntent, AppConstants.VIDEO_CAPTURE );
         }
     }
 
-    public void getImageResourceFromGallery(){
-        Intent galleryIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images
-                .Media.EXTERNAL_CONTENT_URI );
+    public void getImageResourceFromGallery() {
+        Intent galleryIntent = new Intent( Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI );
         galleryIntent.setType( "image/*" );
         startActivityForResult( galleryIntent, AppConstants.GALLERY_IMAGE_RESULT );
     }
 
-    public Uri getOutputMediaFileUri(Context mContext){
+    public Uri getOutputMediaFileUri(Context mContext) {
 
-        try{
-            return FileProvider.getUriForFile( mContext, AppConstants
-                    .FILE_PROVIDER_TO_CAPTURE_IMAGE, createImageFileName() );
+        try {
+            return FileProvider.getUriForFile( mContext, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, createImageFileName() );
 
-        }catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private File createImageFileName() throws IOException{
+    private File createImageFileName() throws IOException {
         String timeStamp = new SimpleDateFormat( "dd-mm-yyyy" ).format( new Date() );
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = new File( Environment.getExternalStorageDirectory().getAbsolutePath() +
-                "/juna/" + "Images" + "/" );
-        if(!storageDir.exists()){
+        File storageDir = new File( Environment.getExternalStorageDirectory().getAbsolutePath() + "/juna/" + "Images" + "/" );
+        if (!storageDir.exists()) {
             storageDir.mkdirs();
         }
-        File image = File.createTempFile( imageFileName, /* prefix */".png", /* suffix
-        */storageDir /* directory */ );
+        File image = File.createTempFile( imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */ );
         return image;
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[]
-            grantResults){
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult( requestCode, permissions, grantResults );
-        switch(requestCode){
+        switch (requestCode) {
             case REQUEST_CAMERA_PERMISSION:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     takePicture();
                 }
                 break;
@@ -180,14 +173,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private boolean isStoragePermissionGranted(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            if(checkSelfPermission( Manifest.permission.CAMERA ) == PackageManager
-                    .PERMISSION_GRANTED){
+    private boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission( Manifest.permission.CAMERA ) == PackageManager.PERMISSION_GRANTED) {
                 return true;
-            } else{
-                requestPermissions( new String[]{Manifest.permission.CAMERA},
-                        REQUEST_CAMERA_PERMISSION );
+            } else {
+                requestPermissions( new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION );
                 return false;
             }
         }
@@ -195,27 +186,27 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(requestCode == CAMERA_IMAGE_RESULT){
-            try{
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_IMAGE_RESULT) {
+            try {
                 setUpUi( "image" );
                 filePath = fileUri.getPath();
                 Log.e( "filePath Camera ", "" + filePath );
                 File imgFile = new File( filePath );
-                if(imgFile.exists()){
+                if (imgFile.exists()) {
                     Bitmap myBitmap = BitmapFactory.decodeFile( imgFile.getAbsolutePath() );
                     capturedImageView.setImageBitmap( myBitmap );
                 }
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-        } else if(requestCode == AUDIO_PICKER_RESULT){
-            if(data != null){
+        } else if (requestCode == AUDIO_PICKER_RESULT) {
+            if (data != null) {
                 Uri uri = data.getData();
-                if(null != uri){
-                    try{
+                if (null != uri) {
+                    try {
                         String uriString = uri.toString();
                         File file = new File( uriString );
                         String path = file.getAbsolutePath();
@@ -224,151 +215,133 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         long fileSizeInBytes = absolutefile.length();
                         long fileSizeInKB = fileSizeInBytes / 1024;
                         long fileSizeInMB = fileSizeInKB / 1024;
-                        if(fileSizeInMB>8){
+                        if (fileSizeInMB > 8) {
                             Toast.makeText( this, "file size is big", Toast.LENGTH_SHORT ).show();
-                        } else{
+                        } else {
                             String profilePicUrl = absolutePath;
                         }
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         Log.e( "TAG", "message" + e );
-                        Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast
-                                .LENGTH_SHORT ).show();
+                        Toast.makeText( CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT ).show();
                     }
                     postAudioFile( absolutePath, targetId, "Board", "audio", userId, "04-02-2018" );
                     finish();
                 }
             }
-        } else if(requestCode == AppConstants.VIDEO_CAPTURE){
-            if(resultCode == RESULT_OK){
+        } else if (requestCode == AppConstants.VIDEO_CAPTURE) {
+            if (resultCode == RESULT_OK) {
                 setUpUi( "Video" );
-                Toast.makeText( this, "Video has been saved to:\n" + data.getData(), Toast
-                        .LENGTH_LONG ).show();
+                Toast.makeText( this, "Video has been saved to:\n" + data.getData(), Toast.LENGTH_LONG ).show();
                 Uri videoUri = data.getData();
                 String path = UIDisplayUtil.getPathForVideo( videoUri, this );
                 capturedVideoView.setVideoURI( videoUri );
                 capturedVideoView.start();
-            } else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText( this, "Video recording cancelled.", Toast.LENGTH_LONG ).show();
-            } else{
+            } else {
                 Toast.makeText( this, "Failed to record video", Toast.LENGTH_LONG ).show();
             }
-        } else if(requestCode == AppConstants.GALLERY_IMAGE_RESULT){
-            if(data != null){
+        } else if (requestCode == AppConstants.GALLERY_IMAGE_RESULT) {
+            if (data != null) {
                 Uri selectedImageFromGallery = data.getData();
-                if(null != selectedImageFromGallery){
+                if (null != selectedImageFromGallery) {
                     setUpUi( "image" );
-                    try{
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap( getContentResolver(),
-                                selectedImageFromGallery );
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap( getContentResolver(), selectedImageFromGallery );
                         capturedImageView.setImageBitmap( bitmap );
-                        filePath = UIDisplayUtil.getPathForGalleryImageView(
-                                selectedImageFromGallery, this );
-                    }catch(IOException e){
+                        filePath = UIDisplayUtil.getPathForGalleryImageView( selectedImageFromGallery, this );
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
-        } else{
-            Toast.makeText( this, getString( R.string.unable_to_capture_image ), Toast
-                    .LENGTH_SHORT ).show();
+        } else {
+            Toast.makeText( this, getString( R.string.unable_to_capture_image ), Toast.LENGTH_SHORT ).show();
         }
     }
 
     //TODO: Pass the extension. Remove hardcoded value
-    private void postImageFromGallery(String selectedImageUri, String targetId, String
-            targetType, String contentType, String userId, String dateCreated){
+    private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility( View.VISIBLE );
         File file = new File( selectedImageUri );
         RequestBody requestFile = RequestBody.create( MediaType.parse( "image/png" ), file );
-        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(),
-                requestFile );
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestFile );
         restApi.postImageFromGallery( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<JsonObject>>(){
+                .subscribe( new Subscriber<Response<JsonObject>>() {
                     @Override
-                    public void onCompleted(){
+                    public void onCompleted() {
                         Log.e( "", "onCompleted: " );
                     }
 
                     @Override
-                    public void onError(Throwable e){
+                    public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
                         progressBar.setVisibility( View.VISIBLE );
-                        Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT
-                                      ).show();
+                        Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT ).show();
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse){
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
                         progressBar.setVisibility( View.INVISIBLE );
                         Log.e( "", "onNext: " + jsonObjectResponse );
 
-                        if(jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED){
-                            Toast.makeText( CameraActivity.this, "Uploaded SuccessFully", Toast
-                                    .LENGTH_SHORT ).show();
+                        if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
+                            Toast.makeText( CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT ).show();
                             finish();
-                        } else{
-                            Toast.makeText( CameraActivity.this, "Error" + jsonObjectResponse
-                                    .code(), Toast.LENGTH_SHORT ).show();
+                        } else {
+                            Toast.makeText( CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT ).show();
                         }
                     }
                 } );
     }
 
-    private void postAudioFile(String selectedAudioUri, String targetId, String targetType,
-                               String contentType, String userId, String dateCreated){
+    private void postAudioFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         File file = new File( selectedAudioUri );
         RequestBody requestBody = RequestBody.create( MediaType.parse( "audio/mpeg" ), file );
-        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(),
-                requestBody );
+        MultipartBody.Part body = MultipartBody.Part.createFormData( "", file.getName(), requestBody );
 
         restApi.postAudioFile( body, targetId, targetType, contentType, userId, dateCreated )
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<JsonObject>>(){
+                .subscribe( new Subscriber<Response<JsonObject>>() {
                     @Override
-                    public void onCompleted(){
+                    public void onCompleted() {
                         Log.e( "", "onCompleted: " );
                     }
 
                     @Override
-                    public void onError(Throwable e){
+                    public void onError(Throwable e) {
                         Log.e( "", "onError: " + e );
-                        Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT
-                                      ).show();
+                        Toast.makeText( CameraActivity.this, "error message", Toast.LENGTH_SHORT ).show();
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse){
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e( "", "onNext: " + jsonObjectResponse );
-                        Toast.makeText( CameraActivity.this, "Update SuccessFully", Toast
-                                .LENGTH_SHORT ).show();
+                        Toast.makeText( CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT ).show();
                     }
                 } );
     }
 
     @Override
-    public void onClick(View v){
+    public void onClick(View v) {
         //todo:-Remove hardcoded topic
-        if(apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )){
-            if(openFrom.equalsIgnoreCase( "Camera" )){
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 " +
-                        "04:50:23" );
-            } else if(openFrom.equalsIgnoreCase( "Gallery" )){
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 " +
-                        "04:50:23" );
-            } else{
+        if (apiCallFromActivity.equalsIgnoreCase( "BoardActivity" )) {
+            if (openFrom.equalsIgnoreCase( "Camera" )) {
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+            } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+            } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
-        } else{
-            if(openFrom.equalsIgnoreCase( "Camera" )){
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 " +
-                        "04:50:23" );
-            } else if(openFrom.equalsIgnoreCase( "Gallery" )){
-                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 " +
-                        "04:50:23" );
-            } else{
+        } else {
+            if (openFrom.equalsIgnoreCase( "Camera" )) {
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+            } else if (openFrom.equalsIgnoreCase( "Gallery" )) {
+                postImageFromGallery( filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23" );
+            } else {
                 Toast.makeText( this, "Network Error", Toast.LENGTH_SHORT ).show();
             }
         }

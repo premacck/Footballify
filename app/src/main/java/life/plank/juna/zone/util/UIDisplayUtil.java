@@ -119,8 +119,7 @@ public class UIDisplayUtil{
     }
 
     public static void saveSignInUserDetails(Context mContext, SignInModel body){
-        SharedPreferences.Editor editor = mContext.getSharedPreferences( SIGN_UP_USER_DETAILS,
-                MODE_PRIVATE ).edit();
+        SharedPreferences.Editor editor = mContext.getSharedPreferences( SIGN_UP_USER_DETAILS, MODE_PRIVATE ).edit();
         editor.putString( "objectId", body.getObjectId() );
         editor.putString( "displayName", body.getDisplayName() );
         editor.putString( "emailAddress", body.getEmailAddress() );
@@ -158,8 +157,7 @@ public class UIDisplayUtil{
         String filePath = "";
         try{
             String[] filePathColumn = {MediaStore.Images.Media.DATA};
-            Cursor cursor = mContext.getContentResolver().query( uri, filePathColumn, null, null,
-                    null );
+            Cursor cursor = mContext.getContentResolver().query( uri, filePathColumn, null, null, null );
             cursor.moveToFirst();
             int columnIndex = cursor.getColumnIndex( filePathColumn[0] );
             filePath = cursor.getString( columnIndex );
