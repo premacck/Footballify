@@ -9,7 +9,6 @@
     android:paddingBottom="8dp"
     android:paddingEnd="16dp"
     android:paddingStart="8dp"
-
     android:paddingTop="8dp">
 
     <include
