@@ -211,7 +211,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.following: {
-                if (followingTextVIew.getText().toString().equalsIgnoreCase("FOLLOWING")) {
+                if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.following))) {
                     followingTextVIew.setText(R.string.following);
                 } else {
                     followingTextVIew.setText(R.string.unfollow);

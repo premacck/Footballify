@@ -90,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
                 if (emailText.isEmpty()) {
                     emailEditTextSignIn.setError("Email address cannot be empty");
                 } else {
-                    Toast.makeText(this, "User signed in successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.signed_toast_message, Toast.LENGTH_SHORT).show();
                     getSignInResponse(emailText);
                 }
                 break;
