@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,7 @@ import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +28,7 @@ import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,6 +42,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -69,13 +75,14 @@ public class BoardActivity extends AppCompatActivity {
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     private int apiHitCount = 0;
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
     private Subscription subscription;
     private String nextPageToken = "";
     private int PAGE_SIZE;
-    private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
     private String enterBoardId;
@@ -96,6 +103,7 @@ public class BoardActivity extends AppCompatActivity {
             int visibleItemCount = gridLayoutManager.getChildCount();
             int totalItemCount = gridLayoutManager.getItemCount();
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+            boolean isLastPage = false;
             if (!isLoading && !isLastPage) {
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0
@@ -114,6 +122,37 @@ public class BoardActivity extends AppCompatActivity {
                 arcMenu.hide();
         }
     };
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            // Extract data included in the Intent
+            setDataReceivedFromPushNotification(intent);
+
+        }
+    };
+
+    public void setDataReceivedFromPushNotification(Intent intent) {
+
+        String contentType = intent.getStringExtra(getString(R.string.content_type));
+        String thumbnailUrl = intent.getStringExtra(getString(R.string.thumbnail_url));
+        Integer thumbnailHeight = intent.getIntExtra(getString(R.string.thumbnail_height), 0);
+        Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
+        String imageUrl = intent.getStringExtra(getString(R.string.image_url));
+
+        FootballFeed footballFeed = new FootballFeed();
+        footballFeed.setContentType(contentType);
+        Thumbnail thumbnail = new Thumbnail();
+        thumbnail.setImageWidth(thumbnailWidth);
+        thumbnail.setImageHeight(thumbnailHeight);
+        thumbnail.setImageUrl(thumbnailUrl);
+        footballFeed.setThumbnail(thumbnail);
+        footballFeed.setUrl(imageUrl);
+
+        boardFeed.add(footballFeed);
+        Collections.reverse(boardFeed);
+        boardMediaAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,15 +162,29 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        currentMatchId = getIntent().getLongExtra("MATCH_ID", 0L);
+        progressBar.setVisibility(View.VISIBLE);
         dbHelper = new DBHelper(this);
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        objectId = preference.getString("objectId", "NA");
-        Log.e(TAG, "Value--:" + objectId);
+        objectId = preference.getString(getString(R.string.object_id_string), "NA");
+        SharedPreferences matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.board_intent)));
+    }
+
+    //Must unregister onPause()
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mMessageReceiver);
     }
 
     //todo: Inject adapter
@@ -195,23 +248,11 @@ public class BoardActivity extends AppCompatActivity {
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
+            Collections.reverse(boardFeedList);
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
         }
     }
-
-    //TODO: Delete after push notifications is implemented completely
-//    public void populateUplaodedDataFromPushNotification() {
-//        ArrayList<String> dataList = dbHelper.getDataList();
-//        if (dataList != null && dataList.size() > 0) {
-//            for (int i = 0; i < dataList.size(); i++) {
-//                Collections.sort(dataList);
-//                Gson gson = new Gson();
-//                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
-//                boardNotificationArrayList.add(boardNotification);
-//            }
-//        }
-//    }
 
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
@@ -225,7 +266,6 @@ public class BoardActivity extends AppCompatActivity {
         String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
-            //child.setId(i);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
             ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
             fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
@@ -246,22 +286,25 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 3: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Gallery");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Gallery");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Camera");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Camera");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Audio");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Audio");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
@@ -270,8 +313,9 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 7: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Video");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Video");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
@@ -342,28 +386,33 @@ public class BoardActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             enterBoardId = response.body().getId();
                             retrieveBoardByBoardId(enterBoardId);
+
                         }
                     }
                 });
     }
 
     public void retrieveBoardByBoardId(String boardId) {
+        progressBar.setVisibility(View.VISIBLE);
         restApi.retrieveByBoardId(boardId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        progressBar.setVisibility(View.VISIBLE);
                         Log.e(TAG, "On Error()" + e);
                     }
 
                     @Override
                     public void onNext(Response<List<FootballFeed>> response) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             Log.e(TAG, "Retrieved details: ");
                             setUpAdapterWithNewData(response.body());
@@ -371,5 +420,4 @@ public class BoardActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

@@ -90,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
                 if (emailText.isEmpty()) {
                     emailEditTextSignIn.setError("Email address cannot be empty");
                 } else {
-                    Toast.makeText(this, "response", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.signed_toast_message, Toast.LENGTH_SHORT).show();
                     getSignInResponse(emailText);
                 }
                 break;
@@ -121,10 +121,8 @@ public class SignInActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<SignInModel> jsonObjectResponse) {
-
                         Log.e("", "onNext: " + jsonObjectResponse);
-                        UIDisplayUtil.saveSignInUserDetails(SignInActivity.this,
-                                jsonObjectResponse.body());
+                        UIDisplayUtil.saveSignInUserDetails(SignInActivity.this, jsonObjectResponse.body());
                         Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
                         startActivity(intentSubmit);
                     }
