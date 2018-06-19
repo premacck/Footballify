@@ -401,13 +401,13 @@ public class BoardActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        progressBar.setVisibility(View.INVISIBLE);
+                        progressBar.setVisibility(View.VISIBLE);
                         Log.e(TAG, "On Error()" + e);
                     }
 

@@ -83,7 +83,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
-        targetId = getIntent().getStringExtra("BOARD_ID");
+        targetId = getIntent().getStringExtra(getString(R.string.board_id));
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
             if (isStoragePermissionGranted())
                 takePicture();
@@ -101,7 +101,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private void setUpUi(String type) {
         setContentView(R.layout.activity_camera);
         ButterKnife.bind(this);
-        if (type.equalsIgnoreCase("video")) {
+        if (type.equalsIgnoreCase(getString(R.string.video))) {
             capturedVideoView.setVisibility(View.VISIBLE);
             capturedImageView.setVisibility(View.GONE);
         } else {
@@ -224,7 +224,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
-                    postAudioFile(absolutePath, targetId, "Board", "audio", userId, "04-02-2018");
+                    postAudioFile(absolutePath, targetId, "Board", "audio", userId, getString(R.string.posted_contant_date));
                     finish();
                 }
             }

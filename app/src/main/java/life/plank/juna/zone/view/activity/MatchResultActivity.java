@@ -131,12 +131,13 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        progressBar.setVisibility(View.VISIBLE);
                         Log.d("", "In onCompleted()");
                     }
 
                     @Override
                     public void onNext(Response<List<StandingModel>> response) {
-                        progressBar.setVisibility(View.VISIBLE);
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e("", "response: " + ", list data " + response.toString());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             populateStandingRecyclerView(response.body());
