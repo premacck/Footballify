@@ -87,6 +87,7 @@ public class BoardActivity extends AppCompatActivity {
     private RenderScript renderScript;
     private String enterBoardId;
     private String objectId;
+    private long currentMatchId;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -162,7 +163,6 @@ public class BoardActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
-        long currentMatchId = getIntent().getLongExtra("MATCH_ID", 0L);
         dbHelper = new DBHelper(this);
         initRecyclerView();
         setUpBoomMenu();
