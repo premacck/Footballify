@@ -82,14 +82,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject(this);
         ((ZoneApplication) getApplication()).getUploadAudioNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        apiCallFromActivity = getIntent().getStringExtra("API");
+        apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
         targetId = getIntent().getStringExtra("BOARD_ID");
-        if (openFrom.equalsIgnoreCase("Camera")) {
+        if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
             if (isStoragePermissionGranted())
                 takePicture();
-        } else if (openFrom.equalsIgnoreCase("Gallery")) {
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
             getImageResourceFromGallery();
-        } else if (openFrom.equalsIgnoreCase("Video")) {
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
             openVideo();
         } else {
             openGalleryForAudio();
@@ -121,7 +121,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     public void openGalleryForAudio() {
         Intent audioIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(Intent.createChooser(audioIntent, "Select Audio"), AUDIO_PICKER_RESULT);
+        startActivityForResult(Intent.createChooser(audioIntent, getString(R.string.select_audio)), AUDIO_PICKER_RESULT);
     }
 
     public void openVideo() {
@@ -133,7 +133,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     public void getImageResourceFromGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType("image/*");
+        galleryIntent.setType(getString(R.string.image_format));
         startActivityForResult(galleryIntent, AppConstants.GALLERY_IMAGE_RESULT);
     }
 
@@ -149,7 +149,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private File createImageFileName() throws IOException {
-        String timeStamp = new SimpleDateFormat("dd-mm-yyyy").format(new Date());
+        String timeStamp = new SimpleDateFormat(getString(R.string.simple_date_format)).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/juna/" + "Images" + "/");
         if (!storageDir.exists()) {
@@ -330,17 +330,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase("BoardActivity")) {
             if (openFrom.equalsIgnoreCase("Camera")) {
-                postImageFromGallery(filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23");
+                postImageFromGallery(filePath, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase("Gallery")) {
-                postImageFromGallery(filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23");
+                postImageFromGallery(filePath, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase("Camera")) {
-                postImageFromGallery(filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23");
+                postImageFromGallery(filePath, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase("Gallery")) {
-                postImageFromGallery(filePath, targetId, "Board", "image", userId, "04-02-2018 04:50:23");
+                postImageFromGallery(filePath, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
             }

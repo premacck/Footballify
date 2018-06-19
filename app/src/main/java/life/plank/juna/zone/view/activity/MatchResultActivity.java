@@ -12,8 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,9 +70,8 @@ public class MatchResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_match_result);
         ((ZoneApplication) getApplication()).getStandingNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
-
         ButterKnife.bind(this);
+
         getStandings(AppConstants.LEAGUE_NAME);
         getPlayerStats(AppConstants.SEASON_NAME);
         populateStandingRecyclerView();
@@ -184,6 +181,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
                     @Override
                     public void onCompleted() {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e("", "response: ");
                     }
 
@@ -194,6 +192,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<List<TeamStatsModel>> response) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e("", "response: " + ", list data " + response.toString());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
                             populateTeamStatsRecyclerView(response.body());

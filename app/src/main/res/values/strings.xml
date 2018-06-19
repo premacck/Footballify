@@ -330,4 +330,12 @@
     <string name="board_api">API</string>
     <string name="open_from">OPEN_FROM</string>
     <string name="board_id">BOARD_ID</string>
+    //todo change this date with original timestemp
+    <string name="posted_contant_date">04-02-2018 04:50:23</string>
+    <string name="simple_date_format">dd-mm-yyyy</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="video">Video</string>
+    <string name="image_format">image/*</string>
+    <string name="select_audio">Select Audio</string>
 </resources>

@@ -407,6 +407,7 @@ public class BoardActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e(TAG, "On Error()" + e);
                     }
 
