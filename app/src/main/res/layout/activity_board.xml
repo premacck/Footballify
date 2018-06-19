@@ -4,11 +4,12 @@
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingEnd="16dp"
     android:paddingStart="8dp"
+
     android:paddingTop="8dp">
 
     <include
@@ -29,22 +30,28 @@
         android:layout_height="70dp"
         android:layout_below="@+id/layout_board_engagement" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/board_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/title_fragment"
-        android:layout_marginTop="10dp" />
+        android:background="@color/light_grey">
 
-    <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/board_arc_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        arc:menuChildAnim="false"
-        arc:menuClickAnim="true"
-        arc:menuGravity="Bottom_Middle"
-        arc:menuImage="@drawable/ic_un"
-        arc:menuNormalColor="@color/fab_button_pink"
-        arc:menuShadowElevation="true"
-        arc:menuType="normal" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/board_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <com.bvapp.arcmenulibrary.ArcMenu
+            android:id="@+id/board_arc_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            arc:menuChildAnim="false"
+            arc:menuClickAnim="true"
+            arc:menuGravity="Bottom_Middle"
+            arc:menuImage="@drawable/ic_un"
+            arc:menuNormalColor="@color/fab_button_pink"
+            arc:menuShadowElevation="true"
+            arc:menuType="normal" />
+    </RelativeLayout>
 </RelativeLayout>
