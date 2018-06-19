@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +27,7 @@ import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -37,6 +41,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -114,6 +119,37 @@ public class BoardActivity extends AppCompatActivity {
                 arcMenu.hide();
         }
     };
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            // Extract data included in the Intent
+            setDataReceivedFromPushNotification(intent);
+
+        }
+    };
+
+    public void setDataReceivedFromPushNotification(Intent intent) {
+
+        String contentType = intent.getStringExtra(getString(R.string.content_type));
+        String thumbnailUrl = intent.getStringExtra(getString(R.string.thumbnail_url));
+        Integer thumbnailHeight = intent.getIntExtra(getString(R.string.thumbnail_height), 0);
+        Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
+        String imageUrl = intent.getStringExtra(getString(R.string.image_url));
+
+        FootballFeed footballFeed = new FootballFeed();
+        footballFeed.setContentType(contentType);
+        Thumbnail thumbnail = new Thumbnail();
+        thumbnail.setImageWidth(thumbnailWidth);
+        thumbnail.setImageHeight(thumbnailHeight);
+        thumbnail.setImageUrl(thumbnailUrl);
+        footballFeed.setThumbnail(thumbnail);
+        footballFeed.setUrl(imageUrl);
+
+        boardFeed.add(footballFeed);
+        Collections.reverse(boardFeed);
+        boardMediaAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -123,15 +159,28 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        currentMatchId = getIntent().getLongExtra("MATCH_ID", 0L);
         dbHelper = new DBHelper(this);
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        objectId = preference.getString("objectId", "NA");
-        Log.e(TAG, "Value--:" + objectId);
+        objectId = preference.getString(getString(R.string.object_id_string), "NA");
+        SharedPreferences matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.board_intent)));
+    }
+
+    //Must unregister onPause()
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mMessageReceiver);
     }
 
     //todo: Inject adapter
@@ -196,23 +245,11 @@ public class BoardActivity extends AppCompatActivity {
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
+            Collections.reverse(boardFeedList);
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
         }
     }
-
-    //TODO: Delete after push notifications is implemented completely
-//    public void populateUplaodedDataFromPushNotification() {
-//        ArrayList<String> dataList = dbHelper.getDataList();
-//        if (dataList != null && dataList.size() > 0) {
-//            for (int i = 0; i < dataList.size(); i++) {
-//                Collections.sort(dataList);
-//                Gson gson = new Gson();
-//                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
-//                boardNotificationArrayList.add(boardNotification);
-//            }
-//        }
-//    }
 
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
