@@ -16,6 +16,7 @@ import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,13 +75,14 @@ public class BoardActivity extends AppCompatActivity {
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     private int apiHitCount = 0;
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
     private Subscription subscription;
     private String nextPageToken = "";
     private int PAGE_SIZE;
-    private boolean isLastPage = false;
     private boolean isLoading = false;
     private RenderScript renderScript;
     private String enterBoardId;
@@ -101,6 +103,7 @@ public class BoardActivity extends AppCompatActivity {
             int visibleItemCount = gridLayoutManager.getChildCount();
             int totalItemCount = gridLayoutManager.getItemCount();
             int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+            boolean isLastPage = false;
             if (!isLoading && !isLastPage) {
                 if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
                         && firstVisibleItemPosition >= 0
@@ -159,6 +162,7 @@ public class BoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
+        progressBar.setVisibility(View.VISIBLE);
         dbHelper = new DBHelper(this);
         initRecyclerView();
         setUpBoomMenu();
@@ -263,7 +267,6 @@ public class BoardActivity extends AppCompatActivity {
         String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
-            //child.setId(i);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
             ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
             fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
@@ -284,22 +287,25 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 3: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Gallery");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Gallery");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Camera");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Camera");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Audio");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Audio");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
@@ -308,8 +314,9 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 7: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Video");
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Video");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
@@ -380,28 +387,33 @@ public class BoardActivity extends AppCompatActivity {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             enterBoardId = response.body().getId();
                             retrieveBoardByBoardId(enterBoardId);
+
                         }
                     }
                 });
     }
 
     public void retrieveBoardByBoardId(String boardId) {
+        progressBar.setVisibility(View.VISIBLE);
         restApi.retrieveByBoardId(boardId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
+                        progressBar.setVisibility(View.INVISIBLE);
                         Log.e(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        progressBar.setVisibility(View.VISIBLE);
                         Log.e(TAG, "On Error()" + e);
                     }
 
                     @Override
                     public void onNext(Response<List<FootballFeed>> response) {
+                        progressBar.setVisibility(View.INVISIBLE);
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             Log.e(TAG, "Retrieved details: ");
                             setUpAdapterWithNewData(response.body());
@@ -409,5 +421,4 @@ public class BoardActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }
