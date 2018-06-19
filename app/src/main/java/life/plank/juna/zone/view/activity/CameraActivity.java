@@ -349,6 +349,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e("", "onNext: " + jsonObjectResponse);
                         Toast.makeText(CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 });
     }
