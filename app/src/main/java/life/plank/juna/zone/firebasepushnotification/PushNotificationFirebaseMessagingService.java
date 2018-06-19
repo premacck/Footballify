@@ -32,6 +32,21 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         updateDataOnChartFragment = updateDataChartFragment;
     }
 
+    static void updateBoardActivity(Context context, BoardNotification boardNotification) {
+
+        Intent intent = new Intent(context.getString(R.string.board_intent));
+
+        //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
+        intent.putExtra(context.getString(R.string.content_type), boardNotification.getFeedItem().getContentType());
+        intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getFeedItem().getThumbnail().getImageUrl());
+        intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getFeedItem().getThumbnail().getHeight());
+        intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getFeedItem().getThumbnail().getWidth());
+        intent.putExtra(context.getString(R.string.image_url), boardNotification.getFeedItem().getUrl());
+
+        //send broadcast
+        context.sendBroadcast(intent);
+    }
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
@@ -40,7 +55,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         Gson gson = new Gson();
         boardNotification = gson.fromJson(notificationString, BoardNotification.class);
         dbHelper.insertNotificationDataInDatabase(notificationString);
-        updateMyActivity(getApplicationContext(),boardNotification);
+        updateBoardActivity(getApplicationContext(), boardNotification);
         sendNotification(boardNotification);
     }
 
@@ -73,22 +88,5 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                         .bigPicture(bitmap))/*Notification with Image*/;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
-
-    static void updateMyActivity(Context context, BoardNotification boardNotification) {
-
-        Intent intent = new Intent("board_intent");
-
-        //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
-
-
-        intent.putExtra(context.getString(R.string.content_type), boardNotification.getFeedItem().getContentType());
-        intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getFeedItem().getThumbnail().getImageUrl());
-        intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getFeedItem().getThumbnail().getHeight());
-        intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getFeedItem().getThumbnail().getWidth());
-        intent.putExtra(context.getString(R.string.image_url), boardNotification.getFeedItem().getUrl());
-
-        //send broadcast
-        context.sendBroadcast(intent);
     }
 }
