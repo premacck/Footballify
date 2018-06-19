@@ -59,161 +59,162 @@ public class MatchResultActivity extends AppCompatActivity {
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
     List<TeamStatsModel> teamStatsModelList;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     private StandingTableAdapter standingTableAdapter;
     private RestApi restApi;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_match_result );
-        ((ZoneApplication) getApplication()).getStandingNetworkComponent().inject( this );
-        restApi = retrofit.create( RestApi.class );
-        Log.e( "Device ID", FirebaseInstanceId.getInstance().getToken() );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_match_result);
+        ((ZoneApplication) getApplication()).getStandingNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
+        Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
 
-        ButterKnife.bind( this );
-        getStandings( AppConstants.LEAGUE_NAME );
-        getPlayerStats( AppConstants.SEASON_NAME );
+        ButterKnife.bind(this);
+        getStandings(AppConstants.LEAGUE_NAME);
+        getPlayerStats(AppConstants.SEASON_NAME);
         populateStandingRecyclerView();
         populatePlayerStatsRecyclerView();
         populateTeamStatsRecyclerView();
-        getTeamStats( AppConstants.SEASON_NAME );
+        getTeamStats(AppConstants.SEASON_NAME);
     }
 
     public void populateStandingRecyclerView() {
         standingModel = new ArrayList<>();
-        standingTableAdapter = new StandingTableAdapter( this, standingModel );
-        standingRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        standingRecyclerView.setAdapter( standingTableAdapter );
+        standingTableAdapter = new StandingTableAdapter(this, standingModel);
+        standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        standingRecyclerView.setAdapter(standingTableAdapter);
     }
 
     public void populatePlayerStatsRecyclerView() {
         playerStatsModelList = new ArrayList<>();
-        playerStatsAdapter = new PlayerStatsAdapter( this, playerStatsModelList );
-        playerStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        playerStatsRecyclerView.setAdapter( playerStatsAdapter );
+        playerStatsAdapter = new PlayerStatsAdapter(this, playerStatsModelList);
+        playerStatsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        playerStatsRecyclerView.setAdapter(playerStatsAdapter);
     }
 
     public void populateStandingRecyclerView(List<StandingModel> standingModels) {
-        standingModel.addAll( standingModels );
+        standingModel.addAll(standingModels);
         standingTableAdapter.notifyDataSetChanged();
     }
 
     public void populatePlayerStatsRecyclerView(List<PlayerStatsModel> playerStatsModels) {
-        playerStatsModelList.addAll( playerStatsModels );
+        playerStatsModelList.addAll(playerStatsModels);
         playerStatsAdapter.notifyDataSetChanged();
     }
 
     public void populateTeamStatsRecyclerView(List<TeamStatsModel> teamStatsModels) {
-        teamStatsModelList.addAll( teamStatsModels );
+        teamStatsModelList.addAll(teamStatsModels);
         teamStatsAdapter.notifyDataSetChanged();
     }
 
     public void populateTeamStatsRecyclerView() {
         teamStatsModelList = new ArrayList<>();
-        teamStatsAdapter = new TeamStatsAdapter( this, teamStatsModelList );
-        teamStatsRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        teamStatsRecyclerView.setAdapter( teamStatsAdapter );
+        teamStatsAdapter = new TeamStatsAdapter(this, teamStatsModelList);
+        teamStatsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        teamStatsRecyclerView.setAdapter(teamStatsAdapter);
     }
 
 
     public void getStandings(String leagueName) {
-        progressBar.setVisibility( View.VISIBLE );
-        restApi.getStandings( leagueName )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Observer<Response<List<StandingModel>>>() {
+        progressBar.setVisibility(View.VISIBLE);
+        restApi.getStandings(leagueName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<StandingModel>>>() {
                     @Override
                     public void onCompleted() {
-                        progressBar.setVisibility( View.INVISIBLE );
-                        Log.e( "", "response: " );
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Log.e("", "response: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d( "", "In onCompleted()" );
+                        Log.d("", "In onCompleted()");
                     }
 
                     @Override
                     public void onNext(Response<List<StandingModel>> response) {
-                        progressBar.setVisibility( View.VISIBLE );
-                        Log.e( "", "response: " + ", list data " + response.toString() );
+                        progressBar.setVisibility(View.VISIBLE);
+                        Log.e("", "response: " + ", list data " + response.toString());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populateStandingRecyclerView( response.body() );
+                            populateStandingRecyclerView(response.body());
                         } else {
-                            Toast.makeText( MatchResultActivity.this, "Responce Not Found", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText(MatchResultActivity.this, "Responce Not Found", Toast.LENGTH_SHORT).show();
                         }
                     }
-                } );
+                });
     }
 
     public void getPlayerStats(String seasonName) {
-        restApi.getPlayerStats( seasonName )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Observer<Response<List<PlayerStatsModel>>>() {
+        restApi.getPlayerStats(seasonName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( "", "response: " );
+                        Log.e("", "response: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d( "", "In onCompleted()" );
+                        Log.d("", "In onCompleted()");
                     }
 
                     @Override
                     public void onNext(Response<List<PlayerStatsModel>> response) {
-                        Log.e( "", "response: " + ", list data " + response.toString() );
+                        Log.e("", "response: " + ", list data " + response.toString());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populatePlayerStatsRecyclerView( response.body() );
+                            populatePlayerStatsRecyclerView(response.body());
                         }
 
                     }
-                } );
+                });
     }
 
     public void getTeamStats(String seasonName) {
-        progressBar.setVisibility( View.VISIBLE );
-        restApi.getTeamStats( seasonName )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Observer<Response<List<TeamStatsModel>>>() {
+        progressBar.setVisibility(View.VISIBLE);
+        restApi.getTeamStats(seasonName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( "", "response: " );
+                        Log.e("", "response: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d( "", "In onCompleted()" );
+                        Log.d("", "In onCompleted()");
                     }
 
                     @Override
                     public void onNext(Response<List<TeamStatsModel>> response) {
-                        Log.e( "", "response: " + ", list data " + response.toString() );
+                        Log.e("", "response: " + ", list data " + response.toString());
                         if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populateTeamStatsRecyclerView( response.body() );
+                            populateTeamStatsRecyclerView(response.body());
                         }
 
                     }
-                } );
+                });
     }
 
     @OnClick({R.id.tap_for_score_and_fixtures, R.id.following})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tap_for_score_and_fixtures:
-                Intent intent = new Intent( this, FixtureAndResultActivity.class );
-                startActivity( intent );
+                Intent intent = new Intent(this, FixtureAndResultActivity.class);
+                startActivity(intent);
                 break;
             case R.id.following: {
-                if (followingTextVIew.getText().toString().equalsIgnoreCase( "FOLLOWING" )) {
-                    followingTextVIew.setText( R.string.following );
+                if (followingTextVIew.getText().toString().equalsIgnoreCase("FOLLOWING")) {
+                    followingTextVIew.setText(R.string.following);
                 } else {
-                    followingTextVIew.setText( R.string.unfollow );
+                    followingTextVIew.setText(R.string.unfollow);
                 }
                 break;
             }
