@@ -189,7 +189,6 @@ public class BoardActivity extends AppCompatActivity {
 
     //todo: Inject adapter
     private void initRecyclerView() {
-        Collections.reverse(boardFeed);
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
@@ -288,25 +287,25 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 3: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Gallery");
-                            intent.putExtra("BOARD_ID", enterBoardId);
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Gallery");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Camera");
-                            intent.putExtra("BOARD_ID", enterBoardId);
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Camera");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Audio");
-                            intent.putExtra("BOARD_ID", enterBoardId);
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Audio");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
@@ -315,9 +314,9 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 7: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Video");
-                            intent.putExtra("BOARD_ID", enterBoardId);
-                            intent.putExtra("API", "BoardActivity");
+                            intent.putExtra(getString(R.string.open_from), "Video");
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
                             startActivity(intent);
                             break;
                         }
@@ -402,6 +401,7 @@ public class BoardActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
+                        progressBar.setVisibility(View.VISIBLE);
                         Log.e(TAG, "onCompleted: ");
                     }
 

@@ -327,4 +327,7 @@
     <string name="thumbnail_width">thumbnailWidth</string>
     <string name="image_url">imageUrl</string>
     <string name="board_intent">board_intent</string>
+    <string name="board_api">API</string>
+    <string name="open_from">OPEN_FROM</string>
+    <string name="board_id">BOARD_ID</string>
 </resources>
