@@ -39,7 +39,6 @@ public class GraphFragment extends Fragment implements UpdateDataOnChartFragment
         linearLayout = view.findViewById(R.id.root);
         lineChart = view.findViewById(R.id.line_chart);
         setUpGraph();
-        PushNotificationFirebaseMessagingService.setUpdateDataOnChartFragment(this);
         return view;
     }
 

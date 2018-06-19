@@ -318,4 +318,13 @@
     <string name="match_day_36">Match Day 36</string>
     <string name="matches_fixtureresults">Matches,FixtureResults</string>
     <string name="match_day_37">Match Day 37</string>
+    <string name="match_id_string">match_id</string>
+    <string name="match_pref">match_pref</string>
+    <string name="object_id_string">objectId</string>
+    <string name="content_type">contentType</string>
+    <string name="thumbnail_url">thumbnailUrl</string>
+    <string name="thumbnail_height">thumbnailHeight</string>
+    <string name="thumbnail_width">thumbnailWidth</string>
+    <string name="image_url">imageUrl</string>
+    <string name="board_intent">board_intent</string>
 </resources>

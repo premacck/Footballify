@@ -8,6 +8,9 @@ public class Thumbnail {
     private int imageHeight;
     private int imageWidth;
 
+    public Thumbnail() {
+    }
+
     public Thumbnail(String imageUrl, int imageHeight, int imageWidth) {
         this.imageUrl = imageUrl;
         this.imageHeight = imageHeight;

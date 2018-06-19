@@ -15,6 +15,9 @@ public class FootballFeed {
     private String dateCreated;
     private String contentType;
 
+    public FootballFeed() {
+    }
+
     public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType) {
         this.id = id;
         this.title = title;
