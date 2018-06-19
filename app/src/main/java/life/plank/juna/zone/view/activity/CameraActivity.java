@@ -274,8 +274,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
                             Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
-                            startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT).show();
                         }

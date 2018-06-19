@@ -79,9 +79,14 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
         Intent intent = new Intent("board_intent");
 
-        //put whatever data you want to send, if any
-        intent.putExtra("notification", boardNotification.getActivity().getActor());
+        //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
 
+
+        intent.putExtra(context.getString(R.string.content_type), boardNotification.getFeedItem().getContentType());
+        intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getFeedItem().getThumbnail().getImageUrl());
+        intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getFeedItem().getThumbnail().getHeight());
+        intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getFeedItem().getThumbnail().getWidth());
+        intent.putExtra(context.getString(R.string.image_url), boardNotification.getFeedItem().getUrl());
 
         //send broadcast
         context.sendBroadcast(intent);

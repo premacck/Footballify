@@ -41,6 +41,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Thumbnail;
+import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -156,10 +158,25 @@ public class BoardActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
 
             // Extract data included in the Intent
-            String message = intent.getStringExtra("notification");
-            Log.d("", "Data from Broadcast Receiver" + message);
+            String contentType = intent.getStringExtra(getString(R.string.content_type));
+            String thumbnailUrl = intent.getStringExtra(getString(R.string.thumbnail_url));
+            Integer thumbnailHeight = intent.getIntExtra(getString(R.string.thumbnail_height),0);
+            Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width),0);
+            String imageUrl = intent.getStringExtra(getString(R.string.image_url));
 
-            //do other stuff here
+            FootballFeed footballFeed = new FootballFeed();
+            footballFeed.setContentType(contentType);
+            Thumbnail thumbnail = new Thumbnail();
+            thumbnail.setImageWidth(thumbnailWidth);
+            thumbnail.setImageHeight(thumbnailHeight);
+            thumbnail.setImageUrl(thumbnailUrl);
+            footballFeed.setThumbnail(thumbnail);
+            footballFeed.setUrl(imageUrl);
+
+            boardFeed.add(footballFeed);
+            Collections.reverse(boardFeed);
+            boardMediaAdapter.notifyDataSetChanged();
+
         }
     };
 
@@ -233,19 +250,6 @@ public class BoardActivity extends AppCompatActivity {
             boardMediaAdapter.notifyDataSetChanged();
         }
     }
-
-    //TODO: Delete after push notifications is implemented completely
-//    public void populateUplaodedDataFromPushNotification() {
-//        ArrayList<String> dataList = dbHelper.getDataList();
-//        if (dataList != null && dataList.size() > 0) {
-//            for (int i = 0; i < dataList.size(); i++) {
-//                Collections.sort(dataList);
-//                Gson gson = new Gson();
-//                BoardNotification boardNotification = gson.fromJson(dataList.get(i), BoardNotification.class);
-//                boardNotificationArrayList.add(boardNotification);
-//            }
-//        }
-//    }
 
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
