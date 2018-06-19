@@ -129,5 +129,10 @@ public interface RestApi {
 
     @GET("/boards/{boardId}/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);
+
+    @Multipart
+    @POST("feedItems/upload")
+    Observable<Response<JsonObject>> postVideoContent(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+
 }
 

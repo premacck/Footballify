@@ -74,6 +74,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private String filePath;
     private String absolutePath;
     private Uri fileUri;
+    private String path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -233,7 +234,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 setUpUi("Video");
                 Toast.makeText(this, "Video has been saved to:\n" + data.getData(), Toast.LENGTH_LONG).show();
                 Uri videoUri = data.getData();
-                String path = UIDisplayUtil.getPathForVideo(videoUri, this);
+                path = UIDisplayUtil.getPathForVideo(videoUri, this);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
             } else if (resultCode == RESULT_CANCELED) {
@@ -324,7 +325,33 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
+    private void postVideoFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
+        File file = new File(selectedAudioUri);
+        RequestBody requestBody = RequestBody.create(MediaType.parse("video/mp4"), file);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
 
+        restApi.postVideoContent(body, targetId, targetType, contentType, userId, dateCreated)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                        Toast.makeText(CameraActivity.this, "error message", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e("", "onNext: " + jsonObjectResponse);
+                        Toast.makeText(CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
     @Override
     public void onClick(View v) {
         //todo:-Remove hardcoded topic
@@ -333,6 +360,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 postImageFromGallery(filePath, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase("Gallery")) {
                 postImageFromGallery(filePath, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
+            }else if (openFrom.equalsIgnoreCase("Video")) {
+                postVideoFile(path, targetId, "Board", "image", userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
             }
