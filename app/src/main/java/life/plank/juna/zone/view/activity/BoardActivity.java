@@ -185,7 +185,6 @@ public class BoardActivity extends AppCompatActivity {
 
     //todo: Inject adapter
     private void initRecyclerView() {
-        //Collections.reverse(boardFeed);
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
