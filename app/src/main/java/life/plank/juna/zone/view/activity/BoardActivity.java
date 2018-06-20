@@ -190,10 +190,9 @@ public class BoardActivity extends AppCompatActivity {
     //todo: Inject adapter
     private void initRecyclerView() {
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardRecyclerView.setAdapter(boardMediaAdapter);
-        boardRecyclerView.setHasFixedSize(true);
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
@@ -287,25 +286,25 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 3: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Gallery");
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.gallery));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Camera");
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.camera));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Audio");
+                            intent.putExtra(getString(R.string.open_from),getString(R.string.audio));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
@@ -314,9 +313,9 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 7: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Video");
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.video));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }

@@ -32,7 +32,6 @@ import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponen
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerUploadAudioNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
@@ -53,7 +52,6 @@ import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
 import life.plank.juna.zone.data.network.dagger.SuddenDeathResultComponent;
-import life.plank.juna.zone.data.network.dagger.UploadAudioNetworkComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 import life.plank.juna.zone.domain.module.GameServiceModule;
@@ -91,7 +89,6 @@ public class ZoneApplication extends Application {
     private SigninUserNetworkComponent signinUserNetworkComponent;
     private LikeFeedNetworkComponent likeFeedNetworkComponent;
     private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
-    private UploadAudioNetworkComponent uploadAudioNetworkComponent;
     private BoardFeedNetworkComponent boardFeedNetworkComponent;
 
     public static ZoneApplication getApplication() {
@@ -185,9 +182,6 @@ public class ZoneApplication extends Application {
         imageUploaderNetworkComponent = DaggerImageUploaderNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
 
-        uploadAudioNetworkComponent = DaggerUploadAudioNetworkComponent.builder()
-                .restServiceModule( new RestServiceModule() ).build();
-
         boardFeedNetworkComponent = DaggerBoardFeedNetworkComponent.builder()
                 .restServiceModule( new RestServiceModule() ).build();
     }
@@ -275,10 +269,6 @@ public class ZoneApplication extends Application {
 
     public ImageUploaderNetworkComponent getImageUploaderNetworkComponent() {
         return imageUploaderNetworkComponent;
-    }
-
-    public UploadAudioNetworkComponent getUploadAudioNetworkComponent() {
-        return uploadAudioNetworkComponent;
     }
 
     public BoardFeedNetworkComponent getBoardFeedNetworkComponent() {
