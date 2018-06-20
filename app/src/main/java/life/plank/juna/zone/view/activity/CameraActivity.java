@@ -224,7 +224,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
-                    postAudioFile(absolutePath, targetId,getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
+                    postAudioFile(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
                     finish();
                 }
             }
@@ -324,6 +324,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
+
     private void postVideoFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         File file = new File(selectedAudioUri);
         RequestBody requestBody = RequestBody.create(MediaType.parse("video/mp4"), file);
@@ -352,6 +353,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
+
     @Override
     public void onClick(View v) {
         //todo:-Remove hardcoded topic
@@ -359,8 +361,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
                 postImageFromGallery(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postImageFromGallery(filePath, targetId, getString(R.string.target_type_board),  getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
-            }else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
+                postImageFromGallery(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+            } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
                 postVideoFile(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();

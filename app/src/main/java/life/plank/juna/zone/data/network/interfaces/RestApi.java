@@ -125,6 +125,5 @@ public interface RestApi {
 
     @GET("/boards/{boardId}/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);
-
 }
 
