@@ -224,7 +224,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
-                    postAudioFile(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
+                    postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
                     finish();
                 }
             }
@@ -261,12 +261,24 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     //TODO: Pass the extension. Remove hardcoded value
-    private void postImageFromGallery(String selectedImageUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
+    //TODO: Fix progressbar bug for audio upload
+    private void postMediaContent(String selectedFileUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
         progressBar.setVisibility(View.VISIBLE);
-        File file = new File(selectedImageUri);
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/png"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestFile);
-        restApi.postContantToServer(body, targetId, targetType, contentType, userId, dateCreated)
+        File file = new File(selectedFileUri);
+        RequestBody requestBody;
+        MultipartBody.Part body = null;
+        if (contentType.equals(getString(R.string.content_type_image))) {
+            requestBody = RequestBody.create(MediaType.parse("image/png"), file);
+            body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
+        } else if (contentType.equals(getString(R.string.content_type_video))) {
+            requestBody = RequestBody.create(MediaType.parse("video/mp4"), file);
+            body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
+        } else if (contentType.equals(getString(R.string.content_type_audio))) {
+            requestBody = RequestBody.create(MediaType.parse("audio/mpeg"), file);
+            body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
+        }
+
+        restApi.postMediaContentToServer(body, targetId, targetType, contentType, userId, dateCreated)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -296,82 +308,24 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
-
-    private void postAudioFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
-        File file = new File(selectedAudioUri);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("audio/mpeg"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
-
-        restApi.postContantToServer(body, targetId, targetType, contentType, userId, dateCreated)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("", "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
-                        Toast.makeText(CameraActivity.this, "error message", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
-                        Toast.makeText(CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void postVideoFile(String selectedAudioUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
-        File file = new File(selectedAudioUri);
-        RequestBody requestBody = RequestBody.create(MediaType.parse("video/mp4"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
-
-        restApi.postContantToServer(body, targetId, targetType, contentType, userId, dateCreated)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("", "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
-                        Toast.makeText(CameraActivity.this, "error message", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
-                        Toast.makeText(CameraActivity.this, "Update SuccessFully", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                });
-    }
-
     @Override
     public void onClick(View v) {
         //todo:-Remove hardcoded topic
         if (apiCallFromActivity.equalsIgnoreCase(getString(R.string.board_activity))) {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-                postImageFromGallery(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postImageFromGallery(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
-                postVideoFile(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
+                postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-                postImageFromGallery(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postImageFromGallery(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
             }

@@ -112,7 +112,7 @@ public interface RestApi {
 
     @Multipart
     @POST("feedItems/upload")
-    Observable<Response<JsonObject>> postContantToServer(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+    Observable<Response<JsonObject>> postMediaContentToServer(@Part MultipartBody.Part file, @Query("targetId") String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
 
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
