@@ -286,25 +286,25 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 3: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Gallery");
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.gallery));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Camera");
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.camera));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Audio");
+                            intent.putExtra(getString(R.string.open_from),getString(R.string.audio));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
@@ -313,9 +313,9 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 7: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), "Video");
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.video));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), "BoardActivity");
+                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
                             break;
                         }
