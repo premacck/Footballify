@@ -52,6 +52,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
+import static life.plank.juna.zone.util.AppConstants.REQUEST_STORAGE_PERMISSION;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
@@ -85,8 +86,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
         targetId = getIntent().getStringExtra(getString(R.string.board_id));
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-            if (isStoragePermissionGranted())
+            if (isCameraPermissionGranted()) {
                 takePicture();
+            }
         } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
             getImageResourceFromGallery();
         } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
@@ -164,8 +166,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_CAMERA_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                } else {
                     takePicture();
+                }
+                break;
+            case REQUEST_STORAGE_PERMISSION:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    finish();
                 }
                 break;
             default:
@@ -173,7 +182,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private boolean isStoragePermissionGranted() {
+    private boolean isCameraPermissionGranted() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 return true;
@@ -182,7 +191,22 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 return false;
             }
         }
-        return false;
+        return true;
+    }
+
+    public boolean isStoragePermissionGranted() {
+        //change permission to read
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
+                return false;
+            }
+        } else {
+            return true;
+        }
     }
 
     @Override
