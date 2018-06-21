@@ -85,6 +85,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         restApi = retrofit.create(RestApi.class);
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
         targetId = getIntent().getStringExtra(getString(R.string.board_id));
+        openMediaContent();
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
+        userId = preference.getString("objectId", "NA");
+    }
+
+    private void openMediaContent() {
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 takePicture();
@@ -102,8 +108,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             getImageResourceFromGallery();
         }
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString("objectId", "NA");
     }
 
     private void setUpUi(String type) {
@@ -125,7 +129,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         fileUri = getOutputMediaFileUri(CameraActivity.this);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(takePictureIntent, CAMERA_IMAGE_RESULT);
-
     }
 
     public void openGalleryForAudio() {
@@ -304,7 +307,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
                 postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
             } else {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
@@ -312,7 +315,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         }
 
