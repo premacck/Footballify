@@ -8,10 +8,10 @@ import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -45,13 +45,46 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        String notificationString = remoteMessage.getNotification().getBody();
-        BoardNotification boardNotification = new BoardNotification();
-        Gson gson = new Gson();
-        boardNotification = gson.fromJson(notificationString, BoardNotification.class);
-        dbHelper.insertNotificationDataInDatabase(notificationString);
-        updateBoardActivity(getApplicationContext(), boardNotification);
-        sendNotification(boardNotification);
+//        String notificationString = remoteMessage.getNotification().getBody();
+//        BoardNotification boardNotification = new BoardNotification();
+//        Gson gson = new Gson();
+//        boardNotification = gson.fromJson(notificationString, BoardNotification.class);
+//        dbHelper.insertNotificationDataInDatabase(notificationString);
+//        updateBoardActivity(getApplicationContext(), boardNotification);
+//        sendNotification(boardNotification);
+
+        Log.d(TAG, "From: " + remoteMessage.getFrom());
+        Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+//
+//            Map<String, String> params = remoteMessage.getData();
+//            JSONObject object = new JSONObject(params);
+//            Log.e("JSON_OBJECT", object.toString());
+
+            String name = remoteMessage.getData().get("Nick").toString();
+            String body = remoteMessage.getData().get("body").toString();
+            String room = remoteMessage.getData().get("Room").toString();
+
+            String messageBody = name
+                    + " "
+                    + body
+                    + " "
+                    + room;
+
+            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                    .setContentTitle("Zone")
+                    .setContentText(messageBody)
+                    .setAutoCancel(true)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    /*Notification with Image*/;
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        }
+
+
     }
 
     public void sendNotification(BoardNotification boardNotification) {
