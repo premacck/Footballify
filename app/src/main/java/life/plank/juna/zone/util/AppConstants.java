@@ -61,6 +61,7 @@ public class AppConstants {
     public static final int REQUEST_STORAGE_PERMISSION = 1;
     public static final String AUDIO_PATH = "audio_path";
     public static final String BOARD_TYPE = "FootballMatch";
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
 
 
     public static String getDateAndTime(String date) {
