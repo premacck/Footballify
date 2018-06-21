@@ -85,6 +85,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         restApi = retrofit.create(RestApi.class);
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
         targetId = getIntent().getStringExtra(getString(R.string.board_id));
+        openMediaContent();
+        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
+        userId = preference.getString("objectId", "NA");
+    }
+
+    private void openMediaContent() {
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 takePicture();
@@ -92,12 +98,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
             getImageResourceFromGallery();
         } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
-            openVideo();
+            if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
+                openVideo();
+            }
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+            if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
+                openGalleryForAudio();
+            }
         } else {
-            openGalleryForAudio();
+            getImageResourceFromGallery();
         }
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString("objectId", "NA");
     }
 
     private void setUpUi(String type) {
@@ -183,6 +193,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 Uri uri = data.getData();
                 if (null != uri) {
                     try {
+                        setUpUi("video");
                         String uriString = uri.toString();
                         File file = new File(uriString);
                         String path = file.getAbsolutePath();
@@ -200,8 +211,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
-                    postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
-                    finish();
                 }
             }
         } else if (requestCode == AppConstants.VIDEO_CAPTURE) {
@@ -295,8 +304,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
                 postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
+            } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
             } else {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
@@ -304,7 +315,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -318,12 +329,26 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                        openGalleryForAudio();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 } else {
-                    takePicture();
+                    if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
+                        takePicture();
+                    } else {
+                        openVideo();
+                    }
                 }
                 break;
+            case AppConstants.REQUEST_ID_STORAGE_PERMISSIONS:
+                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                } else {
+                    openGalleryForAudio();
+                }
         }
     }
 }
