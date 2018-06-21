@@ -57,9 +57,9 @@ public class AppConstants {
     public static final float ANIMATION_START_SCALE = 1.0f;
     public static final float ANIMATION_END_SCALE = 1.08f;
     public static final float ANIMATION_PIVOT_VALUE = 0.5f;
-    public static final int REQUEST_CAMERA_PERMISSION = 1002;
     public static final String AUDIO_PATH = "audio_path";
     public static final String BOARD_TYPE = "FootballMatch";
+    public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
 
 
     public static String getDateAndTime(String date) {

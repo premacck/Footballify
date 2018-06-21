@@ -8,10 +8,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -51,7 +52,6 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
-import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
@@ -76,6 +76,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private Uri fileUri;
     private String path;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,8 +86,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
         targetId = getIntent().getStringExtra(getString(R.string.board_id));
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-            if (isStoragePermissionGranted())
+            if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 takePicture();
+            }
         } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
             getImageResourceFromGallery();
         } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
@@ -157,32 +159,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
         File image = File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
         return image;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CAMERA_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    takePicture();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                return false;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -308,6 +284,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     }
                 });
     }
+
     @Override
     public void onClick(View v) {
         //todo:-Remove hardcoded topic
@@ -331,5 +308,22 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case AppConstants.REQUEST_ID_MULTIPLE_PERMISSIONS:
+                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
+                    finish();
+                } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    takePicture();
+                }
+                break;
+        }
     }
 }
