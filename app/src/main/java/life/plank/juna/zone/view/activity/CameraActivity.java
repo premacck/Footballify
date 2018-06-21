@@ -125,6 +125,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         fileUri = getOutputMediaFileUri(CameraActivity.this);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(takePictureIntent, CAMERA_IMAGE_RESULT);
+
     }
 
     public void openGalleryForAudio() {
@@ -189,6 +190,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 Uri uri = data.getData();
                 if (null != uri) {
                     try {
+                        setUpUi("video");
                         String uriString = uri.toString();
                         File file = new File(uriString);
                         String path = file.getAbsolutePath();
@@ -206,8 +208,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
-                    postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
-                    finish();
                 }
             }
         } else if (requestCode == AppConstants.VIDEO_CAPTURE) {
@@ -301,6 +301,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
             } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
                 postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
+            } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
             } else {
                 Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
             }
