@@ -345,4 +345,6 @@
     <string name="content_type_image">image</string>
     <string name="content_type_audio">audio</string>
     <string name="content_type_video">video</string>
+    <string name="camera_access">Requires Access to Camara.</string>
+    <string name="external_storage_excess">Requires Access to Your Storage.</string>
 </resources>

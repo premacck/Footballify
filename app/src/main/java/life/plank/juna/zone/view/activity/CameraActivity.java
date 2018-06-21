@@ -315,10 +315,10 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         switch (requestCode) {
             case AppConstants.REQUEST_ID_MULTIPLE_PERMISSIONS:
                 if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), "Requires Access to Camara.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), "Requires Access to Your Storage.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     takePicture();
