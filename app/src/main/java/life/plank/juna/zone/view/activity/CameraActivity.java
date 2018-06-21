@@ -92,9 +92,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
             getImageResourceFromGallery();
         } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
-            openVideo();
+            if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
+                openVideo();
+            }
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+            if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
+                openGalleryForAudio();
+            }
         } else {
-            openGalleryForAudio();
+            getImageResourceFromGallery();
         }
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString("objectId", "NA");
@@ -318,12 +324,26 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
-                    finish();
+                    if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                        openGalleryForAudio();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
                 } else {
-                    takePicture();
+                    if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
+                        takePicture();
+                    } else {
+                        openVideo();
+                    }
                 }
                 break;
+            case AppConstants.REQUEST_ID_STORAGE_PERMISSIONS:
+                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                } else {
+                    openGalleryForAudio();
+                }
         }
     }
 }

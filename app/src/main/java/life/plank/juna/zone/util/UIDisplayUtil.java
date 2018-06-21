@@ -217,4 +217,23 @@ public class UIDisplayUtil {
         }
         return true;
     }
+    @TargetApi(Build.VERSION_CODES.M)
+    public static boolean checkStoragePermission(final Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int readPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            List<String> listPermissionsNeeded = new ArrayList<>();
+            if (readPermission != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (writePermission != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (!listPermissionsNeeded.isEmpty()) {
+                ActivityCompat.requestPermissions(context, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), AppConstants.REQUEST_ID_STORAGE_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
 }
