@@ -28,7 +28,6 @@ import com.google.gson.JsonObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -149,9 +148,8 @@ public class BoardActivity extends AppCompatActivity {
         footballFeed.setThumbnail(thumbnail);
         footballFeed.setUrl(imageUrl);
 
-        boardFeed.add(footballFeed);
-        Collections.reverse(boardFeed);
-        boardMediaAdapter.notifyDataSetChanged();
+        boardFeed.add(0,footballFeed);
+        boardMediaAdapter.notifyItemInserted(0);
     }
 
     @Override
@@ -248,7 +246,6 @@ public class BoardActivity extends AppCompatActivity {
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
-            Collections.reverse(boardFeedList);
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
         }

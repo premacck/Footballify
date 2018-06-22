@@ -23,7 +23,6 @@ import life.plank.juna.zone.view.activity.BoardActivity;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
-    private DBHelper dbHelper = new DBHelper(this);
     private Bitmap bitmap;
 
 
@@ -49,7 +48,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         BoardNotification boardNotification = new BoardNotification();
         Gson gson = new Gson();
         boardNotification = gson.fromJson(notificationString, BoardNotification.class);
-        dbHelper.insertNotificationDataInDatabase(notificationString);
         updateBoardActivity(getApplicationContext(), boardNotification);
         sendNotification(boardNotification);
     }
