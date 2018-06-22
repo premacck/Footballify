@@ -141,8 +141,8 @@ public class BoardActivity extends AppCompatActivity {
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
         Intent intent = getIntent();
-        homeTeamLogo = intent.getStringExtra("home_team_logo");
-        awayTeamLogo = intent.getStringExtra("away_team_logo");
+        homeTeamLogo = intent.getStringExtra(getString(R.string.home_team_logo));
+        awayTeamLogo = intent.getStringExtra(getString(R.string.away_team_logo));
         setToolbarTeamLogo();
     }
 

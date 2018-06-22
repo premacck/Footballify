@@ -348,4 +348,6 @@
     <string name="camera_access">Requires Access to Camara.</string>
     <string name="external_storage_excess">Requires Access to Your Storage.</string>
     <string name="network_error">Network Error</string>
+    <string name="home_team_logo">home_team_logo</string>
+    <string name="away_team_logo">away_team_logo</string>
 </resources>
