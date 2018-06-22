@@ -140,9 +140,8 @@ public class BoardActivity extends AppCompatActivity {
         currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
-        Intent intent = getIntent();
-        homeTeamLogo = intent.getStringExtra(getString(R.string.home_team_logo));
-        awayTeamLogo = intent.getStringExtra(getString(R.string.away_team_logo));
+        homeTeamLogo = matchPref.getString(getString(R.string.home_team_logo), getString(R.string.home_team_logo));
+        awayTeamLogo = matchPref.getString(getString(R.string.away_team_logo), getString(R.string.away_team_logo));
         setToolbarTeamLogo();
     }
 
