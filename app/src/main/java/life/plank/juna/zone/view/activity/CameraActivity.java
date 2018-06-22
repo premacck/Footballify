@@ -97,8 +97,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 takePicture();
             }
-        } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-            getImageResourceFromGallery();
         } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 openVideo();
@@ -355,7 +353,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     finish();
                 } else {
-                    openGalleryForAudio();
+                    if (openFrom.equalsIgnoreCase(getString(R.string.audio)))
+                        openGalleryForAudio();
+                    else {
+                        getImageResourceFromGallery();
+                    }
                 }
         }
     }
