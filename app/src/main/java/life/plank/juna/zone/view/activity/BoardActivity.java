@@ -24,6 +24,7 @@ import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -74,6 +75,10 @@ public class BoardActivity extends AppCompatActivity {
     GridLayoutManager gridLayoutManager;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.home_team_logo_image_view)
+    ImageView homeTeamLogoImageView;
+    @BindView(R.id.visiting_team_logo_image_view)
+    ImageView visitingTeamLogoImageView;
     private int apiHitCount = 0;
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
@@ -85,7 +90,7 @@ public class BoardActivity extends AppCompatActivity {
     private String enterBoardId;
     private String objectId;
     private long currentMatchId;
-
+    private String homeTeamLogo, awayTeamLogo;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -135,6 +140,15 @@ public class BoardActivity extends AppCompatActivity {
         currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
+        Intent intent = getIntent();
+        homeTeamLogo = intent.getStringExtra("home_team_logo");
+        awayTeamLogo = intent.getStringExtra("away_team_logo");
+        setToolbarTeamLogo();
+    }
+
+    private void setToolbarTeamLogo() {
+        Picasso.with(this).load(homeTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(homeTeamLogoImageView);
+        Picasso.with(this).load(awayTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(visitingTeamLogoImageView);
     }
 
     @Override
@@ -214,7 +228,7 @@ public class BoardActivity extends AppCompatActivity {
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from),getString(R.string.audio));
+                            intent.putExtra(getString(R.string.open_from), getString(R.string.audio));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
                             intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
                             startActivity(intent);
