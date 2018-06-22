@@ -28,6 +28,7 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -75,6 +76,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private String absolutePath;
     private Uri fileUri;
     private String path;
+    String date;
 
 
     @Override
@@ -88,6 +90,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         openMediaContent();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString("objectId", "NA");
+        date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
     }
 
     private void openMediaContent() {
@@ -286,7 +289,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
                             Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT).show();
                         }
@@ -296,24 +301,24 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        //todo:-Remove hardcoded topic
+        //todo:-Remove hardcoded
         if (apiCallFromActivity.equalsIgnoreCase(getString(R.string.board_activity))) {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
-                postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
+                postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
-                postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
+                postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, date);
             } else {
                 Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else {
                 Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }

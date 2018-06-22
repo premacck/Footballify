@@ -28,7 +28,6 @@ import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -117,10 +116,11 @@ public class BoardActivity extends AppCompatActivity {
         thumbnail.setImageUrl(thumbnailUrl);
         footballFeed.setThumbnail(thumbnail);
         footballFeed.setUrl(imageUrl);
+        
+        boardFeed.add(0,footballFeed);
+        boardMediaAdapter.notifyItemInserted(0);
+        boardRecyclerView.smoothScrollToPosition(0);
 
-        boardFeed.add(footballFeed);
-        Collections.reverse(boardFeed);
-        boardMediaAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -173,8 +173,8 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
+        boardFeed.clear();
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
-            Collections.reverse(boardFeedList);
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
         }
