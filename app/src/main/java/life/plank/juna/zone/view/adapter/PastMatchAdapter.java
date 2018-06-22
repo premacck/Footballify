@@ -70,6 +70,8 @@ public class PastMatchAdapter extends RecyclerView.Adapter<PastMatchAdapter.Matc
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BoardActivity.class);
+                intent.putExtra(context.getString(R.string.home_team_logo),classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeTeam().getLogoLink());
+                intent.putExtra(context.getString(R.string.home_team_logo),classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayTeam().getLogoLink());
                 matchPreferenceEditor = context.getSharedPreferences(context.getString(R.string.match_pref), Context.MODE_PRIVATE).edit();
                 matchPreferenceEditor.putLong(context.getString(R.string.match_id_string), matchId).apply();
                 context.startActivity(intent);
