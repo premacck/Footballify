@@ -18,12 +18,10 @@ import java.io.IOException;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
-import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.view.activity.BoardActivity;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
-    private DBHelper dbHelper = new DBHelper(this);
     private Bitmap bitmap;
 
 
@@ -49,7 +47,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         BoardNotification boardNotification = new BoardNotification();
         Gson gson = new Gson();
         boardNotification = gson.fromJson(notificationString, BoardNotification.class);
-        dbHelper.insertNotificationDataInDatabase(notificationString);
         updateBoardActivity(getApplicationContext(), boardNotification);
         sendNotification(boardNotification);
     }

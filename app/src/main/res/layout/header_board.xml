@@ -65,6 +65,6 @@
         android:layout_gravity="end"
         android:layout_marginTop="-5dp"
         android:background="@drawable/white_background_follow"
-        android:text="FOLLOWING"
+        android:text="@string/follow"
         android:textColor="@color/grey" />
 </LinearLayout>

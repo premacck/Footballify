@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +42,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
-import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
@@ -70,7 +68,6 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
-    DBHelper dbHelper;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
     BoardMediaAdapter boardMediaAdapter;
@@ -89,39 +86,6 @@ public class BoardActivity extends AppCompatActivity {
     private String objectId;
     private long currentMatchId;
 
-    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                arcMenu.show();
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            int visibleItemCount = gridLayoutManager.getChildCount();
-            int totalItemCount = gridLayoutManager.getItemCount();
-            int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
-            boolean isLastPage = false;
-            if (!isLoading && !isLastPage) {
-                if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount
-                        && firstVisibleItemPosition >= 0
-                        && totalItemCount >= PAGE_SIZE) {
-                    isLoading = true;
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //getBoardApiCall();
-
-                        }
-                    }, AppConstants.PAGINATION_DELAY);
-                }
-            }
-            if (dy > 0 || dy < 0 && arcMenu.isShown())
-                arcMenu.hide();
-        }
-    };
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -163,7 +127,6 @@ public class BoardActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
-        dbHelper = new DBHelper(this);
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
@@ -193,57 +156,6 @@ public class BoardActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardRecyclerView.setAdapter(boardMediaAdapter);
-    }
-
-    public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
-        if (!nextPageToken.isEmpty()) {
-            String updatedNextPageToken = nextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_RT, replaceStringRT);
-            updatedNextPageToken = updatedNextPageToken.replaceFirst(AppConstants.REGULAR_EXPRESSION_TRC, replaceStringTRC);
-            return updatedNextPageToken;
-        }
-        return "";
-    }
-
-    /*  //todo: Inject adapter
-        private void initRecyclerView() {
-            int numberOfRows = 3;
-            boardFeeds = new ArrayList<>();
-            gridLayoutManager = new GridLayoutManager( this, numberOfRows, GridLayoutManager.VERTICAL, false );
-            boardRecyclerView.setLayoutManager( gridLayoutManager );
-            boardMediaAdapter = new BoardMediaAdapter( this, boardFeeds );
-            boardRecyclerView.setAdapter( boardMediaAdapter );
-            boardRecyclerView.setHasFixedSize( true );
-            boardRecyclerView.addOnScrollListener( recyclerViewOnScrollListener );
-            renderScript = RenderScript.create( this );
-        }*/
-    public void getBoardApiCall() {
-        subscription = restApi.getBoardFeed(updateToken(nextPageToken,
-                getString(R.string.replace_rt) + String.valueOf(apiHitCount), getString(R.string.replace_trc) + String.valueOf(apiHitCount * TRCNumber)))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d("", "In onCompleted()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("", "In onCompleted()");
-                    }
-
-                    public void onNext(Response<List<FootballFeed>> response) {
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            if (apiHitCount == 0) {
-                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
-                            }
-                            setUpAdapterWithNewData(response.body());
-                            apiHitCount = apiHitCount + 1;
-                        } else {
-                            Toast.makeText(BoardActivity.this, "Error message", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
@@ -331,12 +243,12 @@ public class BoardActivity extends AppCompatActivity {
         String id = "Board-" + enterBoardId;
         switch (view.getId()) {
             case R.id.following_text_view:
-                if (followingTextView.getText().toString().equalsIgnoreCase("FOLLOWING")) {
+                if (followingTextView.getText().toString().equalsIgnoreCase("FOLLOW")) {
                     followingTextView.setText(R.string.unfollow);
                     Log.e("Board id", "onCompleted: " + id);
                     FirebaseMessaging.getInstance().subscribeToTopic(id);
                 } else {
-                    followingTextView.setText(R.string.following);
+                    followingTextView.setText(R.string.follow);
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
                 }
                 break;
