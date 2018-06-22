@@ -351,4 +351,5 @@
     <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="home_team_logo">home_team_logo</string>
     <string name="away_team_logo">away_team_logo</string>
+    <string name="add_permission">give permission from settings</string>
 </resources>

@@ -71,13 +71,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     File absolutefile;
     String openFrom;
     String userId, targetId;
+    String date;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
     private Uri fileUri;
     private String path;
-    String date;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +107,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
                 openGalleryForAudio();
             }
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
+            if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
+                getImageResourceFromGallery();
+            }
         } else {
-            getImageResourceFromGallery();
+            Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
         }
     }
 
