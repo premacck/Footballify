@@ -243,7 +243,7 @@ public class BoardActivity extends AppCompatActivity {
         String id = "Board-" + enterBoardId;
         switch (view.getId()) {
             case R.id.following_text_view:
-                if (followingTextView.getText().toString().equalsIgnoreCase("FOLLOW")) {
+                if (followingTextView.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
                     followingTextView.setText(R.string.unfollow);
                     Log.e("Board id", "onCompleted: " + id);
                     FirebaseMessaging.getInstance().subscribeToTopic(id);
