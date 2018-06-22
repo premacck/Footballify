@@ -289,7 +289,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
                             Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT).show();
                         }
@@ -299,6 +301,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        //todo:-Remove hardcoded
         if (apiCallFromActivity.equalsIgnoreCase(getString(R.string.board_activity))) {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);

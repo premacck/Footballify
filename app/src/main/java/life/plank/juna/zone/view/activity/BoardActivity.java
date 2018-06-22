@@ -147,9 +147,11 @@ public class BoardActivity extends AppCompatActivity {
         thumbnail.setImageUrl(thumbnailUrl);
         footballFeed.setThumbnail(thumbnail);
         footballFeed.setUrl(imageUrl);
-
+        
         boardFeed.add(0,footballFeed);
         boardMediaAdapter.notifyItemInserted(0);
+        boardRecyclerView.smoothScrollToPosition(0);
+
     }
 
     @Override
@@ -245,6 +247,7 @@ public class BoardActivity extends AppCompatActivity {
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
+        boardFeed.clear();
         if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
