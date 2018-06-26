@@ -75,11 +75,12 @@ import rx.schedulers.Schedulers;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    public static Bitmap parentViewBitmap = null;
     public static SwipePageActivity swipePageActivity;
     public static Boolean isVisible = false;
+    public static Bitmap parentViewBitmap = null;
+    public static Bitmap blurredBitmap = null;
+    public static RenderScript renderScript;
     int TRCNumber = 20;
-
     @Inject
     @Named("azure")
     Retrofit retrofit;
@@ -91,10 +92,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ProgressBar progressBar;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
-
     FootballFeedAdapter footballFeedAdapter;
-    RenderScript renderScript;
-    Bitmap blurredBitmap = null;
     private RestApi restApi;
     private GridLayoutManager gridLayoutManager;
     private int PAGE_SIZE;
@@ -105,7 +103,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     private int apiHitCount = 0;
     private NetworkStateReceiver networkStateReceiver;
     private Subscription subscription;
-
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -336,61 +333,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         Snackbar.make(parentLayout, getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
     }
 
-    private Bitmap loadBitmap(View backgroundView, View targetView) {
-        Rect backgroundBounds = new Rect();
-        backgroundView.getHitRect(backgroundBounds);
-        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
-            return null;
-        }
-        Bitmap blurredBitmap = captureView(backgroundView);
-        int[] location = new int[2];
-        int[] backgroundViewLocation = new int[2];
-        backgroundView.getLocationInWindow(backgroundViewLocation);
-        targetView.getLocationInWindow(location);
-        int height = targetView.getHeight();
-        int y = location[1];
-        if (backgroundViewLocation[1] >= location[1]) {
-            height -= (backgroundViewLocation[1] - location[1]);
-            if (y < 0)
-                y = 0;
-        }
-        if (y + height > blurredBitmap.getHeight()) {
-            height = blurredBitmap.getHeight() - y;
-            if (height <= 0) {
-                return null;
-            }
-        }
-        Matrix matrix = new Matrix();
-        matrix.setScale(0.5f, 0.5f);
-        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
-                (int) targetView.getX(),
-                y,
-                targetView.getMeasuredWidth(),
-                height,
-                matrix,
-                true);
-        return bitmap;
-    }
-
-    public Bitmap captureView(View view) {
-        if (blurredBitmap != null) {
-            return blurredBitmap;
-        }
-        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
-                view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(blurredBitmap);
-        view.draw(canvas);
-        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
-        Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        //ColorFilter filter = new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
-        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
-        paint.setColorFilter(filter);
-        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
-        return blurredBitmap;
-    }
-
     @Override
     public void onItemLongPress(int position) {
         parentViewBitmap = loadBitmap(parentLayout, parentLayout);
@@ -475,5 +417,60 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                 }
             });
         }
+    }
+    //todo: move in Utils
+    public  Bitmap loadBitmap(View backgroundView, View targetView) {
+        Rect backgroundBounds = new Rect();
+        backgroundView.getHitRect(backgroundBounds);
+        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
+            return null;
+        }
+        Bitmap blurredBitmap = captureView(backgroundView);
+        int[] location = new int[2];
+        int[] backgroundViewLocation = new int[2];
+        backgroundView.getLocationInWindow(backgroundViewLocation);
+        targetView.getLocationInWindow(location);
+        int height = targetView.getHeight();
+        int y = location[1];
+        if (backgroundViewLocation[1] >= location[1]) {
+            height -= (backgroundViewLocation[1] - location[1]);
+            if (y < 0)
+                y = 0;
+        }
+        if (y + height > blurredBitmap.getHeight()) {
+            height = blurredBitmap.getHeight() - y;
+            if (height <= 0) {
+                return null;
+            }
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(0.5f, 0.5f);
+        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
+                (int) targetView.getX(),
+                y,
+                targetView.getMeasuredWidth(),
+                height,
+                matrix,
+                true);
+        return bitmap;
+    }
+
+    public  Bitmap captureView(View view) {
+        if (blurredBitmap != null) {
+            return blurredBitmap;
+        }
+        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(blurredBitmap);
+        view.draw(canvas);
+        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        //ColorFilter filter = new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
+        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
+        paint.setColorFilter(filter);
+        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
+        return blurredBitmap;
     }
 }
