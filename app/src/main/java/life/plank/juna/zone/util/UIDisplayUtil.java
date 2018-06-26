@@ -43,8 +43,6 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UIDisplayUtil {
 
-    public static Bitmap blurredBitmap = null;
-    public static RenderScript renderScript;
     private static String SIGN_UP_USER_DETAILS = "signUpPageDetails";
 
     public UIDisplayUtil() {
