@@ -3,22 +3,67 @@ package life.plank.juna.zone.data.network.model.firebaseModel;
 
 public class BoardNotification {
 
-    private NotificationFeedItem FeedItem;
-    private Activity Activity;
+    private String ContentType;
+    private String ThumbnailImageUrl;
+    private Integer ThumbnailWidth;
+    private Integer ThumbnailHeight;
+    private String ImageUrl;
+    private String Action;
+    private String Actor;
 
-    public NotificationFeedItem getFeedItem() {
-        return FeedItem;
+    public String getContentType() {
+        return ContentType;
     }
 
-    public void setFeedItem(NotificationFeedItem feedItem) {
-        FeedItem = feedItem;
+    public void setContentType(String contentType) {
+        ContentType = contentType;
     }
 
-    public life.plank.juna.zone.data.network.model.firebaseModel.Activity getActivity() {
-        return Activity;
+    public String getThumbnailImageUrl() {
+        return ThumbnailImageUrl;
     }
 
-    public void setActivity(life.plank.juna.zone.data.network.model.firebaseModel.Activity activity) {
-        Activity = activity;
+    public void setThumbnailImageUrl(String thumbnailImageUrl) {
+        ThumbnailImageUrl = thumbnailImageUrl;
+    }
+
+    public Integer getThumbnailWidth() {
+        return ThumbnailWidth;
+    }
+
+    public void setThumbnailWidth(Integer thumbnailWidth) {
+        ThumbnailWidth = thumbnailWidth;
+    }
+
+    public Integer getThumbnailHeight() {
+        return ThumbnailHeight;
+    }
+
+    public void setThumbnailHeight(Integer thumbnailHeight) {
+        ThumbnailHeight = thumbnailHeight;
+    }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
+    }
+
+    public String getAction() {
+        return Action;
+    }
+
+    public void setAction(String action) {
+        Action = action;
+    }
+
+    public String getActor() {
+        return Actor;
+    }
+
+    public void setActor(String actor) {
+        Actor = actor;
     }
 }
