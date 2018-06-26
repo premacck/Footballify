@@ -22,12 +22,10 @@ import java.util.Map;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
-import life.plank.juna.zone.firebasepushnotification.database.DBHelper;
 import life.plank.juna.zone.view.activity.BoardActivity;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
-    private DBHelper dbHelper = new DBHelper(this);
     private Bitmap bitmap;
 
 

@@ -337,7 +337,7 @@
     <string name="video">Video</string>
     <string name="image_format">image/*</string>
     <string name="select_audio">Select Audio</string>
-    <string name="following">FOLLOWING</string>
+    <string name="follow">FOLLOW</string>
     <string name="signed_toast_message">User signed in successfully</string>
     <string name="board_activity">BoardActivity</string>
     <string name="audio">Audio</string>
@@ -345,4 +345,11 @@
     <string name="content_type_image">image</string>
     <string name="content_type_audio">audio</string>
     <string name="content_type_video">video</string>
+    <string name="camera_access">Requires Access to Camara.</string>
+    <string name="external_storage_excess">Requires Access to Your Storage.</string>
+    <string name="network_error">Network Error</string>
+    <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
+    <string name="home_team_logo">home_team_logo</string>
+    <string name="away_team_logo">away_team_logo</string>
+    <string name="add_permission">give permission from settings</string>
 </resources>

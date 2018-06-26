@@ -1,13 +1,20 @@
 package life.plank.juna.zone.util;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
@@ -21,7 +28,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import life.plank.juna.zone.data.network.model.SignInModel;
 
@@ -164,7 +173,6 @@ public class UIDisplayUtil {
         }
         return filePath;
     }
-
     public void displaySnackBar(View currentView, String message) {
         Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
     }
@@ -184,5 +192,48 @@ public class UIDisplayUtil {
 
     private static class UIDisplayUtilWrapper {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    public static boolean checkPermission(final Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int permissionSendMessage = ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA);
+            int readPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            List<String> listPermissionsNeeded = new ArrayList<>();
+            if (permissionSendMessage != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.CAMERA);
+            }
+            if (readPermission != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (writePermission != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (!listPermissionsNeeded.isEmpty()) {
+                ActivityCompat.requestPermissions(context, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), AppConstants.REQUEST_ID_MULTIPLE_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
+    }
+    @TargetApi(Build.VERSION_CODES.M)
+    public static boolean checkStoragePermission(final Activity context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int readPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
+            int writePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            List<String> listPermissionsNeeded = new ArrayList<>();
+            if (readPermission != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+            if (writePermission != PackageManager.PERMISSION_GRANTED) {
+                listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (!listPermissionsNeeded.isEmpty()) {
+                ActivityCompat.requestPermissions(context, listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), AppConstants.REQUEST_ID_STORAGE_PERMISSIONS);
+                return false;
+            }
+        }
+        return true;
     }
 }

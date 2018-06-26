@@ -8,10 +8,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +28,7 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.inject.Inject;
@@ -51,7 +53,6 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
-import static life.plank.juna.zone.util.AppConstants.REQUEST_CAMERA_PERMISSION;
 
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
@@ -70,6 +71,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     File absolutefile;
     String openFrom;
     String userId, targetId;
+    String date;
     private RestApi restApi;
     private String filePath;
     private String absolutePath;
@@ -84,18 +86,32 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         restApi = retrofit.create(RestApi.class);
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
         targetId = getIntent().getStringExtra(getString(R.string.board_id));
-        if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-            if (isStoragePermissionGranted())
-                takePicture();
-        } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-            getImageResourceFromGallery();
-        } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
-            openVideo();
-        } else {
-            openGalleryForAudio();
-        }
+        openMediaContent();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString("objectId", "NA");
+        date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
+    }
+
+    private void openMediaContent() {
+        if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
+            if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
+                takePicture();
+            }
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
+            if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
+                openVideo();
+            }
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+            if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
+                openGalleryForAudio();
+            }
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
+            if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
+                getImageResourceFromGallery();
+            }
+        } else {
+            Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void setUpUi(String type) {
@@ -160,32 +176,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_CAMERA_PERMISSION:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    takePicture();
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-    private boolean isStoragePermissionGranted() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-                return true;
-            } else {
-                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
-                return false;
-            }
-        }
-        return false;
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_IMAGE_RESULT) {
             try {
@@ -207,6 +197,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 Uri uri = data.getData();
                 if (null != uri) {
                     try {
+                        setUpUi("video");
                         String uriString = uri.toString();
                         File file = new File(uriString);
                         String path = file.getAbsolutePath();
@@ -224,8 +215,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
                     }
-                    postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, getString(R.string.posted_contant_date));
-                    finish();
                 }
             }
         } else if (requestCode == AppConstants.VIDEO_CAPTURE) {
@@ -301,35 +290,75 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                         if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
                             Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
-                            finish();
+                            Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
                         } else {
                             Toast.makeText(CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
+
     @Override
     public void onClick(View v) {
-        //todo:-Remove hardcoded topic
+        //todo:-Remove hardcoded
         if (apiCallFromActivity.equalsIgnoreCase(getString(R.string.board_activity))) {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
-                postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, getString(R.string.posted_contant_date));
+                postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, date);
+            } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, date);
             } else {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         } else {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
-                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, getString(R.string.posted_contant_date));
+                postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else {
-                Toast.makeText(this, "Network Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
             }
         }
 
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case AppConstants.REQUEST_ID_MULTIPLE_PERMISSIONS:
+                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
+                    finish();
+                } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                        openGalleryForAudio();
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                } else {
+                    if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
+                        takePicture();
+                    } else {
+                        openVideo();
+                    }
+                }
+                break;
+            case AppConstants.REQUEST_ID_STORAGE_PERMISSIONS:
+                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    finish();
+                } else {
+                    if (openFrom.equalsIgnoreCase(getString(R.string.audio)))
+                        openGalleryForAudio();
+                    else {
+                        getImageResourceFromGallery();
+                    }
+                }
+        }
     }
 }

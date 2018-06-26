@@ -72,6 +72,10 @@ public class PastMatchAdapter extends RecyclerView.Adapter<PastMatchAdapter.Matc
                 Intent intent = new Intent(context, BoardActivity.class);
                 matchPreferenceEditor = context.getSharedPreferences(context.getString(R.string.match_pref), Context.MODE_PRIVATE).edit();
                 matchPreferenceEditor.putLong(context.getString(R.string.match_id_string), matchId).apply();
+                matchPreferenceEditor.putString(context.getString(R.string.home_team_logo),
+                        classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeTeam().getLogoLink()).apply();
+                matchPreferenceEditor.putString(context.getString(R.string.away_team_logo),
+                        classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayTeam().getLogoLink()).apply();
                 context.startActivity(intent);
             }
         });
