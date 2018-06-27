@@ -8,13 +8,17 @@ import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.Map;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
@@ -30,11 +34,11 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         Intent intent = new Intent(context.getString(R.string.board_intent));
 
         //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
-        intent.putExtra(context.getString(R.string.content_type), boardNotification.getFeedItem().getContentType());
-        intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getFeedItem().getThumbnail().getImageUrl());
-        intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getFeedItem().getThumbnail().getHeight());
-        intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getFeedItem().getThumbnail().getWidth());
-        intent.putExtra(context.getString(R.string.image_url), boardNotification.getFeedItem().getUrl());
+        intent.putExtra(context.getString(R.string.content_type), boardNotification.getContentType());
+        intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getThumbnailImageUrl());
+        intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getThumbnailHeight());
+        intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getThumbnailWidth());
+        intent.putExtra(context.getString(R.string.image_url), boardNotification.getImageUrl());
 
         //send broadcast
         context.sendBroadcast(intent);
@@ -43,15 +47,34 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        String notificationString = remoteMessage.getNotification().getBody();
-        BoardNotification boardNotification = new BoardNotification();
-        Gson gson = new Gson();
-        boardNotification = gson.fromJson(notificationString, BoardNotification.class);
-        updateBoardActivity(getApplicationContext(), boardNotification);
-        sendNotification(boardNotification);
+        // Check if message contains a data payload.
+        if (remoteMessage.getData().size() > 0) {
+            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
+
+            BoardNotification boardNotification = new BoardNotification();
+
+            Map<String, String> dataPayload = remoteMessage.getData();
+            JSONObject jsonObject = new JSONObject(dataPayload);
+            String notificationString = jsonObject.toString();
+            Gson gson = new Gson();
+            boardNotification = gson.fromJson(notificationString, BoardNotification.class);
+
+            updateBoardActivity(getApplicationContext(), boardNotification);
+
+            sendNotification(boardNotification);
+        }
+
     }
 
     public void sendNotification(BoardNotification boardNotification) {
+
+        String messageBody = boardNotification.getActor()
+                + " "
+                + boardNotification.getAction()
+                + "ed" + " " + "an" + " "
+                + boardNotification.getContentType();
+
+
         Intent msgIntent = new Intent(this, BoardActivity.class);
         msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
@@ -59,13 +82,8 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
         //TODO: Remove this and make it general, Such that the message is appropriate when the user uploads a video , image or any other content
         //Will be done in the next pull request
-        String messageBody = boardNotification.getActivity().getActor()
-                + " "
-                + boardNotification.getActivity().getAction()
-                + "ed" + " " + "an" + " "
-                + boardNotification.getFeedItem().getContentType();
         try {
-            bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getFeedItem().getThumbnail().getImageUrl()).get();
+            bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getThumbnailImageUrl()).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
