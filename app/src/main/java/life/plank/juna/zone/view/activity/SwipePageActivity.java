@@ -467,7 +467,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
         Paint paint = new Paint();
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        //ColorFilter filter = new LightingColorFilter(0xFFFFFFFF, 0x00222222); // lighten
         ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
         paint.setColorFilter(filter);
         canvas.drawBitmap(blurredBitmap, 0, 0, paint);
