@@ -51,6 +51,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     SharedPreferences saveBoardItemData;
     private Context context;
     private String objectId;
+    private int likeCount = 0;
 
     public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
         this.context = context;
@@ -61,13 +62,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ((ZoneApplication) getApplication()).getBoardItemLikeNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.football_feed_detail_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_detail_row, parent, false);
         return new FootballFeedDetailViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+
         saveBoardItemData = context.getSharedPreferences(context.getString(R.string.board_feed_item), 0);
         boardFeedItemId = saveBoardItemData.getString("id", "NA");
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
@@ -96,6 +97,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             @Override
             public void onClick(View v) {
                 boardFeedItemLikeApiCall(boardFeedItemId, objectId);
+                likeCount = likeCount + 1;
+                holder.likeCountTextView.setText(String.valueOf(likeCount));
+                holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
             }
         });
     }
@@ -123,7 +127,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         Log.e("", "onNext: " + jsonObjectResponse);
-
                     }
                 });
 
@@ -138,6 +141,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView profileImageView;
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
+        @BindView(R.id.number_of_likes_text_view)
+        TextView likeCountTextView;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);

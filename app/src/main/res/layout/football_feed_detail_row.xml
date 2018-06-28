@@ -67,7 +67,7 @@
                 android:drawablePadding="5dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
-                android:text="16.2M"
+                android:text="0"
                 android:textColor="@color/grey"
                 android:textSize="10sp" />
 

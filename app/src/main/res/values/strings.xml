@@ -355,4 +355,5 @@
     <string name="away_team_logo">away_team_logo</string>
     <string name="add_permission">give permission from settings</string>
     <string name="post_a_comment">Post a comment</string>
+    <string name="board_like_item_list">Board Item Added in your Liked List</string>
 </resources>
