@@ -24,6 +24,7 @@ import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResp
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -125,5 +126,8 @@ public interface RestApi {
 
     @GET("/boards/{boardId}/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);
+
+    @DELETE("feedItems/{id}/likes")
+    Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
 }
 

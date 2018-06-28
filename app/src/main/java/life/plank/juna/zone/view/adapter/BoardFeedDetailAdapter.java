@@ -102,6 +102,19 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
             }
         });
+        holder.unlikeCountTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boardUnlikeFeedItem(boardFeedItemId, objectId);
+                if (likeCount == 0) {
+                    likeCount = 0;
+                    holder.likeCountTextView.setText(String.valueOf(likeCount));
+                } else {
+                    likeCount = likeCount - 1;
+                    holder.likeCountTextView.setText(String.valueOf(likeCount));
+                }
+            }
+        });
     }
 
     @Override
@@ -111,6 +124,30 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     public void boardFeedItemLikeApiCall(String id, String userId) {
         restApi.getLikedFeedItem(id, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e("", "onNext: " + jsonObjectResponse);
+                    }
+                });
+
+    }
+
+
+    public void boardUnlikeFeedItem(String id, String userId) {
+        restApi.unlikeBoardItem(id, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -143,6 +180,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView likeImageView;
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
+        @BindView(R.id.unlike_image_view)
+        ImageView unlikeCountTextView;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
