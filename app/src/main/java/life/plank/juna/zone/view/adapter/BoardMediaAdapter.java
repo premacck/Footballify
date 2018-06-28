@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
@@ -25,6 +26,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private Context context;
+    private OnLongPressListener onLongPressListener;
 
     public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
         this.context = context;
@@ -53,6 +55,17 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                         .into(holder.tileImageView);
             }
         }
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onLongPressListener.onItemLongPress(position);
+                return true;
+            }
+        });
+    }
+
+    public void setOnLongPressListener(OnLongPressListener onLongPressListener) {
+        this.onLongPressListener = onLongPressListener;
     }
 
     @Override
