@@ -43,12 +43,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Inject
     @Named("default")
     Retrofit retrofit;
-    List<FootballFeed> footballFeedsList = new ArrayList<>();
+    private List<FootballFeed> footballFeedsList = new ArrayList<>();
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
-    String boardFeedItemId;
-    RestApi restApi;
-    SharedPreferences saveBoardItemData;
+    private String boardFeedItemId;
+    private RestApi restApi;
+    private SharedPreferences saveBoardItemData;
     private Context context;
     private String objectId;
     private int likeCount = 0;
@@ -109,7 +109,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         return footballFeedsList.size();
     }
 
-    public void boardFeedItemLikeApiCall(String id, String userId) {
+    private void boardFeedItemLikeApiCall(String id, String userId) {
         restApi.getLikedFeedItem(id, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -144,7 +144,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
 
-        public FootballFeedDetailViewHolder(View itemView) {
+        FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
