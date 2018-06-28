@@ -45,7 +45,7 @@ public class UIDisplayUtil {
 
     private static String SIGN_UP_USER_DETAILS = "signUpPageDetails";
 
-    private UIDisplayUtil() {
+    public UIDisplayUtil() {
 
     }
 
@@ -173,26 +173,6 @@ public class UIDisplayUtil {
         }
         return filePath;
     }
-    public void displaySnackBar(View currentView, String message) {
-        Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
-    }
-
-    public void hideSoftKeyboard(View view, Context context) {
-        if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            assert inputMethodManager != null;
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
 
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean checkPermission(final Activity context) {
@@ -217,6 +197,7 @@ public class UIDisplayUtil {
         }
         return true;
     }
+
     @TargetApi(Build.VERSION_CODES.M)
     public static boolean checkStoragePermission(final Activity context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -235,5 +216,26 @@ public class UIDisplayUtil {
             }
         }
         return true;
+    }
+
+    public void displaySnackBar(View currentView, String message) {
+        Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void hideSoftKeyboard(View view, Context context) {
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert inputMethodManager != null;
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 }

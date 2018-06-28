@@ -5,6 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +32,7 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -42,6 +52,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
+import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
@@ -56,8 +67,12 @@ import rx.schedulers.Schedulers;
  * Created by plank-hasan on 5/3/2018.
  */
 
-public class BoardActivity extends AppCompatActivity {
+public class BoardActivity extends AppCompatActivity implements OnLongPressListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
+    public static Bitmap boardParentViewBitmap = null;
+    public static BoardActivity boardActivity;
+    public static Bitmap blurredBitmap = null;
+    public static RenderScript renderScript;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -68,8 +83,8 @@ public class BoardActivity extends AppCompatActivity {
     ArcMenu arcMenu;
     @BindView(R.id.following_text_view)
     TextView followingTextView;
-    @BindView(R.id.parent_layout)
-    RelativeLayout parentLayout;
+    @BindView(R.id.board_parent_layout)
+    RelativeLayout boardParentLayout;
     BoardMediaAdapter boardMediaAdapter;
     GridLayoutManager gridLayoutManager;
     @BindView(R.id.progress_bar)
@@ -85,7 +100,6 @@ public class BoardActivity extends AppCompatActivity {
     private String nextPageToken = "";
     private int PAGE_SIZE;
     private boolean isLoading = false;
-    private RenderScript renderScript;
     private String enterBoardId;
     private String objectId;
     private long currentMatchId;
@@ -99,6 +113,24 @@ public class BoardActivity extends AppCompatActivity {
 
         }
     };
+
+    public static Bitmap captureView(View view) {
+        if (blurredBitmap != null) {
+            return blurredBitmap;
+        }
+        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(blurredBitmap);
+        view.draw(canvas);
+        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
+        paint.setColorFilter(filter);
+        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
+        return blurredBitmap;
+    }
 
     public void setDataReceivedFromPushNotification(Intent intent) {
 
@@ -116,8 +148,8 @@ public class BoardActivity extends AppCompatActivity {
         thumbnail.setImageUrl(thumbnailUrl);
         footballFeed.setThumbnail(thumbnail);
         footballFeed.setUrl(imageUrl);
-        
-        boardFeed.add(0,footballFeed);
+
+        boardFeed.add(0, footballFeed);
         boardMediaAdapter.notifyItemInserted(0);
         boardRecyclerView.smoothScrollToPosition(0);
 
@@ -129,6 +161,7 @@ public class BoardActivity extends AppCompatActivity {
         Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
+        boardActivity = BoardActivity.this;
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
@@ -168,7 +201,10 @@ public class BoardActivity extends AppCompatActivity {
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
+        boardMediaAdapter.setOnLongPressListener(this);
         boardRecyclerView.setAdapter(boardMediaAdapter);
+        renderScript = RenderScript.create(this);
+
     }
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
@@ -344,5 +380,51 @@ public class BoardActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onItemLongPress(int position) {
+        boardParentViewBitmap = loadBitmap(boardParentLayout, boardParentLayout);
+        Intent intent = new Intent(this, BoardFeedDetailActivity.class);
+        intent.putExtra(AppConstants.POSITION, String.valueOf(position));
+        intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(boardFeed));
+        startActivity(intent);
+    }
+
+    //todo: move in Utils
+    public Bitmap loadBitmap(View backgroundView, View targetView) {
+        Rect backgroundBounds = new Rect();
+        backgroundView.getHitRect(backgroundBounds);
+        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
+            return null;
+        }
+        Bitmap blurredBitmap = captureView(backgroundView);
+        int[] location = new int[2];
+        int[] backgroundViewLocation = new int[2];
+        backgroundView.getLocationInWindow(backgroundViewLocation);
+        targetView.getLocationInWindow(location);
+        int height = targetView.getHeight();
+        int y = location[1];
+        if (backgroundViewLocation[1] >= location[1]) {
+            height -= (backgroundViewLocation[1] - location[1]);
+            if (y < 0)
+                y = 0;
+        }
+        if (y + height > blurredBitmap.getHeight()) {
+            height = blurredBitmap.getHeight() - y;
+            if (height <= 0) {
+                return null;
+            }
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(0.5f, 0.5f);
+        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
+                (int) targetView.getX(),
+                y,
+                targetView.getMeasuredWidth(),
+                height,
+                matrix,
+                true);
+        return bitmap;
     }
 }
