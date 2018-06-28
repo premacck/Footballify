@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -27,10 +25,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 
@@ -87,7 +82,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             @Override
             public void onClick(View v) {
                 Toast.makeText( context, "clicked", Toast.LENGTH_SHORT ).show();
-                getLikedFeedItem("969f1c52-92c0-4591-b9fd-14d4406efafc");
+                //getLikedFeedItem("969f1c52-92c0-4591-b9fd-14d4406efafc");
             }
         } );
     }
@@ -112,7 +107,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
             ButterKnife.bind(this, itemView);
         }
     }
-    private void getLikedFeedItem(String userId) {
+   /* private void getLikedFeedItem(String userId) {
         restApi.getLikedFeedItem(userId)
                 .subscribeOn( Schedulers.io() )
                 .observeOn( AndroidSchedulers.mainThread() )
@@ -133,6 +128,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
                         Log.e( "", "onNext: "+jsonObjectResponse );
                     }
                 } );
-    }
+    }*/
 
 }
