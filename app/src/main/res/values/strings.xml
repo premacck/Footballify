@@ -318,7 +318,9 @@
     <string name="matches_fixtureresults">Matches,FixtureResults</string>
     <string name="match_day_37">Match Day 37</string>
     <string name="match_id_string">match_id</string>
+    <string name="board_item_id_string">board_feed_item_id</string>
     <string name="match_pref">match_pref</string>
+    <string name="board_feed_item">board_feed_item</string>
     <string name="object_id_string">objectId</string>
     <string name="content_type">contentType</string>
     <string name="thumbnail_url">thumbnailUrl</string>
