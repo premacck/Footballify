@@ -46,9 +46,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
-    private String boardFeedItemId;
     private RestApi restApi;
-    private SharedPreferences saveBoardItemData,saveLikeCount;
     private Context context;
     private String objectId;
     private int likeCount = 0;
@@ -68,9 +66,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-
-        saveBoardItemData = context.getSharedPreferences(context.getString(R.string.board_feed_item), 0);
-        boardFeedItemId = saveBoardItemData.getString("id", "NA");
+        String feedId = footballFeedsList.get(position).getId();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
@@ -96,8 +92,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemLikeApiCall(boardFeedItemId, objectId);
-                saveLikeCount = context.getSharedPreferences(context.getString(R.string.board_feed_item), 0);
+                boardFeedItemLikeApiCall(feedId, objectId);
                 likeCount = likeCount + 1;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
@@ -106,7 +101,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.unlikeCountTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardUnlikeFeedItem(boardFeedItemId, objectId);
+                boardUnlikeFeedItem(feedId, objectId);
+                //todo:will replace with getFoorballFeed Api call original Like counts
                 if (likeCount == 0) {
                     holder.likeCountTextView.setText(String.valueOf(likeCount));
                 } else {
