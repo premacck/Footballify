@@ -125,7 +125,6 @@ public class FootballFeed {
         private Integer bans;
         private Integer mutes;
         private Integer reports;
-        private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
         public Integer getLikes() {
             return likes;

@@ -68,7 +68,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
         String id = footballFeedsList.get(position).getId();
-
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
         try {
             Picasso.with(context).
@@ -93,10 +92,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             @Override
             public void onClick(View v) {
                 boardFeedItemLikeApiCall(id, objectId);
-                likeCount = likeCount + 1;
+                //todo: remove like count from Board Feed Interactions
+                likeCount = likeCount++;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
-
             }
         });
     }
