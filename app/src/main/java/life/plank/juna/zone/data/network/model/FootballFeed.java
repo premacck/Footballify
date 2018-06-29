@@ -1,8 +1,5 @@
 package life.plank.juna.zone.data.network.model;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * Created by plank-arfaa on 06/02/18.
  */
@@ -203,7 +200,6 @@ public class FootballFeed {
             private String imageUrl;
             private Integer height;
             private Integer width;
-            private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
             public String getImageUrl() {
                 return imageUrl;
