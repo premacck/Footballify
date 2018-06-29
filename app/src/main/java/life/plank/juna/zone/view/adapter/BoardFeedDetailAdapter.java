@@ -92,7 +92,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             @Override
             public void onClick(View v) {
                 boardFeedItemLikeApiCall(id, objectId);
-                //todo: remove like count from Board Feed Interactions
+                //todo: remove static like count and add from Board Feed Interactions
                 likeCount = likeCount++;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
