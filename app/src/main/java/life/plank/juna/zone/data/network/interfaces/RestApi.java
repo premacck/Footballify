@@ -125,5 +125,8 @@ public interface RestApi {
 
     @GET("/boards/{boardId}/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);
+
+    @POST("feedItems/{id}/shares")
+    Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
 }
 
