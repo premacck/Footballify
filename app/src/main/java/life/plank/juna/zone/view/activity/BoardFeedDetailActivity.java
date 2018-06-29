@@ -44,8 +44,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
     public void populateRecyclerView() {
         BoardFeedDetailAdapter mAdapter = new BoardFeedDetailAdapter(BoardFeedDetailActivity.this,
                 new Gson().fromJson(getIntent().getStringExtra(AppConstants.FEED_ITEMS), new TypeToken<List<FootballFeed>>() {
-                }.getType())
-                , boardId);
+                }.getType()),boardId);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         boardFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
         try {
