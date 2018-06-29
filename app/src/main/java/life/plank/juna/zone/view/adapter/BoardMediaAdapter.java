@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +20,6 @@ import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 
-import static android.content.Context.MODE_PRIVATE;
-
 /**
  * Created by plank-prachi on 4/10/2018.
  */
@@ -30,7 +27,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private Context context;
     private OnLongPressListener onLongPressListener;
-    private SharedPreferences.Editor saveBoardItemData;
 
     public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
         this.context = context;
@@ -45,8 +41,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        saveBoardItemData = context.getSharedPreferences(context.getString(R.string.board_feed_item), MODE_PRIVATE).edit();
-        saveBoardItemData.putString("id",boardFeed.get(position).getId()).apply();
         if (boardFeed.get(position).getThumbnail().getImageUrl() != null) {
             holder.titleTextView.setText(boardFeed.get(position).getTitle());
             if (boardFeed.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.audio))) {

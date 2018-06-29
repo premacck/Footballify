@@ -45,9 +45,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
-    private String boardFeedItemId;
     private RestApi restApi;
-    private SharedPreferences saveBoardItemData;
     private Context context;
     private String objectId;
     private int likeCount = 0;
