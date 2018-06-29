@@ -29,12 +29,14 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
     @BindView(R.id.board_blur_background_image_view)
     ImageView boardBlurBackgroundImageView;
     CustomLinearLayoutManager customLinearLayoutManager;
+    String boardId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_feed_detail);
         ButterKnife.bind(this);
+        boardId = getIntent().getStringExtra(getString(R.string.board_id));
         boardBlurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardActivity.boardParentViewBitmap));
         populateRecyclerView();
     }
@@ -42,8 +44,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
     public void populateRecyclerView() {
         BoardFeedDetailAdapter mAdapter = new BoardFeedDetailAdapter(BoardFeedDetailActivity.this,
                 new Gson().fromJson(getIntent().getStringExtra(AppConstants.FEED_ITEMS), new TypeToken<List<FootballFeed>>() {
-                }.getType())
-        );
+                }.getType()),boardId);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         boardFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
         try {

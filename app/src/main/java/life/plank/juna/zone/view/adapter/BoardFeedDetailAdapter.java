@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +25,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Response;
@@ -44,15 +46,17 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     Retrofit retrofit;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
+    String boardId;
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
     private RestApi restApi;
     private Context context;
     private String objectId;
     private int likeCount = 0;
 
-    public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
+    public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId) {
         this.context = context;
         this.footballFeedsList = footballFeedsList;
+        this.boardId = boardId;
     }
 
     @Override
@@ -67,6 +71,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
+
         String id = footballFeedsList.get(position).getId();
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
         try {
@@ -96,6 +101,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 likeCount = likeCount++;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
+            }
+        });
+
+        holder.shareImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boardFeedItemShareApiCall(id, AppConstants.SHARE_TO, boardId, objectId);
             }
         });
     }
@@ -128,6 +140,30 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
+    private void boardFeedItemShareApiCall(String id, String shareTo, String boardId, String userId) {
+        restApi.shareBoardFeedItem(id, shareTo, boardId, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<FootballFeed>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                    }
+
+                    @Override
+                    public void onNext(Response<FootballFeed> feedItemModelResponse) {
+                        Log.e("", "onNext: " + feedItemModelResponse);
+                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
+
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
@@ -137,6 +173,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView profileImageView;
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
+        @BindView(R.id.share_image_view)
+        ImageView shareImageView;
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
 

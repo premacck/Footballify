@@ -388,6 +388,7 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         Intent intent = new Intent(this, BoardFeedDetailActivity.class);
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));
         intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(boardFeed));
+        intent.putExtra(getString(R.string.board_id),enterBoardId);
         startActivity(intent);
     }
 
