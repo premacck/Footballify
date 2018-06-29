@@ -344,9 +344,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     private void setUpStaticItemsToFeeds() {
         footballFeeds = new ArrayList<>();
-        footballFeeds.add(new FootballFeed("", "Standings", "", "", "", "", new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg", 0, 0), null, ""));
-        footballFeeds.add(new FootballFeed("", "Schedules", "", "", "", "", new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg", 0, 0), null, ""));
-        footballFeeds.add(new FootballFeed("", "Premier League", "", "", "", "", new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0), null, ""));
+        footballFeeds.add(new FootballFeed("", "Standings", "", "", "", "", new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg", 0, 0), null, "",null));
+        footballFeeds.add(new FootballFeed("", "Schedules", "", "", "", "", new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg", 0, 0), null, "",null));
+        footballFeeds.add(new FootballFeed("", "Premier League", "", "", "", "", new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0), null, "",null));
         footballFeedAdapter.setFootballFeedList(footballFeeds);
     }
 

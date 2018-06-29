@@ -105,7 +105,7 @@ public interface RestApi {
     Observable<Response<SignInModel>> getUser(@Query("emailAddress") String emailAddress);
 
     @POST("feedItems/{id}/likes")
-    Observable<Response<JsonObject>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
+    Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
 
     @GET("matches/{matchId}/matchsummary")
     Observable<Response<MatchSummaryModel>> getMatchSummary(@Path("matchId") long matchId);

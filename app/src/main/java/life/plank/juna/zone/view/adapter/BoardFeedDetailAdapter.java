@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,9 +42,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Inject
     @Named("default")
     Retrofit retrofit;
-    private List<FootballFeed> footballFeedsList = new ArrayList<>();
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
+    private List<FootballFeed> footballFeedsList = new ArrayList<>();
     private String boardFeedItemId;
     private RestApi restApi;
     private SharedPreferences saveBoardItemData;
@@ -68,11 +67,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-
-        saveBoardItemData = context.getSharedPreferences(context.getString(R.string.board_feed_item), 0);
-        boardFeedItemId = saveBoardItemData.getString("id", "NA");
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
+        String id = footballFeedsList.get(position).getId();
+
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
         try {
             Picasso.with(context).
@@ -96,10 +94,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemLikeApiCall(boardFeedItemId, objectId);
+                boardFeedItemLikeApiCall(id, objectId);
                 likeCount = likeCount + 1;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
+
             }
         });
     }
@@ -113,7 +112,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         restApi.getLikedFeedItem(id, userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
+                .subscribe(new Subscriber<Response<FootballFeed>>() {
                     @Override
                     public void onCompleted() {
                         Log.e("", "onCompleted: ");
@@ -125,8 +124,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
+                    public void onNext(Response<FootballFeed> feedItemModelResponse) {
+                        Log.e("", "onNext: " + feedItemModelResponse);
                     }
                 });
 
