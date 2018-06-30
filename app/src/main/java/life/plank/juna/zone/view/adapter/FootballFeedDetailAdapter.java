@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -39,7 +38,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     Retrofit retrofit;
     List<FootballFeed> footballFeedsList = new ArrayList<>();
     private Context context;
-    private FootballFeedCommentAdapter commentFeedAdapter;
     private RestApi restApi;
 
     public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
@@ -49,8 +47,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ((ZoneApplication) getApplication()).getLikeFeedNetworkComponent().inject( this );
-        restApi = retrofit.create( RestApi.class );
+        ((ZoneApplication) getApplication()).getLikeFeedNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.football_feed_detail_row, parent, false);
         return new FootballFeedDetailViewHolder(view);
@@ -78,13 +76,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         } catch (Exception e) {
             holder.profileImageView.setImageResource(R.drawable.ic_place_holder);
         }
-        holder.likeImageView.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText( context, "clicked", Toast.LENGTH_SHORT ).show();
-                //getLikedFeedItem("969f1c52-92c0-4591-b9fd-14d4406efafc");
-            }
-        } );
     }
 
     @Override
@@ -101,33 +92,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         ImageView profileImageView;
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
+        @BindView(R.id.number_of_likes_text_view)
+        TextView likeCountTextView;
 
         public FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
     }
-   /* private void getLikedFeedItem(String userId) {
-        restApi.getLikedFeedItem(userId)
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new rx.Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e( "", "onCompleted: " );
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e( "", "onError: " + e );
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e( "", "onNext: "+jsonObjectResponse );
-                    }
-                } );
-    }*/
-
 }

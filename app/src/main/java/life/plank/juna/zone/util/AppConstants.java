@@ -61,6 +61,7 @@ public class AppConstants {
     public static final String BOARD_TYPE = "FootballMatch";
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
     public static final int REQUEST_ID_STORAGE_PERMISSIONS = 102;
+    public static final String SHARE_TO = "Board";
 
 
     public static String getDateAndTime(String date) {

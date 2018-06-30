@@ -106,7 +106,7 @@ public interface RestApi {
     Observable<Response<SignInModel>> getUser(@Query("emailAddress") String emailAddress);
 
     @POST("feedItems/{id}/likes")
-    Observable<Response<JsonObject>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
+    Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
 
     @GET("matches/{matchId}/matchsummary")
     Observable<Response<MatchSummaryModel>> getMatchSummary(@Path("matchId") long matchId);
@@ -127,7 +127,11 @@ public interface RestApi {
     @GET("/boards/{boardId}/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);
 
+    @POST("feedItems/{id}/shares")
+    Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
+
     @DELETE("feedItems/{id}/likes")
     Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
+
 }
 

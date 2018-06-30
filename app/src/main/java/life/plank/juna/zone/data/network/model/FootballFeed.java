@@ -14,11 +14,12 @@ public class FootballFeed {
     private Thumbnail thumbnail;
     private String dateCreated;
     private String contentType;
+    private Interactions interactions;
 
     public FootballFeed() {
     }
 
-    public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType) {
+    public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType, Interactions interactions) {
         this.id = id;
         this.title = title;
         this.url = url;
@@ -28,6 +29,7 @@ public class FootballFeed {
         this.thumbnail = thumbnail;
         this.dateCreated = dateCreated;
         this.contentType = contentType;
+        this.interactions = interactions;
     }
 
     public String getId() {
@@ -101,4 +103,128 @@ public class FootballFeed {
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
+
+    public Interactions getInteractions() {
+        return interactions;
+    }
+
+    public void setInteractions(Interactions interactions) {
+        this.interactions = interactions;
+    }
+
+    public class Interactions {
+        private Integer likes;
+        private Integer shares;
+        private Integer pins;
+        private Integer comments;
+        private Integer posts;
+        private Integer blocks;
+        private Integer bans;
+        private Integer mutes;
+        private Integer reports;
+
+        public Integer getLikes() {
+            return likes;
+        }
+
+        public void setLikes(Integer likes) {
+            this.likes = likes;
+        }
+
+        public Integer getShares() {
+            return shares;
+        }
+
+        public void setShares(Integer shares) {
+            this.shares = shares;
+        }
+
+        public Integer getPins() {
+            return pins;
+        }
+
+        public void setPins(Integer pins) {
+            this.pins = pins;
+        }
+
+        public Integer getComments() {
+            return comments;
+        }
+
+        public void setComments(Integer comments) {
+            this.comments = comments;
+        }
+
+        public Integer getPosts() {
+            return posts;
+        }
+
+        public void setPosts(Integer posts) {
+            this.posts = posts;
+        }
+
+        public Integer getBlocks() {
+            return blocks;
+        }
+
+        public void setBlocks(Integer blocks) {
+            this.blocks = blocks;
+        }
+
+        public Integer getBans() {
+            return bans;
+        }
+
+        public void setBans(Integer bans) {
+            this.bans = bans;
+        }
+
+        public Integer getMutes() {
+            return mutes;
+        }
+
+        public void setMutes(Integer mutes) {
+            this.mutes = mutes;
+        }
+
+        public Integer getReports() {
+            return reports;
+        }
+
+        public void setReports(Integer reports) {
+            this.reports = reports;
+        }
+
+        public class Thumbnail {
+
+            private String imageUrl;
+            private Integer height;
+            private Integer width;
+
+            public String getImageUrl() {
+                return imageUrl;
+            }
+
+            public void setImageUrl(String imageUrl) {
+                this.imageUrl = imageUrl;
+            }
+
+            public Integer getHeight() {
+                return height;
+            }
+
+            public void setHeight(Integer height) {
+                this.height = height;
+            }
+
+            public Integer getWidth() {
+                return width;
+            }
+
+            public void setWidth(Integer width) {
+                this.width = width;
+            }
+        }
+    }
+
 }
