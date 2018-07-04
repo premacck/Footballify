@@ -44,7 +44,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         if (boardFeed.get(position).getThumbnail().getImageUrl() != null) {
             holder.titleTextView.setText(boardFeed.get(position).getTitle());
             if (boardFeed.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.audio))) {
-                holder.titleTextView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(R.drawable.ic_audio);
             } else {
                 Picasso.with(context)
