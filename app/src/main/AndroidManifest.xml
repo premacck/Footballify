@@ -88,9 +88,6 @@
             android:name=".view.activity.SignupPageActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.LoginActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.ZoneHomeActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -130,7 +127,6 @@
 
         <activity android:name=".view.activity.SwipePageActivity" />
         <activity android:name=".view.activity.SplashScreenActivity" />
-        <activity android:name=".view.activity.SignUpActivity" />
         <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"

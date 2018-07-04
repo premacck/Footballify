@@ -17,26 +17,18 @@ import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkCompone
 import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerOnBoardSocialLoginNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSigninUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSignupUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.OnBoardSocialLoginNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SigninUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SignupUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
@@ -54,11 +46,7 @@ public class ZoneApplication extends Application {
     public static List<String> selectedTeamsList = new ArrayList<>();
     private static ZoneApplication zoneApplication;
     private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
-    private LoginUserNetworkComponent loginUserNetworkComponent;
-    private RegisterUserNetworkComponent registerUserNetworkComponent;
-    private SocialLoginNetworkComponent socialLoginNetworkComponent;
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
-    private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
     private SignupUserNetworkComponent signupUserNetworkComponent;
@@ -85,23 +73,7 @@ public class ZoneApplication extends Application {
                 .restServiceModule(new RestServiceModule())
                 .build();
 
-        loginUserNetworkComponent = DaggerLoginUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        registerUserNetworkComponent = DaggerRegisterUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        socialLoginNetworkComponent = DaggerSocialLoginNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
         footballFeedNetworkComponent = DaggerFootballFeedNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        onBoardSocialLoginNetworkComponent = DaggerOnBoardSocialLoginNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
 
@@ -137,24 +109,8 @@ public class ZoneApplication extends Application {
         return newsFeedsNetworkComponent;
     }
 
-    public LoginUserNetworkComponent getLoginNetworkComponent() {
-        return loginUserNetworkComponent;
-    }
-
-    public RegisterUserNetworkComponent getRegisterNetworkComponent() {
-        return registerUserNetworkComponent;
-    }
-
-    public SocialLoginNetworkComponent getSocialLoginNetworkComponent() {
-        return socialLoginNetworkComponent;
-    }
-
     public FootballFeedNetworkComponent getFootballFeedNetworkComponent() {
         return footballFeedNetworkComponent;
-    }
-
-    public OnBoardSocialLoginNetworkComponent getOnBoardSocialLoginNetworkComponent() {
-        return onBoardSocialLoginNetworkComponent;
     }
 
     public StandingsNetworkComponent getStandingNetworkComponent() {
