@@ -111,7 +111,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         });
 
-        holder.unlikeCountTextView.setOnClickListener(new View.OnClickListener() {
+        holder.unlikeCountImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boardDislikeFeedItem(feedId, objectId);
@@ -119,11 +119,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 if (likeCount == 0) {
                     holder.likeCountTextView.setText(String.valueOf(likeCount));
                 } else {
-                    likeCount--;
-                    holder.likeCountTextView.setText(String.valueOf(likeCount));
+                    holder.likeCountTextView.setText(String.valueOf(--likeCount));
                 }
             }
-
         });
     }
 
@@ -201,6 +199,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
 
     }
+   //todo:make a call to get dislike count.
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
@@ -216,7 +215,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
         @BindView(R.id.unlike_image_view)
-        ImageView unlikeCountTextView;
+        ImageView unlikeCountImageView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
