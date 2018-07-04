@@ -47,7 +47,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     Retrofit retrofit;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
-    String boardId;
+    private String boardId;
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
     private RestApi restApi;
     private Context context;
@@ -73,7 +73,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         String feedId = footballFeedsList.get(position).getId();
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
-        String id = footballFeedsList.get(position).getId();
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
         try {
             Picasso.with(context).
@@ -97,9 +96,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemLikeApiCall(id, objectId);
+                boardFeedItemLikeApiCall(feedId, objectId);
                 //todo: remove static like count and add from Board Feed Interactions
-                likeCount = likeCount++;
+                likeCount++;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
             }
@@ -108,14 +107,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.shareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemShareApiCall(id, AppConstants.SHARE_TO, boardId, objectId);
+                boardFeedItemShareApiCall(feedId, AppConstants.SHARE_TO, boardId, objectId);
             }
         });
 
         holder.unlikeCountTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardUnlikeFeedItem(feedId, objectId);
+                boardDislikeFeedItem(feedId, objectId);
                 //todo:will replace with getFoorballFeed Api call original Like counts
                 if (likeCount == 0) {
                     holder.likeCountTextView.setText(String.valueOf(likeCount));
@@ -128,100 +127,100 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         });
     }
 
-            @Override
-            public int getItemCount() {
-                return footballFeedsList.size();
-            }
+    @Override
+    public int getItemCount() {
+        return footballFeedsList.size();
+    }
 
-            private void boardFeedItemLikeApiCall(String id, String userId) {
-                restApi.getLikedFeedItem(id, userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<Response<FootballFeed>>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("", "onCompleted: ");
-                            }
+    private void boardFeedItemLikeApiCall(String id, String userId) {
+        restApi.getLikedFeedItem(id, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<FootballFeed>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("", "onError: " + e);
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                    }
 
-                            @Override
-                            public void onNext(Response<FootballFeed> feedItemModelResponse) {
-                                Log.e("", "onNext: " + feedItemModelResponse);
-                            }
-                        });
+                    @Override
+                    public void onNext(Response<FootballFeed> feedItemModelResponse) {
+                        Log.e("", "onNext: " + feedItemModelResponse);
+                    }
+                });
 
-            }
+    }
 
-            private void boardFeedItemShareApiCall(String id, String shareTo, String boardId, String userId) {
-                restApi.shareBoardFeedItem(id, shareTo, boardId, userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<Response<FootballFeed>>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("", "onCompleted: ");
-                            }
+    private void boardFeedItemShareApiCall(String id, String shareTo, String boardId, String userId) {
+        restApi.shareBoardFeedItem(id, shareTo, boardId, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<FootballFeed>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("", "onError: " + e);
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                    }
 
-                            @Override
-                            public void onNext(Response<FootballFeed> feedItemModelResponse) {
-                                Log.e("", "onNext: " + feedItemModelResponse);
-                                Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                    @Override
+                    public void onNext(Response<FootballFeed> feedItemModelResponse) {
+                        Log.e("", "onNext: " + feedItemModelResponse);
+                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_SHORT).show();
+                    }
+                });
 
-            }
+    }
 
-            private void boardUnlikeFeedItem(String id, String userId) {
-                restApi.unlikeBoardItem(id, userId)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<Response<JsonObject>>() {
-                            @Override
-                            public void onCompleted() {
-                                Log.e("", "onCompleted: ");
-                            }
+    private void boardDislikeFeedItem(String id, String userId) {
+        restApi.dislikeBoardItem(id, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
 
-                            @Override
-                            public void onError(Throwable e) {
-                                Log.e("", "onError: " + e);
-                            }
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                    }
 
-                            @Override
-                            public void onNext(Response<JsonObject> jsonObjectResponse) {
-                                Log.e("", "onNext: " + jsonObjectResponse);
-                            }
-                        });
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e("", "onNext: " + jsonObjectResponse);
+                    }
+                });
 
-            }
+    }
 
-            public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
-                @BindView(R.id.feed_image_view)
-                ImageView feedImageView;
-                @BindView(R.id.feed_title_text_view)
-                TextView feedTitleTextView;
-                @BindView(R.id.profile_image_view)
-                ImageView profileImageView;
-                @BindView(R.id.like_image_view)
-                ImageView likeImageView;
-                @BindView(R.id.share_image_view)
-                ImageView shareImageView;
-                @BindView(R.id.number_of_likes_text_view)
-                TextView likeCountTextView;
-                @BindView(R.id.unlike_image_view)
-                ImageView unlikeCountTextView;
+    public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.feed_image_view)
+        ImageView feedImageView;
+        @BindView(R.id.feed_title_text_view)
+        TextView feedTitleTextView;
+        @BindView(R.id.profile_image_view)
+        ImageView profileImageView;
+        @BindView(R.id.like_image_view)
+        ImageView likeImageView;
+        @BindView(R.id.share_image_view)
+        ImageView shareImageView;
+        @BindView(R.id.number_of_likes_text_view)
+        TextView likeCountTextView;
+        @BindView(R.id.unlike_image_view)
+        ImageView unlikeCountTextView;
 
-                FootballFeedDetailViewHolder(View itemView) {
-                    super(itemView);
-                    ButterKnife.bind(this, itemView);
-                }
-            }
+        FootballFeedDetailViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
+    }
+}
