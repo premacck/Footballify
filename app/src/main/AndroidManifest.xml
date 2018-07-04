@@ -94,62 +94,11 @@
             android:name=".view.activity.ZoneHomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.WarriorGameActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.FootballFeedDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".view.activity.GameLaunchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.GamePickerActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.PointsGameRulesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.SuddenDeathRulesActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.CreateArenaActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.JoinGameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.PointsGameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.MultipleUserJoinGameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.PointsGameResultActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.SuddenDeathGameActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.SuddenDeathWinnerOrLoserActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.SuddenDeathResultActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.ClubListViewActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.ClubGameLaunchActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.ClubPointsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.ClubWarriorResultActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.WarriorWinnerActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.ScrubberActivity"
@@ -162,12 +111,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.CameraActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.LiveZoneActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.ChatDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.VideoPlayerActivity"
