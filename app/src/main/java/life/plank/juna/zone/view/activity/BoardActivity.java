@@ -199,7 +199,7 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
     //todo: Inject adapter
     private void initRecyclerView() {
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4, GridLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardMediaAdapter.setOnLongPressListener(this);
         boardRecyclerView.setAdapter(boardMediaAdapter);
