@@ -10,53 +10,36 @@ import java.util.Map;
 
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardItemLikeNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.CreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardItemLikeNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerCreateArenaNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerFootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLoginUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerMultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerOnBoardSocialLoginNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerPointsGameComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerPointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerRegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSigninUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathGameComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerSuddenDeathResultComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.FootballMatchNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.JoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LoginUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.MultipleUserJoinGameNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.OnBoardSocialLoginNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.PointsGameComponent;
-import life.plank.juna.zone.data.network.dagger.PointsGameResultComponent;
 import life.plank.juna.zone.data.network.dagger.RegisterUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SigninUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SocialLoginNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.SuddenDeathGameComponent;
-import life.plank.juna.zone.data.network.dagger.SuddenDeathResultComponent;
 import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.domain.module.GameServiceModule;
 
 /**
  * Created by plank-sobia on 9/19/2017.
@@ -73,15 +56,7 @@ public class ZoneApplication extends Application {
     private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
     private LoginUserNetworkComponent loginUserNetworkComponent;
     private RegisterUserNetworkComponent registerUserNetworkComponent;
-    private CreateArenaNetworkComponent createArenaNetworkComponent;
-    private PointsGameComponent pointsGameComponent;
-    private MultipleUserJoinGameNetworkComponent multipleUserJoinGameNetworkComponent;
     private SocialLoginNetworkComponent socialLoginNetworkComponent;
-    private SuddenDeathGameComponent suddenDeathGameComponent;
-    private FootballMatchNetworkComponent footballMatchNetworkComponent;
-    private PointsGameResultComponent pointsGameResultComponent;
-    private JoinGameNetworkComponent joinGameNetworkComponent;
-    private SuddenDeathResultComponent suddenDeathResultComponent;
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private OnBoardSocialLoginNetworkComponent onBoardSocialLoginNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
@@ -118,41 +93,7 @@ public class ZoneApplication extends Application {
                 .restServiceModule(new RestServiceModule())
                 .build();
 
-        createArenaNetworkComponent = DaggerCreateArenaNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        pointsGameComponent = DaggerPointsGameComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule())
-                .build();
-
-        multipleUserJoinGameNetworkComponent = DaggerMultipleUserJoinGameNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
         socialLoginNetworkComponent = DaggerSocialLoginNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        suddenDeathGameComponent = DaggerSuddenDeathGameComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .gameServiceModule(new GameServiceModule())
-                .build();
-
-        footballMatchNetworkComponent = DaggerFootballMatchNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        pointsGameResultComponent = DaggerPointsGameResultComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        joinGameNetworkComponent = DaggerJoinGameNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
-
-        suddenDeathResultComponent = DaggerSuddenDeathResultComponent.builder()
                 .restServiceModule(new RestServiceModule())
                 .build();
 
@@ -204,40 +145,8 @@ public class ZoneApplication extends Application {
         return registerUserNetworkComponent;
     }
 
-    public CreateArenaNetworkComponent getCreateArenaNetworkComponent() {
-        return createArenaNetworkComponent;
-    }
-
-    public FootballMatchNetworkComponent getfootballMatchNetworkComponent() {
-        return footballMatchNetworkComponent;
-    }
-
-    public PointsGameComponent getPointsGameComponent() {
-        return pointsGameComponent;
-    }
-
-    public MultipleUserJoinGameNetworkComponent getMultipleUserJoinGameNetworkComponent() {
-        return multipleUserJoinGameNetworkComponent;
-    }
-
     public SocialLoginNetworkComponent getSocialLoginNetworkComponent() {
         return socialLoginNetworkComponent;
-    }
-
-    public SuddenDeathGameComponent getSuddenDeathGameComponent() {
-        return suddenDeathGameComponent;
-    }
-
-    public PointsGameResultComponent getPointsGameResultComponent() {
-        return pointsGameResultComponent;
-    }
-
-    public JoinGameNetworkComponent getJoinGameNetworkComponent() {
-        return joinGameNetworkComponent;
-    }
-
-    public SuddenDeathResultComponent getSuddenDeathResultComponent() {
-        return suddenDeathResultComponent;
     }
 
     public FootballFeedNetworkComponent getFootballFeedNetworkComponent() {

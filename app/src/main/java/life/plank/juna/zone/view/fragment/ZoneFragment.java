@@ -13,7 +13,6 @@ import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.ScrubberActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
-import life.plank.juna.zone.view.activity.WarriorGameActivity;
 
 public class ZoneFragment extends Fragment {
 
@@ -36,11 +35,6 @@ public class ZoneFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-    }
-
-    @OnClick(R.id.zone_games)
-    public void gamesIconClicked() {
-        startActivity(new Intent(getActivity(), WarriorGameActivity.class));
     }
 
     @OnClick(R.id.zone_football)
