@@ -44,6 +44,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         if (boardFeed.get(position).getThumbnail().getImageUrl() != null) {
             holder.titleTextView.setText(boardFeed.get(position).getTitle());
             if (boardFeed.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.audio))) {
+                holder.titleTextView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setImageResource(R.drawable.ic_audio);
             } else {
                 Picasso.with(context)
@@ -52,6 +53,17 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                         .placeholder(R.drawable.ic_place_holder)
                         .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
                         .error(R.drawable.ic_place_holder)
+                        .into(holder.tileImageView);
+            }
+            if (boardFeed.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.video))) {
+                holder.titleTextView.setVisibility(View.INVISIBLE);
+                String uri = boardFeed.get(position).getUrl();
+                Picasso.with(context)
+                        .load(uri)
+                        .fit().centerCrop()
+                        .placeholder(R.drawable.ic_video)
+                        .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
+                        .error(R.drawable.ic_video)
                         .into(holder.tileImageView);
             }
         }
@@ -79,8 +91,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         @BindView(R.id.feed_title_text_view)
         TextView titleTextView;
 
-        public BoardMediaViewHolder(View itemView) {
-
+        BoardMediaViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

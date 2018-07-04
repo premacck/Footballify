@@ -2,14 +2,17 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
@@ -71,17 +74,49 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
-
         String id = footballFeedsList.get(position).getId();
-        holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
-        try {
-            Picasso.with(context).
-                    load(footballFeedsList.get(position).getThumbnail().getImageUrl())
-                    .error(R.drawable.ic_place_holder)
-                    .placeholder(R.drawable.ic_place_holder)
-                    .into(holder.feedImageView);
-        } catch (Exception e) {
-            holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+        if (footballFeedsList.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.image))) {
+            holder.feedImageView.setVisibility(View.VISIBLE);
+            holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
+            try {
+                Picasso.with(context).
+                        load(footballFeedsList.get(position).getThumbnail().getImageUrl())
+                        .error(R.drawable.ic_place_holder)
+                        .placeholder(R.drawable.ic_place_holder)
+                        .into(holder.feedImageView);
+            } catch (Exception e) {
+                holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+            }
+        }
+        if (footballFeedsList.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.audio))) {
+            holder.feedImageView.setVisibility(View.VISIBLE);
+            holder.feedImageView.setImageResource(R.drawable.ic_audio);
+            holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
+            try {
+                Picasso.with(context).
+                        load(footballFeedsList.get(position).getUrl())
+                        .error(R.drawable.ic_place_holder)
+                        .placeholder(R.drawable.ic_place_holder)
+                        .into(holder.feedImageView);
+            } catch (Exception e) {
+                holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+            }
+        }
+        if (footballFeedsList.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.video))) {
+
+            MediaController mediaController = new MediaController(context);
+            holder.feedImageView.setVisibility(View.INVISIBLE);
+            holder.capturedVideoView.setVisibility(View.VISIBLE);
+            holder.capturedVideoView.setMediaController(mediaController);
+            String uri = footballFeedsList.get(position).getUrl();
+            Uri videoUri = Uri.parse(uri);
+            holder.capturedVideoView.setVideoURI(videoUri);
+            holder.capturedVideoView.start();
+            mediaController.show(5000);
+            if (mediaController.isShowing()) {
+                mediaController.hide();
+
+            }
         }
         try {
             Picasso.with(context).
@@ -164,7 +199,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
-    public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
+    class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
         @BindView(R.id.feed_title_text_view)
@@ -177,6 +212,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView shareImageView;
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
+        @BindView(R.id.captured_video_view)
+        VideoView capturedVideoView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
