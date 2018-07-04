@@ -43,27 +43,32 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
         if (boardFeed.get(position).getThumbnail().getImageUrl() != null) {
             holder.titleTextView.setText(boardFeed.get(position).getTitle());
-            if (boardFeed.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.audio))) {
-                holder.tileImageView.setImageResource(R.drawable.ic_audio);
-            } else {
-                Picasso.with(context)
-                        .load(boardFeed.get(position).getThumbnail().getImageUrl())
-                        .fit().centerCrop()
-                        .placeholder(R.drawable.ic_place_holder)
-                        .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
-                        .error(R.drawable.ic_place_holder)
-                        .into(holder.tileImageView);
-            }
-            if (boardFeed.get(position).getContentType().equalsIgnoreCase(context.getString(R.string.video))) {
-                holder.titleTextView.setVisibility(View.INVISIBLE);
-                String uri = boardFeed.get(position).getUrl();
-                Picasso.with(context)
-                        .load(uri)
-                        .fit().centerCrop()
-                        .placeholder(R.drawable.ic_video)
-                        .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
-                        .error(R.drawable.ic_video)
-                        .into(holder.tileImageView);
+            switch (boardFeed.get(position).getContentType()) {
+                case "Audio": {
+                    holder.tileImageView.setImageResource(R.drawable.ic_audio);
+                    break;
+                }
+                case "Image": {
+                    Picasso.with(context)
+                            .load(boardFeed.get(position).getThumbnail().getImageUrl())
+                            .fit().centerCrop()
+                            .placeholder(R.drawable.ic_place_holder)
+                            .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
+                            .error(R.drawable.ic_place_holder)
+                            .into(holder.tileImageView);
+                    break;
+                }
+                case "Video": {
+                    holder.titleTextView.setVisibility(View.INVISIBLE);
+                    String uri = boardFeed.get(position).getUrl();
+                    Picasso.with(context)
+                            .load(uri)
+                            .placeholder(R.drawable.ic_video).
+                             transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
+                            .error(R.drawable.ic_video)
+                            .into(holder.tileImageView);
+                    break;
+                }
             }
         }
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -94,5 +99,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+    public void uploadImageByPicasso()
+    {
+
     }
 }
