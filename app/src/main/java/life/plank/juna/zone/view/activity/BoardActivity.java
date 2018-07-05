@@ -270,6 +270,9 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
                             break;
                         }
                         case 6: {
+                            Intent intent = new Intent(BoardActivity.this, PostCommentActivity.class);
+                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            startActivity(intent);
                             break;
                         }
                         case 7: {
