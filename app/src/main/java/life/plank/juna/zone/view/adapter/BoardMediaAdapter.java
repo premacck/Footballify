@@ -100,8 +100,4 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             ButterKnife.bind(this, itemView);
         }
     }
-    public void uploadImageByPicasso()
-    {
-
-    }
 }
