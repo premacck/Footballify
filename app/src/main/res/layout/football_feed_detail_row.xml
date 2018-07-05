@@ -76,8 +76,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/number_of_likes_text_view"
-                android:drawableLeft="@drawable/ic_person_grey"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/ic_person_grey"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
                 android:text="1.4M"
@@ -85,12 +85,26 @@
                 android:textSize="10sp" />
         </RelativeLayout>
 
-        <ImageView
-            android:id="@+id/feed_image_view"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/football_image_one" />
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/feed_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/football_image_one" />
+
+            <VideoView
+                android:id="@+id/captured_video_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:visibility="invisible" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/feed_title_relative_layout"

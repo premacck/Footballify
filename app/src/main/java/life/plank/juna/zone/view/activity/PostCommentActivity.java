@@ -3,11 +3,13 @@ package life.plank.juna.zone.view.activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,20 @@ public class PostCommentActivity extends AppCompatActivity {
     private RestApi restApi;
     private String getEditTextValue, boardId, userId, date;
 
+    @BindView(R.id.red)
+    ImageView redBg;
+    @BindView(R.id.pink)
+    ImageView pinkBg;
+    @BindView(R.id.yellow)
+    ImageView yellowBg;
+    @BindView(R.id.green)
+    ImageView greenBg;
+    @BindView(R.id.blue)
+    ImageView blueBg;
+
+    @BindView(R.id.comment_card_view)
+    CardView commentCardView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +100,17 @@ public class PostCommentActivity extends AppCompatActivity {
                 commentTextView.setText(commentEditText.getText().toString());
             }
         });
+
+        redBg.setOnClickListener(v -> setColor(R.color.red));
+        pinkBg.setOnClickListener(v -> setColor(R.color.material_pink_800));
+        yellowBg.setOnClickListener(v -> setColor(R.color.material_yellow_700));
+        greenBg.setOnClickListener(v -> setColor(R.color.material_green_700));
+        blueBg.setOnClickListener(v -> setColor(R.color.material_blue_600));
+
+    }
+
+    private void setColor(int color) {
+        commentCardView.setCardBackgroundColor(getResources().getColor(color));
     }
 
     private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {
