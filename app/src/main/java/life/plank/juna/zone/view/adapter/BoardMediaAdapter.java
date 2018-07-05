@@ -41,7 +41,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        if (boardFeed.get(position).getThumbnail().getImageUrl() != null) {
+        if (boardFeed.get(position).getThumbnail() != null) {
             holder.titleTextView.setText(boardFeed.get(position).getTitle());
             switch (boardFeed.get(position).getContentType()) {
                 case "Audio": {
@@ -59,16 +59,20 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                     break;
                 }
                 case "Video": {
-                    holder.titleTextView.setVisibility(View.INVISIBLE);
                     String uri = boardFeed.get(position).getUrl();
                     Picasso.with(context)
                             .load(uri)
-                            .placeholder(R.drawable.ic_video).
-                             transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
+                            .placeholder(R.drawable.ic_video)
+                            .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
                             .error(R.drawable.ic_video)
                             .into(holder.tileImageView);
                     break;
                 }
+            }
+        } else {
+            if (boardFeed.get(position).getContentType().equals("rootComment")) {
+                holder.commentTextView.setVisibility(View.VISIBLE);
+                holder.commentTextView.setText(boardFeed.get(position).getTitle());
             }
         }
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -94,6 +98,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         ImageView tileImageView;
         @BindView(R.id.feed_title_text_view)
         TextView titleTextView;
+        @BindView(R.id.comment_text_view)
+        TextView commentTextView;
 
         BoardMediaViewHolder(View itemView) {
             super(itemView);
