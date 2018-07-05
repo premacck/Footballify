@@ -2,14 +2,17 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -73,26 +76,66 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         String feedId = footballFeedsList.get(position).getId();
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
-        holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
-        try {
-            Picasso.with(context).
-                    load(footballFeedsList.get(position).getThumbnail().getImageUrl())
-                    .error(R.drawable.ic_place_holder)
-                    .placeholder(R.drawable.ic_place_holder)
-                    .into(holder.feedImageView);
-        } catch (Exception e) {
-            holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+        switch (footballFeedsList.get(position).getContentType()) {
+            case "Image": {
+                holder.feedImageView.setVisibility(View.VISIBLE);
+                holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
+                try {
+                    Picasso.with(context).
+                            load(footballFeedsList.get(position).getThumbnail().getImageUrl())
+                            .error(R.drawable.ic_place_holder)
+                            .placeholder(R.drawable.ic_place_holder)
+                            .into(holder.feedImageView);
+                } catch (Exception e) {
+                    holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+                }
+                break;
+            }
+            case "Audio": {
+                holder.feedImageView.setVisibility(View.VISIBLE);
+                holder.feedImageView.setImageResource(R.drawable.ic_audio);
+                holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
+                try {
+                    Picasso.with(context).
+                            load(footballFeedsList.get(position).getUrl())
+                            .error(R.drawable.ic_place_holder)
+                            .placeholder(R.drawable.ic_place_holder)
+                            .into(holder.feedImageView);
+                } catch (Exception e) {
+                    holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+                }
+                break;
+            }
+            case "Video": {
+                holder.feedImageView.setVisibility(View.INVISIBLE);
+                holder.capturedVideoView.setVisibility(View.VISIBLE);
+                MediaController mediaController = new MediaController(context);
+                holder.capturedVideoView.setMediaController(mediaController);
+                String uri = footballFeedsList.get(position).getUrl();
+                Uri videoUri = Uri.parse(uri);
+                holder.capturedVideoView.setVideoURI(videoUri);
+                holder.capturedVideoView.start();
+                mediaController.show(5000);
+                if (mediaController.isShowing()) {
+                    mediaController.hide();
+                }
+                break;
+            }
+            default: {
+                try {
+                    Picasso.with(context).
+                            load(R.drawable.football_image_one)
+                            .error(R.drawable.ic_place_holder)
+                            .placeholder(R.drawable.ic_place_holder)
+                            .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(30, context), 0))
+                            .into(holder.profileImageView);
+                } catch (Exception e) {
+                    holder.profileImageView.setImageResource(R.drawable.ic_place_holder);
+                }
+                break;
+            }
         }
-        try {
-            Picasso.with(context).
-                    load(R.drawable.football_image_one)
-                    .error(R.drawable.ic_place_holder)
-                    .placeholder(R.drawable.ic_place_holder)
-                    .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(30, context), 0))
-                    .into(holder.profileImageView);
-        } catch (Exception e) {
-            holder.profileImageView.setImageResource(R.drawable.ic_place_holder);
-        }
+
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -199,7 +242,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
 
     }
-   //todo:make a call to get dislike count.
+    //todo:make a call to get dislike count.
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
@@ -216,6 +259,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView likeCountTextView;
         @BindView(R.id.unlike_image_view)
         ImageView unlikeCountImageView;
+        @BindView(R.id.captured_video_view)
+        VideoView capturedVideoView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
