@@ -220,11 +220,11 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link, R.drawable.ic_video};
+                R.drawable.ic_camera_white, R.drawable.ic_mic,R.drawable.text_icon, R.drawable.ic_link, R.drawable.ic_video};
         int[] backgroundColors = {R.drawable.fab_circle_background_grey,
                 R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
+                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink,R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
+        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio","Comment","Attachment", "Video"};
         for (int i = 0; i < fabImages.length; i++) {
             View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
@@ -273,6 +273,9 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
                             break;
                         }
                         case 7: {
+                            break;
+                        }
+                        case 8: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
                             intent.putExtra(getString(R.string.open_from), getString(R.string.video));
                             intent.putExtra(getString(R.string.board_id), enterBoardId);
