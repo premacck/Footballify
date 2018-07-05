@@ -4,7 +4,6 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.view.activity.LoginActivity;
 import life.plank.juna.zone.view.activity.SignupPageActivity;
 
 /**

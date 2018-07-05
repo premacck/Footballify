@@ -11,9 +11,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.activity.ScrubberActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
-import life.plank.juna.zone.view.activity.WarriorGameActivity;
 
 public class ZoneFragment extends Fragment {
 
@@ -38,20 +36,9 @@ public class ZoneFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.zone_games)
-    public void gamesIconClicked() {
-        startActivity(new Intent(getActivity(), WarriorGameActivity.class));
-    }
-
     @OnClick(R.id.zone_football)
     public void footballIconClicked() {
         startActivity(new Intent(getActivity(), SwipePageActivity.class));
     }
-
-    @OnClick(R.id.zone_acting)
-    public void actingIconClicked() {
-        startActivity(new Intent(getActivity(), ScrubberActivity.class));
-    }
-
 
 }
