@@ -10,6 +10,8 @@ import java.util.Map;
 
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardItemLikeNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerPostCommentFeedNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.PostCommentFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardItemLikeNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
@@ -56,6 +58,7 @@ public class ZoneApplication extends Application {
     private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
     private BoardFeedNetworkComponent boardFeedNetworkComponent;
     private BoardItemLikeNetworkComponent boardItemLikeNetworkComponent;
+    private PostCommentFeedNetworkComponent postCommentFeedNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -103,6 +106,9 @@ public class ZoneApplication extends Application {
 
         boardItemLikeNetworkComponent = DaggerBoardItemLikeNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
+
+        postCommentFeedNetworkComponent = DaggerPostCommentFeedNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule()).build();
     }
 
     public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
@@ -148,5 +154,9 @@ public class ZoneApplication extends Application {
 
     public BoardItemLikeNetworkComponent getBoardItemLikeNetworkComponent() {
         return boardItemLikeNetworkComponent;
+    }
+
+    public PostCommentFeedNetworkComponent getPostCommentFeedNetworkComponent() {
+        return postCommentFeedNetworkComponent;
     }
 }

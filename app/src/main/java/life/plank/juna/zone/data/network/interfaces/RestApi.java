@@ -90,5 +90,8 @@ public interface RestApi {
     @DELETE("feedItems/{id}/likes")
     Observable<Response<JsonObject>> dislikeBoardItem(@Path("id") String id, @Query("userId") String userId);
 
+    @POST("boards/{id}/feedItems")
+    Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue, @Path("id") String boardId, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+
 }
 
