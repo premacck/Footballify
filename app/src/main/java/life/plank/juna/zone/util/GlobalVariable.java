@@ -3,7 +3,6 @@ package life.plank.juna.zone.util;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.UserChoice;
 
 /**
  * Created by plank-arfaa on 26/12/17.
@@ -22,7 +21,6 @@ public class GlobalVariable {
     private Integer clubPointsGameScore = 0;
     private Boolean isClubPointsWinner;
     private Boolean isClubGamesDraw = false;
-    private List<UserChoice> userChoice;
 
     private List<FootballFeed> footballFeeds;
 
@@ -92,14 +90,6 @@ public class GlobalVariable {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
-    }
-
-    public List<UserChoice> getUserChoice() {
-        return userChoice;
-    }
-
-    public void setUserChoice(List<UserChoice> userChoice) {
-        this.userChoice = userChoice;
     }
 
     public int getDisplayMetricsErrorState() {
