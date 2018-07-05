@@ -141,37 +141,9 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
         if (scrubberViewDataHolder.containsKey(position) && scrubberViewDataHolder.get(position).isTriggerEvents()) {
             scrubberPointerUpdate.updateRecentEvents(position);
         }
-        if (position == scrubberProgressData.size() - 1) {
-            displayPointerImage(holder.view);
-        }
+
     }
 
-    private void displayPointerImage(View view) {
-        ViewTreeObserver.OnGlobalLayoutListener onGlobalLayoutListener = () -> updatePointerPopupWindow(view);
-        view.getViewTreeObserver().addOnGlobalLayoutListener(onGlobalLayoutListener);
-    }
-
-    private void updatePointerPopupWindow(View view) {
-        int[] itemViewXYLocation = new int[2];
-        view.getLocationInWindow(itemViewXYLocation);
-        if (popupWindowPointer == null || !popupWindowPointer.isShowing()) {
-            pointerImageRelativeLayout = (RelativeLayout) LayoutInflater.from(context).inflate(R.layout.scrubber_view_pointer_image, null);
-            PopUpWindowHelper<RelativeLayout> popUpWindowHelper = new PopUpWindowHelper<>();
-            popUpWindowHelper.setView(pointerImageRelativeLayout);
-            setUpPopupWindow(ScrubberConstants.getPointerImageDimen(),
-                    itemViewXYLocation[0],
-                    itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen() / 2,
-                    view, popUpWindowHelper);
-            popupWindowPointer = popUpWindowHelper.genericPopUpWindow(context);
-            popupWindowPointer.setFocusable(false);
-            popupWindowPointer.setOutsideTouchable(false);
-        } else if (popupWindowPointer != null) {
-            popupWindowPointer.update(itemViewXYLocation[0] - ScrubberConstants.getPointerImageDimen() / 2 + viewWidth / 2,
-                    itemViewXYLocation[1] + viewHeight - ScrubberConstants.getPointerImageDimen() / 2,
-                    ScrubberConstants.getPointerImageDimen(),
-                    ScrubberConstants.getPointerImageDimen());
-        }
-    }
 
     /**
      * @param view:  Display on top of view
@@ -212,7 +184,7 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
 
     @Override
     public void clearView(int adapterPosition, RecyclerView.ViewHolder viewHolder) {
-        updatePointerPopupWindow(viewHolder.itemView);
+
         trigger = false;
         if (popupWindow != null && popupWindow.isShowing()) {
             popupWindow.dismiss();
