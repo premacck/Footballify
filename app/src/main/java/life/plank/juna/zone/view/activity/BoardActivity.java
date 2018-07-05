@@ -140,8 +140,9 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.image_url));
         FootballFeed footballFeed = new FootballFeed();
+        Log.e("content type", "content_type" + contentType);
         footballFeed.setContentType(contentType);
-        if (contentType.equalsIgnoreCase(AppConstants.ROOT_COMMENT)) {
+        if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             footballFeed.setTitle(title);
         } else {
             Thumbnail thumbnail = new Thumbnail();

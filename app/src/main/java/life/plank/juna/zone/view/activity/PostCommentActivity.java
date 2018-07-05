@@ -81,6 +81,7 @@ public class PostCommentActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         getEditTextValue = commentEditText.getText().toString();
         postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
+        finish();
     }
 
     public void commentReflectOnPostSurface() {
