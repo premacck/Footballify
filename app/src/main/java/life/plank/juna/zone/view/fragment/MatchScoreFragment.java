@@ -19,7 +19,6 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.adapter.MatchScoreAdapter;
 
 @SuppressLint("ValidFragment")
@@ -31,9 +30,10 @@ public class MatchScoreFragment extends Fragment {
     ImageView cancelImage;
     private Unbinder unbinder;
     List<ScoreFixtureModel> scoreFixtureModelList;
+
     @SuppressLint("ValidFragment")
     public MatchScoreFragment(List<ScoreFixtureModel> scoreFixtureModelList) {
-        this.scoreFixtureModelList =scoreFixtureModelList;
+        this.scoreFixtureModelList = scoreFixtureModelList;
     }
 
     @Override
@@ -52,7 +52,7 @@ public class MatchScoreFragment extends Fragment {
 
     private void initializeRecyclerView() {
         showScoreRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        MatchScoreAdapter matchScoreAdapter = new MatchScoreAdapter(getActivity(),scoreFixtureModelList);
+        MatchScoreAdapter matchScoreAdapter = new MatchScoreAdapter(getActivity(), scoreFixtureModelList);
         showScoreRecyclerView.setAdapter(matchScoreAdapter);
     }
 
