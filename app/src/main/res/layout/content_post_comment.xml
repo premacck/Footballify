@@ -26,7 +26,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="326dp"
-                app:cardBackgroundColor="@color/material_blue_accent_100">
+                app:cardBackgroundColor="@color/material_blue_600">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -38,7 +38,82 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
-                        android:text="What's in yout mind?" />
+                        android:fontFamily="@font/rajdhani_semibold"
+                        android:text="What's on your mind?"
+                        android:textSize="30sp" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <ImageView
+                            android:id="@+id/red"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_red" />
+
+                        <ImageView
+                            android:id="@+id/pink"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_pink" />
+
+                        <ImageView
+                            android:id="@+id/yellow"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_yellow" />
+
+                        <ImageView
+                            android:id="@+id/green"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_green" />
+
+                        <ImageView
+                            android:id="@+id/blue"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_blue" />
+
+                        <ImageView
+                            android:id="@+id/gradient_blue"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_gradient_yellow_blue" />
+
+                        <ImageView
+                            android:id="@+id/gradient_orange"
+                            android:layout_width="35dp"
+                            android:layout_height="35dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_toEndOf="@+id/post_to_text_view"
+                            android:src="@drawable/custom_circle_gradient_orange" />
+
+                    </LinearLayout>
 
                 </RelativeLayout>
 
