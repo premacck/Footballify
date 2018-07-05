@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -45,7 +44,7 @@ public class PostCommentActivity extends AppCompatActivity {
     @BindView(R.id.post_comment)
     TextView postCommentTextView;
     private RestApi restApi;
-    private String getEditTextValue,boardId,userId,date;
+    private String getEditTextValue, boardId, userId, date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +65,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
-        postCommentOnBoardFeed(getEditTextValue,boardId, AppConstants.CONTENT_TYPE,userId,date);
+        postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.CONTENT_TYPE, userId, date);
         Toast.makeText(this, "clicked On Post", Toast.LENGTH_SHORT).show();
     }
 
@@ -88,28 +87,27 @@ public class PostCommentActivity extends AppCompatActivity {
             }
         });
     }
-    private void postCommentOnBoardFeed(String getEditTextValue,String boardId,String contentType,String userId,String dateCreated) {
-        restApi.postCommentOnBoardFeed(getEditTextValue,boardId,contentType,userId,dateCreated)
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<JsonObject>>() {
+
+    private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {
+        restApi.postCommentOnBoardFeed(getEditTextValue, boardId, contentType, userId, dateCreated)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( "", "onCompleted: " );
+                        Log.e("", "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e( "", "onError: " + e );
-                        Toast.makeText( PostCommentActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT ).show();
+                        Log.e("", "onError: " + e);
+                        Toast.makeText(PostCommentActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> signupModel) {
-                        Log.e( "", "onNext: " + signupModel );
-                        Intent intentSubmit = new Intent( PostCommentActivity.this, SignInActivity.class );
-                        startActivity( intentSubmit );
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e("", "onNext: " + jsonObjectResponse);
                     }
-                } );
+                });
     }
 }
