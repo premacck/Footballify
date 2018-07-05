@@ -53,7 +53,6 @@ public class PostCommentActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 commentTextView.setText(commentEditText.getText().toString());
-                commentCardView.setCardBackgroundColor(getResources().getColor(R.color.red));
             }
         });
 

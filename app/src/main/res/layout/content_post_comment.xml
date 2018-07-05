@@ -40,7 +40,9 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/rajdhani_semibold"
+                        android:padding="20dp"
                         android:text="What's on your mind?"
+                        android:textColor="@color/white"
                         android:textSize="30sp" />
 
                     <LinearLayout
@@ -106,7 +108,9 @@
                 android:id="@+id/post_relative_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/comment_card_view"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="20dp"
                 android:padding="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
