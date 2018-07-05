@@ -6,18 +6,15 @@ import java.util.List;
 
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.model.LineupsModel;
 import life.plank.juna.zone.data.network.model.MatchSummaryModel;
 import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.SampleResponseModel;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -38,26 +35,8 @@ import rx.Observable;
 
 public interface RestApi {
 
-    @GET("sampleUrl/")
-    Observable<SampleResponseModel> getCharacters();
-
     @GET("rssFeeds/{date}/?limit=50")
     Observable<List<NewsFeed>> getNewsFeed(@Path("date") String date);
-
-    @POST("authentication/register/")
-    Observable<Response<Void>> registerUser(@Body JunaUser junaUser);
-
-    @POST("authentication/login/")
-    Observable<Response<Void>> loginUser(@Body JunaUser junaUser);
-
-    @POST("authentication/register/")
-    Observable<Response<Void>> socialSignUp(@Body JunaUser junaUser);
-
-    @POST("authentication/login/")
-    Observable<Response<Void>> socialSignIn(@Body JunaUser junaUser);
-
-    @GET("v1/users/self")
-    Observable<InstagramResponse> getInstagramUserData(@Query("access_token") String accessToken);
 
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
