@@ -24,6 +24,7 @@
             android:layout_height="match_parent">
 
             <android.support.v7.widget.CardView
+                android:id="@+id/comment_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="326dp"
                 app:cardBackgroundColor="@color/material_blue_600">
@@ -94,24 +95,6 @@
                             android:layout_marginStart="10dp"
                             android:layout_toEndOf="@+id/post_to_text_view"
                             android:src="@drawable/custom_circle_blue" />
-
-                        <ImageView
-                            android:id="@+id/gradient_blue"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
-                            android:src="@drawable/custom_circle_gradient_yellow_blue" />
-
-                        <ImageView
-                            android:id="@+id/gradient_orange"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
-                            android:src="@drawable/custom_circle_gradient_orange" />
 
                     </LinearLayout>
 
