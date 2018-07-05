@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     Retrofit retrofit;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
-    String boardId;
+    private String boardId;
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
     private RestApi restApi;
     private Context context;
@@ -70,9 +71,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
+        String feedId = footballFeedsList.get(position).getId();
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
-
-        String id = footballFeedsList.get(position).getId();
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
         try {
             Picasso.with(context).
@@ -96,9 +96,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemLikeApiCall(id, objectId);
+                boardFeedItemLikeApiCall(feedId, objectId);
                 //todo: remove static like count and add from Board Feed Interactions
-                likeCount = likeCount++;
+                likeCount++;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
             }
@@ -107,7 +107,20 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.shareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemShareApiCall(id, AppConstants.SHARE_TO, boardId, objectId);
+                boardFeedItemShareApiCall(feedId, AppConstants.SHARE_TO, boardId, objectId);
+            }
+        });
+
+        holder.unlikeCountImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boardDislikeFeedItem(feedId, objectId);
+                //todo:will replace with getFoorballFeed Api call original Like counts
+                if (likeCount == 0) {
+                    holder.likeCountTextView.setText(String.valueOf(likeCount));
+                } else {
+                    holder.likeCountTextView.setText(String.valueOf(--likeCount));
+                }
             }
         });
     }
@@ -164,6 +177,30 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
+    private void boardDislikeFeedItem(String id, String userId) {
+        restApi.dislikeBoardItem(id, userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        Log.e("", "onNext: " + jsonObjectResponse);
+                    }
+                });
+
+    }
+   //todo:make a call to get dislike count.
+
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
@@ -177,6 +214,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView shareImageView;
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
+        @BindView(R.id.unlike_image_view)
+        ImageView unlikeCountImageView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);

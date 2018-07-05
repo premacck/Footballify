@@ -24,6 +24,7 @@ import life.plank.juna.zone.data.network.model.instagramModelClass.InstagramResp
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -128,5 +129,9 @@ public interface RestApi {
 
     @POST("feedItems/{id}/shares")
     Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
+
+    @DELETE("feedItems/{id}/likes")
+    Observable<Response<JsonObject>> dislikeBoardItem(@Path("id") String id, @Query("userId") String userId);
+
 }
 
