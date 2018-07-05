@@ -62,7 +62,7 @@ public class AppConstants {
     public static final int REQUEST_ID_MULTIPLE_PERMISSIONS = 101;
     public static final int REQUEST_ID_STORAGE_PERMISSIONS = 102;
     public static final String SHARE_TO = "Board";
-    public static final String CONTENT_TYPE = "rootComment";
+    public static final String ROOT_COMMENT = "rootComment";
 
 
     public static String getDateAndTime(String date) {

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
+import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -55,18 +56,15 @@ public class PostCommentActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         commentReflectOnPostSurface();
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
-        getEditTextValue = commentEditText.getText().toString();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString("objectId", "NA");
         boardId = getIntent().getStringExtra(getString(R.string.board_id));
-
-
     }
 
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
-        postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.CONTENT_TYPE, userId, date);
-        Toast.makeText(this, "clicked On Post", Toast.LENGTH_SHORT).show();
+        getEditTextValue = commentEditText.getText().toString();
+        postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
     }
 
     public void commentReflectOnPostSurface() {
@@ -106,7 +104,10 @@ public class PostCommentActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
+                        if (jsonObjectResponse.code() == HttpURLConnection.HTTP_OK) {
+                            Log.e("", "onNext: " + jsonObjectResponse);
+                            Toast.makeText(PostCommentActivity.this, "Comment Post Successfully", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
