@@ -5,32 +5,36 @@
     android:layout_height="120dp"
     android:layout_margin="1dp">
 
-    <ImageView
-        android:id="@+id/tile_image_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@color/transparent_grey"
-        android:scaleType="fitXY"
-        android:src="@drawable/football_image_one" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/comment_text_view"
-        android:layout_width="match_parent"
-        android:layout_centerInParent="true"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/white"
-        android:visibility="invisible"
-        android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/tile_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:foreground="@color/transparent_grey"
+            android:scaleType="fitXY"
+            android:src="@drawable/football_image_one" />
 
-    <TextView
-        android:id="@+id/feed_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_margin="3dp"
-        android:fontFamily="@font/roboto_condensed_regular"
-        android:letterSpacing=".03"
-        android:textColor="@color/white"
-        android:textSize="9sp" />
+        <TextView
+            android:id="@+id/comment_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textSize="12sp"
+            android:maxLength="100"
+            android:textColor="@color/red" />
+        <TextView
+            android:id="@+id/feed_title_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_margin="3dp"
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:letterSpacing=".03"
+            android:textColor="@color/white"
+            android:textSize="9sp" />
+    </RelativeLayout>
 </RelativeLayout>
