@@ -8,7 +8,6 @@ import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.LineupsModel;
 import life.plank.juna.zone.data.network.model.MatchSummaryModel;
-import life.plank.juna.zone.data.network.model.NewsFeed;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.data.network.model.SignInModel;
@@ -34,9 +33,6 @@ import rx.Observable;
  */
 
 public interface RestApi {
-
-    @GET("rssFeeds/{date}/?limit=50")
-    Observable<List<NewsFeed>> getNewsFeed(@Path("date") String date);
 
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);

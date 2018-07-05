@@ -4,14 +4,10 @@ import android.app.Application;
 import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardItemLikeNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerPostCommentFeedNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.PostCommentFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardItemLikeNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
@@ -19,7 +15,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkCompone
 import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerNewsFeedsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerPostCommentFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSigninUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
@@ -28,11 +24,10 @@ import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.NewsFeedsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.PostCommentFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SigninUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SignupUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
-import life.plank.juna.zone.data.network.model.JunaUser;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 
 /**
@@ -41,13 +36,7 @@ import life.plank.juna.zone.data.network.module.RestServiceModule;
 
 public class ZoneApplication extends Application {
 
-    public static Integer roundNumber = 0;
-    public static Map<JunaUser, Boolean> pointsGameResultMap = new HashMap<>();
-    public static Map<JunaUser, Boolean> suddenDeathGameResultMap = new HashMap<>();
-    public static Integer suddenDeathLivesRemaining = 5;
-    public static List<String> selectedTeamsList = new ArrayList<>();
     private static ZoneApplication zoneApplication;
-    private NewsFeedsNetworkComponent newsFeedsNetworkComponent;
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
@@ -72,9 +61,6 @@ public class ZoneApplication extends Application {
     public void onCreate() {
         super.onCreate();
         zoneApplication = this;
-        newsFeedsNetworkComponent = DaggerNewsFeedsNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
 
         footballFeedNetworkComponent = DaggerFootballFeedNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule())
@@ -109,10 +95,6 @@ public class ZoneApplication extends Application {
 
         postCommentFeedNetworkComponent = DaggerPostCommentFeedNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
-    }
-
-    public NewsFeedsNetworkComponent getNewsFeedsNetworkComponent() {
-        return newsFeedsNetworkComponent;
     }
 
     public FootballFeedNetworkComponent getFootballFeedNetworkComponent() {
