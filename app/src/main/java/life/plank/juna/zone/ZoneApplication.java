@@ -3,9 +3,6 @@ package life.plank.juna.zone;
 import android.app.Application;
 import android.content.Context;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardItemLikeNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
