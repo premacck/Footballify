@@ -224,52 +224,11 @@
                 android:textColor="@color/grey"
                 android:textSize="10sp" />
 
-            <TextView
-                android:id="@+id/like_text_view"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/view_all_comments_Recycler_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_below="@+id/comment_text_view"
-                android:layout_marginEnd="15dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:lineSpacingExtra="5sp"
-                android:text="@string/like"
-                android:textColor="@color/feed_details_text_view_grey"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/reply_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/comment_text_view"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/like_text_view"
-                android:fontFamily="@font/rajdhani_medium"
-                android:lineSpacingExtra="5sp"
-                android:text="@string/reply"
-                android:textColor="@color/feed_details_text_view_grey"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/view_all_replies_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/comment_text_view"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/reply_text_view"
-                android:fontFamily="@font/rajdhani_medium"
-                android:lineSpacingExtra="5sp"
-                android:text="View 3 replies"
-                android:textColor="@color/feed_details_text_view_grey"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/view_all_comments_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/like_text_view"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:lineSpacingExtra="5sp"
