@@ -13,18 +13,17 @@
             android:id="@+id/tile_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:foreground="@color/transparent_grey"
-            android:scaleType="fitXY"
-            android:src="@drawable/football_image_one" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/comment_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textSize="12sp"
             android:maxLength="100"
-            android:textColor="@color/colorPrimary" />
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
         <TextView
             android:id="@+id/feed_title_text_view"
             android:layout_width="wrap_content"
