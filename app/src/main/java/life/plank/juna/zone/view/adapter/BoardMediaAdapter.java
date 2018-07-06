@@ -77,8 +77,11 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         } else {
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 holder.commentTextView.setVisibility(View.VISIBLE);
-                holder.tileImageView.setVisibility(View.INVISIBLE);
-                holder.commentTextView.setText(boardFeed.get(position).getTitle().replaceAll("^\"|\"$", ""));
+
+                String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
+                holder.tileImageView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+                holder.commentTextView.setText(comment.substring(comment.indexOf("$") + 1));
+
             }
         }
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

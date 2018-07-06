@@ -62,6 +62,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @BindView(R.id.comment_card_view)
     CardView commentCardView;
+    Integer commentBg = R.color.material_blue_600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
-        getEditTextValue = commentEditText.getText().toString();
+        getEditTextValue = commentBg.toString() + "$" + commentEditText.getText().toString();
         postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
         finish();
     }
@@ -111,6 +112,7 @@ public class PostCommentActivity extends AppCompatActivity {
     }
 
     private void setColor(int color) {
+        commentBg = color;
         commentCardView.setCardBackgroundColor(getResources().getColor(color));
     }
 
