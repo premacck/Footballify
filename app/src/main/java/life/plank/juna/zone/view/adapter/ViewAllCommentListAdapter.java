@@ -28,6 +28,7 @@ public class ViewAllCommentListAdapter extends RecyclerView.Adapter<ViewAllComme
     public void onBindViewHolder(ViewAllCommentListAdapterViewHolder holder, int position) {
     }
 
+    //todo:list size replace with api Call innext pull requets
     @Override
     public int getItemCount() {
         return 10;
