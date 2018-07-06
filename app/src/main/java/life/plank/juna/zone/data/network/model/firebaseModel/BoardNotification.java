@@ -10,6 +10,7 @@ public class BoardNotification {
     private String ImageUrl;
     private String Action;
     private String Actor;
+    private String Title;
 
     public String getContentType() {
         return ContentType;
@@ -65,5 +66,13 @@ public class BoardNotification {
 
     public void setActor(String actor) {
         Actor = actor;
+    }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
     }
 }

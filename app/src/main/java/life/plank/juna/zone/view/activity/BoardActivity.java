@@ -133,26 +133,28 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
     }
 
     public void setDataReceivedFromPushNotification(Intent intent) {
-
+        String title = intent.getStringExtra(getString(R.string.comment_title));
         String contentType = intent.getStringExtra(getString(R.string.content_type));
         String thumbnailUrl = intent.getStringExtra(getString(R.string.thumbnail_url));
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.image_url));
-
         FootballFeed footballFeed = new FootballFeed();
+        Log.e("content type", "content_type" + contentType);
         footballFeed.setContentType(contentType);
-        Thumbnail thumbnail = new Thumbnail();
-        thumbnail.setImageWidth(thumbnailWidth);
-        thumbnail.setImageHeight(thumbnailHeight);
-        thumbnail.setImageUrl(thumbnailUrl);
-        footballFeed.setThumbnail(thumbnail);
-        footballFeed.setUrl(imageUrl);
-
+        if (contentType.equals(AppConstants.ROOT_COMMENT)) {
+            footballFeed.setTitle(title);
+        } else {
+            Thumbnail thumbnail = new Thumbnail();
+            thumbnail.setImageWidth(thumbnailWidth);
+            thumbnail.setImageHeight(thumbnailHeight);
+            thumbnail.setImageUrl(thumbnailUrl);
+            footballFeed.setThumbnail(thumbnail);
+            footballFeed.setUrl(imageUrl);
+        }
         boardFeed.add(0, footballFeed);
         boardMediaAdapter.notifyItemInserted(0);
         boardRecyclerView.smoothScrollToPosition(0);
-
     }
 
     @Override

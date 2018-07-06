@@ -22,6 +22,7 @@ import java.util.Map;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.BoardActivity;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
@@ -32,14 +33,18 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     public void updateBoardActivity(Context context, BoardNotification boardNotification) {
 
         Intent intent = new Intent(context.getString(R.string.board_intent));
+        intent.putExtra(context.getString(R.string.content_type), boardNotification.getContentType());
+        Log.e("content type","content_type"+boardNotification.getContentType());
 
         //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
-        intent.putExtra(context.getString(R.string.content_type), boardNotification.getContentType());
-        intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getThumbnailImageUrl());
-        intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getThumbnailHeight());
-        intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getThumbnailWidth());
-        intent.putExtra(context.getString(R.string.image_url), boardNotification.getImageUrl());
-
+        if (boardNotification.getContentType().equals(AppConstants.ROOT_COMMENT)) {
+            intent.putExtra(getString(R.string.comment_title), boardNotification.getTitle());
+        } else {
+            intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getThumbnailImageUrl());
+            intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getThumbnailHeight());
+            intent.putExtra(context.getString(R.string.thumbnail_width), boardNotification.getThumbnailWidth());
+            intent.putExtra(context.getString(R.string.image_url), boardNotification.getImageUrl());
+        }
         //send broadcast
         context.sendBroadcast(intent);
     }
