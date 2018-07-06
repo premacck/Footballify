@@ -143,9 +143,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         } else {
             if (footballFeedsList.get(position).getContentType().equals("rootComment")) {
                 holder.feedTextView.setVisibility(View.VISIBLE);
-                holder.feedImageView.setVisibility(View.INVISIBLE);
                 holder.capturedVideoView.setVisibility(View.INVISIBLE);
-                holder.feedTextView.setText(footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", ""));
+
+                String comment = footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", "");
+                holder.feedImageView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+                holder.feedTextView.setText(comment.substring(comment.indexOf("$") + 1));
             }
         }
 
