@@ -21,6 +21,7 @@ public class GlobalVariable {
     private Integer clubPointsGameScore = 0;
     private Boolean isClubPointsWinner;
     private Boolean isClubGamesDraw = false;
+    private Integer tilePosition = 0;
 
     private List<FootballFeed> footballFeeds;
 
@@ -96,5 +97,11 @@ public class GlobalVariable {
         return DISPLAY_METRICS_ERROR_STATE;
     }
 
+    public Integer getTilePosition() {
+        return tilePosition;
+    }
 
+    public void setTilePosition(Integer tilePosition) {
+        this.tilePosition = tilePosition;
+    }
 }

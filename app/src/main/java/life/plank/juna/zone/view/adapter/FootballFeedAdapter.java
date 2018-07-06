@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,10 +20,9 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
-import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.RoundedTransformation;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.activity.FootballFeedDetailActivity;
 import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
 
@@ -67,20 +65,25 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                switch (position){
-                    case 0:{
+                switch (position) {
+                    case 0: {
                         context.startActivity(new Intent(context, MatchResultActivity.class));
                         break;
                     }
-                    case 1:{
+                    case 1: {
                         context.startActivity(new Intent(context, MatchResultActivity.class));
                         break;
                     }
-                    case 2:{
+                    case 2: {
                         context.startActivity(new Intent(context, MatchLeagueActivity.class));
                         break;
                     }
-                    default:{
+                    case 3: {
+                        GlobalVariable.getInstance().setTilePosition(position);
+                        context.startActivity(new Intent(context, MatchResultActivity.class));
+                        break;
+                    }
+                    default: {
                         onLongPressListener.onItemLongPress(position);
                         break;
                     }
