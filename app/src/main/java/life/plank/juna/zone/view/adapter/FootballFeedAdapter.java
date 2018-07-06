@@ -65,6 +65,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                GlobalVariable.getInstance().setTilePosition(position);
                 switch (position) {
                     case 0: {
                         context.startActivity(new Intent(context, MatchResultActivity.class));
@@ -79,7 +80,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                         break;
                     }
                     case 3: {
-                        GlobalVariable.getInstance().setTilePosition(position);
                         context.startActivity(new Intent(context, MatchResultActivity.class));
                         break;
                     }
