@@ -103,7 +103,9 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
     private String enterBoardId;
     private String objectId;
     private long currentMatchId;
-    private String homeTeamLogo, awayTeamLogo;
+    private String homeTeamLogo, awayTeamLogo, BoardId;
+    private SharedPreferences matchPref;
+
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -171,7 +173,7 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         objectId = preference.getString(getString(R.string.object_id_string), "NA");
-        SharedPreferences matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
         currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
@@ -354,11 +356,18 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
                     public void onNext(Response<BoardCreationModel> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             enterBoardId = response.body().getId();
+                            saveBoardId();
                             retrieveBoardByBoardId(enterBoardId);
 
                         }
                     }
                 });
+    }
+
+    public void saveBoardId() {
+        SharedPreferences.Editor boardIdEditor;
+        boardIdEditor = getSharedPreferences(getString(R.string.enter_board_id), Context.MODE_PRIVATE).edit();
+        boardIdEditor.putString(getString(R.string.enter_board_id), enterBoardId).apply();
     }
 
     public void retrieveBoardByBoardId(String boardId) {
