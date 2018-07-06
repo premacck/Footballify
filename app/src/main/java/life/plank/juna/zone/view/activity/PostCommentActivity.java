@@ -132,7 +132,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        if (jsonObjectResponse.code() == HttpURLConnection.HTTP_OK) {
+                        if (jsonObjectResponse.code() == HttpURLConnection.HTTP_CREATED) {
                             Log.e("", "onNext: " + jsonObjectResponse);
                             Toast.makeText(PostCommentActivity.this, "Comment Post Successfully", Toast.LENGTH_SHORT).show();
                         }
