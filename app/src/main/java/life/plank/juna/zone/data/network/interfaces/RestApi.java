@@ -89,5 +89,7 @@ public interface RestApi {
     @POST("boards/{id}/feedItems")
     Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue, @Path("id") String boardId, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
 
+    @POST("feedItems/{id}/comments")
+    Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);
 }
 
