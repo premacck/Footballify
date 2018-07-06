@@ -26,7 +26,6 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
-
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -56,9 +55,9 @@
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".view.activity.LineupActivity"
@@ -80,6 +79,7 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="life.plank.juna.zone" />
             </intent-filter>
         </receiver>
@@ -118,7 +118,6 @@
         <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FixtureAndResultActivity"
@@ -147,5 +146,7 @@
             android:name=".view.activity.PostCommentActivity"
             android:label="@string/title_activity_post_comment"
             android:theme="@style/AppTheme" />
+        <activity android:name=".view.activity.WorldCupFixtureActivity"></activity>
     </application>
+
 </manifest>

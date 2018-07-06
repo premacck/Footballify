@@ -47,7 +47,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     @BindView(R.id.live_match_recycler_view)
     RecyclerView currentMatchRecyclerView;
     @BindView(R.id.tommorow_match_recycler_view)
-    RecyclerView tommorowMatchRecyclerView;
+    RecyclerView tomorrowMatchRecyclerView;
     @BindView(R.id.scheduled_match_recycler_view)
     RecyclerView upcomingMatchRecyclerView;
     @BindView(R.id.past_match_recycler_view)
@@ -85,10 +85,10 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
     public void populateTommorowMatchFixtureRecyclerView() {
         tomorrowsMatchesAdapter = new TomorrowsMatchesAdapter( this );
-        tommorowMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        tommorowMatchRecyclerView.setAdapter( tomorrowsMatchesAdapter );
+        tomorrowMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
+        tomorrowMatchRecyclerView.setAdapter( tomorrowsMatchesAdapter );
         DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
-        tommorowMatchRecyclerView.addItemDecoration( itemDecor );
+        tomorrowMatchRecyclerView.addItemDecoration( itemDecor );
 
     }
 
