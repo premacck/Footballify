@@ -59,7 +59,6 @@ import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -93,17 +92,12 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
     ImageView homeTeamLogoImageView;
     @BindView(R.id.visiting_team_logo_image_view)
     ImageView visitingTeamLogoImageView;
-    private int apiHitCount = 0;
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
-    private Subscription subscription;
-    private String nextPageToken = "";
-    private int PAGE_SIZE;
-    private boolean isLoading = false;
     private String enterBoardId;
     private String objectId;
     private long currentMatchId;
-    private String homeTeamLogo, awayTeamLogo, BoardId;
+    private String homeTeamLogo, awayTeamLogo;
     private SharedPreferences matchPref;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -169,12 +163,21 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
+        Intent intent = getIntent();
+        //TODO: Remove hardcoded board_id
+        matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        if (intent.getStringExtra("FOREIGNID_1") != null) {
+            currentMatchId = Long.parseLong(intent.getStringExtra("FOREIGNID_1"));
+        } else if (intent.getStringExtra("FOREIGNID_2") != null) {
+            currentMatchId = Long.parseLong(intent.getStringExtra("FOREIGNID_2"));
+        } else {
+            currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
+        }
         initRecyclerView();
         setUpBoomMenu();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         objectId = preference.getString(getString(R.string.object_id_string), "NA");
-        matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
-        currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
+
         enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
         homeTeamLogo = matchPref.getString(getString(R.string.home_team_logo), getString(R.string.home_team_logo));
