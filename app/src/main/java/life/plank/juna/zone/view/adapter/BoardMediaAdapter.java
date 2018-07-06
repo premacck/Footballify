@@ -42,7 +42,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
         if (boardFeed.get(position).getThumbnail() != null) {
-           // holder.titleTextView.setText(boardFeed.get(position).getTitle());
             switch (boardFeed.get(position).getContentType()) {
                 case "Audio": {
                     holder.commentTextView.setVisibility(View.INVISIBLE);
@@ -79,7 +78,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 holder.commentTextView.setVisibility(View.VISIBLE);
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                holder.commentTextView.setText(boardFeed.get(position).getTitle());
+                holder.commentTextView.setText(boardFeed.get(position).getTitle().replaceAll("^\"|\"$", ""));
             }
         }
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
