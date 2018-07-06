@@ -213,7 +213,9 @@ public class MatchResultActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 } else {
-                    //TODO: Navigate to world cup matches view
+                    Intent intent = new Intent(this, WorldCupFixtureActivity.class);
+                    startActivity(intent);
+                    break;
                 }
             case R.id.following: {
                 if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
