@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -73,6 +74,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+        populateCommentFeedRecyclerView(holder);
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         String feedId = footballFeedsList.get(position).getId();
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
@@ -259,6 +261,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
     //todo:make a call to get dislike count.
 
+    public void populateCommentFeedRecyclerView(FootballFeedDetailViewHolder holder) {
+        ViewAllCommentListAdapter viewAllCommentListAdapter = new ViewAllCommentListAdapter(context);
+        holder.viewCommentRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        holder.viewCommentRecyclerView.setAdapter(viewAllCommentListAdapter);
+    }
+
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
@@ -278,6 +286,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
         TextView feedTextView;
+        @BindView(R.id.view_all_comments_recycler_view)
+        RecyclerView viewCommentRecyclerView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
