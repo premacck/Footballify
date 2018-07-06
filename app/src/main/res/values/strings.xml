@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="app_name">Zone</string>
     <string name="sign_up">SIGN UP</string>
     <string name="zone_cooking">Cooking</string>
@@ -11,7 +11,7 @@
     <string name="zone_games">Games</string>
     <string name="zone_trader">Trader</string>
     <string name="football_data_base_url">http://192.169.1.8:61000/</string>
-    <string name="feed_data_base_url">http://192.169.1.8:62735/</string>
+    <string name="feed_data_base_url">http://192.169.1.8:60000/</string>
     <string name="login_pref">loginPrefs</string>
     <string name="shared_pref_save_login">save_login</string>
     <string name="facebook_app_id">575013552837571</string>
