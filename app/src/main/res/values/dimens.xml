@@ -1,17 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     // TODO: 19-02-2018 refactor this file.
-    <dimen name="swipe_page_spinner_height">40dp</dimen>
-    <dimen name="swipe_page_banter_zone_height">20dp</dimen>
     <dimen name="football_feed_height">90dp</dimen>
-    <dimen name="football_feed_row_margin">2dp</dimen>
     <dimen name="football_banter_view_margin">2dp</dimen>
-    <dimen name="football_toolbar_margin_bottom">12dp</dimen>
-    <dimen name="swipe_page_banter_zone_margin">3dp</dimen>
-    <dimen name="football_feed_row_image_padding">3dp</dimen>
-    <dimen name="live_zone_header_text_views">9sp</dimen>
     <dimen name="live_zone_team_text_view_size">10sp</dimen>
     <dimen name="scrubber_view_width">1dp</dimen>
     <dimen name="feed_card_corner_radius">8dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
 </resources>

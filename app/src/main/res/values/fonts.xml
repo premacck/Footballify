@@ -1,26 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="moderne_sans">font/moderne_sans.ttf</string>
-    <string name="arsenal_regular">font/arsenal_regular.otf</string>
-    <string name="sans_frediano">font/san-frediano.ttf</string>
-    <string name="aileron_regular">font/aileron.regular.otf</string>
-    <string name="aileron_semibold">font/aileron.semibold.otf</string>
-    <string name="aileron_bold">font/aileron.bold.otf</string>
-    <string name="lemon_milk">font/lemon.milk.ttf</string>
-    <string name="myriad_pro_regular">font/myriad.pro.regular.otf</string>
-    <string name="news_gothic_mt">font/newsgothicmt.ttf</string>
-    <string name="nexa_bold">font/nexa.bold.otf</string>
-    <string name="roboto_black">font/roboto_black.ttf</string>
-    <string name="roboto_bold">font/roboto_bold.ttf</string>
-    <string name="roboto_light">font/roboto_light.ttf</string>
-    <string name="roboto_medium">font/roboto_medium.ttf</string>
-    <string name="roboto_condensed_light">font/roboto_condensed_light.ttf</string>
-    <string name="roboto_condensed_bold">font/roboto_condensed_bold.ttf</string>
-    <string name="roboto_thin">font/roboto_thin.ttf</string>
-    <string name="roboto_regular">font/roboto_regular.ttf</string>
-    <string name="rajdhani_bold">font/rajdhani_bold.ttf</string>
-    <string name="rajdhani_light">font/rajdhani_light.ttf</string>
-    <string name="rajdhani_medium">font/rajdhani_medium.ttf</string>
-    <string name="rajdhani_regular">font/rajdhani_regular.ttf</string>
-    <string name="rajdhani_semibold">font/rajdhani_semibold.ttf</string>
-</resources>
+<resources></resources>
