@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -18,7 +19,10 @@ import android.widget.VideoView;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import java.net.HttpURLConnection;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -57,6 +61,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private Context context;
     private String objectId;
     private int likeCount = 0;
+    private String date;
+    private String enterBoardId;
 
     public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId) {
         this.context = context;
@@ -74,9 +80,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+        date = new SimpleDateFormat(context.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
+        SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.enter_board_id), 0);
+        enterBoardId = matchPref.getString(context.getString(R.string.enter_board_id), "NA");
+        String feedId = footballFeedsList.get(position).getId();
         populateCommentFeedRecyclerView(holder);
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
-        String feedId = footballFeedsList.get(position).getId();
         objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
         if (footballFeedsList.get(position).getThumbnail() != null) {
             switch (footballFeedsList.get(position).getContentType()) {
@@ -183,6 +192,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 }
             }
         });
+
+        holder.postTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String getEditTextValue = holder.feedCommentViewEditText.getText().toString();
+                postCommentOnBoardFeed(getEditTextValue, feedId, objectId, enterBoardId, date);
+            }
+        });
     }
 
     @Override
@@ -259,9 +276,35 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
 
     }
+
+    private void postCommentOnBoardFeed(String getEditTextValue, String feedItemId, String userId, String boardId, String time) {
+        restApi.postCommentOnFeeditem(getEditTextValue, feedItemId, userId, boardId, time)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e("", "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", "onError: " + e);
+                        Toast.makeText(context, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> jsonObjectResponse) {
+                        if (jsonObjectResponse.code() == HttpURLConnection.HTTP_CREATED) {
+                            Log.e("", "onNext: " + jsonObjectResponse);
+                            Toast.makeText(context, "Comment Posted Successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     //todo:make a call to get dislike count.
 
-    public void populateCommentFeedRecyclerView(FootballFeedDetailViewHolder holder) {
+    private void populateCommentFeedRecyclerView(FootballFeedDetailViewHolder holder) {
         ViewAllCommentListAdapter viewAllCommentListAdapter = new ViewAllCommentListAdapter(context);
         holder.viewCommentRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         holder.viewCommentRecyclerView.setAdapter(viewAllCommentListAdapter);
@@ -288,6 +331,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView feedTextView;
         @BindView(R.id.view_all_comments_recycler_view)
         RecyclerView viewCommentRecyclerView;
+        @BindView(R.id.post_text_view)
+        TextView postTextView;
+        @BindView(R.id.feed_comment_view_edit_text)
+        EditText feedCommentViewEditText;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
