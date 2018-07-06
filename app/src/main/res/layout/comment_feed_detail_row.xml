@@ -15,10 +15,12 @@
             android:id="@+id/text_comment_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:padding="1dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/rajdhani_medium"
             android:text="Welcome to this Comment Seaction"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/feed_details_text_view_grey"
             android:textSize="14sp" />
 
         <TextView

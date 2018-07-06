@@ -286,7 +286,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
         TextView feedTextView;
-        @BindView(R.id.view_all_comments_Recycler_view)
+        @BindView(R.id.view_all_comments_recycler_view)
         RecyclerView viewCommentRecyclerView;
 
         FootballFeedDetailViewHolder(View itemView) {
