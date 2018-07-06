@@ -93,8 +93,7 @@
                 android:id="@+id/feed_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/football_image_one" />
+                android:scaleType="centerCrop"/>
 
             <VideoView
                 android:id="@+id/captured_video_view"
