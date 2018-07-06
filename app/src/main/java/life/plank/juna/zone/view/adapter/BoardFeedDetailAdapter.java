@@ -146,7 +146,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             if (footballFeedsList.get(position).getContentType().equals("rootComment")) {
                 holder.feedTextView.setVisibility(View.VISIBLE);
                 holder.capturedVideoView.setVisibility(View.INVISIBLE);
-
+                holder.feedTitleTextView.setVisibility(View.INVISIBLE);
+                holder.commentDescription.setVisibility(View.INVISIBLE);
                 String comment = footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.feedImageView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
                 holder.feedTextView.setText(comment.substring(comment.indexOf("$") + 1));
@@ -286,6 +287,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
         TextView feedTextView;
+        @BindView(R.id.comment_description)
+        TextView commentDescription;
         @BindView(R.id.view_all_comments_recycler_view)
         RecyclerView viewCommentRecyclerView;
 

@@ -29,6 +29,7 @@ import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -207,9 +208,13 @@ public class MatchResultActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tap_for_score_and_fixtures:
-                Intent intent = new Intent(this, FixtureAndResultActivity.class);
-                startActivity(intent);
-                break;
+                if (GlobalVariable.getInstance().getTilePosition() != 3) {
+                    Intent intent = new Intent(this, FixtureAndResultActivity.class);
+                    startActivity(intent);
+                    break;
+                } else {
+                    //TODO: Navigate to world cup matches view
+                }
             case R.id.following: {
                 if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
                     followingTextVIew.setText(R.string.follow);
