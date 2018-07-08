@@ -6,10 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.R;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Created by plank-sharath on 2/21/2018.
  */
+@Data
 public class ScoreFixture {
     private String header;
     private String rounds;
@@ -40,51 +46,4 @@ public class ScoreFixture {
         return fixtureModelList;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(String rounds) {
-        this.rounds = rounds;
-    }
-
-    public String getTeamOne() {
-        return teamOne;
-    }
-
-    public void setTeamOne(String teamOne) {
-        this.teamOne = teamOne;
-    }
-
-    public String getTeamTwo() {
-        return teamTwo;
-    }
-
-    public void setTeamTwo(String teamTwo) {
-        this.teamTwo = teamTwo;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 }

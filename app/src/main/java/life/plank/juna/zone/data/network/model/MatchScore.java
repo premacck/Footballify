@@ -6,11 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.R;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Created by plank-sharath on 4/10/2018.
  */
 
+@Data
 public class MatchScore {
     private String header;
     private String rounds;
@@ -45,68 +51,8 @@ public class MatchScore {
         return scoresModelList;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public String getHeader() {
-        return header;
-    }
-
-    public void setHeader(String header) {
-        this.header = header;
-    }
-
-    public String getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(String rounds) {
-        this.rounds = rounds;
-    }
-
-    public String gethomeTeam() {
-        return homeTeam;
-    }
-
-    public void sethomeTeam(String homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
-    public String getvisitingTeam() {
-        return visitingTeam;
-    }
-
-    public void setvisitingTeam(String visitingTeam) {
-        this.visitingTeam = visitingTeam;
-    }
-
-    public String getmatchTime() {
-        return matchTime;
-    }
-
-    public void setmatchTime(String matchTime) {
-        this.matchTime = matchTime;
-    }
-
-    public String gethomeTeamScores() {
-        return homeTeamScore;
-    }
-
-    public void sethomeTeamScores(String homeTeamScore) {
-        this.homeTeamScore = homeTeamScore;
-    }
-
-    public String getvisitingTeamScore() {
-        return visitingTeamScore;
-    }
-
-    public void setvisitingTeamScore(String visitingTeamScore) {
-        this.visitingTeamScore = visitingTeamScore;
+    protected boolean canEqual(Object other) {
+        return other instanceof MatchScore;
     }
 
 }

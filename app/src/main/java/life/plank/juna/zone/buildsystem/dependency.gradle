@@ -51,6 +51,7 @@ ext {
     archMenu = '1.1.0.2'
     circularImageView = '2.2.0'
     mpAndroidChart= 'v3.0.3'
+    lombokVersion= '1.16.20'
 
     //Testing
     robolectricVersion = '3.1.3'
@@ -130,6 +131,7 @@ ext {
             androidAnnotations: "com.android.support:support-annotations:${androidAnnotationsVersion}",
             dagger            : "com.google.dagger:dagger:${daggerVersion}",
             daggerCompiler    : "com.google.dagger:dagger-compiler:${daggerVersion}",
+            lombok            : "org.projectlombok:lombok:${lombokVersion}"
     ]
 
     dataTestDependencies = [

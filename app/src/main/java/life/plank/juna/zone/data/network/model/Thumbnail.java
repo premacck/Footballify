@@ -1,8 +1,16 @@
 package life.plank.juna.zone.data.network.model;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * Created by plank-arfaa on 06/02/18.
  */
 
+@Data
 public class Thumbnail {
     private String imageUrl;
     private int imageHeight;
@@ -17,27 +25,4 @@ public class Thumbnail {
         this.imageWidth = imageWidth;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public int getImageHeight() {
-        return imageHeight;
-    }
-
-    public void setImageHeight(int imageHeight) {
-        this.imageHeight = imageHeight;
-    }
-
-    public int getImageWidth() {
-        return imageWidth;
-    }
-
-    public void setImageWidth(int imageWidth) {
-        this.imageWidth = imageWidth;
-    }
 }

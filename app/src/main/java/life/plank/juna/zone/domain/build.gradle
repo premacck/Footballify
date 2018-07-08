@@ -12,8 +12,8 @@ dependencies {
     def domainDependencies = rootProject.ext.domainDependencies
     def domainTestDependencies = rootProject.ext.domainTestDependencies
 
-    provided domainDependencies.javaxAnnotation
+    compileOnly domainDependencies.javaxAnnotation
 
-    compile domainDependencies.javaxInject
+    implementation domainDependencies.javaxInject
 
 }

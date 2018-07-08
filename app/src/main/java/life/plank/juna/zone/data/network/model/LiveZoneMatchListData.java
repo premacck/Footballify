@@ -1,9 +1,15 @@
 package life.plank.juna.zone.data.network.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.ToString;
+
 /**
  * Created by plank-niraj on 17-02-2018.
  */
 
+@Data
 public class LiveZoneMatchListData {
 
     private String homeTeam;
@@ -20,23 +26,4 @@ public class LiveZoneMatchListData {
         this.commentary = commentary;
     }
 
-    public String getHomeTeam() {
-        return homeTeam;
-    }
-
-    public String getVisitingTeam() {
-        return visitingTeam;
-    }
-
-    public int getHomeTeamScore() {
-        return homeTeamScore;
-    }
-
-    public int getVisitingTeamScore() {
-        return visitingTeamScore;
-    }
-
-    public String getCommentary() {
-        return commentary;
-    }
 }

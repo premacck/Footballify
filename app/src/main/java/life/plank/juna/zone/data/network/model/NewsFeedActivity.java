@@ -2,6 +2,11 @@ package life.plank.juna.zone.data.network.model;
 
 import java.util.List;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
+@Data
 public class NewsFeedActivity {
 
     public String id;

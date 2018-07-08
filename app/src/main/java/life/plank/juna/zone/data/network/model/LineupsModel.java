@@ -6,46 +6,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Data
 public class LineupsModel {
     private List<List<Formation>> homeTeamFormation = null;
     private List<List<Formation>> awayTeamFormation = null;
 
-    public List<List<Formation>> getHomeTeamFormation() {
-        return homeTeamFormation;
-    }
-
-    public void setHomeTeamFormation(List<List<Formation>> homeTeamFormation) {
-        this.homeTeamFormation = homeTeamFormation;
-    }
-
-    public List<List<Formation>> getAwayTeamFormation() {
-        return awayTeamFormation;
-    }
-
-    public void setAwayTeamFormation(List<List<Formation>> awayTeamFormation) {
-        this.awayTeamFormation = awayTeamFormation;
-    }
+    @Data
     public class Formation {
         private String fullName;
         private Integer number;
-
-        private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-
-        public String getFullName() {
-            return fullName;
-        }
-
-        public void setFullName(String fullName) {
-            this.fullName = fullName;
-        }
-
-        public Integer getNumber() {
-            return number;
-        }
-
-        public void setNumber(Integer number) {
-            this.number = number;
-        }
 
     }
 }

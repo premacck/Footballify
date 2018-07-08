@@ -19,15 +19,15 @@ dependencies {
     def dataDependencies = rootProject.ext.dataDependencies
     def testDependencies = rootProject.ext.dataTestDependencies
 
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
-    provided dataDependencies.javaxAnnotation
-    compile dataDependencies.javaxInject
-    compile dataDependencies.okHttp
-    compile dataDependencies.gson
-    compile dataDependencies.rxJavaAdapter
-    compile dataDependencies.rxAndroid
-    compile dataDependencies.androidAnnotations
-    compile dataDependencies.retrofit
-    compile dataDependencies.dagger
+    implementation 'org.apache.commons:commons-lang3:3.0'
+    compileOnly dataDependencies.javaxAnnotation
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.okHttp
+    implementation dataDependencies.gson
+    implementation dataDependencies.rxJavaAdapter
+    implementation dataDependencies.rxAndroid
+    implementation dataDependencies.androidAnnotations
+    implementation dataDependencies.retrofit
+    implementation dataDependencies.dagger
     annotationProcessor dataDependencies.daggerCompiler
 }

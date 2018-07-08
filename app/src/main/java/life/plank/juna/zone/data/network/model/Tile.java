@@ -4,11 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import life.plank.juna.zone.R;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Created by plank-hasan on 2/21/2018.
  */
 
+@Data
 public class Tile {
     private String tag;
     private int image;
@@ -19,38 +25,6 @@ public class Tile {
         this.tag = tag;
         this.image = image;
         this.sticker = sticker;
-        this.tweet = tweet;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-
-    public int getSticker() {
-        return sticker;
-    }
-
-    public void setSticker(int sticker) {
-        this.sticker = sticker;
-    }
-
-    public String getTweet() {
-        return tweet;
-    }
-
-    public void setTweet(String tweet) {
         this.tweet = tweet;
     }
 

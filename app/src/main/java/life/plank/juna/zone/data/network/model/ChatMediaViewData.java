@@ -1,8 +1,15 @@
 package life.plank.juna.zone.data.network.model;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 /**
  * Created by plank-niraj on 07-03-2018.
  */
+@Data
 public class ChatMediaViewData {
     private String mediaData;
     private boolean isSelected;
@@ -13,29 +20,5 @@ public class ChatMediaViewData {
         this.mediaData = mediaData;
         this.isSelected = isSelected;
         this.isImage = isImage;
-    }
-
-    public int getMediaType() {
-        return mediaType;
-    }
-
-    public void setMediaType(int mediaType) {
-        this.mediaType = mediaType;
-    }
-
-    public boolean isSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.isSelected = selected;
-    }
-
-    public boolean isImage() {
-        return isImage;
-    }
-
-    public String getMediaData() {
-        return mediaData;
     }
 }
