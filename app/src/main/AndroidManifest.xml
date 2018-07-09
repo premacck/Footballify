@@ -147,7 +147,7 @@
             android:name=".view.activity.PostCommentActivity"
             android:label="@string/title_activity_post_comment"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.activity.WorldCupFixtureActivity"></activity>
+        <activity android:name=".view.activity.WorldCupFixtureActivity" />
     </application>
 
 </manifest>
