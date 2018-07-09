@@ -17,8 +17,6 @@
     <color name="background_grey">#303331</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="light_black">#030303</color>
-    <color name="team_name_color">#060606</color>
-    <color name="score_fixture_time_label_color">#dadada</color>
     <color name="text_hint_label_color">#009688</color>
     <color name="match_list_white_background">#f2f2f2</color>
     <color name="grey">#555555</color>
