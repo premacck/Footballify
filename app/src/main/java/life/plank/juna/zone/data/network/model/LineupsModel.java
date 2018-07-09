@@ -1,16 +1,8 @@
 package life.plank.juna.zone.data.network.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 @Data
 public class LineupsModel {
