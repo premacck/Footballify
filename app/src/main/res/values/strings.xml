@@ -11,10 +11,6 @@
 
     <string name="liveZone">LiveZone</string>
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
-    <string name="photos_videos">PHOTOS/VIDEOS</string>
-    <string name="stickers">STICKERS</string>
-    <string name="gifs">GIFS</string>
-    <string name="meme_maker">MEME MAKER</string>
 
     <string-array name="football_teams">
         <item>Arsenal</item>
