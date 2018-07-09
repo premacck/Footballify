@@ -73,18 +73,6 @@ public class RestServiceModule {
 
     @Singleton
     @Provides
-    @Named("instagram")
-    public Retrofit getInstagramRetrofitService() {
-        return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.instagram_base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
-    @Singleton
-    @Provides
     @Named("azure")
     public Retrofit getAzureRetrofit(Gson gson) {
         return new Retrofit.Builder()

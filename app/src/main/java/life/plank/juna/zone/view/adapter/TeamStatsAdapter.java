@@ -30,20 +30,20 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
 
     @Override
     public TeamStateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from( parent.getContext() )
-                .inflate( R.layout.team_stats_row, parent, false );
-        return new TeamStateViewHolder( view );
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.team_stats_row, parent, false);
+        return new TeamStateViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(TeamStateViewHolder holder, int position) {
-        holder.teamStatsWinsTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalWins() ) );
-        holder.teamStatsLossesTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalLosses() ) );
-        holder.teamsStatsGoalForTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalGoalsFor() ) );
-        holder.teamStatsDrawTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalDraws() ) );
-        holder.teamsStatsGoalAgaintsTextView.setText( String.valueOf( teamStatsModelList.get( position ).getTotalGoalsAgainst() ) );
-        holder.teamStatsSerialNumber.setText( String.valueOf( teamStatsModelList.get( position ).getId() ) );
-        holder.teamStatsTeamNameTextView.setText( String.valueOf( teamStatsModelList.get( position ).getFootballTeam().getName() ) );
+        holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalWins()));
+        holder.teamStatsLossesTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalLosses()));
+        holder.teamsStatsGoalForTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsFor()));
+        holder.teamStatsDrawTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalDraws()));
+        holder.teamsStatsGoalAgaintsTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsAgainst()));
+        holder.teamStatsSerialNumber.setText(String.valueOf(teamStatsModelList.get(position).getId()));
+        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
     }
 
     @Override
@@ -71,8 +71,8 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
 
 
         public TeamStateViewHolder(View itemView) {
-            super( itemView );
-            ButterKnife.bind( this, itemView );
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

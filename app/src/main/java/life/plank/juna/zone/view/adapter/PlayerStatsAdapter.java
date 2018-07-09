@@ -26,17 +26,17 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
 
     @Override
     public MatchLeagueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MatchLeagueViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.player_stats_row, parent, false ) );
+        return new MatchLeagueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.player_stats_row, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MatchLeagueViewHolder holder, int position) {
-        holder.PlayerStatsSerialNumberText.setText( String.valueOf( playerStatsModels.get( position ).getId() ) );
-        holder.PlayerStatsPlayerNameText.setText( String.valueOf( playerStatsModels.get( position ).getFullName() ) );
-        holder.PlayerStatsGoalsText.setText( String.valueOf( playerStatsModels.get( position ).getGoals() ) );
-        holder.PlayerStatsAssistTextView.setText( String.valueOf( playerStatsModels.get( position ).getAssists() ) );
-        holder.PlayerStatsYellowTextView.setText( String.valueOf( playerStatsModels.get( position ).getYellowcards() ) );
-        holder.PlayerStatsRedCardTextView.setText( String.valueOf( playerStatsModels.get( position ).getRedcards() ) );
+        holder.PlayerStatsSerialNumberText.setText(String.valueOf(playerStatsModels.get(position).getId()));
+        holder.PlayerStatsPlayerNameText.setText(String.valueOf(playerStatsModels.get(position).getFullName()));
+        holder.PlayerStatsGoalsText.setText(String.valueOf(playerStatsModels.get(position).getGoals()));
+        holder.PlayerStatsAssistTextView.setText(String.valueOf(playerStatsModels.get(position).getAssists()));
+        holder.PlayerStatsYellowTextView.setText(String.valueOf(playerStatsModels.get(position).getYellowcards()));
+        holder.PlayerStatsRedCardTextView.setText(String.valueOf(playerStatsModels.get(position).getRedcards()));
     }
 
     @Override
@@ -61,8 +61,8 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
         TextView PlayerStatsRedCardTextView;
 
         public MatchLeagueViewHolder(View itemView) {
-            super( itemView );
-            ButterKnife.bind( this, itemView );
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

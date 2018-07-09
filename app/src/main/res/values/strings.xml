@@ -6,15 +6,6 @@
     <string name="login_pref">loginPrefs</string>
     <string name="shared_pref_save_login">save_login</string>
     <string name="facebook_app_id">575013552837571</string>
-    <string name="instagram_base_url">https://api.instagram.com/</string>
-    <string name="instagram_client_id">c16a21f7be6241629eca1e328d13ad2c</string>
-    <string name="instagram_redirect_url">https://www.plank.life</string>
-    <string name="client_id_query_param">oauth/authorize/?client_id=</string>
-    <string name="redirect_uri_query_param"><![CDATA[&redirect_uri=]]></string>
-    <string name="response_type_query_param"><![CDATA[&response_type=token]]></string>
-    <string name="display_scope_query_param"><![CDATA[&display=touch&scope=public_content]]></string>
-    <string name="access_token_query_param">#access_token=</string>
-    <string name="error_query_param">\?error</string>
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
     <string name="unfollow">UNFOLLOW</string>
 
@@ -50,7 +41,6 @@
 
     <string name="lorem_ipsum_text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     </string>
-    <string name="lorem_ipsum_text_two">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. </string>
     <string name="replace_rt">RT:</string>
     <string name="replace_trc">TRC:</string>
     //TODO: needs shiva's suggestion on this
@@ -60,15 +50,12 @@
     <string name="round_fa_cup">FIFTH ROUND</string>
     <string name="team_one_fa_cup">Wigan</string>
     <string name="team_two_fa_cup">Man City</string>
-    <string name="time_fa_cup">19:50</string>
     <string name="header_league">LEAGUE ONE</string>
     <string name="team_one_league">Blackburn</string>
     <string name="team_two_league">Bury</string>
-    <string name="time_league">19:45</string>
     <string name="header_south">NATIONAL LEAGUE SOUTH</string>
     <string name="team_one_south">Wealdstone</string>
     <string name="team_two_south">Gloucester City</string>
-    <string name="time_south">19:00</string>
     <string name="serial_number">1</string>
     <string name="my_team">My Team</string>
     <string name="full_match_time">FT</string>
