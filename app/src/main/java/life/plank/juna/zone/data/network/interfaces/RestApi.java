@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 
 import java.util.List;
 
-import life.plank.juna.zone.data.network.model.BoardCreationModel;
+import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.LineupsModel;
 import life.plank.juna.zone.data.network.model.MatchSummaryModel;
@@ -75,7 +75,7 @@ public interface RestApi {
     Observable<Response<JsonObject>> enterBoard(@Path("boardId") String boardId, @Query("userId") String userId);
 
     @GET("/boards")
-    Observable<Response<BoardCreationModel>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType);
+    Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType);
 
     @GET("/boards/{boardId}/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);

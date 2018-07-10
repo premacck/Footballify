@@ -4,7 +4,7 @@ package life.plank.juna.zone.data.network.model;
 import lombok.Data;
 
 @Data
-public class BoardCreationModel {
+public class Board {
     private String id;
     private String displayname;
     private String matchStartTime;

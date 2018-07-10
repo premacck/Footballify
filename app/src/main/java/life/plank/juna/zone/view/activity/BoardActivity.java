@@ -49,7 +49,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.BoardCreationModel;
+import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnLongPressListener;
@@ -350,7 +350,7 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         restApi.retrieveBoard(foreignId, boardType)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<BoardCreationModel>>() {
+                .subscribe(new Observer<Response<Board>>() {
                     @Override
                     public void onCompleted() {
                         Log.e(TAG, "onCompleted-->: ");
@@ -362,7 +362,7 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
                     }
 
                     @Override
-                    public void onNext(Response<BoardCreationModel> response) {
+                    public void onNext(Response<Board> response) {
                         if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                             enterBoardId = response.body().getId();
                             saveBoardId();
