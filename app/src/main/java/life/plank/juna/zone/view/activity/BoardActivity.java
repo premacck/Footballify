@@ -92,6 +92,10 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
     ImageView homeTeamLogoImageView;
     @BindView(R.id.visiting_team_logo_image_view)
     ImageView visitingTeamLogoImageView;
+    @BindView(R.id.home_team_score)
+    TextView homeTeamScore;
+    @BindView(R.id.visiting_team_score)
+    TextView visitingTeamScore;
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
     private String enterBoardId;
@@ -188,6 +192,8 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
     private void setToolbarTeamLogo() {
         Picasso.with(this).load(homeTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(homeTeamLogoImageView);
         Picasso.with(this).load(awayTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(visitingTeamLogoImageView);
+        homeTeamScore.setText(getIntent().getStringExtra("homeTeamScore"));
+        visitingTeamScore.setText(getIntent().getStringExtra("visitingTeamScore"));
     }
 
     @Override

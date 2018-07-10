@@ -16,7 +16,6 @@ public class GlobalVariable {
     private GlobalVariable() {
     }
 
-
     public static synchronized GlobalVariable getInstance() {
         if (instance == null) {
             instance = new GlobalVariable();
