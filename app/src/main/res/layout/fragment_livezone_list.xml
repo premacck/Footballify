@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:fontFamily="@font/roboto_condensed_bold"
             android:text="@string/liveZone" />
 
         <ImageView

@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/logo"
-        android:background="@drawable/pink_bg_w_icon">
+        android:background="#fafafa">
 
         <View
             android:id="@+id/view_above_sign_up"
@@ -125,16 +125,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
-                        android:text="Don’t remember your password?" />
+                        android:text="Don’t remember your password?"
+                        android:textSize="12sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="left"
-                        android:padding="10dp"
+                        android:padding="12dp"
                         android:text="or login using social media"
                         android:textColor="@color/black_40"
-                        android:textSize="10sp" />
+                        android:textSize="12sp" />
 
                     <RelativeLayout
                         android:id="@+id/text_view_container"
@@ -159,7 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:layout_margin="16dp"
-            app:cardBackgroundColor="@color/material_green_50"
+            app:cardBackgroundColor="#fff"
             app:cardCornerRadius="8dp"
             app:cardElevation="8dp"
             app:cardUseCompatPadding="true"
@@ -169,10 +170,11 @@
                 android:id="@+id/login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:padding="24dp"
                 android:text="@string/login"
                 android:textColor="@color/grey"
-                android:textSize="20sp" />
+                android:textSize="24sp"
+                android:fontFamily="@font/rajdhani_bold"/><!--change to raleway bold-->
 
             <RelativeLayout
                 android:id="@+id/relative_layout"
@@ -184,24 +186,26 @@
                     android:id="@+id/editext_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="40dp"
                     android:padding="16dp">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/username_text_input_layout__sign_up"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:padding="16dp">
+                        android:layout_gravity="left"
+                        android:padding="1dp">
 
                         <EditText
                             android:id="@+id/email_editext_sign_in"
                             style="@style/InputPlaceholder"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_alignParentStart="true"
                             android:backgroundTint="@color/grey"
-                            android:gravity="center_horizontal"
-                            android:hint="Email Id" />
+                            android:gravity="left"
+                            android:hint="Email"
+                            />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -216,8 +220,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:backgroundTint="@color/grey"
-                            android:gravity="center"
-                            android:hint="password" />
+                            android:gravity="left"
+                            android:hint="Password" />
                     </android.support.design.widget.TextInputLayout>
                 </RelativeLayout>
 
