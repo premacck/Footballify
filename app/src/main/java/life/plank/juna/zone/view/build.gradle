@@ -63,9 +63,9 @@ dependencies {
     implementation viewDependencies.blurPopupWindow
     implementation viewDependencies.archMenu
     implementation viewDependencies.circularImageView
-    compile viewDependencies.mpAndroidChart
+    implementation viewDependencies.mpAndroidChart
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
-    provided viewDependencies.javaxAnnotation
+    compileOnly viewDependencies.javaxAnnotation
 
 }
