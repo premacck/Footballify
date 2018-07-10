@@ -7,7 +7,7 @@
         <item name="colorPrimaryDark">@color/background_grey</item>
         <item name="colorAccent">@color/white</item>
         <item name="colorControlNormal">@color/white</item>
-        <item name="colorControlActivated">@color/text_hint_label_color</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/white</item>
         <item name="android:windowBackground">@null</item>
     </style>
@@ -60,7 +60,7 @@
         <item name="android:background">@drawable/edit_text_line_blue</item>
         <item name="android:maxLines">1</item>
         <item name="android:padding">8dp</item>
-        <item name="android:textColorHint">@color/hint_text_color_edit_text</item>
+        <item name="android:textColorHint">@color/colorAccent</item>
         <item name="android:textSize">20sp</item>
         <item name="android:fontFamily">@font/rajdhani_medium</item>
         <item name="android:textColor">@color/grey</item>

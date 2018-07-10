@@ -31,7 +31,6 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
             android:layout_margin="3dp"
-            android:fontFamily="@font/roboto_condensed_regular"
             android:letterSpacing=".03"
             android:textColor="@color/white"
             android:textSize="9sp" />
