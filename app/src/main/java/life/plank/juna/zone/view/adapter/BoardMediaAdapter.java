@@ -85,7 +85,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                onClickFeedItemListener.onItemLongPress(position);
+                onClickFeedItemListener.onItemClick(position);
                 return true;
             }
         });

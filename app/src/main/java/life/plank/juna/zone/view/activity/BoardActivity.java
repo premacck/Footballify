@@ -409,7 +409,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     }
 
     @Override
-    public void onItemLongPress(int position) {
+    public void onItemClick(int position) {
         boardParentViewBitmap = loadBitmap(boardParentLayout, boardParentLayout);
         Intent intent = new Intent(this, BoardFeedDetailActivity.class);
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));

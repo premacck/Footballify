@@ -5,5 +5,5 @@ package life.plank.juna.zone.interfaces;
  */
 
 public interface OnClickFeedItemListener {
-    void onItemLongPress(int position);
+    void onItemClick(int position);
 }

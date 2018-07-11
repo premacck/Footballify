@@ -84,7 +84,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                         break;
                     }
                     default: {
-                        onClickFeedItemListener.onItemLongPress(position);
+                        onClickFeedItemListener.onItemClick(position);
                         break;
                     }
                 }

@@ -334,7 +334,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     @Override
-    public void onItemLongPress(int position) {
+    public void onItemClick(int position) {
         parentViewBitmap = loadBitmap(parentLayout, parentLayout);
         Intent intent = new Intent(this, FootballFeedDetailActivity.class);
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));
