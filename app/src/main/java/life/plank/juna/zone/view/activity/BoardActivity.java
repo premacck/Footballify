@@ -52,7 +52,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.BoardCreationModel;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
-import life.plank.juna.zone.interfaces.OnLongPressListener;
+import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
@@ -66,7 +66,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-hasan on 5/3/2018.
  */
 
-public class BoardActivity extends AppCompatActivity implements OnLongPressListener {
+public class BoardActivity extends AppCompatActivity implements OnClickFeedItemListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
     public static BoardActivity boardActivity;
@@ -214,7 +214,7 @@ public class BoardActivity extends AppCompatActivity implements OnLongPressListe
         boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
-        boardMediaAdapter.setOnLongPressListener(this);
+        boardMediaAdapter.setOnClickFeedItemListener(this);
         boardRecyclerView.setAdapter(boardMediaAdapter);
         renderScript = RenderScript.create(this);
 
