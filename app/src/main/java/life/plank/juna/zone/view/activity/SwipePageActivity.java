@@ -53,7 +53,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
-import life.plank.juna.zone.interfaces.OnLongPressListener;
+import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStateReceiver;
@@ -73,7 +73,7 @@ import rx.schedulers.Schedulers;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnLongPressListener {
+public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, NetworkStateReceiver.NetworkStateReceiverListener, OnClickFeedItemListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public static SwipePageActivity swipePageActivity;
     public static Boolean isVisible = false;
@@ -186,7 +186,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         footballFeedAdapter.setPinFeedListener(this);
-        footballFeedAdapter.setOnLongPressListener(this);
+        footballFeedAdapter.setOnClickFeedItemListener(this);
         renderScript = RenderScript.create(this);
     }
 
@@ -334,7 +334,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     @Override
-    public void onItemLongPress(int position) {
+    public void onItemClick(int position) {
         parentViewBitmap = loadBitmap(parentLayout, parentLayout);
         Intent intent = new Intent(this, FootballFeedDetailActivity.class);
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));

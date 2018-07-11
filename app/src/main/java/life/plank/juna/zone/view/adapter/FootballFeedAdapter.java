@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.interfaces.OnLongPressListener;
+import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.util.RoundedTransformation;
@@ -33,7 +33,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     private int heightsToBeRemoved;
     private List<FootballFeed> footballFeedList = new ArrayList<>();
     private PinFeedListener pinFeedListener;
-    private OnLongPressListener onLongPressListener;
+    private OnClickFeedItemListener onClickFeedItemListener;
 
     public FootballFeedAdapter(Context context) {
         this.heightsToBeRemoved = heightsToBeRemoved;
@@ -62,9 +62,9 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
         }
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 GlobalVariable.getInstance().setTilePosition(position);
                 switch (position) {
                     case 0: {
@@ -84,12 +84,10 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                         break;
                     }
                     default: {
-                        onLongPressListener.onItemLongPress(position);
+                        onClickFeedItemListener.onItemClick(position);
                         break;
                     }
                 }
-
-                return true;
             }
         });
     }
@@ -111,8 +109,8 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         this.pinFeedListener = pinFeedListener;
     }
 
-    public void setOnLongPressListener(OnLongPressListener onLongPressListener) {
-        this.onLongPressListener = onLongPressListener;
+    public void setOnClickFeedItemListener(OnClickFeedItemListener onClickFeedItemListener) {
+        this.onClickFeedItemListener = onClickFeedItemListener;
     }
 
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
