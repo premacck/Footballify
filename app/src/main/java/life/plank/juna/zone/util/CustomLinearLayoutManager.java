@@ -10,7 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 
 public class CustomLinearLayoutManager extends LinearLayoutManager {
     private boolean isScrollEnabled = true;
-    private int mOrientation = VERTICAL;
+    private int mOrientation;
 
     public CustomLinearLayoutManager(Context context,int orientation) {
         super(context);
