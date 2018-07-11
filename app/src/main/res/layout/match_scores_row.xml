@@ -12,7 +12,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:fontFamily="@font/aileron_bold"
         android:gravity="center"
         android:padding="16dp"
         android:textSize="18sp" />
