@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -184,7 +185,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 Log.e("filePath Camera ", "" + filePath);
                 imgFile = new File(filePath);
                 if (imgFile.exists()) {
-                    capturedImageView.setImageBitmap(new Image().compress(imgFile, imgFile.toString()));
+                    Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
+                    filePath = imgFile.toString();
+                    capturedImageView.setImageBitmap(bitmap);
                 }
             } catch (IOException e) {
                 Toast.makeText(getApplicationContext(), "Sorry could not process image", Toast.LENGTH_LONG).show();
