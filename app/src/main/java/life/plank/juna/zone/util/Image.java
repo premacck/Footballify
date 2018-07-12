@@ -10,8 +10,8 @@ import java.io.IOException;
 
 public class Image {
 
-    public Bitmap compress(File f, String imgPath) throws IOException {
-        Bitmap bitmapImage = null;
+    public Bitmap compress(File file, String imgPath) throws IOException {
+        Bitmap bitmapImage;
 
         //Decode image size
         BitmapFactory.Options bitmapScaleOptions = new BitmapFactory.Options();
@@ -19,7 +19,7 @@ public class Image {
 
         FileInputStream fis;
 
-        fis = new FileInputStream(f);
+        fis = new FileInputStream(file);
         BitmapFactory.decodeStream(fis, null, bitmapScaleOptions);
         fis.close();
 
@@ -34,7 +34,7 @@ public class Image {
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inSampleSize = scale;
 
-        fis = new FileInputStream(f);
+        fis = new FileInputStream(file);
         bitmapImage = BitmapFactory.decodeStream(fis, null, bitmapOptions);
         fis.close();
 

@@ -197,9 +197,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 if (null != uri) {
                     try {
                         setUpUi("video");
-                        String uriString = uri.toString();
-                        File file = new File(uriString);
-                        String path = file.getAbsolutePath();
                         absolutePath = UIDisplayUtil.getAudioPath(uri);
                         absolutefile = new File(absolutePath);
                         long fileSizeInBytes = absolutefile.length();
