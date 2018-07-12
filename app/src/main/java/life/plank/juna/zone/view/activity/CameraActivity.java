@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -41,6 +39,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.Image;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -77,6 +76,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private String absolutePath;
     private Uri fileUri;
     private String path;
+    private File imgFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,13 +182,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 setUpUi("image");
                 filePath = fileUri.getPath();
                 Log.e("filePath Camera ", "" + filePath);
-                File imgFile = new File(filePath);
+                imgFile = new File(filePath);
                 if (imgFile.exists()) {
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                    capturedImageView.setImageBitmap(myBitmap);
+                    capturedImageView.setImageBitmap(new Image().compress(imgFile, imgFile.toString()));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), "Sorry could not process image", Toast.LENGTH_LONG).show();
             }
 
 
@@ -235,13 +234,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 Uri selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
                     setUpUi("image");
+                    filePath = UIDisplayUtil.getPathForGalleryImageView(selectedImageFromGallery, this);
+                    imgFile = new File(filePath);
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageFromGallery);
-                        capturedImageView.setImageBitmap(bitmap);
-                        filePath = UIDisplayUtil.getPathForGalleryImageView(selectedImageFromGallery, this);
+                        capturedImageView.setImageBitmap(new Image().compress(imgFile, imgFile.toString()));
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e("TAG", "message" + e);
+                        Toast.makeText(getApplicationContext(), "Sorry could not process image", Toast.LENGTH_LONG).show();
                     }
+
                 }
             }
         } else {
