@@ -1,12 +1,12 @@
 //TODO: Inject version from external file
 //TODO: Move custom scripts to a new build.gradle file
 buildscript {
-    repositories {
+      repositories {
         mavenCentral()
-        maven { url "${nexusUrl}/content/groups/public" }
-        maven { url "${nexusUrl}/content/repositories/snapshots" }
-        maven { url "${nexusUrl}/content/repositories/rc" }
-        maven { url "${nexusUrl}/content/repositories/releases" }
+        maven { url "${nexusUrl}/repository/public" }
+        maven { url "${nexusUrl}/repository/snapshots/" }
+        maven { url "${nexusUrl}/repository/rc/" }
+        maven { url "${nexusUrl}/repository/releases/" }
         maven {
             url "https://jitpack.io"
         }
@@ -34,7 +34,7 @@ allprojects {
     repositories {
         google()
         maven {
-            url nexusUrl + "/content/repositories/rc"
+            url nexusUrl + "/repository/rc"
         }
         maven {
             url "https://jitpack.io"
@@ -47,7 +47,7 @@ allprojects {
             url "http://repository.excilys.com/content/groups/public"
         }
         maven {
-            url nexusUrl + "/content/groups/public"
+            url nexusUrl + "/repository/public"
         }
         maven {
             url 'https://maven.google.com'
@@ -76,10 +76,10 @@ sonarqube {
 uploadArchives {
     repositories {
         mavenDeployer {
-            snapshotRepository(url: nexusUrl + "/content/repositories/snapshots") {
+            snapshotRepository(url: nexusUrl + "/repository/snapshots") {
                 authentication(userName: nexusUsername, password: nexusPassword)
             }
-            repository(url: nexusUrl + "/content/repositories/rc") {
+            repository(url: nexusUrl + "/repository/rc") {
                 authentication(userName: nexusUsername, password: nexusPassword)
             }
             pom.version = "0.0.1"
@@ -89,4 +89,4 @@ uploadArchives {
             pom.name = 'PlankJunaZoneAndroidApp'
         }
     }
-}
+}		

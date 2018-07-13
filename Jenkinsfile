@@ -28,8 +28,9 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
-        executeTests()
+	executeTests()
         uploadToNexus()
+		
     }
 
     def buildBugfixBranch(){
@@ -39,7 +40,7 @@ node('docker') {
     }
 
     def buildReleaseBranch(){
-        buildRelease()
+	buildRelease()
         executeTests()
         uploadToNexus()
         publishApkToAlphaTrackPlayStore()
@@ -71,8 +72,8 @@ node('docker') {
     def build(){
          stage 'Clean and Build android app'
          sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
-         sh "./gradlew clean build"
-         echo  '********************************************************************************'
+         sh "./gradlew clean :app:assembleDebug"
+	  echo  '********************************************************************************'
     }
 
     def buildRelease(){
