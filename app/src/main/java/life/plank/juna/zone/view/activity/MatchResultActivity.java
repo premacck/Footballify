@@ -40,6 +40,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MatchResultActivity extends AppCompatActivity {
+    String TAG = MatchResultActivity.class.getSimpleName();
     @Inject
     @Named("footballData")
     Retrofit retrofit;
@@ -127,23 +128,28 @@ public class MatchResultActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.e("", "response: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         progressBar.setVisibility(View.VISIBLE);
-                        Log.d("", "In onCompleted()");
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<List<StandingModel>> response) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.e("", "response: " + ", list data " + response.toString());
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populateStandingRecyclerView(response.body());
-                        } else {
-                            Toast.makeText(MatchResultActivity.this, "Responce Not Found", Toast.LENGTH_SHORT).show();
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                populateStandingRecyclerView(response.body());
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(MatchResultActivity.this, "Failed to get standings", Toast.LENGTH_SHORT).show();
+                            default:
+                                Toast.makeText(MatchResultActivity.this, "Failed to get standings", Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
                 });
@@ -156,21 +162,29 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "response: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("", "In onCompleted()");
+                        Log.e(TAG, " Error" + e);
+                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<List<PlayerStatsModel>> response) {
-                        Log.e("", "response: " + ", list data " + response.toString());
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populatePlayerStatsRecyclerView(response.body());
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                populatePlayerStatsRecyclerView(response.body());
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), "Failed to get player stats", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                populatePlayerStatsRecyclerView(response.body());
+                                Toast.makeText(getApplicationContext(), "Failed to get player stats", Toast.LENGTH_LONG).show();
+                                break;
                         }
-
                     }
                 });
     }
@@ -184,22 +198,28 @@ public class MatchResultActivity extends AppCompatActivity {
                     @Override
                     public void onCompleted() {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.e("", "response: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("", "In onCompleted()");
+                        Log.e(TAG, " Error: " + e);
                     }
 
                     @Override
                     public void onNext(Response<List<TeamStatsModel>> response) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.e("", "response: " + ", list data " + response.toString());
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            populateTeamStatsRecyclerView(response.body());
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                populateTeamStatsRecyclerView(response.body());
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), "Failed to get team stats", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), "Failed to get team stats", Toast.LENGTH_LONG).show();
+                                break;
                         }
-
                     }
                 });
     }

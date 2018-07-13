@@ -212,40 +212,49 @@ public class LineupActivity extends AppCompatActivity {
                 .subscribe(new Subscriber<Response<MatchSummaryModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onNext(Response<MatchSummaryModel> listResponse) {
-                        Log.e("", "response: " + ", list data " + listResponse.toString());
-                        if (listResponse.code() == HttpURLConnection.HTTP_OK) {
-                            if (listResponse.body() != null) {
-                                homeTeamShots.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getTotalShots()));
-                                awayTeamShots.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getTotalShots()));
-                                homeTeamShotsOnTarget.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getOnGoalShots()));
-                                awayTeamShotsOnTarget.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getOnGoalShots()));
-                                homeTeamPossession.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getPossessionTime()));
-                                awayTeamPossession.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getPossessionTime()));
-                                homeTeamFouls.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getFouls()));
-                                awayTeamFouls.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getFouls()));
-                                homeTeamYellowCard.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getYellowCards()));
-                                awayTeamYellowCard.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getYellowCards()));
-                                homeTeamRedCard.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getRedCards()));
-                                awayTeamRedCard.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getRedCards()));
-                                homeTeamOffside.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getOffsides()));
-                                awayTeamOffside.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getOffsides()));
-                                homeTeamCorner.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getCorners()));
-                                awayTeamCorner.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getCorners()));
-                            }
-                        } else {
-                            Toast.makeText(LineupActivity.this, "Response Not Found", Toast.LENGTH_SHORT).show();
+                    public void onNext(Response<MatchSummaryModel> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (response.body() != null) {
+                                    homeTeamShots.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getTotalShots()));
+                                    awayTeamShots.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getTotalShots()));
+                                    homeTeamShotsOnTarget.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getOnGoalShots()));
+                                    awayTeamShotsOnTarget.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getOnGoalShots()));
+                                    homeTeamPossession.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getPossessionTime()));
+                                    awayTeamPossession.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getPossessionTime()));
+                                    homeTeamFouls.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getFouls()));
+                                    awayTeamFouls.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getFouls()));
+                                    homeTeamYellowCard.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getYellowCards()));
+                                    awayTeamYellowCard.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getYellowCards()));
+                                    homeTeamRedCard.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getRedCards()));
+                                    awayTeamRedCard.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getRedCards()));
+                                    homeTeamOffside.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getOffsides()));
+                                    awayTeamOffside.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getOffsides()));
+                                    homeTeamCorner.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getCorners()));
+                                    awayTeamCorner.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getCorners()));
+                                } else {
+                                    Toast.makeText(LineupActivity.this, "Match summary not found", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(LineupActivity.this, "Match summary not found", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(LineupActivity.this, "Match summary not found", Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
+
                 });
     }
 }

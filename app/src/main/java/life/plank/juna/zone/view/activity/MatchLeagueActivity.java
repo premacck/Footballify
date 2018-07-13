@@ -21,7 +21,7 @@ import life.plank.juna.zone.util.SpacesItemDecoration;
 import life.plank.juna.zone.view.adapter.MatchLeagueAdapter;
 
 public class MatchLeagueActivity extends AppCompatActivity {
-
+    String TAG = MatchLeagueActivity.class.getSimpleName();
     @BindView(R.id.league_recycler_view)
     RecyclerView leagueRecyclerView;
     @BindView(R.id.info_text_view)
@@ -32,33 +32,33 @@ public class MatchLeagueActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_match_league );
-        ButterKnife.bind( this );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_match_league);
+        ButterKnife.bind(this);
         populateRecyclerView();
         setUpBoomMenu();
     }
 
     public void populateRecyclerView() {
-        leagueRecyclerView.setLayoutManager( new GridLayoutManager( this, 4 ) );
-        leagueRecyclerView.addItemDecoration( new SpacesItemDecoration( 10 ) );
-        matchLeagueAdapter = new MatchLeagueAdapter( this );
-        leagueRecyclerView.setAdapter( matchLeagueAdapter );
+        leagueRecyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        leagueRecyclerView.addItemDecoration(new SpacesItemDecoration(10));
+        matchLeagueAdapter = new MatchLeagueAdapter(this);
+        leagueRecyclerView.setAdapter(matchLeagueAdapter);
     }
 
     @OnClick({R.id.info_text_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.info_text_view:
-                Intent intent = new Intent( this, MatchResultActivity.class );
-                startActivity( intent );
+                Intent intent = new Intent(this, MatchResultActivity.class);
+                startActivity(intent);
                 break;
         }
     }
 
     public void setUpBoomMenu() {
         //todo: will be add in Utils so we can Reuse the Code
-        arcMenu.setIcon( R.drawable.ic_un, R.drawable.ic_close_white );
+        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
         int[] fabImages = {R.drawable.ic_settings_white,
                 R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
                 R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link};
@@ -67,19 +67,19 @@ public class MatchLeagueActivity extends AppCompatActivity {
                 R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
         String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment"};
         for (int i = 0; i < fabImages.length; i++) {
-            View child = getLayoutInflater().inflate( R.layout.layout_floating_action_button, null );
-            //child.setId(i);
-            RelativeLayout fabRelativeLayout = child.findViewById( R.id.fab_relative_layout );
-            ImageView fabImageVIew = child.findViewById( R.id.fab_image_view );
-            fabRelativeLayout.setBackground( ContextCompat.getDrawable( this, backgroundColors[i] ) );
-            fabImageVIew.setImageResource( fabImages[i] );
+            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
+
+            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
+            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
+            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
+            fabImageVIew.setImageResource(fabImages[i]);
             final int position = i;
-            arcMenu.addItem( child, titles[i], new View.OnClickListener() {
+            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     switch (position) {
                         case 0: {
-                            startActivity( new Intent( MatchLeagueActivity.this, BoardActivity.class ) );
+                            startActivity(new Intent(MatchLeagueActivity.this, BoardActivity.class));
                             break;
                         }
                         case 1: {
@@ -92,11 +92,11 @@ public class MatchLeagueActivity extends AppCompatActivity {
                             break;
                         }
                         case 4: {
-                            startActivity( new Intent( MatchLeagueActivity.this, CameraActivity.class ) );
+                            startActivity(new Intent(MatchLeagueActivity.this, CameraActivity.class));
                             break;
                         }
                         case 5: {
-                            startActivity( new Intent( MatchLeagueActivity.this, RecordAudioActivity.class ) );
+                            startActivity(new Intent(MatchLeagueActivity.this, RecordAudioActivity.class));
                             break;
                         }
                         case 6: {
@@ -104,7 +104,7 @@ public class MatchLeagueActivity extends AppCompatActivity {
                         }
                     }
                 }
-            } );
+            });
         }
     }
 
