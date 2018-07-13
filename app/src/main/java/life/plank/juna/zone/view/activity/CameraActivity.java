@@ -23,9 +23,11 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
+import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,8 +56,9 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 
-
+//TODO: MOve all strings to strings.xml
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
+    String TAG = CameraActivity.class.getCanonicalName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -77,7 +80,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private String absolutePath;
     private Uri fileUri;
     private String path;
-    private File imgFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +180,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        File imgFile;
         if (requestCode == CAMERA_IMAGE_RESULT) {
             try {
                 setUpUi("image");
@@ -224,6 +227,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 path = UIDisplayUtil.getPathForVideo(videoUri, this);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
+                try {
+                    SiliCompressor.with(getApplicationContext()).compressVideo(path, path);
+                } catch (URISyntaxException e) {
+                    Log.d(TAG, "Video compression failed");
+                }
+
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Video recording cancelled.", Toast.LENGTH_LONG).show();
             } else {
