@@ -86,7 +86,7 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.SignupPageActivity"
+            android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FootballFeedDetailActivity"

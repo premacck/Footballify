@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.HttpURLConnection;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -34,6 +36,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class SignInActivity extends AppCompatActivity {
+    String TAG = SignInActivity.class.getCanonicalName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -102,7 +105,6 @@ public class SignInActivity extends AppCompatActivity {
         }
     }
 
-
     private void getSignInResponse(String emailAddress) {
         restApi.getUser(emailAddress)
                 .subscribeOn(Schedulers.io())
@@ -110,20 +112,31 @@ public class SignInActivity extends AppCompatActivity {
                 .subscribe(new Subscriber<Response<SignInModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.d(TAG, "onCompleted");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onNext(Response<SignInModel> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
-                        UIDisplayUtil.saveSignInUserDetails(SignInActivity.this, jsonObjectResponse.body());
-                        Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
-                        startActivity(intentSubmit);
+                    public void onNext(Response<SignInModel> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                //TODO: Investigate why the response.body is saved
+                                UIDisplayUtil.saveSignInUserDetails(SignInActivity.this, response.body());
+                                Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
+                                startActivity(intentSubmit);
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), "Username does not exist", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Log.e(TAG, response.message());
+                                break;
+                        }
                     }
                 });
     }
