@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.util.HashMap;
@@ -64,84 +65,96 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     private HashMap<FootballFixtureClassifierService.FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_fixture_and_result );
-        ButterKnife.bind( this );
-        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject( this );
-        restApi = retrofit.create( RestApi.class );
-        getScoreFixture( AppConstants.SEASON_NAME );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_fixture_and_result);
+        ButterKnife.bind(this);
+        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
+        getScoreFixture(AppConstants.SEASON_NAME);
     }
 
     public void populateLiveMatchScoreRecyclerView() {
-        liveMatchesAdapter = new LiveMatchesAdapter( this );
-        currentMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        currentMatchRecyclerView.setAdapter( liveMatchesAdapter );
-        DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
-        currentMatchRecyclerView.addItemDecoration( itemDecor );
+        liveMatchesAdapter = new LiveMatchesAdapter(this);
+        currentMatchRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        currentMatchRecyclerView.setAdapter(liveMatchesAdapter);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
+        currentMatchRecyclerView.addItemDecoration(itemDecor);
 
     }
 
-    public void populateTommorowMatchFixtureRecyclerView() {
-        tomorrowsMatchesAdapter = new TomorrowsMatchesAdapter( this );
-        tomorrowMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        tomorrowMatchRecyclerView.setAdapter( tomorrowsMatchesAdapter );
-        DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
-        tomorrowMatchRecyclerView.addItemDecoration( itemDecor );
+    public void populateTomorowMatchFixtureRecyclerView() {
+        tomorrowsMatchesAdapter = new TomorrowsMatchesAdapter(this);
+        tomorrowMatchRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        tomorrowMatchRecyclerView.setAdapter(tomorrowsMatchesAdapter);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
+        tomorrowMatchRecyclerView.addItemDecoration(itemDecor);
 
     }
 
     public void populatePastMatchFixtureRecyclerView() {
-        pastMatchAdapter = new PastMatchAdapter( this ,classifiedMatchesMap);
-        pastMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        pastMatchRecyclerView.setAdapter( pastMatchAdapter );
-        DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
-        pastMatchRecyclerView.addItemDecoration( itemDecor );
+        pastMatchAdapter = new PastMatchAdapter(this, classifiedMatchesMap);
+        pastMatchRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        pastMatchRecyclerView.setAdapter(pastMatchAdapter);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
+        pastMatchRecyclerView.addItemDecoration(itemDecor);
 
     }
 
-    public void populateSheduledScoreFixtureRecyclerView() {
-        scheduledMatchesAdapter = new ScheduledMatchesAdapter( this, classifiedMatchesMap );
-        upcomingMatchRecyclerView.setLayoutManager( new LinearLayoutManager( this, LinearLayoutManager.VERTICAL, false ) );
-        upcomingMatchRecyclerView.setAdapter( scheduledMatchesAdapter );
-        DividerItemDecoration itemDecor = new DividerItemDecoration( this, VERTICAL );
-        upcomingMatchRecyclerView.addItemDecoration( itemDecor );
+    public void populateScheduledScoreFixtureRecyclerView() {
+        scheduledMatchesAdapter = new ScheduledMatchesAdapter(this, classifiedMatchesMap);
+        upcomingMatchRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        upcomingMatchRecyclerView.setAdapter(scheduledMatchesAdapter);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
+        upcomingMatchRecyclerView.addItemDecoration(itemDecor);
     }
 
     public void getScoreFixture(String seasonName) {
-        progressBar.setVisibility( View.VISIBLE );
-        restApi.getScoresAndFixtures( seasonName )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Observer<Response<List<ScoreFixtureModel>>>() {
+        progressBar.setVisibility(View.VISIBLE);
+        restApi.getScoresAndFixtures(seasonName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<ScoreFixtureModel>>>() {
                     @Override
                     public void onCompleted() {
-                        progressBar.setVisibility( View.INVISIBLE );
-                        Log.e( TAG, "onCompleted-->: " );
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e( TAG, "In onError()" + e );
+                        Log.e(TAG, "Error: " + e);
                     }
 
                     @Override
                     public void onNext(Response<List<ScoreFixtureModel>> response) {
-                        progressBar.setVisibility( View.INVISIBLE );
-                        Log.e( TAG, "response: " + ", list data " + response.toString() );
-                        if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            matchDayMap = footballFixtureClassifierService.GetMatchDayMap( response.body() );
-                            classifiedMatchesMap = footballFixtureClassifierService.GetClassifiedMatchesMap( response.body() );
-                           // populateSheduledScoreFixtureRecyclerView();
-                            populatePastMatchFixtureRecyclerView();
-                           // populateTommorowMatchFixtureRecyclerView();
-                            //populateLiveMatchScoreRecyclerView();
-                            for (int i = 0; i < classifiedMatchesMap.size(); i++) {
-                                pastMatchDayTextView.setText( classifiedMatchesMap.get( FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES ).get( i ).getMatchDay());
-                            }
+                        progressBar.setVisibility(View.INVISIBLE);
+
+                        switch (response.code()) {
+
+                            case HttpURLConnection.HTTP_OK:
+                                if (response.body() != null) {
+                                    matchDayMap = footballFixtureClassifierService.GetMatchDayMap(response.body());
+                                    classifiedMatchesMap = footballFixtureClassifierService.GetClassifiedMatchesMap(response.body());
+                                    populatePastMatchFixtureRecyclerView();
+                                    for (int i = 0; i < classifiedMatchesMap.size(); i++) {
+                                        pastMatchDayTextView.setText(classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(i).getMatchDay());
+                                    }
+                                } else {
+                                    Toast.makeText(FixtureAndResultActivity.this, "No matches found", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(FixtureAndResultActivity.this, "No matches found", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(FixtureAndResultActivity.this, "No matches found", Toast.LENGTH_SHORT).show();
+                                break;
                         }
+
                     }
-                } );
+                });
     }
 }

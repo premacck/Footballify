@@ -27,6 +27,7 @@ import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -71,7 +72,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     String apiCallFromActivity;
-    File absolutefile;
+    File absoluteFile;
     String openFrom;
     String userId, targetId;
     String date;
@@ -96,6 +97,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void openMediaContent() {
+
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 takePicture();
@@ -160,9 +162,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         try {
             return FileProvider.getUriForFile(mContext, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, createImageFileName());
-
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
         return null;
     }
@@ -174,8 +175,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (!storageDir.exists()) {
             storageDir.mkdirs();
         }
-        File image = File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
-        return image;
+
+        return File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
     }
 
     @Override
@@ -185,7 +186,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             try {
                 setUpUi("image");
                 filePath = fileUri.getPath();
-                Log.e("filePath Camera ", "" + filePath);
                 imgFile = new File(filePath);
                 if (imgFile.exists()) {
                     Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
@@ -204,8 +204,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         setUpUi("video");
                         absolutePath = UIDisplayUtil.getAudioPath(uri);
-                        absolutefile = new File(absolutePath);
-                        long fileSizeInBytes = absolutefile.length();
+                        absoluteFile = new File(absolutePath);
+                        long fileSizeInBytes = absoluteFile.length();
                         long fileSizeInKB = fileSizeInBytes / 1024;
                         long fileSizeInMB = fileSizeInKB / 1024;
                         if (fileSizeInMB > 8) {
@@ -248,7 +248,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     try {
                         capturedImageView.setImageBitmap(new Image().compress(imgFile, imgFile.toString()));
                     } catch (IOException e) {
-                        Log.e("TAG", "message" + e);
+                        Log.e(TAG, e.getMessage());
                         Toast.makeText(getApplicationContext(), "Sorry could not process image", Toast.LENGTH_LONG).show();
                     }
 
@@ -283,29 +283,33 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
                         progressBar.setVisibility(View.VISIBLE);
-                        Toast.makeText(CameraActivity.this, "error message", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.e("", "onNext: " + jsonObjectResponse);
 
-                        if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
-                            Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT).show();
+                        switch (jsonObjectResponse.code()) {
+
+                            case HttpsURLConnection.HTTP_OK:
+                                Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                break;
+                            case HttpURLConnection.HTTP_BAD_REQUEST:
+                                Toast.makeText(CameraActivity.this, "Upload failed, Try again later", Toast.LENGTH_SHORT).show();
+                                break;
                         }
+
                     }
                 });
     }
@@ -337,6 +341,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    //TODO: Refine this method
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {

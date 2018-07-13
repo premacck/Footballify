@@ -29,7 +29,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+//TODO: the json is manually parsed in this activity hence refactor the entire class
 public class LineupActivity extends AppCompatActivity {
+    String TAG = LineupActivity.class.getSimpleName();
     @Inject
     @Named("footballData")
     Retrofit retrofit;
@@ -78,91 +80,100 @@ public class LineupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_line_up );
-        ButterKnife.bind( this );
-        ((ZoneApplication) getApplication()).getLineupNetworkComponent().inject( this );
-        restApi = retrofit.create( RestApi.class );
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_line_up);
+        ButterKnife.bind(this);
+        ((ZoneApplication) getApplication()).getLineupNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
         getLineUpData(currentMatchId);
-        getMatchSummary( currentMatchId );
+        getMatchSummary(currentMatchId);
     }
 
     public void getLineUpData(long matchId) {
         restApi.getLineUpsData(matchId)
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<LineupsModel>>() {
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<LineupsModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( "", "onCompleted: " );
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e( "", "onError: " + e );
-
+                        Log.e("", "onError: " + e);
+                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onNext(Response<LineupsModel> listResponse) {
-                        Log.e( "", "response: " + ", list data " + listResponse.toString() );
-                        if (listResponse.code() == HttpURLConnection.HTTP_OK) {
-                            if (listResponse.body() != null) {
-                                homeTeamLineups = listResponse.body().getHomeTeamFormation();
-                                awayTeamLineups = listResponse.body().getAwayTeamFormation();
-                                setUpFormations();
-                                setWeightSumToVisitingTeamLinearLayout();
-                                setWeightSumToHomeTeamLinearLayout();
-                                setUpVisitingTeamGrid();
-                                setUpHomeTeamGrid();
-                            }
-                        } else {
-                            Toast.makeText( LineupActivity.this, "Response Not Found", Toast.LENGTH_SHORT ).show();
+                    public void onNext(Response<LineupsModel> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (response.body() != null) {
+                                    homeTeamLineups = response.body().getHomeTeamFormation();
+                                    awayTeamLineups = response.body().getAwayTeamFormation();
+                                    setUpFormations();
+                                    setWeightSumToVisitingTeamLinearLayout();
+                                    setWeightSumToHomeTeamLinearLayout();
+                                    setUpVisitingTeamGrid();
+                                    setUpHomeTeamGrid();
+                                } else {
+                                    Toast.makeText(LineupActivity.this, "Line-ups not available", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(LineupActivity.this, "Line-ups not available", Toast.LENGTH_SHORT).show();
+                                break;
+
+                            default:
+                                Toast.makeText(LineupActivity.this, "Line-ups not available", Toast.LENGTH_SHORT).show();
+                                break;
+
                         }
                     }
-                } );
+                });
     }
 
     private void setUpFormations() {
         visitingTeamFormation = new ArrayList<>();
         homeTeamFormation = new ArrayList<>();
         for (int i = 0; i < homeTeamLineups.size(); i++) {
-            homeTeamFormation.add( homeTeamLineups.get( i ).size() );
+            homeTeamFormation.add(homeTeamLineups.get(i).size());
         }
         for (int i = 0; i < awayTeamLineups.size(); i++) {
-            visitingTeamFormation.add( awayTeamLineups.get( i ).size() );
+            visitingTeamFormation.add(awayTeamLineups.get(i).size());
         }
     }
 
     private void setWeightSumToVisitingTeamLinearLayout() {
-        visitingTeamLinearLayout.setWeightSum( visitingTeamFormation.size() );
+        visitingTeamLinearLayout.setWeightSum(visitingTeamFormation.size());
     }
 
     private void setWeightSumToHomeTeamLinearLayout() {
-        homeTeamLinearLayout.setWeightSum( homeTeamFormation.size() );
+        homeTeamLinearLayout.setWeightSum(homeTeamFormation.size());
     }
 
     private void setUpVisitingTeamGrid() {
         for (Integer formationSegment : visitingTeamFormation) {
-            LinearLayout visitingTeamLineUpLinearLayout = new LinearLayout( this );
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 0, 1 );
-            visitingTeamLineUpLinearLayout.setLayoutParams( layoutParams );
-            visitingTeamLineUpLinearLayout.setOrientation( LinearLayout.HORIZONTAL );
-            visitingTeamLinearLayout.addView( visitingTeamLineUpLinearLayout );
+            LinearLayout visitingTeamLineUpLinearLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
+            visitingTeamLineUpLinearLayout.setLayoutParams(layoutParams);
+            visitingTeamLineUpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            visitingTeamLinearLayout.addView(visitingTeamLineUpLinearLayout);
             for (int j = 1; j <= formationSegment; j++) {
-                visitingTeamLineUpLinearLayout.setWeightSum( formationSegment );
+                visitingTeamLineUpLinearLayout.setWeightSum(formationSegment);
 
 
                 for (int i = 0; i < awayTeamLineups.size(); i++) {
 
-                    for (int k = 0; k < awayTeamLineups.get( i ).size(); k++) {
-                        View child = getLayoutInflater().inflate( R.layout.layout_line_up_text_view_visiting_team, null );
-                        TextView visitingPlayerName = (TextView) child.findViewById( R.id.visiting_team_name );
-                        TextView visitingPlayerNumber = (TextView) child.findViewById( R.id.visiting_team_number );
-                        child.setLayoutParams( new TableLayout.LayoutParams( 0, TableLayout.LayoutParams.MATCH_PARENT, 1f ) );
-                        visitingTeamLineUpLinearLayout.addView( child );
-                        visitingPlayerName.setText( awayTeamLineups.get( i ).get( k ).getFullName() );
-                        visitingPlayerNumber.setText( String.valueOf(  awayTeamLineups.get( i ).get( k ).getNumber() ));
+                    for (int k = 0; k < awayTeamLineups.get(i).size(); k++) {
+                        View child = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_visiting_team, null);
+                        TextView visitingPlayerName = (TextView) child.findViewById(R.id.visiting_team_name);
+                        TextView visitingPlayerNumber = (TextView) child.findViewById(R.id.visiting_team_number);
+                        child.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
+                        visitingTeamLineUpLinearLayout.addView(child);
+                        visitingPlayerName.setText(awayTeamLineups.get(i).get(k).getFullName());
+                        visitingPlayerNumber.setText(String.valueOf(awayTeamLineups.get(i).get(k).getNumber()));
                     }
                 }
             }
@@ -171,23 +182,23 @@ public class LineupActivity extends AppCompatActivity {
 
     private void setUpHomeTeamGrid() {
         for (Integer formationSegment : homeTeamFormation) {
-            LinearLayout homeTeamLineUpLinearLayout = new LinearLayout( this );
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams( LinearLayout.LayoutParams.MATCH_PARENT, 0, 1 );
-            homeTeamLineUpLinearLayout.setLayoutParams( layoutParams );
-            homeTeamLineUpLinearLayout.setOrientation( LinearLayout.HORIZONTAL );
-            homeTeamLinearLayout.addView( homeTeamLineUpLinearLayout );
+            LinearLayout homeTeamLineUpLinearLayout = new LinearLayout(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 1);
+            homeTeamLineUpLinearLayout.setLayoutParams(layoutParams);
+            homeTeamLineUpLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+            homeTeamLinearLayout.addView(homeTeamLineUpLinearLayout);
             for (int j = 1; j <= formationSegment; j++) {
-                homeTeamLineUpLinearLayout.setWeightSum( formationSegment );
+                homeTeamLineUpLinearLayout.setWeightSum(formationSegment);
 
                 for (int i = 0; i < homeTeamLineups.size(); i++) {
-                    for (int k = 0; k < homeTeamLineups.get( i ).size(); k++) {
-                        View playerView = getLayoutInflater().inflate( R.layout.layout_line_up_text_view_home_team, null );
-                        TextView playerName = (TextView) playerView.findViewById( R.id.player_name );
-                        TextView playerNumber = (TextView) playerView.findViewById( R.id.player_number );
-                        playerView.setLayoutParams( new TableLayout.LayoutParams( 0, TableLayout.LayoutParams.MATCH_PARENT, 1f ) );
-                        homeTeamLineUpLinearLayout.addView( playerView );
-                        playerName.setText( homeTeamLineups.get( i ).get( k ).getFullName() );
-                        playerNumber.setText( String.valueOf( homeTeamLineups.get( i ).get( k ).getNumber() ) );
+                    for (int k = 0; k < homeTeamLineups.get(i).size(); k++) {
+                        View playerView = getLayoutInflater().inflate(R.layout.layout_line_up_text_view_home_team, null);
+                        TextView playerName = (TextView) playerView.findViewById(R.id.player_name);
+                        TextView playerNumber = (TextView) playerView.findViewById(R.id.player_number);
+                        playerView.setLayoutParams(new TableLayout.LayoutParams(0, TableLayout.LayoutParams.MATCH_PARENT, 1f));
+                        homeTeamLineUpLinearLayout.addView(playerView);
+                        playerName.setText(homeTeamLineups.get(i).get(k).getFullName());
+                        playerNumber.setText(String.valueOf(homeTeamLineups.get(i).get(k).getNumber()));
                     }
                 }
             }
@@ -195,46 +206,46 @@ public class LineupActivity extends AppCompatActivity {
     }
 
     public void getMatchSummary(long matchId) {
-        restApi.getMatchSummary( matchId )
-                .subscribeOn( Schedulers.io() )
-                .observeOn( AndroidSchedulers.mainThread() )
-                .subscribe( new Subscriber<Response<MatchSummaryModel>>() {
+        restApi.getMatchSummary(matchId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<MatchSummaryModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e( "", "onCompleted: " );
+                        Log.e("", "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e( "", "onError: " + e );
+                        Log.e("", "onError: " + e);
                     }
 
                     @Override
                     public void onNext(Response<MatchSummaryModel> listResponse) {
-                        Log.e( "", "response: " + ", list data " + listResponse.toString() );
+                        Log.e("", "response: " + ", list data " + listResponse.toString());
                         if (listResponse.code() == HttpURLConnection.HTTP_OK) {
                             if (listResponse.body() != null) {
-                                homeTeamShots.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getTotalShots() ) );
-                                awayTeamShots.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getTotalShots() ) );
-                                homeTeamShotsOnTarget.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getOnGoalShots() ) );
-                                awayTeamShotsOnTarget.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getOnGoalShots() ) );
-                                homeTeamPossession.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getPossessionTime() ) );
-                                awayTeamPossession.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getPossessionTime() ) );
-                                homeTeamFouls.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getFouls() ) );
-                                awayTeamFouls.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getFouls() ) );
-                                homeTeamYellowCard.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getYellowCards() ) );
-                                awayTeamYellowCard.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getYellowCards() ) );
-                                homeTeamRedCard.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getRedCards() ) );
-                                awayTeamRedCard.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getRedCards() ) );
-                                homeTeamOffside.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getOffsides() ) );
-                                awayTeamOffside.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getOffsides() ) );
-                                homeTeamCorner.setText( String.valueOf( listResponse.body().getHomeTeamMatchSummary().getCorners() ) );
-                                awayTeamCorner.setText( String.valueOf( listResponse.body().getAwayTeamMatchSummary().getCorners() ) );
+                                homeTeamShots.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getTotalShots()));
+                                awayTeamShots.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getTotalShots()));
+                                homeTeamShotsOnTarget.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getOnGoalShots()));
+                                awayTeamShotsOnTarget.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getOnGoalShots()));
+                                homeTeamPossession.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getPossessionTime()));
+                                awayTeamPossession.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getPossessionTime()));
+                                homeTeamFouls.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getFouls()));
+                                awayTeamFouls.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getFouls()));
+                                homeTeamYellowCard.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getYellowCards()));
+                                awayTeamYellowCard.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getYellowCards()));
+                                homeTeamRedCard.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getRedCards()));
+                                awayTeamRedCard.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getRedCards()));
+                                homeTeamOffside.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getOffsides()));
+                                awayTeamOffside.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getOffsides()));
+                                homeTeamCorner.setText(String.valueOf(listResponse.body().getHomeTeamMatchSummary().getCorners()));
+                                awayTeamCorner.setText(String.valueOf(listResponse.body().getAwayTeamMatchSummary().getCorners()));
                             }
                         } else {
-                            Toast.makeText( LineupActivity.this, "Response Not Found", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText(LineupActivity.this, "Response Not Found", Toast.LENGTH_SHORT).show();
                         }
                     }
-                } );
+                });
     }
 }
