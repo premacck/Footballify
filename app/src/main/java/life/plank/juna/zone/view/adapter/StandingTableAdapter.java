@@ -76,7 +76,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         @BindView(R.id.score_board_liner_layout)
         LinearLayout scoreBoardLinerLayout;
 
-        public StandingScoreTableViewHolder(View itemView) {
+        StandingScoreTableViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

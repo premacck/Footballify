@@ -96,7 +96,7 @@ public class PastMatchAdapter extends RecyclerView.Adapter<PastMatchAdapter.Matc
         @BindView(R.id.date_schedule)
         TextView dateSchedule;
 
-        public MatchFixtureAndResultViewHolder(View itemView) {
+        MatchFixtureAndResultViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

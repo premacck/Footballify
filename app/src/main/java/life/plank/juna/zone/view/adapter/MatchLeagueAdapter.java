@@ -18,7 +18,7 @@ public class MatchLeagueAdapter extends RecyclerView.Adapter<MatchLeagueAdapter.
 
     @Override
     public MatchLeagueViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MatchLeagueViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.match_league_row, parent, false ));
+        return new MatchLeagueViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.match_league_row, parent, false));
     }
 
     @Override
@@ -32,11 +32,11 @@ public class MatchLeagueAdapter extends RecyclerView.Adapter<MatchLeagueAdapter.
     }
 
 
-    public class MatchLeagueViewHolder extends RecyclerView.ViewHolder {
+    class MatchLeagueViewHolder extends RecyclerView.ViewHolder {
 
-        public MatchLeagueViewHolder(View itemView) {
-            super( itemView );
-            ButterKnife.bind( this, itemView );
+        MatchLeagueViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

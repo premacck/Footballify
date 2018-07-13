@@ -131,7 +131,6 @@
     <string name="image_format">image/*</string>
     <string name="select_audio">Select Audio</string>
     <string name="follow">FOLLOW</string>
-    <string name="signed_toast_message">User signed in successfully</string>
     <string name="board_activity">BoardActivity</string>
     <string name="audio">Audio</string>
     <string name="target_type_board">Board</string>

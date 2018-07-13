@@ -4,7 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
-import life.plank.juna.zone.view.activity.SignInActivity;
+import life.plank.juna.zone.view.activity.SignUpActivity;
 
 /**
  * Created by plank-sobia on 10/3/2017.
@@ -13,6 +13,6 @@ import life.plank.juna.zone.view.activity.SignInActivity;
 @Singleton
 @Component(modules = RestServiceModule.class)
 @FunctionalInterface
-public interface SigninUserNetworkComponent {
-    void inject(SignInActivity signInActivity);
+public interface SignUpUserNetworkComponent {
+    void inject(SignUpActivity signUpActivity);
 }

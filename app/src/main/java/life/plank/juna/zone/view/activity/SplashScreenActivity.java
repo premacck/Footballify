@@ -14,24 +14,19 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import butterknife.BindView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 import life.plank.juna.zone.util.NetworkStateReceiver;
-import life.plank.juna.zone.util.NetworkStatus;
 
 public class SplashScreenActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
     private static final String TAG = "SplashScreenActivity";
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static SplashScreenActivity splashScreenActivity;
     public static Boolean isVisible = false;
-    private static int SPLASH_TIME_OUT = 6000;
-    ExecutorService threadPoolExecutor = Executors.newSingleThreadExecutor();
+
     Runnable longRunningTask = new Runnable() {
         @Override
         public void run() {
@@ -45,6 +40,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
     private boolean isInterrupted = false;
     @BindView(R.id.parent_layout)
     RelativeLayout parentLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,18 +69,18 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
                 isSplashScreenTimeOut = true;
                 try {
                     Thread.sleep(5000);
-                        isIntentCalled = true;
-                        if (!isInterrupted) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    startActivity(new Intent(SplashScreenActivity.this,SignInActivity .class));
-                                    finish();
-                                }
-                            });
-                        }
+                    isIntentCalled = true;
+                    if (!isInterrupted) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
+                                finish();
+                            }
+                        });
+                    }
                 } catch (InterruptedException e) {
-                    Log.d("error message", e.toString());
+                    Log.e(TAG, e.toString());
                 }
             }
         });
@@ -155,7 +151,7 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //TODO: comment will be removed latrer
+                //TODO: comment will be removed later
                 // Toast.makeText(SplashScreenActivity.this, notificationMessage, Toast.LENGTH_LONG).show();
             }
         });
@@ -171,8 +167,9 @@ public class SplashScreenActivity extends AppCompatActivity implements NetworkSt
 
     @Override
     public void networkUnavailable() {
-        Snackbar.make(parentLayout,getString(R.string.cannot_connect_to_the_internet),Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(parentLayout, getString(R.string.cannot_connect_to_the_internet), Snackbar.LENGTH_SHORT).show();
     }
+
     //TODO: it will be make common in future
     public void startNetworkBroadcastReceiver(Context currentContext) {
         networkStateReceiver = new NetworkStateReceiver();

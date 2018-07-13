@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.upstream.BandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
@@ -45,7 +46,7 @@ public class VideoPlayerActivity extends AppCompatActivity {
         player.setPlayWhenReady(true);
     }
 
-    public void intializePlayer() {
+    public void initializePlayer() {
         simpleExoPlayerView = new SimpleExoPlayerView(this);
         ButterKnife.bind(this);
         simpleExoPlayerView.setUseController(true);
@@ -81,13 +82,13 @@ public class VideoPlayerActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        intializePlayer();
+        initializePlayer();
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        intializePlayer();
+        initializePlayer();
     }
 
     @Override

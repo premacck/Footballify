@@ -65,7 +65,7 @@ public class SignInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
-        ((ZoneApplication) getApplication()).getSigninUserNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getSignInUserNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
         ActivityUtil.setCollapsedHintMiddle(usernameInputLayout, this);

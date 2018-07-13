@@ -15,11 +15,11 @@ import life.plank.juna.zone.R;
 public class MatchScoreHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.show_scores_rounds)
-    public TextView roundsTextview;
+    public TextView roundsTextView;
     @BindView(R.id.home_team)
-    public TextView homeTeamTextview;
+    public TextView homeTeamTextView;
     @BindView(R.id.visiting_team)
-    public TextView visitingTeamTextview;
+    public TextView visitingTeamTextView;
     @BindView(R.id.home_team_score)
     public TextView homeTeamScore;
     @BindView(R.id.visiting_team_score)

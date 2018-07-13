@@ -13,7 +13,7 @@ public class ViewAllCommentListAdapter extends RecyclerView.Adapter<ViewAllComme
 
     private Context context;
 
-    public ViewAllCommentListAdapter(Context context) {
+    ViewAllCommentListAdapter(Context context) {
         this.context = context;
     }
 

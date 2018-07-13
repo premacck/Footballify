@@ -13,8 +13,8 @@ import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkCompon
 import life.plank.juna.zone.data.network.dagger.DaggerLikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerLineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerPostCommentFeedNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerSigninUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.DaggerSignupUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerSignInUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerSignUpUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
@@ -22,8 +22,8 @@ import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LikeFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.LineupNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.PostCommentFeedNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.SigninUserNetworkComponent;
-import life.plank.juna.zone.data.network.dagger.SignupUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.SignInUserNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.SignUpUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
 import life.plank.juna.zone.data.network.module.RestServiceModule;
 
@@ -37,9 +37,9 @@ public class ZoneApplication extends Application {
     private FootballFeedNetworkComponent footballFeedNetworkComponent;
     private StandingsNetworkComponent standingsNetworkComponent;
     private LineupNetworkComponent lineupNetworkComponent;
-    private SignupUserNetworkComponent signupUserNetworkComponent;
+    private SignUpUserNetworkComponent signUpUserNetworkComponent;
     private FixtureAndResultNetworkComponent fixtureAndResultNetworkComponent;
-    private SigninUserNetworkComponent signinUserNetworkComponent;
+    private SignInUserNetworkComponent signInUserNetworkComponent;
     private LikeFeedNetworkComponent likeFeedNetworkComponent;
     private ImageUploaderNetworkComponent imageUploaderNetworkComponent;
     private BoardFeedNetworkComponent boardFeedNetworkComponent;
@@ -69,13 +69,13 @@ public class ZoneApplication extends Application {
         lineupNetworkComponent = DaggerLineupNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
 
-        signupUserNetworkComponent = DaggerSignupUserNetworkComponent.builder()
+        signUpUserNetworkComponent = DaggerSignUpUserNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
 
         fixtureAndResultNetworkComponent = DaggerFixtureAndResultNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
 
-        signinUserNetworkComponent = DaggerSigninUserNetworkComponent.builder()
+        signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
 
         likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder()
@@ -107,16 +107,16 @@ public class ZoneApplication extends Application {
         return lineupNetworkComponent;
     }
 
-    public SignupUserNetworkComponent getSignupUserNetworkComponent() {
-        return signupUserNetworkComponent;
+    public SignUpUserNetworkComponent getSignUpUserNetworkComponent() {
+        return signUpUserNetworkComponent;
     }
 
     public FixtureAndResultNetworkComponent getFixtureAndResultNetworkComponent() {
         return fixtureAndResultNetworkComponent;
     }
 
-    public SigninUserNetworkComponent getSigninUserNetworkComponent() {
-        return signinUserNetworkComponent;
+    public SignInUserNetworkComponent getSignInUserNetworkComponent() {
+        return signInUserNetworkComponent;
     }
 
     public LikeFeedNetworkComponent getLikeFeedNetworkComponent() {

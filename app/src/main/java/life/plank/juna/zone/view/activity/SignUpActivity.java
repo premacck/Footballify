@@ -55,7 +55,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_page);
-        ((ZoneApplication) getApplication()).getSignupUserNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getSignUpUserNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
         ActivityUtil.setCollapsedHintMiddle(usernameInputLayout, this);
@@ -88,12 +88,12 @@ public class SignUpActivity extends AppCompatActivity {
                 .subscribe(new Subscriber<Response<SignUpModel>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
                         Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
