@@ -21,13 +21,30 @@ android {
             pk12File = file(JUNA_PLAY_STORE_FILE)
         }
     }
-    defaultConfig {
+	
+     task('increaseVersionCode') << {
+         println 'Current android version is:' + project.androidVersionBuild.toInteger()
+         def versionBuild = project.androidVersionBuild.toInteger() + 1
+         println 'After increment android version is:' + versionBuild
+	  ant.propertyfile(
+        	file: "/var/jenkins/.gradle/gradle.properties") {
+                entry( key: "androidVersionBuild", value: versionBuild.toInteger())
+	        }
+     }            
+			
+     tasks.whenTaskAdded { task ->
+        if (task.name == 'assembleRelease') {
+	        task.dependsOn 'increaseVersionCode'
+	    }
+     }	
+		
+      defaultConfig {
         multiDexEnabled true
         applicationId "life.plank.juna.zone"
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 9
-        versionName "1.0.1-jenkins-build"
+        versionCode project.androidVersionBuild.toInteger()
+        versionName "1.0." + project.androidVersionBuild.toInteger()
         renderscriptTargetApi 26
         renderscriptSupportModeEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -43,6 +60,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+	
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }
@@ -108,7 +126,3 @@ configurations.all {
         }
     }
 }
-
-
-
-
