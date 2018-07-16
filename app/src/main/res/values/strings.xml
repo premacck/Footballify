@@ -131,7 +131,6 @@
     <string name="image_format">image/*</string>
     <string name="select_audio">Select Audio</string>
     <string name="follow">FOLLOW</string>
-    <string name="signed_toast_message">User signed in successfully</string>
     <string name="board_activity">BoardActivity</string>
     <string name="audio">Audio</string>
     <string name="target_type_board">Board</string>
@@ -146,7 +145,6 @@
     <string name="away_team_logo">away_team_logo</string>
     <string name="add_permission">give permission from settings</string>
     <string name="post_a_comment">Post a comment</string>
-    <string name="share_feed_item_toast">Feed Item Shared Successfully</string>
     <string name="title_activity_post_comment">PostCommentActivity</string>
     <string name="comment_title">title</string>
     <string name="enter_board_id">enter_board_id</string>

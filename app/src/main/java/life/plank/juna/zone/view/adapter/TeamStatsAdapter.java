@@ -20,7 +20,7 @@ import life.plank.juna.zone.data.network.model.TeamStatsModel;
  */
 
 public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.TeamStateViewHolder> {
-    List<TeamStatsModel> teamStatsModelList;
+    private List<TeamStatsModel> teamStatsModelList;
     private Context context;
 
     public TeamStatsAdapter(Context context, List<TeamStatsModel> teamStatsModelList) {
@@ -70,7 +70,7 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         TextView teamStatsSerialNumber;
 
 
-        public TeamStateViewHolder(View itemView) {
+        TeamStateViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

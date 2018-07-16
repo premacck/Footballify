@@ -27,6 +27,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private Context context;
     private OnClickFeedItemListener onClickFeedItemListener;
+
     public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
         this.context = context;
         this.boardFeed = boardFeed;
@@ -75,9 +76,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             }
         } else {
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
-                holder.commentTextView.setVisibility(View.VISIBLE);
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
-                holder.tileImageView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+                holder.tileImageView.setVisibility(View.INVISIBLE);
+                holder.commentTextView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
                 holder.commentTextView.setText(comment.substring(comment.indexOf("$") + 1));
 
             }

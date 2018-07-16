@@ -210,28 +210,32 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.d(TAG, "In onCompleted()");
+                        Log.i(TAG, " onCompleted: ");
                         progressBar.setVisibility(View.INVISIBLE);
-
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d(TAG, "In onCompleted()");
+                        Log.e(TAG, "onError " + e);
                     }
 
                     public void onNext(Response<List<FootballFeed>> response) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            if (apiHitCount == 0) {
-                                nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
-                                saveDataToCacheMemory(new Gson().toJson(response.body()));
-                                setUpStaticItemsToFeeds();
-                            }
-                            setUpAdapterWithNewData(response.body());
-                            apiHitCount = apiHitCount + 1;
-                        } else {
-                            showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
+
+
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (apiHitCount == 0) {
+                                    nextPageToken = response.headers().get(AppConstants.FOOTBALL_FEEDS_HEADER_KEY);
+                                    saveDataToCacheMemory(new Gson().toJson(response.body()));
+                                    setUpStaticItemsToFeeds();
+                                }
+                                setUpAdapterWithNewData(response.body());
+                                apiHitCount = apiHitCount + 1;
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
                 });
@@ -248,16 +252,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         }
     }
 
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
-    public void onPinFeed(int positon) {
-        savePinnedFeedsToPrefrence(positon);
+    public void onPinFeed(int position) {
+        savePinnedFeedsToPreference(position);
     }
 
-    private void savePinnedFeedsToPrefrence(int position) {
+    private void savePinnedFeedsToPreference(int position) {
         PreferenceManager preferenceManager = new PreferenceManager(this);
         Gson gson = new Gson();
         String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.PINNED_FEEDS);

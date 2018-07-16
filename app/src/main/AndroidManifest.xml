@@ -86,15 +86,12 @@
         </receiver>
 
         <activity
-            android:name=".view.activity.SignupPageActivity"
+            android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FootballFeedDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".view.activity.WebViewActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.CameraActivity"
             android:screenOrientation="portrait" />
@@ -115,7 +112,6 @@
         </provider>
 
         <activity android:name=".view.activity.SwipePageActivity" />
-        <activity android:name=".view.activity.SplashScreenActivity" />
         <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"

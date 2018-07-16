@@ -17,24 +17,24 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.AppConstants;
 
 public class RecordAudioActivity extends AppCompatActivity implements View.OnTouchListener {
     private static final String TAG = RecordAudioActivity.class.getSimpleName();
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
-    private static final String LOG_TAG = "RecordAudioActivity";
     private static String fileName = null;
     @BindView(R.id.start_image_button)
     ImageButton startButton;
     @BindView(R.id.chronometer_text_view)
     Chronometer chronometer;
     @BindView(R.id.audio_image_view)
-    ImageView audioImageview;
+    ImageView audioImageView;
     @BindView(R.id.time_relative_layout)
     RelativeLayout timeLayout;
     @BindView(R.id.tap_to_hold_text_view)
@@ -48,7 +48,7 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_audio);
         ButterKnife.bind(this);
-        audioImageview.setBackgroundResource(R.drawable.mic_red);
+        audioImageView.setBackgroundResource(R.drawable.mic_red);
         startButton.setOnTouchListener(this);
         chronometer.setBase(SystemClock.elapsedRealtime());
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
@@ -100,10 +100,10 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
         try {
             recorder.prepare();
         } catch (IOException e) {
-            Log.e(LOG_TAG, "prepare() failed");
+            Log.e(TAG, "prepare() failed");
         }
         recorder.start();
-        audioImageview.setBackgroundResource(R.drawable.mic_red_color);
+        audioImageView.setBackgroundResource(R.drawable.mic_red_color);
     }
 
     private void stopRecording() {
@@ -111,9 +111,9 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
             recorder.stop();
             recorder.release();
             recorder = null;
-            audioImageview.setBackgroundResource(R.drawable.mic_red);
+            audioImageView.setBackgroundResource(R.drawable.mic_red);
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, "release() failed");
         }
     }
 }

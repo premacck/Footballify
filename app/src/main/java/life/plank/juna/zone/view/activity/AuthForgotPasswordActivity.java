@@ -29,12 +29,12 @@ public class AuthForgotPasswordActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.forgot_password_image_view:
-                forgotPassswordAlertDialog();
+                forgotPasswordAlertDialog();
                 break;
         }
     }
 
-    private void forgotPassswordAlertDialog() {
+    private void forgotPasswordAlertDialog() {
         new BlurPopupWindow.Builder(this)
                 .setContentView(R.layout.auth_alert_dialog)
                 .bindClickListener(new View.OnClickListener() {

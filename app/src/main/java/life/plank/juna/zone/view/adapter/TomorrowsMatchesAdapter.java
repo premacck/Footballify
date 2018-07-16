@@ -24,18 +24,18 @@ public class TomorrowsMatchesAdapter extends RecyclerView.Adapter<TomorrowsMatch
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new MatchFixtureAndResultViewHolder( LayoutInflater.from( parent.getContext() ).inflate( R.layout.tommorow_match_list, parent, false ) );
+        return new MatchFixtureAndResultViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.tommorow_match_list, parent, false));
     }
 
     @Override
     public void onBindViewHolder(MatchFixtureAndResultViewHolder holder, int position) {
-        holder.itemView.setOnClickListener( new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent( context, LineupActivity.class );
-                context.startActivity( intent );
+                Intent intent = new Intent(context, LineupActivity.class);
+                context.startActivity(intent);
             }
-        } );
+        });
     }
 
     @Override
@@ -43,11 +43,11 @@ public class TomorrowsMatchesAdapter extends RecyclerView.Adapter<TomorrowsMatch
         return 3;
     }
 
-    public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
+    class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
 
-        public MatchFixtureAndResultViewHolder(View itemView) {
-            super( itemView );
-            ButterKnife.bind( this, itemView );
+        MatchFixtureAndResultViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

@@ -33,7 +33,6 @@ import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -69,7 +68,7 @@ import rx.schedulers.Schedulers;
 public class BoardActivity extends AppCompatActivity implements OnClickFeedItemListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
-    public static BoardActivity boardActivity;
+    public BoardActivity boardActivity;
     public static Bitmap blurredBitmap = null;
     public static RenderScript renderScript;
     @Inject
@@ -85,7 +84,6 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     @BindView(R.id.board_parent_layout)
     RelativeLayout boardParentLayout;
     BoardMediaAdapter boardMediaAdapter;
-    GridLayoutManager gridLayoutManager;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.home_team_logo_image_view)
@@ -99,18 +97,13 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
     private String enterBoardId;
-    private String objectId;
-    private long currentMatchId;
     private String homeTeamLogo, awayTeamLogo;
-    private SharedPreferences matchPref;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             // Extract data included in the Intent
             setDataReceivedFromPushNotification(intent);
-
         }
     };
 
@@ -140,7 +133,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.image_url));
         FootballFeed footballFeed = new FootballFeed();
-        Log.e("content type", "content_type" + contentType);
+        Log.e(TAG, "content_type: " + contentType);
         footballFeed.setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             footballFeed.setTitle(title);
@@ -169,7 +162,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
         //TODO: Remove hardcoded board_id
-        matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        SharedPreferences matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        long currentMatchId;
         if (intent.getStringExtra("FOREIGNID_1") != null) {
             currentMatchId = Long.parseLong(intent.getStringExtra("FOREIGNID_1"));
         } else if (intent.getStringExtra("FOREIGNID_2") != null) {
@@ -179,10 +173,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         }
         initRecyclerView();
         setUpBoomMenu();
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        objectId = preference.getString(getString(R.string.object_id_string), "NA");
 
-        enterBoardApiCall(enterBoardId, objectId);
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
         homeTeamLogo = matchPref.getString(getString(R.string.home_team_logo), getString(R.string.home_team_logo));
         awayTeamLogo = matchPref.getString(getString(R.string.away_team_logo), getString(R.string.away_team_logo));
@@ -245,6 +236,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
             fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
             fabImageVIew.setImageResource(fabImages[i]);
             final int position = i;
+            //TODO: move common code to separate method
             arcMenu.addItem(child, titles[i], new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -313,7 +305,6 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
             case R.id.following_text_view:
                 if (followingTextView.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
                     followingTextView.setText(R.string.unfollow);
-                    Log.e("Board id", "onCompleted: " + id);
                     FirebaseMessaging.getInstance().subscribeToTopic(id);
                 } else {
                     followingTextView.setText(R.string.follow);
@@ -323,29 +314,6 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         }
     }
 
-    private void enterBoardApiCall(String enterBoard, String userId) {
-        restApi.enterBoard(enterBoard, userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new rx.Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e("", "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
-                        Toast.makeText(BoardActivity.this, "You entered in Board Successfully", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     public void retrieveBoard(Long foreignId, String boardType) {
         restApi.retrieveBoard(foreignId, boardType)
                 .subscribeOn(Schedulers.io())
@@ -353,12 +321,13 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                 .subscribe(new Observer<Response<Board>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted-->: ");
+                        Log.e(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "In onError()" + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -393,16 +362,27 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
                     @Override
                     public void onError(Throwable e) {
-                        progressBar.setVisibility(View.VISIBLE);
                         Log.e(TAG, "On Error()" + e);
+                        progressBar.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<List<FootballFeed>> response) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            Log.e(TAG, "Retrieved details: ");
-                            setUpAdapterWithNewData(response.body());
+
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (response.body() != null)
+                                    setUpAdapterWithNewData(response.body());
+                                else
+                                    Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(boardActivity, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
+                            default:
+                                Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
                 });
@@ -445,13 +425,12 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         }
         Matrix matrix = new Matrix();
         matrix.setScale(0.5f, 0.5f);
-        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
+        return Bitmap.createBitmap(blurredBitmap,
                 (int) targetView.getX(),
                 y,
                 targetView.getMeasuredWidth(),
                 height,
                 matrix,
                 true);
-        return bitmap;
     }
 }

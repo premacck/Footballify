@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,9 +23,12 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
+import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,6 +43,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.Image;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -54,8 +57,9 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 
-
+//TODO: MOve all strings to strings.xml
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
+    String TAG = CameraActivity.class.getCanonicalName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -68,7 +72,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     String apiCallFromActivity;
-    File absolutefile;
+    File absoluteFile;
     String openFrom;
     String userId, targetId;
     String date;
@@ -93,6 +97,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void openMediaContent() {
+
         if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 takePicture();
@@ -157,9 +162,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         try {
             return FileProvider.getUriForFile(mContext, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, createImageFileName());
-
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
         return null;
     }
@@ -171,24 +175,25 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (!storageDir.exists()) {
             storageDir.mkdirs();
         }
-        File image = File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
-        return image;
+
+        return File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        File imgFile;
         if (requestCode == CAMERA_IMAGE_RESULT) {
             try {
                 setUpUi("image");
                 filePath = fileUri.getPath();
-                Log.e("filePath Camera ", "" + filePath);
-                File imgFile = new File(filePath);
+                imgFile = new File(filePath);
                 if (imgFile.exists()) {
-                    Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-                    capturedImageView.setImageBitmap(myBitmap);
+                    Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
+                    filePath = imgFile.toString();
+                    capturedImageView.setImageBitmap(bitmap);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IOException e) {
+                Toast.makeText(getApplicationContext(), R.string.could_not_process_image, Toast.LENGTH_LONG).show();
             }
 
 
@@ -198,22 +203,19 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 if (null != uri) {
                     try {
                         setUpUi("video");
-                        String uriString = uri.toString();
-                        File file = new File(uriString);
-                        String path = file.getAbsolutePath();
                         absolutePath = UIDisplayUtil.getAudioPath(uri);
-                        absolutefile = new File(absolutePath);
-                        long fileSizeInBytes = absolutefile.length();
+                        absoluteFile = new File(absolutePath);
+                        long fileSizeInBytes = absoluteFile.length();
                         long fileSizeInKB = fileSizeInBytes / 1024;
                         long fileSizeInMB = fileSizeInKB / 1024;
                         if (fileSizeInMB > 8) {
-                            Toast.makeText(this, "file size is big", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.file_too_large, Toast.LENGTH_SHORT).show();
                         } else {
                             String profilePicUrl = absolutePath;
                         }
                     } catch (Exception e) {
                         Log.e("TAG", "message" + e);
-                        Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CameraActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -225,23 +227,31 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 path = UIDisplayUtil.getPathForVideo(videoUri, this);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
+                try {
+                    SiliCompressor.with(getApplicationContext()).compressVideo(path, path);
+                } catch (URISyntaxException e) {
+                    Log.d(TAG, "Video compression failed");
+                }
+
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Video recording cancelled.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.video_recording_cancelled, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Failed to record video", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.video_recording_failed, Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == AppConstants.GALLERY_IMAGE_RESULT) {
             if (data != null) {
                 Uri selectedImageFromGallery = data.getData();
                 if (null != selectedImageFromGallery) {
                     setUpUi("image");
+                    filePath = UIDisplayUtil.getPathForGalleryImageView(selectedImageFromGallery, this);
+                    imgFile = new File(filePath);
                     try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageFromGallery);
-                        capturedImageView.setImageBitmap(bitmap);
-                        filePath = UIDisplayUtil.getPathForGalleryImageView(selectedImageFromGallery, this);
+                        capturedImageView.setImageBitmap(new Image().compress(imgFile, imgFile.toString()));
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(getApplicationContext(), R.string.failed_to_process_image, Toast.LENGTH_LONG).show();
                     }
+
                 }
             }
         } else {
@@ -273,29 +283,33 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
                         progressBar.setVisibility(View.VISIBLE);
-                        Toast.makeText(CameraActivity.this, "error message", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.e("", "onNext: " + jsonObjectResponse);
 
-                        if (jsonObjectResponse.code() == HttpsURLConnection.HTTP_CREATED) {
-                            Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
-                        } else {
-                            Toast.makeText(CameraActivity.this, "Error" + jsonObjectResponse.code(), Toast.LENGTH_SHORT).show();
+                        switch (jsonObjectResponse.code()) {
+
+                            case HttpsURLConnection.HTTP_OK:
+                                Toast.makeText(CameraActivity.this, R.string.upload_successful, Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                break;
+                            case HttpURLConnection.HTTP_BAD_REQUEST:
+                                Toast.makeText(CameraActivity.this, R.string.upload_failed, Toast.LENGTH_SHORT).show();
+                                break;
                         }
+
                     }
                 });
     }
@@ -327,6 +341,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    //TODO: Refine this method
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {

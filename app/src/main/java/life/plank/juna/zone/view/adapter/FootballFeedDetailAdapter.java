@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -19,7 +18,6 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.RoundedTransformation;
@@ -36,9 +34,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Inject
     @Named("default")
     Retrofit retrofit;
-    List<FootballFeed> footballFeedsList = new ArrayList<>();
+    private List<FootballFeed> footballFeedsList;
     private Context context;
-    private RestApi restApi;
 
     public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
         this.context = context;
@@ -47,8 +44,8 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ((ZoneApplication) getApplication()).getLikeFeedNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+        getApplication().getLikeFeedNetworkComponent().inject(this);
+        retrofit.create(RestApi.class);
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.football_feed_detail_row, parent, false);
         return new FootballFeedDetailViewHolder(view);
@@ -95,7 +92,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         @BindView(R.id.number_of_likes_text_view)
         TextView likeCountTextView;
 
-        public FootballFeedDetailViewHolder(View itemView) {
+        FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

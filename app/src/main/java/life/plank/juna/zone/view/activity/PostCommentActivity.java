@@ -37,6 +37,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class PostCommentActivity extends AppCompatActivity {
+    String TAG = PostCommentActivity.class.getSimpleName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -47,7 +48,9 @@ public class PostCommentActivity extends AppCompatActivity {
     @BindView(R.id.post_comment)
     TextView postCommentTextView;
     private RestApi restApi;
-    private String getEditTextValue, boardId, userId, date;
+    private String boardId;
+    private String userId;
+    private String date;
 
     @BindView(R.id.red)
     ImageView redBg;
@@ -64,6 +67,7 @@ public class PostCommentActivity extends AppCompatActivity {
     CardView commentCardView;
     Integer commentBg = R.color.material_blue_600;
 
+    //TODO: Enable the post comment button only when the user enter a text to be posted else disable it
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +84,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
-        getEditTextValue = commentBg.toString() + "$" + commentEditText.getText().toString();
+        String getEditTextValue = commentBg.toString() + "$" + commentEditText.getText().toString();
         postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
         finish();
     }
@@ -89,12 +93,12 @@ public class PostCommentActivity extends AppCompatActivity {
         commentEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                //Do nothing
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                //Do nothing
             }
 
             @Override
@@ -123,20 +127,28 @@ public class PostCommentActivity extends AppCompatActivity {
                 .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
-                        Toast.makeText(PostCommentActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        if (jsonObjectResponse.code() == HttpURLConnection.HTTP_CREATED) {
-                            Log.e("", "onNext: " + jsonObjectResponse);
-                            Toast.makeText(PostCommentActivity.this, "Comment Post Successfully", Toast.LENGTH_SHORT).show();
+
+                        switch (jsonObjectResponse.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+                                Toast.makeText(PostCommentActivity.this, R.string.comment_posted_successfully, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HttpURLConnection.HTTP_BAD_REQUEST:
+                                Toast.makeText(PostCommentActivity.this, R.string.enter_text_to_be_posted, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(PostCommentActivity.this, R.string.could_not_post_comment, Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
                 });

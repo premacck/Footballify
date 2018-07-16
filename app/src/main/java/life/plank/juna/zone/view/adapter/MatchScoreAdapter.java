@@ -16,7 +16,7 @@ import life.plank.juna.zone.view.holder.MatchScoreHolder;
  */
 public class MatchScoreAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<ScoreFixtureModel> scoreFixtureModelList;
+    private List<ScoreFixtureModel> scoreFixtureModelList;
     private Context context;
 
     public MatchScoreAdapter(Context context, List<ScoreFixtureModel> scoreFixtureModelList) {

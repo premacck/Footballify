@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 
 import java.io.IOException;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.AppConstants;
 
 public class AudioRecorderActivity extends AppCompatActivity {
@@ -136,9 +137,9 @@ public class AudioRecorderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onRecord(startRecording);
                 if (startRecording) {
-                    setText("Stop recording");
+                    setText(R.string.stop_recording);
                 } else {
-                    setText("Start recording");
+                    setText(R.string.start_recording);
                 }
                 startRecording = !startRecording;
             }
@@ -146,7 +147,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
         public RecordButton(Context ctx) {
             super(ctx);
-            setText("Start recording");
+            setText(R.string.start_recording);
             setOnClickListener(clicker);
         }
     }
@@ -157,7 +158,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onPlay(startPlaying);
                 if (startPlaying) {
-                    setText("SEND");
+                    setText(R.string.send);
                 } else {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra(AppConstants.RECORDED_AUDIO, fileName);
@@ -170,7 +171,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
         public PlayButton(Context ctx) {
             super(ctx);
-            setText("Start playing");
+            setText(R.string.start_playing);
             setOnClickListener(clicker);
         }
     }

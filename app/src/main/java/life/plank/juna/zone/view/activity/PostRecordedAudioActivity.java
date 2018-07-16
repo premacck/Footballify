@@ -16,7 +16,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.AppConstants;
 
 public class PostRecordedAudioActivity extends AppCompatActivity {
-    private static final String LOG_TAG = "PostRecordingActivity";
+    private static final String LOG_TAG = PostRecordedAudioActivity.class.getSimpleName();
     String audioFile;
     @BindView(R.id.play_button)
     ImageView playImageView;

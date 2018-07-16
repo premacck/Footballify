@@ -60,7 +60,7 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
         @BindView(R.id.player_stats_red_card_text)
         TextView PlayerStatsRedCardTextView;
 
-        public MatchLeagueViewHolder(View itemView) {
+        MatchLeagueViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

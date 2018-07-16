@@ -50,6 +50,7 @@ import static life.plank.juna.zone.ZoneApplication.getApplication;
  */
 
 public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder> {
+    String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -164,8 +165,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             @Override
             public void onClick(View v) {
                 boardFeedItemLikeApiCall(feedId, objectId);
-                //todo: remove static like count and add from Board Feed Interactions
-                likeCount++;
                 holder.likeCountTextView.setText(String.valueOf(likeCount));
                 holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
             }
@@ -182,7 +181,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             @Override
             public void onClick(View v) {
                 boardDislikeFeedItem(feedId, objectId);
-                //todo:will replace with getFoorballFeed Api call original Like counts
+                //todo:will replace with getFootballFeed Api call original Like counts
                 if (likeCount == 0) {
                     holder.likeCountTextView.setText(String.valueOf(likeCount));
                 } else {
@@ -212,17 +211,19 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 .subscribe(new Subscriber<Response<FootballFeed>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.e(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<FootballFeed> feedItemModelResponse) {
-                        Log.e("", "onNext: " + feedItemModelResponse);
+                        //TODO: Handle all response code
+                        likeCount++;
                     }
                 });
 
@@ -236,17 +237,18 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 .subscribe(new Subscriber<Response<FootballFeed>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<FootballFeed> feedItemModelResponse) {
-                        Log.e("", "onNext: " + feedItemModelResponse);
+                        //TODO: Handle all response code
                         Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -260,17 +262,18 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Log.e("", "onNext: " + jsonObjectResponse);
+                        //TODO: send request to dislike item
                     }
                 });
 
@@ -284,25 +287,30 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e("", "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e("", "onError: " + e);
-                        Toast.makeText(context, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        if (jsonObjectResponse.code() == HttpURLConnection.HTTP_CREATED) {
-                            Log.e("", "onNext: " + jsonObjectResponse);
-                            Toast.makeText(context, "Comment Posted Successfully", Toast.LENGTH_SHORT).show();
+                    public void onNext(Response<JsonObject> response) {
+
+
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+                                Toast.makeText(context, "Comment Posted Successfully", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(context, "Failed to post comment", Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
                 });
     }
-    //todo:make a call to get dislike count.
 
     private void populateCommentFeedRecyclerView(FootballFeedDetailViewHolder holder) {
         ViewAllCommentListAdapter viewAllCommentListAdapter = new ViewAllCommentListAdapter(context);

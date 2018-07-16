@@ -10,9 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.daasuu.bl.BubbleLayout;
@@ -36,19 +34,19 @@ import life.plank.juna.zone.util.helper.PopUpWindowHelper;
  * Created by plank-niraj on 26-01-2018.
  */
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
-    public boolean trigger = false;
-    public PopupWindow popupWindow, popupWindowPointer;
-    ScrubberPointerUpdate scrubberPointerUpdate;
+    private boolean trigger = false;
+    private PopupWindow popupWindow, popupWindowPointer;
+    private ScrubberPointerUpdate scrubberPointerUpdate;
     //Temp data
-    HashMap<Integer, String> detailedData;
-    HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
-    ArrayList<Integer> scrubberProgressData;
-    int matchNumber;
+    private HashMap<Integer, String> detailedData;
+    private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
+    private ArrayList<Integer> scrubberProgressData;
+    private int matchNumber;
     @BindView(R.id.commentary_text)
     TextView commentaryTextView;
     private int viewHeight = 0;
     private BubbleLayout bubbleLayout;
-    private RelativeLayout pointerImageRelativeLayout;
+
     private int totalWidth;
     private int viewWidth;
     private Context context;
