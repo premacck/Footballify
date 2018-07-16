@@ -71,8 +71,6 @@
     <string name="goal_Against">GA</string>
     <string name="goal_difference">GD</string>
     <string name="points_table">Pts</string>
-    <string name="text_message_password_screen">Don’t worry, everybody forgets password.</string>
-    <string name="registered_email_text">Tell us your registered email ID, and we’ll help you reset your password.</string>
     <string name="outlook">Outlook</string>
     <string name="gmail">Gmail</string>
     <string name="forgot_password_message">Don’t remember password of the mail too? Reach your mail provider to reset mail password.</string>

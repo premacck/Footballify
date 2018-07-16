@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forgot_password_title_text">Don’t worry, everybody forgets passwords.</string>
+    <string name="forgot_password_subtitle_text">Tell us your registered email ID, and we’ll help you reset your password.</string>
+    <string name="email">Email</string>
+</resources>
