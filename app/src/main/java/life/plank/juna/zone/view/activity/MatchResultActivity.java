@@ -135,7 +135,7 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onError(Throwable e) {
                         progressBar.setVisibility(View.VISIBLE);
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -146,9 +146,9 @@ public class MatchResultActivity extends AppCompatActivity {
                                 populateStandingRecyclerView(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(MatchResultActivity.this, "Failed to get standings", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MatchResultActivity.this, R.string.failed_to_get_standings, Toast.LENGTH_SHORT).show();
                             default:
-                                Toast.makeText(MatchResultActivity.this, "Failed to get standings", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MatchResultActivity.this, R.string.failed_to_get_standings, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -168,7 +168,7 @@ public class MatchResultActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, " Error" + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -178,11 +178,11 @@ public class MatchResultActivity extends AppCompatActivity {
                                 populatePlayerStatsRecyclerView(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), "Failed to get player stats", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_player_stats, Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 populatePlayerStatsRecyclerView(response.body());
-                                Toast.makeText(getApplicationContext(), "Failed to get player stats", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_player_stats, Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -214,10 +214,10 @@ public class MatchResultActivity extends AppCompatActivity {
                                 populateTeamStatsRecyclerView(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), "Failed to get team stats", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_team_stats, Toast.LENGTH_LONG).show();
                                 break;
                             default:
-                                Toast.makeText(getApplicationContext(), "Failed to get team stats", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_team_stats, Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }

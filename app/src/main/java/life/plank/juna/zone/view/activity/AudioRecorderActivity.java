@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 
 import java.io.IOException;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.util.AppConstants;
 
 public class AudioRecorderActivity extends AppCompatActivity {
@@ -25,13 +26,11 @@ public class AudioRecorderActivity extends AppCompatActivity {
     private static final String LOG_TAG = "AudioRecorderActivity";
     private static final int REQUEST_RECORD_AUDIO_PERMISSION = 200;
     private static String fileName = null;
-    private RecordButton recordButton = null;
     private MediaRecorder recorder = null;
-    private PlayButton playButton = null;
     private MediaPlayer player = null;
     // Requesting permission to RECORD_AUDIO
     private boolean permissionToRecordAccepted = false;
-    private String[] permissions = {Manifest.permission.RECORD_AUDIO,Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    private String[] permissions = {Manifest.permission.RECORD_AUDIO, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -104,13 +103,13 @@ public class AudioRecorderActivity extends AppCompatActivity {
         fileName += "/audiorecordtest.3gp";
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
         LinearLayout linearLayout = new LinearLayout(this);
-        recordButton = new RecordButton(this);
+        RecordButton recordButton = new RecordButton(this);
         linearLayout.addView(recordButton,
                 new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                         0));
-        playButton = new PlayButton(this);
+        PlayButton playButton = new PlayButton(this);
         linearLayout.addView(playButton,
                 new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -138,9 +137,9 @@ public class AudioRecorderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onRecord(startRecording);
                 if (startRecording) {
-                    setText("Stop recording");
+                    setText(R.string.stop_recording);
                 } else {
-                    setText("Start recording");
+                    setText(R.string.start_recording);
                 }
                 startRecording = !startRecording;
             }
@@ -148,7 +147,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
         public RecordButton(Context ctx) {
             super(ctx);
-            setText("Start recording");
+            setText(R.string.start_recording);
             setOnClickListener(clicker);
         }
     }
@@ -159,7 +158,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
             public void onClick(View v) {
                 onPlay(startPlaying);
                 if (startPlaying) {
-                    setText("SEND");
+                    setText(R.string.send);
                 } else {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra(AppConstants.RECORDED_AUDIO, fileName);
@@ -172,7 +171,7 @@ public class AudioRecorderActivity extends AppCompatActivity {
 
         public PlayButton(Context ctx) {
             super(ctx);
-            setText("Start playing");
+            setText(R.string.start_playing);
             setOnClickListener(clicker);
         }
     }

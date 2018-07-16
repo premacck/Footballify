@@ -234,7 +234,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                                 apiHitCount = apiHitCount + 1;
                                 break;
                             default:
-                                showToast(AppConstants.DEFAULT_ERROR_MESSAGE);
+                                Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -252,16 +252,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         }
     }
 
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
-    public void onPinFeed(int positon) {
-        savePinnedFeedsToPrefrence(positon);
+    public void onPinFeed(int position) {
+        savePinnedFeedsToPreference(position);
     }
 
-    private void savePinnedFeedsToPrefrence(int position) {
+    private void savePinnedFeedsToPreference(int position) {
         PreferenceManager preferenceManager = new PreferenceManager(this);
         Gson gson = new Gson();
         String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.PINNED_FEEDS);

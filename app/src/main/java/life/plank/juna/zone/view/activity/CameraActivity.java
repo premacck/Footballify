@@ -193,7 +193,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     capturedImageView.setImageBitmap(bitmap);
                 }
             } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), "Sorry could not process image", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.could_not_process_image, Toast.LENGTH_LONG).show();
             }
 
 
@@ -209,13 +209,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         long fileSizeInKB = fileSizeInBytes / 1024;
                         long fileSizeInMB = fileSizeInKB / 1024;
                         if (fileSizeInMB > 8) {
-                            Toast.makeText(this, "file size is big", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.file_too_large, Toast.LENGTH_SHORT).show();
                         } else {
                             String profilePicUrl = absolutePath;
                         }
                     } catch (Exception e) {
                         Log.e("TAG", "message" + e);
-                        Toast.makeText(CameraActivity.this, "Unable to process,try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CameraActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -234,9 +234,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 }
 
             } else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Video recording cancelled.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.video_recording_cancelled, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Failed to record video", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.video_recording_failed, Toast.LENGTH_LONG).show();
             }
         } else if (requestCode == AppConstants.GALLERY_IMAGE_RESULT) {
             if (data != null) {
@@ -249,7 +249,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         capturedImageView.setImageBitmap(new Image().compress(imgFile, imgFile.toString()));
                     } catch (IOException e) {
                         Log.e(TAG, e.getMessage());
-                        Toast.makeText(getApplicationContext(), "Sorry could not process image", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.failed_to_process_image, Toast.LENGTH_LONG).show();
                     }
 
                 }
@@ -290,7 +290,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
                         progressBar.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -300,13 +300,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         switch (jsonObjectResponse.code()) {
 
                             case HttpsURLConnection.HTTP_OK:
-                                Toast.makeText(CameraActivity.this, "Uploaded SuccessFully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CameraActivity.this, R.string.upload_successful, Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 break;
                             case HttpURLConnection.HTTP_BAD_REQUEST:
-                                Toast.makeText(CameraActivity.this, "Upload failed, Try again later", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CameraActivity.this, R.string.upload_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
 

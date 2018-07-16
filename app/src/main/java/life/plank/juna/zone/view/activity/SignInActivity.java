@@ -118,7 +118,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong_500, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override

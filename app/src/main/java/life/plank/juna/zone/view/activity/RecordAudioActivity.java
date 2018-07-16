@@ -34,7 +34,7 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
     @BindView(R.id.chronometer_text_view)
     Chronometer chronometer;
     @BindView(R.id.audio_image_view)
-    ImageView audioImageview;
+    ImageView audioImageView;
     @BindView(R.id.time_relative_layout)
     RelativeLayout timeLayout;
     @BindView(R.id.tap_to_hold_text_view)
@@ -48,7 +48,7 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_audio);
         ButterKnife.bind(this);
-        audioImageview.setBackgroundResource(R.drawable.mic_red);
+        audioImageView.setBackgroundResource(R.drawable.mic_red);
         startButton.setOnTouchListener(this);
         chronometer.setBase(SystemClock.elapsedRealtime());
         ActivityCompat.requestPermissions(this, permissions, REQUEST_RECORD_AUDIO_PERMISSION);
@@ -103,7 +103,7 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
             Log.e(TAG, "prepare() failed");
         }
         recorder.start();
-        audioImageview.setBackgroundResource(R.drawable.mic_red_color);
+        audioImageView.setBackgroundResource(R.drawable.mic_red_color);
     }
 
     private void stopRecording() {
@@ -111,7 +111,7 @@ public class RecordAudioActivity extends AppCompatActivity implements View.OnTou
             recorder.stop();
             recorder.release();
             recorder = null;
-            audioImageview.setBackgroundResource(R.drawable.mic_red);
+            audioImageView.setBackgroundResource(R.drawable.mic_red);
         } catch (Exception e) {
             Log.e(TAG, "release() failed");
         }

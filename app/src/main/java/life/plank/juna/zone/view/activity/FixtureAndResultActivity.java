@@ -143,14 +143,14 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                                         pastMatchDayTextView.setText(classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(i).getMatchDay());
                                     }
                                 } else {
-                                    Toast.makeText(FixtureAndResultActivity.this, "No matches found", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(FixtureAndResultActivity.this, R.string.matches_not_found, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(FixtureAndResultActivity.this, "No matches found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FixtureAndResultActivity.this, R.string.matches_not_found, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(FixtureAndResultActivity.this, "No matches found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FixtureAndResultActivity.this, R.string.matches_not_found, Toast.LENGTH_SHORT).show();
                                 break;
                         }
 

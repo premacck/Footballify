@@ -102,7 +102,7 @@ public class LineupActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e("", "onError: " + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -118,15 +118,15 @@ public class LineupActivity extends AppCompatActivity {
                                     setUpVisitingTeamGrid();
                                     setUpHomeTeamGrid();
                                 } else {
-                                    Toast.makeText(LineupActivity.this, "Line-ups not available", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LineupActivity.this, R.string.line_ups_not_available, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(LineupActivity.this, "Line-ups not available", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LineupActivity.this, R.string.line_ups_not_available, Toast.LENGTH_SHORT).show();
                                 break;
 
                             default:
-                                Toast.makeText(LineupActivity.this, "Line-ups not available", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LineupActivity.this, R.string.line_ups_not_available, Toast.LENGTH_SHORT).show();
                                 break;
 
                         }
@@ -218,7 +218,7 @@ public class LineupActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -243,18 +243,17 @@ public class LineupActivity extends AppCompatActivity {
                                     homeTeamCorner.setText(String.valueOf(response.body().getHomeTeamMatchSummary().getCorners()));
                                     awayTeamCorner.setText(String.valueOf(response.body().getAwayTeamMatchSummary().getCorners()));
                                 } else {
-                                    Toast.makeText(LineupActivity.this, "Match summary not found", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LineupActivity.this, R.string.match_summary_not_found, Toast.LENGTH_SHORT).show();
                                 }
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(LineupActivity.this, "Match summary not found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LineupActivity.this, R.string.match_summary_not_found, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(LineupActivity.this, "Match summary not found", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LineupActivity.this, R.string.match_summary_not_found, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
-
                 });
     }
 }

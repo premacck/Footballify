@@ -181,7 +181,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             @Override
             public void onClick(View v) {
                 boardDislikeFeedItem(feedId, objectId);
-                //todo:will replace with getFoorballFeed Api call original Like counts
+                //todo:will replace with getFootballFeed Api call original Like counts
                 if (likeCount == 0) {
                     holder.likeCountTextView.setText(String.valueOf(likeCount));
                 } else {
@@ -217,7 +217,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -243,7 +243,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -268,7 +268,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_LONG).show();
                     }
 
                     @Override

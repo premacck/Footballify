@@ -102,10 +102,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             // Extract data included in the Intent
             setDataReceivedFromPushNotification(intent);
-
         }
     };
 
@@ -135,7 +133,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.image_url));
         FootballFeed footballFeed = new FootballFeed();
-        Log.e("content type", "content_type" + contentType);
+        Log.e(TAG, "content_type: " + contentType);
         footballFeed.setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             footballFeed.setTitle(title);
@@ -329,7 +327,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "In onError()" + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -366,7 +364,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                     public void onError(Throwable e) {
                         Log.e(TAG, "On Error()" + e);
                         progressBar.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -378,12 +376,12 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                                 if (response.body() != null)
                                     setUpAdapterWithNewData(response.body());
                                 else
-                                    Toast.makeText(boardActivity, "Failed to retrieve board", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(boardActivity, "This board is yet to be populated", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(boardActivity, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
                             default:
-                                Toast.makeText(boardActivity, "Failed to retrieve board", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }

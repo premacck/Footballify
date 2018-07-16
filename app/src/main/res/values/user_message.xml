@@ -2,9 +2,33 @@
 <resources>
 
     <string name="username_empty">Email address cannot be empty</string>
-    <string name="something_went_wrong_500">Something went wrong. Try again later</string>
+    <string name="something_went_wrong">Something went wrong. Try again later</string>
     <string name="user_name_not_found">Username does not exist</string>
     <string name="email_empty">Email cannot be Empty</string>
     <string name="password_empty">Password cannot be Empty</string>
     <string name="username_exists">Username already exists</string>
+    <string name="stop_recording">Stop recording</string>
+    <string name="start_recording">Start recording</string>
+    <string name="start_playing">Start playing</string>
+    <string name="send">SEND</string>
+    <string name="failed_to_retrieve_board">Failed to retrieve board</string>
+    <string name="board_not_populated">This board is yet to be populated</string>
+    <string name="could_not_process_image">Sorry could not process image</string>
+    <string name="file_too_large">file size is large</string>
+    <string name="unable_to_process">Unable to process,try again</string>
+    <string name="video_recording_cancelled">Video recording cancelled</string>
+    <string name="video_recording_failed">Failed to record video</string>
+    <string name="failed_to_process_image">Sorry could not process image</string>
+    <string name="upload_successful">Upload successful</string>
+    <string name="upload_failed">Upload failed, Try again later</string>
+    <string name="matches_not_found">No matches found</string>
+    <string name="line_ups_not_available">Line-ups not available</string>
+    <string name="match_summary_not_found">Match summary not found</string>
+    <string name="failed_to_get_standings">Failed to get standings</string>
+    <string name="failed_to_get_player_stats">Failed to get player stats</string>
+    <string name="failed_to_get_team_stats">Failed to get team stats</string>
+    <string name="comment_posted_successfully">Comment posted successfully</string>
+    <string name="enter_text_to_be_posted">Please enter text to be posted</string>
+    <string name="could_not_post_comment">Could not post comment</string>
+    <string name="share_feed_item_toast">Feed Item Shared Successfully</string>
 </resources>

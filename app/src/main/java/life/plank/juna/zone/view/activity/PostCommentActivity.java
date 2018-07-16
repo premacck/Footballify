@@ -133,7 +133,7 @@ public class PostCommentActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -141,13 +141,13 @@ public class PostCommentActivity extends AppCompatActivity {
 
                         switch (jsonObjectResponse.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                Toast.makeText(PostCommentActivity.this, "Comment Posted Successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostCommentActivity.this, R.string.comment_posted_successfully, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_BAD_REQUEST:
-                                Toast.makeText(PostCommentActivity.this, "Please enter text to be posted", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostCommentActivity.this, R.string.enter_text_to_be_posted, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(PostCommentActivity.this, "Could not post comment", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PostCommentActivity.this, R.string.could_not_post_comment, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
