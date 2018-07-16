@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="username_empty">Email address cannot be empty</string>
+    <string name="something_went_wrong_500">Something went wrong. Try again later</string>
+    <string name="user_name_not_found">Username does not exist</string>
+    <string name="email_empty">Email cannot be Empty</string>
+    <string name="password_empty">Password cannot be Empty</string>
+    <string name="username_exists">Username already exists</string>
+</resources>

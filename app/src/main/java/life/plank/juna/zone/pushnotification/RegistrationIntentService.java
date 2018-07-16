@@ -15,7 +15,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.activity.SplashScreenActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class RegistrationIntentService extends IntentService {

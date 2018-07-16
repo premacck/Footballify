@@ -112,7 +112,6 @@
         </provider>
 
         <activity android:name=".view.activity.SwipePageActivity" />
-        <activity android:name=".view.activity.SplashScreenActivity" />
         <activity android:name=".view.activity.AudioRecorderActivity" />
         <activity
             android:name=".view.activity.MatchLeagueActivity"

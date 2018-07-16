@@ -91,7 +91,7 @@ public class SignInActivity extends AppCompatActivity {
             case R.id.image_button:
                 emailText = emailEditTextSignIn.getText().toString();
                 if (emailText.isEmpty()) {
-                    emailEditTextSignIn.setError("Email address cannot be empty");
+                    emailEditTextSignIn.setError(getString(R.string.username_empty));
                 } else {
                     getSignInResponse(emailText);
                 }
@@ -118,7 +118,7 @@ public class SignInActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong_500, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -131,7 +131,7 @@ public class SignInActivity extends AppCompatActivity {
                                 startActivity(intentSubmit);
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), "Username does not exist", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 Log.e(TAG, response.message());

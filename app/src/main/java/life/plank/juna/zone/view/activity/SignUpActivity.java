@@ -68,11 +68,11 @@ public class SignUpActivity extends AppCompatActivity {
                 passwordText = passwordEditText.getText().toString();
                 userNameText = userNameEditText.getText().toString();
                 if (userNameText.isEmpty()) {
-                    userNameEditText.setError("Username cannot be Empty");
+                    userNameEditText.setError(getString(R.string.username_empty));
                 } else if (emailText.isEmpty()) {
-                    emailEditText.setError("Email cannot Empty");
+                    emailEditText.setError(getString(R.string.email_empty));
                 } else if (passwordText.isEmpty()) {
-                    passwordEditText.setError("Password cannot be Empty");
+                    passwordEditText.setError(getString(R.string.password_empty));
                 } else {
                     signUp();
                 }
@@ -94,7 +94,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong_500, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -105,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 startActivity(intentSubmit);
                                 break;
                             case HttpURLConnection.HTTP_FORBIDDEN:
-                                Toast.makeText(getApplicationContext(), "Username already exists", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), R.string.username_exists, Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 Log.e(TAG, response.message());
