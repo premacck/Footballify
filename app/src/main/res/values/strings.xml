@@ -93,21 +93,11 @@
     <string name="_16_2m">16.2M</string>
     <string name="like">Like</string>
     <string name="reply">Reply</string>
-    <string name="view_all_comments">View all comments</string>
-    <string name="post">Post</string>
-    <string name="see_complete_standing">See complete standings</string>
-    <string name="see_more">see More</string>
-    <string name="standings">Standings</string>
+
     <string name="assist">Assist</string>
-    <string name="team_stats">Team Stats</string>
     <string name="team_goals">G</string>
     <string name="team_losses">L</string>
-    <string name="tap_to_see_tiles">Tap to see tiles</string>
-    <string name="player_stats">Player Stats</string>
     <string name="matchday_36">Matchday_36</string>
-    <string name="see_all">See All</string>
-    <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
-    <string name="matches_fixtureresults">Matches,FixtureResults</string>
     <string name="match_day_37">Match Day 37</string>
     <string name="match_id_string">match_id</string>
     <string name="match_pref">match_pref</string>
