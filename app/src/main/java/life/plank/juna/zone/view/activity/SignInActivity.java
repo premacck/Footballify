@@ -3,14 +3,12 @@ package life.plank.juna.zone.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.HttpURLConnection;
@@ -25,7 +23,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.SignInModel;
-import life.plank.juna.zone.util.ActivityUtil;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StackAnimation;
@@ -40,23 +37,15 @@ public class SignInActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
-    @BindView(R.id.username_text_input_layout)
-    TextInputLayout usernameInputLayout;
-    @BindView(R.id.password_input_layout)
-    TextInputLayout passwordInputLayout;
     @Nullable
     @BindView(R.id.image_button)
     ImageView submitImageView;
-    @BindView(R.id.forgot_password)
-    TextView forgotPassword;
     @BindView(R.id.email_editext_sign_in)
     EditText emailEditTextSignIn;
     @BindView(R.id.password_editext_sign_in)
     EditText passwordEditTextSignIn;
     @BindView(R.id.card_view_sign_in)
     CardView cardViewSignIn;
-    @BindView(R.id.card_view_sign_up)
-    CardView cardViewSignUp;
     StackAnimation stackAnimation;
     String emailText;
     private RestApi restApi;
@@ -68,8 +57,6 @@ public class SignInActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getSignInUserNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
-        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout, this);
-        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout, this);
         initStackAnimation();
     }
 
@@ -79,15 +66,11 @@ public class SignInActivity extends AppCompatActivity {
                 AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
-    @OnClick({R.id.forgot_password, R.id.image_button, R.id.card_view_sign_in, R.id.card_view_sign_up})
+    @OnClick({R.id.image_button, R.id.card_view_sign_in})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
-            case R.id.forgot_password:
-                Intent intent = new Intent(SignInActivity.this, AuthForgotPasswordActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.animator.swipe_up_animation, R.animator.no_change);
-                break;
+
             case R.id.image_button:
                 emailText = emailEditTextSignIn.getText().toString();
                 if (emailText.isEmpty()) {
@@ -98,9 +81,6 @@ public class SignInActivity extends AppCompatActivity {
                 break;
             case R.id.card_view_sign_in:
                 // stackAnimation.animateStacks( cardViewSignIn, cardViewSignUp, AppConstants.ANIMATION_END_SCALE );
-                break;
-            case R.id.card_view_sign_up:
-                // stackAnimation.animateStacks( cardViewSignUp, cardViewSignIn, AppConstants.ANIMATION_END_SCALE );
                 break;
         }
     }

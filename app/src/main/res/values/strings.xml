@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">Zone</string>
-    <string name="sign_up">SIGN UP</string>
-    <string name="football_data_base_url">http://192.169.1.9:61000/</string>
-    <string name="feed_data_base_url">https://junafeedapi.azurewebsites.net</string>
-    <string name="login_pref">loginPrefs</string>
-    <string name="shared_pref_save_login">save_login</string>
+    <string name="football_data_base_url">http://192.169.1.2:61000/</string>
+    <string name="feed_data_base_url">http://192.169.1.2:60000</string>
     <string name="facebook_app_id">575013552837571</string>
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
     <string name="unfollow">UNFOLLOW</string>
