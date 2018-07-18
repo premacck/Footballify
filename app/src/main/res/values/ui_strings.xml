@@ -19,4 +19,6 @@
     <string name="standings">Standings</string>
     <string name="view_all_comments">View all comments</string>
     <string name="see_complete_standing">See complete standings</string>
+    <string name="choose_at_least_5_topics_of_interest">Choose at least 5 topics of interest</string>
+    <string name="music">MUSIC</string>
 </resources>
