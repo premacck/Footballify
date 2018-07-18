@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -40,12 +39,11 @@ public class SignInActivity extends AppCompatActivity {
     @Nullable
     @BindView(R.id.image_button)
     ImageView submitImageView;
-    @BindView(R.id.email_editext_sign_in)
+    @BindView(R.id.email_edit_text_sign_in)
     EditText emailEditTextSignIn;
-    @BindView(R.id.password_editext_sign_in)
+    @BindView(R.id.password_edit_text_sign_in)
     EditText passwordEditTextSignIn;
-    @BindView(R.id.card_view_sign_in)
-    CardView cardViewSignIn;
+
     StackAnimation stackAnimation;
     String emailText;
     private RestApi restApi;
@@ -66,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
                 AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
-    @OnClick({R.id.image_button, R.id.card_view_sign_in})
+    @OnClick({R.id.image_button, R.id.forgot_password_text_view})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
@@ -79,8 +77,9 @@ public class SignInActivity extends AppCompatActivity {
                     getSignInResponse(emailText);
                 }
                 break;
-            case R.id.card_view_sign_in:
-                // stackAnimation.animateStacks( cardViewSignIn, cardViewSignUp, AppConstants.ANIMATION_END_SCALE );
+            case R.id.forgot_password_text_view:
+                Intent intent = new Intent(this, AuthForgotPasswordActivity.class);
+                startActivity(intent);
                 break;
         }
     }

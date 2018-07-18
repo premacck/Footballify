@@ -3,6 +3,7 @@
     <string name="forgot_password_title_text">Don’t worry, everybody forgets passwords.</string>
     <string name="forgot_password_subtitle_text">Tell us your registered email ID, and we’ll help you reset your password.</string>
     <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
     <string name="post_to">Post to</string>
@@ -21,4 +22,6 @@
     <string name="see_complete_standing">See complete standings</string>
     <string name="choose_at_least_5_topics_of_interest">Choose at least 5 topics of interest</string>
     <string name="music">MUSIC</string>
+    <string name="login_using_social_media">or login using social media</string>
+    <string name="skip_login">Skip and browse as guest</string>
 </resources>
