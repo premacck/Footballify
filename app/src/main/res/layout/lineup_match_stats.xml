@@ -12,7 +12,6 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/shots_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -27,7 +26,6 @@
                 android:text="22" />
 
             <TextView
-                android:id="@+id/shots_match_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -58,7 +56,6 @@
                 android:text="22" />
 
             <TextView
-                android:id="@+id/shots_on_target"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -89,7 +86,6 @@
                 android:text="22" />
 
             <TextView
-                android:id="@+id/possession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -119,7 +115,6 @@
                 android:text="22" />
 
             <TextView
-                android:id="@+id/fouls"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -149,7 +144,6 @@
                 android:text="22" />
 
             <ImageView
-                android:id="@+id/yellow_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -179,7 +173,6 @@
                 android:text="22" />
 
             <ImageView
-                android:id="@+id/red_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -209,7 +202,6 @@
                 android:text="22" />
 
             <TextView
-                android:id="@+id/offside"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -239,7 +231,6 @@
                 android:text="22" />
 
             <TextView
-                android:id="@+id/corner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

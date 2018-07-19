@@ -17,7 +17,6 @@
         android:background="#543a4f">
 
         <TextView
-            android:id="@+id/match_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
@@ -53,7 +52,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/away_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -105,7 +103,6 @@
                 android:layout_height="match_parent" />
 
             <include
-                android:id="@+id/lineup_row"
                 layout="@layout/line_up_row"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

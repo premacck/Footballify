@@ -18,7 +18,6 @@
         android:background="#6b1459">
 
         <TextView
-            android:id="@+id/match_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="2dp"
@@ -40,7 +39,6 @@
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -65,7 +63,6 @@
                     android:paddingStart="2dp">
 
                     <RelativeLayout
-                        android:id="@+id/relative_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
@@ -134,7 +131,6 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/standing_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginTop="5dp"
@@ -142,12 +138,10 @@
                 app:cardUseCompatPadding="true">
 
                 <RelativeLayout
-                    android:id="@+id/standing_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/standing_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rajdhani_regular"
@@ -192,19 +186,16 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/team_stats_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:cardCornerRadius="@dimen/feed_card_corner_radius"
                 app:cardUseCompatPadding="true">
 
                 <RelativeLayout
-                    android:id="@+id/team_stats_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/team_stats_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rajdhani_regular"
@@ -242,19 +233,16 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/player_stats_card_view"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 app:cardCornerRadius="@dimen/feed_card_corner_radius"
                 app:cardUseCompatPadding="true">
 
                 <RelativeLayout
-                    android:id="@+id/player_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <TextView
-                        android:id="@+id/player_stats_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/rajdhani_regular"

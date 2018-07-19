@@ -36,7 +36,6 @@
         android:text="VS" />
 
     <TextView
-        android:id="@+id/time1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/vs1"
@@ -44,7 +43,6 @@
         android:text="7:30 PM" />
 
     <ImageView
-        android:id="@+id/france_flag"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentEnd="true"
@@ -68,7 +66,6 @@
         android:text="VS" />
 
     <TextView
-        android:id="@+id/time2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/vs2"
@@ -76,7 +73,6 @@
         android:text="11:30 PM" />
 
     <ImageView
-        android:id="@+id/belgium_flag"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentEnd="true"

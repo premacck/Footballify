@@ -78,7 +78,6 @@
         style="@style/standing_fragment_text_style"
         android:textColor="@color/black" />
     <TextView
-        android:id="@+id/goal_for_text_view"
         style="@style/standing_fragment_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -88,7 +87,6 @@
         android:textColor="@color/black" />
 
     <TextView
-        android:id="@+id/goal_againts_text_view"
         style="@style/standing_fragment_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

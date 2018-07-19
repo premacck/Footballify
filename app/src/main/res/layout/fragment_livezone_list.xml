@@ -14,7 +14,6 @@
         android:paddingTop="0dp">
 
         <TextView
-            android:id="@+id/live_zone_text_view"
             style="@style/live_zone_text_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

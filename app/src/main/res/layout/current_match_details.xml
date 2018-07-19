@@ -5,7 +5,6 @@
     android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/current_match_relative_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp">
@@ -36,7 +35,6 @@
             android:src="@drawable/ic_west_brom_logo" />
 
         <TextView
-            android:id="@+id/date_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

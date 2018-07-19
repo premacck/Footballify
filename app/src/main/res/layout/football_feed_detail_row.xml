@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/relative_layout_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/feed_card_corner_radius"
@@ -38,7 +37,6 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/created_date_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/name_text_view"
@@ -118,7 +116,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/feed_title_relative_layout"
             android:layout_width="match_parent"
             android:layout_height="35dp">
 
