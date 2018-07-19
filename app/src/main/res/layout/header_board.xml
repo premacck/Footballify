@@ -13,6 +13,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="33dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/img_epl_logo" />
+
         <TextView
             android:id="@+id/divider"
             android:layout_width="wrap_content"
