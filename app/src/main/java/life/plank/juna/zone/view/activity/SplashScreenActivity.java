@@ -26,7 +26,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    public static Boolean isVisible = false;
     public static Thread thread;
     private boolean isInterrupted = false;
     @BindView(R.id.parent_layout)
@@ -99,12 +98,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        isVisible = true;
-    }
-
-    @Override
     protected void onPause() {
         isInterrupted = true;
         thread.interrupt();
@@ -115,8 +108,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         isInterrupted = false;
-        launchSplashScreen();
-        isVisible = true;
     }
 
     @Override
@@ -124,7 +115,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         isInterrupted = true;
         thread.interrupt();
         super.onStop();
-        isVisible = false;
     }
 }
 
