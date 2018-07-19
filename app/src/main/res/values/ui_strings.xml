@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="forgot_password_title_text">Don’t worry, everybody forgets passwords.</string>
+    <string name="forgot_password_subtitle_text">Tell us your registered email ID, and we’ll help you reset your password.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="post_to">Post to</string>
+    <string name="other">Other</string>
+    <string name="post">Post</string>
+    <string name="matches_fixture_results">Matches,FixtureResults</string>
+    <string name="tap_to_see_tiles">Tap to see tiles</string>
+    <string name="team_stats">Team Stats</string>
+    <string name="player_stats">Player Stats</string>
+    <string name="info">i</string>
+    <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
+    <string name="see_all">See All</string>
+    <string name="see_more">see More</string>
+    <string name="standings">Standings</string>
+    <string name="view_all_comments">View all comments</string>
+    <string name="see_complete_standing">See complete standings</string>
+    <string name="choose_at_least_5_topics_of_interest">Choose at least 5 topics of interest</string>
+    <string name="music">MUSIC</string>
+    <string name="login_using_social_media">or login using social media</string>
+    <string name="skip_login">Skip and browse as guest</string>
+</resources>

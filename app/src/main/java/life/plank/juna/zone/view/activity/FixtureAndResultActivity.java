@@ -47,7 +47,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     FootballFixtureClassifierService footballFixtureClassifierService = new FootballFixtureClassifierService();
     @BindView(R.id.live_match_recycler_view)
     RecyclerView currentMatchRecyclerView;
-    @BindView(R.id.tommorow_match_recycler_view)
+    @BindView(R.id.tomorrow_match_recycler_view)
     RecyclerView tomorrowMatchRecyclerView;
     @BindView(R.id.scheduled_match_recycler_view)
     RecyclerView upcomingMatchRecyclerView;

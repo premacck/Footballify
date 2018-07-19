@@ -40,14 +40,14 @@
                     android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/profile_image_view"
-                    app:hintTextAppearance="@style/post_floating_lable_style">
+                    app:hintTextAppearance="@style/post_floating_label_style">
 
                     <EditText
                         android:id="@+id/team_one_edit_text"
                         style="@style/post_feed_text_input_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Title"
+                        android:hint="@string/title"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textCursorDrawable="@null" />
@@ -60,14 +60,14 @@
                     android:layout_below="@+id/title_text_input_layout"
                     android:layout_marginStart="10dp"
                     android:layout_toEndOf="@+id/profile_image_view"
-                    app:hintTextAppearance="@style/post_floating_lable_style">
+                    app:hintTextAppearance="@style/post_floating_label_style">
 
                     <EditText
                         android:id="@+id/description_one_edit_text"
                         style="@style/post_feed_text_input_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Description"
+                        android:hint="@string/description"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textCursorDrawable="@null" />
@@ -90,7 +90,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/rajdhani_semibold"
-                        android:text="Post to"
+                        android:text="@string/post_to"
                         android:textColor="@color/grey" />
 
                     <TextView
@@ -106,7 +106,7 @@
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
                         android:paddingTop="2dp"
-                        android:text="Other"
+                        android:text="@string/other"
                         android:textColor="@color/others_color_grey"
                         android:textSize="12sp" />
 
@@ -163,7 +163,7 @@
                     android:paddingEnd="50dp"
                     android:paddingStart="50dp"
                     android:paddingTop="6dp"
-                    android:text="Post"
+                    android:text="@string/post"
                     android:textColor="@color/text_input_bright_sky_blue"
                     android:textSize="20sp" />
             </RelativeLayout>
@@ -184,8 +184,8 @@
                 android:layout_height="match_parent"
                 android:layout_above="@+id/post_relative_layout"
                 android:adjustViewBounds="true"
-                android:visibility="invisible"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                android:visibility="invisible" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"

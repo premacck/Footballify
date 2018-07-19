@@ -86,7 +86,7 @@ public interface RestApi {
     Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
 
     @DELETE("feedItems/{id}/likes")
-    Observable<Response<JsonObject>> dislikeBoardItem(@Path("id") String id, @Query("userId") String userId);
+    Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
 
     @POST("boards/{id}/feedItems")
     Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue, @Path("id") String boardId, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);

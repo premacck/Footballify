@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        card_view:cardCornerRadius="5dp">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/zone_image_view"
+                android:layout_width="178dp"
+                android:layout_height="178dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/zone_thumb_image" />
+
+            <ImageView
+                android:id="@+id/follow_image_view"
+                android:layout_width="67dp"
+                android:layout_height="58dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_follow_tick"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/zone_title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/zone_image_view"
+                android:layout_alignParentStart="true"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:paddingStart="5dp"
+                android:text="@string/music"
+                android:textColor="@color/white"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true">
+
+                <ImageView
+                    android:id="@+id/zone_followers_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:paddingBottom="5dp"
+                    android:paddingEnd="5dp"
+                    android:src="@drawable/ic_people"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+
+                <TextView
+                    android:id="@+id/followers_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:lineSpacingExtra="5sp"
+                    android:paddingEnd="15dp"
+                    android:text="1.5 M"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

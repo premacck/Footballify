@@ -1,10 +1,7 @@
 <resources>
     <string name="app_name">Zone</string>
-    <string name="sign_up">SIGN UP</string>
-    <string name="football_data_base_url">http://192.169.1.9:61000/</string>
-    <string name="feed_data_base_url">https://junafeedapi.azurewebsites.net</string>
-    <string name="login_pref">loginPrefs</string>
-    <string name="shared_pref_save_login">save_login</string>
+    <string name="football_data_base_url">http://192.169.1.2:61000/</string>
+    <string name="feed_data_base_url">http://192.169.1.2:60000</string>
     <string name="facebook_app_id">575013552837571</string>
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
     <string name="unfollow">UNFOLLOW</string>
@@ -71,8 +68,6 @@
     <string name="goal_Against">GA</string>
     <string name="goal_difference">GD</string>
     <string name="points_table">Pts</string>
-    <string name="text_message_password_screen">Don’t worry, everybody forgets password.</string>
-    <string name="registered_email_text">Tell us your registered email ID, and we’ll help you reset your password.</string>
     <string name="outlook">Outlook</string>
     <string name="gmail">Gmail</string>
     <string name="forgot_password_message">Don’t remember password of the mail too? Reach your mail provider to reset mail password.</string>
@@ -95,21 +90,11 @@
     <string name="_16_2m">16.2M</string>
     <string name="like">Like</string>
     <string name="reply">Reply</string>
-    <string name="view_all_comments">View all comments</string>
-    <string name="post">Post</string>
-    <string name="see_complete_standing">See complete standings</string>
-    <string name="see_more">see More</string>
-    <string name="standings">Standings</string>
+
     <string name="assist">Assist</string>
-    <string name="team_stats">Team Stats</string>
     <string name="team_goals">G</string>
     <string name="team_losses">L</string>
-    <string name="tap_to_see_tiles">Tap to see tiles</string>
-    <string name="player_stats">Player Stats</string>
     <string name="matchday_36">Matchday_36</string>
-    <string name="see_all">See All</string>
-    <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
-    <string name="matches_fixtureresults">Matches,FixtureResults</string>
     <string name="match_day_37">Match Day 37</string>
     <string name="match_id_string">match_id</string>
     <string name="match_pref">match_pref</string>

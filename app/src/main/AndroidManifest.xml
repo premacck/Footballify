@@ -51,7 +51,7 @@
         </service>
 
         <activity
-            android:name=".view.activity.SignInActivity"
+            android:name=".view.activity.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashScreenTheme">
             <intent-filter>
@@ -144,6 +144,8 @@
             android:label="@string/title_activity_post_comment"
             android:theme="@style/AppTheme" />
         <activity android:name=".view.activity.WorldCupFixtureActivity" />
+        <activity android:name=".view.activity.ZoneActivity" />
+        <activity android:name=".view.activity.SignInActivity" />
     </application>
 
 </manifest>
