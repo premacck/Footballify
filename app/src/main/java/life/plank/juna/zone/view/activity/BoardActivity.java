@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v8.renderscript.RenderScript;
@@ -82,7 +83,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     @BindView(R.id.following_text_view)
     TextView followingTextView;
     @BindView(R.id.board_parent_layout)
-    RelativeLayout boardParentLayout;
+    CardView boardParentLayout;
     BoardMediaAdapter boardMediaAdapter;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;

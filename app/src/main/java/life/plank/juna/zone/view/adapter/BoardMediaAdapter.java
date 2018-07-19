@@ -56,7 +56,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                             .load(boardFeed.get(position).getThumbnail().getImageUrl())
                             .fit().centerCrop()
                             .placeholder(R.drawable.ic_place_holder)
-                            .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
                             .error(R.drawable.ic_place_holder)
                             .into(holder.tileImageView);
                     break;
@@ -68,7 +67,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                     Picasso.with(context)
                             .load(uri)
                             .placeholder(R.drawable.ic_video)
-                            .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
                             .error(R.drawable.ic_video)
                             .into(holder.tileImageView);
                     break;

@@ -1,64 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:arc="http://schemas.android.com/apk/res-auto"
     android:id="@+id/board_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="5dp"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingEnd="16dp"
-    android:paddingStart="8dp"
-    android:paddingTop="8dp">
-
-    <include
-        android:id="@+id/header_board"
-        layout="@layout/header_board" />
-
-    <include
-        android:id="@+id/layout_board_engagement"
-        layout="@layout/layout_board_engagement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/header_board" />
-
-    <fragment
-        android:id="@+id/title_fragment"
-        android:name="life.plank.juna.zone.view.fragment.GraphFragment"
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-        android:layout_below="@+id/layout_board_engagement" />
+    arc:cardBackgroundColor="@color/grey"
+    arc:cardCornerRadius="8dp"
+    arc:cardElevation="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title_fragment"
-        android:background="@color/light_grey">
+        android:layout_margin="3dp"
+        android:background="@color/grey"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/board_recycler_view"
+        <include
+            android:id="@+id/header_board"
+            layout="@layout/header_board" />
+
+        <include
+            android:id="@+id/layout_board_engagement"
+            layout="@layout/layout_board_engagement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp" />
+            android:layout_below="@+id/header_board" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:visibility="invisible" />
+        <fragment
+            android:id="@+id/title_fragment"
+            android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/layout_board_engagement" />
 
-        <com.bvapp.arcmenulibrary.ArcMenu
-            android:id="@+id/board_arc_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            arc:menuChildAnim="false"
-            arc:menuClickAnim="true"
-            arc:menuGravity="Bottom_Middle"
-            arc:menuImage="@drawable/ic_un"
-            arc:menuNormalColor="@color/fab_button_pink"
-            arc:menuShadowElevation="true"
-            arc:menuType="normal" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/title_fragment"
+            android:background="@color/light_grey">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/board_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:visibility="invisible" />
+
+            <com.bvapp.arcmenulibrary.ArcMenu
+                android:id="@+id/board_arc_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                arc:menuChildAnim="false"
+                arc:menuClickAnim="true"
+                arc:menuGravity="Bottom_Middle"
+                arc:menuImage="@drawable/ic_un"
+                arc:menuNormalColor="@color/fab_button_pink"
+                arc:menuShadowElevation="true"
+                arc:menuType="normal" />
+        </RelativeLayout>
     </RelativeLayout>
-</RelativeLayout>
+</android.support.v7.widget.CardView>

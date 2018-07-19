@@ -3,37 +3,33 @@
     android:id="@+id/card_content"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_margin="1dp">
+    android:layout_margin="0.5dp">
 
-    <RelativeLayout
+    <ImageView
+        android:id="@+id/tile_image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
 
-        <ImageView
-            android:id="@+id/tile_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="fitXY" />
+    <TextView
+        android:id="@+id/comment_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:maxLength="100"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/comment_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:maxLength="100"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+    <TextView
+        android:id="@+id/feed_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="3dp"
+        android:letterSpacing=".03"
+        android:textColor="@color/white"
+        android:textSize="9sp" />
 
-        <TextView
-            android:id="@+id/feed_title_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_margin="3dp"
-            android:letterSpacing=".03"
-            android:textColor="@color/white"
-            android:textSize="9sp" />
-    </RelativeLayout>
 </RelativeLayout>

@@ -35,8 +35,8 @@
         android:id="@+id/progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
     <com.bvapp.arcmenulibrary.ArcMenu
         android:id="@+id/arc_menu"
