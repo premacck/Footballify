@@ -32,7 +32,7 @@
             android:id="@+id/chronometer_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/start_indicator" />
+            android:layout_toEndOf="@+id/start_indicator" />
     </RelativeLayout>
 
     <ImageButton
@@ -50,5 +50,5 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:fontFamily="@font/rajdhani_medium"
-        android:text="Tap and hold to record" />
+        android:text="@string/tap_and_hold_to_record" />
 </LinearLayout>

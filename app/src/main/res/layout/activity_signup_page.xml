@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/logo"
-        android:background="@drawable/pink_bg_w_icon">
+        android:background="@color/background_color">
 
         <LinearLayout
             android:id="@+id/linear_layout"
@@ -30,9 +30,8 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="#ffffff"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
                 app:cardUseCompatPadding="true"
@@ -42,7 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="5dp"
-                    android:text="Signup"
+                    android:text="@string/sign_up"
                     android:textColor="@color/grey"
                     android:textSize="20sp" />
 
@@ -65,13 +64,14 @@
                             android:layout_gravity="center_horizontal">
 
                             <EditText
-                                android:id="@+id/username_editext"
+                                android:id="@+id/username_edit_text"
                                 style="@style/InputPlaceholder"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
                                 android:gravity="center_horizontal"
-                                android:hint="Username" />
+                                android:hint="@string/username"
+                                android:inputType="text" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -82,13 +82,14 @@
                             android:layout_gravity="center_horizontal">
 
                             <EditText
-                                android:id="@+id/email_editext"
+                                android:id="@+id/email_edit_text"
                                 style="@style/InputPlaceholder"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
                                 android:gravity="center_horizontal"
-                                android:hint="Email" />
+                                android:hint="@string/email"
+                                android:inputType="textEmailAddress" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -98,12 +99,13 @@
                             android:layout_gravity="center_horizontal">
 
                             <EditText
-                                android:id="@+id/password_editext"
+                                android:id="@+id/password_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
                                 android:gravity="center_horizontal"
-                                android:hint="password" />
+                                android:hint="@string/password"
+                                android:inputType="textPassword" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
@@ -118,16 +120,16 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="left"
+                            android:layout_gravity="start"
                             android:padding="10dp"
-                            android:text="or login using social media"
+                            android:text="@string/login_using_social_media"
                             android:textColor="@color/black_40"
                             android:textSize="10sp" />
 
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp">
+                            android:layout_marginStart="10dp">
 
                             <ImageView
                                 android:id="@+id/facebook_login"
@@ -139,15 +141,15 @@
                                 android:id="@+id/twitter_login"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:layout_toRightOf="@+id/facebook_login"
+                                android:layout_marginStart="16dp"
+                                android:layout_toEndOf="@+id/facebook_login"
                                 android:src="@drawable/twitter" />
 
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="16dp"
-                                android:layout_toRightOf="@+id/twitter_login"
+                                android:layout_marginStart="16dp"
+                                android:layout_toEndOf="@+id/twitter_login"
                                 android:src="@drawable/google" />
                         </RelativeLayout>
                     </LinearLayout>
@@ -161,9 +163,7 @@
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/linear_layout"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:layout_marginEnd="40dp"
-            android:layout_marginRight="40dp"
             android:background="@drawable/button_background"
             android:padding="15dp"
             android:src="@drawable/arrow" />

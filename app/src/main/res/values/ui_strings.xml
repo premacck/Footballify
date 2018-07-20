@@ -24,4 +24,7 @@
     <string name="music">MUSIC</string>
     <string name="login_using_social_media">or login using social media</string>
     <string name="skip_login">Skip and browse as guest</string>
+    <string name="tap_and_hold_to_record">Tap and hold to record</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="username">Username</string>
 </resources>

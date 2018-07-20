@@ -40,13 +40,13 @@ public class SignUpActivity extends AppCompatActivity {
     TextInputLayout passwordInputLayout;
     @BindView(R.id.email_input_layout)
     TextInputLayout emailInputLayout;
-    @BindView(R.id.username_editext)
+    @BindView(R.id.username_edit_text)
     EditText userNameEditText;
-    @BindView(R.id.email_editext)
+    @BindView(R.id.email_edit_text)
     EditText emailEditText;
     @BindView(R.id.image_button)
     ImageView imageButton;
-    @BindView(R.id.password_editext)
+    @BindView(R.id.password_edit_text)
     EditText passwordEditText;
     private RestApi restApi;
     String emailText, passwordText, userNameText;
