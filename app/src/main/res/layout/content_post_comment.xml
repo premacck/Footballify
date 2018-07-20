@@ -40,7 +40,7 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/rajdhani_semibold"
                         android:padding="20dp"
-                        android:text="What's on your mind?"
+                        android:text="@string/what_s_on_your_mind"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
 
@@ -58,7 +58,6 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
                             android:src="@drawable/custom_circle_red" />
 
                         <ImageView
@@ -67,7 +66,6 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
                             android:src="@drawable/custom_circle_pink" />
 
                         <ImageView
@@ -76,7 +74,6 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
                             android:src="@drawable/custom_circle_yellow" />
 
                         <ImageView
@@ -85,7 +82,6 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
                             android:src="@drawable/custom_circle_green" />
 
                         <ImageView
@@ -94,13 +90,10 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:layout_toEndOf="@+id/post_to_text_view"
                             android:src="@drawable/custom_circle_blue" />
 
                     </LinearLayout>
-
                 </RelativeLayout>
-
             </android.support.v7.widget.CardView>
 
             <RelativeLayout
@@ -136,7 +129,7 @@
                         style="@style/post_feed_text_input_style"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Text Post"
+                        android:hint="@string/text_post"
                         android:imeOptions="actionNext"
                         android:inputType="text"
                         android:textCursorDrawable="@null" />
@@ -159,7 +152,7 @@
                         android:layout_centerVertical="true"
                         android:layout_gravity="center_vertical"
                         android:fontFamily="@font/rajdhani_semibold"
-                        android:text="Post to"
+                        android:text="@string/post_to"
                         android:textColor="@color/grey" />
 
                     <TextView
@@ -175,7 +168,7 @@
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
                         android:paddingTop="2dp"
-                        android:text="Other"
+                        android:text="@string/other"
                         android:textColor="@color/others_color_grey"
                         android:textSize="12sp" />
 
@@ -231,7 +224,7 @@
                     android:paddingEnd="50dp"
                     android:paddingStart="50dp"
                     android:paddingTop="6dp"
-                    android:text="Post"
+                    android:text="@string/post"
                     android:textColor="@color/text_input_bright_sky_blue"
                     android:textSize="20sp" />
             </RelativeLayout>

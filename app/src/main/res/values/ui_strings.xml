@@ -32,5 +32,7 @@
     <string name="forgot_password_message">Don’t remember password of the mail too? Reach your mail provider to reset mail password.</string>
     <string name="outlook">Outlook</string>
     <string name="gmail">Gmail</string>
+    <string name="what_s_on_your_mind">What\'s on your mind?</string>
+    <string name="text_post">Text Post</string>
 
 </resources>
