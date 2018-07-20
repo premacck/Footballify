@@ -174,7 +174,8 @@
                         android:id="@+id/standing_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/standing_header_layout" />
+                        android:layout_below="@+id/standing_header_layout"
+                        android:nestedScrollingEnabled="false" />
                 </RelativeLayout>
 
                 <ProgressBar
@@ -228,7 +229,8 @@
                         android:id="@+id/team_stats_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
-                        android:layout_below="@+id/team_stats_header_layout" />
+                        android:layout_below="@+id/team_stats_header_layout"
+                        android:nestedScrollingEnabled="false" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -275,7 +277,8 @@
                         android:id="@+id/player_stats_recycler_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/player_stats_header" />
+                        android:layout_below="@+id/player_stats_header"
+                        android:nestedScrollingEnabled="false" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
