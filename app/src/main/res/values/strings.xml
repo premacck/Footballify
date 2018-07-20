@@ -6,7 +6,6 @@
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
     <string name="unfollow">UNFOLLOW</string>
 
-    <string name="liveZone">LiveZone</string>
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
 
     <string-array name="football_teams">
@@ -116,8 +115,7 @@
     <string name="content_type_image">image</string>
     <string name="content_type_audio">audio</string>
     <string name="content_type_video">video</string>
-    <string name="camera_access">Requires Access to Camara.</string>
-    <string name="external_storage_excess">Requires Access to Your Storage.</string>
+
     <string name="network_error">Network Error</string>
     <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="home_team_logo">home_team_logo</string>

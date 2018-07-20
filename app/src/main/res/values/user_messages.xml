@@ -32,4 +32,6 @@
     <string name="could_not_post_comment">Could not post comment</string>
     <string name="share_feed_item_toast">Feed Item Shared Successfully</string>
     <string name="image_upload_cancelled">Upload image cancelled</string>
+    <string name="camera_access">Requires Access to Camera.</string>
+    <string name="external_storage_excess">Requires Access to Your Storage.</string>
 </resources>
