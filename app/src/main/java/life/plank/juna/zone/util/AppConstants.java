@@ -11,14 +11,7 @@ public class AppConstants {
     public static final String POSITION = "position";
     public static final String REGULAR_EXPRESSION_RT = "RT:(\\d*)";
     public static final String REGULAR_EXPRESSION_TRC = "TRC:(\\d*)";
-    public static final String CHAT_MEDIA_OR = " OR ";
-    public static final String CHAT_MEDIA_EQUAL = " = ";
-    public static final String CHAT_MEDIA_EXTERNAL = "external";
-    public static final int CHAT_MEDIA_MEDIA_TYPE = 1;
-    public static final int CHAT_MEDIA_GIF_TYPE = 3;
-    public static final int CHAT_MEDIA_STICKER_TYPE = 2;
     public static final String RECORDED_AUDIO = "recordedAudio";
-    public static final String SELECTED_GALLERY_IMAGE = "selectedGalleryImage";
     public static final String FEED_ITEMS = "feeditems";
     public static final String FILE_PROVIDER_TO_CAPTURE_IMAGE = "life.plank.juna.zone.fileprovider";
     public static final int CAMERA_IMAGE_RESULT = 5;

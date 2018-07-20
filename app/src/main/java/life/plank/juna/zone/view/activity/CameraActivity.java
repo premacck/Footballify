@@ -183,20 +183,27 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         File imgFile;
         if (requestCode == CAMERA_IMAGE_RESULT) {
-            try {
-                setUpUi("image");
-                filePath = fileUri.getPath();
-                imgFile = new File(filePath);
-                if (imgFile.exists()) {
-                    Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
-                    filePath = imgFile.toString();
-                    capturedImageView.setImageBitmap(bitmap);
+            if (resultCode == RESULT_OK) {
+                try {
+                    setUpUi("image");
+                    filePath = fileUri.getPath();
+                    imgFile = new File(filePath);
+                    if (imgFile.exists()) {
+                        Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
+                        filePath = imgFile.toString();
+                        capturedImageView.setImageBitmap(bitmap);
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), R.string.could_not_process_image, Toast.LENGTH_LONG).show();
+                    finish();
                 }
-            } catch (IOException e) {
-                Toast.makeText(getApplicationContext(), R.string.could_not_process_image, Toast.LENGTH_LONG).show();
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, R.string.image_upload_cancelled, Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                Toast.makeText(this, R.string.could_not_process_image, Toast.LENGTH_LONG).show();
+                finish();
             }
-
-
         } else if (requestCode == AUDIO_PICKER_RESULT) {
             if (data != null) {
                 Uri uri = data.getData();
@@ -216,6 +223,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     } catch (Exception e) {
                         Log.e("TAG", "message" + e);
                         Toast.makeText(CameraActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
+                        finish();
                     }
                 }
             }
