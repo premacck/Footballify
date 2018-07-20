@@ -17,14 +17,12 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.util.RoundedTransformation;
-import life.plank.juna.zone.util.UIDisplayUtil;
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
+    private ArrayList<FootballFeed> boardFeed;
     private Context context;
     private OnClickFeedItemListener onClickFeedItemListener;
 
@@ -76,7 +74,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                holder.commentTextView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+                holder.commentTextView.setBackgroundColor(context.getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
                 holder.commentTextView.setText(comment.substring(comment.indexOf("$") + 1));
 
             }
@@ -104,7 +102,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         ImageView tileImageView;
         @BindView(R.id.feed_title_text_view)
         TextView titleTextView;
-        @BindView(R.id.comment_text_view)
+        @BindView(R.id.comment_text)
         TextView commentTextView;
 
         BoardMediaViewHolder(View itemView) {

@@ -9,26 +9,6 @@
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
 
     <string-array name="football_teams">
-        <item>Arsenal</item>
-        <item>Bournemouth</item>
-        <item>Brighton &amp; Hove Albion</item>
-        <item>Burnley</item>
-        <item>Chelsea</item>
-        <item>Crystal Palace</item>
-        <item>Everton</item>
-        <item>Huddersfield Town</item>
-        <item>Leicester City</item>
-        <item>Liverpool</item>
-        <item>Manchester City</item>
-        <item>Manchester United</item>
-        <item>Newcastle United</item>
-        <item>Southampton</item>
-        <item>Stoke City</item>
-        <item>Swansea City</item>
-        <item>Tottenham Hotspur</item>
-        <item>Watford</item>
-        <item>West Bromwich Albion</item>
-        <item>West Ham United</item>
     </string-array>
 
     <string name="lorem_ipsum_text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
