@@ -179,6 +179,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         return File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
     }
 
+    //TODO: Refine this method
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         File imgFile;
@@ -239,12 +240,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     SiliCompressor.with(getApplicationContext()).compressVideo(path, path);
                 } catch (URISyntaxException e) {
                     Log.d(TAG, "Video compression failed");
+                    finish();
                 }
 
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(this, R.string.video_recording_cancelled, Toast.LENGTH_LONG).show();
+                finish();
             } else {
                 Toast.makeText(this, R.string.video_recording_failed, Toast.LENGTH_LONG).show();
+                finish();
             }
         } else if (requestCode == AppConstants.GALLERY_IMAGE_RESULT) {
             if (data != null) {
@@ -259,7 +263,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         Log.e(TAG, e.getMessage());
                         Toast.makeText(getApplicationContext(), R.string.failed_to_process_image, Toast.LENGTH_LONG).show();
                     }
-
                 }
             }
         } else {
