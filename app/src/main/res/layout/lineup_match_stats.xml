@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Shots" />
+                android:text="@string/shots" />
 
             <TextView
                 android:id="@+id/away_team_shots"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Shots On Target" />
+                android:text="@string/shots_on_target" />
 
             <TextView
                 android:id="@+id/away_team_shots_on_target"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Possession" />
+                android:text="@string/possession" />
 
             <TextView
                 android:id="@+id/away_team_possession"
@@ -119,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Fouls" />
+                android:text="@string/fouls" />
 
             <TextView
                 android:id="@+id/away_team_fouls"
@@ -206,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Offside" />
+                android:text="@string/offside" />
 
             <TextView
                 android:id="@+id/away_team_offside"
@@ -235,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="Corner" />
+                android:text="@string/corner" />
 
             <TextView
                 android:id="@+id/away_team_corner"

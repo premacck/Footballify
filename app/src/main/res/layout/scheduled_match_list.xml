@@ -20,7 +20,7 @@
             android:id="@+id/away_team_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_toRightOf="@+id/home_team_logo"
+            android:layout_toEndOf="@+id/home_team_logo"
             android:padding="5dp"
             android:src="@drawable/ic_west_brom_logo" />
 

@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="0dp"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
     android:layout_weight="1"
     android:gravity="center"
-    android:layout_gravity="center"
     android:orientation="vertical">
-    <TextView
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/player_number"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="18dp"
         android:layout_height="18dp"
-        android:background="@drawable/text_view_circular_background_red_home_team"
-        android:text="99"
-        android:textSize="10sp"
-        android:padding="3dp"
-        android:gravity="center"
         android:layout_gravity="center"
-        android:textColor="@color/white"
+        android:layout_marginBottom="2dp"
+        android:background="@drawable/text_view_circular_background_red_home_team"
         android:fontFamily="@font/rajdhani_semibold"
-        android:layout_marginBottom="2dp"/>
+        android:gravity="center"
+        android:padding="3dp"
+        android:text="99"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
+
     <TextView
         android:id="@+id/player_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="H. Bellerin"
-        android:textSize="10sp"
-        android:gravity="center"
         android:layout_gravity="center"
+        android:fontFamily="@font/rajdhani_medium"
+        android:gravity="center"
+        android:text="@string/h_bellerin"
         android:textColor="@color/white"
-        android:fontFamily="@font/rajdhani_medium"/>
+        android:textSize="10sp" />
 
 </LinearLayout>

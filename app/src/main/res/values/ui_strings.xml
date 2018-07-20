@@ -36,5 +36,13 @@
     <string name="text_post">Text Post</string>
     <string name="unfollow">UNFOLLOW</string>
     <string name="follow">FOLLOW</string>
+    <string name="football_zone_info">Global football zone. Cheer, shout and feel the game along with millions around the word!</string>
+    <string name="tap_for_more_info">Tap for more info</string>
+    <string name="shots">Shots</string>
+    <string name="shots_on_target">Shots On Target</string>
+    <string name="possession">Possession</string>
+    <string name="fouls">Fouls</string>
+    <string name="offside">Offside</string>
+    <string name="corner">Corner</string>
 
 </resources>
