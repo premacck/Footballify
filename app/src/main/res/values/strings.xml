@@ -4,14 +4,18 @@
     <string name="feed_data_base_url">http://192.169.1.2:60000</string>
     <string name="facebook_app_id">575013552837571</string>
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
-    <string name="unfollow">UNFOLLOW</string>
 
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
 
     <string-array name="football_teams">
     </string-array>
 
-    <string name="lorem_ipsum_text"> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+    <string name="lorem_ipsum_text"> Lorem Ipsum is simply dummy text of the printing and typesetting
+        industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s,
+        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+        It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+        and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
     </string>
     <string name="replace_rt">RT:</string>
     <string name="replace_trc">TRC:</string>
@@ -88,7 +92,7 @@
     <string name="video">Video</string>
     <string name="image_format">image/*</string>
     <string name="select_audio">Select Audio</string>
-    <string name="follow">FOLLOW</string>
+
     <string name="board_activity">BoardActivity</string>
     <string name="audio">Audio</string>
     <string name="target_type_board">Board</string>

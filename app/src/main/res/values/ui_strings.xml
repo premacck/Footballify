@@ -34,5 +34,7 @@
     <string name="gmail">Gmail</string>
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
     <string name="text_post">Text Post</string>
+    <string name="unfollow">UNFOLLOW</string>
+    <string name="follow">FOLLOW</string>
 
 </resources>
