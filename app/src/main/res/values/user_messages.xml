@@ -34,4 +34,5 @@
     <string name="image_upload_cancelled">Upload image cancelled</string>
     <string name="camera_access">Requires Access to Camera.</string>
     <string name="external_storage_excess">Requires Access to Your Storage.</string>
+    <string name="unable_to_capture_image">Unable to capture the image.</string>
 </resources>

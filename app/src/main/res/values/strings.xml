@@ -41,7 +41,7 @@
     <string name="liverpool">LiverPool</string>
     <string name="sun_11_13">Sun, 11/13</string>
     <string name="ft">FT</string>
-    <string name="unable_to_capture_image">Unable to capture the image.</string>
+
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
     <string name="team_played">MP</string>
