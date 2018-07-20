@@ -19,8 +19,7 @@
     </string>
     <string name="replace_rt">RT:</string>
     <string name="replace_trc">TRC:</string>
-    //TODO: needs shiva's suggestion on this
-    <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="header_fa_cup">FA CUP</string>
     <string name="round_fa_cup">FIFTH ROUND</string>
@@ -44,17 +43,7 @@
 
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
-    <string name="team_played">MP</string>
-    <string name="team_won">W</string>
-    <string name="team_draw">D</string>
-    <string name="goal_for">GF</string>
-    <string name="goal_Against">GA</string>
-    <string name="goal_difference">GD</string>
-    <string name="points_table">Pts</string>
-    <string name="don_t_remember_your_password">Don’t remember your password?</string>
-    <string name="login">Login</string>
-    <string name="decalred_field_parameter">mCollapsingTextHelper</string>
-    <string name="declared_method_parameter">setCollapsedTextGravity</string>
+
     <string name="arsenal">Arsenal</string>
     <string name="_4_3_3">4-3-3</string>
     <string name="west_ham">West Ham</string>
@@ -85,7 +74,7 @@
     <string name="board_api">API</string>
     <string name="open_from">OPEN_FROM</string>
     <string name="board_id">BOARD_ID</string>
-    //todo change this date with original timestemp
+    //todo change this date with original timestamp
     <string name="simple_date_format">dd-mm-yyyy</string>
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
@@ -104,8 +93,7 @@
     <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
     <string name="home_team_logo">home_team_logo</string>
     <string name="away_team_logo">away_team_logo</string>
-    <string name="add_permission">give permission from settings</string>
-    <string name="post_a_comment">Post a comment</string>
+
     <string name="title_activity_post_comment">PostCommentActivity</string>
     <string name="comment_title">title</string>
     <string name="enter_board_id">enter_board_id</string>

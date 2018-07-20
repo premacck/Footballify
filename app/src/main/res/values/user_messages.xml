@@ -33,6 +33,9 @@
     <string name="share_feed_item_toast">Feed Item Shared Successfully</string>
     <string name="image_upload_cancelled">Upload image cancelled</string>
     <string name="camera_access">Requires Access to Camera.</string>
-    <string name="external_storage_excess">Requires Access to Your Storage.</string>
-    <string name="unable_to_capture_image">Unable to capture the image.</string>
+    <string name="external_storage_excess">Requires Access to Your Storage</string>
+    <string name="unable_to_capture_image">Unable to capture the image</string>
+    <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
+    <string name="add_permission">Enable permission from settings</string>
+    <string name="post_a_comment">Post a comment</string>
 </resources>

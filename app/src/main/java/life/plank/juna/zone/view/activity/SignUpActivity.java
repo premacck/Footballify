@@ -22,7 +22,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.SignUpModel;
-import life.plank.juna.zone.util.ActivityUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -58,9 +57,7 @@ public class SignUpActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getSignUpUserNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
-        ActivityUtil.setCollapsedHintMiddle(usernameInputLayout, this);
-        ActivityUtil.setCollapsedHintMiddle(emailInputLayout, this);
-        ActivityUtil.setCollapsedHintMiddle(passwordInputLayout, this);
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
