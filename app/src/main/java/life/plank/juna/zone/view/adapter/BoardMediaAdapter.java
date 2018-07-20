@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +75,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                holder.commentTextView.setBackgroundColor(context.getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+                Log.d("RED color value", "" + R.color.red);
+                Log.d("THE COLOR", "" + Integer.parseInt(comment.substring(0, comment.indexOf("$"))));
+                holder.commentTextView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
                 holder.commentTextView.setText(comment.substring(comment.indexOf("$") + 1));
 
             }
@@ -102,7 +105,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         ImageView tileImageView;
         @BindView(R.id.feed_title_text_view)
         TextView titleTextView;
-        @BindView(R.id.comment_text)
+        @BindView(R.id.comment_text_view)
         TextView commentTextView;
 
         BoardMediaViewHolder(View itemView) {
