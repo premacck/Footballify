@@ -8,7 +8,6 @@
         android:topLeftRadius="30dp"
         android:topRightRadius="30dp" />
     <gradient
-        android:centerColor="#66e9e7"
         android:endColor="#0095bf"
         android:startColor="#00cff7" />
     <padding

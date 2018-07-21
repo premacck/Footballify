@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <integer name="opaque">255</integer>
+    <integer name="visiblilty_160">160</integer>
+    <integer name="zone_grid_layout_param">22</integer>
+</resources>
