@@ -9,6 +9,14 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -238,4 +246,60 @@ public class UIDisplayUtil {
     private static class UIDisplayUtilWrapper {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
+
+    public static Bitmap captureView(View view, Context context) {
+        Bitmap blurredBitmap = null;
+        RenderScript renderScript = RenderScript.create(context);
+        if (blurredBitmap != null) {
+            return blurredBitmap;
+        }
+        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
+                view.getMeasuredHeight(),
+                Bitmap.Config.ARGB_4444);
+        Canvas canvas = new Canvas(blurredBitmap);
+        view.draw(canvas);
+        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
+        Paint paint = new Paint();
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
+        paint.setColorFilter(filter);
+        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
+        return blurredBitmap;
+    }
+
+    public static Bitmap loadBitmap(View backgroundView, View targetView, Context context) {
+        Rect backgroundBounds = new Rect();
+        backgroundView.getHitRect(backgroundBounds);
+        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
+            return null;
+        }
+        Bitmap blurredBitmap = captureView(backgroundView, context);
+        int[] location = new int[2];
+        int[] backgroundViewLocation = new int[2];
+        backgroundView.getLocationInWindow(backgroundViewLocation);
+        targetView.getLocationInWindow(location);
+        int height = targetView.getHeight();
+        int y = location[1];
+        if (backgroundViewLocation[1] >= location[1]) {
+            height -= (backgroundViewLocation[1] - location[1]);
+            if (y < 0)
+                y = 0;
+        }
+        if (y + height > blurredBitmap.getHeight()) {
+            height = blurredBitmap.getHeight() - y;
+            if (height <= 0) {
+                return null;
+            }
+        }
+        Matrix matrix = new Matrix();
+        matrix.setScale(0.5f, 0.5f);
+        return Bitmap.createBitmap(blurredBitmap,
+                (int) targetView.getX(),
+                y,
+                targetView.getMeasuredWidth(),
+                height,
+                matrix,
+                true);
+    }
+
 }

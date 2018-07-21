@@ -20,7 +20,6 @@
     <string name="replace_rt">RT:</string>
     <string name="replace_trc">TRC:</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="header_fa_cup">FA CUP</string>
     <string name="round_fa_cup">FIFTH ROUND</string>
     <string name="team_one_fa_cup">Wigan</string>
@@ -33,13 +32,9 @@
     <string name="team_two_south">Gloucester City</string>
     <string name="serial_number">1</string>
     <string name="my_team">My Team</string>
-    <string name="full_match_time">FT</string>
-    <string name="half_match_time">HT</string>
-    <string name="burnley_fc">Burnley FC</string>
     <string name="title_activity_video_player">VideoPlayerActivity</string>
     <string name="liverpool">LiverPool</string>
     <string name="sun_11_13">Sun, 11/13</string>
-    <string name="ft">FT</string>
 
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>

@@ -51,6 +51,9 @@
     <string name="goal_Against">GA</string>
     <string name="goal_difference">GD</string>
     <string name="points_table">Pts</string>
+    <string name="full_match_time">FT</string>
+    <string name="half_match_time">HT</string>
+    <string name="burnley_fc">Burnley FC</string>
     <string name="don_t_remember_your_password">Don’t remember your password?</string>
     <string name="login">Login</string>
 </resources>

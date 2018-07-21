@@ -68,6 +68,8 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+
 
 /**
  * Created by plank-hasan on 5/01/18.
@@ -78,8 +80,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     public static SwipePageActivity swipePageActivity;
     public static Boolean isVisible = false;
     public static Bitmap parentViewBitmap = null;
-    public static Bitmap blurredBitmap = null;
-    public static RenderScript renderScript;
+
+
     int TRCNumber = 20;
     @Inject
     @Named("azure")
@@ -187,7 +189,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         footballFeedAdapter.setPinFeedListener(this);
         footballFeedAdapter.setOnClickFeedItemListener(this);
-        renderScript = RenderScript.create(this);
     }
 
     public String updateToken(String nextPageToken, String replaceStringRT, String replaceStringTRC) {
@@ -335,7 +336,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     @Override
     public void onItemClick(int position) {
-        parentViewBitmap = loadBitmap(parentLayout, parentLayout);
+        parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
         Intent intent = new Intent(this, FootballFeedDetailActivity.class);
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));
         intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeeds));
@@ -420,58 +421,4 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         }
     }
 
-    //todo: move in Utils
-    public Bitmap loadBitmap(View backgroundView, View targetView) {
-        Rect backgroundBounds = new Rect();
-        backgroundView.getHitRect(backgroundBounds);
-        if (!targetView.getLocalVisibleRect(backgroundBounds)) {
-            return null;
-        }
-        Bitmap blurredBitmap = captureView(backgroundView);
-        int[] location = new int[2];
-        int[] backgroundViewLocation = new int[2];
-        backgroundView.getLocationInWindow(backgroundViewLocation);
-        targetView.getLocationInWindow(location);
-        int height = targetView.getHeight();
-        int y = location[1];
-        if (backgroundViewLocation[1] >= location[1]) {
-            height -= (backgroundViewLocation[1] - location[1]);
-            if (y < 0)
-                y = 0;
-        }
-        if (y + height > blurredBitmap.getHeight()) {
-            height = blurredBitmap.getHeight() - y;
-            if (height <= 0) {
-                return null;
-            }
-        }
-        Matrix matrix = new Matrix();
-        matrix.setScale(0.5f, 0.5f);
-        Bitmap bitmap = Bitmap.createBitmap(blurredBitmap,
-                (int) targetView.getX(),
-                y,
-                targetView.getMeasuredWidth(),
-                height,
-                matrix,
-                true);
-        return bitmap;
-    }
-
-    public Bitmap captureView(View view) {
-        if (blurredBitmap != null) {
-            return blurredBitmap;
-        }
-        blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
-                view.getMeasuredHeight(),
-                Bitmap.Config.ARGB_4444);
-        Canvas canvas = new Canvas(blurredBitmap);
-        view.draw(canvas);
-        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
-        Paint paint = new Paint();
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
-        paint.setColorFilter(filter);
-        canvas.drawBitmap(blurredBitmap, 0, 0, paint);
-        return blurredBitmap;
-    }
 }
