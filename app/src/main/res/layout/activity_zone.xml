@@ -28,7 +28,7 @@
         android:layout_weight="8" />
 
     <Button
-        android:id="@+id/image_button"
+        android:id="@+id/follow"
         android:layout_width="187dp"
         android:layout_height="85dp"
         android:layout_gravity="center_horizontal"

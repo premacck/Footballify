@@ -43,8 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
     EditText userNameEditText;
     @BindView(R.id.email_edit_text)
     EditText emailEditText;
-    @BindView(R.id.image_button)
-    ImageView imageButton;
+    @BindView(R.id.sign_up)
+    ImageView signUp;
     @BindView(R.id.password_edit_text)
     EditText passwordEditText;
     private RestApi restApi;
@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
 
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 emailText = emailEditText.getText().toString();

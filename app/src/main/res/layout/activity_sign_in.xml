@@ -7,31 +7,38 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="160dp"
+        android:layout_height="80dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
         android:background="@drawable/logo" />
+
+    <View
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_below="@+id/logo"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/logo"
+        android:layout_below="@+id/empty_view"
         android:background="@color/background_color">
 
         <LinearLayout
             android:id="@+id/linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:background="@color/background_color"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="#ffffff"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="8dp"
                 app:cardElevation="8dp"
                 app:cardUseCompatPadding="true"
@@ -40,10 +47,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="@string/login"
                     android:textColor="@color/grey"
-                    android:textSize="20sp" />
+                    android:textSize="24sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -64,12 +73,11 @@
                             android:layout_gravity="center_horizontal">
 
                             <EditText
-                                android:id="@+id/email_edit_text_sign_in"
-                                style="@style/InputPlaceholder"
+                                android:id="@+id/email_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
-                                android:gravity="start"
+                                android:fontFamily="@font/rajdhani_medium"
                                 android:hint="@string/email"
                                 android:inputType="textEmailAddress" />
                         </android.support.design.widget.TextInputLayout>
@@ -80,18 +88,17 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="5dp"
+                            app:passwordToggleDrawable="@drawable/show_hide_password"
                             app:passwordToggleEnabled="true">
 
                             <android.support.design.widget.TextInputEditText
-                                android:id="@+id/password_edit_text_sign_in"
+                                android:id="@+id/password_edit_text"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
-                                android:gravity="start"
+                                android:fontFamily="@font/rajdhani_medium"
                                 android:hint="@string/password"
-                                android:inputType="textPassword"
-                                app:drawable_hide="@drawable/ic_hide_password"
-                                app:drawable_show="@drawable/ic_show_password" />
+                                android:inputType="textPassword" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -159,7 +166,7 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/image_button"
+            android:id="@+id/login"
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_alignBottom="@+id/linear_layout"
@@ -167,7 +174,8 @@
             android:layout_marginEnd="50dp"
             android:background="@drawable/button_background"
             android:padding="15dp"
-            android:src="@drawable/arrow" />
+            android:src="@drawable/arrow"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/skip_login_logo"

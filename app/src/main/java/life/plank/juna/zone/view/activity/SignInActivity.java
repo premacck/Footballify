@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -37,16 +39,36 @@ public class SignInActivity extends AppCompatActivity {
     @Named("default")
     Retrofit retrofit;
     @Nullable
-    @BindView(R.id.image_button)
-    ImageView submitImageView;
-    @BindView(R.id.email_edit_text_sign_in)
-    EditText emailEditTextSignIn;
-    @BindView(R.id.password_edit_text_sign_in)
-    EditText passwordEditTextSignIn;
+    @BindView(R.id.login)
+    ImageView login;
+    @BindView(R.id.email_edit_text)
+    EditText emailEditText;
+    @BindView(R.id.password_edit_text)
+    EditText passwordEditText;
 
     StackAnimation stackAnimation;
     String emailText;
     private RestApi restApi;
+
+    TextWatcher loginFieldsWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            //TODO: validate email
+            if (!emailEditText.getText().toString().trim().isEmpty() && !passwordEditText.getText().toString().trim().isEmpty()) {
+                login.setVisibility(View.VISIBLE);
+            } else {
+                login.setVisibility(View.INVISIBLE);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +78,9 @@ public class SignInActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
         initStackAnimation();
+
+        emailEditText.addTextChangedListener(loginFieldsWatcher);
+        passwordEditText.addTextChangedListener(loginFieldsWatcher);
     }
 
     private void initStackAnimation() {
@@ -64,15 +89,15 @@ public class SignInActivity extends AppCompatActivity {
                 AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
-    @OnClick({R.id.image_button, R.id.forgot_password_text_view})
+    @OnClick({R.id.login, R.id.forgot_password_text_view})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
 
-            case R.id.image_button:
-                emailText = emailEditTextSignIn.getText().toString();
+            case R.id.login:
+                emailText = emailEditText.getText().toString();
                 if (emailText.isEmpty()) {
-                    emailEditTextSignIn.setError(getString(R.string.username_empty));
+                    emailEditText.setError(getString(R.string.username_empty));
                 } else {
                     getSignInResponse(emailText);
                 }
