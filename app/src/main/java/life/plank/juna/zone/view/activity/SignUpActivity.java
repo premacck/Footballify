@@ -2,8 +2,9 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -33,52 +35,70 @@ public class SignUpActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
-    @BindView(R.id.username_text_input_layout)
-    TextInputLayout usernameInputLayout;
-    @BindView(R.id.password_input_layout)
-    TextInputLayout passwordInputLayout;
-    @BindView(R.id.email_input_layout)
-    TextInputLayout emailInputLayout;
+
     @BindView(R.id.username_edit_text)
     EditText userNameEditText;
     @BindView(R.id.email_edit_text)
     EditText emailEditText;
-    @BindView(R.id.sign_up)
-    ImageView signUp;
     @BindView(R.id.password_edit_text)
     EditText passwordEditText;
+    @BindView(R.id.sign_up)
+    ImageView signUp;
+
     private RestApi restApi;
-    String emailText, passwordText, userNameText;
+
+    TextWatcher signUpFieldsWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            //TODO: validate email
+            if (!emailEditText.getText().toString().trim().isEmpty() && !passwordEditText.getText().toString().trim().isEmpty() &&
+                    !userNameEditText.getText().toString().trim().isEmpty()) {
+                signUp.setVisibility(View.VISIBLE);
+            } else {
+                signUp.setVisibility(View.INVISIBLE);
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup_page);
+        setContentView(R.layout.activity_sign_up);
         ((ZoneApplication) getApplication()).getSignUpUserNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                emailText = emailEditText.getText().toString();
-                passwordText = passwordEditText.getText().toString();
-                userNameText = userNameEditText.getText().toString();
-                if (userNameText.isEmpty()) {
-                    userNameEditText.setError(getString(R.string.username_empty));
-                } else if (emailText.isEmpty()) {
-                    emailEditText.setError(getString(R.string.email_empty));
-                } else if (passwordText.isEmpty()) {
-                    passwordEditText.setError(getString(R.string.password_empty));
-                } else {
-                    signUp();
-                }
-            }
-        });
+        emailEditText.addTextChangedListener(signUpFieldsWatcher);
+        passwordEditText.addTextChangedListener(signUpFieldsWatcher);
+        userNameEditText.addTextChangedListener(signUpFieldsWatcher);
+    }
+
+    @OnClick({R.id.sign_in_card, R.id.sign_up})
+    public void onViewClicked(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.sign_in_card:
+                startActivity(new Intent(this, SignInActivity.class));
+                finish();
+                break;
+            case R.id.sign_up:
+                signUp();
+                break;
+        }
     }
 
     private void signUp() {
-        SignUpModel signUpModel = new SignUpModel(UUID.randomUUID().toString(), userNameText, emailText, "USA", "Washington DC", "email", "Praneeth", "Muskula");
+        SignUpModel signUpModel = new SignUpModel(UUID.randomUUID().toString(), userNameEditText.getText().toString().trim(),
+                emailEditText.getText().toString().trim(), "USA", "Washington DC", "email", "Praneeth", "Muskula");
         restApi.createUser(signUpModel)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -110,5 +130,11 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
     }
 }
