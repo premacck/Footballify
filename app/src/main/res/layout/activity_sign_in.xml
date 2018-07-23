@@ -108,9 +108,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_below="@id/edit_text_layout"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/rajdhani_semibold"
                         android:text="@string/don_t_remember_your_password"
-                        android:textColor="@color/dark_sky_blue" />
+                        android:textColor="@color/dark_sky_blue"
+                        android:textSize="12sp" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -124,6 +126,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="@font/rajdhani_regular"
                             android:padding="10dp"
                             android:text="@string/login_using_social_media"
                             android:textColor="@color/black_40"
@@ -132,7 +136,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp">
+                            android:layout_marginStart="20dp">
 
                             <ImageView
                                 android:id="@+id/facebook_login"
@@ -192,6 +196,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="10dp"
             android:layout_toEndOf="@+id/skip_login_logo"
+            android:fontFamily="@font/rajdhani_regular"
             android:paddingStart="7dp"
             android:text="@string/skip_login" />
 
