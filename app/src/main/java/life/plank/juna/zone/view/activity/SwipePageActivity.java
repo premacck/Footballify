@@ -328,8 +328,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     public void onItemClick(int position) {
         parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
         Intent intent = new Intent(this, FootballFeedDetailActivity.class);
-        intent.putExtra(AppConstants.POSITION, String.valueOf(position));
-        intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(footballFeeds));
+        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
+        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(footballFeeds));
         startActivity(intent);
     }
 

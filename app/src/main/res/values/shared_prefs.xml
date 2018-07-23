@@ -9,4 +9,7 @@
     <string name="pref_given_name">givenName</string>
     <string name="pref_surname">surname</string>
     <string name="pref_enter_board_id">enter_board_id</string>
+    <string name="pref_match">match_pref</string>
+    <string name="pref_home_team_logo">home_team_logo</string>
+    <string name="pref_away_team_logo">away_team_logo</string>
 </resources>

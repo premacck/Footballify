@@ -58,12 +58,6 @@
     <string name="matchday_36">Matchday_36</string>
     <string name="match_day_37">Match Day 37</string>
     <string name="match_id_string">match_id</string>
-    <string name="match_pref">match_pref</string>
-    <string name="content_type">contentType</string>
-    <string name="thumbnail_url">thumbnailUrl</string>
-    <string name="thumbnail_height">thumbnailHeight</string>
-    <string name="thumbnail_width">thumbnailWidth</string>
-    <string name="image_url">imageUrl</string>
 
     //todo change this date with original timestamp
     <string name="simple_date_format">dd-mm-yyyy</string>
@@ -80,8 +74,6 @@
 
     <string name="network_error">Network Error</string>
     <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
-    <string name="home_team_logo">home_team_logo</string>
-    <string name="away_team_logo">away_team_logo</string>
 
     <string name="title_activity_post_comment">PostCommentActivity</string>
 

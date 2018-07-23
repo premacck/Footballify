@@ -18,7 +18,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 
@@ -43,12 +42,12 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
 
     public void populateRecyclerView() {
         BoardFeedDetailAdapter mAdapter = new BoardFeedDetailAdapter(BoardFeedDetailActivity.this,
-                new Gson().fromJson(getIntent().getStringExtra(AppConstants.FEED_ITEMS), new TypeToken<List<FootballFeed>>() {
-                }.getType()),boardId);
+                new Gson().fromJson(getIntent().getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FootballFeed>>() {
+                }.getType()), boardId);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         boardFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
         try {
-            boardFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(AppConstants.POSITION))));
+            boardFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(getString(R.string.intent_position)))));
         } catch (NumberFormatException e) {
             boardFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(0);
         }

@@ -70,11 +70,11 @@ public class PastMatchAdapter extends RecyclerView.Adapter<PastMatchAdapter.Matc
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, BoardActivity.class);
-                matchPreferenceEditor = context.getSharedPreferences(context.getString(R.string.match_pref), Context.MODE_PRIVATE).edit();
+                matchPreferenceEditor = context.getSharedPreferences(context.getString(R.string.pref_match), Context.MODE_PRIVATE).edit();
                 matchPreferenceEditor.putLong(context.getString(R.string.match_id_string), matchId).apply();
-                matchPreferenceEditor.putString(context.getString(R.string.home_team_logo),
+                matchPreferenceEditor.putString(context.getString(R.string.pref_home_team_logo),
                         classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeTeam().getLogoLink()).apply();
-                matchPreferenceEditor.putString(context.getString(R.string.away_team_logo),
+                matchPreferenceEditor.putString(context.getString(R.string.pref_away_team_logo),
                         classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayTeam().getLogoLink()).apply();
                 intent.putExtra(context.getString(R.string.intent_home_team_score), classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeGoals().toString());
                 intent.putExtra(context.getString(R.string.intent_visiting_team_score), classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayGoals().toString());

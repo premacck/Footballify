@@ -27,7 +27,7 @@ public class PostRecordedAudioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_recorded_audio);
         ButterKnife.bind(this);
-        audioFile = getIntent().getStringExtra(AppConstants.AUDIO_PATH);
+        audioFile = getIntent().getStringExtra(getString(R.string.intent_audio_path));
     }
 
     @OnClick({R.id.play_button})

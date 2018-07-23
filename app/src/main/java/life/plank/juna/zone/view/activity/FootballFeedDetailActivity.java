@@ -22,7 +22,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
@@ -50,13 +49,13 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
 
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this,
-                new Gson().fromJson(getIntent().getStringExtra(AppConstants.FEED_ITEMS), new TypeToken<List<FootballFeed>>() {
+                new Gson().fromJson(getIntent().getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FootballFeed>>() {
                 }.getType())
         );
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         footballFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
         try {
-            footballFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(AppConstants.POSITION))));
+            footballFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(Integer.parseInt((getIntent().getStringExtra(getString(R.string.intent_position)))));
         } catch (NumberFormatException e) {
             footballFeedDetailsRecyclerView.getLayoutManager().scrollToPosition(0);
         }

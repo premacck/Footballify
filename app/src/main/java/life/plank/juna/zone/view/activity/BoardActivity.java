@@ -103,11 +103,11 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     public void setDataReceivedFromPushNotification(Intent intent) {
         String title = intent.getStringExtra(getString(R.string.intent_comment_title));
-        String contentType = intent.getStringExtra(getString(R.string.content_type));
-        String thumbnailUrl = intent.getStringExtra(getString(R.string.thumbnail_url));
-        Integer thumbnailHeight = intent.getIntExtra(getString(R.string.thumbnail_height), 0);
-        Integer thumbnailWidth = intent.getIntExtra(getString(R.string.thumbnail_width), 0);
-        String imageUrl = intent.getStringExtra(getString(R.string.image_url));
+        String contentType = intent.getStringExtra(getString(R.string.intent_content_type));
+        String thumbnailUrl = intent.getStringExtra(getString(R.string.intent_thumbnail_url));
+        Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
+        Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
+        String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
         FootballFeed footballFeed = new FootballFeed();
         Log.e(TAG, "content_type: " + contentType);
         footballFeed.setContentType(contentType);
@@ -138,12 +138,12 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
         //TODO: Remove hardcoded board_id
-        SharedPreferences matchPref = getSharedPreferences(getString(R.string.match_pref), 0);
+        SharedPreferences matchPref = getSharedPreferences(getString(R.string.pref_match), 0);
         long currentMatchId;
-        if (intent.getStringExtra("FOREIGNID_1") != null) {
-            currentMatchId = Long.parseLong(intent.getStringExtra("FOREIGNID_1"));
-        } else if (intent.getStringExtra("FOREIGNID_2") != null) {
-            currentMatchId = Long.parseLong(intent.getStringExtra("FOREIGNID_2"));
+        if (intent.getStringExtra(getString(R.string.intent_foreign_id_1)) != null) {
+            currentMatchId = Long.parseLong(intent.getStringExtra(getString(R.string.intent_foreign_id_1)));
+        } else if (intent.getStringExtra(getString(R.string.intent_foreign_id_2)) != null) {
+            currentMatchId = Long.parseLong(intent.getStringExtra(getString(R.string.intent_foreign_id_2)));
         } else {
             currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
         }
@@ -151,16 +151,16 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         setUpBoomMenu();
 
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
-        homeTeamLogo = matchPref.getString(getString(R.string.home_team_logo), getString(R.string.home_team_logo));
-        awayTeamLogo = matchPref.getString(getString(R.string.away_team_logo), getString(R.string.away_team_logo));
+        homeTeamLogo = matchPref.getString(getString(R.string.pref_home_team_logo), getString(R.string.pref_home_team_logo));
+        awayTeamLogo = matchPref.getString(getString(R.string.pref_away_team_logo), getString(R.string.pref_away_team_logo));
         setToolbarTeamLogo();
     }
 
     private void setToolbarTeamLogo() {
         Picasso.with(this).load(homeTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(homeTeamLogoImageView);
         Picasso.with(this).load(awayTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(visitingTeamLogoImageView);
-        homeTeamScore.setText(getIntent().getStringExtra("homeTeamScore"));
-        visitingTeamScore.setText(getIntent().getStringExtra("visitingTeamScore"));
+        homeTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_home_team_score)));
+        visitingTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_visiting_team_score)));
     }
 
     @Override
@@ -369,8 +369,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
         boardParentViewBitmap = loadBitmap(boardParentLayout, boardParentLayout, this);
         Intent intent = new Intent(this, BoardFeedDetailActivity.class);
-        intent.putExtra(AppConstants.POSITION, String.valueOf(position));
-        intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(boardFeed));
+        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
+        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(boardFeed));
         intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
         startActivity(intent);
     }
