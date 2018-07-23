@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -91,7 +90,7 @@ public class SignInActivity extends AppCompatActivity {
                 AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
-    @OnClick({R.id.login, R.id.forgot_password_text_view})
+    @OnClick({R.id.login, R.id.forgot_password_text_view, R.id.sign_up_card})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
@@ -107,6 +106,10 @@ public class SignInActivity extends AppCompatActivity {
             case R.id.forgot_password_text_view:
                 Intent intent = new Intent(this, AuthForgotPasswordActivity.class);
                 startActivity(intent);
+                break;
+
+            case R.id.sign_up_card:
+                startActivity(new Intent(this, SignUpActivity.class));
                 break;
         }
     }
