@@ -76,8 +76,8 @@ public class PastMatchAdapter extends RecyclerView.Adapter<PastMatchAdapter.Matc
                         classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeTeam().getLogoLink()).apply();
                 matchPreferenceEditor.putString(context.getString(R.string.away_team_logo),
                         classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayTeam().getLogoLink()).apply();
-                intent.putExtra("homeTeamScore", classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeGoals().toString());
-                intent.putExtra("visitingTeamScore", classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayGoals().toString());
+                intent.putExtra(context.getString(R.string.intent_home_team_score), classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getHomeGoals().toString());
+                intent.putExtra(context.getString(R.string.intent_visiting_team_score), classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(position).getAwayGoals().toString());
                 context.startActivity(intent);
             }
         });

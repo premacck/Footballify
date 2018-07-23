@@ -6,12 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -52,7 +46,6 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -109,7 +102,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     };
 
     public void setDataReceivedFromPushNotification(Intent intent) {
-        String title = intent.getStringExtra(getString(R.string.comment_title));
+        String title = intent.getStringExtra(getString(R.string.intent_comment_title));
         String contentType = intent.getStringExtra(getString(R.string.content_type));
         String thumbnailUrl = intent.getStringExtra(getString(R.string.thumbnail_url));
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.thumbnail_height), 0);
@@ -173,7 +166,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     @Override
     public void onResume() {
         super.onResume();
-        registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.board_intent)));
+        registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.intent_board)));
     }
 
     //Must unregister onPause()
@@ -235,31 +228,31 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                         }
                         case 3: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), getString(R.string.gallery));
-                            intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.gallery));
+                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), getString(R.string.camera));
-                            intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.camera));
+                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), getString(R.string.audio));
-                            intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_audio));
+                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
                             startActivity(intent);
                             break;
                         }
                         case 6: {
                             Intent intent = new Intent(BoardActivity.this, PostCommentActivity.class);
-                            intent.putExtra(getString(R.string.board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
                             startActivity(intent);
                             break;
                         }
@@ -268,9 +261,9 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                         }
                         case 8: {
                             Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.open_from), getString(R.string.video));
-                            intent.putExtra(getString(R.string.board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.board_api), getString(R.string.board_activity));
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.video));
+                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
                             startActivity(intent);
                             break;
                         }
@@ -327,8 +320,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     public void saveBoardId() {
         SharedPreferences.Editor boardIdEditor;
-        boardIdEditor = getSharedPreferences(getString(R.string.enter_board_id), Context.MODE_PRIVATE).edit();
-        boardIdEditor.putString(getString(R.string.enter_board_id), enterBoardId).apply();
+        boardIdEditor = getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE).edit();
+        boardIdEditor.putString(getString(R.string.pref_enter_board_id), enterBoardId).apply();
     }
 
     public void retrieveBoardByBoardId(String boardId) {
@@ -378,7 +371,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         Intent intent = new Intent(this, BoardFeedDetailActivity.class);
         intent.putExtra(AppConstants.POSITION, String.valueOf(position));
         intent.putExtra(AppConstants.FEED_ITEMS, new Gson().toJson(boardFeed));
-        intent.putExtra(getString(R.string.board_id), enterBoardId);
+        intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
         startActivity(intent);
     }
 }

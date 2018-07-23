@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_object_id">objectId</string>
+    <string name="pref_display_name">displayName</string>
+    <string name="pref_email_address">emailAddress</string>
+    <string name="pref_country">country</string>
+    <string name="pref_city">city</string>
+    <string name="pref_identity_provider">identityProvider</string>
+    <string name="pref_given_name">givenName</string>
+    <string name="pref_surname">surname</string>
+    <string name="pref_enter_board_id">enter_board_id</string>
+</resources>

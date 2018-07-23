@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="intent_match_if">MATCH_ID</string>
+    <string name="intent_open_from">OPEN_FROM</string>
+    <string name="intent_gallery">Gallery</string>
+    <string name="intent_api">API</string>
+    <string name="intent_camera">Camera</string>
+    <string name="intent_audio">Audio</string>
+    <string name="intent_video">Video</string>
+    <string name="intent_home_team_score">homeTeamScore</string>
+    <string name="intent_visiting_team_score">visitingTeamScore</string>
+    <string name="intent_board">board_intent</string>
+    <string name="intent_board_id">BOARD_ID</string>
+    <string name="intent_comment_title">title</string>
+    <string name="intent_swipe_page_activity">SwipePageActivity</string>
+    <string name="intent_board_activity">BoardActivity</string>
+    <string name="intent_foreign_id_1">FOREIGNID_1</string>
+    <string name="intent_foreign_id_2">FOREIGNID_2</string>
+</resources>

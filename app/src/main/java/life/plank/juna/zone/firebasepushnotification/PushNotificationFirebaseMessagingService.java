@@ -32,13 +32,13 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
     public void updateBoardActivity(Context context, BoardNotification boardNotification) {
 
-        Intent intent = new Intent(context.getString(R.string.board_intent));
+        Intent intent = new Intent(context.getString(R.string.intent_board));
         intent.putExtra(context.getString(R.string.content_type), boardNotification.getContentType());
         Log.e("content type","content_type"+boardNotification.getContentType());
 
         //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
         if (boardNotification.getContentType().equals(AppConstants.ROOT_COMMENT)) {
-            intent.putExtra(getString(R.string.comment_title), boardNotification.getTitle());
+            intent.putExtra(getString(R.string.intent_comment_title), boardNotification.getTitle());
         } else {
             intent.putExtra(context.getString(R.string.thumbnail_url), boardNotification.getThumbnailImageUrl());
             intent.putExtra(context.getString(R.string.thumbnail_height), boardNotification.getThumbnailHeight());

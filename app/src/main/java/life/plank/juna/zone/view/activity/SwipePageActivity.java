@@ -4,14 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,7 +12,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -59,7 +50,6 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -386,22 +376,22 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         }
                         case 3: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Gallery");
-                            intent.putExtra("API", "SwipePageActivity");
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_gallery));
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Camera");
-                            intent.putExtra("API", "SwipePageActivity");
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_camera));
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Audio");
-                            intent.putExtra("API", "SwipePageActivity");
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_audio));
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
                         }
@@ -410,8 +400,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         }
                         case 7: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra("OPEN_FROM", "Video");
-                            intent.putExtra("API", "SwipePageActivity");
+                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_video));
+                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
                         }

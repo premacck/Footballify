@@ -85,14 +85,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        openFrom = getIntent().getStringExtra(getString(R.string.open_from));
+        openFrom = getIntent().getStringExtra(getString(R.string.intent_open_from));
         ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        apiCallFromActivity = getIntent().getStringExtra(getString(R.string.board_api));
-        targetId = getIntent().getStringExtra(getString(R.string.board_id));
+        apiCallFromActivity = getIntent().getStringExtra(getString(R.string.intent_api));
+        targetId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         openMediaContent();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString("objectId", "NA");
+        userId = preference.getString(getString(R.string.pref_object_id), "NA");
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
     }
 
@@ -106,7 +106,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
                 openVideo();
             }
-        } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+        } else if (openFrom.equalsIgnoreCase(getString(R.string.intent_audio))) {
             if (UIDisplayUtil.checkStoragePermission(CameraActivity.this)) {
                 openGalleryForAudio();
             }
@@ -328,14 +328,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         //todo:-Remove hardcoded
-        if (apiCallFromActivity.equalsIgnoreCase(getString(R.string.board_activity))) {
+        if (apiCallFromActivity.equalsIgnoreCase(getString(R.string.intent_board_activity))) {
             if (openFrom.equalsIgnoreCase(getString(R.string.camera))) {
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.gallery))) {
                 postMediaContent(filePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_image), userId, date);
             } else if (openFrom.equalsIgnoreCase(getString(R.string.video))) {
                 postMediaContent(path, targetId, getString(R.string.target_type_board), getString(R.string.content_type_video), userId, date);
-            } else if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+            } else if (openFrom.equalsIgnoreCase(getString(R.string.intent_audio))) {
                 postMediaContent(absolutePath, targetId, getString(R.string.target_type_board), getString(R.string.content_type_audio), userId, date);
             } else {
                 Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
@@ -361,7 +361,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
                     finish();
                 } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (openFrom.equalsIgnoreCase(getString(R.string.audio))) {
+                    if (openFrom.equalsIgnoreCase(getString(R.string.intent_audio))) {
                         openGalleryForAudio();
                     } else {
                         Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
@@ -379,7 +379,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     finish();
                 } else {
-                    if (openFrom.equalsIgnoreCase(getString(R.string.audio)))
+                    if (openFrom.equalsIgnoreCase(getString(R.string.intent_audio)))
                         openGalleryForAudio();
                     else {
                         getImageResourceFromGallery();

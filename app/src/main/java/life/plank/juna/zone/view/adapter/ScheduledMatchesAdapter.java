@@ -67,7 +67,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, LineupActivity.class);
-                intent.putExtra("MATCH_ID", matchId);
+                intent.putExtra(context.getString(R.string.intent_match_if), matchId);
                 context.startActivity(intent);
             }
         });

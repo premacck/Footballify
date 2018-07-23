@@ -10,8 +10,8 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
 public class WorldCupFixtureActivity extends AppCompatActivity {
-     String foreignId1 = "1001";
-     String foreignId2 = "1000";
+    String foreignId1 = "1001";
+    String foreignId2 = "1000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +24,7 @@ public class WorldCupFixtureActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WorldCupFixtureActivity.this, BoardActivity.class);
-                intent.putExtra("FOREIGNID_1",foreignId1);
+                intent.putExtra(getString(R.string.intent_foreign_id_1), foreignId1);
                 startActivity(intent);
             }
         });
@@ -34,7 +34,7 @@ public class WorldCupFixtureActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WorldCupFixtureActivity.this, BoardActivity.class);
-                intent.putExtra("FOREIGNID_2",foreignId2);
+                intent.putExtra(getString(R.string.intent_foreign_id_2), foreignId2);
                 startActivity(intent);
             }
         });

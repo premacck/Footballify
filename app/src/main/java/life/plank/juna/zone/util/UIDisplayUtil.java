@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.SignInModel;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -132,16 +133,16 @@ public class UIDisplayUtil {
         return str;
     }
 
-    public static void saveSignInUserDetails(Context mContext, SignInModel body) {
-        SharedPreferences.Editor editor = mContext.getSharedPreferences(SIGN_UP_USER_DETAILS, MODE_PRIVATE).edit();
-        editor.putString("objectId", body.getObjectId());
-        editor.putString("displayName", body.getDisplayName());
-        editor.putString("emailAddress", body.getEmailAddress());
-        editor.putString("country", body.getCountry());
-        editor.putString("city", body.getCity());
-        editor.putString("identityProvider", body.getIdentityProvider());
-        editor.putString("givenName", body.getGivenName());
-        editor.putString("surname", body.getSurname());
+    public static void saveSignInUserDetails(Context context, SignInModel body) {
+        SharedPreferences.Editor editor = context.getSharedPreferences(SIGN_UP_USER_DETAILS, MODE_PRIVATE).edit();
+        editor.putString(context.getString(R.string.pref_object_id), body.getObjectId());
+        editor.putString(context.getString(R.string.pref_display_name), body.getDisplayName());
+        editor.putString(context.getString(R.string.pref_email_address), body.getEmailAddress());
+        editor.putString(context.getString(R.string.pref_country), body.getCountry());
+        editor.putString(context.getString(R.string.pref_city), body.getCity());
+        editor.putString(context.getString(R.string.pref_identity_provider), body.getIdentityProvider());
+        editor.putString(context.getString(R.string.pref_given_name), body.getGivenName());
+        editor.putString(context.getString(R.string.pref_surname), body.getSurname());
         editor.apply();
     }
 

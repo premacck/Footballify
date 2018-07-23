@@ -36,7 +36,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_feed_detail);
         ButterKnife.bind(this);
-        boardId = getIntent().getStringExtra(getString(R.string.board_id));
+        boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         boardBlurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardActivity.boardParentViewBitmap));
         populateRecyclerView();
     }

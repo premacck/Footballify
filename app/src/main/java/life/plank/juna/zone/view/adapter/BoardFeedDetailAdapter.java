@@ -87,12 +87,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         date = new SimpleDateFormat(context.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
-        SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.enter_board_id), 0);
-        enterBoardId = matchPref.getString(context.getString(R.string.enter_board_id), "NA");
+        SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.pref_enter_board_id), 0);
+        enterBoardId = matchPref.getString(context.getString(R.string.pref_enter_board_id), "NA");
         String feedId = footballFeedsList.get(position).getId();
         populateCommentFeedRecyclerView(holder);
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
-        objectId = preference.getString(context.getString(R.string.object_id_string), "NA");
+        objectId = preference.getString(context.getString(R.string.pref_object_id), "NA");
         switch (footballFeedsList.get(position).getContentType()) {
             case "Image": {
                 mediaPlayer.stop();

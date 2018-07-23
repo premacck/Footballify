@@ -78,8 +78,8 @@ public class PostCommentActivity extends AppCompatActivity {
         commentReflectOnPostSurface();
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString("objectId", "NA");
-        boardId = getIntent().getStringExtra(getString(R.string.board_id));
+        userId = preference.getString(getString(R.string.pref_object_id), "NA");
+        boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
     }
 
     @OnClick({R.id.post_comment})
