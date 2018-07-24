@@ -98,7 +98,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 mediaPlayer.stop();
                 holder.feedImageView.setVisibility(View.VISIBLE);
                 holder.feedTextView.setVisibility(View.INVISIBLE);
-                holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
                 try {
                     Picasso.with(context).
                             load(footballFeedsList.get(position).getThumbnail().getImageUrl())
@@ -115,7 +114,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setVisibility(View.INVISIBLE);
                 holder.feedImageView.setVisibility(View.VISIBLE);
                 holder.feedImageView.setImageResource(R.drawable.ic_audio);
-                holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
 
                 String uri = footballFeedsList.get(position).getUrl();
                 Uri videoUri = Uri.parse(uri);
@@ -163,25 +161,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setVisibility(View.VISIBLE);
                 holder.feedImageView.setVisibility(View.INVISIBLE);
                 holder.capturedVideoView.setVisibility(View.INVISIBLE);
-                holder.feedTitleTextView.setVisibility(View.INVISIBLE);
-                holder.commentDescription.setVisibility(View.INVISIBLE);
                 String comment = footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.commentBg.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
                 holder.feedTextView.setText(comment.substring(comment.indexOf("$") + 1));
-            }
-            default: {
-                try {
-                    Picasso.with(context).
-                            load(R.drawable.football_image_one)
-                            .error(R.drawable.ic_place_holder)
-                            .placeholder(R.drawable.ic_place_holder)
-                            .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(30, context), 0))
-                            .into(holder.profileImageView);
-                } catch (Exception e) {
-                    holder.profileImageView.setImageResource(R.drawable.ic_place_holder);
-                }
-                break;
-
             }
         }
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
@@ -208,14 +190,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 } else {
                     holder.likeCountTextView.setText(String.valueOf(--likeCount));
                 }
-            }
-        });
-
-        holder.postTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String getEditTextValue = holder.feedCommentViewEditText.getText().toString();
-                postCommentOnBoardFeed(getEditTextValue, feedId, objectId, enterBoardId, date);
             }
         });
     }
@@ -336,8 +310,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     private void populateCommentFeedRecyclerView(FootballFeedDetailViewHolder holder) {
         ViewAllCommentListAdapter viewAllCommentListAdapter = new ViewAllCommentListAdapter(context);
-        holder.viewCommentRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        holder.viewCommentRecyclerView.setAdapter(viewAllCommentListAdapter);
     }
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
@@ -345,10 +317,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView feedImageView;
         @BindView(R.id.comment_bg)
         TextView commentBg;
-        @BindView(R.id.feed_title_text_view)
-        TextView feedTitleTextView;
-        @BindView(R.id.profile_image_view)
-        ImageView profileImageView;
+
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
         @BindView(R.id.share_image_view)
@@ -361,14 +330,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
         TextView feedTextView;
-        @BindView(R.id.comment_description)
-        TextView commentDescription;
-        @BindView(R.id.view_all_comments_recycler_view)
-        RecyclerView viewCommentRecyclerView;
-        @BindView(R.id.post_text_view)
-        TextView postTextView;
-        @BindView(R.id.feed_comment_view_edit_text)
-        EditText feedCommentViewEditText;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
