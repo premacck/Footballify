@@ -1,48 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
-    android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingEnd="16dp"
     android:paddingStart="8dp">
 
-    <RelativeLayout
+    <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/rajdhani_semibold"
+        android:text="@string/football"
+        android:textColor="@color/white"
+        android:textSize="32sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/rajdhani_semibold"
-            android:text="Football"
-            android:textColor="@color/white"
-            android:textSize="32sp" />
+    <ImageView
+        android:id="@+id/options_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_options" />
 
-        <ImageView
-            android:id="@+id/options_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/ic_options" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="20dp"
-            android:layout_toStartOf="@+id/options_image"
-            android:src="@drawable/ic_share" />
-    </RelativeLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/options_image"
+        android:src="@drawable/ic_share" />
 
     <TextView
         style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_gravity="end"
-        android:layout_marginTop="-5dp"
-        android:text="FOLLOWING" />
-</LinearLayout>
+        android:layout_below="@+id/options_image"
+        android:layout_marginTop="35dp"
+        android:text="@string/following" />
+</RelativeLayout>

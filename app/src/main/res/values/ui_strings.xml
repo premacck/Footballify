@@ -56,4 +56,6 @@
     <string name="burnley_fc">Burnley FC</string>
     <string name="don_t_remember_your_password">Don’t remember your password?</string>
     <string name="login">Login</string>
+    <string name="following">FOLLOWING</string>
+    <string name="football">Football</string>
 </resources>
