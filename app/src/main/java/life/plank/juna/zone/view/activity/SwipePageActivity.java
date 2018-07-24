@@ -170,7 +170,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void initRecyclerView() {
-        int numberOfRows = 3;
+        int numberOfRows = 1;
         gridLayoutManager = new GridLayoutManager(this, numberOfRows, GridLayoutManager.VERTICAL, false);
         feedRecyclerView.setLayoutManager(gridLayoutManager);
         footballFeedAdapter = new FootballFeedAdapter(this);

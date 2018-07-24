@@ -21,8 +21,6 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
-import life.plank.juna.zone.util.RoundedTransformation;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
 
@@ -56,7 +54,6 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                     .load(footballFeed.getThumbnail().getImageUrl())
                     .fit().centerCrop()
                     .placeholder(R.drawable.ic_place_holder)
-                    .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
                     .error(R.drawable.ic_place_holder)
                     .into(holder.feedImageView);
         } else {

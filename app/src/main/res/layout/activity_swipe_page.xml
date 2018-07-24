@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_feeds"
     android:orientation="vertical"
-    android:paddingBottom="8dp"
-    android:paddingEnd="16dp"
-    android:paddingStart="8dp"
-    android:paddingTop="8dp">
+    android:paddingEnd="8dp"
+    android:paddingStart="7dp"
+    android:paddingTop="10dp">
 
     <include
         android:id="@+id/feed_header"
@@ -24,12 +23,21 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_header" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/football_feed_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_info"
-        android:layout_marginTop="10dp" />
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:background="@color/background_color">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/football_feed_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/progress_bar"
