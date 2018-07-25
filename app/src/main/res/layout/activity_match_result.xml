@@ -193,7 +193,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/rajdhani_regular"
+                            android:fontFamily="@font/raleway_medium"
                             android:lineSpacingExtra="5sp"
                             android:padding="5dp"
                             android:text="@string/team_stats"
@@ -205,7 +205,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:fontFamily="@font/rajdhani_regular"
+                            android:layout_marginEnd="10dp"
+                            android:fontFamily="@font/rajdhani_semibold"
                             android:lineSpacingExtra="5sp"
                             android:padding="5dp"
                             android:text="@string/see_more"

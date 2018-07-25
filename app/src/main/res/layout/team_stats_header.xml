@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:weightSum="8.7">
+    android:padding="10dp">
 
     <TextView
         android:layout_width="0dp"
@@ -15,7 +14,6 @@
         android:layout_weight=".3"
         android:gravity="center_horizontal"
         android:text="@string/serial_number"
-        android:textColor="@color/black"
         android:visibility="invisible" />
 
     <ImageView
@@ -38,43 +36,53 @@
         tools:ignore="RtlHardcoded" />
 
     <TextView
+        style="@style/standings_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="@string/team_won"
-        android:textColor="@color/black" />
+        android:text="@string/win" />
 
     <TextView
+        style="@style/standings_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/team_losses"
-        android:textColor="@color/black" />
+        android:text="@string/loss" />
 
     <TextView
+        style="@style/standings_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="@string/team_goals"
-        android:textColor="@color/black" />
+        android:text="@string/goal" />
 
     <TextView
+        style="@style/standings_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="@string/goal_difference"
-        android:textColor="@color/black" />
+        android:text="@string/pass" />
 
     <TextView
+        style="@style/standings_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="@string/goal_Against"
-        android:textColor="@color/black" />
+        android:text="@string/shot" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@drawable/yellow_right" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:src="@drawable/red_right" />
+
 </LinearLayout>

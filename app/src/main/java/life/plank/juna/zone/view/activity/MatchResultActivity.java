@@ -65,9 +65,9 @@ public class MatchResultActivity extends AppCompatActivity {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     private StandingTableAdapter standingTableAdapter;
-    private RestApi restApi;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
+    private RestApi restApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

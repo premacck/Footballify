@@ -8,9 +8,7 @@
     <color name="orange">#F8B809</color>
     <color name="green">#7cb36c</color>
     <color name="red">#E10C1B</color>
-    <color name="dark_grey">#2B2D39</color>
     <color name="orange_end_gradient">#ed7e2f</color>
-    <color name="transparent_grey">#66000000</color>
     <color name="grid_item_grey">#6e777d</color>
     <color name="background_grey">#303331</color>
     <color name="transparent">@android:color/transparent</color>
@@ -32,7 +30,6 @@
     <color name="black_50">#80000000</color>
     <color name="circle_background_color">#d8d8d8</color>
     <color name="feed_details_text_view_grey">#80000000</color>
-    <color name="hint_text_color_edit_text">#80555555</color>
     <color name="fab_button_pink">#cb0068</color>
     <color name="fab_button_grey">#434343</color>
     <color name="light_header">#19490064</color>
