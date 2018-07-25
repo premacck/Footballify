@@ -101,8 +101,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     public class BoardMediaViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tile_image_view)
         ImageView tileImageView;
-        @BindView(R.id.feed_title_text_view)
-        TextView titleTextView;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
 

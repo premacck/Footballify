@@ -88,6 +88,11 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     TextView homeTeamScore;
     @BindView(R.id.visiting_team_score)
     TextView visitingTeamScore;
+    @BindView(R.id.layout_board_engagement)
+    RelativeLayout layoutBoardEngagement;
+    @BindView(R.id.layout_info_tiles)
+    RelativeLayout layoutInfoTiles;
+
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
     private RestApi restApi;
     private String enterBoardId;
@@ -154,6 +159,9 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         homeTeamLogo = matchPref.getString(getString(R.string.pref_home_team_logo), getString(R.string.pref_home_team_logo));
         awayTeamLogo = matchPref.getString(getString(R.string.pref_away_team_logo), getString(R.string.pref_away_team_logo));
         setToolbarTeamLogo();
+
+        layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
+        layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));
     }
 
     private void setToolbarTeamLogo() {

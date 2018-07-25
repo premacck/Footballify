@@ -21,15 +21,13 @@
         android:textColor="@color/white"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/feed_title_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_margin="3dp"
-        android:letterSpacing=".03"
-        android:textColor="@color/white"
-        android:textSize="9sp" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/ic_profile_dummy" />
 
 </RelativeLayout>

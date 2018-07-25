@@ -4,6 +4,9 @@
     android:id="@+id/board_parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginEnd="2dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginTop="2dp"
     android:orientation="vertical"
     arc:cardBackgroundColor="@color/grey"
     arc:cardCornerRadius="8dp"
@@ -12,8 +15,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="3dp"
-        android:background="@color/grey"
         android:orientation="vertical">
 
         <include
@@ -24,20 +25,30 @@
             android:id="@+id/layout_board_engagement"
             layout="@layout/layout_board_engagement"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_below="@+id/header_board" />
+
+        <include
+            android:id="@+id/layout_info_tiles"
+            layout="@layout/layout_info_tiles"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/layout_board_engagement" />
 
         <fragment
             android:id="@+id/title_fragment"
             android:name="life.plank.juna.zone.view.fragment.GraphFragment"
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:layout_below="@+id/layout_board_engagement" />
+            android:layout_below="@+id/layout_info_tiles" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/title_fragment"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
             android:background="@color/light_grey">
 
             <android.support.v7.widget.RecyclerView

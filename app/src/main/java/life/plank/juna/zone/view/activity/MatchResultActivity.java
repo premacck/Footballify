@@ -54,11 +54,12 @@ public class MatchResultActivity extends AppCompatActivity {
     @BindView(R.id.frame_layout_container)
     FrameLayout frameLayoutGraph;
     @BindView(R.id.layout_board_engagement)
-    RelativeLayout layout_board_engagement;
+    RelativeLayout layoutBoardEngagement;
     @BindView(R.id.layout_info_tiles)
-    RelativeLayout layout_info_tiles;
+    RelativeLayout layoutInfoTiles;
     @BindView(R.id.following_text_view)
     TextView followingTextVIew;
+
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
     List<TeamStatsModel> teamStatsModelList;
@@ -84,8 +85,8 @@ public class MatchResultActivity extends AppCompatActivity {
         populateTeamStatsRecyclerView();
         getTeamStats(AppConstants.SEASON_NAME);
 
-        layout_board_engagement.setBackgroundColor(getColor(R.color.transparent_white_one));
-        layout_info_tiles.setBackgroundColor(getColor(R.color.transparent_white_two));
+        layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
+        layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));
     }
 
     public void populateStandingRecyclerView() {

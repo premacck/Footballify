@@ -98,9 +98,6 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         pastMatchAdapter = new PastMatchAdapter(this, classifiedMatchesMap);
         pastMatchRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         pastMatchRecyclerView.setAdapter(pastMatchAdapter);
-        DividerItemDecoration itemDecor = new DividerItemDecoration(this, VERTICAL);
-        pastMatchRecyclerView.addItemDecoration(itemDecor);
-
     }
 
     public void populateScheduledScoreFixtureRecyclerView() {
