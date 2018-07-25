@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +51,13 @@ public class MatchResultActivity extends AppCompatActivity {
     RecyclerView teamStatsRecyclerView;
     @BindView(R.id.player_stats_recycler_view)
     RecyclerView playerStatsRecyclerView;
-    @BindView(R.id.tap_for_score_and_fixtures)
-    TextView tapForScoreAndFixture;
     @BindView(R.id.frame_layout_container)
     FrameLayout frameLayoutGraph;
-    @BindView(R.id.following)
+    @BindView(R.id.layout_board_engagement)
+    RelativeLayout layout_board_engagement;
+    @BindView(R.id.layout_info_tiles)
+    RelativeLayout layout_info_tiles;
+    @BindView(R.id.following_text_view)
     TextView followingTextVIew;
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
@@ -80,6 +83,9 @@ public class MatchResultActivity extends AppCompatActivity {
         populatePlayerStatsRecyclerView();
         populateTeamStatsRecyclerView();
         getTeamStats(AppConstants.SEASON_NAME);
+
+        layout_board_engagement.setBackgroundColor(getColor(R.color.transparent_white_one));
+        layout_info_tiles.setBackgroundColor(getColor(R.color.transparent_white_two));
     }
 
     public void populateStandingRecyclerView() {
@@ -224,10 +230,10 @@ public class MatchResultActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.tap_for_score_and_fixtures, R.id.following})
+    @OnClick({R.id.see_all, R.id.following_text_view})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.tap_for_score_and_fixtures:
+            case R.id.see_all:
                 if (GlobalVariable.getInstance().getTilePosition() != 3) {
                     Intent intent = new Intent(this, FixtureAndResultActivity.class);
                     startActivity(intent);
@@ -237,7 +243,7 @@ public class MatchResultActivity extends AppCompatActivity {
                     startActivity(intent);
                     break;
                 }
-            case R.id.following: {
+            case R.id.following_text_view: {
                 if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
                     followingTextVIew.setText(R.string.follow);
                 } else {

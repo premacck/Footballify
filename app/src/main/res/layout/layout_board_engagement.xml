@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/dark_grey"
-    android:padding="5dp"
+    android:layout_height="25dp"
+    android:background="@color/transparent"
     android:paddingEnd="16dp"
     android:paddingStart="10dp">
 
     <TextView
         android:id="@+id/following_text_view"
         style="@style/following_text_view_style"
-        android:layout_width="76dp"
-        android:layout_height="14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="FOLLOWING"
-        android:textAlignment="center" />
+        android:text="@string/following" />
 
     <TextView
         android:id="@+id/number_of_people_text_view"

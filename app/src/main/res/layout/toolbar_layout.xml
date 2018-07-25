@@ -2,50 +2,45 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/purple_toolbar_background">
+    android:layout_margin="5dp"
+    android:background="@color/purple_toolbar_background"
+    android:paddingBottom="10dp"
+    android:paddingTop="5dp">
 
-    <View
-        android:id="@+id/swipe_view"
-        android:layout_width="20dp"
-        android:layout_height="3dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="5dp"
-        android:background="@color/white" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/swipe_view"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:padding="3dp"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_west_brom_logo" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/premier_league"
-            android:textColor="@color/white"
-            android:padding="3dp"
-            android:fontFamily="@font/rajdhani_regular"
-            android:textSize="25sp" />
-    </LinearLayout>
     <ImageView
-        android:layout_alignStart="@+id/following"
+        android:id="@+id/league_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/img_epl_logo" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/league_logo"
+        android:fontFamily="@font/rajdhani_regular"
+        android:text="@string/premier_league"
+        android:textColor="@color/white"
+        android:textSize="25sp" />
+
+    <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="5dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/options_image"
         android:src="@drawable/share" />
-    <TextView
-        android:id="@+id/following"
-        style="@style/following_text_view_style"
+
+    <ImageView
+        android:id="@+id/options_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="25dp"
-        android:text="FOLLOWING" />
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/ic_options" />
+
 </RelativeLayout>

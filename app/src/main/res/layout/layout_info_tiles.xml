@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@color/purple_toolbar_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:text="@string/matchday_36"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/tiles"
+        android:gravity="center_horizontal"
+        android:text="INFO"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/info_view"
+        android:layout_width="72dp"
+        android:layout_height="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/tiles"
+        android:background="@color/white" />
+
+    <TextView
+        android:id="@+id/tiles"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:gravity="center_horizontal"
+        android:text="TILES"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+
+    <View
+        android:id="@+id/tiles_view"
+        android:layout_width="72dp"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/info"
+        android:background="@color/white"
+        android:visibility="invisible" />
+</RelativeLayout>

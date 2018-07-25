@@ -40,4 +40,6 @@
     <color name="others_color_grey">#cccccc</color>
     <color name="light_grey">#dcdcdc</color>
     <color name="background_color">#fafafa</color>
+    <color name="transparent_white_one">#19ffffff</color>
+    <color name="transparent_white_two">#0cffffff</color>
 </resources>
