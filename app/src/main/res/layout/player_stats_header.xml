@@ -13,9 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight=".7"
-        android:gravity="center_horizontal"
         android:text="@string/serial_number"
-        android:textColor="@color/black"
         android:visibility="invisible" />
 
     <ImageView
@@ -26,7 +24,7 @@
         android:visibility="invisible" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -37,22 +35,20 @@
         android:visibility="invisible" />
 
     <TextView
+        style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="G"
-        android:textColor="@color/black" />
+        android:text="@string/goal" />
 
     <TextView
+        style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/assist"
-        android:textColor="@color/black" />
+        android:text="@string/assist" />
 
     <ImageView
         android:layout_width="0dp"

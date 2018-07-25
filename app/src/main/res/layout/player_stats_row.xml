@@ -10,12 +10,11 @@
 
     <TextView
         android:id="@+id/player_stats_serial_number_text"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight=".7"
-        android:gravity="center_horizontal"
-        android:text="@string/serial_number"
-        android:textColor="@color/black" />
+        android:text="@string/serial_number" />
 
     <ImageView
         android:id="@+id/player_stats_team_logo"
@@ -26,7 +25,7 @@
 
     <TextView
         android:id="@+id/player_stats_player_name"
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -37,34 +36,32 @@
 
     <TextView
         android:id="@+id/player_stats_goals_text"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="@string/team_goals"
-        android:textColor="@color/black" />
+        android:text="@string/team_goals" />
 
     <TextView
         android:id="@+id/player_stats_assist_text"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="@string/assist"
-        android:textColor="@color/black" />
+        android:text="@string/assist" />
 
     <TextView
         android:id="@+id/player_stats_yellow_card_text"
+        style="@style/stats_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center" />
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/player_stats_red_card_text"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center_horizontal" />
+        android:layout_weight="1" />
 </LinearLayout>

@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/team_stats_serial_number_text_view"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/serial_number" />
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/team_stats_team_name_text_view"
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -34,7 +34,7 @@
 
     <TextView
         android:id="@+id/team_stats_wins_text_view"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -42,42 +42,42 @@
 
     <TextView
         android:id="@+id/team_stats_losses_text_view"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/team_stats_draw_text_view"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/team_stats_goals_for_text_view"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/team_stats_goal_against_text_view"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/team_stats_yellow_card"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/team_stats_red_card"
-        style="@style/standings_row_text_style"
+        style="@style/stats_row_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1" />

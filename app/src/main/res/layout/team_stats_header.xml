@@ -24,7 +24,7 @@
         android:visibility="invisible" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -36,7 +36,7 @@
         tools:ignore="RtlHardcoded" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -44,28 +44,28 @@
         android:text="@string/win" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/loss" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/goal" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="@string/pass" />
 
     <TextView
-        style="@style/standings_header_text_style"
+        style="@style/stats_header_text_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
