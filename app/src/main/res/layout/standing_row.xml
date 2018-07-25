@@ -10,12 +10,11 @@
 
     <TextView
         android:id="@+id/serial_number_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="@string/serial_number"
-        android:textColor="@color/black" />
+        android:text="@string/serial_number" />
 
     <ImageView
         android:id="@+id/score_view"
@@ -27,7 +26,7 @@
 
     <TextView
         android:id="@+id/team_name_text_view"
-        style="@style/standing_fragment_text_style"
+        style="@style/standings_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -39,74 +38,65 @@
 
     <TextView
         android:id="@+id/played_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="27"
-        android:textColor="@color/black" />
+        android:text="27" />
 
     <TextView
         android:id="@+id/win_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="6"
-        android:textColor="@color/black" />
+        android:text="6" />
 
     <TextView
         android:id="@+id/draw_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="5"
-        android:textColor="@color/black" />
+        android:text="5" />
 
     <TextView
         android:id="@+id/loss_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="8"
-        android:textColor="@color/black" />
+        android:text="8" />
 
     <TextView
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="10"
-        android:textColor="@color/black" />
+        android:text="10" />
 
     <TextView
         android:id="@+id/goal_against_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center_horizontal"
-        android:text="10"
-        android:textColor="@color/black" />
-
+        android:text="10" />
 
     <TextView
         android:id="@+id/goal_difference_text_view"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="8"
-        android:textColor="@color/black" />
+        android:text="8" />
 
     <TextView
         android:id="@+id/point_table_text_view"
-        style="@style/standing_fragment_text_style"
+        style="@style/standings_row_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center_horizontal"
-        android:text="58"
-        android:textColor="@color/black" />
+        android:text="58" />
 </LinearLayout>

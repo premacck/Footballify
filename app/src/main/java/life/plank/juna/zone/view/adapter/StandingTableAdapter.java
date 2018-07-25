@@ -43,7 +43,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsFor()));
         holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
         holder.goalAgainstTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
-        holder.scoreBoardLinerLayout.setBackgroundColor(context.getResources().getColor(R.color.white));
         holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
     }
 

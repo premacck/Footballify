@@ -43,7 +43,7 @@
                 android:fontFamily="@font/rajdhani_regular"
                 android:lineSpacingExtra="5sp"
                 android:text="Created 2 weeks ago"
-                android:textColor="@color/created_date_text_view"
+                android:textColor="@color/black_50"
                 android:textSize="10sp" />
 
             <ImageView
