@@ -23,6 +23,7 @@ import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
+import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
@@ -78,6 +79,10 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
                     }
                     case 3: {
                         context.startActivity(new Intent(context, MatchResultActivity.class));
+                        break;
+                    }
+                    case 4: {
+                        context.startActivity(new Intent(context, PrivateBoardActivity.class));
                         break;
                     }
                     default: {

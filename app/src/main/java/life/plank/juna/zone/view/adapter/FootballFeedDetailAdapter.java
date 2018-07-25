@@ -63,16 +63,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         } catch (Exception e) {
             holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
         }
-        try {
-            Picasso.with(context).
-                    load(R.drawable.football_image_one)
-                    .error(R.drawable.ic_place_holder)
-                    .placeholder(R.drawable.ic_place_holder)
-                    .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(30, context), 0))
-                    .into(holder.profileImageView);
-        } catch (Exception e) {
-            holder.profileImageView.setImageResource(R.drawable.ic_place_holder);
-        }
     }
 
     @Override
@@ -85,8 +75,6 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
         ImageView feedImageView;
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
-        @BindView(R.id.profile_image_view)
-        ImageView profileImageView;
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
         @BindView(R.id.number_of_likes_text_view)
