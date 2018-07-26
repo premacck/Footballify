@@ -148,6 +148,7 @@
         <activity android:name=".view.activity.SignInActivity" />
         <activity android:name=".view.activity.PrivateBoardActivity" />
         <activity android:name=".view.activity.CreatePrivateBoardActivity" />
+        <activity android:name=".view.activity.InviteToBoardActivity" />
     </application>
 
 </manifest>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parent_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:cardCornerRadius="@dimen/feed_card_corner_radius"
+        app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/raleway_bold"
+                android:lineSpacingExtra="-1sp"
+                android:text="Invite people to Beer Brothers board"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/invite_link_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp">
+
+                <EditText
+                    android:id="@+id/invite_link_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:hint="Invitation Link"
+                    android:inputType="textEmailAddress" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/copy_link_button"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/invite_link_input_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/blue_border_button"
+                android:fontFamily="@font/raleway_semibold"
+                android:text="Copy Link"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textSize="20sp" />
+
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/copy_link_button"
+                android:layout_marginBottom="160dp"
+                android:layout_marginTop="38dp"
+                android:clickable="true"
+                android:iconifiedByDefault="false"
+                android:keyboardNavigationCluster="true"
+                android:textColor="@color/grey"
+                android:tooltipText="Search and add people" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
