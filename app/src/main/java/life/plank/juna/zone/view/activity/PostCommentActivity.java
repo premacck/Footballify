@@ -65,7 +65,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @BindView(R.id.comment_card_view)
     CardView commentCardView;
-    Integer commentBg = R.color.material_blue_600;
+    String commentBg = "blue";
 
     //TODO: Enable the post comment button only when the user enter a text to be posted else disable it
     @Override
@@ -107,16 +107,16 @@ public class PostCommentActivity extends AppCompatActivity {
             }
         });
 
-        redBg.setOnClickListener(v -> setColor(R.color.red));
-        pinkBg.setOnClickListener(v -> setColor(R.color.material_pink_800));
-        yellowBg.setOnClickListener(v -> setColor(R.color.material_yellow_700));
-        greenBg.setOnClickListener(v -> setColor(R.color.material_green_700));
-        blueBg.setOnClickListener(v -> setColor(R.color.material_blue_600));
+        redBg.setOnClickListener(v -> setColor(R.color.red, getString(R.string.red)));
+        pinkBg.setOnClickListener(v -> setColor(R.color.material_pink_800, getString(R.string.pink)));
+        yellowBg.setOnClickListener(v -> setColor(R.color.material_yellow_700, getString(R.string.yellow)));
+        greenBg.setOnClickListener(v -> setColor(R.color.material_green_700, getString(R.string.green)));
+        blueBg.setOnClickListener(v -> setColor(R.color.material_blue_600, getString(R.string.blue)));
 
     }
 
-    private void setColor(int color) {
-        commentBg = color;
+    private void setColor(int color, String colorText) {
+        commentBg = colorText;
         commentCardView.setCardBackgroundColor(getResources().getColor(color));
     }
 

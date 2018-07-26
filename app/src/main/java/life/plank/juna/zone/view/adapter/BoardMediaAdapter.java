@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.util.ColorHashMap;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -28,6 +28,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     private OnClickFeedItemListener onClickFeedItemListener;
 
     public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
+        ColorHashMap.HashMaps(context);
         this.context = context;
         this.boardFeed = boardFeed;
     }
@@ -75,7 +76,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                holder.commentTextView.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+                int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
+                holder.commentTextView.setBackgroundColor(context.getResources().getColor(color));
                 holder.commentTextView.setText(comment.substring(comment.indexOf("$") + 1));
 
             }

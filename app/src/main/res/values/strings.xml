@@ -68,5 +68,10 @@
     <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
 
     <string name="title_activity_post_comment">PostCommentActivity</string>
+    <string name="red">red</string>
+    <string name="pink">pink</string>
+    <string name="yellow">yellow</string>
+    <string name="green">green</string>
+    <string name="blue">blue</string>
 
 </resources>
