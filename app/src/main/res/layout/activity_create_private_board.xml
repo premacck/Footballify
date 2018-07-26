@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".view.activity.CreatePrivateBoardActivity">
+
+    <include
+        android:id="@+id/zone_tool_bar"
+        layout="@layout/zone_tool_bar" />
+
+    <RelativeLayout
+        android:id="@+id/categories"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_below="@+id/zone_tool_bar"
+        android:background="@color/background_color">
+
+        <TextView
+            android:id="@+id/user_greeting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/raleway_regular"
+            android:lineSpacingExtra="8sp"
+            android:text="Hi Kiran"
+            android:textColor="@color/grey"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/user_greeting"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="11dp"
+            android:fontFamily="@font/raleway_regular"
+            android:lineSpacingExtra="6sp"
+            android:text="Choose the zone which your board belong to"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+        <ToggleButton
+            android:id="@+id/football"
+            android:layout_width="112dp"
+            android:layout_height="23dp"
+            android:layout_below="@+id/description"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/unselected_text_view_bg"
+            android:checked="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:paddingBottom="2dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="2dp"
+            android:textAllCaps="false"
+            android:textColor="@color/grey"
+            android:textOff="@string/football"
+            android:textOn="@string/football"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/music"
+            android:layout_width="112dp"
+            android:layout_height="23dp"
+            android:layout_below="@+id/description"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/football"
+            android:background="@drawable/unselected_text_view_bg"
+            android:checked="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:paddingBottom="2dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="2dp"
+            android:textAllCaps="false"
+            android:textColor="@color/grey"
+            android:textOff="@string/music"
+            android:textOn="@string/music"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/drama"
+            android:layout_width="112dp"
+            android:layout_height="23dp"
+            android:layout_below="@+id/description"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/music"
+            android:background="@drawable/unselected_text_view_bg"
+            android:checked="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:paddingBottom="2dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="2dp"
+            android:textAllCaps="false"
+            android:textColor="@color/grey"
+            android:textOff="@string/drama"
+            android:textOn="@string/drama"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/tune"
+            android:layout_width="112dp"
+            android:layout_height="23dp"
+            android:layout_below="@+id/drama"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/unselected_text_view_bg"
+            android:checked="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:paddingBottom="2dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="2dp"
+            android:textAllCaps="false"
+            android:textColor="@color/grey"
+            android:textOff="@string/tune"
+            android:textOn="@string/tune"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/skill"
+            android:layout_width="112dp"
+            android:layout_height="23dp"
+            android:layout_below="@+id/music"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/tune"
+            android:background="@drawable/unselected_text_view_bg"
+            android:checked="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:paddingBottom="2dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="2dp"
+            android:textAllCaps="false"
+            android:textColor="@color/grey"
+            android:textOff="@string/skill"
+            android:textOn="@string/skill"
+            android:textSize="12sp" />
+
+        <ToggleButton
+            android:id="@+id/other"
+            android:layout_width="112dp"
+            android:layout_height="23dp"
+            android:layout_below="@+id/drama"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/skill"
+            android:background="@drawable/unselected_text_view_bg"
+            android:checked="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:paddingBottom="2dp"
+            android:paddingEnd="7dp"
+            android:paddingTop="2dp"
+            android:textAllCaps="false"
+            android:textColor="@color/grey"
+            android:textOff="@string/other"
+            android:textOn="@string/other"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/board_details_relative_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/categories"
+        android:paddingBottom="10dp">
+
+        <TextView
+            android:id="@+id/private_board_setup_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/raleway_regular"
+            android:lineSpacingExtra="6sp"
+            android:text="Now let’s setup your football board"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/board_name_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/private_board_setup_title"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/board_name_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:fontFamily="@font/rajdhani_medium"
+                android:hint="@string/board_name"
+                android:inputType="text"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/board_description_text_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board_name_text_input"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginEnd="17dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="15dp">
+
+            <EditText
+                android:id="@+id/board_description_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/grey"
+                android:fontFamily="@font/rajdhani_medium"
+                android:hint="@string/board_description"
+                android:inputType="text"
+                android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/pick_a_color_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/board_description_text_input"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/raleway_regular"
+            android:lineSpacingExtra="6sp"
+            android:text="Pick a color theme for your board"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/red"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_a_color_title"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/yellow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_a_color_title"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/red"
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/purple"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_a_color_title"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/yellow"
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/pink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_a_color_title"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/purple"
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/green"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_a_color_title"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/pink"
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/blue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pick_a_color_title"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/green"
+            android:background="@drawable/circle" />
+
+        <TextView
+            android:id="@+id/board_icon_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/red"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/raleway_regular"
+            android:lineSpacingExtra="6sp"
+            android:text="And a board icon"
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_below="@+id/board_icon_text_view"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/custom_circle_brown" />
+
+        <TextView
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_below="@+id/board_icon_text_view"
+            android:layout_marginStart="67dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/custom_circle_brown" />
+
+        <TextView
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_below="@+id/board_icon_text_view"
+            android:layout_marginStart="117dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/custom_circle_brown" />
+
+        <TextView
+            android:layout_width="37dp"
+            android:layout_height="37dp"
+            android:layout_below="@+id/board_icon_text_view"
+            android:layout_marginStart="167dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/custom_circle_brown" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/board_details_relative_layout"
+        android:background="@color/background_color">
+
+        <RelativeLayout
+            android:id="@+id/board_type_relative_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/board_visibility_text_view"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="6sp"
+                android:text="Board visibility"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/board_visibility_text_view"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="Public"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="Private"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/board_expiry_relative_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/board_type_relative_layout"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/board_expiry_text_view"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="6sp"
+                android:text="Board expiry"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/board_expiry_text_view"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="None"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="Date &amp; Time"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+            </RadioGroup>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="187dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/button_background"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Create Board"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+</RelativeLayout>

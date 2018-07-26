@@ -62,4 +62,9 @@
     <string name="goal">Goal</string>
     <string name="pass">Pass</string>
     <string name="shot">Shot</string>
+    <string name="drama">Drama</string>
+    <string name="tune">Tune</string>
+    <string name="skill">Skill</string>
+    <string name="board_name">Board Name</string>
+    <string name="board_description">Board Description</string>
 </resources>
