@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -12,7 +13,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationRequest;
+import net.openid.appauth.AuthorizationService;
+import net.openid.appauth.AuthorizationServiceConfiguration;
+import net.openid.appauth.ClientSecretBasic;
+import net.openid.appauth.RegistrationRequest;
+import net.openid.appauth.ResponseTypeValues;
+
 import java.net.HttpURLConnection;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,6 +60,7 @@ public class SignInActivity extends AppCompatActivity {
     StackAnimation stackAnimation;
     String emailText;
     private RestApi restApi;
+    private AuthorizationService mAuthService;
 
     TextWatcher loginFieldsWatcher = new TextWatcher() {
         @Override
@@ -90,18 +102,102 @@ public class SignInActivity extends AppCompatActivity {
                 AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
-    @OnClick({R.id.login, R.id.forgot_password_text_view, R.id.sign_up_card})
+    private void makeRegistrationRequest(
+            @NonNull AuthorizationServiceConfiguration serviceConfig,
+            @NonNull final IdentityProvider idp) {
+
+        final RegistrationRequest registrationRequest = new RegistrationRequest.Builder(
+                serviceConfig,
+                Arrays.asList(idp.getRedirectUri()))
+                .setTokenEndpointAuthenticationMethod(ClientSecretBasic.NAME)
+                .build();
+
+        Log.d(TAG, "Making registration request to " + serviceConfig.registrationEndpoint);
+        mAuthService.performRegistrationRequest(
+                registrationRequest,
+                (registrationResponse, ex) -> {
+                    Log.d(TAG, "Registration request complete");
+                    if (registrationResponse != null) {
+                        idp.setClientId(registrationResponse.clientId);
+                        Log.d(TAG, "Registration request complete successfully");
+                        // Continue with the authentication
+                        makeAuthRequest(registrationResponse.request.configuration, idp,
+                                new AuthState((registrationResponse)));
+                    }
+                });
+    }
+
+    private void makeAuthRequest(
+            @NonNull AuthorizationServiceConfiguration serviceConfig,
+            @NonNull IdentityProvider idp,
+            @NonNull AuthState authState) {
+
+        AuthorizationRequest authRequest = new AuthorizationRequest.Builder(
+                serviceConfig,
+                idp.getClientId(),
+                ResponseTypeValues.CODE,
+                idp.getRedirectUri())
+                .setScope(idp.getScope())
+                .setLoginHint(getString(R.string.email_hint))
+                .build();
+
+        Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
+        mAuthService.performAuthorizationRequest(
+                authRequest,
+                TokenActivity.createPostAuthorizationIntent(
+                        this,
+                        authRequest,
+                        serviceConfig.discoveryDoc,
+                        authState),
+                mAuthService.createCustomTabsIntentBuilder()
+                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
+                        .build());
+    }
+
+
+    @OnClick({R.id.login, R.id.forgot_password_text_view, R.id.sign_up_card, R.id.skip_login})
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
-
-            case R.id.login:
+            case R.id.skip_login:
                 emailText = emailEditText.getText().toString();
                 if (emailText.isEmpty()) {
                     emailEditText.setError(getString(R.string.username_empty));
                 } else {
                     getSignInResponse(emailText);
                 }
+                break;
+            case R.id.login:
+//                emailText = emailEditText.getText().toString();
+//                if (emailText.isEmpty()) {
+//                    emailEditText.setError(getString(R.string.username_empty));
+//                } else {
+//                    getSignInResponse(emailText);
+//                }
+
+                mAuthService = new AuthorizationService(this);
+                List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
+
+                for (final IdentityProvider idp : providers) {
+                    final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
+                            (serviceConfiguration, ex) -> {
+                                if (ex != null) {
+                                    Log.w(TAG, "Failed to retrieve configuration for " + idp.name, ex);
+                                } else {
+                                    Log.d(TAG, "configuration retrieved for " + idp.name
+                                            + ", proceeding");
+                                    if (idp.getClientId() == null) {
+                                        // Do dynamic client registration if no client_id
+                                        makeRegistrationRequest(serviceConfiguration, idp);
+                                    } else {
+                                        makeAuthRequest(serviceConfiguration, idp, new AuthState());
+                                    }
+                                }
+                            };
+                    idp.retrieveConfig(this, retrieveCallback);
+                }
+
+
                 break;
             case R.id.forgot_password_text_view:
                 Intent intent = new Intent(this, AuthForgotPasswordActivity.class);

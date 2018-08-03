@@ -52,11 +52,11 @@ public interface RestApi {
     @GET("matches/{matchId}/lineups")
     Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
 
-    @POST("/users")
+    @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
 
-    @GET("/users")
-    Observable<Response<SignInModel>> getUser(@Query("emailAddress") String emailAddress);
+    @GET("/api/junaUsers/GetUsers/{emailAddress}")
+    Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress);
 
     @POST("feedItems/{id}/likes")
     Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);

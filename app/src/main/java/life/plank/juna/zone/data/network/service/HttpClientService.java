@@ -37,7 +37,7 @@ public class HttpClientService {
 
                         @Override
                         public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-                            return new java.security.cert.X509Certificate[0];
+                            return new java.security.cert.X509Certificate[]{};
                         }
                     }};
             final SSLContext sslContext = SSLContext.getInstance("TLS");
