@@ -59,8 +59,7 @@ public class SignInActivity extends AppCompatActivity {
     EditText passwordEditText;
 
     StackAnimation stackAnimation;
-    String emailText;
-    private RestApi restApi;
+
     private AuthorizationService mAuthService;
 
     TextWatcher loginFieldsWatcher = new TextWatcher() {
@@ -88,7 +87,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         ((ZoneApplication) getApplication()).getSignInUserNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+
         ButterKnife.bind(this);
         initStackAnimation();
 
@@ -149,10 +148,10 @@ public class SignInActivity extends AppCompatActivity {
                         this,
                         authRequest,
                         serviceConfig.discoveryDoc,
-                        authState),
-                mAuthService.createCustomTabsIntentBuilder()
-                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
-                        .build());
+                        authState, emailEditText.getText().toString()),
+        mAuthService.createCustomTabsIntentBuilder()
+                .setToolbarColor(getResources().getColor(R.color.colorAccent))
+                .build());
     }
 
 
@@ -160,15 +159,6 @@ public class SignInActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
-            //TODO: replace with login button
-            case R.id.skip_login:
-                emailText = emailEditText.getText().toString();
-                if (emailText.isEmpty()) {
-                    emailEditText.setError(getString(R.string.username_empty));
-                } else {
-                    getSignInResponse(emailText);
-                }
-                break;
             case R.id.login:
                 mAuthService = new AuthorizationService(this);
                 List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
@@ -203,45 +193,6 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
         }
-    }
-
-    private void getSignInResponse(String emailAddress) {
-        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
-        String token = getString(R.string.bearer) + azurePref.getString(getString(R.string.azure_token), "NA");
-
-        restApi.getUser(emailAddress, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<SignInModel>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.d(TAG, "onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<SignInModel> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                //TODO: Investigate why the response.body is saved
-                                UIDisplayUtil.saveSignInUserDetails(SignInActivity.this, response.body());
-                                Intent intentSubmit = new Intent(SignInActivity.this, SwipePageActivity.class);
-                                startActivity(intentSubmit);
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
-                                break;
-                            default:
-                                Log.e(TAG, response.message());
-                                break;
-                        }
-                    }
-                });
     }
 
     @Override

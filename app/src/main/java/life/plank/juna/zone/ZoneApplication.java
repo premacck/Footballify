@@ -3,8 +3,10 @@ package life.plank.juna.zone;
 import android.app.Application;
 import android.content.Context;
 
+import life.plank.juna.zone.data.network.dagger.AzureNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardItemLikeNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerAzureNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardItemLikeNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
@@ -45,6 +47,7 @@ public class ZoneApplication extends Application {
     private BoardFeedNetworkComponent boardFeedNetworkComponent;
     private BoardItemLikeNetworkComponent boardItemLikeNetworkComponent;
     private PostCommentFeedNetworkComponent postCommentFeedNetworkComponent;
+    private AzureNetworkComponent azureNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -76,6 +79,12 @@ public class ZoneApplication extends Application {
                 .restServiceModule(new RestServiceModule()).build();
 
         signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule()).build();
+
+        signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule()).build();
+
+        azureNetworkComponent = DaggerAzureNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
 
         likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder()
@@ -117,6 +126,10 @@ public class ZoneApplication extends Application {
 
     public SignInUserNetworkComponent getSignInUserNetworkComponent() {
         return signInUserNetworkComponent;
+    }
+
+    public AzureNetworkComponent getAzureNetworkComponent() {
+        return azureNetworkComponent;
     }
 
     public LikeFeedNetworkComponent getLikeFeedNetworkComponent() {

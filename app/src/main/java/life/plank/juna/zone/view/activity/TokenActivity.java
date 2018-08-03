@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -23,7 +24,21 @@ import net.openid.appauth.TokenResponse;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.HttpURLConnection;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.SignInModel;
+import life.plank.juna.zone.util.UIDisplayUtil;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Client to the Native Oauth library.
@@ -31,6 +46,9 @@ import life.plank.juna.zone.R;
 
 public class TokenActivity extends AppCompatActivity {
     private static final String TAG = "TokenActivity";
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
 
     private static final String KEY_AUTH_STATE = "authState";
     private static final String KEY_USER_INFO = "userInfo";
@@ -41,6 +59,8 @@ public class TokenActivity extends AppCompatActivity {
     private AuthState mAuthState;
     private AuthorizationService mAuthService;
     private JSONObject mUserInfoJson;
+    private RestApi restApi;
+    private static String emailId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +68,8 @@ public class TokenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_token);
 
         mAuthService = new AuthorizationService(this);
-
+        ((ZoneApplication) getApplication()).getAzureNetworkComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_AUTH_STATE)) {
                 try {
@@ -109,15 +130,12 @@ public class TokenActivity extends AppCompatActivity {
         mAuthState.update(tokenResponse, authException);
         Log.d("Id Token", " " + tokenResponse.idToken);
 
-        SharedPreferences.Editor boardIdEditor;
-        boardIdEditor = getSharedPreferences("AzureToken", Context.MODE_PRIVATE).edit();
-        boardIdEditor.putString("AzureToken", tokenResponse.idToken).apply();
+        SharedPreferences.Editor boardIdEditor = getSharedPreferences(getString(R.string.azure_token), Context.MODE_PRIVATE).edit();
+        boardIdEditor.putString(getString(R.string.azure_token), tokenResponse.idToken).apply();
 
-        SharedPreferences azurePref = getApplicationContext().getSharedPreferences("AzureToken", 0);
-        Log.d("Saved value", "" + azurePref.getString("AzureToken", "NA"));
-        azurePref.getString("AzureToken", "NA");
-        //last request
+        getSignInResponse(emailId);
     }
+
 
     private void exchangeAuthorizationCode(AuthorizationResponse authorizationResponse) {
         performTokenRequest(authorizationResponse.createTokenExchangeRequest());
@@ -139,11 +157,51 @@ public class TokenActivity extends AppCompatActivity {
                 this::receivedTokenResponse);
     }
 
+    private void getSignInResponse(String emailAddress) {
+        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
+        String token = getString(R.string.bearer)+ " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        restApi.getUser(emailAddress, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<SignInModel>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<SignInModel> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                //TODO: Investigate why the response.body is saved
+                                UIDisplayUtil.saveSignInUserDetails(TokenActivity.this, response.body());
+                                Intent intentSubmit = new Intent(TokenActivity.this, SwipePageActivity.class);
+                                startActivity(intentSubmit);
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Log.e(TAG, response.message());
+                                break;
+                        }
+                    }
+                });
+    }
+
     static PendingIntent createPostAuthorizationIntent(
             @NonNull Context context,
             @NonNull AuthorizationRequest request,
             @Nullable AuthorizationServiceDiscovery discoveryDoc,
-            @NonNull AuthState authState) {
+            @NonNull AuthState authState, String emailAddress) {
+        emailId = emailAddress;
         Intent intent = new Intent(context, TokenActivity.class);
         intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
         if (discoveryDoc != null) {
