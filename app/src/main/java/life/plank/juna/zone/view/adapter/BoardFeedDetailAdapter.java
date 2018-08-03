@@ -5,13 +5,11 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.TextView;
@@ -38,7 +36,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.RoundedTransformation;
+import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -71,6 +69,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     ;
 
     public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId) {
+        ColorHashMap.HashMaps(context);
         this.context = context;
         this.footballFeedsList = footballFeedsList;
         this.boardId = boardId;
@@ -162,8 +161,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedImageView.setVisibility(View.INVISIBLE);
                 holder.capturedVideoView.setVisibility(View.INVISIBLE);
                 String comment = footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", "");
-                holder.commentBg.setBackgroundColor(context.getResources().getColor(Integer.parseInt(comment.substring(0, comment.indexOf("$")))));
+
+                //todo: move to utility class
+                int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
+                holder.commentBg.setBackgroundColor(context.getResources().getColor(color));
                 holder.feedTextView.setText(comment.substring(comment.indexOf("$") + 1));
+
             }
         }
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {

@@ -37,6 +37,7 @@ public interface RestApi {
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
 
+    //working
     @GET("seasons/current/standings")
     Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName);
 
@@ -55,6 +56,7 @@ public interface RestApi {
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
 
+    //working
     @GET("/api/junaUsers/GetUsers/{emailAddress}")
     Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress, @Header("Authorization") String authHeader);
 
@@ -64,11 +66,15 @@ public interface RestApi {
     @GET("matches/{matchId}/matchsummary")
     Observable<Response<MatchSummaryModel>> getMatchSummary(@Path("matchId") long matchId);
 
+    //working
     @Multipart
-    @POST("feedItems/upload")
+    @POST("/activities/upload")
     Observable<Response<JsonObject>> postMediaContentToServer(@Part MultipartBody.Part file, @Query("targetId")
-            String targetId, @Query("targetType") String targetType, @Query("contentType") String contentType,
-                                                              @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+            String targetId, @Query("contentType") String contentType,
+                                                              @Query("userId") String userId,
+                                                              @Query("dateCreated") String dateCreated,
+                                                              @Query("feedType") String feedType,
+                                                              @Header("Authorization") String authHeader);
 
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
@@ -76,11 +82,13 @@ public interface RestApi {
     @POST("boards/{boardId}/activities/enter")
     Observable<Response<JsonObject>> enterBoard(@Path("boardId") String boardId, @Query("userId") String userId);
 
+    //working
     @GET("/boards")
-    Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType);
+    Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
+    //working
     @GET("/boards/{boardId}/feedItems")
-    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId);
+    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
 
     @POST("feedItems/{id}/shares")
     Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
@@ -88,8 +96,14 @@ public interface RestApi {
     @DELETE("feedItems/{id}/likes")
     Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
 
+    //working
     @POST("boards/{id}/feedItems")
-    Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue, @Path("id") String boardId, @Query("contentType") String contentType, @Query("userId") String userId, @Query("dateCreated") String dateCreated);
+    Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue,
+                                                            @Path("id") String boardId,
+                                                            @Query("contentType") String contentType,
+                                                            @Query("userId") String userId,
+                                                            @Query("dateCreated") String dateCreated,
+                                                            @Header("Authorization") String authHeader);
 
     @POST("feedItems/{id}/comments")
     Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);

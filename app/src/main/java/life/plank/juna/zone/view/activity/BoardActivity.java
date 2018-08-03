@@ -299,7 +299,10 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     }
 
     public void retrieveBoard(Long foreignId, String boardType) {
-        restApi.retrieveBoard(foreignId, boardType)
+        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
+        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        restApi.retrieveBoard(foreignId, boardType, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Board>>() {
@@ -333,8 +336,11 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     }
 
     public void retrieveBoardByBoardId(String boardId) {
+        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
+        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
         progressBar.setVisibility(View.VISIBLE);
-        restApi.retrieveByBoardId(boardId)
+        restApi.retrieveByBoardId(boardId, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
@@ -364,6 +370,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 Toast.makeText(boardActivity, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
+                                break;
                             default:
                                 Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;

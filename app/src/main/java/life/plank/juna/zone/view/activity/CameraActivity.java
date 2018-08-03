@@ -273,6 +273,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     //TODO: Pass the extension. Remove hardcoded value
     //TODO: Fix progressbar bug for audio upload
     private void postMediaContent(String selectedFileUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
+        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
+        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
         progressBar.setVisibility(View.VISIBLE);
         File file = new File(selectedFileUri);
         RequestBody requestBody;
@@ -288,7 +291,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
         }
 
-        restApi.postMediaContentToServer(body, targetId, targetType, contentType, userId, dateCreated)
+        restApi.postMediaContentToServer(body, targetId, contentType, userId,
+                dateCreated, AppConstants.SHARE_TO, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

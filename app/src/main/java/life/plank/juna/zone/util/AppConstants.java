@@ -21,7 +21,7 @@ public class AppConstants {
     public static final String CACHE_FILE_NAME = "feeditems.txt";
     public static final String LEAGUE_NAME = "Premier League";
     //todo : Retrieve this from the api. will do in next pull request
-    public static final String SEASON_NAME = "2017/2018";
+    public static final String SEASON_NAME = "2018/2019";
     public static final int ANIMATION_DURATION = 200;
     public static final float ANIMATION_START_SCALE = 1.0f;
     public static final float ANIMATION_PIVOT_VALUE = 0.5f;
@@ -31,5 +31,6 @@ public class AppConstants {
     public static final int REQUEST_ID_STORAGE_PERMISSIONS = 102;
     public static final String SHARE_TO = "Board";
     public static final String ROOT_COMMENT = "rootComment";
+
 
 }

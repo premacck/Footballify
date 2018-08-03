@@ -121,7 +121,11 @@ public class PostCommentActivity extends AppCompatActivity {
     }
 
     private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {
-        restApi.postCommentOnBoardFeed(getEditTextValue, boardId, contentType, userId, dateCreated)
+        //todo: Move this code to utils
+        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
+        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        restApi.postCommentOnBoardFeed(getEditTextValue, boardId, contentType, userId, dateCreated, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
