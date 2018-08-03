@@ -73,5 +73,6 @@
     <string name="yellow">yellow</string>
     <string name="green">green</string>
     <string name="blue">blue</string>
+    <string name="bearer">Bearer</string>
 
 </resources>

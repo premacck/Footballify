@@ -56,7 +56,7 @@ public interface RestApi {
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
 
     @GET("/api/junaUsers/GetUsers/{emailAddress}")
-    Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress);
+    Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress, @Header("Authorization") String authHeader);
 
     @POST("feedItems/{id}/likes")
     Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);

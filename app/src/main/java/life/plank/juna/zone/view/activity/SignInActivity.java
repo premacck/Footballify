@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -159,6 +160,7 @@ public class SignInActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
 
         switch (view.getId()) {
+            //TODO: replace with login button
             case R.id.skip_login:
                 emailText = emailEditText.getText().toString();
                 if (emailText.isEmpty()) {
@@ -168,13 +170,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.login:
-//                emailText = emailEditText.getText().toString();
-//                if (emailText.isEmpty()) {
-//                    emailEditText.setError(getString(R.string.username_empty));
-//                } else {
-//                    getSignInResponse(emailText);
-//                }
-
                 mAuthService = new AuthorizationService(this);
                 List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
 
@@ -211,7 +206,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void getSignInResponse(String emailAddress) {
-        restApi.getUser(emailAddress)
+        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
+        String token = getString(R.string.bearer) + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        restApi.getUser(emailAddress, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<SignInModel>>() {
