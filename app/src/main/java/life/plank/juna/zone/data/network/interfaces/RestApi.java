@@ -34,37 +34,21 @@ import rx.Observable;
 
 public interface RestApi {
 
-    @GET("api/feeditems")
-    Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
-
     //working
     @GET("seasons/current/standings")
     Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName);
 
-    @GET("seasons/matches")
-    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName);
+    //working
+    @GET("/boards")
+    Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
-    @GET("seasons/playerstats")
-    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
-
-    @GET("teams/stats")
-    Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
-
-    @GET("matches/{matchId}/lineups")
-    Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
-
-    @POST("/ausers")
-    Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
+    //working
+    @GET("/boards/{boardId}/feedItems")
+    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
 
     //working
     @GET("/api/junaUsers/GetUsers/{emailAddress}")
     Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress, @Header("Authorization") String authHeader);
-
-    @POST("feedItems/{id}/likes")
-    Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
-
-    @GET("matches/{matchId}/matchsummary")
-    Observable<Response<MatchSummaryModel>> getMatchSummary(@Path("matchId") long matchId);
 
     //working
     @Multipart
@@ -76,26 +60,6 @@ public interface RestApi {
                                                               @Query("feedType") String feedType,
                                                               @Header("Authorization") String authHeader);
 
-    @GET("api/feeditems")
-    Observable<Response<List<FootballFeed>>> getBoardFeed(@Header("newsfeed-continuation-token") String header);
-
-    @POST("boards/{boardId}/activities/enter")
-    Observable<Response<JsonObject>> enterBoard(@Path("boardId") String boardId, @Query("userId") String userId);
-
-    //working
-    @GET("/boards")
-    Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
-
-    //working
-    @GET("/boards/{boardId}/feedItems")
-    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
-
-    @POST("feedItems/{id}/shares")
-    Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
-
-    @DELETE("feedItems/{id}/likes")
-    Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
-
     //working
     @POST("boards/{id}/feedItems")
     Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue,
@@ -104,6 +68,41 @@ public interface RestApi {
                                                             @Query("userId") String userId,
                                                             @Query("dateCreated") String dateCreated,
                                                             @Header("Authorization") String authHeader);
+
+    
+    //working
+    @GET("teams/stats")
+    Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
+
+    //yet to verify
+    @GET("api/feeditems")
+    Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
+
+    @GET("seasons/matches")
+    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName);
+
+    @GET("seasons/playerstats")
+    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
+
+    @GET("matches/{matchId}/lineups")
+    Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
+
+    @POST("/ausers")
+    Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
+
+    @POST("feedItems/{id}/likes")
+    Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
+
+    @GET("matches/{matchId}/matchsummary")
+    Observable<Response<MatchSummaryModel>> getMatchSummary(@Path("matchId") long matchId);
+
+
+    @POST("feedItems/{id}/shares")
+    Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
+
+    @DELETE("feedItems/{id}/likes")
+    Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
+
 
     @POST("feedItems/{id}/comments")
     Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);
