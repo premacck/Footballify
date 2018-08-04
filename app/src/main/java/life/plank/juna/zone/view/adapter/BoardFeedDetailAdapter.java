@@ -45,6 +45,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
+import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -162,11 +164,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.capturedVideoView.setVisibility(View.INVISIBLE);
                 String comment = footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", "");
 
-                //todo: move to utility class
-                int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
-                holder.commentBg.setBackgroundColor(context.getResources().getColor(color));
-                holder.feedTextView.setText(comment.substring(comment.indexOf("$") + 1));
-
+                holder.commentBg.setBackgroundColor(getCommentColor(comment));
+                holder.feedTextView.setText(getCommentText(comment));
             }
         }
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {

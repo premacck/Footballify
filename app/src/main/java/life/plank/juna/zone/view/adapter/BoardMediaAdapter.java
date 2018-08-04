@@ -17,7 +17,9 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.util.ColorHashMap;
+
+import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
+import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -28,7 +30,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     private OnClickFeedItemListener onClickFeedItemListener;
 
     public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
-        ColorHashMap.HashMaps(context);
         this.context = context;
         this.boardFeed = boardFeed;
     }
@@ -76,10 +77,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                //todo: move to utility class
-                int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
-                holder.commentTextView.setBackgroundColor(context.getResources().getColor(color));
-                holder.commentTextView.setText(comment.substring(comment.indexOf("$") + 1));
+
+                holder.commentTextView.setBackgroundColor(getCommentColor(comment));
+                holder.commentTextView.setText(getCommentText(comment));
 
             }
         }

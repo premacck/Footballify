@@ -58,6 +58,16 @@ public class UIDisplayUtil {
 
     }
 
+    public static int getCommentColor(String comment) {
+        ColorHashMap.HashMaps(getApplicationContext());
+        int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
+        return getApplicationContext().getResources().getColor(color);
+    }
+
+    public static CharSequence getCommentText(String comment) {
+        return comment.substring(comment.indexOf("$") + 1);
+    }
+
     public static UIDisplayUtil getInstance() {
         return UIDisplayUtilWrapper.INSTANCE;
     }
