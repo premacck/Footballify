@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationRequest;
@@ -22,7 +20,6 @@ import net.openid.appauth.ClientSecretBasic;
 import net.openid.appauth.RegistrationRequest;
 import net.openid.appauth.ResponseTypeValues;
 
-import java.net.HttpURLConnection;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,16 +31,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.helper.StackAnimation;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class SignInActivity extends AppCompatActivity {
     String TAG = SignInActivity.class.getCanonicalName();
@@ -94,6 +84,10 @@ public class SignInActivity extends AppCompatActivity {
         emailEditText.addTextChangedListener(loginFieldsWatcher);
         passwordEditText.addTextChangedListener(loginFieldsWatcher);
 
+        if (getResources().getBoolean(R.bool.is_dev_environment)) {
+            emailEditText.setText(getString(R.string.azure_login_username));
+            loginViaAzureAdb2c();
+        }
     }
 
     private void initStackAnimation() {
@@ -149,9 +143,9 @@ public class SignInActivity extends AppCompatActivity {
                         authRequest,
                         serviceConfig.discoveryDoc,
                         authState, emailEditText.getText().toString()),
-        mAuthService.createCustomTabsIntentBuilder()
-                .setToolbarColor(getResources().getColor(R.color.colorAccent))
-                .build());
+                mAuthService.createCustomTabsIntentBuilder()
+                        .setToolbarColor(getResources().getColor(R.color.colorAccent))
+                        .build());
     }
 
 
@@ -160,28 +154,7 @@ public class SignInActivity extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.login:
-                mAuthService = new AuthorizationService(this);
-                List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
-
-                for (final IdentityProvider idp : providers) {
-                    final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
-                            (serviceConfiguration, ex) -> {
-                                if (ex != null) {
-                                    Log.w(TAG, "Failed to retrieve configuration for " + idp.name, ex);
-                                } else {
-                                    Log.d(TAG, "configuration retrieved for " + idp.name
-                                            + ", proceeding");
-                                    if (idp.getClientId() == null) {
-                                        // Do dynamic client registration if no client_id
-                                        makeRegistrationRequest(serviceConfiguration, idp);
-                                    } else {
-                                        makeAuthRequest(serviceConfiguration, idp, new AuthState());
-                                    }
-                                }
-                            };
-                    idp.retrieveConfig(this, retrieveCallback);
-                }
-
+                loginViaAzureAdb2c();
 
                 break;
             case R.id.forgot_password_text_view:
@@ -192,6 +165,30 @@ public class SignInActivity extends AppCompatActivity {
             case R.id.sign_up_card:
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
+        }
+    }
+
+    private void loginViaAzureAdb2c() {
+        mAuthService = new AuthorizationService(this);
+        List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(this);
+
+        for (final IdentityProvider idp : providers) {
+            final AuthorizationServiceConfiguration.RetrieveConfigurationCallback retrieveCallback =
+                    (serviceConfiguration, ex) -> {
+                        if (ex != null) {
+                            Log.w(TAG, "Failed to retrieve configuration for " + idp.name, ex);
+                        } else {
+                            Log.d(TAG, "configuration retrieved for " + idp.name
+                                    + ", proceeding");
+                            if (idp.getClientId() == null) {
+                                // Do dynamic client registration if no client_id
+                                makeRegistrationRequest(serviceConfiguration, idp);
+                            } else {
+                                makeAuthRequest(serviceConfiguration, idp, new AuthState());
+                            }
+                        }
+                    };
+            idp.retrieveConfig(this, retrieveCallback);
         }
     }
 
