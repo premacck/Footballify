@@ -116,7 +116,7 @@ public class SignInActivity extends AppCompatActivity {
                         Log.d(TAG, "Registration request complete successfully");
                         // Continue with the authentication
                         makeAuthRequest(registrationResponse.request.configuration, idp,
-                                new AuthState((registrationResponse)));
+                                new AuthState((registrationResponse)), emailEditText.getText().toString());
                     }
                 });
     }
@@ -124,7 +124,7 @@ public class SignInActivity extends AppCompatActivity {
     private void makeAuthRequest(
             @NonNull AuthorizationServiceConfiguration serviceConfig,
             @NonNull IdentityProvider idp,
-            @NonNull AuthState authState) {
+            @NonNull AuthState authState, String emailId) {
 
         AuthorizationRequest authRequest = new AuthorizationRequest.Builder(
                 serviceConfig,
@@ -132,7 +132,7 @@ public class SignInActivity extends AppCompatActivity {
                 ResponseTypeValues.CODE,
                 idp.getRedirectUri())
                 .setScope(idp.getScope())
-                .setLoginHint(getString(R.string.email_hint))
+                .setLoginHint(emailId)
                 .build();
 
         Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
@@ -184,7 +184,7 @@ public class SignInActivity extends AppCompatActivity {
                                 // Do dynamic client registration if no client_id
                                 makeRegistrationRequest(serviceConfiguration, idp);
                             } else {
-                                makeAuthRequest(serviceConfiguration, idp, new AuthState());
+                                makeAuthRequest(serviceConfiguration, idp, new AuthState(), emailEditText.getText().toString());
                             }
                         }
                     };
