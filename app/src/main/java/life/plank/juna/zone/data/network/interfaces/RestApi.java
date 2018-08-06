@@ -47,7 +47,7 @@ public interface RestApi {
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/api/junaUsers/GetUsers/{emailAddress}")
+    @GET("/users/GetUsers/{emailAddress}")
     Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress, @Header("Authorization") String authHeader);
 
     //working

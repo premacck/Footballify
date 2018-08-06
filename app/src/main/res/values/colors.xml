@@ -40,4 +40,5 @@
     <color name="transparent_white_one">#19ffffff</color>
     <color name="transparent_white_two">#0cffffff</color>
     <color name="chocolate_brown">#482d00</color>
+    <color name="faded_red">#b82c3f</color>
 </resources>
