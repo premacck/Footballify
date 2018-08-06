@@ -132,6 +132,7 @@
                                 android:layout_height="wrap_content"
                                 android:backgroundTint="@color/grey"
                                 android:clickable="false"
+                                android:enabled="false"
                                 android:fontFamily="@font/rajdhani_medium"
                                 android:hint="@string/password"
                                 android:inputType="textPassword" />

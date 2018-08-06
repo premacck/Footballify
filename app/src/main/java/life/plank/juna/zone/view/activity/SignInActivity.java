@@ -64,7 +64,7 @@ public class SignInActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable editable) {
             //TODO: validate email
-            if (!emailEditText.getText().toString().trim().isEmpty() && !passwordEditText.getText().toString().trim().isEmpty()) {
+            if (!emailEditText.getText().toString().trim().isEmpty()) {
                 login.setVisibility(View.VISIBLE);
             } else {
                 login.setVisibility(View.INVISIBLE);
