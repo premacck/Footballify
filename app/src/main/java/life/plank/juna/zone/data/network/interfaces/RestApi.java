@@ -43,8 +43,8 @@ public interface RestApi {
     Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/boards/{boardId}/feedItems")
-    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
+    @GET("/boards/feedItems")
+    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Query("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
     @GET("/users/GetUsers/{emailAddress}")

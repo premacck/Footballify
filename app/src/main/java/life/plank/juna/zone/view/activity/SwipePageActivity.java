@@ -368,6 +368,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             break;
                         }
                         case 1: {
+                            Intent intent = new Intent(SwipePageActivity.this, UserProfileActivity.class);
+                            startActivity(intent);
                             break;
                         }
                         case 2: {
