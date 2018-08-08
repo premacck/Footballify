@@ -133,7 +133,7 @@ public class TokenActivity extends AppCompatActivity {
         SharedPreferences.Editor boardIdEditor = getSharedPreferences(getString(R.string.azure_token), Context.MODE_PRIVATE).edit();
         boardIdEditor.putString(getString(R.string.azure_token), tokenResponse.idToken).apply();
 
-        getSignInResponse(emailId);
+        getSignInResponse();
     }
 
 
@@ -157,11 +157,11 @@ public class TokenActivity extends AppCompatActivity {
                 this::receivedTokenResponse);
     }
 
-    private void getSignInResponse(String emailAddress) {
+    private void getSignInResponse() {
         SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
         String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
 
-        restApi.getUser(emailAddress, token)
+        restApi.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<SignInModel>>() {
