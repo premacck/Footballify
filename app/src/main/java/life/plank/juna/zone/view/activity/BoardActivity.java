@@ -285,7 +285,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     @OnClick({R.id.following_text_view})
     //todo: can subscribe to Board,card and User field
     public void onViewClicked(View view) {
-        String id = "Board-" + enterBoardId;
+        String id = getString(R.string.board_id_prefix) + enterBoardId;
         switch (view.getId()) {
             case R.id.following_text_view:
                 if (followingTextView.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
@@ -324,6 +324,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                             enterBoardId = response.body().getId();
                             saveBoardId();
                             retrieveBoardByBoardId(enterBoardId);
+                            String topic = getString(R.string.board_id_prefix) + enterBoardId;
+                            FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
                         }
                     }

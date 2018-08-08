@@ -74,5 +74,6 @@
     <string name="green">green</string>
     <string name="blue">blue</string>
     <string name="bearer">Bearer</string>
+    <string name="board_id_prefix">Board-</string>
 
 </resources>
