@@ -29,12 +29,21 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
     private Bitmap bitmap;
 
+    @Override
+    public void onNewToken(String token) {
+        Log.d(TAG, "Refreshed token: " + token);
+        sendRegistrationToServer(token);
+    }
+
+    private void sendRegistrationToServer(String token) {
+        // TODO: Implement this method to send token to your app server.
+    }
 
     public void updateBoardActivity(Context context, BoardNotification boardNotification) {
 
         Intent intent = new Intent(context.getString(R.string.intent_board));
         intent.putExtra(context.getString(R.string.intent_content_type), boardNotification.getContentType());
-        Log.e("content type","content_type"+boardNotification.getContentType());
+        Log.e("content type", "content_type" + boardNotification.getContentType());
 
         //TODO: Investigate how to pass an object from one activity to another. App crashes when trying to use Serializable and Parcelable
         if (boardNotification.getContentType().equals(AppConstants.ROOT_COMMENT)) {
