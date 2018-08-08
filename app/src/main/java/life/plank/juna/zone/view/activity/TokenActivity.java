@@ -40,6 +40,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+
 /**
  * Client to the Native Oauth library.
  */
@@ -130,7 +132,7 @@ public class TokenActivity extends AppCompatActivity {
         mAuthState.update(tokenResponse, authException);
         Log.d("Id Token", " " + tokenResponse.idToken);
 
-        SharedPreferences.Editor boardIdEditor = getSharedPreferences(getString(R.string.azure_token), Context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor boardIdEditor = getSharedPrefs(getString(R.string.login_credentails)).edit();
         boardIdEditor.putString(getString(R.string.azure_token), tokenResponse.idToken).apply();
 
         getSignInResponse();
@@ -158,8 +160,8 @@ public class TokenActivity extends AppCompatActivity {
     }
 
     private void getSignInResponse() {
-        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
-        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
 
         restApi.getUser(token)
                 .subscribeOn(Schedulers.io())

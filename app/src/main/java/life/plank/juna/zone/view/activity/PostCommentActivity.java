@@ -36,6 +36,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+
 public class PostCommentActivity extends AppCompatActivity {
     String TAG = PostCommentActivity.class.getSimpleName();
     @Inject
@@ -121,9 +123,8 @@ public class PostCommentActivity extends AppCompatActivity {
     }
 
     private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {
-        //todo: Move this code to utils
-        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
-        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
 
         restApi.postCommentOnBoardFeed(getEditTextValue, boardId, contentType, userId, dateCreated, token)
                 .subscribeOn(Schedulers.io())

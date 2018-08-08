@@ -49,9 +49,6 @@ public class SignInActivity extends AppCompatActivity {
     EditText passwordEditText;
 
     StackAnimation stackAnimation;
-
-    private AuthorizationService mAuthService;
-
     TextWatcher loginFieldsWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -71,6 +68,7 @@ public class SignInActivity extends AppCompatActivity {
             }
         }
     };
+    private AuthorizationService mAuthService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

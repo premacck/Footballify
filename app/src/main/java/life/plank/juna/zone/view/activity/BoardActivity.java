@@ -53,6 +53,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 /**
@@ -62,9 +63,9 @@ import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 public class BoardActivity extends AppCompatActivity implements OnClickFeedItemListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
-    public BoardActivity boardActivity;
     public static Bitmap blurredBitmap = null;
     public static RenderScript renderScript;
+    public BoardActivity boardActivity;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -299,8 +300,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     }
 
     public void retrieveBoard(Long foreignId, String boardType) {
-        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
-        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
 
         restApi.retrieveBoard(foreignId, boardType, token)
                 .subscribeOn(Schedulers.io())
@@ -336,8 +337,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     }
 
     public void retrieveBoardByBoardId(String boardId) {
-        SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
-        String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
 
         progressBar.setVisibility(View.VISIBLE);
         restApi.retrieveByBoardId(boardId, token)

@@ -32,6 +32,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+
 public class CreatePrivateBoardActivity extends AppCompatActivity {
 
     private static final String TAG = CreatePrivateBoardActivity.class.getSimpleName();
@@ -132,8 +134,8 @@ public class CreatePrivateBoardActivity extends AppCompatActivity {
                 board.setDisplayname("Beer Brothers");
                 board.setDescription("Meant for drunkards");
                 board.setColor("brown");
-                SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
-                String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
+
+                String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
                 restApi.createPrivateBoard("private", board, token)
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
