@@ -11,6 +11,9 @@ public class Board {
     private String boardType;
     private Boolean isActive;
     private BoardEvent boardEvent;
+    private String zone;
+    private String description;
+    private String color;
 
     @Data
     public class BoardEvent {

@@ -6,9 +6,11 @@ import android.content.Context;
 import life.plank.juna.zone.data.network.dagger.AzureNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.BoardItemLikeNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.CreatePrivateBoardNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerAzureNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerBoardItemLikeNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerCreatePrivateBoardNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerFootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerImageUploaderNetworkComponent;
@@ -48,6 +50,7 @@ public class ZoneApplication extends Application {
     private BoardItemLikeNetworkComponent boardItemLikeNetworkComponent;
     private PostCommentFeedNetworkComponent postCommentFeedNetworkComponent;
     private AzureNetworkComponent azureNetworkComponent;
+    private CreatePrivateBoardNetworkComponent createPrivateBoardNetworkComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -101,6 +104,9 @@ public class ZoneApplication extends Application {
 
         postCommentFeedNetworkComponent = DaggerPostCommentFeedNetworkComponent.builder()
                 .restServiceModule(new RestServiceModule()).build();
+
+        createPrivateBoardNetworkComponent = DaggerCreatePrivateBoardNetworkComponent.builder()
+                .restServiceModule(new RestServiceModule()).build();
     }
 
     public FootballFeedNetworkComponent getFootballFeedNetworkComponent() {
@@ -150,5 +156,9 @@ public class ZoneApplication extends Application {
 
     public PostCommentFeedNetworkComponent getPostCommentFeedNetworkComponent() {
         return postCommentFeedNetworkComponent;
+    }
+
+    public CreatePrivateBoardNetworkComponent getCreatePrivateBoardNetworkComponent() {
+        return createPrivateBoardNetworkComponent;
     }
 }

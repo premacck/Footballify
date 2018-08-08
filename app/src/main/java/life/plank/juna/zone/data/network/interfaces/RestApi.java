@@ -47,8 +47,8 @@ public interface RestApi {
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Query("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/users/{emailAddress}")
-    Observable<Response<SignInModel>> getUser(@Path("emailAddress") String emailAddress, @Header("Authorization") String authHeader);
+    @GET("/users")
+    Observable<Response<SignInModel>> getUser(@Header("Authorization") String authHeader);
 
     //working
     @Multipart
@@ -73,6 +73,10 @@ public interface RestApi {
     //working
     @GET("teams/stats")
     Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
+
+    @POST("/boards")
+    Observable<Response<JsonObject>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
+                                                        @Header("Authorization") String authHeader);
 
     //yet to verify
     @GET("api/feeditems")
@@ -102,7 +106,6 @@ public interface RestApi {
 
     @DELETE("feedItems/{id}/likes")
     Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
-
 
     @POST("feedItems/{id}/comments")
     Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);

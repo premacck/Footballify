@@ -161,7 +161,7 @@ public class TokenActivity extends AppCompatActivity {
         SharedPreferences azurePref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.azure_token), 0);
         String token = getString(R.string.bearer) + " " + azurePref.getString(getString(R.string.azure_token), "NA");
 
-        restApi.getUser(emailAddress, token)
+        restApi.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<SignInModel>>() {
