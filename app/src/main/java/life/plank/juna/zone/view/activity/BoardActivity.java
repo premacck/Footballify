@@ -62,9 +62,9 @@ import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 public class BoardActivity extends AppCompatActivity implements OnClickFeedItemListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
-    public BoardActivity boardActivity;
     public static Bitmap blurredBitmap = null;
     public static RenderScript renderScript;
+    public BoardActivity boardActivity;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -284,7 +284,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     @OnClick({R.id.following_text_view})
     //todo: can subscribe to Board,card and User field
     public void onViewClicked(View view) {
-        String id = "Board-" + enterBoardId;
+        String id = getString(R.string.board_id_prefix) + enterBoardId;
         switch (view.getId()) {
             case R.id.following_text_view:
                 if (followingTextView.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
@@ -323,6 +323,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                             enterBoardId = response.body().getId();
                             saveBoardId();
                             retrieveBoardByBoardId(enterBoardId);
+                            String topic = getString(R.string.board_id_prefix) + enterBoardId;
+                            FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
                         }
                     }
