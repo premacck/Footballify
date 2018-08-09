@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,8 +17,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
     @BindView(R.id.search_view)
     SearchView search;
-    ArrayList<Integer> viewColors = new ArrayList<>();
-    ArrayList<String> animalNames = new ArrayList<>();
+    ArrayList<Integer> profileImageList = new ArrayList<>();
+    ArrayList<String> usernameList = new ArrayList<>();
     private SearchViewAdapter adapter;
 
     @Override
@@ -34,18 +33,14 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
     private void setArrayListData() {
         //TODO: To be replaced with data from backend.
-
-        viewColors.add(Color.BLUE);
-        viewColors.add(Color.YELLOW);
-        viewColors.add(Color.MAGENTA);
-        viewColors.add(Color.RED);
-        viewColors.add(Color.BLACK);
-
-        animalNames.add("Horse");
-        animalNames.add("Cow");
-        animalNames.add("Camel");
-        animalNames.add("Sheep");
-        animalNames.add("Goat");
+        for (int i = 0; i <= 4; i++) {
+            profileImageList.add(R.drawable.ic_profile_dummy);
+        }
+        usernameList.add("Anna Jule");
+        usernameList.add("Crisp Rat");
+        usernameList.add("Jon Doe");
+        usernameList.add("Wing Moe");
+        usernameList.add("John Dexter");
     }
 
     private void initRecyclerView() {
@@ -53,7 +48,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(InviteToBoardActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new SearchViewAdapter(this, viewColors, animalNames);
+        adapter = new SearchViewAdapter(profileImageList, usernameList);
         recyclerView.setAdapter(adapter);
         search.setOnQueryTextListener(this);
     }

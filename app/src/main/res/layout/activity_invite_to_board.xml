@@ -70,14 +70,29 @@
                 android:clickable="true"
                 android:iconifiedByDefault="false"
                 android:keyboardNavigationCluster="true"
-                android:textColor="@color/grey"
-                android:tooltipText="Search and add people" />
+                android:text="Search and add people"
+                android:textColor="@color/grey" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/search_result_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/search_view" />
+
+            <Button
+                android:id="@+id/invite_link_button"
+                android:layout_width="160dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="37dp"
+                android:layout_marginBottom="33dp"
+                android:layout_below="@+id/search_result_recycler_view"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/blue_border_button"
+                android:fontFamily="@font/raleway_semibold"
+                android:text="Invite"
+                android:textAllCaps="false"
+                android:textColor="@color/accent"
+                android:textSize="20sp" />
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

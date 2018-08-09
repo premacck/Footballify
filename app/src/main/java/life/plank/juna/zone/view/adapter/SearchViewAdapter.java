@@ -16,14 +16,14 @@ import life.plank.juna.zone.R;
 
 public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder> {
 
-    ArrayList<String> itemsCopy = new ArrayList<>();
-    private List<Integer> mViewColors;
-    private List<String> mNames;
+    ArrayList<String> usernameListCopy = new ArrayList<>();
+    private List<Integer> profilePictureList;
+    private List<String> usernameList;
 
     public SearchViewAdapter(List<Integer> colors, List<String> names) {
-        this.mViewColors = colors;
-        this.mNames = names;
-        itemsCopy.addAll(mNames);
+        this.profilePictureList = colors;
+        this.usernameList = names;
+        usernameListCopy.addAll(usernameList);
     }
 
     @Override
@@ -33,26 +33,24 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
 
     @Override
     public void onBindViewHolder(SearchViewAdapter.SearchViewHolder holder, int position) {
-        int color = mViewColors.get(position);
-        String animal = mNames.get(position);
-        holder.tileImageView.setBackgroundColor(color);
-        holder.nameTextView.setText(animal);
+        holder.profileImageView.setImageResource(profilePictureList.get(position));
+        holder.usernameTextView.setText(usernameList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return mNames.size();
+        return usernameList.size();
     }
 
     public void filter(String text) {
-        mNames.clear();
+        usernameList.clear();
         if (text.isEmpty()) {
-            mNames.addAll(itemsCopy);
+            usernameList.addAll(usernameListCopy);
         } else {
             text = text.toLowerCase();
-            for (String item : itemsCopy) {
+            for (String item : usernameListCopy) {
                 if (item.toLowerCase().contains(text)) {
-                    mNames.add(item);
+                    usernameList.add(item);
                 }
             }
         }
@@ -60,10 +58,10 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.colorView)
-        ImageView tileImageView;
-        @BindView(R.id.name)
-        TextView nameTextView;
+        @BindView(R.id.profile_image)
+        ImageView profileImageView;
+        @BindView(R.id.username)
+        TextView usernameTextView;
 
         SearchViewHolder(View itemView) {
             super(itemView);
