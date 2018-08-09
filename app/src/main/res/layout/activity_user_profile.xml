@@ -187,6 +187,7 @@
                     android:text="@string/my_boards" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/my_boards_list"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_below="@+id/my_boards_title_text_view"
@@ -194,10 +195,11 @@
                     tools:listitem="@layout/item_my_boards"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/create_board_button"
                     android:layout_width="55dp"
                     android:layout_height="55dp"
+                    android:background="@android:color/transparent"
                     android:src="@drawable/new_board_circle"
                     android:contentDescription="@string/add_board"
                     android:layout_alignParentEnd="true"
@@ -222,13 +224,14 @@
             android:id="@+id/app_preference_card"
             style="@style/CardView.Default">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:paddingStart="6dp"
                 android:paddingEnd="6dp"
                 android:paddingTop="6dp"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -240,7 +243,7 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -291,13 +294,14 @@
                     android:text="@string/last_transactions"/>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/user_transactions_list"
+                    android:id="@+id/last_transactions_list"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/transactions_header"
                     android:paddingTop="7dp"
                     android:clipToPadding="false"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                    tools:listitem="@layout/item_user_transactions_header"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:nestedScrollingEnabled="false"/>
@@ -306,7 +310,7 @@
                     android:id="@+id/get_coins_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_transactions_list"
+                    android:layout_below="@+id/last_transactions_list"
                     android:layout_marginTop="12dp"
                     android:layout_marginBottom="6dp"
                     android:layout_marginStart="8dp"
@@ -314,44 +318,13 @@
                     android:textColor="@color/black_50"
                     android:text="@string/get_coins"/>
 
-                <LinearLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/get_coins_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="20"
-                    android:layout_below="@+id/get_coins_header">
-
-                    <life.plank.juna.zone.util.GetCoinsCard
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        app:currentPrice="Free"/>
-
-                    <life.plank.juna.zone.util.GetCoinsCard
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        app:coinAmount="500"
-                        app:earlierPrice="$64.99"
-                        app:currentPrice="$14.99"/>
-
-                    <life.plank.juna.zone.util.GetCoinsCard
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        app:coinAmount="1000"
-                        app:earlierPrice="$64.99"
-                        app:currentPrice="$14.99"/>
-
-                    <life.plank.juna.zone.util.GetCoinsCard
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="6"
-                        app:coinAmount="5000"
-                        app:earlierPrice="$64.99"
-                        app:currentPrice="$14.99"/>
-
-                </LinearLayout>
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/get_coins_header"
+                    tools:listitem="@layout/item_get_coins"
+                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
 
             </RelativeLayout>
 

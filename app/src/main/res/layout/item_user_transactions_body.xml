@@ -58,7 +58,7 @@
         android:id="@+id/balance"
         android:layout_width="wrap_content"
         android:layout_height="28sp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|end"
         android:layout_weight="2"
         android:textColor="@color/grey"
         android:textSize="12sp"
