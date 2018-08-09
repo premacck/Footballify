@@ -75,5 +75,6 @@
     <string name="blue">blue</string>
     <string name="bearer">Bearer</string>
     <string name="board_id_prefix">Board-</string>
-
+    <string name="search_query_hint">Search and add people</string>
+    
 </resources>
