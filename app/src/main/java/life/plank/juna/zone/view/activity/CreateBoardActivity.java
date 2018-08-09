@@ -125,7 +125,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                // Navigate to activity
+                                startActivity(new Intent(CreateBoardActivity.this, PrivateBoardActivity.class));
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
