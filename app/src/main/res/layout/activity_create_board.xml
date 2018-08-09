@@ -46,7 +46,7 @@
                 android:layout_marginTop="11dp"
                 android:fontFamily="@font/raleway_regular"
                 android:lineSpacingExtra="6sp"
-                android:text="@string/choose_the_zone_which_your_board_belong_to"
+                android:text="@string/choose_the_zone_which_your_board_belongs_to"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -254,6 +254,7 @@
                 android:textSize="16sp" />
 
             <RadioGroup
+                android:id="@+id/board_type_radio_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">

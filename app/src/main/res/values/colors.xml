@@ -3,6 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">@android:color/transparent</color>
     <color name="colorAccent">#00bfe8</color>
+    <color name="mainGradientStart">#c86dd7</color>
+    <color name="mainGradientEnd">#3023ae</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="orange">#F8B809</color>
@@ -43,5 +45,6 @@
     <color name="transparent_white_two">#0cffffff</color>
     <color name="chocolate_brown">#482d00</color>
     <color name="faded_red">#b82c3f</color>
-    <color name="lighter_black">#4c000000</color>
+    <color name="black_76_opaque">#4c000000</color>
+    <color name="black_170_opaque">#AA000000</color>
 </resources>

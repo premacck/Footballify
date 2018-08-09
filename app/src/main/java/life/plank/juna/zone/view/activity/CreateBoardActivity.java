@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -55,6 +56,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     @BindView(R.id.private_board_color_list) RecyclerView privateBoardColorList;
     @BindView(R.id.private_board_icon_list) RecyclerView privateBoardIconList;
     @BindView(R.id.upload_board_icon) Button uploadBoardIcon;
+    @BindView(R.id.board_type_radio_group) RadioGroup boardTypeRadioGroup;
     @BindView(R.id.toggle_public_board) ToggleButton togglePublicBoard;
     @BindView(R.id.toggle_private_board) ToggleButton togglePrivateBoard;
     @BindView(R.id.create_board_button) Button createPrivateBoard;
@@ -101,7 +103,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         board.setColor(boardColorThemeAdapter.getSelectedColor());
 
         String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
-        restApi.createPrivateBoard("private", board, token)
+        restApi.createPrivateBoard(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? "public" : "private", board, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -112,7 +114,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        Log.e(TAG, e.getMessage());
                         Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
                     }
 

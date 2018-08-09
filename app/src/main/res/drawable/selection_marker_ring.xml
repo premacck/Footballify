@@ -7,9 +7,9 @@
             android:useLevel="false">
             <size android:width="30dp" android:height="30dp" />
             <gradient
-                android:endColor="#3023ae"
+                android:endColor="@color/mainGradientEnd"
                 android:gradientRadius="200"
-                android:startColor="#c86dd7"
+                android:startColor="@color/mainGradientStart"
                 android:type="linear" />
         </shape>
     </item>

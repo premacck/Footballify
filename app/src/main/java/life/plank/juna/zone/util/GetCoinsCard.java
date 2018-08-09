@@ -3,6 +3,7 @@ package life.plank.juna.zone.util;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,7 +47,7 @@ public class GetCoinsCard extends RelativeLayout {
             setEarlierPriceView(array.getString(R.styleable.GetCoinsCard_earlierPrice));
             setCurrentPriceView(array.getString(R.styleable.GetCoinsCard_currentPrice));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("GetCoinsCard", e.getMessage());
         } finally {
             if (array != null) array.recycle();
         }
