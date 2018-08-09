@@ -93,11 +93,6 @@ public class CreateBoardActivity extends AppCompatActivity {
         toggleZone(this, view);
     }
 
-    @Override public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
     @OnClick(R.id.create_board_button) public void onViewClicked(View view) {
         Board board = new Board();
         board.setZone(zone.toLowerCase().trim());
