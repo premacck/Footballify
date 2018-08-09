@@ -29,7 +29,7 @@ public class ObliqueStrikeTextView extends android.support.v7.widget.AppCompatTe
 
     private void init(Context context) {
         Resources resources = context.getResources();
-        int dividerColor = resources.getColor(R.color.grey_0_7);
+        int dividerColor = resources.getColor(R.color.grey_0_7, null);
 
         paint = new Paint();
         paint.setColor(dividerColor);
@@ -39,6 +39,6 @@ public class ObliqueStrikeTextView extends android.support.v7.widget.AppCompatTe
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawLine(0, getHeight(), getWidth(), 0, paint);
+        canvas.drawLine(0, getHeight(), getWidth() - (getWidth() / 5), getHeight() / 10, paint);
     }
 }

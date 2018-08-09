@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:animateLayoutChanges="true">
+
+    <!--This automatically has 8dp padding-->
+    <ImageView
+        android:id="@+id/image_selection_marker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:src="@drawable/selection_marker_ring"
+        android:contentDescription="@string/image_selection_marker" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/color_theme_image_view"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerInParent="true"
+        android:src="@color/red"/>
+
+</RelativeLayout>

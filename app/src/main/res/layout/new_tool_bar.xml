@@ -26,6 +26,7 @@
             android:textSize="20sp"/>
 
         <TextView
+            android:id="@+id/toolbar_coin_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -33,18 +34,18 @@
             android:drawableStart="@drawable/img_coin"
             android:drawablePadding="2dp"
             android:gravity="center_vertical"
-            android:text="32K"
             android:textColor="@color/grey"
             android:textSize="20sp"
             android:layout_weight="1" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/toolbar_profile_pic"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:layout_marginEnd="15dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_profile_dummy"
             android:contentDescription="@string/profile_pic" />
+
     </LinearLayout>
 <!--</merge>-->

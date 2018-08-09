@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -34,6 +35,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -316,5 +319,24 @@ public class UIDisplayUtil {
 
     public static float getDp(Context context, int pixels) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixels, context.getResources().getDisplayMetrics());
+    }
+
+    public static void toggleZone(Context context, ToggleButton view) {
+        if (view.isChecked()) {
+            view.setBackground(context.getDrawable(R.drawable.unselected_text_view_bg));
+            view.setElevation(0);
+            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            view.setTextColor(context.getColor(R.color.grey));
+        } else {
+            view.setBackground(context.getDrawable(R.drawable.selected_textview_bg));
+            view.setElevation(5);
+            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
+            view.setTextColor(context.getColor(R.color.white));
+        }
+    }
+
+    public void setColor(TextView view, int color) {
+        GradientDrawable bgShape = (GradientDrawable) view.getBackground();
+        bgShape.setColor(color);
     }
 }
