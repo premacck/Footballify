@@ -80,7 +80,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getCreatePrivateBoardNetworkComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
 
-        Picasso picasso = Picasso.with(this);
+        Picasso picasso = ((ZoneApplication) getApplication()).getViewComponent().getPicasso();
         boardColorThemeAdapter = new BoardColorThemeAdapter(boardColorList, picasso);
         boardIconAdapter = new BoardIconAdapter(boardIconList, picasso);
         privateBoardColorList.setAdapter(boardColorThemeAdapter);

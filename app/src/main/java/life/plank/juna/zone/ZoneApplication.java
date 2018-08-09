@@ -20,6 +20,7 @@ import life.plank.juna.zone.data.network.dagger.DaggerPostCommentFeedNetworkComp
 import life.plank.juna.zone.data.network.dagger.DaggerSignInUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerSignUpUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.DaggerStandingsNetworkComponent;
+import life.plank.juna.zone.data.network.dagger.DaggerViewComponent;
 import life.plank.juna.zone.data.network.dagger.FixtureAndResultNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.FootballFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.ImageUploaderNetworkComponent;
@@ -29,7 +30,8 @@ import life.plank.juna.zone.data.network.dagger.PostCommentFeedNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SignInUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.SignUpUserNetworkComponent;
 import life.plank.juna.zone.data.network.dagger.StandingsNetworkComponent;
-import life.plank.juna.zone.data.network.module.RestServiceModule;
+import life.plank.juna.zone.data.network.dagger.ViewComponent;
+import life.plank.juna.zone.data.network.module.ContextModule;
 
 /**
  * Created by plank-sobia on 9/19/2017.
@@ -51,6 +53,7 @@ public class ZoneApplication extends Application {
     private PostCommentFeedNetworkComponent postCommentFeedNetworkComponent;
     private AzureNetworkComponent azureNetworkComponent;
     private CreatePrivateBoardNetworkComponent createPrivateBoardNetworkComponent;
+    private ViewComponent viewComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -60,53 +63,39 @@ public class ZoneApplication extends Application {
         return getApplication().getApplicationContext();
     }
 
-    @Override
-    public void onCreate() {
+    @Override public void onCreate() {
         super.onCreate();
         zoneApplication = this;
 
-        footballFeedNetworkComponent = DaggerFootballFeedNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule())
-                .build();
+        footballFeedNetworkComponent = DaggerFootballFeedNetworkComponent.builder().build();
 
-        standingsNetworkComponent = DaggerStandingsNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        standingsNetworkComponent = DaggerStandingsNetworkComponent.builder().build();
 
-        lineupNetworkComponent = DaggerLineupNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        lineupNetworkComponent = DaggerLineupNetworkComponent.builder().build();
 
-        signUpUserNetworkComponent = DaggerSignUpUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        signUpUserNetworkComponent = DaggerSignUpUserNetworkComponent.builder().build();
 
-        fixtureAndResultNetworkComponent = DaggerFixtureAndResultNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        fixtureAndResultNetworkComponent = DaggerFixtureAndResultNetworkComponent.builder().build();
 
-        signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder().build();
 
-        signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        signInUserNetworkComponent = DaggerSignInUserNetworkComponent.builder().build();
 
-        azureNetworkComponent = DaggerAzureNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        azureNetworkComponent = DaggerAzureNetworkComponent.builder().build();
 
-        likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        likeFeedNetworkComponent = DaggerLikeFeedNetworkComponent.builder().build();
 
-        imageUploaderNetworkComponent = DaggerImageUploaderNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        imageUploaderNetworkComponent = DaggerImageUploaderNetworkComponent.builder().build();
 
-        boardFeedNetworkComponent = DaggerBoardFeedNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        boardFeedNetworkComponent = DaggerBoardFeedNetworkComponent.builder().build();
 
-        boardItemLikeNetworkComponent = DaggerBoardItemLikeNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        boardItemLikeNetworkComponent = DaggerBoardItemLikeNetworkComponent.builder().build();
 
-        postCommentFeedNetworkComponent = DaggerPostCommentFeedNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        postCommentFeedNetworkComponent = DaggerPostCommentFeedNetworkComponent.builder().build();
 
-        createPrivateBoardNetworkComponent = DaggerCreatePrivateBoardNetworkComponent.builder()
-                .restServiceModule(new RestServiceModule()).build();
+        createPrivateBoardNetworkComponent = DaggerCreatePrivateBoardNetworkComponent.builder().build();
+
+        viewComponent = DaggerViewComponent.builder().contextModule(new ContextModule(getApplicationContext())).build();
     }
 
     public FootballFeedNetworkComponent getFootballFeedNetworkComponent() {
@@ -160,5 +149,9 @@ public class ZoneApplication extends Application {
 
     public CreatePrivateBoardNetworkComponent getCreatePrivateBoardNetworkComponent() {
         return createPrivateBoardNetworkComponent;
+    }
+
+    public ViewComponent getViewComponent() {
+        return viewComponent;
     }
 }
