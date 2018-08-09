@@ -75,4 +75,14 @@
     <string name="my_boards">MY BOARDS</string>
     <string name="app_preferences">APP PREFERENCES</string>
     <string name="logout">Logout</string>
+    <string name="coin_summary">COIN SUMMARY</string>
+    <string name="payment_info">PAYMENT INFO</string>
+    <string name="last_transactions">Last Transactions</string>
+    <string name="date">Date</string>
+    <string name="type">Type</string>
+    <string name="debit">Debit</string>
+    <string name="credit">Credit</string>
+    <string name="balance">Balance</string>
+    <string name="get_coins">Get Coins</string>
+    <string name="looking_for_something_else">Looking for something else?\nVisit our Help and Support section</string>
 </resources>

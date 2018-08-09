@@ -75,5 +75,9 @@
     <string name="blue">blue</string>
     <string name="bearer">Bearer</string>
     <string name="board_id_prefix">Board-</string>
+    <string name="juna_logo">Juna logo</string>
+    <string name="popularity">Popularity</string>
+    <string name="profile_pic">Profile pic</string>
+    <string name="add_board">Add board</string>
 
 </resources>

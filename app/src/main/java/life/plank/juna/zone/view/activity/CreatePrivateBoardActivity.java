@@ -37,6 +37,7 @@ import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 public class CreatePrivateBoardActivity extends AppCompatActivity {
 
     private static final String TAG = CreatePrivateBoardActivity.class.getSimpleName();
+
     @BindView(R.id.football)
     ToggleButton football;
     @BindView(R.id.music)

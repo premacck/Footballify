@@ -1,255 +1,414 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_color"
-    tools:context=".view.activity.UserProfileActivity">
+    android:layout_height="wrap_content"
+    android:isScrollContainer="true">
 
-    <ScrollView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:isScrollContainer="true">
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-        <RelativeLayout
+        <life.plank.juna.zone.util.ZoneToolBar
+            android:id="@+id/zone_tool_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"/>
 
-            <include
-                android:id="@+id/zone_tool_bar"
-                layout="@layout/zone_tool_bar" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/user_info_card"
+            style="@style/CardView.Default">
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/user_info_card"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/zone_tool_bar"
-                android:layout_margin="16dp"
-                app:cardCornerRadius="8dp">
+                android:paddingTop="6dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingBottom="12dp">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:id="@+id/personal_info_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:fontFamily="@font/raleway_semibold"
-                        android:lineSpacingExtra="3sp"
-                        android:text="@string/personal_info"
-                        android:textColor="@color/grey"
-                        android:textSize="12sp" />
-
-                    <Button
-                        android:id="@+id/edit_profile_button"
-                        android:layout_width="83dp"
-                        android:layout_height="14dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginTop="4dp"
-                        android:background="@drawable/edit_profile_button"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="@string/edit_profile"
-                        android:textColor="@color/white"
-                        android:textSize="10dp" />
-
-                    <ImageView
-                        android:id="@+id/profile_picture_image_view"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_below="@+id/personal_info_text_view"
-                        android:layout_gravity="center"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="8dp"
-                        android:src="@drawable/ic_profile_dummy" />
-
-                    <TextView
-                        android:id="@+id/name_label_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="37dp"
-                        android:layout_toEndOf="@+id/profile_picture_image_view"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="@string/name"
-                        android:textColor="@color/black_50"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/name_text_view"
-                        style="@style/Input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/name_label_text_view"
-                        android:layout_toEndOf="@+id/profile_picture_image_view"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="Bobby Moore"
-                        android:textColor="@color/grey" />
-
-                    <TextView
-                        android:id="@+id/email_label_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/name_text_view"
-                        android:layout_marginTop="7dp"
-                        android:layout_toEndOf="@+id/profile_picture_image_view"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="@string/email"
-                        android:textColor="@color/black_50"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/email_text_view"
-                        style="@style/Input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/email_label_text_view"
-                        android:layout_toEndOf="@+id/profile_picture_image_view"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="bobby@plank.life"
-                        android:textColor="@color/grey" />
-
-                    <TextView
-                        android:id="@+id/dob_label_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/email_text_view"
-                        android:layout_marginTop="7dp"
-                        android:layout_toEndOf="@+id/profile_picture_image_view"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="@string/date_of_birth"
-                        android:textColor="@color/black_50"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/dob_text_view"
-                        style="@style/Input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/dob_label_text_view"
-                        android:layout_marginBottom="13dp"
-                        android:layout_toEndOf="@+id/profile_picture_image_view"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="22 Feb, 1987"
-                        android:textColor="@color/grey" />
-
-                    <TextView
-                        android:id="@+id/location_label_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/email_text_view"
-                        android:layout_marginStart="223dp"
-                        android:layout_marginTop="7dp"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="@string/location"
-                        android:textColor="@color/black_50"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/location_text_view"
-                        style="@style/Input"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_below="@+id/location_label_text_view"
-                        android:layout_marginStart="223dp"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:text="Glasgow, UK"
-                        android:textColor="@color/grey" />
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/my_boards_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/user_info_card"
-                android:layout_margin="16dp"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="8dp">
-
-                <RelativeLayout
+                <TextView
+                    android:id="@+id/personal_info_text_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_toStartOf="@+id/edit_profile_button"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:text="@string/personal_info"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
-                    <TextView
-                        android:id="@+id/my_boards_title_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
-                        android:text="@string/my_boards" />
+                <Button
+                    android:id="@+id/edit_profile_button"
+                    android:layout_width="83dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/personal_info_text_view"
+                    android:layout_alignBottom="@+id/personal_info_text_view"
+                    android:background="@drawable/edit_profile_button"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/edit_profile"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_10sp" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_picture_image_view"
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_below="@+id/personal_info_text_view"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="8dp"
+                    android:src="@drawable/ic_profile_dummy"
+                    android:contentDescription="@string/profile_pic" />
+
+                <TextView
+                    android:id="@+id/name_label_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignTop="@+id/profile_picture_image_view"
+                    android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/name"
+                    android:textColor="@color/black_50"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/name_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_label_text_view"
+                    android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="Bobby Moore"
+                    android:textColor="@color/grey"
+                    style="@style/Input" />
+
+                <TextView
+                    android:id="@+id/email_label_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/name_text_view"
+                    android:layout_marginTop="7dp"
+                    android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/email"
+                    android:textColor="@color/black_50"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/email_text_view"
+                    style="@style/Input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/email_label_text_view"
+                    android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="bobby@plank.life"
+                    android:textColor="@color/grey" />
+
+                <TextView
+                    android:id="@+id/dob_label_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/email_text_view"
+                    android:layout_marginTop="7dp"
+                    android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/date_of_birth"
+                    android:textColor="@color/black_50"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/dob_text_view"
+                    style="@style/Input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/dob_label_text_view"
+                    android:layout_marginBottom="13dp"
+                    android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="22 Feb, 1987"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey" />
+
+                <TextView
+                    android:id="@+id/location_label_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/email_text_view"
+                    android:layout_marginStart="223dp"
+                    android:layout_marginTop="7dp"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/location"
+                    android:textColor="@color/black_50"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/location_text_view"
+                    style="@style/Input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_below="@+id/location_label_text_view"
+                    android:layout_marginStart="223dp"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="Glasgow, UK"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/grey" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/my_boards_card"
+            style="@style/CardView.Default"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/my_boards_title_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/my_boards" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_below="@+id/my_boards_title_text_view"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
+
+                <RelativeLayout
+                    android:id="@+id/create_private_board_button"
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@id/my_boards_title_text_view">
 
                     <ImageView
+                        android:id="@+id/login"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/my_boards_title_text_view"
-                        android:layout_marginBottom="28dp"
-                        android:layout_marginStart="6dp"
-                        android:layout_marginTop="8dp"
-                        android:src="@drawable/circle_board_indicator" />
-
-                    <RelativeLayout
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_below="@id/my_boards_title_text_view"
-                        android:layout_marginEnd="6dp"
-                        android:layout_marginTop="8dp">
-
-                        <ImageView
-                            android:id="@+id/login"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/new_board_circle" />
-
-                        <ImageView
-                            android:id="@+id/add_circle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerInParent="true"
-                            android:src="@drawable/ic_add" />
-                    </RelativeLayout>
+                        android:src="@drawable/new_board_circle"
+                        android:contentDescription="@string/add_board" />
 
                 </RelativeLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/app_preference_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/my_boards_card"
-                android:layout_margin="16dp"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="200dp"
-                    android:layout_marginStart="6dp"
-                    android:fontFamily="@font/raleway_semibold"
-                    android:lineSpacingExtra="3sp"
-                    android:text="@string/app_preferences"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp" />
-            </android.support.v7.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:layout_alignStart="@+id/create_private_board_button"
+                    android:layout_alignEnd="@+id/create_private_board_button"
+                    android:layout_below="@+id/create_private_board_button"
+                    android:layout_marginTop="3dp"
+                    android:gravity="center"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="New"/>
 
-            <Button
-                android:id="@+id/logout_button"
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/app_preference_card"
+            style="@style/CardView.Default"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="10dp">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/app_preference_card"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/logout_button_bg"
-                android:text="@string/logout"
-                android:textAllCaps="false"
-                android:textColor="@color/grey" />
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/raleway_semibold"
+                android:lineSpacingExtra="3sp"
+                android:text="@string/app_preferences"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
 
-        </RelativeLayout>
-    </ScrollView>
-</android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/coin_summary_card"
+            style="@style/CardView.Default">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="6dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/raleway_semibold"
+                android:lineSpacingExtra="3sp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_toStartOf="@+id/coin_count"
+                android:text="@string/coin_summary"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/coin_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:drawableStart="@drawable/img_coin"
+                    android:drawablePadding="4dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/grey"
+                    android:text="32,420"/>
+
+                <TextView
+                    android:id="@+id/transactions_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/coin_count"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/black_50"
+                    android:text="@string/last_transactions"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/user_transactions_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/transactions_header"
+                    android:paddingTop="7dp"
+                    android:clipToPadding="false"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:nestedScrollingEnabled="false"/>
+
+                <TextView
+                    android:id="@+id/get_coins_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_transactions_list"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:textColor="@color/black_50"
+                    android:text="@string/get_coins"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="20"
+                    android:layout_below="@+id/get_coins_header">
+
+                    <life.plank.juna.zone.util.GetCoinsCard
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        app:currentPrice="Free"/>
+
+                    <life.plank.juna.zone.util.GetCoinsCard
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        app:coinAmount="500"
+                        app:earlierPrice="$64.99"
+                        app:currentPrice="$14.99"/>
+
+                    <life.plank.juna.zone.util.GetCoinsCard
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        app:coinAmount="1000"
+                        app:earlierPrice="$64.99"
+                        app:currentPrice="$14.99"/>
+
+                    <life.plank.juna.zone.util.GetCoinsCard
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="6"
+                        app:coinAmount="5000"
+                        app:earlierPrice="$64.99"
+                        app:currentPrice="$14.99"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/payment_info_card"
+            style="@style/CardView.Default"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp"
+                android:paddingTop="6dp"
+                android:paddingBottom="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/raleway_semibold"
+                android:lineSpacingExtra="3sp"
+                android:text="@string/payment_info"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/logout_button_bg"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:textSize="16sp"
+            android:text="@string/logout"
+            android:textAllCaps="false"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="@string/looking_for_something_else"/>
+
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

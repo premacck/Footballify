@@ -15,6 +15,7 @@
     <color name="light_black">#030303</color>
     <color name="text_hint_label_color">#00bfe8</color>
     <color name="grey">#555555</color>
+    <color name="grey_0_7">#b3555555</color>
     <color name="dark_sky_blue">#4a90e2</color>
     <color name="black_40">#66000000</color>
     <color name="dark_green">#66875d</color>

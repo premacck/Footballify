@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="GetCoinsCard">
+        <attr name="coinAmount" format="integer"/>
+        <attr name="earlierPrice" format="string"/>
+        <attr name="currentPrice" format="string"/>
+    </declare-styleable>
+
+</resources>
