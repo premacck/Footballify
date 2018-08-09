@@ -20,9 +20,9 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
     private List<Integer> profilePictureList;
     private List<String> usernameList;
 
-    public SearchViewAdapter(List<Integer> colors, List<String> names) {
-        this.profilePictureList = colors;
-        this.usernameList = names;
+    public SearchViewAdapter(List<Integer> profilePictureList, List<String> username) {
+        this.profilePictureList = profilePictureList;
+        this.usernameList = username;
         usernameListCopy.addAll(usernameList);
     }
 

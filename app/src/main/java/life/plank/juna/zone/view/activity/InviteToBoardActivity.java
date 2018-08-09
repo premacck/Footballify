@@ -29,6 +29,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         ButterKnife.bind(this);
         setArrayListData();
         initRecyclerView();
+        search.setQueryHint(getString(R.string.search_query_hint));
     }
 
     private void setArrayListData() {
@@ -43,6 +44,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         usernameList.add("John Dexter");
     }
 
+    //TODO: Move the card up when the user clicks on the search view
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.search_result_recycler_view);
         LinearLayoutManager horizontalLayoutManager
