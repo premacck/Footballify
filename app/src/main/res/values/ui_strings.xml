@@ -100,4 +100,6 @@
     <string name="create_board">Create Board</string>
     <string name="image_selection_marker">Image selection marker</string>
     <string name="dummy_32k">32K</string>
+    <string name="search_query_hint">Search and add people</string>
+    <string name="invite_string">Invite</string>
 </resources>
