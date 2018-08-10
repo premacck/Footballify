@@ -12,7 +12,6 @@ import life.plank.juna.zone.data.network.dagger.component.UiComponent;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
 import life.plank.juna.zone.data.network.service.HttpClientService;
 import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -29,38 +28,30 @@ public class RestServiceModule {
     @NetworkScope
     @Provides
     @Named("default")
-    public Retrofit getRetrofit(OkHttpClient okHttpClient, Gson gson) {
-
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        // set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-        httpClient.addInterceptor(logging);
-
+    public Retrofit getRetrofit(@Named("default") OkHttpClient defaultOkHttpClient1, @Named("logging") OkHttpClient loggingOkHttpClient,
+                                Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.feed_data_base_url))
                 .client(HttpClientService.getUnsafeOkHttpClient())
-                .client(okHttpClient)
-                .client(httpClient.build())
+                .client(defaultOkHttpClient1)
+                .client(loggingOkHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(nullOnEmptyConverterFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
     }
 
     @NetworkScope
     @Provides
     @Named("footballData")
-    public Retrofit getFootballData(Gson gson) {
+    public Retrofit getFootballData(Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.football_data_base_url))
                 .client(HttpClientService.getUnsafeOkHttpClient())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(nullOnEmptyConverterFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
-
     }
 
     @NetworkScope
