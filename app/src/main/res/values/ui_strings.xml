@@ -93,8 +93,11 @@
     <string name="and_a_board_icon">And a board icon</string>
     <string name="upload">Upload</string>
     <string name="board_visibility">Board visibility</string>
-    <string name="public_">Public</string>
-    <string name="private_">Private</string>
+    <string name="public_uppercase">Public</string>
+    <string name="private_uppercase">Private</string>
+    <string name="public_lowercase">public</string>
+    <string name="private_lowercase">private</string>
     <string name="create_board">Create Board</string>
     <string name="image_selection_marker">Image selection marker</string>
+    <string name="dummy_32k">32K</string>
 </resources>

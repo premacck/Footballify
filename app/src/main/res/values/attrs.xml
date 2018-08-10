@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-<!--    <declare-styleable name="GetCoinsCard">
-        <attr name="coinAmount" format="string"/>
-        <attr name="earlierPrice" format="string"/>
-        <attr name="currentPrice" format="string"/>
-    </declare-styleable>-->
-
     <declare-styleable name="ZoneToolBar">
         <attr name="title" format="string"/>
         <attr name="coinCount" format="string"/>

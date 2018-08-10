@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,10 +47,10 @@ public class ZoneToolBar extends LinearLayout {
         try {
             setTitle(array.getString(R.styleable.ZoneToolBar_title));
             String coinCount = array.getString(R.styleable.ZoneToolBar_coinCount);
-            setCoinCount(coinCount != null && !coinCount.isEmpty() ? coinCount : "32K");
+            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount);
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_profile_dummy));
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("ZoneToolBar", e.getMessage());
         } finally {
             if (array != null) array.recycle();
         }

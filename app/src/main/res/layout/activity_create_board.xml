@@ -266,7 +266,7 @@
                     android:layout_marginStart="20dp"
                     android:buttonTint="@color/colorAccent"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:text="@string/public_"
+                    android:text="@string/public_uppercase"
                     android:textAlignment="center"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />
@@ -278,7 +278,7 @@
                     android:layout_marginStart="20dp"
                     android:buttonTint="@color/colorAccent"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:text="@string/private_"
+                    android:text="@string/private_uppercase"
                     android:textAlignment="center"
                     android:textColor="@color/grey"
                     android:textSize="16sp" />

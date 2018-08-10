@@ -103,7 +103,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         board.setColor(boardColorThemeAdapter.getSelectedColor());
 
         String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
-        restApi.createPrivateBoard(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? "public" : "private", board, token)
+        restApi.createPrivateBoard(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase), board, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
