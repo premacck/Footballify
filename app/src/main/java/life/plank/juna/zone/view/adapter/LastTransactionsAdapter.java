@@ -11,12 +11,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.LastTransactions;
+import life.plank.juna.zone.data.network.model.LastTransaction;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 public class LastTransactionsAdapter extends BaseRecyclerView.Adapter<LastTransactionsAdapter.LastTransactionsViewHolder> {
 
-    private List<LastTransactions> lastTransactionsList;
+    private List<LastTransaction> lastTransactionsList;
 
     public LastTransactionsAdapter() {
         this.lastTransactionsList = new ArrayList<>();
@@ -44,7 +44,7 @@ public class LastTransactionsAdapter extends BaseRecyclerView.Adapter<LastTransa
      * Use this method to update the recyclerView's contents instead of using and managing a list in the Activity (where it doesn't really belong).
      * @param lastTransactionsList the list to update (usually fetched from the server).
      */
-    public void update(List<LastTransactions> lastTransactionsList) {
+    public void update(List<LastTransaction> lastTransactionsList) {
         this.lastTransactionsList = lastTransactionsList;
         notifyDataSetChanged();
     }
@@ -62,7 +62,7 @@ public class LastTransactionsAdapter extends BaseRecyclerView.Adapter<LastTransa
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(LastTransactions lastTransaction) {
+        public void bind(LastTransaction lastTransaction) {
             dateView.setText(lastTransaction.getDate());
             typeView.setText(lastTransaction.getType());
             debitView.setText(String.valueOf(lastTransaction.getDebit()));
