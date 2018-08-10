@@ -17,8 +17,6 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -63,12 +61,11 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     private RestApi restApi;
     @Inject @Named("default") Retrofit retrofit;
+    @Inject Picasso picasso;
+    @Inject BoardColorThemeAdapter boardColorThemeAdapter;
+    @Inject BoardIconAdapter boardIconAdapter;
 
     private String zone;
-    private BoardColorThemeAdapter boardColorThemeAdapter;
-    private BoardIconAdapter boardIconAdapter;
-    private List<String> boardColorList = new ArrayList<>();
-    private List<String> boardIconList = new ArrayList<>();
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, CreateBoardActivity.class));
@@ -79,12 +76,9 @@ public class CreateBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_board);
         ButterKnife.bind(this);
 
-        ((ZoneApplication) getApplication()).getCreatePrivateBoardNetworkComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
-        Picasso picasso = ((ZoneApplication) getApplication()).getViewComponent().getPicasso();
-        boardColorThemeAdapter = new BoardColorThemeAdapter(boardColorList, picasso);
-        boardIconAdapter = new BoardIconAdapter(boardIconList, picasso);
+        restApi = retrofit.create(RestApi.class);
         privateBoardColorList.setAdapter(boardColorThemeAdapter);
         privateBoardIconList.setAdapter(boardIconAdapter);
     }

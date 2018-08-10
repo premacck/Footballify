@@ -70,7 +70,7 @@ public class TokenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_token);
 
         mAuthService = new AuthorizationService(this);
-        ((ZoneApplication) getApplication()).getAzureNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_AUTH_STATE)) {

@@ -1,20 +1,16 @@
-package life.plank.juna.zone.data.network.module;
+package life.plank.juna.zone.data.network.dagger.module;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.dagger.component.UiComponent;
+import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
 import life.plank.juna.zone.data.network.service.HttpClientService;
-import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -23,32 +19,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by plank-dhamini on 6/8/2017.
- * This class consists the rest service for zone
+ * Module providing the network objects (e.g., {@link Retrofit}.
  */
-
-@Module
+@NetworkScope
+@Module(subcomponents = {UiComponent.class}, includes = NetworkModule.class)
 public class RestServiceModule {
 
-    private OkHttpClient okHttpClient = new OkHttpClient().newBuilder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .build();
-
-
-    @Singleton
-    @Provides
-    public Gson provideGson() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(Date.class, new ISO8601DateSerializer());
-        return builder.create();
-    }
-
     //todo:combine these two url feed and Football Data
-    @Singleton
+    @NetworkScope
     @Provides
     @Named("default")
-    public Retrofit getRetrofit(Gson gson) {
+    public Retrofit getRetrofit(OkHttpClient okHttpClient, Gson gson) {
 
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         // set your desired log level
@@ -68,7 +49,7 @@ public class RestServiceModule {
 
     }
 
-    @Singleton
+    @NetworkScope
     @Provides
     @Named("footballData")
     public Retrofit getFootballData(Gson gson) {
@@ -82,7 +63,7 @@ public class RestServiceModule {
 
     }
 
-    @Singleton
+    @NetworkScope
     @Provides
     @Named("azure")
     public Retrofit getAzureRetrofit(Gson gson) {

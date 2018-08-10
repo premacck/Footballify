@@ -1,4 +1,4 @@
-package life.plank.juna.zone.data.network.module;
+package life.plank.juna.zone.data.network.dagger.module;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;

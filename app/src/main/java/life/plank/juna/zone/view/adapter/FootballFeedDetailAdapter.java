@@ -20,11 +20,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.util.RoundedTransformation;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Retrofit;
-
-import static life.plank.juna.zone.ZoneApplication.getApplication;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -44,7 +40,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        getApplication().getLikeFeedNetworkComponent().inject(this);
+//        getApplication().getLikeFeedNetworkComponent().inject(this);
         retrofit.create(RestApi.class);
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.football_feed_detail_row, parent, false);

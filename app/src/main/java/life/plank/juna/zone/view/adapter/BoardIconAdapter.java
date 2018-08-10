@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,8 +24,8 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
     private List<String> boardIconList;
     private Picasso picasso;
 
-    public BoardIconAdapter(List<String> boardIconList, Picasso picasso) {
-        this.boardIconList = boardIconList;
+    public BoardIconAdapter(Picasso picasso) {
+        this.boardIconList = new ArrayList<>();
         this.picasso = picasso;
     }
 
@@ -39,6 +40,11 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
 
     @Override public int getItemCount() {
         return boardIconList.size();
+    }
+
+    public void update(List<String> boardIconList) {
+        this.boardIconList.addAll(boardIconList);
+        notifyDataSetChanged();
     }
 
     static class BoardIconViewHolder extends RecyclerView.ViewHolder {

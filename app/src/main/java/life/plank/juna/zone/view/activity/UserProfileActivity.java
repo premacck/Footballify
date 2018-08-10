@@ -1,5 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +11,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -17,6 +22,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
+import retrofit2.Retrofit;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -35,24 +41,21 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @BindView(R.id.logout_button) Button logoutButton;
 
-    private Picasso picasso;
-    private MyBoardsAdapter myBoardsAdapter;
-    private LastTransactionsAdapter lastTransactionsAdapter;
-    private GetCoinsAdapter getCoinsAdapter;
+    @Inject @Named("default") Retrofit retrofit;
+    @Inject Picasso picasso;
+    @Inject MyBoardsAdapter myBoardsAdapter;
+    @Inject LastTransactionsAdapter lastTransactionsAdapter;
+    @Inject GetCoinsAdapter getCoinsAdapter;
+
+    public static void launch(Context packageContext) {
+        packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
+    }
 
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
-        picasso = ((ZoneApplication) getApplicationContext()).getViewComponent().getPicasso();
-
-        initRecyclerViews();
-    }
-
-    private void initRecyclerViews() {
-        myBoardsAdapter = new MyBoardsAdapter(picasso);
-        lastTransactionsAdapter = new LastTransactionsAdapter();
-        getCoinsAdapter = new GetCoinsAdapter();
+        ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
     }
 
     @OnClick(R.id.create_board_button) public void launchBoardMaker() {

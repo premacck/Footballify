@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.LastTransactions;
+import life.plank.juna.zone.util.BaseRecyclerView;
 
-public class LastTransactionsAdapter extends RecyclerView.Adapter<LastTransactionsAdapter.LastTransactionsViewHolder> {
+public class LastTransactionsAdapter extends BaseRecyclerView.Adapter<LastTransactionsAdapter.LastTransactionsViewHolder> {
 
     private List<LastTransactions> lastTransactionsList;
 
@@ -49,7 +49,7 @@ public class LastTransactionsAdapter extends RecyclerView.Adapter<LastTransactio
         notifyDataSetChanged();
     }
 
-    static class LastTransactionsViewHolder extends RecyclerView.ViewHolder {
+    static class LastTransactionsViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.date) TextView dateView;
         @BindView(R.id.type) TextView typeView;

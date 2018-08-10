@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +12,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.GetCoins;
+import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.util.ObliqueStrikeTextView;
 
-public class GetCoinsAdapter extends RecyclerView.Adapter<GetCoinsAdapter.GetCoinsViewHolder> {
+public class GetCoinsAdapter extends BaseRecyclerView.Adapter<GetCoinsAdapter.GetCoinsViewHolder> {
 
     private List<GetCoins> getCoinsList;
 
@@ -44,7 +44,7 @@ public class GetCoinsAdapter extends RecyclerView.Adapter<GetCoinsAdapter.GetCoi
         notifyDataSetChanged();
     }
 
-    static class GetCoinsViewHolder extends RecyclerView.ViewHolder {
+    static class GetCoinsViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.coin_amount) TextView coinAmount;
         @BindView(R.id.earlier_price) ObliqueStrikeTextView earlierPrice;

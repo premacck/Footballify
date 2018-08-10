@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +7,7 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -15,15 +15,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.BaseRecyclerView;
 
-public class BoardColorThemeAdapter extends RecyclerView.Adapter<BoardColorThemeAdapter.BoardColorThemeViewHolder> {
+public class BoardColorThemeAdapter extends BaseRecyclerView.Adapter<BoardColorThemeAdapter.BoardColorThemeViewHolder> {
 
     private static int selectedIndex;
     private List<String> boardColorList;
     private Picasso picasso;
 
-    public BoardColorThemeAdapter(List<String> boardColorList, Picasso picasso) {
-        this.boardColorList = boardColorList;
+    public BoardColorThemeAdapter(Picasso picasso) {
+        this.boardColorList = new ArrayList<>();
         this.picasso = picasso;
     }
 
@@ -42,7 +43,12 @@ public class BoardColorThemeAdapter extends RecyclerView.Adapter<BoardColorTheme
         return boardColorList.size();
     }
 
-    static class BoardColorThemeViewHolder extends RecyclerView.ViewHolder {
+    public void update(List<String> boardColorList) {
+        this.boardColorList.addAll(boardColorList);
+        notifyDataSetChanged();
+    }
+
+    static class BoardColorThemeViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.color_theme_image_view) CircleImageView colorThemeImageView;
         @BindView(R.id.image_selection_marker) ImageView imageSelectionMarker;

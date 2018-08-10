@@ -139,7 +139,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
         boardActivity = BoardActivity.this;
-        ((ZoneApplication) getApplication()).getBoardFeedNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
