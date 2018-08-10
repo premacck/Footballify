@@ -75,4 +75,7 @@
     <string name="my_boards">MY BOARDS</string>
     <string name="app_preferences">APP PREFERENCES</string>
     <string name="logout">Logout</string>
+    <string name="search_query_hint">Search and add people</string>
+    <string name="invite_string">Invite</string>
+
 </resources>
