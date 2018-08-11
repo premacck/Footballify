@@ -23,6 +23,10 @@ public class PreferenceManager {
         editor.apply();
     }
 
+    public static SharedPreferences getMatchPrefs(Context context) {
+        return context.getSharedPreferences(context.getString(R.string.pref_match), Context.MODE_PRIVATE);
+    }
+
     public void saveString(String key, String value) {
         editor.putString(key, value);
         editor.commit();

@@ -11,6 +11,7 @@ public class FootballTeam {
     private Integer countryRef;
     private Boolean isNationalTeam;
     private Integer founded;
+    private Integer venueId;
     private Integer homeStadiumRef;
     private String logoLink;
 }

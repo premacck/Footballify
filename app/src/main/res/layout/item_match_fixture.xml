@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="6dp"
+    android:gravity="center_vertical"
+    android:background="@color/background_color"
+    android:paddingStart="12dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp"
+    app:layout_goneMarginBottom="6dp"
+    android:foreground="@drawable/ripple_dark_rect">
+
+    <ImageView
+        android:id="@+id/home_team_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:padding="5dp"
+        android:layout_toStartOf="@+id/team_names"
+        android:contentDescription="@string/pref_home_team_logo" />
+
+    <TextView
+        android:id="@+id/team_names"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="100dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:padding="5dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:textColor="@color/grey"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/away_team_logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toEndOf="@+id/team_names"
+        android:padding="5dp"
+        android:contentDescription="@string/pref_away_team_logo" />
+
+    <TextView
+        android:id="@+id/date_schedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/team_names"
+        android:layout_centerHorizontal="true"
+        android:gravity="end|center_vertical"
+        android:padding="5dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:textColor="@color/grey"
+        android:textSize="15sp" />
+
+</RelativeLayout>

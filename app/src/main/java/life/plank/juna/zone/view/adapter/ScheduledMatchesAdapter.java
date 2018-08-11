@@ -37,7 +37,7 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
 
     @Override
     public MatchFixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new MatchFixtureAndResultViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.scheduled_match_list, parent, false));
+        return new MatchFixtureAndResultViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture, parent, false));
 
     }
 
@@ -79,12 +79,11 @@ public class ScheduledMatchesAdapter extends RecyclerView.Adapter<ScheduledMatch
     }
 
     public class MatchFixtureAndResultViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.home_team_logo)
-        ImageView homeTeamLogo;
-        @BindView(R.id.away_team_logo)
-        ImageView awayTeamLogo;
-        @BindView(R.id.date_schedule)
-        TextView dateSchedule;
+
+        @BindView(R.id.home_team_logo) ImageView homeTeamLogo;
+        @BindView(R.id.away_team_logo) ImageView awayTeamLogo;
+        @BindView(R.id.date_schedule) TextView dateSchedule;
+        @BindView(R.id.team_names) TextView teamNames;
 
         MatchFixtureAndResultViewHolder(View itemView) {
 
