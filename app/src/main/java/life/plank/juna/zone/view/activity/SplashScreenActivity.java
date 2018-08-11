@@ -1,18 +1,20 @@
 
 package life.plank.juna.zone.view.activity;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
@@ -26,45 +28,44 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    public static Thread thread;
-    private boolean isInterrupted = false;
-    @BindView(R.id.parent_layout)
-    RelativeLayout parentLayout;
+    @BindView(R.id.animation_view) LottieAnimationView animationView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
+        ButterKnife.bind(this);
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
 
-        launchSplashScreen();
+        animationView.setSpeed(2.0f);
+        animationView.addAnimatorListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {}
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                launchSplashScreen();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {}
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {}
+        });
     }
 
+    /**
+     * TODO: Remove the comment slashes from the commented code to enable 1 login per day.
+     */
     private void launchSplashScreen() {
-        thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    Thread.sleep(5000);
-
-                    if (!isInterrupted) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
-                                finish();
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                    Log.e(TAG, e.toString());
-                }
-            }
-        });
-        thread.start();
+        startActivity(new Intent(
+                SplashScreenActivity.this,
+//                !isNullOrEmpty(getToken(this)) ?
+//                        UserProfileActivity.class :
+                        SignInActivity.class
+        ));
+        finish();
     }
 
     /**
@@ -96,25 +97,4 @@ public class SplashScreenActivity extends AppCompatActivity {
             startService(intent);
         }
     }
-
-    @Override
-    protected void onPause() {
-        isInterrupted = true;
-        thread.interrupt();
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isInterrupted = false;
-    }
-
-    @Override
-    protected void onStop() {
-        isInterrupted = true;
-        thread.interrupt();
-        super.onStop();
-    }
 }
-

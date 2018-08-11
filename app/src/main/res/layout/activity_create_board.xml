@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".view.activity.CreateBoardActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <life.plank.juna.zone.util.ZoneToolBar
+            android:id="@+id/zone_tool_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="@string/board_maker"/>
+
+        <RelativeLayout
+            android:id="@+id/categories"
+            android:layout_width="match_parent"
+            android:layout_height="155dp"
+            android:background="@color/background_color">
+
+            <TextView
+                android:id="@+id/user_greeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="8sp"
+                android:text="Hi Kiran"
+                android:textColor="@color/grey"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_greeting"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="11dp"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/choose_the_zone_which_your_board_belongs_to"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <ToggleButton
+                android:id="@+id/football"
+                android:layout_below="@+id/description"
+                android:textOff="@string/football"
+                android:textOn="@string/football"
+                style="@style/ZoneSelection"/>
+
+            <ToggleButton
+                android:id="@+id/music"
+                android:layout_below="@+id/description"
+                android:layout_toEndOf="@+id/football"
+                android:textOff="@string/music"
+                android:textOn="@string/music"
+                style="@style/ZoneSelection" />
+
+            <ToggleButton
+                android:id="@+id/drama"
+                android:layout_below="@+id/description"
+                android:layout_toEndOf="@+id/music"
+                android:textOff="@string/drama"
+                android:textOn="@string/drama"
+                style="@style/ZoneSelection" />
+
+            <ToggleButton
+                android:id="@+id/tune"
+                android:layout_below="@+id/drama"
+                android:textOff="@string/tune"
+                android:textOn="@string/tune"
+                style="@style/ZoneSelection" />
+
+            <ToggleButton
+                android:id="@+id/skill"
+                android:layout_below="@+id/music"
+                android:layout_toEndOf="@+id/tune"
+                android:textOff="@string/skill"
+                android:textOn="@string/skill"
+                style="@style/ZoneSelection" />
+
+            <ToggleButton
+                android:id="@+id/other"
+                android:layout_below="@+id/drama"
+                android:layout_toEndOf="@+id/skill"
+                android:textOff="@string/other"
+                android:textOn="@string/other"
+                style="@style/ZoneSelection" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/board_details_relative_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
+
+            <TextView
+                android:id="@+id/private_board_setup_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/now_let_s_setup_your_football_board"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/board_name_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/private_board_setup_title"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="20dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/board_name_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey_0_5"
+                    android:textColorHint="@color/grey_0_5"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:hint="@string/board_name"
+                    android:inputType="text"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/board_description_text_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/board_name_text_input"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginEnd="17dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="15dp">
+
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/board_description_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/grey_0_5"
+                    android:textColorHint="@color/grey_0_5"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:hint="@string/board_description"
+                    android:inputType="text"
+                    android:textSize="16sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:id="@+id/pick_a_color_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/board_description_text_input"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/pick_a_color_theme_for_your_board"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/private_board_color_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/pick_a_color_title"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                tools:listitem="@layout/item_board_color_theme"
+                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+
+            <TextView
+                android:id="@+id/board_icon_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/private_board_color_list"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/raleway_regular"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/and_a_board_icon"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="17dp"
+                android:gravity="center_vertical"
+                android:layout_below="@+id/board_icon_text_view">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/private_board_icon_list"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:layout_weight="1"
+                    tools:listitem="@layout/item_board_icon"
+                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+
+                <Button
+                    android:id="@+id/upload_board_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:background="@drawable/blue_border_button"
+                    android:text="@string/upload"
+                    android:textSize="12sp"
+                    android:textColor="@color/others_color_grey"/>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/board_type_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="@color/background_color"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="17dp">
+
+            <TextView
+                android:id="@+id/board_visibility_text_view"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/raleway_regular"
+                android:text="@string/board_visibility"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+            <RadioGroup
+                android:id="@+id/board_type_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/toggle_public_board"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/public_uppercase"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+
+                <RadioButton
+                    android:id="@+id/toggle_private_board"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:text="@string/private_uppercase"
+                    android:textAlignment="center"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/create_board_button"
+            android:layout_width="187dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_background"
+            android:fontFamily="@font/raleway_bold"
+            android:text="@string/create_board"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="19sp" />
+
+    </LinearLayout>
+</ScrollView>

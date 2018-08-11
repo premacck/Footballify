@@ -13,9 +13,9 @@
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
     </style>
 
     <style name="stats_header_text_style">
@@ -74,5 +74,31 @@
     <style name="Input">
         <item name="android:textSize">16sp</item>
         <item name="android:lineSpacingExtra">12sp</item>
+    </style>
+
+    <style name="CardView.Default">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="cardCornerRadius">8dp</item>
+    </style>
+
+    <style name="ZoneSelection">
+        <item name="android:layout_width">112dp</item>
+        <item name="android:layout_height">23dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:checked">true</item>
+        <item name="android:background">@drawable/unselected_text_view_bg</item>
+        <item name="android:fontFamily">@font/rajdhani_semibold</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">7dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/grey</item>
+        <item name="android:textSize">12sp</item>
     </style>
 </resources>

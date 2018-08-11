@@ -83,7 +83,7 @@ public class LineupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line_up);
         ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getLineupNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         getLineUpData(currentMatchId);
         getMatchSummary(currentMatchId);

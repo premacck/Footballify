@@ -18,22 +18,19 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true">
 
-        <ImageView
-            android:layout_width="15dp"
-            android:layout_height="15dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="5dp"
-            android:src="@drawable/img_coin" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="20dp"
             android:fontFamily="@font/rajdhani_medium"
+            android:drawableStart="@drawable/img_coin"
+            android:drawablePadding="2dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center_vertical"
             android:text="32K"
             android:textColor="@color/grey"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:layout_weight="1" />
 
         <ImageView
             android:layout_width="36dp"

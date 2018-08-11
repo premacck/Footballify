@@ -2,11 +2,10 @@
 <shape
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
-
-    <solid
-        android:color="@color/chocolate_brown"/>
-
-    <size
-        android:width="120dp"
-        android:height="120dp"/>
+    <gradient
+        android:angle="315"
+        android:startColor="@color/chocolate_brown"
+        android:centerColor="@color/material_brown_700"
+        android:endColor="@color/material_brown_400"/>
+    <size android:width="36dp" android:height="36dp" />
 </shape>

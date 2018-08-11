@@ -71,7 +71,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_and_result);
         ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         getScoreFixture(AppConstants.SEASON_NAME);
     }

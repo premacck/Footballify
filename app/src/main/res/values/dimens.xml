@@ -3,4 +3,6 @@
     // TODO: 19-02-2018 refactor this file.
     <dimen name="scrubber_view_width">1dp</dimen>
     <dimen name="feed_card_corner_radius">8dp</dimen>
+    <dimen name="text_10sp">10sp</dimen>
+    <dimen name="vertical_divider_width">1dp</dimen>
 </resources>

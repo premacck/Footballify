@@ -35,4 +35,8 @@
     <string name="unable_to_capture_image">Unable to capture the image</string>
     <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
     <string name="add_permission">Enable permission from settings</string>
+    <string name="could_not_create_board">Couldn\'t create the board, please try again.</string>
+    <string name="all_fields_are_required">All fields are required</string>
+    <string name="select_board_color">Please select your board color</string>
+    <string name="select_zone_for_board">Please select a zone for your board</string>
 </resources>
