@@ -15,8 +15,8 @@ import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
 public class AdaptersModule {
 
     @UiScope @Provides
-    public BoardColorThemeAdapter provideBoardColorThemeAdapter(Picasso picasso) {
-        return new BoardColorThemeAdapter(picasso);
+    public BoardColorThemeAdapter provideBoardColorThemeAdapter() {
+        return new BoardColorThemeAdapter();
     }
 
     @UiScope @Provides

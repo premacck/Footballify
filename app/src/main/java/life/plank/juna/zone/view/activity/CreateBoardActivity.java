@@ -3,12 +3,13 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -36,6 +37,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.facebook.internal.Utility.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 
@@ -49,14 +51,14 @@ public class CreateBoardActivity extends AppCompatActivity {
     @BindView(R.id.tune) ToggleButton tune;
     @BindView(R.id.skill) ToggleButton skill;
     @BindView(R.id.other) ToggleButton other;
-    @BindView(R.id.board_name_edit_text) EditText boardName;
-    @BindView(R.id.board_description_edit_text) EditText boardDescription;
+    @BindView(R.id.board_name_edit_text) TextInputEditText boardName;
+    @BindView(R.id.board_description_edit_text) TextInputEditText boardDescription;
     @BindView(R.id.private_board_color_list) RecyclerView privateBoardColorList;
     @BindView(R.id.private_board_icon_list) RecyclerView privateBoardIconList;
     @BindView(R.id.upload_board_icon) Button uploadBoardIcon;
     @BindView(R.id.board_type_radio_group) RadioGroup boardTypeRadioGroup;
-    @BindView(R.id.toggle_public_board) ToggleButton togglePublicBoard;
-    @BindView(R.id.toggle_private_board) ToggleButton togglePrivateBoard;
+    @BindView(R.id.toggle_public_board) RadioButton togglePublicBoard;
+    @BindView(R.id.toggle_private_board) RadioButton togglePrivateBoard;
     @BindView(R.id.create_board_button) Button createPrivateBoard;
 
     private RestApi restApi;
@@ -65,7 +67,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     @Inject BoardColorThemeAdapter boardColorThemeAdapter;
     @Inject BoardIconAdapter boardIconAdapter;
 
-    private String zone;
+    private String zone = "";
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, CreateBoardActivity.class));
@@ -95,6 +97,29 @@ public class CreateBoardActivity extends AppCompatActivity {
         board.setDisplayname(boardName.getText().toString().trim());
         board.setDescription(boardDescription.getText().toString().trim());
         board.setColor(boardColorThemeAdapter.getSelectedColor());
+
+        createBoard(board);
+    }
+
+    private void createBoard(Board board) {
+        if (isNullOrEmpty(board.getZone())) {
+            Toast.makeText(this, R.string.select_zone_for_board, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (isNullOrEmpty(board.getDisplayname())) {
+            boardName.setError("Please enter a board name", getDrawable(R.drawable.ic_error));
+            boardName.requestFocus();
+            return;
+        }
+        if (isNullOrEmpty(board.getDescription())) {
+            boardDescription.setError("Please enter the board's description", getDrawable(R.drawable.ic_error));
+            boardDescription.requestFocus();
+            return;
+        }
+        if (isNullOrEmpty(board.getColor())) {
+            Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
         restApi.createPrivateBoard(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase), board, token)
