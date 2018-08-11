@@ -3,7 +3,7 @@
     <item>
         <shape
             android:shape="ring"
-            android:thickness="1dp"
+            android:thickness="2dp"
             android:useLevel="false">
             <size android:width="30dp" android:height="30dp" />
             <gradient

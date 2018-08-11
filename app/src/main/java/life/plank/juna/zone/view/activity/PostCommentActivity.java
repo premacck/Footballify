@@ -75,7 +75,7 @@ public class PostCommentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_post_comment);
         ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getPostCommentFeedNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         commentReflectOnPostSurface();
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());

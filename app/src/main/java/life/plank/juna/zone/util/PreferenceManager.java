@@ -3,6 +3,7 @@ package life.plank.juna.zone.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 
 /**
@@ -48,5 +49,9 @@ public class PreferenceManager {
     public static String getSharedPrefs(String sharedPrefs, String preferenceKey) {
         SharedPreferences sharedPreference = ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
         return sharedPreference.getString(preferenceKey, "NA");
+    }
+
+    public static String getToken(Context context) {
+        return context.getString(R.string.bearer) + " " + getSharedPrefs(context.getString(R.string.login_credentails), context.getString(R.string.azure_token));
     }
 }

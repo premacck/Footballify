@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <shape android:shape="rectangle">
+            <size android:height="1024dp" android:width="576dp"/>
+            <solid android:color="@color/background_color"/>
+        </shape>
+    </item>
+
+    <item android:gravity="center">
+        <shape android:shape="oval">
+            <size android:height="20dp" android:width="20dp"/>
+            <solid android:color="@color/fab_button_pink"/>
+        </shape>
+    </item>
+
+</layer-list>

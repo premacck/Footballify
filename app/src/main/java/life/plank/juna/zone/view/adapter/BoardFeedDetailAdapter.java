@@ -32,7 +32,6 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.AppConstants;
@@ -79,7 +78,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     @Override
     public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ((ZoneApplication) getApplication()).getBoardItemLikeNetworkComponent().inject(this);
+        getApplication().getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_detail_row, parent, false);
         return new FootballFeedDetailViewHolder(view);

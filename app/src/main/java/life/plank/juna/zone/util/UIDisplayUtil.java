@@ -35,7 +35,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import java.text.ParseException;
@@ -335,7 +334,7 @@ public class UIDisplayUtil {
         }
     }
 
-    public void setColor(TextView view, int color) {
+    public static void setColor(View view, int color) {
         GradientDrawable bgShape = (GradientDrawable) view.getBackground();
         bgShape.setColor(color);
     }

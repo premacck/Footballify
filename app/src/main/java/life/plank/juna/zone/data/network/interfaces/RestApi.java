@@ -69,21 +69,25 @@ public interface RestApi {
                                                             @Query("dateCreated") String dateCreated,
                                                             @Header("Authorization") String authHeader);
 
-    
+
     //working
     @GET("teams/stats")
     Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
 
+    //working
     @POST("/boards")
     Observable<Response<JsonObject>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
                                                         @Header("Authorization") String authHeader);
 
+    //working
+    @GET("seasons/matches")
+    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
+                                                                       @Query("leagueName") String leagueName,
+                                                                       @Query("countryName") String countryName);
+
     //yet to verify
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
-
-    @GET("seasons/matches")
-    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName);
 
     @GET("seasons/playerstats")
     Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);

@@ -87,7 +87,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         openFrom = getIntent().getStringExtra(getString(R.string.intent_open_from));
-        ((ZoneApplication) getApplication()).getImageUploaderNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         apiCallFromActivity = getIntent().getStringExtra(getString(R.string.intent_api));
         targetId = getIntent().getStringExtra(getString(R.string.intent_board_id));

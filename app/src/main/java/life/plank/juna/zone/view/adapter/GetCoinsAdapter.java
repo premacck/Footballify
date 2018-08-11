@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +11,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.GetCoins;
+import life.plank.juna.zone.data.network.model.CoinPack;
+import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.util.ObliqueStrikeTextView;
 
-public class GetCoinsAdapter extends RecyclerView.Adapter<GetCoinsAdapter.GetCoinsViewHolder> {
+public class GetCoinsAdapter extends BaseRecyclerView.Adapter<GetCoinsAdapter.GetCoinsViewHolder> {
 
-    private List<GetCoins> getCoinsList;
+    private List<CoinPack> coinPackList;
 
     public GetCoinsAdapter() {
-        this.getCoinsList = new ArrayList<>();
+        this.coinPackList = new ArrayList<>();
     }
 
     @Override public GetCoinsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -28,7 +28,7 @@ public class GetCoinsAdapter extends RecyclerView.Adapter<GetCoinsAdapter.GetCoi
     }
 
     @Override public void onBindViewHolder(GetCoinsViewHolder holder, int position) {
-        holder.bind(getCoinsList.get(position));
+        holder.bind(coinPackList.get(position));
     }
 
     @Override public int getItemCount() {
@@ -37,14 +37,14 @@ public class GetCoinsAdapter extends RecyclerView.Adapter<GetCoinsAdapter.GetCoi
 
     /**
      * Use this method to update the recyclerView's contents instead of using and managing a list in the Activity (where it doesn't really belong).
-     * @param getCoinsList the list to update (usually fetched from the server).
+     * @param coinPackList the list to update (usually fetched from the server).
      */
-    public void update(List<GetCoins> getCoinsList) {
-        this.getCoinsList = getCoinsList;
+    public void update(List<CoinPack> coinPackList) {
+        this.coinPackList = coinPackList;
         notifyDataSetChanged();
     }
 
-    static class GetCoinsViewHolder extends RecyclerView.ViewHolder {
+    static class GetCoinsViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.coin_amount) TextView coinAmount;
         @BindView(R.id.earlier_price) ObliqueStrikeTextView earlierPrice;
@@ -55,10 +55,10 @@ public class GetCoinsAdapter extends RecyclerView.Adapter<GetCoinsAdapter.GetCoi
             ButterKnife.bind(this, itemView);
         }
 
-        public void bind(GetCoins getCoins) {
-            if (getCoins.getCoinCount() > 0) coinAmount.setText(getCoins.getCoinCount());
-            if (getCoins.getEarlierPrice() > 0) earlierPrice.setText(String.valueOf(getCoins.getEarlierPrice()));
-            if (getCoins.getCurrentPrice() > 0) currentPrice.setText(String.valueOf(getCoins.getCurrentPrice()));
+        public void bind(CoinPack coinPack) {
+            if (coinPack.getCoinCount() > 0) coinAmount.setText(coinPack.getCoinCount());
+            if (coinPack.getEarlierPrice() > 0) earlierPrice.setText(String.valueOf(coinPack.getEarlierPrice()));
+            if (coinPack.getCurrentPrice() > 0) currentPrice.setText(String.valueOf(coinPack.getCurrentPrice()));
         }
     }
 }

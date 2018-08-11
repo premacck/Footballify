@@ -74,7 +74,7 @@ public class MatchResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_result);
-        ((ZoneApplication) getApplication()).getStandingNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
 

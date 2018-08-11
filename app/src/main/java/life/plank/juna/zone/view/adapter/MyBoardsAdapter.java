@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +14,9 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.util.BaseRecyclerView;
 
-public class MyBoardsAdapter extends RecyclerView.Adapter<MyBoardsAdapter.MyBoardsViewHolder> {
+public class MyBoardsAdapter extends BaseRecyclerView.Adapter<MyBoardsAdapter.MyBoardsViewHolder> {
 
     private List<Board> boardList;
     private Picasso picasso;
@@ -47,7 +47,7 @@ public class MyBoardsAdapter extends RecyclerView.Adapter<MyBoardsAdapter.MyBoar
         notifyDataSetChanged();
     }
 
-    static class MyBoardsViewHolder extends RecyclerView.ViewHolder {
+    static class MyBoardsViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.board_icon) CircleImageView boardIcon;
 

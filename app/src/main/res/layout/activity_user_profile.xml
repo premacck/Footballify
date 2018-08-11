@@ -83,8 +83,10 @@
                     android:layout_below="@+id/name_label_text_view"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:text="Bobby Moore"
                     android:textColor="@color/grey"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     style="@style/Input" />
 
                 <TextView
@@ -107,7 +109,9 @@
                     android:layout_below="@+id/email_label_text_view"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:text="bobby@plank.life"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textColor="@color/grey" />
 
                 <TextView
@@ -130,8 +134,8 @@
                     android:layout_below="@+id/dob_label_text_view"
                     android:layout_marginBottom="13dp"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:layout_toStartOf="@+id/location_text_view"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:text="22 Feb, 1987"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:ellipsize="end"
@@ -155,11 +159,9 @@
                     style="@style/Input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
                     android:layout_below="@+id/location_label_text_view"
-                    android:layout_marginStart="223dp"
+                    android:layout_alignStart="@+id/location_label_text_view"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:text="Glasgow, UK"
                     android:maxLines="1"
                     android:singleLine="true"
                     android:ellipsize="end"

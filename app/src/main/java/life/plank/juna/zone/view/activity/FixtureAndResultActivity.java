@@ -71,7 +71,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_and_result);
         ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getFixtureAndResultNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         getScoreFixture(AppConstants.SEASON_NAME);
     }
@@ -96,7 +96,10 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
     public void populatePastMatchFixtureRecyclerView() {
         pastMatchAdapter = new PastMatchAdapter(this, classifiedMatchesMap);
-        pastMatchRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        pastMatchRecyclerView.setLayoutManager(layoutManager);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
         pastMatchRecyclerView.setAdapter(pastMatchAdapter);
     }
 
@@ -110,7 +113,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
     public void getScoreFixture(String seasonName) {
         progressBar.setVisibility(View.VISIBLE);
-        restApi.getScoresAndFixtures(seasonName)
+        //TODO: remove hardcoded value
+        restApi.getScoresAndFixtures(seasonName, "Premier League", "England")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<ScoreFixtureModel>>>() {
@@ -139,6 +143,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                                     for (int i = 0; i < classifiedMatchesMap.size(); i++) {
                                         pastMatchDayTextView.setText(classifiedMatchesMap.get(FootballFixtureClassifierService.FixtureClassification.PAST_MATCHES).get(i).getMatchDay());
                                     }
+
                                 } else {
                                     Toast.makeText(FixtureAndResultActivity.this, R.string.matches_not_found, Toast.LENGTH_SHORT).show();
                                 }

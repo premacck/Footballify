@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="8dp"
     app:cardElevation="10dp"
-    android:foreground="@drawable/ripple_dark"
+    android:foreground="@drawable/ripple_dark_rect"
     android:layout_margin="6dp">
 
     <RelativeLayout

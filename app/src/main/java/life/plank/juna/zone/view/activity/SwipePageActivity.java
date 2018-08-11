@@ -136,7 +136,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         ButterKnife.bind(this);
         swipePageActivity = SwipePageActivity.this;
         startNetworkBroadcastReceiver(this);
-        ((ZoneApplication) getApplication()).getFootballFeedNetworkComponent().inject(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         initRecyclerView();
         setUpData();
