@@ -55,16 +55,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * TODO: Remove/Add the comment slashes from the commented code to enable/disable 1 login per day.
-     */
     private void launchSplashScreen() {
-        startActivity(new Intent(
-                SplashScreenActivity.this,
-//                !isNullOrEmpty(getToken(this)) ?
-//                        FixtureAndResultActivity.class :
-                        SignInActivity.class
-        ));
+        startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
         finish();
     }
 
