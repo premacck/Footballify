@@ -20,6 +20,7 @@ import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DataUtil.removeEmptySections;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -36,7 +37,8 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         this.sectionedFixtureList = new ArrayList<>();
     }
 
-    @Override public FixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public FixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new FixtureAndResultViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture_section, parent, false),
                 this
@@ -44,19 +46,22 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
     }
 
     public void update(List<SectionedFixture> sectionedFixtureList) {
+        removeEmptySections(sectionedFixtureList);
         this.sectionedFixtureList.addAll(sectionedFixtureList);
         notifyDataSetChanged();
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return sectionedFixtureList.size();
     }
 
     public static class FixtureAndResultViewHolder extends BaseRecyclerView.ViewHolder {
 
-        @BindView(R.id.section_header) TextView sectionHeaderView;
-        @BindView(R.id.no_data) TextView noMatchesView;
-        @BindView(R.id.fixtures_list) RecyclerView recyclerView;
+        @BindView(R.id.section_header)
+        TextView sectionHeaderView;
+        @BindView(R.id.fixtures_list)
+        RecyclerView recyclerView;
 
         private final WeakReference<FixtureAndResultAdapter> ref;
         private SectionedFixture sectionedFixture;
@@ -67,29 +72,23 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
             ButterKnife.bind(this, itemView);
         }
 
-        @Override public void bind() {
+        @Override
+        public void bind() {
             sectionedFixture = ref.get().sectionedFixtureList.get(getAdapterPosition());
 
-            sectionHeaderView.setText(getCurrentSectionHeader());
-
             if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                noMatchesView.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
+                sectionHeaderView.setText(getCurrentSectionHeader());
                 recyclerView.setAdapter(
                         new FixtureAndResultSectionAdapter(
                                 sectionedFixture.getScoreFixtureModelList(),
                                 ref.get().picasso,
                                 ref.get().context,
-                                sectionedFixture.getClassification()));
-            } else {
-                noMatchesView.setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-                noMatchesView.setText(R.string.no_matches_found);
+                                sectionedFixture.getSection()));
             }
         }
 
         private String getCurrentSectionHeader() {
-            switch (sectionedFixture.getClassification()) {
+            switch (sectionedFixture.getSection()) {
                 case PAST_MATCHES:
                     return "Past Matches";
                 case LIVE_MATCHES:

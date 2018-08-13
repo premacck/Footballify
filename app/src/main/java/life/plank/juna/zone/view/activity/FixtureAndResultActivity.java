@@ -37,12 +37,18 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
     private static final String TAG = FixtureAndResultActivity.class.getSimpleName();
 
-    @BindView(R.id.fixtures_section_list) RecyclerView fixtureRecyclerView;
-    @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.no_data) TextView noMatchesView;
+    @BindView(R.id.fixtures_section_list)
+    RecyclerView fixtureRecyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.no_data)
+    TextView noMatchesView;
 
-    @Inject Picasso picasso;
-    @Inject @Named("footballData") Retrofit retrofit;
+    @Inject
+    Picasso picasso;
+    @Inject
+    @Named("footballData")
+    Retrofit retrofit;
 
     private FixtureAndResultAdapter fixtureAndResultAdapter;
     private RestApi restApi;
@@ -58,7 +64,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         packageContext.startActivity(intent);
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_and_result);
         ButterKnife.bind(this);
@@ -105,8 +112,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                                 List<ScoreFixtureModel> scoreFixtureModelList = response.body();
                                 if (scoreFixtureModelList != null) {
                                     fixtureAndResultAdapter.update(getClassifiedMatchesMap(scoreFixtureModelList));
-                                }
-                                else onNoMatchesFound();
+                                } else onNoMatchesFound();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                             default:
@@ -122,7 +128,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         fixtureRecyclerView.setVisibility(View.GONE);
     }
 
-    @Override protected void onDestroy() {
+    @Override
+    protected void onDestroy() {
         fixtureAndResultAdapter = null;
         super.onDestroy();
     }

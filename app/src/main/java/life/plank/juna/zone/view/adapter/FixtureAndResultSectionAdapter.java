@@ -24,6 +24,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.BoardActivity;
 
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.DateUtil.getFormattedDate;
 
 public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<FixtureAndResultSectionAdapter.ViewHolder> {
 
@@ -40,7 +41,8 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         this.fixtureSection = fixtureSection;
     }
 
-    @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture, parent, false),
                 this,
@@ -49,16 +51,21 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         );
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return scoreFixtureModelList.size();
     }
 
     static class ViewHolder extends BaseRecyclerView.ViewHolder {
 
-        @BindView(R.id.home_team_logo) ImageView homeTeamLogo;
-        @BindView(R.id.away_team_logo) ImageView awayTeamLogo;
-        @BindView(R.id.date_schedule) TextView dateView;
-        @BindView(R.id.team_names) TextView teamNamesView;
+        @BindView(R.id.home_team_logo)
+        ImageView homeTeamLogo;
+        @BindView(R.id.away_team_logo)
+        ImageView awayTeamLogo;
+        @BindView(R.id.date_schedule)
+        TextView dateView;
+        @BindView(R.id.team_names)
+        TextView teamNamesView;
 
         private ScoreFixtureModel scoreFixture;
         private final WeakReference<FixtureAndResultSectionAdapter> ref;
@@ -73,7 +80,8 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
             ButterKnife.bind(this, itemView);
         }
 
-        @Override public void bind() {
+        @Override
+        public void bind() {
             scoreFixture = ref.get().scoreFixtureModelList.get(getAdapterPosition());
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 picasso
@@ -98,10 +106,11 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
                     getSeparator(context, scoreFixture, ref.get().fixtureSection) +
                     scoreFixture.getAwayTeam().getName();
             teamNamesView.setText(teamNameText);
-            dateView.setText(String.valueOf(scoreFixture.getMatchStartTime()));
+            dateView.setText(getFormattedDate(context, scoreFixture));
         }
 
-        @OnClick(R.id.root_layout) public void onFixtureClicked() {
+        @OnClick(R.id.root_layout)
+        public void onFixtureClicked() {
             BoardActivity.launch(
                     context,
                     scoreFixture.getHomeGoals(),

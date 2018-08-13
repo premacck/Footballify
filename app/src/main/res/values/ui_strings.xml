@@ -107,4 +107,5 @@
     <string name="live_matches">Live Matches</string>
     <string name="past_matches">Past Matches</string>
     <string name="no_matches_found">No Matches found&#160;</string>
+    <string name="yesterday">Yesterday</string>
 </resources>

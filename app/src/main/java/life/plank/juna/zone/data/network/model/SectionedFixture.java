@@ -7,11 +7,11 @@ import lombok.Data;
 
 @Data
 public class SectionedFixture {
-    FixtureSection classification;
+    FixtureSection section;
     List<ScoreFixtureModel> scoreFixtureModelList;
 
-    private SectionedFixture(FixtureSection classification, List<ScoreFixtureModel> scoreFixtureModelList) {
-        this.classification = classification;
+    private SectionedFixture(FixtureSection section, List<ScoreFixtureModel> scoreFixtureModelList) {
+        this.section = section;
         this.scoreFixtureModelList = scoreFixtureModelList;
     }
 

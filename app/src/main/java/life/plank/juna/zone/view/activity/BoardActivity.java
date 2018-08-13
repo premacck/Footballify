@@ -53,11 +53,9 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.R.string.failed_to_retrieve_board;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
-import static life.plank.juna.zone.util.UIDisplayUtil.makeToast;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -369,13 +367,13 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                                 if (response.body() != null)
                                     setUpAdapterWithNewData(response.body());
                                 else
-                                    makeToast(BoardActivity.this, failed_to_retrieve_board);
+                                    Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                makeToast(BoardActivity.this, R.string.board_not_populated);
+                                Toast.makeText(BoardActivity.this, R.string.board_not_populated, Toast.LENGTH_SHORT).show();;
                                 break;
                             default:
-                                makeToast(BoardActivity.this, failed_to_retrieve_board);
+                                Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }

@@ -3,15 +3,21 @@
 
     <item>
         <shape android:shape="rectangle">
-            <size android:height="1024dp" android:width="576dp"/>
-            <solid android:color="@color/background_color"/>
+            <size
+                android:width="576dp"
+                android:height="1024dp" />
+            <solid android:color="@color/background_color" />
         </shape>
     </item>
 
-    <item android:gravity="center" android:bottom="34dp">
+    <item
+        android:bottom="38dp"
+        android:gravity="center">
         <shape android:shape="oval">
-            <size android:height="20dp" android:width="20dp"/>
-            <solid android:color="@color/fab_button_pink"/>
+            <size
+                android:width="18dp"
+                android:height="18dp" />
+            <solid android:color="@color/fab_button_pink" />
         </shape>
     </item>
 

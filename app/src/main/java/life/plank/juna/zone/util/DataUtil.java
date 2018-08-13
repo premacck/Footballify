@@ -2,11 +2,14 @@ package life.plank.juna.zone.util;
 
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
@@ -67,5 +70,19 @@ public class DataUtil {
             }
         }
         return teamNameSeparator;
+    }
+
+    /**
+     * Removes empty sections in the sectionsList, if any.
+     */
+    public static List<SectionedFixture> removeEmptySections(List<SectionedFixture> list) {
+        List<SectionedFixture> list1 = new ArrayList<>(list);
+        for (SectionedFixture fixture : list1) {
+            if (fixture.getScoreFixtureModelList().isEmpty()) {
+                list.remove(fixture);
+            }
+        }
+        list1.clear();
+        return list;
     }
 }
