@@ -19,8 +19,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-
 /**
  * Created by plank-prachi on 4/10/2018.
  */
@@ -83,17 +81,8 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
                 case PAST_MATCHES:
                     return "Past Matches";
                 case LIVE_MATCHES:
-                    if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                        return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
-                    } else {
-                        return "Today";
-                    }
                 case TOMORROWS_MATCHES:
-                    if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                        return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
-                    } else {
-                        return "Tomorrow";
-                    }
+                    return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
                 case SCHEDULED_MATCHES:
                     return "Scheduled matches";
                 default:

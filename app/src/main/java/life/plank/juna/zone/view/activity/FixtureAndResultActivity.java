@@ -35,6 +35,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.makeToast;
 public class FixtureAndResultActivity extends AppCompatActivity {
 
     @BindView(R.id.fixtures_section_list) RecyclerView pastMatchRecyclerView;
+    @BindView(R.id.fixtures_list_live) RecyclerView liveMatchRecyclerView;
 
     @Inject Picasso picasso;
     @Inject @Named("footballData") Retrofit retrofit;
