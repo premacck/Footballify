@@ -20,6 +20,9 @@ import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
+
 /**
  * Created by plank-dhamini on 18/7/2018.
  */
@@ -61,8 +64,8 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void launchSplashScreen() {
         startActivity(new Intent(
                 SplashScreenActivity.this,
-//                !isNullOrEmpty(getToken(this)) ?
-//                        FixtureAndResultActivity.class :
+                !isNullOrEmpty(getToken(this)) ?
+                        FixtureAndResultActivity.class :
                         SignInActivity.class
         ));
         finish();
