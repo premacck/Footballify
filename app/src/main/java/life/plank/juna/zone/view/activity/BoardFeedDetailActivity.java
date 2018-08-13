@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SnapHelper;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
@@ -16,6 +17,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
@@ -38,6 +40,15 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         boardBlurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardActivity.boardParentViewBitmap));
         populateRecyclerView();
+    }
+
+    @OnClick({R.id.board_blur_background_image_view})
+    public void onViewClicked(View view) {
+
+        switch (view.getId()) {
+            case R.id.board_blur_background_image_view:
+                this.finish();
+        }
     }
 
     public void populateRecyclerView() {

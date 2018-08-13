@@ -85,12 +85,13 @@ public interface RestApi {
                                                                        @Query("leagueName") String leagueName,
                                                                        @Query("countryName") String countryName);
 
+    //working
+    @GET("seasons/playerstats")
+    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
+
     //yet to verify
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
-
-    @GET("seasons/playerstats")
-    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
 
     @GET("matches/{matchId}/lineups")
     Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
