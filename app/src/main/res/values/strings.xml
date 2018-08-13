@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Zone</string>
-    <string name="football_data_base_url">https://junafootballdata.azurewebsites.net/</string>
-    <string name="feed_data_base_url">https://junawebapi.azurewebsites.net/</string>
+    <string name="football_data_base_url">http://10.0.0.46:4000/</string>
+    <string name="feed_data_base_url">http://10.0.0.46:5000/</string>
     <string name="facebook_app_id">575013552837571</string>
     <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
 
@@ -79,5 +79,8 @@
     <string name="popularity">Popularity</string>
     <string name="profile_pic">Profile pic</string>
     <string name="add_board">Add board</string>
+    <string name="season_name">season_name</string>
+    <string name="league_name">league_name</string>
+    <string name="country_name">country_name</string>
 
 </resources>

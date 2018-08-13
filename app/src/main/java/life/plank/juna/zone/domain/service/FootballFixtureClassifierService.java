@@ -78,18 +78,19 @@ public class FootballFixtureClassifierService {
             long timeDifferenceInHours = DateUtil.getDifferenceInHours((fixture.getMatchStartTime()), currentTime);
             if (timeDifferenceInHours > 48) {
                 scheduledFixtures.add(fixture);
-            } else if (timeDifferenceInHours > 3 && timeDifferenceInHours < 48) {
+            } else if (timeDifferenceInHours >= 24 && timeDifferenceInHours < 48) {
                 tomorrowsFixtures.add(fixture);
-            } else if (timeDifferenceInHours >= -3 && timeDifferenceInHours < 0) {
+            } else if (timeDifferenceInHours >= -3 && timeDifferenceInHours < 24) {
                 liveFixtures.add(fixture);
             } else {
                 pastFixtures.add(fixture);
             }
         }
-        sectionedFixtureList.add(SectionedFixture.getFrom(SCHEDULED_MATCHES, scheduledFixtures));
-        sectionedFixtureList.add(SectionedFixture.getFrom(TOMORROWS_MATCHES, tomorrowsFixtures));
-        sectionedFixtureList.add(SectionedFixture.getFrom(LIVE_MATCHES, liveFixtures));
+        if (scheduledFixtures.size() > 10) scheduledFixtures = scheduledFixtures.subList(0, 20);
         sectionedFixtureList.add(SectionedFixture.getFrom(PAST_MATCHES, pastFixtures));
+        sectionedFixtureList.add(SectionedFixture.getFrom(LIVE_MATCHES, liveFixtures));
+        sectionedFixtureList.add(SectionedFixture.getFrom(TOMORROWS_MATCHES, tomorrowsFixtures));
+        sectionedFixtureList.add(SectionedFixture.getFrom(SCHEDULED_MATCHES, scheduledFixtures));
         return sectionedFixtureList;
     }
 }

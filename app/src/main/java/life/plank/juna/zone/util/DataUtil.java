@@ -26,44 +26,44 @@ public class DataUtil {
     }
 
     public static String getSeparator(Context context, ScoreFixtureModel scoreFixture, FixtureSection fixtureSection) {
-        return fixtureSection == PAST_MATCHES ? getPastMatchSeparator(context, scoreFixture) : " - ";
+        return fixtureSection == PAST_MATCHES ? " " + getPastMatchSeparator(context, scoreFixture) + " " : " - ";
     }
 
     private static String getPastMatchSeparator(Context context, ScoreFixtureModel scoreFixture) {
         String teamNameSeparator;
         if (scoreFixture.getAwayTeamPenaltyScore() == 0 && scoreFixture.getHomeTeamPenaltyScore() == 0) {
-            if (scoreFixture.getHomeTeamScore() > scoreFixture.getAwayTeamScore()) {
-                teamNameSeparator = scoreFixture.getHomeTeamScore() + " " +
+            if (scoreFixture.getHomeGoals() > scoreFixture.getAwayGoals()) {
+                teamNameSeparator = scoreFixture.getHomeGoals() + " " +
                         context.getString(R.string.home_team_won) + " " +
-                        scoreFixture.getAwayTeamScore();
-            } else if (scoreFixture.getAwayTeamScore() > scoreFixture.getHomeTeamScore()){
-                teamNameSeparator = scoreFixture.getHomeTeamScore() + " " +
+                        scoreFixture.getAwayGoals();
+            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()){
+                teamNameSeparator = scoreFixture.getHomeGoals() + " " +
                         context.getString(R.string.away_team_won) + " " +
-                        scoreFixture.getAwayTeamScore();
+                        scoreFixture.getAwayGoals();
             } else {
-                teamNameSeparator = scoreFixture.getHomeTeamScore() +
+                teamNameSeparator = scoreFixture.getHomeGoals() +
                         " - " +
-                        scoreFixture.getAwayTeamScore();
+                        scoreFixture.getAwayGoals();
             }
         } else {
-            if (scoreFixture.getHomeTeamScore() > scoreFixture.getAwayTeamScore()) {
-                teamNameSeparator = scoreFixture.getHomeTeamScore() +
+            if (scoreFixture.getHomeGoals() > scoreFixture.getAwayGoals()) {
+                teamNameSeparator = scoreFixture.getHomeGoals() +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + " " +
                         context.getString(R.string.home_team_won) + " " +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
-                        scoreFixture.getAwayTeamScore();
-            } else if (scoreFixture.getAwayTeamScore() > scoreFixture.getHomeTeamScore()){
-                teamNameSeparator = scoreFixture.getHomeTeamScore() +
+                        scoreFixture.getAwayGoals();
+            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()){
+                teamNameSeparator = scoreFixture.getHomeGoals() +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + " " +
                         context.getString(R.string.away_team_won) + " " +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
-                        scoreFixture.getAwayTeamScore();
+                        scoreFixture.getAwayGoals();
             } else {
-                teamNameSeparator = scoreFixture.getHomeTeamScore() +
+                teamNameSeparator = scoreFixture.getHomeGoals() +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + " " +
                         " - " +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
-                        scoreFixture.getAwayTeamScore();
+                        scoreFixture.getAwayGoals();
             }
         }
         return teamNameSeparator;

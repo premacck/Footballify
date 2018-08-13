@@ -19,6 +19,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+
 /**
  * Created by plank-prachi on 4/10/2018.
  */
@@ -52,8 +54,9 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
 
     public static class FixtureAndResultViewHolder extends BaseRecyclerView.ViewHolder {
 
-        @BindView(R.id.section_header) TextView sectionHeader;
-        @BindView(R.id.fixtures_list) RecyclerView pastMatchRecyclerView;
+        @BindView(R.id.section_header) TextView sectionHeaderView;
+        @BindView(R.id.no_data) TextView noMatchesView;
+        @BindView(R.id.fixtures_list) RecyclerView recyclerView;
 
         private final WeakReference<FixtureAndResultAdapter> ref;
         private SectionedFixture sectionedFixture;
@@ -67,13 +70,22 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         @Override public void bind() {
             sectionedFixture = ref.get().sectionedFixtureList.get(getAdapterPosition());
 
-            sectionHeader.setText(getCurrentSectionHeader());
-            pastMatchRecyclerView.setAdapter(
-                    new FixtureAndResultSectionAdapter(
-                            sectionedFixture.getScoreFixtureModelList(),
-                            ref.get().picasso,
-                            ref.get().context,
-                            sectionedFixture.getClassification()));
+            sectionHeaderView.setText(getCurrentSectionHeader());
+
+            if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
+                noMatchesView.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setAdapter(
+                        new FixtureAndResultSectionAdapter(
+                                sectionedFixture.getScoreFixtureModelList(),
+                                ref.get().picasso,
+                                ref.get().context,
+                                sectionedFixture.getClassification()));
+            } else {
+                noMatchesView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
+                noMatchesView.setText(R.string.no_matches_found);
+            }
         }
 
         private String getCurrentSectionHeader() {
@@ -81,8 +93,17 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
                 case PAST_MATCHES:
                     return "Past Matches";
                 case LIVE_MATCHES:
+                    if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
+                        return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
+                    } else {
+                        return "Today";
+                    }
                 case TOMORROWS_MATCHES:
-                    return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
+                    if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
+                        return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
+                    } else {
+                        return "Tomorrow";
+                    }
                 case SCHEDULED_MATCHES:
                     return "Scheduled matches";
                 default:

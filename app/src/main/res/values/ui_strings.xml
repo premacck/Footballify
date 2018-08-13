@@ -102,8 +102,9 @@
     <string name="dummy_32k">32K</string>
     <string name="search_query_hint">Search and add people</string>
     <string name="invite_string">Invite</string>
-    <string name="home_team_won">\u25C0</string>
-    <string name="away_team_won">\u25B6</string>
+    <string name="home_team_won">&#160;\u25C0&#160;</string>
+    <string name="away_team_won">&#160;\u25B6&#160;</string>
     <string name="live_matches">Live Matches</string>
     <string name="past_matches">Past Matches</string>
+    <string name="no_matches_found">No Matches found&#160;</string>
 </resources>
