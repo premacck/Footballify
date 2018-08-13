@@ -20,7 +20,6 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -73,10 +72,6 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
         populatePastMatchFixtureRecyclerView();
         getScoreFixture();
-    }
-
-    @OnClick(R.id.header) public void goBack() {
-        onBackPressed();
     }
 
     public void populatePastMatchFixtureRecyclerView() {

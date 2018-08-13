@@ -23,8 +23,6 @@
             android:gravity="center_vertical"
             android:textColor="@color/grey"
             android:text="@string/matches_fixture_results"
-            android:drawableStart="@drawable/ic_arrow_back"
-            android:drawablePadding="6dp"
             android:textSize="12sp" />
 
         <android.support.v7.widget.RecyclerView
