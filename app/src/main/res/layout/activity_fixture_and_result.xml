@@ -29,11 +29,11 @@
                 android:text="@string/past_matches" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/fixtures_list"
+                android:id="@+id/fixtures_section_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_match_fixture"
+                tools:listitem="@layout/item_match_fixture_section"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
             <TextView
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_match_fixture"
+                tools:listitem="@layout/item_match_fixture_section"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"/>
 
         </LinearLayout>
