@@ -69,7 +69,6 @@ public class PostCommentActivity extends AppCompatActivity {
     CardView commentCardView;
     String commentBg = "blue";
 
-    //TODO: Enable the post comment button only when the user enter a text to be posted else disable it
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,9 +85,13 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
-        String getEditTextValue = commentBg.toString() + "$" + commentEditText.getText().toString();
-        postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
-        finish();
+        String getEditTextValue = commentBg + "$" + commentEditText.getText().toString();
+        if (getEditTextValue.isEmpty()) {
+            Toast.makeText(this, R.string.please_enter_comment, Toast.LENGTH_LONG).show();
+        } else {
+            postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
+            finish();
+        }
     }
 
     public void commentReflectOnPostSurface() {
