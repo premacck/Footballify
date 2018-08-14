@@ -35,8 +35,23 @@ import rx.Observable;
 public interface RestApi {
 
     //working
-    @GET("seasons/current/standings")
-    Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName);
+    @GET("seasons/standings")
+    Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName,
+                                                           @Query("seasonName") String seasonName,
+                                                           @Query("countryName") String countryName);
+
+    //working
+    @GET("seasons/playerstats")
+    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("leagueName") String leagueName,
+                                                                @Query("seasonName") String seasonName,
+                                                                @Query("countryName") String countryName);
+
+    //working
+    @GET("teams/stats")
+    Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("leagueName") String leagueName,
+                                                            @Query("seasonName") String seasonName,
+                                                            @Query("countryName") String countryName);
+
 
     //working
     @GET("/boards")
@@ -69,11 +84,6 @@ public interface RestApi {
                                                             @Query("dateCreated") String dateCreated,
                                                             @Header("Authorization") String authHeader);
 
-
-    //working
-    @GET("teams/stats")
-    Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("seasonName") String seasonName);
-
     //working
     @POST("/boards")
     Observable<Response<JsonObject>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
@@ -84,10 +94,6 @@ public interface RestApi {
     Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
                                                                        @Query("leagueName") String leagueName,
                                                                        @Query("countryName") String countryName);
-
-    //working
-    @GET("seasons/playerstats")
-    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("seasonName") String seasonName);
 
     //yet to verify
     @GET("api/feeditems")
