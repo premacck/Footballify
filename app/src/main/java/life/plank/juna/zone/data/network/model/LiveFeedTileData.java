@@ -3,10 +3,6 @@ package life.plank.juna.zone.data.network.model;
 import java.util.ArrayList;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Created by plank-niraj on 06-02-2018.

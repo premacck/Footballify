@@ -27,36 +27,54 @@ public class NetworkModule {
     /**
      * Provides 10MB cache
      */
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     Cache provideCache(File directory) {
         return new Cache(directory, 10 * 1024 * 1024);
     }
 
-    @NetworkScope @Provides
-    HttpLoggingInterceptor provideHttpLoggingInterceptor() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        // set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return logging;
+    @Named("header")
+    @NetworkScope
+    @Provides
+    HttpLoggingInterceptor provideHeaderHttpLoggingInterceptor() {
+        return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
     }
 
-    @NetworkScope @Provides @Named("default")
-    public OkHttpClient provideDefaultOkHttpClient() {
+    @Named("body")
+    @NetworkScope
+    @Provides
+    HttpLoggingInterceptor provideBodyHttpLoggingInterceptor() {
+        return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
+    }
+
+    @NetworkScope
+    @Provides
+    @Named("header")
+    public OkHttpClient provideDefaultOkHttpClient(@Named("header") HttpLoggingInterceptor httpLoggingInterceptor) {
         return new OkHttpClient().newBuilder()
+                .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
+                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
                 .build();
     }
 
-    @NetworkScope @Provides @Named("logging")
-    public OkHttpClient provideOkHttpClient(HttpLoggingInterceptor httpLoggingInterceptor) {
+    @NetworkScope
+    @Provides
+    @Named("body")
+    public OkHttpClient provideOkHttpClient(@Named("body") HttpLoggingInterceptor httpLoggingInterceptor) {
         return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
                 .build();
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public Gson provideGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(Date.class, new ISO8601DateSerializer())
@@ -64,7 +82,8 @@ public class NetworkModule {
                 .create();
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public NullOnEmptyConverterFactory provideNullOnEmptyConverterFactory() {
         return new NullOnEmptyConverterFactory();
     }

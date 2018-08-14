@@ -27,7 +27,9 @@ import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 
 public class FootballFeedDetailActivity extends AppCompatActivity implements NetworkStateReceiver.NetworkStateReceiverListener {
+
     private static final String TAG = FootballFeedDetailActivity.class.getSimpleName();
+
     @BindView(R.id.football_feed_details_recycler_view)
     RecyclerView footballFeedDetailsRecyclerView;
     @BindView(R.id.parent_layout)

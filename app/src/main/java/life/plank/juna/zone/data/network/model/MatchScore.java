@@ -7,10 +7,6 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 
 /**
  * Created by plank-sharath on 4/10/2018.

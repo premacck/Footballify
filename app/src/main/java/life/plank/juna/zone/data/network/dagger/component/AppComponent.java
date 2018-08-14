@@ -3,8 +3,8 @@ package life.plank.juna.zone.data.network.dagger.component;
 import android.content.Context;
 
 import dagger.Component;
-import life.plank.juna.zone.data.network.dagger.scope.AppScope;
 import life.plank.juna.zone.data.network.dagger.module.ContextModule;
+import life.plank.juna.zone.data.network.dagger.scope.AppScope;
 
 /**
  * This is the base Application Component. The objects that are to be used throughout the application (like ApplicationContext) should be placed here.

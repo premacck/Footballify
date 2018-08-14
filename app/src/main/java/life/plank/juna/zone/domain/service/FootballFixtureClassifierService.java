@@ -1,56 +1,66 @@
 package life.plank.juna.zone.domain.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.DateUtil;
+
+import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
+import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
+import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.SCHEDULED_MATCHES;
+import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.TOMORROWS_MATCHES;
+import static life.plank.juna.zone.util.DateUtil.getDateFromObject;
 
 public class FootballFixtureClassifierService {
 
-    public enum FixtureClassification {
+    public enum FixtureSection {
         PAST_MATCHES,
         LIVE_MATCHES,
         TOMORROWS_MATCHES,
         SCHEDULED_MATCHES
     }
 
-    public HashMap<Integer, List<ScoreFixtureModel>> GetMatchDayMap(List<ScoreFixtureModel> fixtures) {
-        HashMap<Integer, List<ScoreFixtureModel>> matchDayMap = new HashMap<>();
-        for (ScoreFixtureModel match : fixtures) {
-            if (matchDayMap.get(match.getMatchDay()) == null)
-                matchDayMap.put(match.getMatchDay(), new ArrayList<>());
-            matchDayMap.get(match.getMatchDay()).add(match);
-        }
-        return matchDayMap;
-    }
+    public static List<SectionedFixture> getClassifiedMatchesMap(List<ScoreFixtureModel> fixtures) {
+        List<SectionedFixture> sectionedFixtureList = new ArrayList<>();
+        List<ScoreFixtureModel> scheduledFixtures = new ArrayList<>();
+        List<ScoreFixtureModel> tomorrowsFixtures = new ArrayList<>();
+        List<ScoreFixtureModel> liveFixtures = new ArrayList<>();
+        List<ScoreFixtureModel> pastFixtures = new ArrayList<>();
 
-    public HashMap<FixtureClassification, List<ScoreFixtureModel>> GetClassifiedMatchesMap(List<ScoreFixtureModel> fixtures) {
-        HashMap<FixtureClassification, List<ScoreFixtureModel>> classifiedMatchesMap = new HashMap<>();
-        classifiedMatchesMap.put(FixtureClassification.PAST_MATCHES, new ArrayList<>());
-        classifiedMatchesMap.put(FixtureClassification.LIVE_MATCHES, new ArrayList<>());
-        classifiedMatchesMap.put(FixtureClassification.TOMORROWS_MATCHES, new ArrayList<>());
-        classifiedMatchesMap.put(FixtureClassification.SCHEDULED_MATCHES, new ArrayList<>());
-
-        Date currentTime = new Date();
-
-        // todo: Fix the tomorrow's scheduled matches appropriately
+        int today = getDateFromObject(new Date());
         for (ScoreFixtureModel fixture : fixtures) {
-
-            long timeDifferenceInHours = DateUtil.getDifferenceInHours((fixture.getMatchStartTime()), currentTime);
-            if (timeDifferenceInHours > 48) {
-                classifiedMatchesMap.get(FixtureClassification.PAST_MATCHES).add(fixture);
-            } else if (timeDifferenceInHours > 0) {
-                classifiedMatchesMap.get(FixtureClassification.PAST_MATCHES).add(fixture);
-            } else if (timeDifferenceInHours <= 0
-                    && timeDifferenceInHours >= -3) {
-                classifiedMatchesMap.get(FixtureClassification.LIVE_MATCHES).add(fixture);
+            int matchStartDate = getDateFromObject(fixture.getMatchStartTime());
+            int dateDifference = matchStartDate - today;
+            if (dateDifference >= 2) {
+                scheduledFixtures.add(fixture);
+            } else if (dateDifference == 1) {
+                tomorrowsFixtures.add(fixture);
+            } else if (dateDifference == 0) {
+                liveFixtures.add(fixture);
             } else {
-                classifiedMatchesMap.get(FixtureClassification.SCHEDULED_MATCHES).add(fixture);
+                pastFixtures.add(fixture);
             }
         }
-        return classifiedMatchesMap;
+
+        Collections.reverse(scheduledFixtures);
+        Collections.reverse(pastFixtures);
+        Collections.reverse(liveFixtures);
+        Collections.reverse(tomorrowsFixtures);
+
+        if (scheduledFixtures.size() > 20) scheduledFixtures = scheduledFixtures.subList(0, 20);
+        sectionedFixtureList.add(SectionedFixture.getFrom(PAST_MATCHES, pastFixtures));
+        sectionedFixtureList.add(SectionedFixture.getFrom(LIVE_MATCHES, liveFixtures));
+        sectionedFixtureList.add(SectionedFixture.getFrom(TOMORROWS_MATCHES, tomorrowsFixtures));
+        sectionedFixtureList.add(SectionedFixture.getFrom(SCHEDULED_MATCHES, scheduledFixtures));
+        return sectionedFixtureList;
+    }
+
+    public static boolean wasMatchYesterday(Date matchStartTime) {
+        long timeDifferenceInHours = DateUtil.getDifferenceInHours((matchStartTime), new Date());
+        return timeDifferenceInHours < -24 && timeDifferenceInHours > -48;
     }
 }

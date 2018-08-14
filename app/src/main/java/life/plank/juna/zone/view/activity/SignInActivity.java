@@ -192,6 +192,12 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        mAuthService.dispose();
+        super.onDestroy();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_HOME);

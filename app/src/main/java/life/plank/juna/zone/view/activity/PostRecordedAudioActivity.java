@@ -13,7 +13,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.util.AppConstants;
 
 public class PostRecordedAudioActivity extends AppCompatActivity {
     private static final String LOG_TAG = PostRecordedAudioActivity.class.getSimpleName();

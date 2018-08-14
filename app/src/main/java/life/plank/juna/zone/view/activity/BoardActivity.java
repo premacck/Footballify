@@ -53,6 +53,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -65,7 +66,6 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     public static Bitmap boardParentViewBitmap = null;
     public static Bitmap blurredBitmap = null;
     public static RenderScript renderScript;
-    public BoardActivity boardActivity;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -102,10 +102,20 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            // Extract data included in the Intent
             setDataReceivedFromPushNotification(intent);
         }
     };
+
+    public static void launch(Context packageContext, int homeGoals, int awayGoals, long matchId,
+                              String homeTeamLogo, String awayTeamLogo) {
+        Intent intent = new Intent(packageContext, BoardActivity.class);
+        intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
+                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), awayGoals)
+                .putExtra(packageContext.getString(R.string.match_id_string), matchId)
+                .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
+                .putExtra(packageContext.getString(R.string.pref_away_team_logo), awayTeamLogo);
+        packageContext.startActivity(intent);
+    }
 
     public void setDataReceivedFromPushNotification(Intent intent) {
         String title = intent.getStringExtra(getString(R.string.intent_comment_title));
@@ -138,27 +148,19 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
-        boardActivity = BoardActivity.this;
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
+
         Intent intent = getIntent();
-        //TODO: Remove hardcoded board_id
-        SharedPreferences matchPref = getSharedPreferences(getString(R.string.pref_match), 0);
-        long currentMatchId;
-        if (intent.getStringExtra(getString(R.string.intent_foreign_id_1)) != null) {
-            currentMatchId = Long.parseLong(intent.getStringExtra(getString(R.string.intent_foreign_id_1)));
-        } else if (intent.getStringExtra(getString(R.string.intent_foreign_id_2)) != null) {
-            currentMatchId = Long.parseLong(intent.getStringExtra(getString(R.string.intent_foreign_id_2)));
-        } else {
-            currentMatchId = matchPref.getLong(getString(R.string.match_id_string), 0);
-        }
+        long currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
+        homeTeamLogo = intent.getStringExtra(getString(R.string.pref_home_team_logo));
+        awayTeamLogo = intent.getStringExtra(getString(R.string.pref_away_team_logo));
+
         initRecyclerView();
         setUpBoomMenu();
 
         retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
-        homeTeamLogo = matchPref.getString(getString(R.string.pref_home_team_logo), getString(R.string.pref_home_team_logo));
-        awayTeamLogo = matchPref.getString(getString(R.string.pref_away_team_logo), getString(R.string.pref_away_team_logo));
         setToolbarTeamLogo();
 
         layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
@@ -178,7 +180,6 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.intent_board)));
     }
 
-    //Must unregister onPause()
     @Override
     protected void onPause() {
         super.onPause();
@@ -198,7 +199,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         boardFeed.clear();
-        if (!boardFeedList.isEmpty() && boardFeedList.size() > 0) {
+        if (isNullOrEmpty(boardFeedList)) {
             boardFeed.addAll(boardFeedList);
             boardMediaAdapter.notifyDataSetChanged();
         }
@@ -369,13 +370,14 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                                 if (response.body() != null)
                                     setUpAdapterWithNewData(response.body());
                                 else
-                                    Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(boardActivity, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BoardActivity.this, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
+                                ;
                                 break;
                             default:
-                                Toast.makeText(boardActivity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }

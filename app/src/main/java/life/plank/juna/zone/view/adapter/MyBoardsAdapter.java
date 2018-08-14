@@ -26,20 +26,24 @@ public class MyBoardsAdapter extends BaseRecyclerView.Adapter<MyBoardsAdapter.My
         this.picasso = picasso;
     }
 
-    @Override public MyBoardsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public MyBoardsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new MyBoardsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_my_boards, parent, false));
     }
 
-    @Override public void onBindViewHolder(MyBoardsViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(MyBoardsViewHolder holder, int position) {
         picasso.load(boardList.get(position).getColor()).into(holder.boardIcon);
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return 0;
     }
 
     /**
      * Use this method to update the recyclerView's contents instead of using and managing a list in the Activity (where it doesn't really belong).
+     *
      * @param boardList the list to update (usually fetched from the server).
      */
     public void update(List<Board> boardList) {
@@ -49,7 +53,8 @@ public class MyBoardsAdapter extends BaseRecyclerView.Adapter<MyBoardsAdapter.My
 
     static class MyBoardsViewHolder extends BaseRecyclerView.ViewHolder {
 
-        @BindView(R.id.board_icon) CircleImageView boardIcon;
+        @BindView(R.id.board_icon)
+        CircleImageView boardIcon;
 
         MyBoardsViewHolder(View itemView) {
             super(itemView);

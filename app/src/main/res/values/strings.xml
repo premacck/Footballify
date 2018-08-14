@@ -85,5 +85,13 @@
     <string name="popularity">Popularity</string>
     <string name="profile_pic">Profile pic</string>
     <string name="add_board">Add board</string>
+    <string name="season_name">season_name</string>
+    <string name="league_name">league_name</string>
+    <string name="country_name">country_name</string>
+    <string name="matchday_">Matchday&#160;</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="scheduled_matches">Scheduled matches</string>
+    <string name="fixtures">Fixtures</string>
 
 </resources>

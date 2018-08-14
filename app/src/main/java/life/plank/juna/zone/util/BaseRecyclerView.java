@@ -9,7 +9,6 @@ import java.util.List;
 
 /**
  * This is the base RecyclerView class for ease in creating Adapters with DiffUtil and Dagger injection.<br/><br/>
- *
  */
 public class BaseRecyclerView {
 
@@ -17,7 +16,8 @@ public class BaseRecyclerView {
 
         public abstract VH onCreateViewHolder(ViewGroup parent, int viewType);
 
-        @Override public void onBindViewHolder(VH holder, int position) {
+        @Override
+        public void onBindViewHolder(VH holder, int position) {
             holder.bind();
         }
 
@@ -25,17 +25,17 @@ public class BaseRecyclerView {
          * This method first checks for the payloads and updates them in the list, if any.<br/>
          * Else it binds from the given list.
          */
-        @Override public void onBindViewHolder(VH holder, int position, List<Object> payloads) {
+        @Override
+        public void onBindViewHolder(VH holder, int position, List<Object> payloads) {
             if (payloads != null) {
                 if (!payloads.isEmpty()) {
                     holder.bind(payloads);
-                }
-                else holder.bind();
-            }
-            else holder.bind();
+                } else holder.bind();
+            } else holder.bind();
         }
 
-        @Override public int getItemViewType(int position) {
+        @Override
+        public int getItemViewType(int position) {
             return super.getItemViewType(position);
         }
 
@@ -44,7 +44,8 @@ public class BaseRecyclerView {
         /**
          * Implement this method to specify how to dispose the adapter when it is no longer in use.
          */
-        public void release() {}
+        public void release() {
+        }
 
         /**
          * Implement this method to <b>make sure</b> the data is updated on the UI thread.
@@ -63,12 +64,15 @@ public class BaseRecyclerView {
         /**
          * Bind the Data to the views here.
          */
-        public void bind() {}
+        public void bind() {
+        }
 
         /**
          * Use this method when updating the RecyclerView data with DiffUtil.
+         *
          * @param payloads the payload Bundle to be passed.
          */
-        public void bind(List<Object> payloads) {}
+        public void bind(List<Object> payloads) {
+        }
     }
 }

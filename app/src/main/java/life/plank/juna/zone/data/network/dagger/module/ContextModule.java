@@ -20,7 +20,8 @@ public class ContextModule {
         this.context = context;
     }
 
-    @AppScope @Provides
+    @AppScope
+    @Provides
     public Context provideContext() {
         return context;
     }

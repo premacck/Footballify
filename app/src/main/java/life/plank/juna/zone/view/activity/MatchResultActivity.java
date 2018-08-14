@@ -236,8 +236,8 @@ public class MatchResultActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.see_all:
                 if (GlobalVariable.getInstance().getTilePosition() != 3) {
-                    Intent intent = new Intent(this, FixtureAndResultActivity.class);
-                    startActivity(intent);
+//                    TODO : replace this with values retrieved from the API call.
+                    FixtureAndResultActivity.launch(MatchResultActivity.this, AppConstants.SEASON_NAME, AppConstants.LEAGUE_NAME, AppConstants.COUNTRY_NAME);
                     break;
                 } else {
                     Intent intent = new Intent(this, WorldCupFixtureActivity.class);

@@ -22,6 +22,7 @@ import life.plank.juna.zone.data.network.model.StandingModel;
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
     private Context context;
     private List<StandingModel> standingModelList;
+
     public StandingTableAdapter(Context context, List<StandingModel> standingModel) {
         this.context = context;
         this.standingModelList = standingModel;

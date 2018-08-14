@@ -9,7 +9,7 @@
     <string name="post_to">Post to</string>
     <string name="other">Other</string>
     <string name="post">Post</string>
-    <string name="matches_fixture_results">Matches,FixtureResults</string>
+    <string name="matches_fixture_results">Matches, Fixture &amp; Results</string>
     <string name="tap_to_see_tiles">Tap to see tiles</string>
     <string name="team_stats">Team Stats</string>
     <string name="player_stats">Player Stats</string>
@@ -102,4 +102,10 @@
     <string name="dummy_32k">32K</string>
     <string name="search_query_hint">Search and add people</string>
     <string name="invite_string">Invite</string>
+    <string name="home_team_won">&#160;\u25C0&#160;</string>
+    <string name="away_team_won">&#160;\u25B6&#160;</string>
+    <string name="live_matches">Live Matches</string>
+    <string name="past_matches">Past Matches</string>
+    <string name="no_matches_found">No Matches found&#160;</string>
+    <string name="yesterday">Yesterday</string>
 </resources>
