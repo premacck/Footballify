@@ -43,7 +43,7 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         holder.teamStatsDrawTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalDraws()));
         holder.teamsStatsGoalAgaintsTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsAgainst()));
         holder.teamStatsSerialNumber.setText(String.valueOf(teamStatsModelList.get(position).getId()));
-        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
+//        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
     }
 
     @Override

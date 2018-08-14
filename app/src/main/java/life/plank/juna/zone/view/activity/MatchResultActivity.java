@@ -78,12 +78,12 @@ public class MatchResultActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
 
-        getStandings(AppConstants.LEAGUE_NAME);
-        getPlayerStats(AppConstants.SEASON_NAME);
+        getStandings(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
+        getPlayerStats(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
         populateStandingRecyclerView();
         populatePlayerStatsRecyclerView();
         populateTeamStatsRecyclerView();
-        getTeamStats(AppConstants.SEASON_NAME);
+        getTeamStats(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
 
         layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
         layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));
@@ -126,9 +126,9 @@ public class MatchResultActivity extends AppCompatActivity {
     }
 
 
-    public void getStandings(String leagueName) {
+    public void getStandings(String leagueName, String seasonName, String countryName) {
         progressBar.setVisibility(View.VISIBLE);
-        restApi.getStandings(leagueName)
+        restApi.getStandings(leagueName, seasonName, countryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<StandingModel>>>() {
@@ -162,8 +162,8 @@ public class MatchResultActivity extends AppCompatActivity {
                 });
     }
 
-    public void getPlayerStats(String seasonName) {
-        restApi.getPlayerStats(seasonName)
+    public void getPlayerStats(String leagueName, String seasonName, String countryName) {
+        restApi.getPlayerStats(leagueName, seasonName, countryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
@@ -196,9 +196,9 @@ public class MatchResultActivity extends AppCompatActivity {
                 });
     }
 
-    public void getTeamStats(String seasonName) {
+    public void getTeamStats(String leagueName, String seasonName, String countryName) {
         progressBar.setVisibility(View.VISIBLE);
-        restApi.getTeamStats(seasonName)
+        restApi.getTeamStats(leagueName, seasonName, countryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
