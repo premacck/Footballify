@@ -39,7 +39,7 @@ public class DataUtil {
                 teamNameSeparator = scoreFixture.getHomeGoals() + " " +
                         context.getString(R.string.home_team_won) + " " +
                         scoreFixture.getAwayGoals();
-            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()){
+            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()) {
                 teamNameSeparator = scoreFixture.getHomeGoals() + " " +
                         context.getString(R.string.away_team_won) + " " +
                         scoreFixture.getAwayGoals();
@@ -55,7 +55,7 @@ public class DataUtil {
                         context.getString(R.string.home_team_won) + " " +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
                         scoreFixture.getAwayGoals();
-            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()){
+            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()) {
                 teamNameSeparator = scoreFixture.getHomeGoals() +
                         "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + " " +
                         context.getString(R.string.away_team_won) + " " +

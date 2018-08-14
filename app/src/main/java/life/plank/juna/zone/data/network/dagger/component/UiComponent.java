@@ -2,8 +2,8 @@ package life.plank.juna.zone.data.network.dagger.component;
 
 import dagger.Subcomponent;
 import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
-import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
+import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
@@ -26,10 +26,6 @@ import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 @UiScope
 @Subcomponent(modules = {UiModule.class, AdaptersModule.class})
 public interface UiComponent {
-
-    @Subcomponent.Builder interface Builder {
-        UiComponent build();
-    }
 
     void inject(TokenActivity tokenActivity);
 
@@ -58,4 +54,9 @@ public interface UiComponent {
     void inject(SignUpActivity signUpActivity);
 
     void inject(UserProfileActivity userProfileActivity);
+
+    @Subcomponent.Builder
+    interface Builder {
+        UiComponent build();
+    }
 }

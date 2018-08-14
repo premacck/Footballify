@@ -23,6 +23,19 @@ public class PreferenceManager {
         editor.apply();
     }
 
+    public static SharedPreferences getSharedPrefs(String sharedPrefs) {
+        return ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
+    }
+
+    public static String getSharedPrefs(String sharedPrefs, String preferenceKey) {
+        SharedPreferences sharedPreference = ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
+        return sharedPreference.getString(preferenceKey, "NA");
+    }
+
+    public static String getToken(Context context) {
+        return context.getString(R.string.bearer) + " " + getSharedPrefs(context.getString(R.string.login_credentails), context.getString(R.string.azure_token));
+    }
+
     public void saveString(String key, String value) {
         editor.putString(key, value);
         editor.commit();
@@ -40,18 +53,5 @@ public class PreferenceManager {
 
     public String getPinnedFeeds(String key) {
         return sharedPreferences.getString(AppConstants.PINNED_FEEDS, "");
-    }
-
-    public static SharedPreferences getSharedPrefs(String sharedPrefs) {
-        return ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
-    }
-
-    public static String getSharedPrefs(String sharedPrefs, String preferenceKey) {
-        SharedPreferences sharedPreference = ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
-        return sharedPreference.getString(preferenceKey, "NA");
-    }
-
-    public static String getToken(Context context) {
-        return context.getString(R.string.bearer) + " " + getSharedPrefs(context.getString(R.string.login_credentails), context.getString(R.string.azure_token));
     }
 }

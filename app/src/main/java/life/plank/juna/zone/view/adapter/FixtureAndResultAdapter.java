@@ -58,12 +58,11 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
 
     public static class FixtureAndResultViewHolder extends BaseRecyclerView.ViewHolder {
 
+        private final WeakReference<FixtureAndResultAdapter> ref;
         @BindView(R.id.section_header)
         TextView sectionHeaderView;
         @BindView(R.id.fixtures_list)
         RecyclerView recyclerView;
-
-        private final WeakReference<FixtureAndResultAdapter> ref;
         private SectionedFixture sectionedFixture;
 
         FixtureAndResultViewHolder(View itemView, FixtureAndResultAdapter adapter) {

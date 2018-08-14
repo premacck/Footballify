@@ -12,7 +12,7 @@ public class CustomLinearLayoutManager extends LinearLayoutManager {
     private boolean isScrollEnabled = true;
     private int mOrientation;
 
-    public CustomLinearLayoutManager(Context context,int orientation) {
+    public CustomLinearLayoutManager(Context context, int orientation) {
         super(context);
         this.mOrientation = orientation;
     }

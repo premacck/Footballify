@@ -58,6 +58,9 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
 
     static class ViewHolder extends BaseRecyclerView.ViewHolder {
 
+        private final WeakReference<FixtureAndResultSectionAdapter> ref;
+        private final Picasso picasso;
+        private final Context context;
         @BindView(R.id.home_team_logo)
         ImageView homeTeamLogo;
         @BindView(R.id.away_team_logo)
@@ -66,11 +69,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         TextView dateView;
         @BindView(R.id.team_names)
         TextView teamNamesView;
-
         private ScoreFixtureModel scoreFixture;
-        private final WeakReference<FixtureAndResultSectionAdapter> ref;
-        private final Picasso picasso;
-        private final Context context;
 
         ViewHolder(View itemView, FixtureAndResultSectionAdapter adapter, Picasso picasso, Context context) {
             super(itemView);

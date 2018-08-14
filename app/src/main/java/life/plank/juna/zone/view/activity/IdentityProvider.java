@@ -51,59 +51,33 @@ public class IdentityProvider {
     public static IdentityProvider idpList[] = new IdentityProvider[]{B2C_SignUpIn};
 
     public static final List<IdentityProvider> PROVIDERS = Arrays.asList(idpList);
-
-    public static List<IdentityProvider> getEnabledProviders(Context context) {
-        ArrayList<IdentityProvider> providers = new ArrayList<>();
-        for (IdentityProvider provider : PROVIDERS) {
-            provider.readConfiguration(context);
-            if (provider.isEnabled()) {
-                providers.add(provider);
-            }
-        }
-        return providers;
-    }
-
     @NonNull
     public final String name;
-
     @DrawableRes
     public final int buttonImageRes;
-
     @StringRes
     public final int buttonContentDescriptionRes;
-
     public final int buttonTextColorRes;
-
     @BoolRes
     private final int mEnabledRes;
-
     @StringRes
     private final int mDiscoveryEndpointRes;
-
     @StringRes
     private final int mAuthEndpointRes;
-
     @StringRes
     private final int mTokenEndpointRes;
-
     @StringRes
     private final int mRegistrationEndpointRes;
-
     @StringRes
     private final int mTenantRes;
-
     @StringRes
     private final int mClientIdRes;
-
     @StringRes
     private final int mRedirectUriRes;
-
     @StringRes
     private final int mPolicyRes;
-
     @StringRes
     private final int mScopeRes;
-
     private boolean mConfigurationRead = false;
     private boolean mDiscoveryUriFormatted = false;
     private boolean mEnabled;
@@ -116,7 +90,6 @@ public class IdentityProvider {
     private Uri mRedirectUri;
     private String mPolicy;
     private String mScope;
-
     IdentityProvider(
             @NonNull String name,
             @BoolRes int enabledRes,
@@ -154,6 +127,32 @@ public class IdentityProvider {
         this.buttonContentDescriptionRes =
                 checkSpecified(buttonContentDescriptionRes, "buttonContentDescriptionRes");
         this.buttonTextColorRes = checkSpecified(buttonTextColorRes, "buttonTextColorRes");
+    }
+
+    public static List<IdentityProvider> getEnabledProviders(Context context) {
+        ArrayList<IdentityProvider> providers = new ArrayList<>();
+        for (IdentityProvider provider : PROVIDERS) {
+            provider.readConfiguration(context);
+            if (provider.isEnabled()) {
+                providers.add(provider);
+            }
+        }
+        return providers;
+    }
+
+    private static boolean isSpecified(int value) {
+        return value != NOT_SPECIFIED;
+    }
+
+    private static int checkSpecified(int value, String valueName) {
+        if (value == NOT_SPECIFIED) {
+            throw new IllegalArgumentException(valueName + " must be specified");
+        }
+        return value;
+    }
+
+    private static Uri getUriResource(Resources res, @StringRes int resId, String resName) {
+        return Uri.parse(res.getString(resId));
     }
 
     /**
@@ -226,7 +225,6 @@ public class IdentityProvider {
         return mClientId;
     }
 
-
     public void setClientId(String clientId) {
         mClientId = clientId;
     }
@@ -260,21 +258,6 @@ public class IdentityProvider {
                             mRegistrationEndpoint);
             callback.onFetchConfigurationCompleted(config, null);
         }
-    }
-
-    private static boolean isSpecified(int value) {
-        return value != NOT_SPECIFIED;
-    }
-
-    private static int checkSpecified(int value, String valueName) {
-        if (value == NOT_SPECIFIED) {
-            throw new IllegalArgumentException(valueName + " must be specified");
-        }
-        return value;
-    }
-
-    private static Uri getUriResource(Resources res, @StringRes int resId, String resName) {
-        return Uri.parse(res.getString(resId));
     }
 }
 

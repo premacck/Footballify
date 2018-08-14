@@ -40,33 +40,51 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
 
-    @BindView(R.id.edit_profile_button) Button editProfileButton;
-    @BindView(R.id.profile_picture_image_view) CircleImageView profilePictureImageView;
-    @BindView(R.id.name_text_view) TextView nameTextView;
-    @BindView(R.id.email_text_view) TextView emailTextView;
-    @BindView(R.id.dob_text_view) TextView dobTextView;
-    @BindView(R.id.location_text_view) TextView locationTextView;
+    @BindView(R.id.edit_profile_button)
+    Button editProfileButton;
+    @BindView(R.id.profile_picture_image_view)
+    CircleImageView profilePictureImageView;
+    @BindView(R.id.name_text_view)
+    TextView nameTextView;
+    @BindView(R.id.email_text_view)
+    TextView emailTextView;
+    @BindView(R.id.dob_text_view)
+    TextView dobTextView;
+    @BindView(R.id.location_text_view)
+    TextView locationTextView;
 
-    @BindView(R.id.my_boards_list) RecyclerView myBoardsList;
-    @BindView(R.id.create_board_button) ImageButton createBoardButton;
-    @BindView(R.id.coin_count) TextView coinCount;
-    @BindView(R.id.last_transactions_list) RecyclerView lastTransactionsList;
-    @BindView(R.id.get_coins_list) RecyclerView getCoinsList;
+    @BindView(R.id.my_boards_list)
+    RecyclerView myBoardsList;
+    @BindView(R.id.create_board_button)
+    ImageButton createBoardButton;
+    @BindView(R.id.coin_count)
+    TextView coinCount;
+    @BindView(R.id.last_transactions_list)
+    RecyclerView lastTransactionsList;
+    @BindView(R.id.get_coins_list)
+    RecyclerView getCoinsList;
 
-    @BindView(R.id.logout_button) Button logoutButton;
-
+    @BindView(R.id.logout_button)
+    Button logoutButton;
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
+    @Inject
+    Picasso picasso;
+    @Inject
+    MyBoardsAdapter myBoardsAdapter;
+    @Inject
+    LastTransactionsAdapter lastTransactionsAdapter;
+    @Inject
+    GetCoinsAdapter getCoinsAdapter;
     private RestApi restApi;
-    @Inject @Named("default") Retrofit retrofit;
-    @Inject Picasso picasso;
-    @Inject MyBoardsAdapter myBoardsAdapter;
-    @Inject LastTransactionsAdapter lastTransactionsAdapter;
-    @Inject GetCoinsAdapter getCoinsAdapter;
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         ButterKnife.bind(this);
@@ -77,7 +95,8 @@ public class UserProfileActivity extends AppCompatActivity {
         getUserDetails();
     }
 
-    @OnClick(R.id.create_board_button) public void launchBoardMaker() {
+    @OnClick(R.id.create_board_button)
+    public void launchBoardMaker() {
         CreateBoardActivity.launch(this);
     }
 

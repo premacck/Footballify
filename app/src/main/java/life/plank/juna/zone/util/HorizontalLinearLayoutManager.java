@@ -22,7 +22,8 @@ public class HorizontalLinearLayoutManager extends LinearLayoutManager {
         setOrientation(LinearLayoutManager.HORIZONTAL);
     }
 
-    @Override public int getOrientation() {
+    @Override
+    public int getOrientation() {
         return LinearLayoutManager.HORIZONTAL;
     }
 }

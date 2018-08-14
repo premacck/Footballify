@@ -22,13 +22,13 @@ public class DateUtil {
     private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
 
     private static Date getIsoFormattedDate(String dateString) throws ParseException {
-        return ISO_DATE_FORMAT.parse( dateString );
+        return ISO_DATE_FORMAT.parse(dateString);
     }
 
     public static long getDifferenceInHours(Date firstDate, Date secondDate) {
         long millisDifference = firstDate.getTime() - secondDate.getTime();
-        Log.e("Date","get_Time" +millisDifference);
-        return millisDifference/(3600000L);
+        Log.e("Date", "get_Time" + millisDifference);
+        return millisDifference / (3600000L);
     }
 
     public static int getDateFromObject(Date date) {

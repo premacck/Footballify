@@ -240,27 +240,6 @@ public class UIDisplayUtil {
         return true;
     }
 
-    public void displaySnackBar(View currentView, String message) {
-        Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
-    }
-
-    public void hideSoftKeyboard(View view, Context context) {
-        if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            assert inputMethodManager != null;
-            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
     public static Bitmap captureView(View view, Context context) {
         Bitmap blurredBitmap = null;
         RenderScript renderScript = RenderScript.create(context);
@@ -337,5 +316,26 @@ public class UIDisplayUtil {
     public static void setColor(View view, int color) {
         GradientDrawable bgShape = (GradientDrawable) view.getBackground();
         bgShape.setColor(color);
+    }
+
+    public void displaySnackBar(View currentView, String message) {
+        Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void hideSoftKeyboard(View view, Context context) {
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert inputMethodManager != null;
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 }

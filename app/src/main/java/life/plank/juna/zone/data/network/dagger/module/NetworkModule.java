@@ -33,22 +33,29 @@ public class NetworkModule {
     /**
      * Provides 10MB cache
      */
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     Cache provideCache(File directory) {
         return new Cache(directory, 10 * 1024 * 1024);
     }
 
-    @Named("header") @NetworkScope @Provides
+    @Named("header")
+    @NetworkScope
+    @Provides
     HttpLoggingInterceptor provideHeaderHttpLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
     }
 
-    @Named("body") @NetworkScope @Provides
+    @Named("body")
+    @NetworkScope
+    @Provides
     HttpLoggingInterceptor provideBodyHttpLoggingInterceptor() {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     }
 
-    @NetworkScope @Provides @Named("header")
+    @NetworkScope
+    @Provides
+    @Named("header")
     public OkHttpClient provideDefaultOkHttpClient(@Named("header") HttpLoggingInterceptor httpLoggingInterceptor,
                                                    SSLSocketFactory sslSocketFactory, X509TrustManager x509TrustManager) {
         return new OkHttpClient().newBuilder()
@@ -61,7 +68,9 @@ public class NetworkModule {
                 .build();
     }
 
-    @NetworkScope @Provides @Named("body")
+    @NetworkScope
+    @Provides
+    @Named("body")
     public OkHttpClient provideOkHttpClient(@Named("body") HttpLoggingInterceptor httpLoggingInterceptor,
                                             SSLSocketFactory sslSocketFactory, X509TrustManager x509TrustManager) {
         return new OkHttpClient.Builder()
@@ -74,7 +83,8 @@ public class NetworkModule {
                 .build();
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public X509TrustManager provideX509TrustManager() {
         return new X509TrustManager() {
             @SuppressLint("TrustAllX509TrustManager")
@@ -96,12 +106,14 @@ public class NetworkModule {
         };
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public TrustManager[] provideTrustManagers(X509TrustManager x509TrustManager) {
         return new TrustManager[]{x509TrustManager};
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public SSLSocketFactory provideSSLSocketFactory(TrustManager[] trustAllCerts) {
         SSLContext sslContext;
         try {
@@ -113,7 +125,8 @@ public class NetworkModule {
         }
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public Gson provideGson() {
         return new GsonBuilder()
                 .registerTypeAdapter(Date.class, new ISO8601DateSerializer())
@@ -121,7 +134,8 @@ public class NetworkModule {
                 .create();
     }
 
-    @NetworkScope @Provides
+    @NetworkScope
+    @Provides
     public NullOnEmptyConverterFactory provideNullOnEmptyConverterFactory() {
         return new NullOnEmptyConverterFactory();
     }

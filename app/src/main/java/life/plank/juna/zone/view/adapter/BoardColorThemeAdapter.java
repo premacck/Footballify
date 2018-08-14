@@ -27,26 +27,37 @@ public class BoardColorThemeAdapter extends RecyclerView.Adapter<BoardColorTheme
         this.boardColorList = BoardColorFactory.getAllColors();
     }
 
-    @Override public BoardColorThemeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public BoardColorThemeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new BoardColorThemeViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_color_theme, parent, false),
                 this
         );
     }
 
-    @Override public void onBindViewHolder(BoardColorThemeViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(BoardColorThemeViewHolder holder, int position) {
         holder.colorThemeImageView.setImageDrawable(new ColorDrawable(Color.parseColor(boardColorList.get(position))));
         holder.imageSelectionMarker.setVisibility(selectedIndex == position ? View.VISIBLE : View.INVISIBLE);
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return boardColorList.size();
+    }
+
+    public String getSelectedColor() {
+        if (selectedIndex > 0)
+            return boardColorList.get(selectedIndex);
+        return null;
     }
 
     static class BoardColorThemeViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.color_theme_image_view) CircleImageView colorThemeImageView;
-        @BindView(R.id.image_selection_marker) ImageView imageSelectionMarker;
+        @BindView(R.id.color_theme_image_view)
+        CircleImageView colorThemeImageView;
+        @BindView(R.id.image_selection_marker)
+        ImageView imageSelectionMarker;
         private WeakReference<BoardColorThemeAdapter> ref;
 
         BoardColorThemeViewHolder(View itemView, BoardColorThemeAdapter adapter) {
@@ -55,18 +66,13 @@ public class BoardColorThemeAdapter extends RecyclerView.Adapter<BoardColorTheme
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.root_layout) public void onColorThemeSelected() {
+        @OnClick(R.id.root_layout)
+        public void onColorThemeSelected() {
             int previousSelection = selectedIndex;
             imageSelectionMarker.setVisibility(selectedIndex == getAdapterPosition() ? View.INVISIBLE : View.VISIBLE);
             selectedIndex = getAdapterPosition();
             ref.get().notifyItemChanged(previousSelection);
             ref.get().notifyItemChanged(selectedIndex);
         }
-    }
-
-    public String getSelectedColor() {
-        if (selectedIndex > 0)
-            return boardColorList.get(selectedIndex);
-        return null;
     }
 }

@@ -1,4 +1,3 @@
-
 package life.plank.juna.zone.view.activity;
 
 import android.animation.Animator;
@@ -28,9 +27,11 @@ public class SplashScreenActivity extends AppCompatActivity {
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
-    @BindView(R.id.animation_view) LottieAnimationView animationView;
+    @BindView(R.id.animation_view)
+    LottieAnimationView animationView;
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
@@ -40,7 +41,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         animationView.setSpeed(2.0f);
         animationView.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animator) {}
+            public void onAnimationStart(Animator animator) {
+            }
 
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -48,10 +50,12 @@ public class SplashScreenActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onAnimationCancel(Animator animator) {}
+            public void onAnimationCancel(Animator animator) {
+            }
 
             @Override
-            public void onAnimationRepeat(Animator animator) {}
+            public void onAnimationRepeat(Animator animator) {
+            }
         });
     }
 

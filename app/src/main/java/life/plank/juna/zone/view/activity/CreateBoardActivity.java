@@ -45,35 +45,54 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     private static final String TAG = CreateBoardActivity.class.getSimpleName();
 
-    @BindView(R.id.football) ToggleButton football;
-    @BindView(R.id.music) ToggleButton music;
-    @BindView(R.id.drama) ToggleButton drama;
-    @BindView(R.id.tune) ToggleButton tune;
-    @BindView(R.id.skill) ToggleButton skill;
-    @BindView(R.id.other) ToggleButton other;
-    @BindView(R.id.board_name_edit_text) TextInputEditText boardName;
-    @BindView(R.id.board_description_edit_text) TextInputEditText boardDescription;
-    @BindView(R.id.private_board_color_list) RecyclerView privateBoardColorList;
-    @BindView(R.id.private_board_icon_list) RecyclerView privateBoardIconList;
-    @BindView(R.id.upload_board_icon) Button uploadBoardIcon;
-    @BindView(R.id.board_type_radio_group) RadioGroup boardTypeRadioGroup;
-    @BindView(R.id.toggle_public_board) RadioButton togglePublicBoard;
-    @BindView(R.id.toggle_private_board) RadioButton togglePrivateBoard;
-    @BindView(R.id.create_board_button) Button createPrivateBoard;
-
+    @BindView(R.id.football)
+    ToggleButton football;
+    @BindView(R.id.music)
+    ToggleButton music;
+    @BindView(R.id.drama)
+    ToggleButton drama;
+    @BindView(R.id.tune)
+    ToggleButton tune;
+    @BindView(R.id.skill)
+    ToggleButton skill;
+    @BindView(R.id.other)
+    ToggleButton other;
+    @BindView(R.id.board_name_edit_text)
+    TextInputEditText boardName;
+    @BindView(R.id.board_description_edit_text)
+    TextInputEditText boardDescription;
+    @BindView(R.id.private_board_color_list)
+    RecyclerView privateBoardColorList;
+    @BindView(R.id.private_board_icon_list)
+    RecyclerView privateBoardIconList;
+    @BindView(R.id.upload_board_icon)
+    Button uploadBoardIcon;
+    @BindView(R.id.board_type_radio_group)
+    RadioGroup boardTypeRadioGroup;
+    @BindView(R.id.toggle_public_board)
+    RadioButton togglePublicBoard;
+    @BindView(R.id.toggle_private_board)
+    RadioButton togglePrivateBoard;
+    @BindView(R.id.create_board_button)
+    Button createPrivateBoard;
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
+    @Inject
+    Picasso picasso;
+    @Inject
+    BoardColorThemeAdapter boardColorThemeAdapter;
+    @Inject
+    BoardIconAdapter boardIconAdapter;
     private RestApi restApi;
-    @Inject @Named("default") Retrofit retrofit;
-    @Inject Picasso picasso;
-    @Inject BoardColorThemeAdapter boardColorThemeAdapter;
-    @Inject BoardIconAdapter boardIconAdapter;
-
     private String zone = "";
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, CreateBoardActivity.class));
     }
 
-    @Override protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_board);
         ButterKnife.bind(this);
@@ -91,7 +110,8 @@ public class CreateBoardActivity extends AppCompatActivity {
         toggleZone(this, view);
     }
 
-    @OnClick(R.id.create_board_button) public void onViewClicked(View view) {
+    @OnClick(R.id.create_board_button)
+    public void onViewClicked(View view) {
         Board board = new Board();
         board.setZone(zone.toLowerCase().trim());
         board.setDisplayname(boardName.getText().toString().trim());

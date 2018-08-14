@@ -1,9 +1,6 @@
 package life.plank.juna.zone.data.network.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
 
 /**
  * Created by plank-niraj on 17-02-2018.

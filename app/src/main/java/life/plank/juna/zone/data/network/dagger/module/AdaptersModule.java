@@ -14,27 +14,32 @@ import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
 @Module
 public class AdaptersModule {
 
-    @UiScope @Provides
+    @UiScope
+    @Provides
     public BoardColorThemeAdapter provideBoardColorThemeAdapter() {
         return new BoardColorThemeAdapter();
     }
 
-    @UiScope @Provides
+    @UiScope
+    @Provides
     public BoardIconAdapter provideBoardIconAdapter(Picasso picasso) {
         return new BoardIconAdapter(picasso);
     }
 
-    @UiScope @Provides
+    @UiScope
+    @Provides
     public GetCoinsAdapter provideGetCoinsAdapter() {
         return new GetCoinsAdapter();
     }
 
-    @UiScope @Provides
+    @UiScope
+    @Provides
     public MyBoardsAdapter provideMyBoardsAdapter(Picasso picasso) {
         return new MyBoardsAdapter(picasso);
     }
 
-    @UiScope @Provides
+    @UiScope
+    @Provides
     public LastTransactionsAdapter provideLastTransactionsAdapter() {
         return new LastTransactionsAdapter();
     }

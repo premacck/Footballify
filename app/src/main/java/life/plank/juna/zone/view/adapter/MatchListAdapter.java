@@ -25,8 +25,8 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.Matc
     @Override
     public MatchListAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        view = LayoutInflater.from( parent.getContext() ).inflate( R.layout.match_list_row, parent, false );
-        return new MatchListAdapterViewHolder( view );
+        view = LayoutInflater.from(parent.getContext()).inflate(R.layout.match_list_row, parent, false);
+        return new MatchListAdapterViewHolder(view);
     }
 
     @Override
@@ -40,8 +40,8 @@ public class MatchListAdapter extends RecyclerView.Adapter<MatchListAdapter.Matc
 
     class MatchListAdapterViewHolder extends RecyclerView.ViewHolder {
         MatchListAdapterViewHolder(View itemView) {
-            super( itemView );
-            ButterKnife.bind( this, itemView );
+            super(itemView);
+            ButterKnife.bind(this, itemView);
         }
     }
 }

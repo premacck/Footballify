@@ -106,6 +106,17 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         }
     };
 
+    public static void launch(Context packageContext, int homeGoals, int awayGoals, long matchId,
+                              String homeTeamLogo, String awayTeamLogo) {
+        Intent intent = new Intent(packageContext, BoardActivity.class);
+        intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
+                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), awayGoals)
+                .putExtra(packageContext.getString(R.string.match_id_string), matchId)
+                .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
+                .putExtra(packageContext.getString(R.string.pref_away_team_logo), awayTeamLogo);
+        packageContext.startActivity(intent);
+    }
+
     public void setDataReceivedFromPushNotification(Intent intent) {
         String title = intent.getStringExtra(getString(R.string.intent_comment_title));
         String contentType = intent.getStringExtra(getString(R.string.intent_content_type));
@@ -131,18 +142,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         boardRecyclerView.smoothScrollToPosition(0);
     }
 
-    public static void launch(Context packageContext, int homeGoals, int awayGoals, long matchId,
-                              String homeTeamLogo, String awayTeamLogo) {
-        Intent intent = new Intent(packageContext, BoardActivity.class);
-        intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
-                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), awayGoals)
-                .putExtra(packageContext.getString(R.string.match_id_string), matchId)
-                .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
-                .putExtra(packageContext.getString(R.string.pref_away_team_logo), awayTeamLogo);
-        packageContext.startActivity(intent);
-    }
-
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
         setContentView(R.layout.activity_board);
@@ -173,12 +174,14 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         visitingTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_visiting_team_score)));
     }
 
-    @Override public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
         registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.intent_board)));
     }
 
-    @Override protected void onPause() {
+    @Override
+    protected void onPause() {
         super.onPause();
         unregisterReceiver(mMessageReceiver);
     }
@@ -370,7 +373,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
                                     Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(BoardActivity.this, R.string.board_not_populated, Toast.LENGTH_SHORT).show();;
+                                Toast.makeText(BoardActivity.this, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
+                                ;
                                 break;
                             default:
                                 Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
