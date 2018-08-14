@@ -58,6 +58,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     Retrofit retrofit;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
+    MediaPlayer mediaPlayer = new MediaPlayer();
     private String boardId;
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
     private RestApi restApi;
@@ -66,7 +67,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private int likeCount = 0;
     private String date;
     private String enterBoardId;
-    MediaPlayer mediaPlayer = new MediaPlayer();
     ;
 
     public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId) {

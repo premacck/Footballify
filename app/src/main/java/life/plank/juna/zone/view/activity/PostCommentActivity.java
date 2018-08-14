@@ -49,11 +49,6 @@ public class PostCommentActivity extends AppCompatActivity {
     TextView commentTextView;
     @BindView(R.id.post_comment)
     TextView postCommentTextView;
-    private RestApi restApi;
-    private String boardId;
-    private String userId;
-    private String date;
-
     @BindView(R.id.red)
     ImageView redBg;
     @BindView(R.id.pink)
@@ -64,10 +59,13 @@ public class PostCommentActivity extends AppCompatActivity {
     ImageView greenBg;
     @BindView(R.id.blue)
     ImageView blueBg;
-
     @BindView(R.id.comment_card_view)
     CardView commentCardView;
     String commentBg = "blue";
+    private RestApi restApi;
+    private String boardId;
+    private String userId;
+    private String date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

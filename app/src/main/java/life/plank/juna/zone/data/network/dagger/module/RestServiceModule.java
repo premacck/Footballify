@@ -10,7 +10,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.dagger.component.UiComponent;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
-import life.plank.juna.zone.data.network.service.HttpClientService;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -28,13 +27,10 @@ public class RestServiceModule {
     @NetworkScope
     @Provides
     @Named("default")
-    public Retrofit getRetrofit(@Named("default") OkHttpClient defaultOkHttpClient1, @Named("logging") OkHttpClient loggingOkHttpClient,
-                                Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
+    public Retrofit getRetrofit(@Named("body") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.feed_data_base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
-                .client(defaultOkHttpClient1)
-                .client(loggingOkHttpClient)
+                .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(nullOnEmptyConverterFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -44,10 +40,10 @@ public class RestServiceModule {
     @NetworkScope
     @Provides
     @Named("footballData")
-    public Retrofit getFootballData(Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
+    public Retrofit getFootballData(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.football_data_base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
+                .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(nullOnEmptyConverterFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -57,10 +53,10 @@ public class RestServiceModule {
     @NetworkScope
     @Provides
     @Named("azure")
-    public Retrofit getAzureRetrofit(Gson gson) {
+    public Retrofit getAzureRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.azure_base_url))
-                .client(HttpClientService.getUnsafeOkHttpClient())
+                .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();

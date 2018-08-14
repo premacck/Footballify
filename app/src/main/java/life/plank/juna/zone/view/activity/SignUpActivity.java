@@ -44,9 +44,6 @@ public class SignUpActivity extends AppCompatActivity {
     EditText passwordEditText;
     @BindView(R.id.sign_up)
     ImageView signUp;
-
-    private RestApi restApi;
-
     TextWatcher signUpFieldsWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -67,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         }
     };
+    private RestApi restApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

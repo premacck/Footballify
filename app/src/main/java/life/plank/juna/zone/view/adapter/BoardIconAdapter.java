@@ -29,16 +29,19 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
         this.picasso = picasso;
     }
 
-    @Override public BoardIconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public BoardIconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new BoardIconViewHolder(from(parent.getContext()).inflate(R.layout.item_board_icon, parent, false));
     }
 
-    @Override public void onBindViewHolder(BoardIconViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(BoardIconViewHolder holder, int position) {
         picasso.load(boardIconList.get(position)).into(holder.colorThemeImageView);
         holder.imageSelectionMarker.setVisibility(selectedIndex == position ? View.VISIBLE : View.INVISIBLE);
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return boardIconList.size();
     }
 
@@ -47,23 +50,26 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
         notifyDataSetChanged();
     }
 
+    public String getSelectedColor() {
+        return boardIconList.get(selectedIndex);
+    }
+
     static class BoardIconViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.icon_image_view) CircleImageView colorThemeImageView;
-        @BindView(R.id.image_selection_marker) ImageView imageSelectionMarker;
+        @BindView(R.id.icon_image_view)
+        CircleImageView colorThemeImageView;
+        @BindView(R.id.image_selection_marker)
+        ImageView imageSelectionMarker;
 
         BoardIconViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick(R.id.color_theme_image_view) public void onColorThemeSelected() {
+        @OnClick(R.id.color_theme_image_view)
+        public void onColorThemeSelected() {
             imageSelectionMarker.setVisibility(selectedIndex == getAdapterPosition() ? View.INVISIBLE : View.VISIBLE);
             selectedIndex = getAdapterPosition();
         }
-    }
-
-    public String getSelectedColor() {
-        return boardIconList.get(selectedIndex);
     }
 }

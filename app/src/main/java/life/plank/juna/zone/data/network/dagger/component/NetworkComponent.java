@@ -1,8 +1,8 @@
 package life.plank.juna.zone.data.network.dagger.component;
 
 import dagger.Subcomponent;
-import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
 import life.plank.juna.zone.data.network.dagger.module.RestServiceModule;
+import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
 
 /**
  * This components contains network related objects, like the REST service.
@@ -13,9 +13,10 @@ import life.plank.juna.zone.data.network.dagger.module.RestServiceModule;
 @Subcomponent(modules = RestServiceModule.class)
 public interface NetworkComponent {
 
-    @Subcomponent.Builder interface Builder {
+    UiComponent.Builder viewComponentBuilder();
+
+    @Subcomponent.Builder
+    interface Builder {
         NetworkComponent build();
     }
-
-    UiComponent.Builder viewComponentBuilder();
 }

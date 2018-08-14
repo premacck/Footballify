@@ -22,26 +22,31 @@ public class LastTransactionsAdapter extends BaseRecyclerView.Adapter<LastTransa
         this.lastTransactionsList = new ArrayList<>();
     }
 
-    @Override public int getItemViewType(int position) {
+    @Override
+    public int getItemViewType(int position) {
         return position == 0 ? R.layout.item_user_transactions_header : R.layout.item_user_transactions_body;
     }
 
-    @Override public LastTransactionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override
+    public LastTransactionsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new LastTransactionsViewHolder(LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false));
     }
 
-    @Override public void onBindViewHolder(LastTransactionsViewHolder holder, int position) {
+    @Override
+    public void onBindViewHolder(LastTransactionsViewHolder holder, int position) {
         if (position > 0) {
             holder.bind(lastTransactionsList.get(position));
         }
     }
 
-    @Override public int getItemCount() {
+    @Override
+    public int getItemCount() {
         return lastTransactionsList.size() + 1;
     }
 
     /**
      * Use this method to update the recyclerView's contents instead of using and managing a list in the Activity (where it doesn't really belong).
+     *
      * @param lastTransactionsList the list to update (usually fetched from the server).
      */
     public void update(List<LastTransaction> lastTransactionsList) {
@@ -51,11 +56,16 @@ public class LastTransactionsAdapter extends BaseRecyclerView.Adapter<LastTransa
 
     static class LastTransactionsViewHolder extends BaseRecyclerView.ViewHolder {
 
-        @BindView(R.id.date) TextView dateView;
-        @BindView(R.id.type) TextView typeView;
-        @BindView(R.id.debit) TextView debitView;
-        @BindView(R.id.credit) TextView creditView;
-        @BindView(R.id.balance) TextView balanceView;
+        @BindView(R.id.date)
+        TextView dateView;
+        @BindView(R.id.type)
+        TextView typeView;
+        @BindView(R.id.debit)
+        TextView debitView;
+        @BindView(R.id.credit)
+        TextView creditView;
+        @BindView(R.id.balance)
+        TextView balanceView;
 
         LastTransactionsViewHolder(View itemView) {
             super(itemView);

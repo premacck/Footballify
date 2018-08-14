@@ -34,6 +34,8 @@ import life.plank.juna.zone.util.helper.PopUpWindowHelper;
  * Created by plank-niraj on 26-01-2018.
  */
 public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapter.ScrubberViewHolder> implements ItemTouchHelperInterface {
+    @BindView(R.id.commentary_text)
+    TextView commentaryTextView;
     private boolean trigger = false;
     private PopupWindow popupWindow, popupWindowPointer;
     private ScrubberPointerUpdate scrubberPointerUpdate;
@@ -42,8 +44,6 @@ public class ScrubberViewAdapter extends RecyclerView.Adapter<ScrubberViewAdapte
     private HashMap<Integer, ScrubberViewData> scrubberViewDataHolder;
     private ArrayList<Integer> scrubberProgressData;
     private int matchNumber;
-    @BindView(R.id.commentary_text)
-    TextView commentaryTextView;
     private int viewHeight = 0;
     private BubbleLayout bubbleLayout;
 

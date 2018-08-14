@@ -22,6 +22,7 @@ public class AppConstants {
     public static final String LEAGUE_NAME = "Premier League";
     //todo : Retrieve this from the api. will do in next pull request
     public static final String SEASON_NAME = "2018/2019";
+    public static final String COUNTRY_NAME = "England";
     public static final int ANIMATION_DURATION = 200;
     public static final float ANIMATION_START_SCALE = 1.0f;
     public static final float ANIMATION_PIVOT_VALUE = 0.5f;

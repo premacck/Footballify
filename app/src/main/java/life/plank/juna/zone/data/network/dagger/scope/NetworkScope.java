@@ -7,4 +7,5 @@ import javax.inject.Scope;
 
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface NetworkScope {}
+public @interface NetworkScope {
+}

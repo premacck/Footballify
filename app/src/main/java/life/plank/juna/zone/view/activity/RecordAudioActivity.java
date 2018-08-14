@@ -23,7 +23,6 @@ import java.io.IOException;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.util.AppConstants;
 
 public class RecordAudioActivity extends AppCompatActivity implements View.OnTouchListener {
     private static final String TAG = RecordAudioActivity.class.getSimpleName();

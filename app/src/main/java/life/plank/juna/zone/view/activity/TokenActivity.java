@@ -48,21 +48,45 @@ import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 
 public class TokenActivity extends AppCompatActivity {
     private static final String TAG = "TokenActivity";
+    private static final String KEY_AUTH_STATE = "authState";
+    private static final String KEY_USER_INFO = "userInfo";
+    private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
+    private static final String EXTRA_AUTH_STATE = "authState";
+    private static String emailId;
     @Inject
     @Named("default")
     Retrofit retrofit;
-
-    private static final String KEY_AUTH_STATE = "authState";
-    private static final String KEY_USER_INFO = "userInfo";
-
-    private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
-    private static final String EXTRA_AUTH_STATE = "authState";
-
     private AuthState mAuthState;
     private AuthorizationService mAuthService;
     private JSONObject mUserInfoJson;
     private RestApi restApi;
-    private static String emailId;
+
+    static PendingIntent createPostAuthorizationIntent(
+            @NonNull Context context,
+            @NonNull AuthorizationRequest request,
+            @Nullable AuthorizationServiceDiscovery discoveryDoc,
+            @NonNull AuthState authState, String emailAddress) {
+        emailId = emailAddress;
+        Intent intent = new Intent(context, TokenActivity.class);
+        intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
+        if (discoveryDoc != null) {
+            intent.putExtra(EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString());
+        }
+
+        return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
+    }
+
+    static AuthState getAuthStateFromIntent(Intent intent) {
+        if (!intent.hasExtra(EXTRA_AUTH_STATE)) {
+            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
+        }
+        try {
+            return AuthState.jsonDeserialize(intent.getStringExtra(EXTRA_AUTH_STATE));
+        } catch (JSONException ex) {
+            Log.e(TAG, "Malformed AuthState JSON saved", ex);
+            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +162,6 @@ public class TokenActivity extends AppCompatActivity {
         getSignInResponse();
     }
 
-
     private void exchangeAuthorizationCode(AuthorizationResponse authorizationResponse) {
         performTokenRequest(authorizationResponse.createTokenExchangeRequest());
     }
@@ -196,33 +219,6 @@ public class TokenActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    static PendingIntent createPostAuthorizationIntent(
-            @NonNull Context context,
-            @NonNull AuthorizationRequest request,
-            @Nullable AuthorizationServiceDiscovery discoveryDoc,
-            @NonNull AuthState authState, String emailAddress) {
-        emailId = emailAddress;
-        Intent intent = new Intent(context, TokenActivity.class);
-        intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
-        if (discoveryDoc != null) {
-            intent.putExtra(EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString());
-        }
-
-        return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
-    }
-
-    static AuthState getAuthStateFromIntent(Intent intent) {
-        if (!intent.hasExtra(EXTRA_AUTH_STATE)) {
-            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
-        }
-        try {
-            return AuthState.jsonDeserialize(intent.getStringExtra(EXTRA_AUTH_STATE));
-        } catch (JSONException ex) {
-            Log.e(TAG, "Malformed AuthState JSON saved", ex);
-            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
-        }
     }
 }
 
