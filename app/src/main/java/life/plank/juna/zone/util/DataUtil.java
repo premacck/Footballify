@@ -76,13 +76,13 @@ public class DataUtil {
      * Removes empty sections in the sectionsList, if any.
      */
     public static List<SectionedFixture> removeEmptySections(List<SectionedFixture> list) {
-        List<SectionedFixture> list1 = new ArrayList<>(list);
-        for (SectionedFixture fixture : list1) {
+        List<SectionedFixture> newList = new ArrayList<>(list);
+        for (SectionedFixture fixture : newList) {
             if (fixture.getScoreFixtureModelList().isEmpty()) {
                 list.remove(fixture);
             }
         }
-        list1.clear();
+        newList.clear();
         return list;
     }
 }

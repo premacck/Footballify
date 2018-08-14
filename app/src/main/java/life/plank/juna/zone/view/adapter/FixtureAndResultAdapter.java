@@ -41,6 +41,7 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
     public FixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new FixtureAndResultViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture_section, parent, false),
+                context,
                 this
         );
     }
@@ -58,6 +59,7 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
 
     public static class FixtureAndResultViewHolder extends BaseRecyclerView.ViewHolder {
 
+        private final Context context;
         private final WeakReference<FixtureAndResultAdapter> ref;
         @BindView(R.id.section_header)
         TextView sectionHeaderView;
@@ -65,8 +67,9 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         RecyclerView recyclerView;
         private SectionedFixture sectionedFixture;
 
-        FixtureAndResultViewHolder(View itemView, FixtureAndResultAdapter adapter) {
+        FixtureAndResultViewHolder(View itemView, Context context, FixtureAndResultAdapter adapter) {
             super(itemView);
+            this.context = context;
             this.ref = new WeakReference<>(adapter);
             ButterKnife.bind(this, itemView);
         }
@@ -89,23 +92,23 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         private String getCurrentSectionHeader() {
             switch (sectionedFixture.getSection()) {
                 case PAST_MATCHES:
-                    return "Past Matches";
+                    return context.getString(R.string.past_matches);
                 case LIVE_MATCHES:
                     if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                        return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
+                        return context.getString(R.string.matchday_) + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
                     } else {
-                        return "Today";
+                        return context.getString(R.string.today);
                     }
                 case TOMORROWS_MATCHES:
                     if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                        return "Matchday " + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
+                        return context.getString(R.string.matchday_) + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
                     } else {
-                        return "Tomorrow";
+                        return context.getString(R.string.tomorrow);
                     }
                 case SCHEDULED_MATCHES:
-                    return "Scheduled matches";
+                    return context.getString(R.string.scheduled_matches);
                 default:
-                    return "Fixtures";
+                    return context.getString(R.string.fixtures);
             }
         }
     }

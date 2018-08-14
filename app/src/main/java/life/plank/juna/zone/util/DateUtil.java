@@ -27,7 +27,6 @@ public class DateUtil {
 
     public static long getDifferenceInHours(Date firstDate, Date secondDate) {
         long millisDifference = firstDate.getTime() - secondDate.getTime();
-        Log.e("Date", "get_Time" + millisDifference);
         return millisDifference / (3600000L);
     }
 
@@ -70,7 +69,7 @@ public class DateUtil {
             date = getIsoFormattedDate(dateFormatter.format(value));
             return date;
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("DATE", e.getMessage());
             return null;
         }
     }
