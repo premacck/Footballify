@@ -237,7 +237,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.see_all, R.id.following_text_view, R.id.see_complete})
+    @OnClick({R.id.see_all, R.id.following_text_view, R.id.see_complete, R.id.see_more, R.id.see_more_player_stats})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.see_all:
@@ -261,7 +261,20 @@ public class MatchResultActivity extends AppCompatActivity {
             case R.id.see_complete:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent intent = new Intent(this, MatchResultDetailActivity.class);
+                intent.putExtra("loadView", "standings");
                 startActivity(intent);
+                break;
+            case R.id.see_more:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
+                teamIntent.putExtra("loadView", "teamStats");
+                startActivity(teamIntent);
+                break;
+            case R.id.see_more_player_stats:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
+                playerIntent.putExtra("loadView", "playerStats");
+                startActivity(playerIntent);
                 break;
         }
     }
