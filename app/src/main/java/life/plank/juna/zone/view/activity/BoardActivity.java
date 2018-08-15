@@ -55,6 +55,7 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 /**
@@ -302,7 +303,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     public void retrieveBoard(Long foreignId, String boardType) {
 
-        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
+        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
         restApi.retrieveBoard(foreignId, boardType, token)
                 .subscribeOn(Schedulers.io())
@@ -341,7 +342,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     public void retrieveBoardByBoardId(String boardId) {
 
-        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
+        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
         progressBar.setVisibility(View.VISIBLE);
         restApi.retrieveByBoardId(boardId, token)

@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +35,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.helper.StackAnimation;
 import retrofit2.Retrofit;
+
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 
 public class SignInActivity extends AppCompatActivity {
     String TAG = SignInActivity.class.getCanonicalName();
@@ -78,7 +81,9 @@ public class SignInActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         ButterKnife.bind(this);
-        initStackAnimation();
+        SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
+        prefEditor.putBoolean(getString(R.string.pref_is_logged_in), false).apply();
+
 
         emailEditText.addTextChangedListener(loginFieldsWatcher);
         passwordEditText.addTextChangedListener(loginFieldsWatcher);
@@ -87,12 +92,6 @@ public class SignInActivity extends AppCompatActivity {
             emailEditText.setText(getString(R.string.azure_login_username));
             loginViaAzureAdb2c();
         }
-    }
-
-    private void initStackAnimation() {
-        stackAnimation = new StackAnimation(AppConstants.ANIMATION_DURATION,
-                AppConstants.ANIMATION_START_SCALE,
-                AppConstants.ANIMATION_PIVOT_VALUE);
     }
 
     private void makeRegistrationRequest(
@@ -164,6 +163,13 @@ public class SignInActivity extends AppCompatActivity {
             case R.id.sign_up_card:
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
+
+            case R.id.skip_login:
+                SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
+                prefEditor.putBoolean(getString(R.string.pref_is_logged_in), false).apply();
+                startActivity(new Intent(SignInActivity.this, UserFeedActivity.class));
+                break;
+
         }
     }
 

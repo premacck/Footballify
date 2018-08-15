@@ -15,6 +15,7 @@ import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
+import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
@@ -54,6 +55,8 @@ public interface UiComponent {
     void inject(SignUpActivity signUpActivity);
 
     void inject(UserProfileActivity userProfileActivity);
+
+    void inject(UserFeedActivity userFeedActivity);
 
     @Subcomponent.Builder
     interface Builder {

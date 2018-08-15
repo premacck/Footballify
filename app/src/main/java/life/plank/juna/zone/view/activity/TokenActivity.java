@@ -41,6 +41,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
 /**
  * Client to the Native Oauth library.
@@ -156,8 +157,8 @@ public class TokenActivity extends AppCompatActivity {
         mAuthState.update(tokenResponse, authException);
         Log.d("Id Token", " " + tokenResponse.idToken);
 
-        SharedPreferences.Editor boardIdEditor = getSharedPrefs(getString(R.string.login_credentails)).edit();
-        boardIdEditor.putString(getString(R.string.azure_token), tokenResponse.idToken).apply();
+        SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
+        prefEditor.putString(getString(R.string.pref_azure_token), tokenResponse.idToken).apply();
 
         getSignInResponse();
     }
@@ -184,7 +185,7 @@ public class TokenActivity extends AppCompatActivity {
 
     private void getSignInResponse() {
 
-        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
+        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
         restApi.getUser(token)
                 .subscribeOn(Schedulers.io())
@@ -206,9 +207,12 @@ public class TokenActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 //TODO: Investigate why the response.body is saved
+                                SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
+                                prefEditor.putBoolean(getString(R.string.pref_is_logged_in), true).apply();
+
                                 UIDisplayUtil.saveSignInUserDetails(TokenActivity.this, response.body());
-                                Intent intentSubmit = new Intent(TokenActivity.this, SwipePageActivity.class);
-                                startActivity(intentSubmit);
+                                startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();

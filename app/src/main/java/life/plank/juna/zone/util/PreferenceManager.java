@@ -27,13 +27,8 @@ public class PreferenceManager {
         return ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
     }
 
-    public static String getSharedPrefs(String sharedPrefs, String preferenceKey) {
-        SharedPreferences sharedPreference = ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
-        return sharedPreference.getString(preferenceKey, "NA");
-    }
-
     public static String getToken(Context context) {
-        return context.getString(R.string.bearer) + " " + getSharedPrefs(context.getString(R.string.login_credentails), context.getString(R.string.azure_token));
+        return context.getString(R.string.bearer) + " " + getSharedPrefsString(context.getString(R.string.pref_login_credentails), context.getString(R.string.pref_azure_token));
     }
 
     public void saveString(String key, String value) {
@@ -54,4 +49,15 @@ public class PreferenceManager {
     public String getPinnedFeeds(String key) {
         return sharedPreferences.getString(AppConstants.PINNED_FEEDS, "");
     }
+
+    public static String getSharedPrefsString(String sharedPrefs, String preferenceKey) {
+        SharedPreferences sharedPreference = ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
+        return sharedPreference.getString(preferenceKey, "NA");
+    }
+
+    public static Boolean getSharedPrefsBoolean(String sharedPrefs, String preferenceKey) {
+        SharedPreferences sharedPreference = ZoneApplication.getContext().getSharedPreferences(sharedPrefs, 0);
+        return sharedPreference.getBoolean(preferenceKey, false);
+    }
+
 }
