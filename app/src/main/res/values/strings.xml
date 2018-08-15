@@ -93,9 +93,5 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="scheduled_matches">Scheduled matches</string>
     <string name="fixtures">Fixtures</string>
-    <string name="load_view">loadView</string>
-    <string name="standings">standings</string>
-    <string name="team_stats">teamStats</string>
-    <string name="player_stats">playerStats</string>
 
 </resources>

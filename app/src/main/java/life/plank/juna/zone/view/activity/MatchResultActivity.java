@@ -261,19 +261,19 @@ public class MatchResultActivity extends AppCompatActivity {
             case R.id.see_complete:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent intent = new Intent(this, MatchResultDetailActivity.class);
-                intent.putExtra(getString(R.string.load_view), getString(R.string.standings));
+                intent.putExtra(getString(R.string.intent_load_view), getString(R.string.intent_standings));
                 startActivity(intent);
                 break;
             case R.id.see_more:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
-                teamIntent.putExtra(getString(R.string.load_view), getString(R.string.team_stats));
+                teamIntent.putExtra(getString(R.string.intent_load_view), getString(R.string.intent_team_stats));
                 startActivity(teamIntent);
                 break;
             case R.id.see_more_player_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
-                playerIntent.putExtra(getString(R.string.load_view), getString(R.string.player_stats));
+                playerIntent.putExtra(getString(R.string.intent_load_view), getString(R.string.intent_player_stats));
                 startActivity(playerIntent);
                 break;
         }
