@@ -37,6 +37,10 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.LOAD_VIEW;
+import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
+import static life.plank.juna.zone.util.AppConstants.STANDINGS;
+import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.view.activity.MatchResultActivity.matchStatsParentViewBitmap;
 
 public class MatchResultDetailActivity extends AppCompatActivity {
@@ -75,18 +79,18 @@ public class MatchResultDetailActivity extends AppCompatActivity {
         blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));
         restApi = retrofit.create(RestApi.class);
 
-        switch (getIntent().getStringExtra("loadView")) {
-            case "standings":
+        switch (getIntent().getStringExtra(LOAD_VIEW)) {
+            case STANDINGS:
                 initStandingRecyclerView();
                 getStandings(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
                 toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE);
                 break;
-            case "teamStats":
+            case TEAM_STATS:
                 initTeamStatsRecyclerView();
                 getTeamStats(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
                 toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE);
                 break;
-            case "playerStats":
+            case PLAYER_STATS:
                 initPlayerStatsRecyclerView();
                 getPlayerStats(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
                 toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.GONE, LinearLayout.VISIBLE);

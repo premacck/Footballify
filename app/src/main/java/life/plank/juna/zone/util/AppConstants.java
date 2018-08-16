@@ -33,5 +33,9 @@ public class AppConstants {
     public static final String SHARE_TO = "Board";
     public static final String ROOT_COMMENT = "rootComment";
 
+    public static final String LOAD_VIEW = "loadView";
+    public static final String STANDINGS = "standings";
+    public static final String TEAM_STATS = "teamStats";
+    public static final String PLAYER_STATS = "playerStats";
 
 }

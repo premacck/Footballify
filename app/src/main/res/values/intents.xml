@@ -24,8 +24,4 @@
     <string name="intent_board_activity">BoardActivity</string>
     <string name="intent_foreign_id_1">FOREIGNID_1</string>
     <string name="intent_foreign_id_2">FOREIGNID_2</string>
-    <string name="intent_load_view">loadView</string>
-    <string name="intent_standings">standings</string>
-    <string name="intent_team_stats">teamStats</string>
-    <string name="intent_player_stats">playerStats</string>
 </resources>

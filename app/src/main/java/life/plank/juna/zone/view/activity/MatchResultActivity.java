@@ -42,6 +42,10 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.LOAD_VIEW;
+import static life.plank.juna.zone.util.AppConstants.STANDINGS;
+import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
+import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class MatchResultActivity extends AppCompatActivity {
@@ -261,19 +265,19 @@ public class MatchResultActivity extends AppCompatActivity {
             case R.id.see_complete:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent intent = new Intent(this, MatchResultDetailActivity.class);
-                intent.putExtra(getString(R.string.intent_load_view), getString(R.string.intent_standings));
+                intent.putExtra(LOAD_VIEW, STANDINGS);
                 startActivity(intent);
                 break;
             case R.id.see_more:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
-                teamIntent.putExtra(getString(R.string.intent_load_view), getString(R.string.intent_team_stats));
+                teamIntent.putExtra(LOAD_VIEW, TEAM_STATS);
                 startActivity(teamIntent);
                 break;
             case R.id.see_more_player_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
                 Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
-                playerIntent.putExtra(getString(R.string.intent_load_view), getString(R.string.intent_player_stats));
+                playerIntent.putExtra(LOAD_VIEW, PLAYER_STATS);
                 startActivity(playerIntent);
                 break;
         }
