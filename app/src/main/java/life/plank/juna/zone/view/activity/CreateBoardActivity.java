@@ -145,7 +145,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         restApi.createPrivateBoard(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase), board, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
+                .subscribe(new Subscriber<Response<String>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -158,9 +158,9 @@ public class CreateBoardActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<JsonObject> response) {
+                    public void onNext(Response<String> response) {
                         switch (response.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
+                            case HttpURLConnection.HTTP_OK:
                                 startActivity(new Intent(CreateBoardActivity.this, PrivateBoardActivity.class));
                                 break;
                             default:

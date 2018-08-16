@@ -36,7 +36,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
-        holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam());
+        holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam().getName());
         holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
         holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
         holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));

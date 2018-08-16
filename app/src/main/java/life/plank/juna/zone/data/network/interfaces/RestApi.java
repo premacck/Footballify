@@ -86,7 +86,7 @@ public interface RestApi {
 
     //working
     @POST("/boards")
-    Observable<Response<JsonObject>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
+    Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
                                                         @Header("Authorization") String authHeader);
 
     //working
