@@ -6,18 +6,41 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/section_header"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical|start"
-        android:textSize="12sp"
-        android:paddingStart="6dp"
-        android:paddingEnd="6dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:fontFamily="@font/rajdhani_medium"
-        android:background="@color/light_header"/>
+        android:background="@color/light_header"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/matchday_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|start"
+            android:textSize="12sp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/grey"
+            android:fontFamily="@font/rajdhani_semibold" />
+
+        <TextView
+            android:id="@+id/date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical|end"
+            android:textSize="12sp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/grey"
+            android:fontFamily="@font/rajdhani_semibold" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fixtures_list"

@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,6 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.BoardActivity;
 
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
-import static life.plank.juna.zone.util.DateUtil.getFormattedDate;
 
 public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<FixtureAndResultSectionAdapter.ViewHolder> {
 
@@ -58,17 +58,22 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
 
     static class ViewHolder extends BaseRecyclerView.ViewHolder {
 
+        @BindView(R.id.home_team_name)
+        TextView homeTeamName;
+        @BindView(R.id.home_team_logo)
+        ImageView homeTeamLogo;
+        @BindView(R.id.date_schedule)
+        TextView separatorView;
+        @BindView(R.id.win_pointer)
+        ImageView winPointer;
+        @BindView(R.id.away_team_logo)
+        ImageView awayTeamLogo;
+        @BindView(R.id.away_team_name)
+        TextView awayTeamName;
+
         private final WeakReference<FixtureAndResultSectionAdapter> ref;
         private final Picasso picasso;
         private final Context context;
-        @BindView(R.id.home_team_logo)
-        ImageView homeTeamLogo;
-        @BindView(R.id.away_team_logo)
-        ImageView awayTeamLogo;
-        @BindView(R.id.date_schedule)
-        TextView dateView;
-        @BindView(R.id.team_names)
-        TextView teamNamesView;
         private ScoreFixtureModel scoreFixture;
 
         ViewHolder(View itemView, FixtureAndResultSectionAdapter adapter, Picasso picasso, Context context) {
@@ -82,6 +87,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         @Override
         public void bind() {
             scoreFixture = ref.get().scoreFixtureModelList.get(getAdapterPosition());
+            itemView.setBackgroundColor(Color.parseColor(getAdapterPosition() % 2 == 0 ? "#FFFFFF" : "#FAFAFA"));
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 picasso
                         .load(scoreFixture.getHomeTeam().getLogoLink())
@@ -101,11 +107,9 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
                         .into(awayTeamLogo);
             }
 
-            String teamNameText = scoreFixture.getHomeTeam().getName() +
-                    getSeparator(context, scoreFixture, ref.get().fixtureSection) +
-                    scoreFixture.getAwayTeam().getName();
-            teamNamesView.setText(teamNameText);
-            dateView.setText(getFormattedDate(context, scoreFixture));
+            homeTeamName.setText(scoreFixture.getHomeTeam().getName());
+            awayTeamName.setText(scoreFixture.getAwayTeam().getName());
+            separatorView.setText(getSeparator(scoreFixture, ref.get().fixtureSection, winPointer));
         }
 
         @OnClick(R.id.root_layout)

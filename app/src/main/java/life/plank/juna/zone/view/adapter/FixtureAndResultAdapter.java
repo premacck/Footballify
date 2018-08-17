@@ -20,7 +20,7 @@ import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.DataUtil.removeEmptySections;
+import static life.plank.juna.zone.util.DateUtil.getDateHeader;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -47,7 +47,6 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
     }
 
     public void update(List<SectionedFixture> sectionedFixtureList) {
-        removeEmptySections(sectionedFixtureList);
         this.sectionedFixtureList.addAll(sectionedFixtureList);
         notifyDataSetChanged();
     }
@@ -61,8 +60,10 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
 
         private final Context context;
         private final WeakReference<FixtureAndResultAdapter> ref;
-        @BindView(R.id.section_header)
-        TextView sectionHeaderView;
+        @BindView(R.id.matchday_header)
+        TextView matchdayHeader;
+        @BindView(R.id.date_time)
+        TextView dateTime;
         @BindView(R.id.fixtures_list)
         RecyclerView recyclerView;
         private SectionedFixture sectionedFixture;
@@ -79,7 +80,9 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
             sectionedFixture = ref.get().sectionedFixtureList.get(getAdapterPosition());
 
             if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                sectionHeaderView.setText(getCurrentSectionHeader());
+                String matchdayHeaderText = context.getString(R.string.matchday_) + sectionedFixture.getMatchday();
+                matchdayHeader.setText(matchdayHeaderText);
+                dateTime.setText(getDateHeader(sectionedFixture.getScoreFixtureModelList().get(0).getMatchStartTime()));
                 recyclerView.setAdapter(
                         new FixtureAndResultSectionAdapter(
                                 sectionedFixture.getScoreFixtureModelList(),

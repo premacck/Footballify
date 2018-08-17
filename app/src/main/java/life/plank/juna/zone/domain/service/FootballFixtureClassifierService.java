@@ -1,9 +1,11 @@
 package life.plank.juna.zone.domain.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
@@ -13,6 +15,7 @@ import static life.plank.juna.zone.domain.service.FootballFixtureClassifierServi
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.SCHEDULED_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.TOMORROWS_MATCHES;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateFromObject;
 
 public class FootballFixtureClassifierService {
@@ -22,6 +25,44 @@ public class FootballFixtureClassifierService {
         LIVE_MATCHES,
         TOMORROWS_MATCHES,
         SCHEDULED_MATCHES
+    }
+
+    public static List<SectionedFixture> classifyByDate(List<ScoreFixtureModel> fixtures) {
+        List<SectionedFixture> sectionedFixtureList = new ArrayList<>();
+        Map<String, List<ScoreFixtureModel>> map = new LinkedHashMap<>();
+        int i = 0;
+        for (int j = 0; j < fixtures.size(); j++) {
+            if (i == j) {
+                map.put(fixtures.get(i).getMatchDay().toString(), new ArrayList<>());
+            }
+            if (Objects.equals(fixtures.get(i).getMatchDay(), fixtures.get(j).getMatchDay())) {
+                map.get(fixtures.get(i).getMatchDay().toString()).add(fixtures.get(j));
+            } else {
+                map.put(fixtures.get(j).getMatchDay().toString(), new ArrayList<>());
+                i = j;
+            }
+        }
+        for (String matchTime : map.keySet()) {
+            List<ScoreFixtureModel> fixtureModels = map.get(matchTime);
+            if (!isNullOrEmpty(fixtureModels)) {
+                FixtureSection section = getSuitableSection(fixtureModels.get(0).getMatchStartTime());
+                sectionedFixtureList.add(SectionedFixture.getFrom(matchTime, section, map.get(matchTime)));
+            }
+        }
+        return sectionedFixtureList;
+    }
+
+    private static FixtureSection getSuitableSection(Date matchStartDate) {
+        int dateDifference = getDateFromObject(matchStartDate) - getDateFromObject(new Date());
+        if (dateDifference >= 2) {
+            return SCHEDULED_MATCHES;
+        } else if (dateDifference == 1) {
+            return TOMORROWS_MATCHES;
+        } else if (dateDifference == 0) {
+            return LIVE_MATCHES;
+        } else {
+            return PAST_MATCHES;
+        }
     }
 
     public static List<SectionedFixture> getClassifiedMatchesMap(List<ScoreFixtureModel> fixtures) {
@@ -45,11 +86,6 @@ public class FootballFixtureClassifierService {
                 pastFixtures.add(fixture);
             }
         }
-
-        Collections.reverse(scheduledFixtures);
-        Collections.reverse(pastFixtures);
-        Collections.reverse(liveFixtures);
-        Collections.reverse(tomorrowsFixtures);
 
         if (scheduledFixtures.size() > 20) scheduledFixtures = scheduledFixtures.subList(0, 20);
         sectionedFixtureList.add(SectionedFixture.getFrom(PAST_MATCHES, pastFixtures));
