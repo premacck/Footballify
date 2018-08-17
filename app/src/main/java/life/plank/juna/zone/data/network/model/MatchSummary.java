@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.network.model;
 import lombok.Data;
 
 @Data
-public class MatchSummaryModel {
+public class MatchSummary {
 
     private Integer id;
     private Integer foreignId;
