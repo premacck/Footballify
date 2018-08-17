@@ -53,7 +53,6 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -94,7 +93,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     @BindView(R.id.layout_info_tiles)
     RelativeLayout layoutInfoTiles;
 
-    private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
+    private ArrayList<FootballFeed> boardFeed;
     private RestApi restApi;
     private String enterBoardId;
     private String homeTeamLogo, awayTeamLogo;
@@ -151,6 +150,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         progressBar.setVisibility(View.VISIBLE);
+        if (boardFeed == null) boardFeed = new ArrayList<>();
 
         Intent intent = getIntent();
         long currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
@@ -199,10 +199,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
         boardFeed.clear();
-        if (isNullOrEmpty(boardFeedList)) {
-            boardFeed.addAll(boardFeedList);
-            boardMediaAdapter.notifyDataSetChanged();
-        }
+        boardFeed.addAll(boardFeedList);
+        boardMediaAdapter.notifyDataSetChanged();
     }
 
     public void setUpBoomMenu() {
