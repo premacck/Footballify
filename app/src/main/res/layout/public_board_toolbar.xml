@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:elevation="2dp">
+
+        <ImageView
+            android:id="@+id/league_logo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:contentDescription="@string/league_logo" />
+
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/rajdhani_regular"
+            android:textColor="@color/white"
+            android:textSize="32sp" />
+
+        <ImageView
+            android:id="@+id/home_team_logo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_toStartOf="@+id/score"
+            android:contentDescription="@string/pref_home_team_logo" />
+
+        <ImageView
+            android:id="@+id/away_team_logo"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/score"
+            android:contentDescription="@string/pref_away_team_logo" />
+
+        <ImageButton
+            android:id="@+id/options_menu"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:scaleType="center"
+            android:background="@null"
+            android:src="@drawable/ic_options"
+            android:contentDescription="@string/options_menu" />
+
+        <ImageButton
+            android:id="@+id/share_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/options_menu"
+            android:scaleType="center"
+            android:background="@null"
+            android:src="@drawable/ic_share"
+            android:contentDescription="@string/share" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/engagement_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent_white_two"
+        android:paddingEnd="10dp"
+        android:paddingStart="11dp"
+        android:paddingTop="6dp"
+        android:elevation="2dp"
+        android:paddingBottom="6dp">
+
+        <TextView
+            android:id="@+id/follow_btn"
+            style="@style/following_text_view_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="@string/following" />
+
+        <TextView
+            android:id="@+id/people_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_people"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:lineSpacingExtra="3sp"
+            android:text="1.4M"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/comment_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/people_count"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_card"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:lineSpacingExtra="3sp"
+            android:text="3.8M"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/likes_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toEndOf="@+id/comment_count"
+            android:drawablePadding="5dp"
+            android:drawableStart="@drawable/ic_likes"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:lineSpacingExtra="3sp"
+            android:text="16.2M"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/info_tiles_layout"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:elevation="1dp"
+        android:animateLayoutChanges="true"
+        android:background="@color/transparent_white_one">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="11dp"
+            android:layout_toStartOf="@+id/info_tiles_tab_layout">
+
+            <TextView
+                android:id="@+id/board_type_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/rajdhani_medium"
+                android:text="@string/matchday_36"
+                android:drawablePadding="7dp"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/info_tiles_tab_layout"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            style="@style/InfoTilesTabLayout">
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/info" />
+
+            <android.support.design.widget.TabItem
+                android:id="@+id/tiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tiles" />
+
+        </android.support.design.widget.TabLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
