@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -43,7 +45,13 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         holder.teamStatsDrawTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalDraws()));
         holder.teamsStatsGoalAgaintsTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsAgainst()));
         holder.teamStatsSerialNumber.setText(String.valueOf(teamStatsModelList.get(position).getId()));
-//        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
+        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
+        Picasso.with(context)
+                .load(teamStatsModelList.get(position).getFootballTeam().getLogoLink())
+                .fit().centerCrop()
+                .placeholder(R.drawable.ic_place_holder)
+                .error(R.drawable.ic_place_holder)
+                .into(holder.teamStatsTeamLogo);
     }
 
     @Override

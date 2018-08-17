@@ -51,7 +51,6 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.password_edit_text)
     EditText passwordEditText;
 
-    StackAnimation stackAnimation;
     TextWatcher loginFieldsWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

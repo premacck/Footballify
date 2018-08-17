@@ -5,8 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -45,6 +48,12 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
         holder.goalAgainstTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
         holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
+        Picasso.with(context)
+                .load(standingModelList.get(position).getFootballTeam().getLogoLink())
+                .fit().centerCrop()
+                .placeholder(R.drawable.ic_place_holder)
+                .error(R.drawable.ic_place_holder)
+                .into(holder.scoreView);
     }
 
     @Override
@@ -70,7 +79,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         @BindView(R.id.point_table_text_view)
         TextView pointTableTextView;
         @BindView(R.id.score_view)
-        View scoreView;
+        ImageView scoreView;
         @BindView(R.id.goal_against_text_view)
         TextView goalAgainstTextView;
         @BindView(R.id.score_board_liner_layout)

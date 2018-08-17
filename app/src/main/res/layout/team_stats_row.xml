@@ -16,8 +16,8 @@
 
     <ImageView
         android:id="@+id/team_stats_team_logo"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginStart="7dp"
         android:src="@drawable/ic_west_brom_logo"
         android:visibility="visible" />

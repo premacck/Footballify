@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.CommentaryModel;
+import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
@@ -26,7 +26,7 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
 
     private static final Typeface RAJDHANI_BOLD = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf");
 
-    private List<CommentaryModel> commentaries;
+    private List<Commentary> commentaries;
 
     public CommentaryAdapter() {
         commentaries = new ArrayList<>();
@@ -45,7 +45,7 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
         return commentaries.size();
     }
 
-    public void update(List<CommentaryModel> commentaries) {
+    public void update(List<Commentary> commentaries) {
         this.commentaries.addAll(commentaries);
         notifyDataSetChanged();
     }
@@ -67,7 +67,7 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
 
         @Override
         public void bind() {
-            CommentaryModel commentary = ref.get().commentaries.get(getAdapterPosition());
+            Commentary commentary = ref.get().commentaries.get(getAdapterPosition());
             String timeText;
             timeText = "" + (commentary.getExtraMinute() > 0 ?
                     commentary.getMinute() + " + " + commentary.getExtraMinute() :

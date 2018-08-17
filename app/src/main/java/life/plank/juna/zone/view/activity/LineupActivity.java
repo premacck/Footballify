@@ -22,7 +22,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.LineupsModel;
-import life.plank.juna.zone.data.network.model.MatchSummaryModel;
+import life.plank.juna.zone.data.network.model.MatchSummary;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -209,7 +209,7 @@ public class LineupActivity extends AppCompatActivity {
         restApi.getMatchSummary(matchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<MatchSummaryModel>>() {
+                .subscribe(new Subscriber<Response<MatchSummary>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -222,7 +222,7 @@ public class LineupActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<MatchSummaryModel> response) {
+                    public void onNext(Response<MatchSummary> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (response.body() != null) {

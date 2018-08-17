@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.network.model;
 import lombok.Data;
 
 @Data
-public class CommentaryModel {
+public class Commentary {
     private long id;
     private ScoreFixtureModel footballMatch;
     private long footballMatchRef;
