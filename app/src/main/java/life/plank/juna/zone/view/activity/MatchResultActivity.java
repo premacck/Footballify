@@ -1,8 +1,10 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,11 +42,20 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.LOAD_VIEW;
+import static life.plank.juna.zone.util.AppConstants.STANDINGS;
+import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
+import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+
 public class MatchResultActivity extends AppCompatActivity {
+    public static Bitmap matchStatsParentViewBitmap = null;
     String TAG = MatchResultActivity.class.getSimpleName();
     @Inject
     @Named("footballData")
     Retrofit retrofit;
+    @BindView(R.id.stats_parent_view)
+    CardView statsParentView;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.team_stats_recycler_view)
@@ -59,12 +70,11 @@ public class MatchResultActivity extends AppCompatActivity {
     RelativeLayout layoutInfoTiles;
     @BindView(R.id.following_text_view)
     TextView followingTextVIew;
-
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
     List<StandingModel> standingModel;
     List<PlayerStatsModel> playerStatsModelList;
     List<TeamStatsModel> teamStatsModelList;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
     private StandingTableAdapter standingTableAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
@@ -231,7 +241,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 });
     }
 
-    @OnClick({R.id.see_all, R.id.following_text_view})
+    @OnClick({R.id.see_all, R.id.following_text_view, R.id.see_complete, R.id.see_more, R.id.see_more_player_stats})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.see_all:
@@ -252,6 +262,24 @@ public class MatchResultActivity extends AppCompatActivity {
                 }
                 break;
             }
+            case R.id.see_complete:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent intent = new Intent(this, MatchResultDetailActivity.class);
+                intent.putExtra(LOAD_VIEW, STANDINGS);
+                startActivity(intent);
+                break;
+            case R.id.see_more:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
+                teamIntent.putExtra(LOAD_VIEW, TEAM_STATS);
+                startActivity(teamIntent);
+                break;
+            case R.id.see_more_player_stats:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
+                playerIntent.putExtra(LOAD_VIEW, PLAYER_STATS);
+                startActivity(playerIntent);
+                break;
         }
     }
 

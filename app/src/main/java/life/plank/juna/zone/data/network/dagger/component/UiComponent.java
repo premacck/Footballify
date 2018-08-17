@@ -10,6 +10,7 @@ import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
 import life.plank.juna.zone.view.activity.LineupActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
+import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
@@ -55,6 +56,8 @@ public interface UiComponent {
     void inject(SignUpActivity signUpActivity);
 
     void inject(UserProfileActivity userProfileActivity);
+
+    void inject(MatchResultDetailActivity matchResultDetailActivity);
 
     void inject(UserFeedActivity userFeedActivity);
 
