@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class StandingModel {
-    private String footballTeam;
+    private FootballTeam footballTeam;
     private Integer position;
     private Integer gamesPlayed;
     private Integer gamesWon;
