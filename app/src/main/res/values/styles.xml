@@ -19,6 +19,7 @@
     </style>
 
     <style name="stats_header_text_style">
+        <item name="android:layout_gravity">center</item>
         <item name="android:fontFamily">@font/rajdhani_medium</item>
         <item name="android:textColor">@color/black_50</item>
         <item name="android:textSize">10sp</item>
@@ -27,6 +28,7 @@
     </style>
 
     <style name="stats_row_text_style">
+        <item name="android:layout_gravity">center_vertical</item>
         <item name="android:fontFamily">@font/rajdhani_medium</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">10sp</item>

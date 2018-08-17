@@ -18,9 +18,9 @@
 
     <ImageView
         android:id="@+id/score_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_gravity="center_vertical"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
         android:layout_weight="0"
         android:src="@drawable/ic_west_brom_logo" />
 
@@ -29,7 +29,6 @@
         style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
         android:layout_weight="3"
         android:gravity="start"
