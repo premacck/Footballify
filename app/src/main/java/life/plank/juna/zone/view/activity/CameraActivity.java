@@ -317,9 +317,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
                             case HttpsURLConnection.HTTP_CREATED:
                                 Toast.makeText(CameraActivity.this, R.string.upload_successful, Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(CameraActivity.this, BoardActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
+                                finish();
                                 break;
                             case HttpURLConnection.HTTP_BAD_REQUEST:
                                 Toast.makeText(CameraActivity.this, R.string.upload_failed, Toast.LENGTH_SHORT).show();
