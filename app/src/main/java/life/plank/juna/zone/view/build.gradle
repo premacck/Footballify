@@ -50,13 +50,13 @@ dependencies {
     implementation viewDependencies.facebookSdk
     implementation viewDependencies.twitterSdk
     implementation viewDependencies.tooltipSdk
-    implementation viewDependencies.imageslider
     implementation viewDependencies.picasso
     implementation viewDependencies.nineoldandroids
     implementation viewDependencies.recyclerViewAnimator
     implementation viewDependencies.slidingUpPanelVersion
     implementation viewDependencies.bubbleLayout
     implementation viewDependencies.glide
+    implementation viewDependencies.supportLibraryv4
     implementation viewDependencies.appCompatLibrary
     implementation viewDependencies.videoPlayer
     implementation viewDependencies.lottie

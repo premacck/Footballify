@@ -37,13 +37,13 @@ ext {
     facebookSdkVersion = '4.28.0'
     twitterSdkVersion = '3.1.1'
     tooltipSdkVersion = '0.2.2'
-    imagesliderVersion = '1.1.5@aar'
     picassoVersion = '2.3.2'
     nineoldandroidsVersion = '2.4.0'
     recyclerViewAnimatorVersion = '1.0.1@aar'
     slidingUpPanelVersion = '3.4.0'
     bubbleLayoutVersion = '1.2.0'
     glideVersion = '4.6.1'
+    supportv4 = '27.1.1'
     supportAppCompat = '27.0.2'
     videoPlayer = 'r2.5.1'
     lottie = '2.2.0'
@@ -63,7 +63,7 @@ ext {
     testingSupportLibVersion = '0.1'
 
     viewDependencies = [
-            butterKnife           : "com.jakewharton:butterknife:${butterKnifeVersion}",
+            butterKnife          : "com.jakewharton:butterknife:${butterKnifeVersion}",
             butterKnifeCompiler   : "com.jakewharton:butterknife-compiler:${butterKnifeVersion}",
             rxAndroid             : "io.reactivex:rxandroid:${rxAndroidVersion}",
             rxJava                : "io.reactivex:rxjava:${rxJavaVersion}",
@@ -86,19 +86,19 @@ ext {
             facebookSdk           : "com.facebook.android:facebook-android-sdk:${facebookSdkVersion}",
             twitterSdk            : "com.twitter.sdk.android:twitter:${twitterSdkVersion}",
             tooltipSdk            : "com.github.douglasjunior:android-simple-tooltip:${tooltipSdkVersion}",
-            imageslider           : "com.daimajia.slider:library:${imagesliderVersion}",
-            picasso               : "com.squareup.picasso:picasso:${picassoVersion}",
-            nineoldandroids       : "com.nineoldandroids:library:${nineoldandroidsVersion}",
-            recyclerViewAnimator  : "com.mikepenz:itemanimators:${recyclerViewAnimatorVersion}",
-            slidingUpPanelVersion : "com.sothree.slidinguppanel:library:${slidingUpPanelVersion}",
-            bubbleLayout          : "com.daasuu:BubbleLayout:${bubbleLayoutVersion}",
-            glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
-            appCompatLibrary      : "com.android.support:appcompat-v7:${supportAppCompat}",
-            videoPlayer           : "com.google.android.exoplayer:exoplayer:${videoPlayer}",
-            lottie                : "com.airbnb.android:lottie:${lottie}",
-            blurPopupWindow       : "com.kyleduo.blurpopupwindow:blurpopupwindow:${blurPopupWindow}",
-            archMenu              : "com.github.BrotherV:Floating-ArcMenu:${archMenu}",
-            circularImageView     : "de.hdodenhof:circleimageview:${circularImageView}",
+            picasso              : "com.squareup.picasso:picasso:${picassoVersion}",
+            nineoldandroids      : "com.nineoldandroids:library:${nineoldandroidsVersion}",
+            recyclerViewAnimator : "com.mikepenz:itemanimators:${recyclerViewAnimatorVersion}",
+            slidingUpPanelVersion: "com.sothree.slidinguppanel:library:${slidingUpPanelVersion}",
+            bubbleLayout         : "com.daasuu:BubbleLayout:${bubbleLayoutVersion}",
+            glide                : "com.github.bumptech.glide:glide:${glideVersion}",
+            supportLibraryv4     : "com.android.support:support-v4:${supportv4}",
+            appCompatLibrary     : "com.android.support:appcompat-v7:${supportAppCompat}",
+            videoPlayer          : "com.google.android.exoplayer:exoplayer:${videoPlayer}",
+            lottie               : "com.airbnb.android:lottie:${lottie}",
+            blurPopupWindow      : "com.kyleduo.blurpopupwindow:blurpopupwindow:${blurPopupWindow}",
+            archMenu             : "com.github.BrotherV:Floating-ArcMenu:${archMenu}",
+            circularImageView    : "de.hdodenhof:circleimageview:${circularImageView}",
             mpAndroidChart        : "com.github.PhilJay:MPAndroidChart:${mpAndroidChart}",
     ]
 

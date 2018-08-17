@@ -16,4 +16,79 @@
         <attr name="civ_circle_background_color" format="color" />
     </declare-styleable>
 
+    <declare-styleable name="PublicBoardToolbar">
+        <attr name="useDefaults" format="boolean" />
+        <attr name="leagueLogo" format="reference" />
+        <attr name="homeTeamLogo" format="reference" />
+        <attr name="awayTeamLogo" format="reference" />
+        <attr name="score" format="string" />
+        <attr name="peopleCount" format="string" />
+        <attr name="commentsCount" format="string" />
+        <attr name="likesCount" format="string" />
+        <attr name="isFollowing" format="boolean" />
+        <attr name="boardTitle" format="string" />
+        <attr name="showLock" format="boolean" />
+        <attr name="defaultSelectedTile" format="enum">
+            <enum name="info" value="0" />
+            <enum name="tiles" value="1" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerRelativeLayout">
+        <attr name="auto_start" format="boolean" />
+        <attr name="base_alpha" format="float" />
+        <attr name="duration" format="integer" />
+        <attr name="repeat_count" format="integer" />
+        <attr name="repeat_delay" format="integer" />
+        <attr name="repeat_mode" format="enum">
+            <enum name="restart" value="1" />
+            <enum name="reverse" value="2" />
+        </attr>
+        <attr name="angle" format="enum">
+            <enum name="cw_0" value="0" />
+            <enum name="cw_90" value="90" />
+            <enum name="cw_180" value="180" />
+            <enum name="cw_270" value="270" />
+        </attr>
+        <attr name="dropOff" format="float" />
+        <attr name="fixed_width" format="dimension" />
+        <attr name="fixed_height" format="dimension" />
+        <attr name="intensity" format="float" />
+        <attr name="relative_width" format="float" />
+        <attr name="relative_height" format="float" />
+        <attr name="shape" format="enum">
+            <enum name="linear" value="0" />
+            <enum name="radial" value="1" />
+        </attr>
+        <attr name="tilt" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ShimmerLinearLayout">
+        <attr name="auto_start_" format="boolean" />
+        <attr name="base_alpha_" format="float" />
+        <attr name="duration_" format="integer" />
+        <attr name="repeat_count_" format="integer" />
+        <attr name="repeat_delay_" format="integer" />
+        <attr name="repeat_mode_" format="enum">
+            <enum name="restart" value="1" />
+            <enum name="reverse" value="2" />
+        </attr>
+        <attr name="angle_" format="enum">
+            <enum name="cw_0" value="0" />
+            <enum name="cw_90" value="90" />
+            <enum name="cw_180" value="180" />
+            <enum name="cw_270" value="270" />
+        </attr>
+        <attr name="dropOff_" format="float" />
+        <attr name="fixed_width_" format="dimension" />
+        <attr name="fixed_height_" format="dimension" />
+        <attr name="intensity_" format="float" />
+        <attr name="relative_width_" format="float" />
+        <attr name="relative_height_" format="float" />
+        <attr name="shape_" format="enum">
+            <enum name="linear" value="0" />
+            <enum name="radial" value="1" />
+        </attr>
+        <attr name="tilt_" format="float" />
+    </declare-styleable>
 </resources>

@@ -6,6 +6,7 @@
     <color name="mainGradientStart">#c86dd7</color>
     <color name="mainGradientEnd">#3023ae</color>
     <color name="white">#FFFFFF</color>
+    <color name="off_white">#b3ffffff</color>
     <color name="black">#000000</color>
     <color name="orange">#F8B809</color>
     <color name="green">#7cb36c</color>
@@ -47,4 +48,5 @@
     <color name="faded_red">#b82c3f</color>
     <color name="black_76_opaque">#4c000000</color>
     <color name="black_170_opaque">#AA000000</color>
+    <color name="purple_timeline">#490064</color>
 </resources>
