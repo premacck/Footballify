@@ -14,6 +14,7 @@ import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -94,6 +95,10 @@ public interface RestApi {
     Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
                                                                        @Query("leagueName") String leagueName,
                                                                        @Query("countryName") String countryName);
+
+    //working
+    @GET("/feedEntries")
+    Observable<Response<List<UserFeed>>> getUserFeed(@Header("Authorization") String authHeader);
 
     //yet to verify
     @GET("api/feeditems")

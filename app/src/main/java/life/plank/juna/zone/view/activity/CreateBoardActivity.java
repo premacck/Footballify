@@ -39,6 +39,7 @@ import rx.schedulers.Schedulers;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 
 public class CreateBoardActivity extends AppCompatActivity {
@@ -141,7 +142,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             return;
         }
 
-        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
+        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
         restApi.createPrivateBoard(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase), board, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

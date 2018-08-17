@@ -143,11 +143,13 @@
         <activity android:name=".view.activity.ZoneActivity" />
         <activity android:name=".view.activity.SignInActivity" />
         <activity android:name=".view.activity.PrivateBoardActivity" />
-        <activity android:name=".view.activity.CreateBoardActivity"
-            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".view.activity.CreateBoardActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity android:name=".view.activity.TokenActivity" />
         <activity android:name=".view.activity.InviteToBoardActivity" />
         <activity android:name=".view.activity.UserProfileActivity" />
+        <activity android:name=".view.activity.UserFeedActivity"></activity>
     </application>
 
 </manifest>

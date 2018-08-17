@@ -57,6 +57,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
 //TODO: MOve all strings to strings.xml
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener {
@@ -275,7 +276,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     //TODO: Fix progressbar bug for audio upload
     private void postMediaContent(String selectedFileUri, String targetId, String targetType, String contentType, String userId, String dateCreated) {
 
-        String token = getString(R.string.bearer) + " " + getSharedPrefs(getString(R.string.login_credentails), getString(R.string.azure_token));
+        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
         progressBar.setVisibility(View.VISIBLE);
         File file = new File(selectedFileUri);
