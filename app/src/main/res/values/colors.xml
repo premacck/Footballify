@@ -6,6 +6,7 @@
     <color name="mainGradientStart">#c86dd7</color>
     <color name="mainGradientEnd">#3023ae</color>
     <color name="white">#FFFFFF</color>
+    <color name="off_white">#b3ffffff</color>
     <color name="black">#000000</color>
     <color name="orange">#F8B809</color>
     <color name="green">#7cb36c</color>
@@ -23,7 +24,7 @@
     <color name="black_40">#66000000</color>
     <color name="dark_green">#66875d</color>
     <color name="purple">#530D1B</color>
-    <color name="football_ground_green">#0F9D58</color>
+    <color name="football_field_green">#0F9D58</color>
     <color name="teams_background_green">#0B8449</color>
     <color name="white_40_opacity">#40FFFFFF</color>
     <color name="football_feed_background">#66dd5873</color>
@@ -41,10 +42,11 @@
     <color name="others_color_grey">#cccccc</color>
     <color name="light_grey">#dcdcdc</color>
     <color name="background_color">#fafafa</color>
-    <color name="transparent_white_one">#19ffffff</color>
-    <color name="transparent_white_two">#0cffffff</color>
+    <color name="transparent_white_19">#19ffffff</color>
+    <color name="transparent_white_0c">#0cffffff</color>
     <color name="chocolate_brown">#482d00</color>
     <color name="faded_red">#b82c3f</color>
     <color name="black_76_opaque">#4c000000</color>
     <color name="black_170_opaque">#AA000000</color>
+    <color name="purple_timeline">#490064</color>
 </resources>

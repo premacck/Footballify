@@ -13,7 +13,8 @@
     <string name="tap_to_see_tiles">Tap to see tiles</string>
     <string name="team_stats">Team Stats</string>
     <string name="player_stats">Player Stats</string>
-    <string name="info">i</string>
+    <string name="info_i">i</string>
+    <string name="info">INFO</string>
     <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
     <string name="see_all">See All</string>
     <string name="see_more">see More</string>
@@ -108,4 +109,20 @@
     <string name="past_matches">Past Matches</string>
     <string name="no_matches_found">No Matches found&#160;</string>
     <string name="yesterday">Yesterday</string>
+    <string name="home_team_goal_area">Home Team Goal Area</string>
+    <string name="football_field_center_marking">Football field center marking</string>
+    <string name="away_team_goal_area">Away Team Goal Area</string>
+    <string name="options_menu">Options Menu</string>
+    <string name="share">Share</string>
+    <string name="league_logo">League logo</string>
+    <string name="tiles">TILES</string>
+    <string name="lock">lock</string>
+    <string name="substitutes">Substitutes</string>
+    <string name="commentary">Commentary</string>
+    <string name="white_gradient">white gradient</string>
+    <string name="timeline">Timeline</string>
+    <string name="match_yet_to_start">Match yet to start</string>
+    <string name="thumbnail">Thumbnail</string>
+    <string name="timeline_whistle">Timeline_whistle</string>
+    <string name="emirates_stadium">Emirates Stadium</string>
 </resources>
