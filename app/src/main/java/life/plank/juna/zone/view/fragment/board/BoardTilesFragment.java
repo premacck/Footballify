@@ -1,16 +1,27 @@
 package life.plank.juna.zone.view.fragment.board;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -18,10 +29,22 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Thumbnail;
+import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.view.activity.BoardFeedDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
+import retrofit2.Response;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class BoardTilesFragment extends Fragment {
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
+
+public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
     private static final String BOARD_ID = "board_id";
@@ -39,6 +62,36 @@ public class BoardTilesFragment extends Fragment {
     private BoardMediaAdapter adapter;
 
     private String boardId;
+
+    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            setDataReceivedFromPushNotification(intent);
+        }
+    };
+
+    public void setDataReceivedFromPushNotification(Intent intent) {
+        String title = intent.getStringExtra(getString(R.string.intent_comment_title));
+        String contentType = intent.getStringExtra(getString(R.string.intent_content_type));
+        String thumbnailUrl = intent.getStringExtra(getString(R.string.intent_thumbnail_url));
+        Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
+        Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
+        String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
+        FootballFeed footballFeed = new FootballFeed();
+        Log.e(TAG, "content_type: " + contentType);
+        footballFeed.setContentType(contentType);
+        if (contentType.equals(AppConstants.ROOT_COMMENT)) {
+            footballFeed.setTitle(title);
+        } else {
+            Thumbnail thumbnail = new Thumbnail();
+            thumbnail.setImageWidth(thumbnailWidth);
+            thumbnail.setImageHeight(thumbnailHeight);
+            thumbnail.setImageUrl(thumbnailUrl);
+            footballFeed.setThumbnail(thumbnail);
+            footballFeed.setUrl(imageUrl);
+        }
+        updateNewPost(footballFeed);
+    }
 
     public BoardTilesFragment() {
     }
@@ -65,6 +118,86 @@ public class BoardTilesFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_board_tiles, container, false);
         ButterKnife.bind(this, rootView);
 
+        ZoneApplication.getApplication().getUiComponent().inject(this);
+        initRecyclerView();
+        updateTiles(boardId);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Objects.requireNonNull(getContext()).registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.intent_board)));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Objects.requireNonNull(getContext()).unregisterReceiver(mMessageReceiver);
+    }
+
+    private void initRecyclerView() {
+        adapter = new BoardMediaAdapter(picasso);
+        adapter.setOnClickFeedItemListener(this);
+        boardTilesList.setAdapter(adapter);
+    }
+
+    public void updateNewPost(FootballFeed footballFeed) {
+        adapter.updateNewPost(footballFeed);
+        boardTilesList.smoothScrollToPosition(0);
+    }
+
+    public void updateTiles(String boardId) {
+        this.boardId = boardId;
+        retrieveBoardByBoardId(boardId);
+    }
+
+    public void retrieveBoardByBoardId(String boardId) {
+        progressBar.setVisibility(View.VISIBLE);
+        restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<FootballFeed>>>() {
+                    @Override
+                    public void onCompleted() {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        Log.e(TAG, "On Error()" + e);
+                        Toast.makeText(getActivity(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<List<FootballFeed>> response) {
+                        progressBar.setVisibility(View.INVISIBLE);
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (response.body() != null)
+                                    adapter.update(response.body());
+                                else
+                                    Toast.makeText(getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getContext(), R.string.board_not_populated, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(getActivity(), BoardFeedDetailActivity.class);
+        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
+        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getBoardFeed()));
+        intent.putExtra(getString(R.string.intent_board_id), boardId);
+        startActivity(intent);
     }
 }
