@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 import java.util.List;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.CommentaryModel;
+import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.view.adapter.CommentaryAdapter;
 
@@ -76,7 +76,7 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         commentaryList.setAdapter(adapter);
     }
 
-    private void notifyAdapter(List<CommentaryModel> commentaries) {
+    private void notifyAdapter(List<Commentary> commentaries) {
         adapter.update(commentaries);
     }
 
