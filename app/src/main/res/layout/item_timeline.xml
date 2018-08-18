@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/center_space"
+        android:layout_width="2dp"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:layout_centerInParent="true"
+        android:background="@color/purple_timeline" />
+
+    <ImageView
+        android:id="@+id/whistle"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_whistle"
+        android:contentDescription="@string/timeline_whistle" />
+
+    <TextView
+        android:id="@+id/minute"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:background="@drawable/timeline_minute_bg"
+        android:fontFamily="@font/rajdhani_semibold"
+        android:textSize="@dimen/text_10sp"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/timeline_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical|end"
+        android:layout_centerVertical="true"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp">
+
+        <TextView
+            android:id="@+id/timeline_text_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rajdhani_regular"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_10sp"
+            android:drawablePadding="10dp" />
+
+        <TextView
+            android:id="@+id/timeline_text_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rajdhani_regular"
+            android:textColor="@color/grey"
+            android:drawablePadding="10dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,11 +1,11 @@
 <resources>
     <!--Production Environment-->
-    <string name="football_data_base_url">https://junafootballdata.azurewebsites.net/</string>
-    <string name="feed_data_base_url">https://junawebapi.azurewebsites.net/</string>
+    <!--<string name="football_data_base_url">https://junafootballdata.azurewebsites.net/</string>
+    <string name="feed_data_base_url">https://junawebapi.azurewebsites.net/</string>-->
 
     <!--Developer Environment-->
-    <!--<string name="football_data_base_url">http://192.169.1.20:54504/</string>-->
-    <!--<string name="feed_data_base_url">http://192.169.1.20:62937/</string>-->
+    <string name="football_data_base_url">http://10.0.0.46:4000/</string>
+    <string name="feed_data_base_url">http://10.0.0.46:5000/</string>
 
     <string name="app_name">Zone</string>
     <string name="facebook_app_id">575013552837571</string>

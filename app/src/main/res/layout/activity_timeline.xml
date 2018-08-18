@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="6dp"
+        app:cardCornerRadius="8dp"
+        tools:context=".view.activity.FixtureAndResultActivity">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableTop="@drawable/drag_handle"
+                android:fontFamily="@font/raleway_semibold"
+                android:gravity="center_vertical"
+                android:padding="6dp"
+                android:text="@string/timeline"
+                android:textColor="@color/grey"
+                android:textSize="12sp" />
+
+            <fragment
+                android:id="@+id/title_fragment"
+                android:name="life.plank.juna.zone.view.fragment.GraphFragment"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_below="@+id/header" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/timeline_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/title_fragment"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/item_timeline" />
+
+            <TextView
+                android:id="@+id/no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="100dp"
+                android:layout_marginTop="100dp"
+                android:fontFamily="@font/rajdhani_light"
+                android:text="@string/match_yet_to_start"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
