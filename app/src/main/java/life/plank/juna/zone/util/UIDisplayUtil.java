@@ -36,7 +36,11 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
+
+import com.bvapp.arcmenulibrary.ArcMenu;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,6 +50,8 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.SignInModel;
+import life.plank.juna.zone.view.activity.CameraActivity;
+import life.plank.juna.zone.view.activity.PostCommentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -349,13 +355,107 @@ public class UIDisplayUtil {
      * @param view     The view on which swipe down gesture is required.
      */
     public static void setupSwipeGesture(Activity activity, View view) {
-        activity.getWindow().getSharedElementEnterTransition().setDuration(250);
-        activity.getWindow().getSharedElementReturnTransition().setDuration(250).setInterpolator(new DecelerateInterpolator());
         view.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
                 activity.onBackPressed();
             }
         });
+    }
+
+    public static void setSharedElementTransitionDuration(Activity activity, int duration) {
+        activity.getWindow().getSharedElementEnterTransition().setDuration(duration);
+        activity.getWindow().getSharedElementReturnTransition().setDuration(duration).setInterpolator(new DecelerateInterpolator());
+    }
+
+    public static void setupBoomMenu(Activity activity, ArcMenu arcMenu, String boardId) {
+        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        int[] fabImages = getBoomMenuFabImages();
+        int[] backgroundColors = getBoomMenuBackgroundColors();
+        String[] titles = getBoomMenuTitles();
+        for (int i = 0; i < fabImages.length; i++) {
+            View child = activity.getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
+            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
+            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
+            fabRelativeLayout.setBackground(ContextCompat.getDrawable(activity, backgroundColors[i]));
+            fabImageVIew.setImageResource(fabImages[i]);
+            arcMenu.addItem(child, titles[i], getBoomMenuListener(activity, boardId, i));
+        }
+    }
+
+    public static String[] getBoomMenuTitles() {
+        return new String[]{
+                "Settings",
+                "Profile",
+                "Home",
+                "Gallery",
+                "Camera",
+                "Audio",
+                "Comment",
+                "Attachment",
+                "Video"
+        };
+    }
+
+    public static int[] getBoomMenuFabImages() {
+        return new int[]{R.drawable.ic_settings_white,
+                R.drawable.ic_person,
+                R.drawable.ic_home_purple,
+                R.drawable.ic_gallery,
+                R.drawable.ic_camera_white,
+                R.drawable.ic_mic,
+                R.drawable.text_icon,
+                R.drawable.ic_link,
+                R.drawable.ic_video
+        };
+    }
+
+    public static int[] getBoomMenuBackgroundColors() {
+        return new int[]{R.drawable.fab_circle_background_grey,
+                R.drawable.fab_circle_background_grey,
+                R.drawable.fab_circle_background_white,
+                R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink,
+                R.drawable.fab_circle_background_pink
+        };
+    }
+
+    public static View.OnClickListener getBoomMenuListener(Activity activity, String boardId, int position) {
+        return view -> {
+            switch (position) {
+                case 0: {
+                    break;
+                }
+                case 1: {
+                    break;
+                }
+                case 2: {
+                    break;
+                }
+                case 3: {
+                    CameraActivity.launch(activity, activity.getString(R.string.gallery), boardId, activity.getString(R.string.intent_board_activity));
+                    break;
+                }
+                case 4: {
+                    CameraActivity.launch(activity, activity.getString(R.string.camera), boardId, activity.getString(R.string.intent_board_activity));
+                    break;
+                }
+                case 5: {
+                    CameraActivity.launch(activity, activity.getString(R.string.intent_audio), boardId, activity.getString(R.string.intent_board_activity));
+                    break;
+                }
+                case 6: {
+                    PostCommentActivity.launch(activity, boardId);
+                    break;
+                }
+                case 8: {
+                    CameraActivity.launch(activity, activity.getString(R.string.video), boardId, activity.getString(R.string.intent_board_activity));
+                    break;
+                }
+            }
+        };
     }
 }
