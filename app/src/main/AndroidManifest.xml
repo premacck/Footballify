@@ -151,6 +151,7 @@
         <activity android:name=".view.activity.UserProfileActivity" />
         <activity android:name=".view.activity.MatchResultDetailActivity" />
         <activity android:name=".view.activity.UserFeedActivity" />
+        <activity android:name=".view.activity.TimelineActivity"></activity>
     </application>
 
 </manifest>
