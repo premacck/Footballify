@@ -40,9 +40,11 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/match_fixture_result"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    android:transitionName="match_fixture_result"
                     app:cardCornerRadius="@dimen/feed_card_corner_radius"
                     app:cardUseCompatPadding="true">
 

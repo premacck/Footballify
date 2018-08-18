@@ -39,6 +39,7 @@ public class FootballFixtureClassifierService {
                 map.get(fixtures.get(i).getMatchDay().toString()).add(fixtures.get(j));
             } else {
                 map.put(fixtures.get(j).getMatchDay().toString(), new ArrayList<>());
+                map.get(fixtures.get(j).getMatchDay().toString()).add(fixtures.get(j));
                 i = j;
             }
         }

@@ -9,14 +9,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_header"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/matchday_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:background="@color/light_header"
             android:gravity="center_vertical|start"
             android:textSize="12sp"
             android:paddingStart="6dp"
@@ -30,13 +29,10 @@
             android:id="@+id/date_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical|end"
+            android:gravity="center"
+            android:background="@color/background_color"
             android:textSize="12sp"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:padding="6dp"
             android:textColor="@color/grey"
             android:fontFamily="@font/rajdhani_semibold" />
 

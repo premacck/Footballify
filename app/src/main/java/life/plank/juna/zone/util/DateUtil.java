@@ -14,6 +14,7 @@ import java.util.TimeZone;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.wasMatchYesterday;
 import static life.plank.juna.zone.util.DataUtil.formatInt;
@@ -42,7 +43,7 @@ public class DateUtil {
         return Integer.parseInt(dateString);
     }
 
-    private static int getTimeFromObject(Date date) {
+    private static long getTimeFromObject(Date date) {
         String dateString;
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -50,17 +51,16 @@ public class DateUtil {
         int dateInt = cal.get(Calendar.DATE);
         int hourInt = cal.get(Calendar.HOUR_OF_DAY);
         int minuteInt = cal.get(Calendar.MINUTE);
-        int secondInt = cal.get(Calendar.SECOND);
         dateString = "" + cal.get(Calendar.YEAR) + formatInt(monthInt) + formatInt(dateInt) +
-                formatInt(hourInt) + formatInt(minuteInt) + formatInt(secondInt);
-        return Integer.parseInt(dateString);
+                formatInt(hourInt) + formatInt(minuteInt);
+        return Long.parseLong(dateString);
     }
 
     private static int getDateDiffFromToday(Date date) {
         return getDateFromObject(date) - getDateFromObject(new Date());
     }
 
-    static int getTimeDiffFromNow(Date date) {
+    static long getTimeDiffFromNow(Date date) {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
 
@@ -85,10 +85,21 @@ public class DateUtil {
         return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(matchStartTime);
     }
 
-    public static String getDateHeader(Date matchStartTime) {
-        return HEADER_DATE_FORMAT.format(matchStartTime);
+    public static String getDateHeader(Context context, FixtureSection section, Date matchStartTime) {
+        return getCurrentSectionHeader(context, section, matchStartTime);
     }
 
+    private static String getCurrentSectionHeader(Context context, FixtureSection section, Date matchStartTime) {
+        switch (section) {
+            case LIVE_MATCHES:
+                return context.getString(R.string.today);
+            case TOMORROWS_MATCHES:
+                return context.getString(R.string.tomorrow);
+            default:
+                return HEADER_DATE_FORMAT.format(matchStartTime);
+        }
+    }
+    
     public static Date getDateFromUTCTimestamp(long mTimestamp) {
         Date date;
         try {

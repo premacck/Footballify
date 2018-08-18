@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +17,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateHeader;
@@ -27,12 +27,12 @@ import static life.plank.juna.zone.util.DateUtil.getDateHeader;
  */
 public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAndResultAdapter.FixtureAndResultViewHolder> {
 
-    private Context context;
+    private FixtureAndResultActivity activity;
     private List<SectionedFixture> sectionedFixtureList;
     private Picasso picasso;
 
-    public FixtureAndResultAdapter(Context context, Picasso picasso) {
-        this.context = context;
+    public FixtureAndResultAdapter(FixtureAndResultActivity activity, Picasso picasso) {
+        this.activity = activity;
         this.picasso = picasso;
         this.sectionedFixtureList = new ArrayList<>();
     }
@@ -41,7 +41,6 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
     public FixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new FixtureAndResultViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture_section, parent, false),
-                context,
                 this
         );
     }
@@ -58,7 +57,6 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
 
     public static class FixtureAndResultViewHolder extends BaseRecyclerView.ViewHolder {
 
-        private final Context context;
         private final WeakReference<FixtureAndResultAdapter> ref;
         @BindView(R.id.matchday_header)
         TextView matchdayHeader;
@@ -68,9 +66,8 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         RecyclerView recyclerView;
         private SectionedFixture sectionedFixture;
 
-        FixtureAndResultViewHolder(View itemView, Context context, FixtureAndResultAdapter adapter) {
+        FixtureAndResultViewHolder(View itemView, FixtureAndResultAdapter adapter) {
             super(itemView);
-            this.context = context;
             this.ref = new WeakReference<>(adapter);
             ButterKnife.bind(this, itemView);
         }
@@ -80,38 +77,19 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
             sectionedFixture = ref.get().sectionedFixtureList.get(getAdapterPosition());
 
             if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                String matchdayHeaderText = context.getString(R.string.matchday_) + sectionedFixture.getMatchday();
+                String matchdayHeaderText = ref.get().activity.getString(R.string.matchday_) + sectionedFixture.getMatchday();
                 matchdayHeader.setText(matchdayHeaderText);
-                dateTime.setText(getDateHeader(sectionedFixture.getScoreFixtureModelList().get(0).getMatchStartTime()));
+                dateTime.setText(getDateHeader(
+                        ref.get().activity,
+                        sectionedFixture.getSection(),
+                        sectionedFixture.getScoreFixtureModelList().get(0).getMatchStartTime()
+                ));
                 recyclerView.setAdapter(
                         new FixtureAndResultSectionAdapter(
                                 sectionedFixture.getScoreFixtureModelList(),
                                 ref.get().picasso,
-                                ref.get().context,
+                                ref.get().activity,
                                 sectionedFixture.getSection()));
-            }
-        }
-
-        private String getCurrentSectionHeader() {
-            switch (sectionedFixture.getSection()) {
-                case PAST_MATCHES:
-                    return context.getString(R.string.past_matches);
-                case LIVE_MATCHES:
-                    if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                        return context.getString(R.string.matchday_) + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
-                    } else {
-                        return context.getString(R.string.today);
-                    }
-                case TOMORROWS_MATCHES:
-                    if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
-                        return context.getString(R.string.matchday_) + String.valueOf(sectionedFixture.getScoreFixtureModelList().get(0).getMatchDay());
-                    } else {
-                        return context.getString(R.string.tomorrow);
-                    }
-                case SCHEDULED_MATCHES:
-                    return context.getString(R.string.scheduled_matches);
-                default:
-                    return context.getString(R.string.fixtures);
             }
         }
     }
