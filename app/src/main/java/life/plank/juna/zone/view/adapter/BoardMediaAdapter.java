@@ -129,12 +129,12 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
         @OnClick(R.id.root_layout)
         public void onBoardItemClick() {
-            listener.onItemClick(getAdapterPosition());
+            listener.onItemClick(getAdapterPosition(), itemView);
         }
 
         @OnLongClick(R.id.root_layout)
         public boolean onBoardItemLongClick() {
-            listener.onItemClick(getAdapterPosition());
+            listener.onItemClick(getAdapterPosition(), itemView);
             return true;
         }
     }

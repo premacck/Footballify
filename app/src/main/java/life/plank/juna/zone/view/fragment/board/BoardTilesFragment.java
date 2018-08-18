@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.board;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -148,15 +146,11 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position, View fromView) {
         Activity boardActivity = getActivity();
         if (boardActivity != null) {
             boardParentViewBitmap = loadBitmap(boardActivity.getWindow().getDecorView(), boardActivity.getWindow().getDecorView(), boardActivity);
         }
-        Intent intent = new Intent(boardActivity, BoardFeedDetailActivity.class);
-        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
-        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getBoardFeed()));
-        intent.putExtra(getString(R.string.intent_board_id), boardId);
-        startActivity(intent);
+        BoardFeedDetailActivity.launch(getActivity(), position, adapter.getBoardFeed(), boardId, fromView);
     }
 }
