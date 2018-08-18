@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import butterknife.BindView;
@@ -18,6 +19,10 @@ public class BoardInfoFragment extends Fragment {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.home_team_lineup_layout)
+    LinearLayout homeTeamLineupLayout;
+    @BindView(R.id.visiting_team_lineup_layout)
+    LinearLayout visitingTeamLineupLayout;
 
     public BoardInfoFragment() {
     }

@@ -15,13 +15,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <fragment
-                android:id="@+id/title_fragment"
-                android:name="life.plank.juna.zone.view.fragment.GraphFragment"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginBottom="3dp" />
-
             <include
                 layout="@layout/item_match_highlights"
                 android:visibility="gone"

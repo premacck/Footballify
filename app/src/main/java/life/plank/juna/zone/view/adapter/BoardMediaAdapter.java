@@ -15,6 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
@@ -129,6 +130,12 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         @OnClick(R.id.root_layout)
         public void onBoardItemClick() {
             listener.onItemClick(getAdapterPosition());
+        }
+
+        @OnLongClick(R.id.root_layout)
+        public boolean onBoardItemLongClick() {
+            listener.onItemClick(getAdapterPosition());
+            return true;
         }
     }
 }
