@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -84,9 +83,9 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_and_result);
-        getWindow().getSharedElementEnterTransition().setDuration(250);
-        getWindow().getSharedElementReturnTransition().setDuration(250).setInterpolator(new DecelerateInterpolator());
         ButterKnife.bind(this);
+        setupSwipeGesture(this, headerView);
+
         rootLayout.setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));
 
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
@@ -99,8 +98,6 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
         populatePastMatchFixtureRecyclerView();
         getScoreFixture();
-
-        setupSwipeGesture(this, headerView);
     }
 
     public void populatePastMatchFixtureRecyclerView() {

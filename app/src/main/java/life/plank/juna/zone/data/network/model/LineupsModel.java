@@ -13,6 +13,6 @@ public class LineupsModel {
     public class Formation {
         private String fullName;
         private Integer number;
-
+        private Integer formationNumber;
     }
 }
