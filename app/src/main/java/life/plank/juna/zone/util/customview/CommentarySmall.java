@@ -43,7 +43,6 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
     private void initVariables() {
         Button seeAllBtn = findViewById(R.id.see_all);
         commentaryList = findViewById(R.id.commentary_list);
-        setAdapter(new CommentaryAdapter());
 
         seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
     }

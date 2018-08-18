@@ -131,4 +131,6 @@
     <string name="unfollow_board">Unfollow board</string>
     <string name="remove_favourite">Remove favourite</string>
     <string name="report_board">Report board</string>
+    <string name="hide_notifications">Hide notifications</string>
+    <string name="show_notifications">Show notifications</string>
 </resources>

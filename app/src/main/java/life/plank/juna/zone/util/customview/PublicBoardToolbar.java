@@ -18,13 +18,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.Objects;
-
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
-public class PublicBoardToolbar extends LinearLayout implements CustomViewListener, TabLayout.OnTabSelectedListener {
+public class PublicBoardToolbar extends LinearLayout implements CustomViewListener {
 
     ImageView leagueLogoView;
     TextView scoreView;
@@ -105,11 +103,6 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         boardTitleView = findViewById(R.id.board_type_title);
         infoTilesTabLayout = findViewById(R.id.info_tiles_tab_layout);
 
-        Objects.requireNonNull(infoTilesTabLayout.getTabAt(1)).select();
-
-        infoTilesTabLayout.addOnTabSelectedListener(this);
-        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
-
         menu = new PopupMenu(context, optionsMenu);
         menu.getMenu().add(
                 R.id.group_board,
@@ -121,7 +114,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
                 R.id.group_board,
                 isNotificationOn ? R.id.action_hide_notifications : R.id.action_show_notifications,
                 2,
-                isNotificationOn ? getContext().getString(R.string.remove_favourite) : getContext().getString(R.string.mark_favourite)
+                isNotificationOn ? getContext().getString(R.string.hide_notifications) : getContext().getString(R.string.show_notifications)
         );
         menu.getMenu().add(
                 R.id.group_board,
@@ -135,8 +128,6 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
                 4,
                 getContext().getString(R.string.report_board)
         );
-
-        optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     @Override
@@ -160,35 +151,13 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     @Override
     public void dispose() {
         listener = null;
-        infoTilesTabLayout.clearOnTabSelectedListeners();
         followBtn.setOnClickListener(null);
         optionsMenu.setOnClickListener(null);
     }
 
     private void addInfoTilesListener() {
-        infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case 0:
-                        listener.infoSelected();
-                        break;
-                    case 1:
-                        listener.tilesSelected();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
+        optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     private void initWithDefaults() {
@@ -299,25 +268,5 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
 
     public void setupWithViewPager(ViewPager viewPager) {
         infoTilesTabLayout.setupWithViewPager(viewPager);
-    }
-
-    @Override
-    public void onTabSelected(TabLayout.Tab tab) {
-        CharSequence text = tab.getText();
-        if (text != null) {
-            if (Objects.equals(text, getContext().getString(R.string.info))) {
-                listener.infoSelected();
-            } else if (Objects.equals(text, getContext().getString(R.string.tiles))) {
-                listener.tilesSelected();
-            }
-        }
-    }
-
-    @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-    }
-
-    @Override
-    public void onTabReselected(TabLayout.Tab tab) {
     }
 }
