@@ -103,7 +103,7 @@
                 android:layout_height="match_parent" />
 
             <include
-                layout="@layout/line_up_row"
+                layout="@layout/item_line_up"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/lineup_match_stats" />

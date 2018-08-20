@@ -93,47 +93,21 @@
 
         <TextView
             android:id="@+id/people_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_people"
-            android:fontFamily="@font/rajdhani_semibold"
-            android:lineSpacingExtra="3sp"
-            android:text="1.4M"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            style="@style/EngagementLayout" />
 
         <TextView
             android:id="@+id/comment_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
             android:layout_toEndOf="@+id/people_count"
-            android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_card"
-            android:fontFamily="@font/rajdhani_semibold"
-            android:lineSpacingExtra="3sp"
-            android:text="3.8M"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            style="@style/EngagementLayout" />
 
         <TextView
             android:id="@+id/likes_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="10dp"
-            android:layout_toEndOf="@+id/comment_count"
-            android:drawablePadding="5dp"
             android:drawableStart="@drawable/ic_likes"
-            android:fontFamily="@font/rajdhani_semibold"
-            android:lineSpacingExtra="3sp"
-            android:text="16.2M"
-            android:textColor="@color/white"
-            android:textSize="12sp" />
+            android:layout_toEndOf="@+id/comment_count"
+            android:layout_toStartOf="@+id/follow_btn"
+            style="@style/EngagementLayout" />
 
     </RelativeLayout>
 
