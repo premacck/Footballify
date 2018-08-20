@@ -342,4 +342,21 @@ public class UIDisplayUtil {
     private static class UIDisplayUtilWrapper {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
+
+    /**
+     * Call this method to enable "swipe down to close activity" function on any view (preferably the top one).<br/><br/>
+     * <p><b>NOTE:</b> Use this method only when you don't have extra overrides in onBackPressed() method of the source activity.<br/><br/>
+     * <b>Also, </b> {@code activity.onBackPressed()} was used because {@code activity.finish()} wasn't giving the desired transition animation.</p>
+     *
+     * @param activity The current activity.
+     * @param view     The view on which swipe down gesture is required.
+     */
+    public static void setupSwipeGesture(Activity activity, View view) {
+        view.setOnTouchListener(new OnSwipeTouchListener(activity) {
+            @Override
+            public void onSwipeDown() {
+                activity.onBackPressed();
+            }
+        });
+    }
 }

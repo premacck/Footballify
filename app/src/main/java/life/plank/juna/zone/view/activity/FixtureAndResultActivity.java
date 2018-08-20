@@ -41,6 +41,7 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.classifyByDate;
+import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.MatchResultActivity.matchStatsParentViewBitmap;
 
 public class FixtureAndResultActivity extends AppCompatActivity {
@@ -55,6 +56,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     ProgressBar progressBar;
     @BindView(R.id.no_data)
     TextView noMatchesView;
+    @BindView(R.id.header)
+    TextView headerView;
 
     @Inject
     Picasso picasso;
@@ -96,6 +99,8 @@ public class FixtureAndResultActivity extends AppCompatActivity {
 
         populatePastMatchFixtureRecyclerView();
         getScoreFixture();
+
+        setupSwipeGesture(this, headerView);
     }
 
     public void populatePastMatchFixtureRecyclerView() {
