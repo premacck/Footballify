@@ -313,7 +313,7 @@ public class UIDisplayUtil {
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
             view.setGravity(Gravity.LEFT);
-            view.setPadding(30,10,10,10);
+            view.setPadding(50,10,10,10);
         }
     }
 
