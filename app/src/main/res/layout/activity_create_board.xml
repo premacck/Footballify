@@ -263,6 +263,7 @@
                     android:id="@+id/toggle_public_board"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:layout_marginStart="20dp"
                     android:buttonTint="@color/colorAccent"
                     android:fontFamily="@font/rajdhani_medium"
