@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,25 +21,39 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Objects;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
 public class PublicBoardToolbar extends LinearLayout implements CustomViewListener, TabLayout.OnTabSelectedListener {
 
+    @BindView(R.id.league_logo)
     ImageView leagueLogoView;
+    @BindView(R.id.score)
     TextView scoreView;
+    @BindView(R.id.home_team_logo)
     ImageView homeTeamLogoView;
+    @BindView(R.id.away_team_logo)
     ImageView awayTeamLogoView;
+    @BindView(R.id.options_menu)
     ImageButton optionsMenu;
+    @BindView(R.id.share_btn)
     ImageButton shareBtn;
 
+    @BindView(R.id.follow_btn)
     TextView followBtn;
+    @BindView(R.id.people_count)
     TextView peopleCountView;
+    @BindView(R.id.comment_count)
     TextView commentCountView;
+    @BindView(R.id.likes_count)
     TextView likesCountView;
 
+    @BindView(R.id.board_type_title)
     TextView boardTitleView;
+    @BindView(R.id.info_tiles_tab_layout)
     TabLayout infoTilesTabLayout;
 
     PopupMenu menu;
@@ -67,13 +82,14 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     }
 
     private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.public_board_toolbar, this);
+        View rootView = inflate(context, R.layout.public_board_toolbar, this);
+        ButterKnife.bind(this, rootView);
         initViews(context);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.PublicBoardToolbar);
 
         boolean initWithDefaults = array.getBoolean(R.styleable.PublicBoardToolbar_useDefaults, true);
         if (initWithDefaults) {
-            initWithDefaults();
+            initWithDefaults(context);
             return;
         }
         setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
@@ -90,26 +106,17 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     }
 
     private void initViews(Context context) {
-        leagueLogoView = findViewById(R.id.league_logo);
-        scoreView = findViewById(R.id.score);
-        homeTeamLogoView = findViewById(R.id.home_team_logo);
-        awayTeamLogoView = findViewById(R.id.away_team_logo);
-        optionsMenu = findViewById(R.id.options_menu);
-        shareBtn = findViewById(R.id.share_btn);
-
-        followBtn = findViewById(R.id.follow_btn);
-        peopleCountView = findViewById(R.id.people_count);
-        commentCountView = findViewById(R.id.comment_count);
-        likesCountView = findViewById(R.id.likes_count);
-
-        boardTitleView = findViewById(R.id.board_type_title);
-        infoTilesTabLayout = findViewById(R.id.info_tiles_tab_layout);
-
         Objects.requireNonNull(infoTilesTabLayout.getTabAt(1)).select();
 
         infoTilesTabLayout.addOnTabSelectedListener(this);
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
 
+        initPopupMenu(context);
+
+        optionsMenu.setOnClickListener(view -> menu.show());
+    }
+
+    private void initPopupMenu(Context context) {
         menu = new PopupMenu(context, optionsMenu);
         menu.getMenu().add(
                 R.id.group_board,
@@ -135,8 +142,6 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
                 4,
                 getContext().getString(R.string.report_board)
         );
-
-        optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     @Override
@@ -191,11 +196,11 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         });
     }
 
-    private void initWithDefaults() {
+    private void initWithDefaults(Context context) {
         leagueLogoView.setImageResource(R.drawable.img_epl_logo);
         homeTeamLogoView.setImageResource(R.drawable.ic_arsenal_logo);
         awayTeamLogoView.setImageResource(R.drawable.ic_blackpool_logo);
-        scoreView.setText("8-8");
+        scoreView.setText(context.getString(R.string._8_8));
     }
 
     public int getSelectedSection() {
