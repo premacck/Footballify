@@ -73,7 +73,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
 
         boolean initWithDefaults = array.getBoolean(R.styleable.PublicBoardToolbar_useDefaults, true);
         if (initWithDefaults) {
-            initWithDefaults();
+            initWithDefaults(context);
             return;
         }
         setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
@@ -110,6 +110,12 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         infoTilesTabLayout.addOnTabSelectedListener(this);
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
 
+        initPopupMenu(context);
+
+        optionsMenu.setOnClickListener(view -> menu.show());
+    }
+
+    private void initPopupMenu(Context context) {
         menu = new PopupMenu(context, optionsMenu);
         menu.getMenu().add(
                 R.id.group_board,
@@ -135,8 +141,6 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
                 4,
                 getContext().getString(R.string.report_board)
         );
-
-        optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     @Override
@@ -191,11 +195,11 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         });
     }
 
-    private void initWithDefaults() {
+    private void initWithDefaults(Context context) {
         leagueLogoView.setImageResource(R.drawable.img_epl_logo);
         homeTeamLogoView.setImageResource(R.drawable.ic_arsenal_logo);
         awayTeamLogoView.setImageResource(R.drawable.ic_blackpool_logo);
-        scoreView.setText("8-8");
+        scoreView.setText(context.getString(R.string._8_8));
     }
 
     public int getSelectedSection() {
