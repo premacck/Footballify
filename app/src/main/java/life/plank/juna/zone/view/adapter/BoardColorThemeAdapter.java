@@ -47,7 +47,7 @@ public class BoardColorThemeAdapter extends RecyclerView.Adapter<BoardColorTheme
     }
 
     public String getSelectedColor() {
-        if (selectedIndex > 0)
+        if (selectedIndex >= 0)
             return boardColorList.get(selectedIndex);
         return null;
     }

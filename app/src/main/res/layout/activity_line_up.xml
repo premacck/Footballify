@@ -75,7 +75,7 @@
             android:src="@drawable/ic_west_brom_logo" />
 
         <ImageView
-            android:id="@+id/away_team_logo"
+            android:id="@+id/visiting_team_logo"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentEnd="true"

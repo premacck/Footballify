@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,10 +65,10 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         TextView separatorView;
         @BindView(R.id.win_pointer)
         ImageView winPointer;
-        @BindView(R.id.away_team_logo)
-        ImageView awayTeamLogo;
-        @BindView(R.id.away_team_name)
-        TextView awayTeamName;
+        @BindView(R.id.visiting_team_logo)
+        ImageView visitingTeamLogo;
+        @BindView(R.id.visiting_team_name)
+        TextView visitingTeamName;
 
         private final WeakReference<FixtureAndResultSectionAdapter> ref;
         private final Picasso picasso;
@@ -87,7 +86,11 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         @Override
         public void bind() {
             scoreFixture = ref.get().scoreFixtureModelList.get(getAdapterPosition());
-            itemView.setBackgroundColor(Color.parseColor(getAdapterPosition() % 2 == 0 ? "#FFFFFF" : "#FAFAFA"));
+            itemView.setBackgroundColor(ref.get().context.getColor(
+                    getAdapterPosition() % 2 == 0 ?
+                            R.color.white :
+                            R.color.background_color
+            ));
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 picasso
                         .load(scoreFixture.getHomeTeam().getLogoLink())
@@ -104,11 +107,11 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
                         .placeholder(R.drawable.ic_place_holder)
                         .error(R.drawable.ic_place_holder)
                         .transform(new RoundedTransformation(UIDisplayUtil.dpToPx(8, context), 0))
-                        .into(awayTeamLogo);
+                        .into(visitingTeamLogo);
             }
 
             homeTeamName.setText(scoreFixture.getHomeTeam().getName());
-            awayTeamName.setText(scoreFixture.getAwayTeam().getName());
+            visitingTeamName.setText(scoreFixture.getAwayTeam().getName());
             separatorView.setText(getSeparator(scoreFixture, ref.get().fixtureSection, winPointer));
         }
 
