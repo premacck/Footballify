@@ -35,7 +35,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     TextView scoreView;
     @BindView(R.id.home_team_logo)
     ImageView homeTeamLogoView;
-    @BindView(R.id.away_team_logo)
+    @BindView(R.id.visiting_team_logo)
     ImageView awayTeamLogoView;
     @BindView(R.id.options_menu)
     ImageButton optionsMenu;

@@ -40,7 +40,7 @@
             android:contentDescription="@string/pref_home_team_logo" />
 
         <ImageView
-            android:id="@+id/away_team_logo"
+            android:id="@+id/visiting_team_logo"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"

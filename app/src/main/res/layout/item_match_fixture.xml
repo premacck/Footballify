@@ -55,7 +55,7 @@
         android:contentDescription="@string/win" />
 
     <ImageView
-        android:id="@+id/away_team_logo"
+        android:id="@+id/visiting_team_logo"
         android:layout_width="22dp"
         android:layout_height="22dp"
         android:layout_centerVertical="true"
@@ -63,11 +63,11 @@
         android:contentDescription="@string/pref_away_team_logo" />
 
     <TextView
-        android:id="@+id/away_team_name"
+        android:id="@+id/visiting_team_name"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toEndOf="@+id/away_team_logo"
+        android:layout_toEndOf="@+id/visiting_team_logo"
         android:ellipsize="end"
         android:fontFamily="@font/rajdhani_medium"
         android:gravity="start"
