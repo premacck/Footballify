@@ -53,7 +53,6 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -189,7 +188,8 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     //todo: Inject adapter
     private void initRecyclerView() {
-        boardMediaAdapter = new BoardMediaAdapter(this, boardFeed);
+//        TODO : Temporary change, this method is being migrated to BoardTilesFragment. Tiles will be populated there.
+        boardMediaAdapter = new BoardMediaAdapter(Picasso.with(this));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardMediaAdapter.setOnClickFeedItemListener(this);

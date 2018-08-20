@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,9 +10,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
@@ -25,19 +26,22 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
-    private ArrayList<FootballFeed> boardFeed;
-    private Context context;
-    private OnClickFeedItemListener onClickFeedItemListener;
 
-    public BoardMediaAdapter(Context context, ArrayList<FootballFeed> boardFeed) {
-        this.context = context;
-        this.boardFeed = boardFeed;
+    private List<FootballFeed> boardFeed;
+    private Picasso picasso;
+    private OnClickFeedItemListener listener;
+
+    public BoardMediaAdapter(Picasso picasso) {
+        this.picasso = picasso;
+        this.boardFeed = new ArrayList<>();
     }
 
     @Override
     public BoardMediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BoardMediaViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_grid_row, parent, false));
-
+        return new BoardMediaViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_tile, parent, false),
+                listener
+        );
     }
 
     @Override
@@ -53,7 +57,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 case "Image": {
                     holder.commentTextView.setVisibility(View.INVISIBLE);
                     holder.tileImageView.setVisibility(View.VISIBLE);
-                    Picasso.with(context)
+                    picasso
                             .load(boardFeed.get(position).getThumbnail().getImageUrl())
                             .fit().centerCrop()
                             .placeholder(R.drawable.ic_place_holder)
@@ -65,7 +69,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                     holder.commentTextView.setVisibility(View.INVISIBLE);
                     holder.tileImageView.setVisibility(View.VISIBLE);
                     String uri = boardFeed.get(position).getUrl();
-                    Picasso.with(context)
+                    picasso
                             .load(uri)
                             .placeholder(R.drawable.ic_video)
                             .error(R.drawable.ic_video)
@@ -77,23 +81,29 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-
                 holder.commentTextView.setBackgroundColor(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
 
             }
         }
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onClickFeedItemListener.onItemClick(position);
-                return true;
-            }
-        });
+    }
+
+    public void update(List<FootballFeed> boardFeed) {
+        this.boardFeed.addAll(boardFeed);
+        notifyDataSetChanged();
+    }
+
+    public void updateNewPost(FootballFeed footballFeed) {
+        boardFeed.add(0, footballFeed);
+        notifyItemInserted(0);
+    }
+
+    public List<FootballFeed> getBoardFeed() {
+        return boardFeed;
     }
 
     public void setOnClickFeedItemListener(OnClickFeedItemListener onClickFeedItemListener) {
-        this.onClickFeedItemListener = onClickFeedItemListener;
+        this.listener = onClickFeedItemListener;
     }
 
     @Override
@@ -101,15 +111,24 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         return boardFeed.size();
     }
 
-    public class BoardMediaViewHolder extends RecyclerView.ViewHolder {
+    static class BoardMediaViewHolder extends RecyclerView.ViewHolder {
+
+        private final OnClickFeedItemListener listener;
+
         @BindView(R.id.tile_image_view)
         ImageView tileImageView;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
 
-        BoardMediaViewHolder(View itemView) {
+        BoardMediaViewHolder(View itemView, OnClickFeedItemListener listener) {
             super(itemView);
+            this.listener = listener;
             ButterKnife.bind(this, itemView);
+        }
+
+        @OnClick(R.id.root_layout)
+        public void onBoardItemClick() {
+            listener.onItemClick(getAdapterPosition());
         }
     }
 }
