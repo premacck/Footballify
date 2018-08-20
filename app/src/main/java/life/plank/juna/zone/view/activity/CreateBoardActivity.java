@@ -14,7 +14,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -38,7 +37,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 

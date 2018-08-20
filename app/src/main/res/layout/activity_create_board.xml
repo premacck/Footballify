@@ -23,6 +23,8 @@
             android:id="@+id/categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="15dp"
+            android:paddingRight="15dp"
             android:background="@color/background_color">
 
             <TextView
@@ -78,6 +80,7 @@
                 android:layout_below="@+id/drama"
                 android:textOff="@string/tune"
                 android:textOn="@string/tune"
+                android:layout_marginBottom="2dp"
                 style="@style/ZoneSelection" />
 
             <ToggleButton
@@ -86,6 +89,7 @@
                 android:layout_toEndOf="@+id/tune"
                 android:textOff="@string/skill"
                 android:textOn="@string/skill"
+                android:layout_marginBottom="2dp"
                 style="@style/ZoneSelection" />
 
             <ToggleButton
@@ -94,6 +98,7 @@
                 android:layout_toEndOf="@+id/skill"
                 android:textOff="@string/other"
                 android:textOn="@string/other"
+                android:layout_marginBottom="2dp"
                 style="@style/ZoneSelection" />
 
         </RelativeLayout>
@@ -263,6 +268,7 @@
                     android:id="@+id/toggle_public_board"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
+                    android:checked="true"
                     android:layout_marginStart="20dp"
                     android:buttonTint="@color/colorAccent"
                     android:fontFamily="@font/rajdhani_medium"
