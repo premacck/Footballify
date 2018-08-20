@@ -22,6 +22,23 @@
                 android:layout_height="70dp"
                 android:layout_marginBottom="3dp" />
 
+            <include
+                layout="@layout/item_match_highlights"
+                android:visibility="gone"
+                style="@style/BoardInfoLayout" />
+
+            <life.plank.juna.zone.util.customview.CommentarySmall
+                android:id="@+id/commentary_small"
+                style="@style/BoardInfoLayout" />
+
+            <include
+                layout="@layout/item_team_stats"
+                style="@style/BoardInfoLayout" />
+
+            <include
+                layout="@layout/item_line_up"
+                style="@style/BoardInfoLayout" />
+
         </LinearLayout>
 
     </ScrollView>
