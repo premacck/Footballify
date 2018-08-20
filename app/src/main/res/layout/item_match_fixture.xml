@@ -60,7 +60,7 @@
         android:layout_height="22dp"
         android:layout_centerVertical="true"
         android:layout_toEndOf="@+id/date_schedule"
-        android:contentDescription="@string/pref_away_team_logo" />
+        android:contentDescription="@string/pref_visiting_team_logo" />
 
     <TextView
         android:id="@+id/visiting_team_name"

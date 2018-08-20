@@ -73,13 +73,14 @@ public class DateUtil {
                             context.getString(R.string.yesterday) :
                             new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime()));
         } else {
-            int dateDiff = getDateDiffFromToday(scoreFixture.getMatchStartTime());
-            if (dateDiff == 0)
-                return context.getString(R.string.today);
-            else if (dateDiff == 1)
-                return context.getString(R.string.tomorrow);
-            else
-                return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime());
+            switch (getDateDiffFromToday(scoreFixture.getMatchStartTime())) {
+                case 0:
+                    return context.getString(R.string.today);
+                case 1:
+                    return context.getString(R.string.tomorrow);
+                default:
+                    return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime());
+            }
         }
     }
 
