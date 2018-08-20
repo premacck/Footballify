@@ -7,11 +7,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.interfaces.CustomViewListener;
@@ -19,7 +22,11 @@ import life.plank.juna.zone.view.adapter.CommentaryAdapter;
 
 public class CommentarySmall extends FrameLayout implements CustomViewListener {
 
-    private RecyclerView commentaryList;
+    @BindView(R.id.see_all)
+    Button seeAllBtn;
+    @BindView(R.id.commentary_list)
+    RecyclerView commentaryList;
+
     private CommentarySmallListener listener;
     private CommentaryAdapter adapter;
 
@@ -40,17 +47,12 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         init(context);
     }
 
-    private void initVariables() {
-        Button seeAllBtn = findViewById(R.id.see_all);
-        commentaryList = findViewById(R.id.commentary_list);
-        setAdapter(new CommentaryAdapter());
-
-        seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
-    }
-
     private void init(Context context) {
-        inflate(context, R.layout.item_live_commentary_small, this);
-        initVariables();
+        View rootView = inflate(context, R.layout.item_live_commentary_small, this);
+        ButterKnife.bind(this, rootView);
+
+        setAdapter(new CommentaryAdapter());
+        seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
     }
 
     @Override
