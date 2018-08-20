@@ -96,7 +96,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     private ArrayList<FootballFeed> boardFeed;
     private RestApi restApi;
     private String enterBoardId;
-    private String homeTeamLogo, awayTeamLogo;
+    private String homeTeamLogo, visitingTeamLogo;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -105,14 +105,14 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         }
     };
 
-    public static void launch(Context packageContext, int homeGoals, int awayGoals, long matchId,
-                              String homeTeamLogo, String awayTeamLogo) {
+    public static void launch(Context packageContext, int homeGoals, int visitingGoals, long matchId,
+                              String homeTeamLogo, String visitingTeamLogo) {
         Intent intent = new Intent(packageContext, BoardActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
-                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), awayGoals)
+                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), visitingGoals)
                 .putExtra(packageContext.getString(R.string.match_id_string), matchId)
                 .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
-                .putExtra(packageContext.getString(R.string.pref_away_team_logo), awayTeamLogo);
+                .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo);
         packageContext.startActivity(intent);
     }
 
@@ -155,7 +155,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         Intent intent = getIntent();
         long currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         homeTeamLogo = intent.getStringExtra(getString(R.string.pref_home_team_logo));
-        awayTeamLogo = intent.getStringExtra(getString(R.string.pref_away_team_logo));
+        visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
 
         initRecyclerView();
         setUpBoomMenu();
@@ -169,7 +169,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
 
     private void setToolbarTeamLogo() {
         Picasso.with(this).load(homeTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(homeTeamLogoImageView);
-        Picasso.with(this).load(awayTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(visitingTeamLogoImageView);
+        Picasso.with(this).load(visitingTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(visitingTeamLogoImageView);
         homeTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_home_team_score)));
         visitingTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_visiting_team_score)));
     }

@@ -56,6 +56,8 @@ public class MatchResultActivity extends AppCompatActivity {
     Retrofit retrofit;
     @BindView(R.id.stats_parent_view)
     CardView statsParentView;
+    @BindView(R.id.match_fixture_result)
+    CardView matchFixtureResultLayout;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.team_stats_recycler_view)
@@ -246,8 +248,15 @@ public class MatchResultActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.see_all:
                 if (GlobalVariable.getInstance().getTilePosition() != 3) {
+                    matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
 //                    TODO : replace this with values retrieved from the API call.
-                    FixtureAndResultActivity.launch(MatchResultActivity.this, AppConstants.SEASON_NAME, AppConstants.LEAGUE_NAME, AppConstants.COUNTRY_NAME);
+                    FixtureAndResultActivity.launch(
+                            MatchResultActivity.this,
+                            AppConstants.SEASON_NAME,
+                            AppConstants.LEAGUE_NAME,
+                            AppConstants.COUNTRY_NAME,
+                            matchFixtureResultLayout
+                    );
                     break;
                 } else {
                     Intent intent = new Intent(this, WorldCupFixtureActivity.class);

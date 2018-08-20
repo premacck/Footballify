@@ -35,8 +35,8 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     TextView scoreView;
     @BindView(R.id.home_team_logo)
     ImageView homeTeamLogoView;
-    @BindView(R.id.away_team_logo)
-    ImageView awayTeamLogoView;
+    @BindView(R.id.visiting_team_logo)
+    ImageView visitingTeamLogoView;
     @BindView(R.id.options_menu)
     ImageButton optionsMenu;
     @BindView(R.id.share_btn)
@@ -95,7 +95,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
         setLeagueLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.img_epl_logo));
         setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_arsenal_logo));
-        setAwayTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_blackpool_logo));
+        setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_blackpool_logo));
         setPeopleCount(array.getString(R.styleable.PublicBoardToolbar_peopleCount));
         setCommentCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
         setLikesCount(array.getString(R.styleable.PublicBoardToolbar_likesCount));
@@ -199,7 +199,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     private void initWithDefaults(Context context) {
         leagueLogoView.setImageResource(R.drawable.img_epl_logo);
         homeTeamLogoView.setImageResource(R.drawable.ic_arsenal_logo);
-        awayTeamLogoView.setImageResource(R.drawable.ic_blackpool_logo);
+        visitingTeamLogoView.setImageResource(R.drawable.ic_blackpool_logo);
         scoreView.setText(context.getString(R.string._8_8));
     }
 
@@ -239,16 +239,16 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         homeTeamLogoView.setImageResource(resource);
     }
 
-    public void setAwayTeamLogo(Picasso picasso, String logoUrl) {
+    public void setVisitingTeamLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
-                .into(awayTeamLogoView);
+                .into(visitingTeamLogoView);
     }
 
-    public void setAwayTeamLogo(@DrawableRes int resource) {
-        awayTeamLogoView.setImageResource(resource);
+    public void setVisitingTeamLogo(@DrawableRes int resource) {
+        visitingTeamLogoView.setImageResource(resource);
     }
 
     public void setPeopleCount(String peopleCount) {
