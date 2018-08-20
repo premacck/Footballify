@@ -40,13 +40,13 @@
             android:contentDescription="@string/pref_home_team_logo" />
 
         <ImageView
-            android:id="@+id/away_team_logo"
+            android:id="@+id/visiting_team_logo"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/score"
-            android:contentDescription="@string/pref_away_team_logo" />
+            android:contentDescription="@string/pref_visiting_team_logo" />
 
         <ImageButton
             android:id="@+id/options_menu"

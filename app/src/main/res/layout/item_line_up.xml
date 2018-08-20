@@ -113,7 +113,7 @@
             android:weightSum="2">
 
             <TextView
-                android:id="@+id/away_team_name"
+                android:id="@+id/visiting_team_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"

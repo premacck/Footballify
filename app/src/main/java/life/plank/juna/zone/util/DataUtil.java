@@ -29,7 +29,7 @@ public class DataUtil {
     }
 
     static String formatInt(int i) {
-        return "" + (i > 9 ? i : "0" + i);
+        return String.valueOf(i > 9 ? i : "0" + i);
     }
 
     public static <T> boolean isNullOrEmpty(Collection<T> c) {
@@ -46,7 +46,7 @@ public class DataUtil {
         } else if (fixtureSection == LIVE_MATCHES) {
             if (getTimeDiffFromNow(scoreFixture.getMatchStartTime()) < 0) {
                 winPointer.setVisibility(View.INVISIBLE);
-                return "" + scoreFixture.getHomeGoals() + "  -  " + scoreFixture.getAwayGoals();
+                return scoreFixture.getHomeGoals() + "  -  " + scoreFixture.getAwayGoals();
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
                 return getFutureMatchTime(scoreFixture.getMatchStartTime());
