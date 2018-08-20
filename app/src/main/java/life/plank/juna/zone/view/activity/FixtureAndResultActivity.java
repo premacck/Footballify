@@ -178,9 +178,9 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         protected List<SectionedFixture> doInBackground(Void... voids) {
             todayIndex = 0;
             List<SectionedFixture> sectionedFixtureList = classifyByDate(scoreFixtureModelList);
-            for (int i = 0; i < sectionedFixtureList.size(); i++) {
-                if (sectionedFixtureList.get(i).getSection() == LIVE_MATCHES) {
-                    todayIndex = i;
+            for (SectionedFixture fixture : sectionedFixtureList) {
+                if (fixture.getSection() == LIVE_MATCHES) {
+                    todayIndex = sectionedFixtureList.indexOf(fixture);
                     break;
                 }
             }

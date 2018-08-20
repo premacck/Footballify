@@ -1,6 +1,7 @@
 package life.plank.juna.zone.util;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -9,6 +10,7 @@ import android.view.View.OnTouchListener;
 
 public class OnSwipeTouchListener implements OnTouchListener {
 
+    private static final String TAG = OnSwipeTouchListener.class.getSimpleName();
     private final GestureDetector gestureDetector;
 
     public OnSwipeTouchListener(Context ctx) {
@@ -54,7 +56,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
                     result = true;
                 }
             } catch (Exception exception) {
-                exception.printStackTrace();
+                Log.e(TAG, "onFling: " + exception.getMessage());
             }
             return result;
         }

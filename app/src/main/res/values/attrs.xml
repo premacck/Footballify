@@ -20,7 +20,7 @@
         <attr name="useDefaults" format="boolean" />
         <attr name="leagueLogo" format="reference" />
         <attr name="homeTeamLogo" format="reference" />
-        <attr name="awayTeamLogo" format="reference" />
+        <attr name="visitingTeamLogo" format="reference" />
         <attr name="score" format="string" />
         <attr name="peopleCount" format="string" />
         <attr name="commentsCount" format="string" />
