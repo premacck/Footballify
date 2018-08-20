@@ -103,34 +103,18 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
         private void placeTimelineLayout() {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineLayout.getLayoutParams();
-            if (event.getIsHomeTeam()) {
-                placeLayoutStart(params);
-            } else {
-                placeLayoutEnd(params);
-            }
+            params.addRule(
+                    event.getIsHomeTeam() ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END,
+                    RelativeLayout.TRUE
+            );
+            params.removeRule(event.getIsHomeTeam() ? RelativeLayout.ALIGN_PARENT_END : RelativeLayout.ALIGN_PARENT_START);
+            params.addRule(event.getIsHomeTeam() ? RelativeLayout.START_OF : RelativeLayout.END_OF, R.id.center_space);
+            params.removeRule(event.getIsHomeTeam() ? RelativeLayout.END_OF : RelativeLayout.START_OF);
+            params.rightMargin = (int) getDp(ref.get().context, event.getIsHomeTeam() ? 22 : 0);
+            params.leftMargin = (int) getDp(ref.get().context, event.getIsHomeTeam() ? 0 : 22);
+            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
+            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
             timelineLayout.setLayoutParams(params);
-        }
-
-        private void placeLayoutStart(RelativeLayout.LayoutParams params) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
-            params.removeRule(RelativeLayout.ALIGN_PARENT_END);
-            params.addRule(RelativeLayout.START_OF, R.id.center_space);
-            params.removeRule(RelativeLayout.END_OF);
-            params.rightMargin = (int) getDp(ref.get().context, 22);
-            params.leftMargin = (int) getDp(ref.get().context, 0);
-            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
-            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
-        }
-
-        private void placeLayoutEnd(RelativeLayout.LayoutParams params) {
-            params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-            params.removeRule(RelativeLayout.ALIGN_PARENT_START);
-            params.addRule(RelativeLayout.END_OF, R.id.center_space);
-            params.removeRule(RelativeLayout.START_OF);
-            params.leftMargin = (int) getDp(ref.get().context, 22);
-            params.rightMargin = (int) getDp(ref.get().context, 0);
-            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
-            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         }
 
         private void onWhistleEvent() {
