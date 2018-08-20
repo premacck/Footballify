@@ -20,6 +20,8 @@ import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
+import life.plank.juna.zone.view.fragment.board.BoardInfoFragment;
+import life.plank.juna.zone.view.fragment.board.BoardTilesFragment;
 
 /**
  * This Component is the sub-component of AppComponent.
@@ -60,6 +62,10 @@ public interface UiComponent {
     void inject(MatchResultDetailActivity matchResultDetailActivity);
 
     void inject(UserFeedActivity userFeedActivity);
+
+    void inject(BoardTilesFragment boardTilesFragment);
+
+    void inject(BoardInfoFragment boardInfoFragment);
 
     @Subcomponent.Builder
     interface Builder {

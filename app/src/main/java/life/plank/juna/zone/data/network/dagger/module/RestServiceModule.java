@@ -10,6 +10,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.dagger.component.UiComponent;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -22,6 +23,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @NetworkScope
 @Module(subcomponents = {UiComponent.class}, includes = NetworkModule.class)
 public class RestServiceModule {
+
+    @NetworkScope
+    @Provides
+    @Named("default")
+    public RestApi provideDefaultRestApi(@Named("default") Retrofit retrofit) {
+        return retrofit.create(RestApi.class);
+    }
+
+    @NetworkScope
+    @Provides
+    @Named("footballData")
+    public RestApi provideFootballRestApi(@Named("footballData") Retrofit retrofit) {
+        return retrofit.create(RestApi.class);
+    }
 
     //todo:combine these two url feed and Football Data
     @NetworkScope
