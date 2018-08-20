@@ -125,4 +125,11 @@
     <string name="thumbnail">Thumbnail</string>
     <string name="timeline_whistle">Timeline_whistle</string>
     <string name="emirates_stadium">Emirates Stadium</string>
+    <string name="manager">Manager</string>
+    <string name="mark_favourite">Mark favourite</string>
+    <string name="follow_board">Follow board</string>
+    <string name="unfollow_board">Unfollow board</string>
+    <string name="remove_favourite">Remove favourite</string>
+    <string name="report_board">Report board</string>
+    <string name="_8_8">8 - 8</string>
 </resources>
