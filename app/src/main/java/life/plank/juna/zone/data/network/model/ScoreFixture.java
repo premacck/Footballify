@@ -7,7 +7,7 @@ import lombok.Data;
 
 //todo: streamline this model in next pull request
 @Data
-public class ScoreFixtureModel {
+public class ScoreFixture {
 
     private Integer id;
     private Long foreignId;

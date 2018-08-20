@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class Commentary {
     private long id;
-    private ScoreFixtureModel footballMatch;
+    private ScoreFixture footballMatch;
     private long footballMatchRef;
     private boolean isImportant;
     private long order;

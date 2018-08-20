@@ -21,6 +21,14 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
+import static life.plank.juna.zone.util.AppConstants.FULL_TIME;
+import static life.plank.juna.zone.util.AppConstants.GOAL;
+import static life.plank.juna.zone.util.AppConstants.HALF_TIME;
+import static life.plank.juna.zone.util.AppConstants.KICK_OFF;
+import static life.plank.juna.zone.util.AppConstants.RED_CARD;
+import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
+import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
@@ -77,15 +85,15 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             placeTimelineLayout();
 
             switch (event.getEventType()) {
-                case "goal":
+                case GOAL:
                     onGoalEvent();
                     break;
-                case "yellowcard":
-                case "redcard":
-                case "yellowred":
+                case YELLOW_CARD:
+                case RED_CARD:
+                case YELLOW_RED:
                     onCardEvent();
                     break;
-                case "substitution":
+                case SUBSTITUTION:
                     onSubstitutionEvent();
                     break;
                 default:
@@ -96,25 +104,33 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         private void placeTimelineLayout() {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineLayout.getLayoutParams();
             if (event.getIsHomeTeam()) {
-                params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
-                params.removeRule(RelativeLayout.ALIGN_PARENT_END);
-                params.addRule(RelativeLayout.START_OF, R.id.center_space);
-                params.removeRule(RelativeLayout.END_OF);
-                params.rightMargin = (int) getDp(ref.get().context, 22);
-                params.leftMargin = (int) getDp(ref.get().context, 0);
-                timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
-                timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+                placeLayoutStart(params);
             } else {
-                params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
-                params.removeRule(RelativeLayout.ALIGN_PARENT_START);
-                params.addRule(RelativeLayout.END_OF, R.id.center_space);
-                params.removeRule(RelativeLayout.START_OF);
-                params.leftMargin = (int) getDp(ref.get().context, 22);
-                params.rightMargin = (int) getDp(ref.get().context, 0);
-                timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
-                timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+                placeLayoutEnd(params);
             }
             timelineLayout.setLayoutParams(params);
+        }
+
+        private void placeLayoutStart(RelativeLayout.LayoutParams params) {
+            params.addRule(RelativeLayout.ALIGN_PARENT_START, RelativeLayout.TRUE);
+            params.removeRule(RelativeLayout.ALIGN_PARENT_END);
+            params.addRule(RelativeLayout.START_OF, R.id.center_space);
+            params.removeRule(RelativeLayout.END_OF);
+            params.rightMargin = (int) getDp(ref.get().context, 22);
+            params.leftMargin = (int) getDp(ref.get().context, 0);
+            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
+        }
+
+        private void placeLayoutEnd(RelativeLayout.LayoutParams params) {
+            params.addRule(RelativeLayout.ALIGN_PARENT_END, RelativeLayout.TRUE);
+            params.removeRule(RelativeLayout.ALIGN_PARENT_START);
+            params.addRule(RelativeLayout.END_OF, R.id.center_space);
+            params.removeRule(RelativeLayout.START_OF);
+            params.leftMargin = (int) getDp(ref.get().context, 22);
+            params.rightMargin = (int) getDp(ref.get().context, 0);
+            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
+            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | Gravity.START);
         }
 
         private void onWhistleEvent() {
@@ -127,7 +143,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
         private void onCardEvent() {
             setCenterLayout();
-            int suitableCardDrawable = event.getEventType().contains("red") ?
+            int suitableCardDrawable = event.getEventType().contains(ref.get().context.getString(R.string.red)) ?
                     event.getIsHomeTeam() ?
                             R.drawable.yellow_left :
                             R.drawable.yellow_right :
@@ -175,12 +191,13 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         }
 
         private String getTimedEventString() {
-            if (event.getMinute() == 0) {
-                return "KICK-OFF";
-            } else if (event.getMinute() == 45) {
-                return "HALF-TIME";
-            } else {
-                return "FULL-TIME";
+            switch (event.getMinute()) {
+                case 0:
+                    return KICK_OFF;
+                case 45:
+                    return HALF_TIME;
+                default:
+                    return FULL_TIME;
             }
         }
 
