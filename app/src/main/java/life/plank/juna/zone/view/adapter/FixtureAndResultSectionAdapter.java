@@ -123,7 +123,8 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
                     scoreFixture.getAwayGoals(),
                     scoreFixture.getForeignId(),
                     scoreFixture.getHomeTeam().getLogoLink(),
-                    scoreFixture.getAwayTeam().getLogoLink()
+                    scoreFixture.getAwayTeam().getLogoLink(),
+                    scoreFixture.getMatchDay()
             );
         }
     }
