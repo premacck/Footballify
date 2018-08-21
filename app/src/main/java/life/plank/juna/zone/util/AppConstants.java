@@ -46,4 +46,7 @@ public class AppConstants {
     public static final String KICK_OFF = "KICK-OFF";
     public static final String HALF_TIME = "HALF-TIME";
     public static final String FULL_TIME = "FULL-TIME";
+
+    public static final String YELLOW = "yellow";
+    public static final String RED = "red";
 }

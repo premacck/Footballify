@@ -146,4 +146,5 @@
         <item>Attachment</item>
         <item>Video</item>
     </array>
+    <string name="lineup_card">Lineup card</string>
 </resources>
