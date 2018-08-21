@@ -41,35 +41,35 @@ public class LineupActivity extends AppCompatActivity {
     LinearLayout homeTeamLinearLayout;
     @BindView(R.id.home_team_shots)
     TextView homeTeamShots;
-    @BindView(R.id.away_team_shots)
+    @BindView(R.id.visiting_team_shots)
     TextView awayTeamShots;
     @BindView(R.id.home_team_shots_on_target)
     TextView homeTeamShotsOnTarget;
-    @BindView(R.id.away_team_shots_on_target)
+    @BindView(R.id.visiting_team_shots_on_target)
     TextView awayTeamShotsOnTarget;
     @BindView(R.id.home_team_possession)
     TextView homeTeamPossession;
-    @BindView(R.id.away_team_possession)
+    @BindView(R.id.visiting_team_possession)
     TextView awayTeamPossession;
     @BindView(R.id.home_team_fouls)
     TextView homeTeamFouls;
-    @BindView(R.id.away_team_fouls)
+    @BindView(R.id.visiting_team_fouls)
     TextView awayTeamFouls;
     @BindView(R.id.home_team_yellow_card)
     TextView homeTeamYellowCard;
-    @BindView(R.id.away_team_yellow_card)
+    @BindView(R.id.visiting_team_yellow_card)
     TextView awayTeamYellowCard;
     @BindView(R.id.home_team_red_card)
     TextView homeTeamRedCard;
-    @BindView(R.id.away_team_red_card)
+    @BindView(R.id.visiting_team_red_card)
     TextView awayTeamRedCard;
     @BindView(R.id.home_team_offside)
     TextView homeTeamOffside;
-    @BindView(R.id.away_team_offside)
+    @BindView(R.id.visiting_team_offside)
     TextView awayTeamOffside;
     @BindView(R.id.home_team_corner)
     TextView homeTeamCorner;
-    @BindView(R.id.away_team_corner)
+    @BindView(R.id.visiting_team_corner)
     TextView awayTeamCorner;
     List<List<Lineups.Formation>> homeTeamLineups;
     List<List<Lineups.Formation>> awayTeamLineups;
