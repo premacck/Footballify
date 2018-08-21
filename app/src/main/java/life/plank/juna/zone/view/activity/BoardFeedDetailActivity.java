@@ -63,7 +63,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
 
         switch (view.getId()) {
             case R.id.board_blur_background_image_view:
-                this.finish();
+                this.onBackPressed();
         }
     }
 

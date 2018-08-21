@@ -85,7 +85,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_and_result);
         ButterKnife.bind(this);
-        setSharedElementTransitionDuration(this, 200);
+        setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
         setupSwipeGesture(this, headerView);
 
         rootLayout.setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));
