@@ -33,6 +33,7 @@ public class LineupPlayer extends FrameLayout {
     TextView lineupPlayerName;
 
     private String givenCard = "none";
+    private String backgroundColor;
 
     public LineupPlayer(@NonNull Context context) {
         this(context, null);
@@ -54,6 +55,15 @@ public class LineupPlayer extends FrameLayout {
     private void init(Context context) {
         View rootView = inflate(context, R.layout.item_player_in_lineup, this);
         ButterKnife.bind(this, rootView);
+    }
+
+    public String getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public LineupPlayer setBackgroundColor(String backgroundColor) {
+        this.backgroundColor = backgroundColor;
+        return this;
     }
 
     public int getPlayerNumber() {
