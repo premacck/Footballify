@@ -9,7 +9,7 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.LineupsModel;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
@@ -92,9 +92,9 @@ public interface RestApi {
 
     //working
     @GET("seasons/matches")
-    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
-                                                                       @Query("leagueName") String leagueName,
-                                                                       @Query("countryName") String countryName);
+    Observable<Response<List<ScoreFixture>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
+                                                                  @Query("leagueName") String leagueName,
+                                                                  @Query("countryName") String countryName);
 
     //working
     @GET("/feedEntries")

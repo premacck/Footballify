@@ -1,8 +1,6 @@
 package life.plank.juna.zone.util;
 
 import android.content.Context;
-import android.text.format.DateFormat;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -10,10 +8,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.TimeZone;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.wasMatchYesterday;
@@ -21,8 +18,13 @@ import static life.plank.juna.zone.util.DataUtil.formatInt;
 
 public class DateUtil {
 
-    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault());
-    private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat("EEE dd MMM yyyy", Locale.getDefault());
+    private static final String ISO_DATE_STRING = "yyyy-MM-dd'T'HH:mm:ss";
+    private static final String HEADER_DATE_STRING = "EEE dd MMM yyyy";
+    private static final String SCHEDULED_DATE_STRING = "EEE dd MM";
+    private static final String FUTURE_DATE_FORM_STRING = "HH:mm";
+
+    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
+    private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
 
     private static Date getIsoFormattedDate(String dateString) throws ParseException {
         return ISO_DATE_FORMAT.parse(dateString);
@@ -39,7 +41,7 @@ public class DateUtil {
         cal.setTime(date);
         int monthInt = cal.get(Calendar.MONTH);
         int dateInt = cal.get(Calendar.DATE);
-        dateString = "" + cal.get(Calendar.YEAR) + formatInt(monthInt) + formatInt(dateInt);
+        dateString = cal.get(Calendar.YEAR) + formatInt(monthInt) + formatInt(dateInt);
         return Integer.parseInt(dateString);
     }
 
@@ -51,7 +53,7 @@ public class DateUtil {
         int dateInt = cal.get(Calendar.DATE);
         int hourInt = cal.get(Calendar.HOUR_OF_DAY);
         int minuteInt = cal.get(Calendar.MINUTE);
-        dateString = "" + cal.get(Calendar.YEAR) + formatInt(monthInt) + formatInt(dateInt) +
+        dateString = cal.get(Calendar.YEAR) + formatInt(monthInt) + formatInt(dateInt) +
                 formatInt(hourInt) + formatInt(minuteInt);
         return Long.parseLong(dateString);
     }
@@ -64,25 +66,26 @@ public class DateUtil {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
 
-    public static String getFormattedDate(Context context, ScoreFixtureModel scoreFixture) {
-        if (Objects.equals(scoreFixture.getTimeStatus(), "FT")) {
+    public static String getFormattedDate(Context context, ScoreFixture scoreFixture) {
+        if (Objects.equals(scoreFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
             return "FT, " +
                     (wasMatchYesterday(scoreFixture.getMatchStartTime()) ?
                             context.getString(R.string.yesterday) :
-                            new SimpleDateFormat("EEE dd MMM yyyy", Locale.getDefault()).format(scoreFixture.getMatchStartTime()));
+                            new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime()));
         } else {
-            int dateDiff = getDateDiffFromToday(scoreFixture.getMatchStartTime());
-            if (dateDiff == 0)
-                return context.getString(R.string.today);
-            else if (dateDiff == 1)
-                return context.getString(R.string.tomorrow);
-            else
-                return new SimpleDateFormat("EEE dd MM", Locale.getDefault()).format(scoreFixture.getMatchStartTime());
+            switch (getDateDiffFromToday(scoreFixture.getMatchStartTime())) {
+                case 0:
+                    return context.getString(R.string.today);
+                case 1:
+                    return context.getString(R.string.tomorrow);
+                default:
+                    return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime());
+            }
         }
     }
 
     static String getFutureMatchTime(Date matchStartTime) {
-        return new SimpleDateFormat("HH:mm", Locale.getDefault()).format(matchStartTime);
+        return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(matchStartTime);
     }
 
     public static String getDateHeader(Context context, FixtureSection section, Date matchStartTime) {
@@ -97,27 +100,6 @@ public class DateUtil {
                 return context.getString(R.string.tomorrow);
             default:
                 return HEADER_DATE_FORMAT.format(matchStartTime);
-        }
-    }
-    
-    public static Date getDateFromUTCTimestamp(long mTimestamp) {
-        Date date;
-        try {
-            Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-            cal.setTimeInMillis(mTimestamp);
-            String dateString = DateFormat.format("yyyy-MM-dd'T'HH:mm:ss", cal.getTimeInMillis()).toString();
-
-            SimpleDateFormat formatter = ISO_DATE_FORMAT;
-            formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-            Date value = formatter.parse(dateString);
-
-            SimpleDateFormat dateFormatter = ISO_DATE_FORMAT;
-            dateFormatter.setTimeZone(TimeZone.getDefault());
-            date = getIsoFormattedDate(dateFormatter.format(value));
-            return date;
-        } catch (Exception e) {
-            Log.e("DATE", e.getMessage());
-            return null;
         }
     }
 }

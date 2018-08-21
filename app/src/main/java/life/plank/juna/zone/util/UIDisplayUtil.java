@@ -32,6 +32,7 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
@@ -306,11 +307,14 @@ public class UIDisplayUtil {
             view.setElevation(0);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             view.setTextColor(context.getColor(R.color.grey));
+            view.setGravity(Gravity.CENTER);
         } else {
             view.setBackground(context.getDrawable(R.drawable.selected_textview_bg));
             view.setElevation(5);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
+            view.setGravity(Gravity.LEFT);
+            view.setPadding(50,10,10,10);
         }
     }
 

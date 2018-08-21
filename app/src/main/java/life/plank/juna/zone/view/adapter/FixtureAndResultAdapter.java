@@ -76,17 +76,17 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         public void bind() {
             sectionedFixture = ref.get().sectionedFixtureList.get(getAdapterPosition());
 
-            if (!isNullOrEmpty(sectionedFixture.getScoreFixtureModelList())) {
+            if (!isNullOrEmpty(sectionedFixture.getScoreFixtureList())) {
                 String matchdayHeaderText = ref.get().activity.getString(R.string.matchday_) + sectionedFixture.getMatchday();
                 matchdayHeader.setText(matchdayHeaderText);
                 dateTime.setText(getDateHeader(
                         ref.get().activity,
                         sectionedFixture.getSection(),
-                        sectionedFixture.getScoreFixtureModelList().get(0).getMatchStartTime()
+                        sectionedFixture.getScoreFixtureList().get(0).getMatchStartTime()
                 ));
                 recyclerView.setAdapter(
                         new FixtureAndResultSectionAdapter(
-                                sectionedFixture.getScoreFixtureModelList(),
+                                sectionedFixture.getScoreFixtureList(),
                                 ref.get().picasso,
                                 ref.get().activity,
                                 sectionedFixture.getSection()));
