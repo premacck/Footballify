@@ -75,7 +75,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     @Inject
     Picasso picasso;
     private String boardId;
-    private String homeTeamLogo, awayTeamLogo;
+    private String homeTeamLogo, visitingTeamLogo;
     private int homeGoals, awayGoals, matchDay;
 
     private BoardPagerAdapter boardPagerAdapter;
@@ -86,14 +86,14 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     };
 
-    public static void launch(Context packageContext, int homeGoals, int awayGoals, long matchId,
-                              String homeTeamLogo, String awayTeamLogo, Integer matchDay) {
+    public static void launch(Context packageContext, int homeGoals, int visitingGoals, long matchId,
+                              String homeTeamLogo, String visitingTeamLogo, Integer matchDay) {
         Intent intent = new Intent(packageContext, BoardActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
-                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), awayGoals)
+                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), visitingGoals)
                 .putExtra(packageContext.getString(R.string.match_id_string), matchId)
                 .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
-                .putExtra(packageContext.getString(R.string.pref_away_team_logo), awayTeamLogo)
+                .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo)
                 .putExtra(packageContext.getString(R.string.matchday_), matchDay);
         packageContext.startActivity(intent);
     }
@@ -138,7 +138,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         Intent intent = getIntent();
         long currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         homeTeamLogo = intent.getStringExtra(getString(R.string.pref_home_team_logo));
-        awayTeamLogo = intent.getStringExtra(getString(R.string.pref_away_team_logo));
+        visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
         homeGoals = intent.getIntExtra(getString(R.string.intent_home_team_score), 0);
         awayGoals = intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0);
         matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
@@ -149,7 +149,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     private void setUpToolbar() {
         publicBoardToolbar.setHomeTeamLogo(picasso, homeTeamLogo);
-        publicBoardToolbar.setAwayTeamLogo(picasso, awayTeamLogo);
+        publicBoardToolbar.setVisitingTeamLogo(picasso, visitingTeamLogo);
         publicBoardToolbar.setScore(true, homeGoals + " - " + awayGoals);
         publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
     }
