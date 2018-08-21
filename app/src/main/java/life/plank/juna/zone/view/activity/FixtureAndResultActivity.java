@@ -40,6 +40,7 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.classifyByDate;
+import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.MatchResultActivity.matchStatsParentViewBitmap;
 
@@ -84,6 +85,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fixture_and_result);
         ButterKnife.bind(this);
+        setSharedElementTransitionDuration(this, 200);
         setupSwipeGesture(this, headerView);
 
         rootLayout.setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));

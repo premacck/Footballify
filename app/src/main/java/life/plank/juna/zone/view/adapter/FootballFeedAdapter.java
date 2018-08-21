@@ -60,35 +60,32 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         } else {
             holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
         }
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                GlobalVariable.getInstance().setTilePosition(position);
-                switch (position) {
-                    case 0: {
-                        context.startActivity(new Intent(context, MatchResultActivity.class));
-                        break;
-                    }
-                    case 1: {
-                        context.startActivity(new Intent(context, MatchResultActivity.class));
-                        break;
-                    }
-                    case 2: {
-                        context.startActivity(new Intent(context, MatchLeagueActivity.class));
-                        break;
-                    }
-                    case 3: {
-                        context.startActivity(new Intent(context, MatchResultActivity.class));
-                        break;
-                    }
-                    case 4: {
-                        context.startActivity(new Intent(context, PrivateBoardActivity.class));
-                        break;
-                    }
-                    default: {
-                        onClickFeedItemListener.onItemClick(position);
-                        break;
-                    }
+        holder.itemView.setOnClickListener(view -> {
+            GlobalVariable.getInstance().setTilePosition(position);
+            switch (position) {
+                case 0: {
+                    context.startActivity(new Intent(context, MatchResultActivity.class));
+                    break;
+                }
+                case 1: {
+                    context.startActivity(new Intent(context, MatchResultActivity.class));
+                    break;
+                }
+                case 2: {
+                    context.startActivity(new Intent(context, MatchLeagueActivity.class));
+                    break;
+                }
+                case 3: {
+                    context.startActivity(new Intent(context, MatchResultActivity.class));
+                    break;
+                }
+                case 4: {
+                    context.startActivity(new Intent(context, PrivateBoardActivity.class));
+                    break;
+                }
+                default: {
+                    onClickFeedItemListener.onItemClick(position, holder.itemView);
+                    break;
                 }
             }
         });
