@@ -5,7 +5,7 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class LineupsModel {
+public class Lineups {
     private List<List<Formation>> homeTeamFormation = null;
     private List<List<Formation>> awayTeamFormation = null;
 
@@ -13,6 +13,6 @@ public class LineupsModel {
     public class Formation {
         private String fullName;
         private Integer number;
-
+        private Integer formationNumber;
     }
 }

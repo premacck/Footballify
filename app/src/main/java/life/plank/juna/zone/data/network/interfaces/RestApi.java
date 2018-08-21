@@ -6,7 +6,7 @@ import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.LineupsModel;
+import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
@@ -105,7 +105,7 @@ public interface RestApi {
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
 
     @GET("matches/{matchId}/lineups")
-    Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
+    Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
 
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);

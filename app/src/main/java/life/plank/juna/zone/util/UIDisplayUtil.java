@@ -35,6 +35,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ToggleButton;
 
@@ -352,6 +353,13 @@ public class UIDisplayUtil {
      * @param view     The view on which swipe down gesture is required.
      */
     public static void setupSwipeGesture(Activity activity, View view) {
+        activity.getWindow()
+                .getSharedElementEnterTransition()
+                .setDuration(activity.getResources().getInteger(R.integer.shared_element_animation_duration));
+        activity.getWindow()
+                .getSharedElementReturnTransition()
+                .setDuration(activity.getResources().getInteger(R.integer.shared_element_animation_duration))
+                .setInterpolator(new DecelerateInterpolator());
         view.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
