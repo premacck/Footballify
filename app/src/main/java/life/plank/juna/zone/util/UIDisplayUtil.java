@@ -383,7 +383,7 @@ public class UIDisplayUtil {
         arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
         int[] fabImages = getBoomMenuFabImages();
         int[] backgroundColors = getBoomMenuBackgroundColors();
-        String[] titles = getBoomMenuTitles();
+        String[] titles = getBoomMenuTitles(activity);
         for (int i = 0; i < fabImages.length; i++) {
             View child = activity.getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
@@ -394,18 +394,8 @@ public class UIDisplayUtil {
         }
     }
 
-    public static String[] getBoomMenuTitles() {
-        return new String[]{
-                "Settings",
-                "Profile",
-                "Home",
-                "Gallery",
-                "Camera",
-                "Audio",
-                "Comment",
-                "Attachment",
-                "Video"
-        };
+    public static String[] getBoomMenuTitles(Activity activity) {
+        return activity.getResources().getStringArray(R.array.boom_menu_titles);
     }
 
     public static int[] getBoomMenuFabImages() {

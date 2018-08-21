@@ -134,4 +134,16 @@
     <string name="hide_notifications">Hide notifications</string>
     <string name="show_notifications">Show notifications</string>
     <string name="_8_8">8 – 8</string>
+
+    <array name="boom_menu_titles">
+        <item>Settings</item>
+        <item>Profile</item>
+        <item>Home</item>
+        <item>Gallery</item>
+        <item>Camera</item>
+        <item>Audio</item>
+        <item>Comment</item>
+        <item>Attachment</item>
+        <item>Video</item>
+    </array>
 </resources>
