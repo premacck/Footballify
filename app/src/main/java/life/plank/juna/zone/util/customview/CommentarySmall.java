@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -25,7 +26,7 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
     @BindView(R.id.see_all)
     Button seeAllBtn;
     @BindView(R.id.commentary_list)
-    RecyclerView commentaryList;
+    RecyclerView commentaryRecyclerView;
 
     private CommentarySmallListener listener;
     private CommentaryAdapter adapter;
@@ -51,6 +52,12 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         View rootView = inflate(context, R.layout.item_live_commentary_small, this);
         ButterKnife.bind(this, rootView);
 
+        commentaryRecyclerView.setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
         setAdapter(new CommentaryAdapter());
         seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
     }
@@ -75,7 +82,7 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
 
     private void setAdapter(CommentaryAdapter adapter) {
         this.adapter = adapter;
-        commentaryList.setAdapter(adapter);
+        commentaryRecyclerView.setAdapter(adapter);
     }
 
     private void notifyAdapter(List<Commentary> commentaries) {
