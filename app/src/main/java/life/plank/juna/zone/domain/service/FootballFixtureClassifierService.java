@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.DateUtil;
 
@@ -27,9 +27,9 @@ public class FootballFixtureClassifierService {
         SCHEDULED_MATCHES
     }
 
-    public static List<SectionedFixture> classifyByDate(List<ScoreFixtureModel> fixtures) {
+    public static List<SectionedFixture> classifyByDate(List<ScoreFixture> fixtures) {
         List<SectionedFixture> sectionedFixtureList = new ArrayList<>();
-        Map<String, List<ScoreFixtureModel>> map = new LinkedHashMap<>();
+        Map<String, List<ScoreFixture>> map = new LinkedHashMap<>();
         int i = 0;
         for (int j = 0; j < fixtures.size(); j++) {
             if (i == j) {
@@ -44,7 +44,7 @@ public class FootballFixtureClassifierService {
             }
         }
         for (String matchTime : map.keySet()) {
-            List<ScoreFixtureModel> fixtureModels = map.get(matchTime);
+            List<ScoreFixture> fixtureModels = map.get(matchTime);
             if (!isNullOrEmpty(fixtureModels)) {
                 FixtureSection section = getSuitableSection(fixtureModels.get(0).getMatchStartTime());
                 sectionedFixtureList.add(SectionedFixture.getFrom(matchTime, section, map.get(matchTime)));
@@ -66,15 +66,15 @@ public class FootballFixtureClassifierService {
         }
     }
 
-    public static List<SectionedFixture> getClassifiedMatchesMap(List<ScoreFixtureModel> fixtures) {
+    public static List<SectionedFixture> getClassifiedMatchesMap(List<ScoreFixture> fixtures) {
         List<SectionedFixture> sectionedFixtureList = new ArrayList<>();
-        List<ScoreFixtureModel> scheduledFixtures = new ArrayList<>();
-        List<ScoreFixtureModel> tomorrowsFixtures = new ArrayList<>();
-        List<ScoreFixtureModel> liveFixtures = new ArrayList<>();
-        List<ScoreFixtureModel> pastFixtures = new ArrayList<>();
+        List<ScoreFixture> scheduledFixtures = new ArrayList<>();
+        List<ScoreFixture> tomorrowsFixtures = new ArrayList<>();
+        List<ScoreFixture> liveFixtures = new ArrayList<>();
+        List<ScoreFixture> pastFixtures = new ArrayList<>();
 
         int today = getDateFromObject(new Date());
-        for (ScoreFixtureModel fixture : fixtures) {
+        for (ScoreFixture fixture : fixtures) {
             int matchStartDate = getDateFromObject(fixture.getMatchStartTime());
             int dateDifference = matchStartDate - today;
             if (dateDifference >= 2) {

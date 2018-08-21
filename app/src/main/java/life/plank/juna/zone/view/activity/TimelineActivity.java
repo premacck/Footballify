@@ -27,8 +27,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     @BindView(R.id.header)
     TextView headerView;
-    @BindView(R.id.timeline_list)
-    RecyclerView timelineList;
+    @BindView(R.id.timeline_recycler_view)
+    RecyclerView timelineRecyclerView;
 
     @Inject
     @Named("footballData")
@@ -38,7 +38,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static void launch(Activity packageContext, View fromView) {
         Intent intent = new Intent(packageContext, TimelineActivity.class);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, "timeline_activity"));
+        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, packageContext.getString(R.string.timeline_activity)));
         packageContext.startActivity(intent, options.toBundle());
     }
 
@@ -56,7 +56,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         adapter = new TimelineAdapter(this);
-        timelineList.setAdapter(adapter);
+        timelineRecyclerView.setAdapter(adapter);
     }
 
     private void getTimeLine() {

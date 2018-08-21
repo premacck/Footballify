@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.view.adapter.FixtureAndResultAdapter;
 import retrofit2.Response;
@@ -110,7 +110,7 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         restApi.getScoresAndFixtures(seasonName, leagueName, countryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<ScoreFixtureModel>>>() {
+                .subscribe(new Observer<Response<List<ScoreFixture>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -124,13 +124,13 @@ public class FixtureAndResultActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<List<ScoreFixtureModel>> response) {
+                    public void onNext(Response<List<ScoreFixture>> response) {
                         progressBar.setVisibility(View.GONE);
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                List<ScoreFixtureModel> scoreFixtureModelList = response.body();
-                                if (scoreFixtureModelList != null) {
-                                    new UpdateAdapterTask(FixtureAndResultActivity.this, scoreFixtureModelList, fixtureAndResultAdapter).execute();
+                                List<ScoreFixture> scoreFixtureList = response.body();
+                                if (scoreFixtureList != null) {
+                                    new UpdateAdapterTask(FixtureAndResultActivity.this, scoreFixtureList, fixtureAndResultAdapter).execute();
                                 } else onNoMatchesFound();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -156,13 +156,13 @@ public class FixtureAndResultActivity extends AppCompatActivity {
     private static class UpdateAdapterTask extends AsyncTask<Void, Void, List<SectionedFixture>> {
 
         private WeakReference<FixtureAndResultActivity> ref;
-        private List<ScoreFixtureModel> scoreFixtureModelList;
+        private List<ScoreFixture> scoreFixtureList;
         private FixtureAndResultAdapter fixtureAndResultAdapter;
         private int todayIndex;
 
-        private UpdateAdapterTask(FixtureAndResultActivity activity, List<ScoreFixtureModel> scoreFixtureModelList, FixtureAndResultAdapter fixtureAndResultAdapter) {
+        private UpdateAdapterTask(FixtureAndResultActivity activity, List<ScoreFixture> scoreFixtureList, FixtureAndResultAdapter fixtureAndResultAdapter) {
             this.ref = new WeakReference<>(activity);
-            this.scoreFixtureModelList = scoreFixtureModelList;
+            this.scoreFixtureList = scoreFixtureList;
             this.fixtureAndResultAdapter = fixtureAndResultAdapter;
         }
 
@@ -174,10 +174,10 @@ public class FixtureAndResultActivity extends AppCompatActivity {
         @Override
         protected List<SectionedFixture> doInBackground(Void... voids) {
             todayIndex = 0;
-            List<SectionedFixture> sectionedFixtureList = classifyByDate(scoreFixtureModelList);
-            for (int i = 0; i < sectionedFixtureList.size(); i++) {
-                if (sectionedFixtureList.get(i).getSection() == LIVE_MATCHES) {
-                    todayIndex = i;
+            List<SectionedFixture> sectionedFixtureList = classifyByDate(scoreFixtureList);
+            for (SectionedFixture fixture : sectionedFixtureList) {
+                if (fixture.getSection() == LIVE_MATCHES) {
+                    todayIndex = sectionedFixtureList.indexOf(fixture);
                     break;
                 }
             }

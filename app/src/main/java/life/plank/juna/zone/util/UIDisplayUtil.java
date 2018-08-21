@@ -32,6 +32,7 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
@@ -306,11 +307,14 @@ public class UIDisplayUtil {
             view.setElevation(0);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             view.setTextColor(context.getColor(R.color.grey));
+            view.setGravity(Gravity.CENTER);
         } else {
             view.setBackground(context.getDrawable(R.drawable.selected_textview_bg));
             view.setElevation(5);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
+            view.setGravity(Gravity.LEFT);
+            view.setPadding(50,10,10,10);
         }
     }
 
@@ -349,8 +353,13 @@ public class UIDisplayUtil {
      * @param view     The view on which swipe down gesture is required.
      */
     public static void setupSwipeGesture(Activity activity, View view) {
-        activity.getWindow().getSharedElementEnterTransition().setDuration(250);
-        activity.getWindow().getSharedElementReturnTransition().setDuration(250).setInterpolator(new DecelerateInterpolator());
+        activity.getWindow()
+                .getSharedElementEnterTransition()
+                .setDuration(activity.getResources().getInteger(R.integer.shared_element_animation_duration));
+        activity.getWindow()
+                .getSharedElementReturnTransition()
+                .setDuration(activity.getResources().getInteger(R.integer.shared_element_animation_duration))
+                .setInterpolator(new DecelerateInterpolator());
         view.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
