@@ -20,6 +20,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
 
+import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
@@ -47,6 +48,7 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeline);
         ButterKnife.bind(this);
+        setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
         setupSwipeGesture(this, headerView);
 
         getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), boardParentViewBitmap));
