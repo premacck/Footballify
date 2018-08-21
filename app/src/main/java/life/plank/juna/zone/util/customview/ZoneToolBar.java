@@ -5,19 +5,25 @@ import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
 public class ZoneToolBar extends LinearLayout {
 
-    private TextView titleView;
-    private TextView coinCountView;
-    private ImageView profilePicView;
+    @BindView(R.id.toolbar_title)
+    TextView titleView;
+    @BindView(R.id.toolbar_coin_count)
+    TextView coinCountView;
+    @BindView(R.id.toolbar_profile_pic)
+    ImageView profilePicView;
 
     public ZoneToolBar(Context context) {
         this(context, null);
@@ -37,11 +43,8 @@ public class ZoneToolBar extends LinearLayout {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        inflate(context, R.layout.new_tool_bar, this);
-
-        titleView = findViewById(R.id.toolbar_title);
-        coinCountView = findViewById(R.id.toolbar_coin_count);
-        profilePicView = findViewById(R.id.toolbar_profile_pic);
+        View rootView = inflate(context, R.layout.new_tool_bar, this);
+        ButterKnife.bind(this, rootView);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ZoneToolBar);
         try {

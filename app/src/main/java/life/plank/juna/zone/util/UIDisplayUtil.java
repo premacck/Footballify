@@ -32,6 +32,7 @@ import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
@@ -312,11 +313,14 @@ public class UIDisplayUtil {
             view.setElevation(0);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             view.setTextColor(context.getColor(R.color.grey));
+            view.setGravity(Gravity.CENTER);
         } else {
             view.setBackground(context.getDrawable(R.drawable.selected_textview_bg));
             view.setElevation(5);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
+            view.setGravity(Gravity.LEFT);
+            view.setPadding(50, 10, 10, 10);
         }
     }
 
@@ -355,6 +359,13 @@ public class UIDisplayUtil {
      * @param view     The view on which swipe down gesture is required.
      */
     public static void setupSwipeGesture(Activity activity, View view) {
+        activity.getWindow()
+                .getSharedElementEnterTransition()
+                .setDuration(activity.getResources().getInteger(R.integer.shared_element_animation_duration));
+        activity.getWindow()
+                .getSharedElementReturnTransition()
+                .setDuration(activity.getResources().getInteger(R.integer.shared_element_animation_duration))
+                .setInterpolator(new DecelerateInterpolator());
         view.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
@@ -372,7 +383,7 @@ public class UIDisplayUtil {
         arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
         int[] fabImages = getBoomMenuFabImages();
         int[] backgroundColors = getBoomMenuBackgroundColors();
-        String[] titles = getBoomMenuTitles();
+        String[] titles = getBoomMenuTitles(activity);
         for (int i = 0; i < fabImages.length; i++) {
             View child = activity.getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
             RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
@@ -383,18 +394,8 @@ public class UIDisplayUtil {
         }
     }
 
-    public static String[] getBoomMenuTitles() {
-        return new String[]{
-                "Settings",
-                "Profile",
-                "Home",
-                "Gallery",
-                "Camera",
-                "Audio",
-                "Comment",
-                "Attachment",
-                "Video"
-        };
+    public static String[] getBoomMenuTitles(Activity activity) {
+        return activity.getResources().getStringArray(R.array.boom_menu_titles);
     }
 
     public static int[] getBoomMenuFabImages() {

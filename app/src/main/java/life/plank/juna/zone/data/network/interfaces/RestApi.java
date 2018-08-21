@@ -6,10 +6,10 @@ import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.LineupsModel;
+import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
@@ -92,9 +92,9 @@ public interface RestApi {
 
     //working
     @GET("seasons/matches")
-    Observable<Response<List<ScoreFixtureModel>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
-                                                                       @Query("leagueName") String leagueName,
-                                                                       @Query("countryName") String countryName);
+    Observable<Response<List<ScoreFixture>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
+                                                                  @Query("leagueName") String leagueName,
+                                                                  @Query("countryName") String countryName);
 
     //working
     @GET("/feedEntries")
@@ -105,7 +105,7 @@ public interface RestApi {
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
 
     @GET("matches/{matchId}/lineups")
-    Observable<Response<LineupsModel>> getLineUpsData(@Path("matchId") long matchId);
+    Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
 
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);

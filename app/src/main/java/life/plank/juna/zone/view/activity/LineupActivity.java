@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.LineupsModel;
+import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -71,8 +71,8 @@ public class LineupActivity extends AppCompatActivity {
     TextView homeTeamCorner;
     @BindView(R.id.away_team_corner)
     TextView awayTeamCorner;
-    List<List<LineupsModel.Formation>> homeTeamLineups;
-    List<List<LineupsModel.Formation>> awayTeamLineups;
+    List<List<Lineups.Formation>> homeTeamLineups;
+    List<List<Lineups.Formation>> awayTeamLineups;
     private RestApi restApi;
     private Long currentMatchId;
     private ArrayList<Integer> visitingTeamFormation;
@@ -93,7 +93,7 @@ public class LineupActivity extends AppCompatActivity {
         restApi.getLineUpsData(matchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<LineupsModel>>() {
+                .subscribe(new Subscriber<Response<Lineups>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -106,7 +106,7 @@ public class LineupActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<LineupsModel> response) {
+                    public void onNext(Response<Lineups> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (response.body() != null) {

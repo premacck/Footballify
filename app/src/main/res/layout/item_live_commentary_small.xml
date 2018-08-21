@@ -60,7 +60,7 @@
             android:layout_marginTop="5dp"
             android:layout_below="@+id/commentary_text"
             tools:listitem="@layout/item_commentary"
-            app:layoutManager="life.plank.juna.zone.util.NonScrollingLinearLayoutManager" />
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <ImageView
             android:layout_width="match_parent"

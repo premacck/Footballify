@@ -38,4 +38,12 @@ public class AppConstants {
     public static final String TEAM_STATS = "teamStats";
     public static final String PLAYER_STATS = "playerStats";
 
+    public static final String GOAL = "goal";
+    public static final String YELLOW_CARD = "yellowcard";
+    public static final String RED_CARD = "redcard";
+    public static final String YELLOW_RED = "yellowred";
+    public static final String SUBSTITUTION = "substitution";
+    public static final String KICK_OFF = "KICK-OFF";
+    public static final String HALF_TIME = "HALF-TIME";
+    public static final String FULL_TIME = "FULL-TIME";
 }
