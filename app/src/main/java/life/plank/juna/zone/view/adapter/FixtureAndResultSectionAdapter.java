@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.util.RoundedTransformation;
@@ -27,14 +27,14 @@ import static life.plank.juna.zone.util.DataUtil.getSeparator;
 
 public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<FixtureAndResultSectionAdapter.ViewHolder> {
 
-    private List<ScoreFixtureModel> scoreFixtureModelList;
+    private List<ScoreFixture> scoreFixtureList;
     private Picasso picasso;
     private Context context;
     private FixtureSection fixtureSection;
 
-    FixtureAndResultSectionAdapter(List<ScoreFixtureModel> scoreFixtureModelList, Picasso picasso,
+    FixtureAndResultSectionAdapter(List<ScoreFixture> scoreFixtureList, Picasso picasso,
                                    Context context, FixtureSection fixtureSection) {
-        this.scoreFixtureModelList = scoreFixtureModelList;
+        this.scoreFixtureList = scoreFixtureList;
         this.picasso = picasso;
         this.context = context;
         this.fixtureSection = fixtureSection;
@@ -52,7 +52,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
 
     @Override
     public int getItemCount() {
-        return scoreFixtureModelList.size();
+        return scoreFixtureList.size();
     }
 
     static class ViewHolder extends BaseRecyclerView.ViewHolder {
@@ -73,7 +73,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         private final WeakReference<FixtureAndResultSectionAdapter> ref;
         private final Picasso picasso;
         private final Context context;
-        private ScoreFixtureModel scoreFixture;
+        private ScoreFixture scoreFixture;
 
         ViewHolder(View itemView, FixtureAndResultSectionAdapter adapter, Picasso picasso, Context context) {
             super(itemView);
@@ -85,7 +85,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
 
         @Override
         public void bind() {
-            scoreFixture = ref.get().scoreFixtureModelList.get(getAdapterPosition());
+            scoreFixture = ref.get().scoreFixtureList.get(getAdapterPosition());
             itemView.setBackgroundColor(ref.get().context.getColor(
                     getAdapterPosition() % 2 == 0 ?
                             R.color.white :

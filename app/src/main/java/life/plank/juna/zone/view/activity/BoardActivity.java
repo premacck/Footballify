@@ -282,6 +282,14 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         }
     }
 
+    @OnClick(R.id.line_chart)
+    public void openTimeLine(View view) {
+        if (boardParentViewBitmap == null) {
+            boardParentViewBitmap = loadBitmap(boardParentLayout, boardParentLayout, this);
+        }
+        TimelineActivity.launch(this, view);
+    }
+
     @OnClick({R.id.following_text_view})
     //todo: can subscribe to Board,card and User field
     public void onViewClicked(View view) {

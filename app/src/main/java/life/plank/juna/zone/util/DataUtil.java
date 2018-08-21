@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
@@ -40,7 +40,7 @@ public class DataUtil {
         return Objects.equals(s, "null");
     }
 
-    public static String getSeparator(ScoreFixtureModel scoreFixture, FixtureSection fixtureSection, ImageView winPointer) {
+    public static String getSeparator(ScoreFixture scoreFixture, FixtureSection fixtureSection, ImageView winPointer) {
         if (fixtureSection == PAST_MATCHES) {
             return getPastMatchSeparator(scoreFixture, winPointer);
         } else if (fixtureSection == LIVE_MATCHES) {
@@ -57,7 +57,7 @@ public class DataUtil {
         }
     }
 
-    private static String getPastMatchSeparator(ScoreFixtureModel scoreFixture, ImageView winPointer) {
+    private static String getPastMatchSeparator(ScoreFixture scoreFixture, ImageView winPointer) {
         String teamNameSeparator;
         if (scoreFixture.getAwayTeamPenaltyScore() == 0 && scoreFixture.getHomeTeamPenaltyScore() == 0) {
             if (scoreFixture.getHomeGoals() > scoreFixture.getAwayGoals()) {
@@ -107,7 +107,7 @@ public class DataUtil {
     public static List<SectionedFixture> removeEmptySections(List<SectionedFixture> list) {
         List<SectionedFixture> newList = new ArrayList<>(list);
         for (SectionedFixture fixture : newList) {
-            if (fixture.getScoreFixtureModelList().isEmpty()) {
+            if (fixture.getScoreFixtureList().isEmpty()) {
                 list.remove(fixture);
             }
         }

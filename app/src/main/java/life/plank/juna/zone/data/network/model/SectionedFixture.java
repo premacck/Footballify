@@ -9,24 +9,24 @@ import lombok.Data;
 public class SectionedFixture {
     FixtureSection section;
     String matchday;
-    List<ScoreFixtureModel> scoreFixtureModelList;
+    List<ScoreFixture> scoreFixtureList;
 
-    private SectionedFixture(FixtureSection section, List<ScoreFixtureModel> scoreFixtureModelList) {
+    private SectionedFixture(FixtureSection section, List<ScoreFixture> scoreFixtureList) {
         this.section = section;
-        this.scoreFixtureModelList = scoreFixtureModelList;
+        this.scoreFixtureList = scoreFixtureList;
     }
 
-    private SectionedFixture(String matchday, FixtureSection section, List<ScoreFixtureModel> scoreFixtureModelList) {
+    private SectionedFixture(String matchday, FixtureSection section, List<ScoreFixture> scoreFixtureList) {
         this.matchday = matchday;
         this.section = section;
-        this.scoreFixtureModelList = scoreFixtureModelList;
+        this.scoreFixtureList = scoreFixtureList;
     }
 
-    public static SectionedFixture getFrom(FixtureSection classification, List<ScoreFixtureModel> scoreFixtureModelList) {
-        return new SectionedFixture(classification, scoreFixtureModelList);
+    public static SectionedFixture getFrom(FixtureSection classification, List<ScoreFixture> scoreFixtureList) {
+        return new SectionedFixture(classification, scoreFixtureList);
     }
 
-    public static SectionedFixture getFrom(String matchday, FixtureSection section, List<ScoreFixtureModel> scoreFixtureModelList) {
-        return new SectionedFixture(matchday, section, scoreFixtureModelList);
+    public static SectionedFixture getFrom(String matchday, FixtureSection section, List<ScoreFixture> scoreFixtureList) {
+        return new SectionedFixture(matchday, section, scoreFixtureList);
     }
 }

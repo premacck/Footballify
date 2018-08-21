@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.ScoreFixtureModel;
+import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.wasMatchYesterday;
@@ -66,7 +66,7 @@ public class DateUtil {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
 
-    public static String getFormattedDate(Context context, ScoreFixtureModel scoreFixture) {
+    public static String getFormattedDate(Context context, ScoreFixture scoreFixture) {
         if (Objects.equals(scoreFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
             return "FT, " +
                     (wasMatchYesterday(scoreFixture.getMatchStartTime()) ?
