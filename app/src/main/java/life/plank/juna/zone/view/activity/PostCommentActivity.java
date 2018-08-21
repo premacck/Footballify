@@ -1,5 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -66,6 +68,12 @@ public class PostCommentActivity extends AppCompatActivity {
     private String boardId;
     private String userId;
     private String date;
+
+    public static void launch(Activity packageContext, String boardId) {
+        Intent intent = new Intent(packageContext, PostCommentActivity.class);
+        intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId);
+        packageContext.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

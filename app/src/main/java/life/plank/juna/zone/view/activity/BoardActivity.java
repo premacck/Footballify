@@ -12,13 +12,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +42,7 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.fragment.board.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.BoardTilesFragment;
@@ -79,6 +78,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private String homeTeamLogo, visitingTeamLogo;
     private int homeGoals, awayGoals, matchDay;
 
+    private BoardPagerAdapter boardPagerAdapter;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -118,9 +118,12 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             footballFeed.setThumbnail(thumbnail);
             footballFeed.setUrl(imageUrl);
         }
-        BoardTilesFragment boardTilesFragment = (BoardTilesFragment) getSupportFragmentManager().findFragmentByTag(BoardTilesFragment.class.getSimpleName());
-        if (boardTilesFragment != null) {
-            boardTilesFragment.updateNewPost(footballFeed);
+        try {
+            if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
+                ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).updateNewPost(footballFeed);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -140,11 +143,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         awayGoals = intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0);
         matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
 
-        setUpBoomMenu();
-
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
         setUpToolbar();
-
     }
 
     private void setUpToolbar() {
@@ -155,7 +155,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     }
 
     private void setupViewPagerWithFragments() {
-        viewPager.setAdapter(new BoardPagerAdapter(getSupportFragmentManager(), boardId));
+        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId);
+        viewPager.setAdapter(boardPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(publicBoardToolbar.getInfoTilesTabLayout()));
         publicBoardToolbar.getInfoTilesTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         Objects.requireNonNull(publicBoardToolbar.getInfoTilesTabLayout().getTabAt(1)).select();
@@ -176,81 +177,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     }
 
     public void setUpBoomMenu() {
-        //todo: will be add in Utils so we can Reuse the Code
-        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
-        int[] fabImages = {R.drawable.ic_settings_white,
-                R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.text_icon, R.drawable.ic_link, R.drawable.ic_video};
-        int[] backgroundColors = {R.drawable.fab_circle_background_grey,
-                R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Comment", "Attachment", "Video"};
-        for (int i = 0; i < fabImages.length; i++) {
-            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
-            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
-            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
-            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
-            fabImageVIew.setImageResource(fabImages[i]);
-            final int position = i;
-            //TODO: move common code to separate method
-            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (position) {
-                        case 0: {
-                            break;
-                        }
-                        case 1: {
-                            break;
-                        }
-                        case 2: {
-                            break;
-                        }
-                        case 3: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.gallery));
-                            intent.putExtra(getString(R.string.intent_board_id), boardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 4: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.camera));
-                            intent.putExtra(getString(R.string.intent_board_id), boardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 5: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_audio));
-                            intent.putExtra(getString(R.string.intent_board_id), boardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 6: {
-                            Intent intent = new Intent(BoardActivity.this, PostCommentActivity.class);
-                            intent.putExtra(getString(R.string.intent_board_id), boardId);
-                            startActivity(intent);
-                            break;
-                        }
-                        case 7: {
-                            break;
-                        }
-                        case 8: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.video));
-                            intent.putExtra(getString(R.string.intent_board_id), boardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                    }
-                }
-            });
-        }
+        UIDisplayUtil.setupBoomMenu(this, arcMenu, boardId);
     }
 
     @OnClick(R.id.line_chart)
@@ -283,7 +210,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                         if (response.code() == HttpURLConnection.HTTP_OK && board != null) {
                             boardId = board.getId();
                             saveBoardId();
+
+                            setUpBoomMenu();
                             setupViewPagerWithFragments();
+
                             String topic = getString(R.string.board_id_prefix) + boardId;
                             FirebaseMessaging.getInstance().subscribeToTopic(topic);
                         }
@@ -311,6 +241,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     static class BoardPagerAdapter extends FragmentPagerAdapter {
 
+        private Fragment currentFragment;
         private String boardId;
 
         BoardPagerAdapter(FragmentManager fragmentManager, String boardId) {
@@ -333,6 +264,18 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         @Override
         public int getCount() {
             return 2;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                currentFragment = (Fragment) object;
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
+        Fragment getCurrentFragment() {
+            return currentFragment;
         }
     }
 }
