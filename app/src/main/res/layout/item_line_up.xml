@@ -3,15 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     app:cardCornerRadius="8dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        tools:context="life.plank.juna.zone.view.activity.LineupActivity">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,6 +61,14 @@
                 android:contentDescription="@string/home_team_goal_area"
                 android:src="@drawable/ic_box_left" />
 
+            <life.plank.juna.zone.util.customview.LineupPlayer
+                android:id="@+id/home_goalee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="18dp" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,14 +87,46 @@
                 android:contentDescription="@string/away_team_goal_area"
                 android:src="@drawable/ic_box_right" />
 
+            <life.plank.juna.zone.util.customview.LineupPlayer
+                android:id="@+id/visiting_goalee"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp" />
+
             <LinearLayout
-                android:id="@+id/visiting_team_lineup_layout"
+                android:id="@+id/home_team_lineup_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/center_space"
+                android:layout_below="@+id/home_goalee"
                 android:gravity="center"
-                android:layout_alignParentTop="true"
-                android:orientation="vertical" />
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/home_defenders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/home_mid_fielders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/home_attackers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
             <android.support.v4.widget.Space
                 android:id="@+id/center_space"
@@ -96,13 +135,38 @@
                 android:layout_centerInParent="true" />
 
             <LinearLayout
-                android:id="@+id/home_team_lineup_layout"
+                android:id="@+id/visiting_team_lineup_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_alignParentBottom="true"
                 android:layout_below="@+id/center_space"
-                android:orientation="vertical" />
+                android:layout_above="@+id/visiting_goalee"
+                android:gravity="center"
+                android:layout_marginBottom="30dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/visiting_attackers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/visiting_mid_fielders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/visiting_defenders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
         </RelativeLayout>
 
         <LinearLayout
@@ -126,7 +190,7 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/away_team_lineup"
+                android:id="@+id/visiting_team_lineup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -150,6 +214,7 @@
             android:background="@color/background_color" />
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/substitution_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="7dp"

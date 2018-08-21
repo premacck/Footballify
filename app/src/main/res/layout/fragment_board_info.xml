@@ -28,8 +28,8 @@
                 android:id="@+id/team_stats"
                 style="@style/BoardInfoLayout" />
 
-            <include
-                layout="@layout/item_line_up"
+            <life.plank.juna.zone.util.customview.LineUpLayout
+                android:id="@+id/item_line_up"
                 style="@style/BoardInfoLayout" />
 
         </LinearLayout>

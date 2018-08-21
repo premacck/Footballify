@@ -58,7 +58,6 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
                 return false;
             }
         });
-        setAdapter(new CommentaryAdapter());
         seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
     }
 
