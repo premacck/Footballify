@@ -303,7 +303,7 @@ public class UIDisplayUtil {
                 true);
     }
 
-    public static float getDp(Context context, int pixels) {
+    public static float getDp(Context context, float pixels) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixels, context.getResources().getDisplayMetrics());
     }
 
