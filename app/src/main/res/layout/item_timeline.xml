@@ -1,34 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <View
         android:id="@+id/center_space"
         android:layout_width="2dp"
         android:layout_height="wrap_content"
-        android:minHeight="50dp"
+        android:minHeight="40dp"
         android:layout_centerInParent="true"
         android:background="@color/purple_timeline" />
 
-    <ImageView
-        android:id="@+id/whistle"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_whistle"
-        android:contentDescription="@string/timeline_whistle" />
+    <RelativeLayout
+        android:id="@+id/whistle_event_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
 
-    <TextView
+        <ImageView
+            android:id="@+id/whistle"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_whistle"
+            android:contentDescription="@string/timeline_whistle" />
+
+        <TextView
+            android:id="@+id/whistle_text_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/whistle"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="12dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:fontFamily="@font/rajdhani_regular"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_10sp"
+            android:drawablePadding="10dp"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:id="@+id/whistle_text_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/whistle"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:fontFamily="@font/rajdhani_regular"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_10sp"
+            android:drawablePadding="10dp" />
+
+    </RelativeLayout>
+
+    <life.plank.juna.zone.util.customview.CircularTextView
         android:id="@+id/minute"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:background="@drawable/timeline_minute_bg"
         android:fontFamily="@font/rajdhani_semibold"
-        android:textSize="@dimen/text_10sp"
-        android:textColor="@color/white" />
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        app:solidColor="@color/purple_timeline" />
 
     <LinearLayout
         android:id="@+id/timeline_layout"
@@ -36,25 +77,29 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_vertical|end"
-        android:layout_centerVertical="true"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp">
+        android:layout_centerVertical="true">
 
         <TextView
             android:id="@+id/timeline_text_1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/rajdhani_regular"
+            android:fontFamily="@font/rajdhani_medium"
             android:textColor="@color/grey"
-            android:textSize="@dimen/text_10sp"
+            android:textSize="12sp"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:drawablePadding="10dp" />
 
         <TextView
             android:id="@+id/timeline_text_2"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/rajdhani_regular"
+            android:fontFamily="@font/rajdhani_medium"
             android:textColor="@color/grey"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:drawablePadding="10dp" />
 
     </LinearLayout>
