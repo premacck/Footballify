@@ -15,6 +15,7 @@ public class LiveScoreData {
     private String fullTimeScore;
     private String extraTimeScore;
 
+    //    TODO: replace the usages of this method with the value received from backend.
     public LiveScoreData(String timeStatus, int minute) {
         this.timeStatus = timeStatus;
         this.minute = minute;

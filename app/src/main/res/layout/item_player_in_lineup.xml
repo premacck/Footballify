@@ -39,6 +39,8 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="2dp"
             android:layout_marginStart="2dp"
+            android:src="@drawable/ic_goal_left"
+            android:visibility="gone"
             android:contentDescription="@string/lineup_card" />
 
         <life.plank.juna.zone.util.customview.CircularTextView
@@ -51,19 +53,21 @@
             android:fontFamily="@font/rajdhani_semibold"
             android:textSize="@dimen/text_6p"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:solidColor="@color/white"
             app:strokeColor="@color/black"
             app:strokeWidth="0.5" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <ImageView
             android:id="@+id/lineup_player_substitution"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="3dp"
             android:layout_marginEnd="3dp"
-            app:civ_circle_background_color="@color/white"
+            android:src="@drawable/ic_player_substitute_down"
+            android:visibility="gone"
             android:contentDescription="@string/lineup_card" />
 
     </RelativeLayout>
