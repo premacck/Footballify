@@ -111,7 +111,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     @OnClick(R.id.create_board_button)
     public void onViewClicked(View view) {
-        Board board = new Board();
+        Board board = Board.getInstance();
         board.setZone(zone.toLowerCase().trim());
         board.setDisplayname(boardName.getText().toString().trim());
         board.setDescription(boardDescription.getText().toString().trim());
@@ -160,10 +160,41 @@ public class CreateBoardActivity extends AppCompatActivity {
                     public void onNext(Response<String> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                startActivity(new Intent(CreateBoardActivity.this, PrivateBoardActivity.class));
+                                navigateToBoard(response.body(), token);
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void navigateToBoard(String boardId, String token) {
+        restApi.getBoardById(boardId, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<Board>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(getApplicationContext(), R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<Board> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                startActivity(new Intent(CreateBoardActivity.this, PrivateBoardActivity.class));
+                                Board.getInstance().setBoard(response.body());
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }

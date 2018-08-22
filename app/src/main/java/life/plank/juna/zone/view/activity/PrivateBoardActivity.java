@@ -1,13 +1,14 @@
 package life.plank.juna.zone.view.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v8.renderscript.RenderScript;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -15,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 
@@ -25,6 +25,7 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.view.adapter.PrivateBoardAdapter;
 
@@ -54,23 +55,30 @@ public class PrivateBoardActivity extends AppCompatActivity {
     TextView boardTypeTitle;
     @BindView(R.id.lock)
     ImageView lock;
+    @BindView(R.id.board_parent_layout)
+    CardView boardCardView;
+    @BindView(R.id.private_board_title)
+    TextView boardTitle;
 
     private ArrayList<FootballFeed> boardFeed = new ArrayList<>();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
+
         setContentView(R.layout.activity_private_board);
         ButterKnife.bind(this);
 
         initRecyclerView();
         setUpBoomMenu();
-
+        Board board = Board.getInstance().getBoard();
         layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
         layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));
-        boardTypeTitle.setText("Private Board");
+        boardTypeTitle.setText(board.getBoardType());
         lock.setVisibility(View.VISIBLE);
+
+        boardTitle.setText(board.getDisplayname());
+        boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
     }
 
     private void initRecyclerView() {
