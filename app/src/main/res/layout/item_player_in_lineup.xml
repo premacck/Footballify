@@ -51,8 +51,8 @@
             android:fontFamily="@font/rajdhani_semibold"
             android:textSize="@dimen/text_6p"
             android:textColor="@color/black"
-            app:solidColor="white"
-            app:strokeColor="black"
+            app:solidColor="@color/white"
+            app:strokeColor="@color/black"
             app:strokeWidth="0.5" />
 
         <de.hdodenhof.circleimageview.CircleImageView
