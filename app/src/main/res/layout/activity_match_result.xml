@@ -73,18 +73,6 @@
                                 android:textColor="@color/grey"
                                 android:textSize="12sp" />
 
-                            <TextView
-                                android:id="@+id/see_all"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentEnd="true"
-                                android:layout_centerVertical="true"
-                                android:fontFamily="@font/rajdhani_semibold"
-                                android:gravity="end"
-                                android:lineSpacingExtra="5sp"
-                                android:text="@string/see_all"
-                                android:textColor="@color/dark_sky_blue"
-                                android:textSize="10sp" />
                         </RelativeLayout>
 
                         <FrameLayout
@@ -117,10 +105,18 @@
                                 android:layout_height="70dp" />
                         </FrameLayout>
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="0.5dp"
-                            android:background="@color/light_grey" />
+                        <TextView
+                            android:id="@+id/see_all"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:gravity="end"
+                            android:lineSpacingExtra="5sp"
+                            android:text="@string/see_all"
+                            android:textAllCaps="true"
+                            android:textColor="@color/dark_sky_blue"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                 </android.support.v7.widget.CardView>
@@ -134,9 +130,10 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <TextView
+                            android:id="@+id/standings_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/raleway_medium"
@@ -146,33 +143,35 @@
                             android:textColor="@color/grey"
                             android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/see_complete"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="10dp"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:lineSpacingExtra="5sp"
-                            android:padding="5dp"
-                            android:text="@string/see_complete_standing"
-                            android:textColor="@color/dark_sky_blue"
-                            android:textSize="10sp" />
-
                         <include
                             android:id="@+id/standing_header_layout"
                             layout="@layout/standing_header_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/see_complete" />
+                            android:layout_below="@+id/standings_title" />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/standing_recycler_view"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="120dp"
                             android:layout_below="@+id/standing_header_layout"
                             android:nestedScrollingEnabled="false" />
+
+                        <TextView
+                            android:id="@+id/see_complete"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:text="@string/see_complete_standing"
+                            android:textAllCaps="true"
+                            android:textColor="@color/dark_sky_blue"
+                            android:textSize="12sp" />
                     </RelativeLayout>
+
 
                     <ProgressBar
                         android:id="@+id/progress_bar"
@@ -190,9 +189,10 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <TextView
+                            android:id="@+id/team_stats_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/raleway_medium"
@@ -202,32 +202,34 @@
                             android:textColor="@color/grey"
                             android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/see_more"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="10dp"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:lineSpacingExtra="5sp"
-                            android:padding="5dp"
-                            android:text="@string/see_more"
-                            android:textColor="@color/dark_sky_blue"
-                            android:textSize="10sp" />
-
                         <include
                             android:id="@+id/team_stats_header_layout"
                             layout="@layout/team_stats_header"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/see_more" />
+                            android:layout_below="@+id/team_stats_title" />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/team_stats_recycler_view"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="120dp"
                             android:layout_below="@+id/team_stats_header_layout"
                             android:nestedScrollingEnabled="false" />
+
+                        <TextView
+                            android:id="@+id/see_more"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:text="@string/see_more"
+                            android:textAllCaps="true"
+                            android:textColor="@color/dark_sky_blue"
+                            android:textSize="12sp" />
+
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
 
@@ -239,9 +241,10 @@
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
 
                         <TextView
+                            android:id="@+id/player_stats_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/raleway_medium"
@@ -251,32 +254,33 @@
                             android:textColor="@color/grey"
                             android:textSize="12sp" />
 
-                        <TextView
-                            android:id="@+id/see_more_player_stats"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="10dp"
-                            android:fontFamily="@font/rajdhani_semibold"
-                            android:lineSpacingExtra="5sp"
-                            android:padding="5dp"
-                            android:text="@string/see_more"
-                            android:textColor="@color/dark_sky_blue"
-                            android:textSize="10sp" />
-
                         <include
                             android:id="@+id/player_stats_header"
                             layout="@layout/player_stats_header"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/see_more_player_stats" />
+                            android:layout_below="@+id/player_stats_title" />
 
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/player_stats_recycler_view"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="120dp"
                             android:layout_below="@+id/player_stats_header"
                             android:nestedScrollingEnabled="false" />
+
+                        <TextView
+                            android:id="@+id/see_more_player_stats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginTop="5dp"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:text="@string/see_more"
+                            android:textAllCaps="true"
+                            android:textColor="@color/dark_sky_blue"
+                            android:textSize="12sp" />
                     </RelativeLayout>
                 </android.support.v7.widget.CardView>
             </LinearLayout>

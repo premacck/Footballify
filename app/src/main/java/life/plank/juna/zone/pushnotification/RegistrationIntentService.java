@@ -9,13 +9,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.microsoft.windowsazure.messaging.NotificationHub;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class RegistrationIntentService extends IntentService {
 
@@ -70,7 +68,7 @@ public class RegistrationIntentService extends IntentService {
 
                 sharedPreferences.edit().putString(getString(R.string.registration_id), regID).apply();
                 sharedPreferences.edit().putString(getString(R.string.fcm_token), fcmToken).apply();
-                hub.register( regID );
+                hub.register(regID);
             } else {
                 resultString = "Previously Registered Successfully - RegId : " + regID;
             }
@@ -79,12 +77,6 @@ public class RegistrationIntentService extends IntentService {
             e.printStackTrace();
             // If an exception happens while fetching the new token or updating our registration data
             // on a third-party server, this ensures that we'll attempt the update at a later time.
-        }
-
-        // Notify UI that registration has completed.
-        if (SwipePageActivity.isVisible) {
-            Toast.makeText( this, "completed", Toast.LENGTH_SHORT ).show();
-          //  SwipePageActivity.swipePageActivity.ToastNotify(resultString);
         }
     }
 }
