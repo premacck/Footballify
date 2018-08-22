@@ -96,7 +96,7 @@ public class LineupPlayer extends FrameLayout {
     }
 
     public LineupPlayer setGoal(int goalCount) {
-        this.lineupPlayerGoal.setVisibility(goalCount > 0 ? GONE : VISIBLE);
+        this.lineupPlayerGoal.setVisibility(goalCount > 0 ? VISIBLE : GONE);
         if (goalCount > 1) {
             setGoalCount(goalCount);
         } else {
