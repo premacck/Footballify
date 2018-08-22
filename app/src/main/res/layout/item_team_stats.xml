@@ -160,35 +160,35 @@
                 android:layout_weight="2.2">
 
                 <TextView
-                    android:id="@+id/away_team_shots"
+                    android:id="@+id/visiting_team_shots"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_shots_on_target"
+                    android:id="@+id/visiting_team_shots_on_target"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_possession"
+                    android:id="@+id/visiting_team_possession"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_fouls"
+                    android:id="@+id/visiting_team_fouls"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_yellow_card"
+                    android:id="@+id/visiting_team_yellow_card"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_red_card"
+                    android:id="@+id/visiting_team_red_card"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_offside"
+                    android:id="@+id/visiting_team_offside"
                     style="@style/TeamStatsTextView" />
 
                 <TextView
-                    android:id="@+id/away_team_corner"
+                    android:id="@+id/visiting_team_corner"
                     style="@style/TeamStatsTextView" />
 
             </LinearLayout>

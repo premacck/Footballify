@@ -24,8 +24,8 @@
                 android:id="@+id/commentary_small"
                 style="@style/BoardInfoLayout" />
 
-            <include
-                layout="@layout/item_team_stats"
+            <life.plank.juna.zone.util.customview.TeamStats
+                android:id="@+id/team_stats"
                 style="@style/BoardInfoLayout" />
 
             <include
