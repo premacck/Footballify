@@ -6,23 +6,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.util.customview.CommentarySmall;
+import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
 
-public class BoardInfoFragment extends Fragment {
+public class BoardInfoFragment extends Fragment implements CommentarySmallListener {
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.home_team_lineup_layout)
-    LinearLayout homeTeamLineupLayout;
-    @BindView(R.id.visiting_team_lineup_layout)
-    LinearLayout visitingTeamLineupLayout;
+    @BindView(R.id.commentary_small)
+    CommentarySmall commentarySmall;
 
     public BoardInfoFragment() {
     }
@@ -38,5 +37,21 @@ public class BoardInfoFragment extends Fragment {
 
         progressBar.setVisibility(View.INVISIBLE);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        commentarySmall.initListeners(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        commentarySmall.dispose();
+    }
+
+    @Override
+    public void seeAllClicked() {
     }
 }
