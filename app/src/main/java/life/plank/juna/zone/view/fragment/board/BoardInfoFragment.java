@@ -55,10 +55,11 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public BoardInfoFragment() {
     }
 
-    public static BoardInfoFragment newInstance(long matchId) {
+    public static BoardInfoFragment newInstance() {
         BoardInfoFragment fragment = new BoardInfoFragment();
         Bundle args = new Bundle();
-        args.putLong(MATCH_ID, matchId);
+//        TODO : replace with parameterized long matchId in next pull request.
+        args.putLong(MATCH_ID, 0);
         fragment.setArguments(args);
         return fragment;
     }
