@@ -94,7 +94,7 @@
 
     <declare-styleable name="CircularTextView">
         <attr name="strokeWidth" format="float" />
-        <attr name="strokeColor" format="string" />
-        <attr name="solidColor" format="string" />
+        <attr name="strokeColor" format="color" />
+        <attr name="solidColor" format="color" />
     </declare-styleable>
 </resources>

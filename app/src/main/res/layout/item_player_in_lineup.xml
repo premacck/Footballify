@@ -18,8 +18,7 @@
             android:fontFamily="@font/rajdhani_semibold"
             android:textSize="@dimen/text_10sp"
             android:textColor="@color/white"
-            app:solidColor="red"
-            app:strokeColor="#FFFFFF"
+            app:strokeColor="@color/white"
             app:strokeWidth="1.0" />
 
         <ImageView
