@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.microsoft.windowsazure.messaging.NotificationHub;
@@ -79,8 +78,5 @@ public class RegistrationIntentService extends IntentService {
             // If an exception happens while fetching the new token or updating our registration data
             // on a third-party server, this ensures that we'll attempt the update at a later time.
         }
-
-        // Notify UI that registration has completed.
-        Toast.makeText(getApplicationContext(), "completed", Toast.LENGTH_SHORT).show();
     }
 }
