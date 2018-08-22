@@ -64,19 +64,32 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-            BoardNotification boardNotification = new BoardNotification();
+            Gson gson = new Gson();
 
             Map<String, String> dataPayload = remoteMessage.getData();
-            JSONObject jsonObject = new JSONObject(dataPayload);
-            String notificationString = jsonObject.toString();
-            Gson gson = new Gson();
-            boardNotification = gson.fromJson(notificationString, BoardNotification.class);
+            if (dataPayload.containsKey(getApplicationContext().getString(R.string.intent_content_type))) {
+                new BoardNotification();
+                JSONObject jsonObject = new JSONObject(dataPayload);
+                String notificationString = jsonObject.toString();
+                BoardNotification boardNotification = gson.fromJson(notificationString, BoardNotification.class);
 
-            updateBoardActivity(getApplicationContext(), boardNotification);
+                updateBoardActivity(getApplicationContext(), boardNotification);
 
-            sendNotification(boardNotification);
+                sendNotification(boardNotification);
+            } else if (dataPayload.containsKey(getApplicationContext().getString(R.string.intent_live_event_type))) {
+                JSONObject jsonObject = new JSONObject(dataPayload);
+                String zoneLiveDataString = jsonObject.toString();
+
+                updateZoneLiveData(getApplicationContext(), zoneLiveDataString);
+            }
         }
 
+    }
+
+    public void updateZoneLiveData(Context context, String zoneLiveDataString) {
+        Intent intent = new Intent(context.getString(R.string.intent_board));
+        intent.putExtra(context.getString(R.string.zone_live_data), zoneLiveDataString);
+        context.sendBroadcast(intent);
     }
 
     public void sendNotification(BoardNotification boardNotification) {
