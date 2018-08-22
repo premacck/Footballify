@@ -88,7 +88,7 @@ public interface RestApi {
     //working
     @POST("/boards")
     Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
-                                                        @Header("Authorization") String authHeader);
+                                                    @Header("Authorization") String authHeader);
 
     //working
     @GET("seasons/matches")
@@ -99,6 +99,10 @@ public interface RestApi {
     //working
     @GET("/feedEntries")
     Observable<Response<List<UserFeed>>> getUserFeed(@Header("Authorization") String authHeader);
+
+    //working
+    @GET("boards/{id}")
+    Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //yet to verify
     @GET("api/feeditems")
