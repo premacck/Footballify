@@ -3,7 +3,6 @@ package life.plank.juna.zone.util.customview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
@@ -35,8 +34,8 @@ public class CircularTextView extends AppCompatTextView {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CircularTextView);
 
         setStrokeWidth(array.getFloat(R.styleable.CircularTextView_strokeWidth, 0));
-        setStrokeColor(array.getString(R.styleable.CircularTextView_strokeColor));
-        setSolidColor(array.getString(R.styleable.CircularTextView_solidColor));
+        setStrokeColor(array.getColor(R.styleable.CircularTextView_strokeColor, context.getColor(R.color.white)));
+        setSolidColor(array.getColor(R.styleable.CircularTextView_solidColor, context.getColor(R.color.red)));
 
         array.recycle();
     }
@@ -71,11 +70,11 @@ public class CircularTextView extends AppCompatTextView {
         strokeWidth = getDp(getContext(), dp);
     }
 
-    public void setStrokeColor(String color) {
-        strokeColor = Color.parseColor(color);
+    public void setStrokeColor(int color) {
+        strokeColor = color;
     }
 
-    public void setSolidColor(String color) {
-        solidColor = Color.parseColor(color);
+    public void setSolidColor(int color) {
+        solidColor = color;
     }
 }

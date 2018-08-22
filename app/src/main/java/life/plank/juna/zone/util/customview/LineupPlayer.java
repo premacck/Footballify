@@ -33,7 +33,6 @@ public class LineupPlayer extends FrameLayout {
     TextView lineupPlayerName;
 
     private String givenCard = "none";
-    private String backgroundColor;
 
     public LineupPlayer(@NonNull Context context) {
         this(context, null);
@@ -57,12 +56,8 @@ public class LineupPlayer extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public String getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    public LineupPlayer setBackgroundColor(String backgroundColor) {
-        this.backgroundColor = backgroundColor;
+    public LineupPlayer setSolidColor(int backgroundColor) {
+        lineupPlayerNumber.setSolidColor(backgroundColor);
         return this;
     }
 
@@ -101,7 +96,7 @@ public class LineupPlayer extends FrameLayout {
     }
 
     public LineupPlayer setGoal(int goalCount) {
-        this.lineupPlayerGoal.setVisibility(goalCount > 0 ? GONE : VISIBLE);
+        this.lineupPlayerGoal.setVisibility(goalCount > 0 ? VISIBLE : GONE);
         if (goalCount > 1) {
             setGoalCount(goalCount);
         } else {

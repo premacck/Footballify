@@ -25,7 +25,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_below="@+id/feed_info"
         android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
@@ -34,7 +34,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/football_feed_recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp" />
 
     </RelativeLayout>
