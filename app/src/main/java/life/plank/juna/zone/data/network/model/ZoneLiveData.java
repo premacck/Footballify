@@ -20,6 +20,11 @@ public class ZoneLiveData {
         }.getType());
     }
 
+    public List<LiveScoreData> getLiveScoreDataListObject(Gson gson) {
+        return gson.fromJson(data, new TypeToken<List<LiveScoreData>>() {
+        }.getType());
+    }
+
     public List<MatchEvent> getMatchEventObject(Gson gson) {
         return gson.fromJson(data, new TypeToken<List<MatchEvent>>() {
         }.getType());
