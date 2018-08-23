@@ -49,4 +49,8 @@ public class AppConstants {
 
     public static final String YELLOW = "yellow";
     public static final String RED = "red";
+    public static final String LIVE = "LIVE";
+    public static final String LIVE_TIME = "00.00";
+    public static final String HT = "HT";
+    public static final String FT = "FT";
 }

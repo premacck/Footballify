@@ -7,6 +7,7 @@ import java.util.List;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
@@ -129,5 +130,8 @@ public interface RestApi {
 
     @POST("feedItems/{id}/comments")
     Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);
+
+    @GET("matchevents/{matchId}")
+    Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
 }
 

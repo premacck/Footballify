@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 
 import static life.plank.juna.zone.util.AppConstants.RED;
@@ -28,7 +27,7 @@ public class LineupPlayer extends FrameLayout {
     @BindView(R.id.lineup_player_goal_count)
     CircularTextView lineupPlayerGoalCount;
     @BindView(R.id.lineup_player_substitution)
-    CircleImageView lineupPlayerSubstitution;
+    ImageView lineupPlayerSubstitution;
     @BindView(R.id.lineup_player_name)
     TextView lineupPlayerName;
 
