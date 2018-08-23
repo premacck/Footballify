@@ -1,14 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+<com.github.mikephil.charting.charts.LineChart xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/line_chart"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="70dp"
+    android:transitionName="@string/timeline_activity"
     android:background="@color/white"
-    android:clipChildren="false">
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/line_chart"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:visibility="visible" />
-</RelativeLayout>
+    android:visibility="visible" />

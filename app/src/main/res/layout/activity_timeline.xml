@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
-    android:transitionName="@string/timeline_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -33,9 +32,8 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp" />
 
-            <fragment
+            <life.plank.juna.zone.view.fragment.GraphFragment
                 android:id="@+id/title_fragment"
-                android:name="life.plank.juna.zone.view.fragment.GraphFragment"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_below="@+id/header" />
