@@ -124,7 +124,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
         FootballFeed footballFeed = new FootballFeed();
-        Log.e(TAG, "content_type: " + contentType);
+        Log.d(TAG, "content_type: " + contentType);
         footballFeed.setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             footballFeed.setTitle(title);
@@ -141,7 +141,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).updateNewPost(footballFeed);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -171,7 +171,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
+        Log.d("Device ID", FirebaseInstanceId.getInstance().getToken());
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);

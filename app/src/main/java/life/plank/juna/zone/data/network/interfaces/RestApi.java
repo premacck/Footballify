@@ -140,5 +140,5 @@ public interface RestApi {
     Observable<Response<ZoneLiveData>> getTimeStatus(@Path("matchId") long matchId);
 
     @GET("highlights/{matchId}")
-    Observable<Response<Highlights>> getMatchHighLights(@Path("matchId") long matchId);
+    Observable<Response<Highlights>> getMatchHighlights(@Path("matchId") long matchId);
 }
