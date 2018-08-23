@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.gson.Gson;
-
 import java.net.HttpURLConnection;
 import java.util.List;
 
@@ -98,15 +96,15 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public void seeAllClicked() {
     }
 
-    public void updateZoneLiveData(ZoneLiveData zoneLiveData, Gson gson) {
+    public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
         LiveScoreData liveScoreData;
         List<MatchEvent> matchEventList;
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                liveScoreData = zoneLiveData.getLiveScoreDataObject(gson);
+                liveScoreData = zoneLiveData.getLiveScoreData();
                 break;
             case MATCH_EVENTS:
-                matchEventList = zoneLiveData.getMatchEventObject(gson);
+                matchEventList = zoneLiveData.getMatchEventList();
                 break;
             default:
                 break;
@@ -114,7 +112,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     public void getMatchHighlights() {
-        restApi.getMatchHighLights(matchId)
+        restApi.getMatchHighlights(matchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Highlights>>() {
