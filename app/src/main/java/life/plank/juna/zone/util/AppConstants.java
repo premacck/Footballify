@@ -56,6 +56,6 @@ public class AppConstants {
 
     public static final String MATCH_EVENTS = "matchEventList";
     public static final String SCORE_DATA = "scoreData";
-    public static final String TIME_DATA = "timeStatus";
+    public static final String TIME_STATUS = "timeStatus";
     public static final String COMMENTARY_DATA = "commentaryList";
 }

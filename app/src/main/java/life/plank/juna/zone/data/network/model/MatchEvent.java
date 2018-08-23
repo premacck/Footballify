@@ -13,9 +13,12 @@ public class MatchEvent {
     private Boolean injured;
     private String reason;
     private String result;
-    private LiveScoreData liveScoreData;
+    private LiveTimeStatus liveTimeStatus;
 
-    public MatchEvent(LiveScoreData liveScoreData) {
-        this.liveScoreData = liveScoreData;
+    /**
+     * Constructor to add whistle events (kick-off, half-time, full-time etc.) in football timeline.
+     */
+    public MatchEvent(LiveTimeStatus liveTimeStatus) {
+        this.liveTimeStatus = liveTimeStatus;
     }
 }

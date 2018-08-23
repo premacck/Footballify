@@ -16,7 +16,7 @@ import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.data.network.model.TimeStatus;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
@@ -137,7 +137,7 @@ public interface RestApi {
     Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/timestatus")
-    Observable<Response<List<TimeStatus>>> getTimeStatus(@Path("matchId") long matchId);
+    Observable<Response<List<LiveTimeStatus>>> getLiveTimeStatus(@Path("matchId") long matchId);
 
     @GET("highlights/{matchId}")
     Observable<Response<Highlights>> getMatchHighlights(@Path("matchId") long matchId);

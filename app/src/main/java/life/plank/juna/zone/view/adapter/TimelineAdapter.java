@@ -18,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
@@ -62,7 +62,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
     public void updateEvents(List<MatchEvent> matchEventList) {
         if (this.matchEventList.isEmpty()) {
 //            adding kickoff time statically. TODO : change to dynamic population after backend sends it.
-            matchEventList.add(new MatchEvent(new LiveScoreData(LIVE, 0)));
+            matchEventList.add(new MatchEvent(new LiveTimeStatus(LIVE, 0, 0)));
         }
         this.matchEventList.addAll(matchEventList);
         notifyDataSetChanged();
@@ -74,8 +74,8 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         notifyItemRangeInserted(initialSize, matchEventList.size());
     }
 
-    public void updateWhistleEvent(LiveScoreData liveScoreData) {
-        matchEventList.add(new MatchEvent(liveScoreData));
+    public void updateWhistleEvent(LiveTimeStatus timeStatus) {
+        matchEventList.add(new MatchEvent(timeStatus));
         notifyItemInserted(matchEventList.size() - 1);
     }
 
@@ -113,7 +113,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         public void bind() {
             event = ref.get().matchEventList.get(getAdapterPosition());
 
-            if (event.getLiveScoreData() != null) {
+            if (event.getLiveTimeStatus() != null) {
                 setLayout(true);
                 onWhistleEvent();
             } else {
@@ -238,7 +238,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         }
 
         private String getTimedEventString() {
-            switch (event.getLiveScoreData().getTimeStatus()) {
+            switch (event.getLiveTimeStatus().getTimeStatus()) {
                 case LIVE:
                     return KICK_OFF;
                 case HT:
@@ -249,11 +249,11 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         }
 
         private String getTimedEventExtraString() {
-            switch (event.getLiveScoreData().getTimeStatus()) {
+            switch (event.getLiveTimeStatus().getTimeStatus()) {
                 case LIVE:
                     return LIVE_TIME;
                 default:
-                    return getFormattedExtraMinutes(event.getLiveScoreData().getExtraMinute());
+                    return getFormattedExtraMinutes(event.getLiveTimeStatus().getExtraMinute());
             }
         }
 

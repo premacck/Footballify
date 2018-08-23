@@ -68,7 +68,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
             Map<String, String> dataPayload = remoteMessage.getData();
             if (dataPayload.containsKey(getApplicationContext().getString(R.string.intent_content_type))) {
-                new BoardNotification();
                 JSONObject jsonObject = new JSONObject(dataPayload);
                 String notificationString = jsonObject.toString();
                 BoardNotification boardNotification = gson.fromJson(notificationString, BoardNotification.class);
