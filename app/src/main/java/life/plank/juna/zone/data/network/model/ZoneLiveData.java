@@ -1,8 +1,5 @@
 package life.plank.juna.zone.data.network.model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
 import java.util.List;
 
 import lombok.Data;
@@ -13,15 +10,7 @@ public class ZoneLiveData {
     private long foreignId;
     private String boardTopic;
     private String liveDataType;
-    private String data;
-
-    public LiveScoreData getLiveScoreDataObject(Gson gson) {
-        return gson.fromJson(data, new TypeToken<LiveScoreData>() {
-        }.getType());
-    }
-
-    public List<MatchEvent> getMatchEventObject(Gson gson) {
-        return gson.fromJson(data, new TypeToken<List<MatchEvent>>() {
-        }.getType());
-    }
+    private LiveScoreData liveScoreData;
+    private List<MatchEvent> matchEventList;
+    private List<Commentary> commentaryList;
 }

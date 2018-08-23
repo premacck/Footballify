@@ -53,4 +53,8 @@ public class AppConstants {
     public static final String LIVE_TIME = "00.00";
     public static final String HT = "HT";
     public static final String FT = "FT";
+
+    public static final String MATCH_EVENTS = "MatchEvents";
+    public static final String SCORE_DATA = "ScoreData";
+    public static final String TIME_DATA = "TimeStatus";
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchSummary;
@@ -16,6 +17,7 @@ import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -133,5 +135,10 @@ public interface RestApi {
 
     @GET("matchevents/{matchId}")
     Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
-}
 
+    @GET("matches/{matchId}/timestatus")
+    Observable<Response<ZoneLiveData>> getTimeStatus(@Path("matchId") long matchId);
+
+    @GET("highlights/{matchId}")
+    Observable<Response<Highlights>> getMatchHighlights(@Path("matchId") long matchId);
+}
