@@ -22,10 +22,11 @@
             android:layout_height="wrap_content"
             app:useDefaults="true" />
 
-        <life.plank.juna.zone.view.fragment.GraphFragment
+        <fragment
             android:id="@+id/title_fragment_info"
+            android:name="life.plank.juna.zone.view.fragment.GraphFragment"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="70dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
