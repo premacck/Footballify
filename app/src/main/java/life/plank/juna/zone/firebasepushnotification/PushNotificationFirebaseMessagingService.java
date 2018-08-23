@@ -88,7 +88,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
     public void updateZoneLiveData(Context context, String zoneLiveDataString) {
         Intent intent = new Intent(context.getString(R.string.intent_board));
-        intent.putExtra(context.getString(R.string.zone_live_data), zoneLiveDataString);
+        intent.putExtra(context.getString(R.string.intent_zone_live_data), zoneLiveDataString);
         context.sendBroadcast(intent);
     }
 
