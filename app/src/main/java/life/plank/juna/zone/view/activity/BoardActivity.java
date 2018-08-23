@@ -23,9 +23,11 @@ import android.widget.Toast;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -39,7 +41,10 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.Thumbnail;
+import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.UIDisplayUtil;
@@ -51,6 +56,9 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -74,15 +82,25 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     RestApi restApi;
     @Inject
     Picasso picasso;
+    @Inject
+    Gson gson;
+    private long currentMatchId;
     private String boardId;
     private String homeTeamLogo, visitingTeamLogo;
     private int homeGoals, awayGoals, matchDay;
 
+    private LiveScoreData liveScoreData;
+    private List<MatchEvent> matchEventList;
     private BoardPagerAdapter boardPagerAdapter;
+
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            setDataReceivedFromPushNotification(intent);
+            if (intent.hasExtra(getString(R.string.intent_content_type))) {
+                setDataReceivedFromPushNotification(intent);
+            } else if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
+                setZoneLiveData(intent);
+            }
         }
     };
 
@@ -127,6 +145,29 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     }
 
+    private void setZoneLiveData(Intent intent) {
+        ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
+        switch (zoneLiveData.getLiveDataType()) {
+            case SCORE_DATA:
+                liveScoreData = zoneLiveData.getScoreData();
+//                TODO: update live data here
+                break;
+            case MATCH_EVENTS:
+                matchEventList = zoneLiveData.getMatchEventList();
+//                TODO: update lineup substitutions from here
+                break;
+            default:
+                break;
+        }
+        try {
+            if (boardPagerAdapter.getCurrentFragment() instanceof BoardInfoFragment) {
+                ((BoardInfoFragment) boardPagerAdapter.getCurrentFragment()).updateZoneLiveData(zoneLiveData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,7 +177,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
-        long currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
+        currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         homeTeamLogo = intent.getStringExtra(getString(R.string.pref_home_team_logo));
         visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
         homeGoals = intent.getIntExtra(getString(R.string.intent_home_team_score), 0);
@@ -155,7 +196,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     }
 
     private void setupViewPagerWithFragments() {
-        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId);
+        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId, currentMatchId);
         viewPager.setAdapter(boardPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(publicBoardToolbar.getInfoTilesTabLayout()));
         publicBoardToolbar.getInfoTilesTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
@@ -185,7 +226,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         if (boardParentViewBitmap == null) {
             boardParentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
         }
-        TimelineActivity.launch(this, view);
+        TimelineActivity.launch(this, view, currentMatchId);
     }
 
     public void retrieveBoardId(Long currentMatchId, String boardType) {
@@ -243,17 +284,19 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
         private Fragment currentFragment;
         private String boardId;
+        private final long matchId;
 
-        BoardPagerAdapter(FragmentManager fragmentManager, String boardId) {
+        BoardPagerAdapter(FragmentManager fragmentManager, String boardId, long matchId) {
             super(fragmentManager);
             this.boardId = boardId;
+            this.matchId = matchId;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return BoardInfoFragment.newInstance();
+                    return BoardInfoFragment.newInstance(matchId);
                 case 1:
                     return BoardTilesFragment.newInstance(boardId);
                 default:

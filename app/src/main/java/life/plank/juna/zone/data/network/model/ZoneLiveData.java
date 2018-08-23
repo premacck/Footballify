@@ -10,7 +10,8 @@ public class ZoneLiveData {
     private long foreignId;
     private String boardTopic;
     private String liveDataType;
-    private LiveScoreData liveScoreData;
+    private LiveScoreData scoreData;
     private List<MatchEvent> matchEventList;
     private List<Commentary> commentaryList;
+    private TimeStatus timeStatus;
 }
