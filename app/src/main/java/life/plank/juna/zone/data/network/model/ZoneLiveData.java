@@ -13,5 +13,5 @@ public class ZoneLiveData {
     private LiveScoreData scoreData;
     private List<MatchEvent> matchEventList;
     private List<Commentary> commentaryList;
-    private TimeStatus timeStatus;
+    private LiveTimeStatus liveTimeStatus;
 }

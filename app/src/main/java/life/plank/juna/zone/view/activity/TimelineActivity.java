@@ -31,9 +31,8 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.TimeStatus;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
 import retrofit2.Response;
@@ -45,7 +44,7 @@ import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
-import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.AppConstants.TIME_STATUS;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
@@ -122,6 +121,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         adapter = new TimelineAdapter(this);
+//        ((LinearLayoutManager) timelineRecyclerView.getLayoutManager()).setReverseLayout(true);
         timelineRecyclerView.setAdapter(adapter);
     }
 
@@ -134,13 +134,13 @@ public class TimelineActivity extends AppCompatActivity {
                     adapter.updateLiveEvents(matchEventList);
                 }
                 break;
-            case SCORE_DATA:
-                LiveScoreData liveScoreData = zoneLiveData.getScoreData();
-                if ((Objects.equals(liveScoreData.getTimeStatus(), LIVE) && liveScoreData.getMinute() == 0) ||
-                        Objects.equals(liveScoreData.getTimeStatus(), HT) ||
-                        Objects.equals(liveScoreData.getTimeStatus(), FT)) {
+            case TIME_STATUS:
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus();
+                if ((Objects.equals(timeStatus.getTimeStatus(), LIVE) && timeStatus.getMinute() == 0) ||
+                        Objects.equals(timeStatus.getTimeStatus(), HT) ||
+                        Objects.equals(timeStatus.getTimeStatus(), FT)) {
                     if (adapter != null) {
-                        adapter.updateWhistleEvent(liveScoreData);
+                        adapter.updateWhistleEvent(timeStatus);
                     }
                 }
                 break;
@@ -178,14 +178,14 @@ public class TimelineActivity extends AppCompatActivity {
                 });
     }
 
-    private void getTimeStatus() {
-        restApi.getTimeStatus(currentMatchId)
+    private void getLiveTimeStatus() {
+        restApi.getLiveTimeStatus(currentMatchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<TimeStatus>>>() {
+                .subscribe(new Observer<Response<List<LiveTimeStatus>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "getTimeStatus() :Completed");
+                        Log.i(TAG, "getLiveTimeStatus() :Completed");
                     }
 
                     @Override
@@ -194,8 +194,8 @@ public class TimelineActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<List<TimeStatus>> response) {
-                        List<TimeStatus> timeStatusList = response.body();
+                    public void onNext(Response<List<LiveTimeStatus>> response) {
+                        List<LiveTimeStatus> timeStatusList = response.body();
                         if (response.code() == HttpURLConnection.HTTP_OK && !isNullOrEmpty(timeStatusList)) {
 //                            TODO : integrate whistle time events with match events in the adapter.
                         }
