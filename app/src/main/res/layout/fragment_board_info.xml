@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include
+            <life.plank.juna.zone.util.customview.MatchHighlights
                 layout="@layout/item_match_highlights"
                 android:visibility="gone"
                 style="@style/BoardInfoLayout" />
