@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
-    android:transitionName="@string/timeline_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,7 +18,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:transitionName="@string/timeline_activity">
 
             <TextView
                 android:id="@+id/header"
@@ -33,12 +33,10 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp" />
 
-            <fragment
+            <life.plank.juna.zone.view.fragment.GraphFragment
                 android:id="@+id/title_fragment"
-                android:name="life.plank.juna.zone.view.fragment.GraphFragment"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_below="@+id/header" />
+                android:layout_height="wrap_content" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/timeline_recycler_view"
