@@ -10,6 +10,7 @@
     <string name="intent_home_team_score">homeTeamScore</string>
     <string name="intent_visiting_team_score">visitingTeamScore</string>
     <string name="intent_board">board_intent</string>
+    <string name="intent_zone_live_data">zone_live_data</string>
     <string name="intent_board_id">BOARD_ID</string>
     <string name="intent_comment_title">title</string>
     <string name="intent_content_type">contentType</string>

@@ -56,6 +56,7 @@
     <string name="matchday_36">Matchday_36</string>
     <string name="match_day_37">Match Day 37</string>
     <string name="match_id_string">match_id</string>
+    <string name="match_event">match_event</string>
 
     //todo change this date with original timestamp
     <string name="simple_date_format">dd-mm-yyyy</string>
