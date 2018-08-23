@@ -100,7 +100,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         List<MatchEvent> matchEventList;
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                liveScoreData = zoneLiveData.getLiveScoreData();
+                liveScoreData = zoneLiveData.getScoreData();
                 break;
             case MATCH_EVENTS:
                 matchEventList = zoneLiveData.getMatchEventList();

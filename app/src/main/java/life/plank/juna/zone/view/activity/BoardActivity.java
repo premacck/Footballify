@@ -98,7 +98,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         public void onReceive(Context context, Intent intent) {
             if (intent.hasExtra(getString(R.string.intent_content_type))) {
                 setDataReceivedFromPushNotification(intent);
-            } else if (intent.hasExtra(getString(R.string.zone_live_data))) {
+            } else if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
                 setZoneLiveData(intent);
             }
         }
@@ -146,14 +146,14 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     }
 
     private void setZoneLiveData(Intent intent) {
-        ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.zone_live_data), gson);
+        ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                liveScoreData = zoneLiveData.getLiveScoreDataObject(gson);
+                liveScoreData = zoneLiveData.getScoreData();
 //                TODO: update live data here
                 break;
             case MATCH_EVENTS:
-                matchEventList = zoneLiveData.getMatchEventObject(gson);
+                matchEventList = zoneLiveData.getMatchEventList();
 //                TODO: update lineup substitutions from here
                 break;
             default:
@@ -161,7 +161,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
         try {
             if (boardPagerAdapter.getCurrentFragment() instanceof BoardInfoFragment) {
-                ((BoardInfoFragment) boardPagerAdapter.getCurrentFragment()).updateZoneLiveData(zoneLiveData, gson);
+                ((BoardInfoFragment) boardPagerAdapter.getCurrentFragment()).updateZoneLiveData(zoneLiveData);
             }
         } catch (Exception e) {
             e.printStackTrace();

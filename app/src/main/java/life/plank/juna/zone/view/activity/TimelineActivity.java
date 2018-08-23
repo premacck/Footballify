@@ -33,6 +33,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.TimeStatus;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
 import retrofit2.Response;
@@ -45,7 +46,6 @@ import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
-import static life.plank.juna.zone.util.AppConstants.TIME_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
@@ -75,7 +75,7 @@ public class TimelineActivity extends AppCompatActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.hasExtra(getString(R.string.zone_live_data))) {
+            if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
                 setZoneLiveData(intent);
             }
         }
@@ -127,16 +127,16 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void setZoneLiveData(Intent intent) {
-        ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.zone_live_data), gson);
+        ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case MATCH_EVENTS:
-                List<MatchEvent> matchEventList = zoneLiveData.getMatchEventObject(gson);
+                List<MatchEvent> matchEventList = zoneLiveData.getMatchEventList();
                 if (adapter != null && !isNullOrEmpty(matchEventList)) {
                     adapter.updateLiveEvents(matchEventList);
                 }
                 break;
             case SCORE_DATA:
-                LiveScoreData liveScoreData = zoneLiveData.getLiveScoreDataObject(gson);
+                LiveScoreData liveScoreData = zoneLiveData.getScoreData();
                 if ((Objects.equals(liveScoreData.getTimeStatus(), LIVE) && liveScoreData.getMinute() == 0) ||
                         Objects.equals(liveScoreData.getTimeStatus(), HT) ||
                         Objects.equals(liveScoreData.getTimeStatus(), FT)) {
@@ -183,7 +183,7 @@ public class TimelineActivity extends AppCompatActivity {
         restApi.getTimeStatus(currentMatchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<ZoneLiveData>>() {
+                .subscribe(new Observer<Response<List<TimeStatus>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "getTimeStatus() :Completed");
@@ -195,13 +195,10 @@ public class TimelineActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<ZoneLiveData> response) {
-                        ZoneLiveData zoneLiveData = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK && zoneLiveData != null) {
-                            if (Objects.equals(zoneLiveData.getLiveDataType(), TIME_DATA)) {
-                                List<LiveScoreData> liveScoreDataList = zoneLiveData.getLiveScoreDataListObject(gson);
-//                                TODO : integrate liveScoreDataList with match events in the adapter.
-                            }
+                    public void onNext(Response<List<TimeStatus>> response) {
+                        List<TimeStatus> timeStatusList = response.body();
+                        if (response.code() == HttpURLConnection.HTTP_OK && !isNullOrEmpty(timeStatusList)) {
+//                            TODO : integrate whistle time events with match events in the adapter.
                         }
                     }
                 });
