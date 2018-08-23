@@ -122,7 +122,6 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         adapter = new TimelineAdapter(this);
-//        ((LinearLayoutManager) timelineRecyclerView.getLayoutManager()).setReverseLayout(true);
         timelineRecyclerView.setAdapter(adapter);
     }
 
