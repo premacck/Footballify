@@ -1,51 +1,55 @@
 package life.plank.juna.zone.util.customview;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.Lineups;
+
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 
 public class LineUpLayout extends FrameLayout {
 
     @BindView(R.id.home_team_name)
     TextView homeTeamName;
-    @BindView(R.id.home_team_lineup)
+    @BindView(R.id.home_team_lineup_text)
     TextView homeTeamLineup;
-    @BindView(R.id.home_goalee)
-    LineupPlayer homeGoalee;
 
-    @BindView(R.id.home_defenders)
-    LinearLayout homeDefenders;
-    @BindView(R.id.home_mid_fielders)
-    LinearLayout homeMidFielders;
-    @BindView(R.id.home_attackers)
-    LinearLayout homeAttackers;
-
-    @BindView(R.id.visiting_attackers)
-    LinearLayout visitingAttackers;
-    @BindView(R.id.visiting_mid_fielders)
-    LinearLayout visitingMidFielders;
-    @BindView(R.id.visiting_defenders)
-    LinearLayout visitingDefenders;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.no_data)
+    TextView noDataTextView;
+    @BindView(R.id.lineup_center_lines)
+    ImageView lineupCenterLines;
+    @BindView(R.id.home_team_lineup_layout)
+    LinearLayout homeTeamLineupLayout;
+    @BindView(R.id.visiting_team_lineup_layout)
+    LinearLayout visitingTeamLineupLayout;
 
     @BindView(R.id.visiting_team_name)
     TextView visitingTeamName;
-    @BindView(R.id.visiting_team_lineup)
+    @BindView(R.id.visiting_team_lineup_text)
     TextView visitingTeamLineup;
-    @BindView(R.id.visiting_goalee)
-    LineupPlayer visitingGoalee;
 
     @BindView(R.id.substitution_list)
     RecyclerView substitutionList;
@@ -54,14 +58,6 @@ public class LineUpLayout extends FrameLayout {
     TextView homeManager;
     @BindView(R.id.visiting_player_name)
     TextView visitingManager;
-
-    List<LineupPlayer> homeDefenderList = new ArrayList<>();
-    List<LineupPlayer> homeMidFielderList = new ArrayList<>();
-    List<LineupPlayer> homeAttackerList = new ArrayList<>();
-
-    List<LineupPlayer> visitingAttackerList = new ArrayList<>();
-    List<LineupPlayer> visitingMidFielderList = new ArrayList<>();
-    List<LineupPlayer> visitingDefenderList = new ArrayList<>();
 
     public LineUpLayout(@NonNull Context context) {
         this(context, null);
@@ -85,6 +81,64 @@ public class LineUpLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
+    public void update(Lineups lineups, String homeLogo, String visitingLogo, Picasso picasso) {
+        progressBar.setVisibility(GONE);
+        noDataTextView.setVisibility(GONE);
+        lineupCenterLines.setVisibility(VISIBLE);
+
+        setHomeTeamName(lineups.getHomeTeamName());
+        setVisitingTeamName(lineups.getVisitingTeamName());
+        setHomeTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
+        setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
+        setHomeManager(lineups.getHomeManagerName());
+        setVisitingManager(lineups.getVisitingManagerName());
+
+        prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), R.color.lineup_player_red);
+        prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), R.color.purple);
+
+        Target homeTarget = getStartDrawableTarget(getResources(), homeTeamName);
+        Target visitingTarget = getStartDrawableTarget(getResources(), visitingTeamName);
+        picasso.load(homeLogo)
+                .resize((int) getDp(getContext(), 14), (int) getDp(getContext(), 14))
+                .into(homeTarget);
+        picasso.load(visitingLogo)
+                .resize((int) getDp(getContext(), 14), (int) getDp(getContext(), 14))
+                .into(visitingTarget);
+    }
+
+    public void notAvailable(@StringRes int message) {
+        noDataTextView.setText(message);
+        progressBar.setVisibility(GONE);
+        noDataTextView.setVisibility(VISIBLE);
+        lineupCenterLines.setVisibility(INVISIBLE);
+    }
+
+    public void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, @ColorRes int labelColor) {
+        for (List<Lineups.Formation> formations : formationsList) {
+            lineupLayout.addView(getLineupLayoutLine(formations, labelColor));
+        }
+    }
+
+    private LinearLayout getLineupLayoutLine(List<Lineups.Formation> formations, @ColorRes int labelColor) {
+        LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setGravity(Gravity.CENTER);
+        for (Lineups.Formation formation : formations) {
+            linearLayout.addView(new LineupPlayer(getContext(), formation, labelColor));
+        }
+        return linearLayout;
+    }
+
+    private String getLineupText(List<List<Lineups.Formation>> formationsList) {
+        StringBuilder text = new StringBuilder();
+        for (List<Lineups.Formation> formations : formationsList) {
+            text.append(formations.size());
+            if (formationsList.indexOf(formations) < formationsList.size() - 1) {
+                text.append(" - ");
+            }
+        }
+        return text.toString();
+    }
+
     public String getHomeTeamName() {
         return homeTeamName.getText().toString();
     }
@@ -101,82 +155,12 @@ public class LineUpLayout extends FrameLayout {
         this.homeTeamLineup.setText(homeTeamLineup);
     }
 
-    public LineupPlayer getHomeGoalee() {
-        return homeGoalee;
+    public String getVisitingTeamName() {
+        return visitingTeamName.getText().toString();
     }
 
-    public void setHomeGoalee(LineupPlayer homeGoalee) {
-        this.homeGoalee = homeGoalee;
-    }
-
-    public LineupPlayer getVisitingGoalee() {
-        return visitingGoalee;
-    }
-
-    public void setVisitingGoalee(LineupPlayer visitingGoalee) {
-        this.visitingGoalee = visitingGoalee;
-    }
-
-    public List<LineupPlayer> getHomeDefenderList() {
-        return homeDefenderList;
-    }
-
-    public void setHomeDefenders(List<LineupPlayer> homeDefenderList) {
-        this.homeDefenderList = homeDefenderList;
-        populateLineUp(homeDefenderList, homeDefenders);
-    }
-
-    public List<LineupPlayer> getHomeMidFielderList() {
-        return homeMidFielderList;
-    }
-
-    public void setHomeMidFielderList(List<LineupPlayer> homeMidFielderList) {
-        this.homeMidFielderList = homeMidFielderList;
-        populateLineUp(homeMidFielderList, homeMidFielders);
-    }
-
-    public List<LineupPlayer> getHomeAttackerList() {
-        return homeAttackerList;
-    }
-
-    public void setHomeAttackerList(List<LineupPlayer> homeAttackerList) {
-        this.homeAttackerList = homeAttackerList;
-        populateLineUp(homeAttackerList, homeAttackers);
-    }
-
-    public List<LineupPlayer> getVisitingAttackerList() {
-        return visitingAttackerList;
-    }
-
-    public void setVisitingAttackerList(List<LineupPlayer> visitingAttackerList) {
-        this.visitingAttackerList = visitingAttackerList;
-        populateLineUp(visitingAttackerList, visitingAttackers);
-    }
-
-    public List<LineupPlayer> getVisitingMidFielderList() {
-        return visitingMidFielderList;
-    }
-
-    public void setVisitingMidFielderList(List<LineupPlayer> visitingMidFielderList) {
-        this.visitingMidFielderList = visitingMidFielderList;
-        populateLineUp(visitingMidFielderList, visitingMidFielders);
-    }
-
-    public List<LineupPlayer> getVisitingDefenderList() {
-        return visitingDefenderList;
-    }
-
-    public void setVisitingDefenderList(List<LineupPlayer> visitingDefenderList) {
-        this.visitingDefenderList = visitingDefenderList;
-        populateLineUp(visitingDefenderList, visitingDefenders);
-    }
-
-    public TextView getVisitingTeamName() {
-        return visitingTeamName;
-    }
-
-    public void setVisitingTeamName(TextView visitingTeamName) {
-        this.visitingTeamName = visitingTeamName;
+    public void setVisitingTeamName(String visitingTeamName) {
+        this.visitingTeamName.setText(visitingTeamName);
     }
 
     public String getVisitingTeamLineup() {
@@ -185,10 +169,6 @@ public class LineUpLayout extends FrameLayout {
 
     public void setVisitingTeamLineup(String visitingTeamLineup) {
         this.visitingTeamLineup.setText(visitingTeamLineup);
-    }
-
-    public RecyclerView getSubstitutionList() {
-        return substitutionList;
     }
 
     public TextView getHomeManager() {
@@ -205,11 +185,5 @@ public class LineUpLayout extends FrameLayout {
 
     public void setVisitingManager(String visitingManager) {
         this.visitingManager.setText(visitingManager);
-    }
-
-    private void populateLineUp(List<LineupPlayer> lineupPlayers, LinearLayout lineupSectionLayout) {
-        for (LineupPlayer lineupPlayer : lineupPlayers) {
-            lineupSectionLayout.addView(lineupPlayer);
-        }
     }
 }

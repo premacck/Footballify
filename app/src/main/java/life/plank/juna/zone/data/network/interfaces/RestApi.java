@@ -5,11 +5,13 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchSummary;
+import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SignInModel;
@@ -133,12 +135,18 @@ public interface RestApi {
     @POST("feedItems/{id}/comments")
     Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);
 
-    @GET("matchevents/{matchId}")
+    @GET("matches/{matchId}/events")
     Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/timestatus")
     Observable<Response<List<LiveTimeStatus>>> getLiveTimeStatus(@Path("matchId") long matchId);
 
     @GET("highlights/{matchId}")
-    Observable<Response<Highlights>> getMatchHighlights(@Path("matchId") long matchId);
+    Observable<Response<List<Highlights>>> getMatchHighlights(@Path("matchId") long matchId);
+
+    @GET("commentaries/{matchId}")
+    Observable<Response<List<Commentary>>> getCommentaries(@Path("matchId") long matchId);
+
+    @GET("matches/{matchId}/stats")
+    Observable<Response<MatchTeamStats>> getTeamStatsForMatch(@Path("matchId") long matchId);
 }
