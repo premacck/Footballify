@@ -28,7 +28,7 @@ import life.plank.juna.zone.data.network.model.Lineups;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 
-public class LineUpLayout extends FrameLayout {
+public class LineupLayout extends FrameLayout {
 
     @BindView(R.id.home_team_name)
     TextView homeTeamName;
@@ -59,19 +59,19 @@ public class LineUpLayout extends FrameLayout {
     @BindView(R.id.visiting_player_name)
     TextView visitingManager;
 
-    public LineUpLayout(@NonNull Context context) {
+    public LineupLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public LineUpLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public LineupLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public LineUpLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public LineupLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public LineUpLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LineupLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
