@@ -48,7 +48,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="540dp"
+            android:layout_height="600dp"
             android:background="@color/football_ground_green"
             android:orientation="vertical"
             android:weightSum="2">
@@ -104,7 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/center_space"
-                android:gravity="center"
+                android:gravity="fill_vertical"
                 android:orientation="vertical" />
 
             <android.support.v4.widget.Space
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/center_space"
-                android:gravity="center"
+                android:gravity="fill_vertical"
                 android:orientation="vertical" />
 
         </RelativeLayout>
@@ -157,15 +157,41 @@
                 android:textColor="@color/white" />
         </LinearLayout>
 
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/rajdhani_semibold"
-            android:textSize="@dimen/text_10sp"
-            android:text="@string/substitutes"
-            android:padding="5dp"
-            android:gravity="center"
-            android:background="@color/background_color" />
+            android:background="@color/background_color">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:textSize="@dimen/text_10sp"
+                android:text="@string/substitutes"
+                android:padding="5dp"
+                android:gravity="center"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/home_team_logo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="22dp"
+                android:contentDescription="@string/pref_home_team_logo" />
+
+            <ImageView
+                android:id="@+id/visiting_team_logo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="22dp"
+                android:contentDescription="@string/pref_visiting_team_logo" />
+
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/substitution_list"
@@ -178,14 +204,54 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <TextView
+            android:id="@+id/no_substitutions_yet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_semibold"
-            android:textSize="@dimen/text_10sp"
-            android:text="@string/manager"
-            android:padding="5dp"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:text="@string/no_substitutions_yet"
+            android:paddingTop="25dp"
+            android:paddingBottom="25dp"
             android:gravity="center"
-            android:background="@color/background_color" />
+            android:visibility="gone"
+            tools:ignore="RelativeOverlap" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background_color">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/rajdhani_semibold"
+                android:textSize="@dimen/text_10sp"
+                android:text="@string/manager"
+                android:padding="5dp"
+                android:gravity="center"
+                tools:ignore="RelativeOverlap" />
+
+            <ImageView
+                android:id="@+id/home_team_logo_2"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="22dp"
+                android:contentDescription="@string/pref_home_team_logo" />
+
+            <ImageView
+                android:id="@+id/visiting_team_logo_2"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="22dp"
+                android:contentDescription="@string/pref_visiting_team_logo" />
+
+        </RelativeLayout>
 
         <include layout="@layout/item_substitutes" />
 
