@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="303dp"
     android:minHeight="300dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="8dp">
 
     <RelativeLayout
@@ -58,6 +58,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:clipToPadding="false"
             android:layout_below="@+id/commentary_text"
             tools:listitem="@layout/item_commentary"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
@@ -68,6 +71,25 @@
             android:layout_alignParentBottom="true"
             android:src="@drawable/bg_gradient_white"
             android:contentDescription="@string/white_gradient" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/rajdhani_regular"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:visibility="gone"
+            android:text="@string/match_yet_to_start" />
 
     </RelativeLayout>
 
