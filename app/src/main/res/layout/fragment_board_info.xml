@@ -1,46 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".view.fragment.board.BoardInfoFragment">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <life.plank.juna.zone.util.customview.MatchHighlights
-                layout="@layout/item_match_highlights"
-                android:visibility="gone"
-                style="@style/BoardInfoLayout" />
-
-            <life.plank.juna.zone.util.customview.CommentarySmall
-                android:id="@+id/commentary_small"
-                style="@style/BoardInfoLayout" />
-
-            <life.plank.juna.zone.util.customview.TeamStats
-                android:id="@+id/team_stats"
-                style="@style/BoardInfoLayout" />
-
-            <life.plank.juna.zone.util.customview.LineUpLayout
-                android:id="@+id/item_line_up"
-                style="@style/BoardInfoLayout" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center" />
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <life.plank.juna.zone.util.customview.MatchHighlights
+            android:id="@+id/item_match_highlights"
+            android:visibility="gone"
+            style="@style/BoardInfoLayout" />
+
+        <life.plank.juna.zone.util.customview.CommentarySmall
+            android:id="@+id/commentary_small"
+            style="@style/BoardInfoLayout" />
+
+        <life.plank.juna.zone.util.customview.MatchTeamStatsLayout
+            android:id="@+id/team_stats"
+            style="@style/BoardInfoLayout" />
+
+        <life.plank.juna.zone.util.customview.LineupLayout
+            android:id="@+id/item_line_up"
+            style="@style/BoardInfoLayout" />
+
+    </LinearLayout>
+
+</ScrollView>
