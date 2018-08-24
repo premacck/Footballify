@@ -1,9 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.graphics.Typeface;
-import android.text.SpannableString;
-import android.text.TextUtils;
-import android.text.style.StyleSpan;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +13,31 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
-import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static life.plank.juna.zone.util.AppConstants.CORNER_;
+import static life.plank.juna.zone.util.AppConstants.FIRST_HALF_ENDED_;
+import static life.plank.juna.zone.util.AppConstants.FREE_KICK_;
+import static life.plank.juna.zone.util.AppConstants.GOAL_;
+import static life.plank.juna.zone.util.AppConstants.OFFSIDE_;
+import static life.plank.juna.zone.util.AppConstants.RED_CARD_;
+import static life.plank.juna.zone.util.AppConstants.SECOND_HALF_ENDED_;
+import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION_;
+import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD_;
+import static life.plank.juna.zone.util.UIDisplayUtil.alternateBackgroundColor;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDesignedString;
 
 public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapter.CommentsViewHolder> {
-
-    private static final Typeface RAJDHANI_BOLD = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf");
 
     private List<Commentary> commentaries;
 
     public CommentaryAdapter() {
         commentaries = new ArrayList<>();
+    }
+
+    public CommentaryAdapter(List<Commentary> commentaryList) {
+        commentaries = commentaryList;
     }
 
     @Override
@@ -50,6 +58,10 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
         notifyDataSetChanged();
     }
 
+    public List<Commentary> getCommentaries() {
+        return commentaries;
+    }
+
     static class CommentsViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.time)
@@ -68,24 +80,106 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
         @Override
         public void bind() {
             Commentary commentary = ref.get().commentaries.get(getAdapterPosition());
+            alternateBackgroundColor(itemView, getAdapterPosition());
             String timeText;
             timeText = "" + (commentary.getExtraMinute() > 0 ?
-                    commentary.getMinute() + " + " + commentary.getExtraMinute() :
+                    commentary.getMinute() + "+" + commentary.getExtraMinute() :
                     commentary.getMinute());
             timeView.setText(timeText);
 
-            commentaryView.setText(commentary.getComment());
+            commentaryView.setText(getFormattedCommentary(commentary.getComment()));
         }
 
-        private SpannableString getString(String boldText, String normalText) {
-            normalText = normalText.replace(boldText, "");
-            SpannableString string = new SpannableString(boldText + normalText);
-            string.setSpan(new StyleSpan(RAJDHANI_BOLD.getStyle()), 0, boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-            return string;
-        }
-
-        private String getHighlights(ArrayList<String> highlights) {
-            return TextUtils.join(", ", highlights);
+        private SpannableStringBuilder getFormattedCommentary(String rawCommentaryText) {
+            if (rawCommentaryText.contains(GOAL_)) {
+                return getDesignedString(GOAL_,
+                        rawCommentaryText,
+                        R.color.purple_timeline,
+                        R.drawable.ic_goal_left,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(CORNER_)) {
+                return getDesignedString(CORNER_,
+                        rawCommentaryText,
+                        R.color.black,
+                        -1,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(SUBSTITUTION_)) {
+                return getDesignedString(
+                        SUBSTITUTION_,
+                        rawCommentaryText,
+                        R.color.black,
+                        R.drawable.ic_sub_right,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(OFFSIDE_)) {
+                return getDesignedString(
+                        OFFSIDE_,
+                        rawCommentaryText,
+                        R.color.black,
+                        -1,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(YELLOW_CARD_)) {
+                return getDesignedString(
+                        YELLOW_CARD_,
+                        rawCommentaryText,
+                        R.color.commentary_yellow,
+                        R.drawable.yellow_right,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(RED_CARD_)) {
+                return getDesignedString(
+                        RED_CARD_,
+                        rawCommentaryText,
+                        R.color.commentary_red,
+                        R.drawable.red_right,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(FREE_KICK_)) {
+                return getDesignedString(
+                        FREE_KICK_,
+                        rawCommentaryText,
+                        R.color.black,
+                        -1,
+                        true,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(FIRST_HALF_ENDED_)) {
+                return getDesignedString(
+                        rawCommentaryText,
+                        rawCommentaryText,
+                        R.color.dark_sky_blue,
+                        R.drawable.ic_whistle,
+                        false,
+                        commentaryView
+                );
+            } else if (rawCommentaryText.contains(SECOND_HALF_ENDED_)) {
+                return getDesignedString(
+                        rawCommentaryText,
+                        rawCommentaryText,
+                        R.color.dark_sky_blue,
+                        R.drawable.ic_whistle,
+                        false,
+                        commentaryView
+                );
+            } else {
+                return getDesignedString(
+                        null,
+                        rawCommentaryText,
+                        -1,
+                        -1,
+                        false,
+                        commentaryView
+                );
+            }
         }
     }
 }
