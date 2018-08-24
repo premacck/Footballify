@@ -15,7 +15,7 @@ public class Lineups {
 
     @Data
     public class Formation {
-        private String fullName;
+        private String nickname;
         private int number;
         private int formationNumber;
         private int yellowCard;

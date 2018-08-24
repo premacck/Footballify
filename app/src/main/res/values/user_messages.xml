@@ -20,7 +20,7 @@
     <string name="upload_successful">Upload successful</string>
     <string name="upload_failed">Upload failed, Try again later</string>
     <string name="matches_not_found">No matches found</string>
-    <string name="line_ups_not_available">Line-ups not available</string>
+    <string name="line_ups_not_available">Line-ups not available yet</string>
     <string name="match_summary_not_found">Match summary not found</string>
     <string name="failed_to_get_standings">Failed to get standings</string>
     <string name="failed_to_get_player_stats">Failed to get player stats</string>

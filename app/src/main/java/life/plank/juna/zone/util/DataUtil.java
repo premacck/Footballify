@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
@@ -20,6 +21,7 @@ import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.Fixt
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
+import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
@@ -127,5 +129,15 @@ public class DataUtil {
 
     public static String getFormattedExtraMinutes(int minute) {
         return minute > 9 ? minute + ".00" : "0" + minute + ".00";
+    }
+
+    public static List<MatchEvent> extractSubstitutionEvents(List<MatchEvent> matchEvents) {
+        List<MatchEvent> newMatchEventList = new ArrayList<>(matchEvents);
+        for (MatchEvent matchEvent : matchEvents) {
+            if (!Objects.equals(matchEvent.getEventType(), SUBSTITUTION)) {
+                newMatchEventList.remove(matchEvent);
+            }
+        }
+        return newMatchEventList;
     }
 }

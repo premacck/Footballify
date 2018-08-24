@@ -76,7 +76,7 @@ public class LineupPlayer extends FrameLayout {
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
-                    .setName(formation.getFullName());
+                    .setName(formation.getNickname());
         }
     }
 
@@ -137,7 +137,7 @@ public class LineupPlayer extends FrameLayout {
     }
 
     public LineupPlayer setSubstituted(boolean isSubstitutedIn, boolean substituteOut) {
-        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? GONE : VISIBLE);
+        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? VISIBLE : GONE);
         return this;
     }
 

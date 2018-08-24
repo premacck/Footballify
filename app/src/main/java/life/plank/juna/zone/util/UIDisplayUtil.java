@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -471,11 +470,11 @@ public class UIDisplayUtil {
         };
     }
 
-    public static Target getStartDrawableTarget(Resources resources, TextView textView) {
+    public static Target getStartDrawableTarget(TextView textView) {
         return new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                textView.setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(resources, bitmap), null, null, null);
+                textView.setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(ZoneApplication.getContext().getResources(), bitmap), null, null, null);
             }
 
             @Override
@@ -489,11 +488,11 @@ public class UIDisplayUtil {
         };
     }
 
-    public static Target getEndDrawableTarget(Resources resources, TextView textView) {
+    public static Target getEndDrawableTarget(TextView textView) {
         return new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                textView.setCompoundDrawablesWithIntrinsicBounds(null, null, new BitmapDrawable(resources, bitmap), null);
+                textView.setCompoundDrawablesWithIntrinsicBounds(null, null, new BitmapDrawable(ZoneApplication.getContext().getResources(), bitmap), null);
             }
 
             @Override
