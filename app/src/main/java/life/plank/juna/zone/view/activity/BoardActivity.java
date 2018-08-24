@@ -26,6 +26,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.util.List;
 import java.util.Objects;
@@ -56,11 +57,12 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.view.fragment.board.BoardInfoFragment.HOME_TEAM_NAME;
+import static life.plank.juna.zone.view.fragment.board.BoardInfoFragment.VISITING_TEAM_NAME;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -86,7 +88,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     Gson gson;
     private long currentMatchId;
     private String boardId;
-    private String homeTeamLogo, visitingTeamLogo;
+    private String homeTeamLogo;
+    private String visitingTeamLogo;
+    private String homeTeamName;
+    private String visitingTeamName;
     private int homeGoals, awayGoals, matchDay;
 
     private LiveScoreData liveScoreData;
@@ -105,13 +110,15 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     };
 
     public static void launch(Context packageContext, int homeGoals, int visitingGoals, long matchId,
-                              String homeTeamLogo, String visitingTeamLogo, Integer matchDay) {
+                              String homeTeamLogo, String visitingTeamLogo, String homeTeamName, String visitingTeamName, Integer matchDay) {
         Intent intent = new Intent(packageContext, BoardActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
                 .putExtra(packageContext.getString(R.string.intent_visiting_team_score), visitingGoals)
                 .putExtra(packageContext.getString(R.string.match_id_string), matchId)
                 .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
                 .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo)
+                .putExtra(HOME_TEAM_NAME, homeTeamName)
+                .putExtra(VISITING_TEAM_NAME, visitingTeamName)
                 .putExtra(packageContext.getString(R.string.matchday_), matchDay);
         packageContext.startActivity(intent);
     }
@@ -150,11 +157,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
                 liveScoreData = zoneLiveData.getScoreData();
-//                TODO: update live data here
-                break;
-            case MATCH_EVENTS:
-                matchEventList = zoneLiveData.getMatchEventList();
-//                TODO: update lineup substitutions from here
+                publicBoardToolbar.setScore(true, liveScoreData.getHomeGoals() + " - " + liveScoreData.getAwayGoals());
                 break;
             default:
                 break;
@@ -182,6 +185,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
         homeGoals = intent.getIntExtra(getString(R.string.intent_home_team_score), 0);
         awayGoals = intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0);
+        homeTeamName = intent.getStringExtra(HOME_TEAM_NAME);
+        visitingTeamName = intent.getStringExtra(VISITING_TEAM_NAME);
         matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
 
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
@@ -196,7 +201,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     }
 
     private void setupViewPagerWithFragments() {
-        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId, currentMatchId, homeTeamLogo, visitingTeamLogo);
+        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(boardPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(publicBoardToolbar.getInfoTilesTabLayout()));
         publicBoardToolbar.getInfoTilesTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
@@ -283,26 +288,26 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     static class BoardPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment currentFragment;
-        private String boardId;
-        private final long matchId;
-        private String homeLogo;
-        private String visitingLogo;
+        private WeakReference<BoardActivity> ref;
 
-        BoardPagerAdapter(FragmentManager fragmentManager, String boardId, long matchId, String homeLogo, String visitingLogo) {
-            super(fragmentManager);
-            this.boardId = boardId;
-            this.matchId = matchId;
-            this.homeLogo = homeLogo;
-            this.visitingLogo = visitingLogo;
+        BoardPagerAdapter(FragmentManager supportFragmentManager, BoardActivity boardActivity) {
+            super(supportFragmentManager);
+            ref = new WeakReference<>(boardActivity);
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return BoardInfoFragment.newInstance(matchId, homeLogo, visitingLogo);
+                    return BoardInfoFragment.newInstance(
+                            ref.get().currentMatchId,
+                            ref.get().homeTeamLogo,
+                            ref.get().visitingTeamLogo,
+                            ref.get().homeTeamName,
+                            ref.get().visitingTeamName
+                    );
                 case 1:
-                    return BoardTilesFragment.newInstance(boardId);
+                    return BoardTilesFragment.newInstance(ref.get().boardId);
                 default:
                     return null;
             }
