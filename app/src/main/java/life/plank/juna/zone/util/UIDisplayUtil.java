@@ -18,21 +18,27 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -64,7 +70,9 @@ import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 
 import static android.content.Context.MODE_PRIVATE;
+import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
  * Created by plank-sobia on 11/8/2017.
@@ -72,6 +80,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UIDisplayUtil {
 
+    public static final Typeface RAJDHANI_BOLD = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf");
     private static String SIGN_UP_USER_DETAILS = "signUpPageDetails";
 
     public UIDisplayUtil() {
@@ -515,6 +524,35 @@ public class UIDisplayUtil {
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
             topGravityDrawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
             return topGravityDrawable;
+        }
+    }
+
+    /**
+     * @param boldText   The text part you want to make bold.
+     * @param normalText The {@link SpannableStringBuilder} containing the whole  string which also contains the bold text part.
+     * @param color      The color of the bold text.
+     * @return String with required Bold text replaced with the normal text.
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static SpannableStringBuilder getDesignedString(String boldText, String normalText, @ColorRes int color,
+                                                           @DrawableRes int startDrawableRes, boolean toUpperCase, TextView commentaryView) {
+        if (isNullOrEmpty(boldText)) {
+            commentaryView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            return new SpannableStringBuilder(normalText);
+        } else {
+            commentaryView.setCompoundDrawablesWithIntrinsicBounds(getTopGravityDrawable(startDrawableRes), null, null, null);
+            if (toUpperCase) {
+                normalText = normalText.replace(boldText, boldText.toUpperCase());
+                boldText = boldText.toUpperCase();
+            }
+            SpannableStringBuilder text = new SpannableStringBuilder(normalText);
+            int startIndex = text.toString().indexOf(boldText);
+            text.setSpan(new StyleSpan(RAJDHANI_BOLD.getStyle()), startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
+            text.setSpan(
+                    new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), color, null)),
+                    startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+            return text;
         }
     }
 }
