@@ -24,6 +24,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
+import life.plank.juna.zone.view.adapter.UserZoneAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -43,8 +44,14 @@ public class UserFeedActivity extends AppCompatActivity {
     UserFeedAdapter userFeedAdapter;
     private ArrayList<UserFeed> userFeed = new ArrayList<>();
 
+    UserZoneAdapter userZoneAdapter;
+    //private ArrayList<UserFeed> zoneFeed = new ArrayList<>();
+
     @BindView(R.id.user_feed_recycler_view)
     RecyclerView userFeedRecyclerView;
+
+    @BindView(R.id.user_zone_recycler_view)
+    RecyclerView userZoneRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,7 @@ public class UserFeedActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
 
         initRecyclerView();
+        initZoneRecyclerView();
         getUserFeed();
     }
 
@@ -64,6 +72,14 @@ public class UserFeedActivity extends AppCompatActivity {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
         userFeedRecyclerView.setLayoutManager(gridLayoutManager);
         userFeedRecyclerView.setAdapter(userFeedAdapter);
+
+    }
+
+    private void initZoneRecyclerView() {
+        userZoneAdapter = new UserZoneAdapter(this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
+        userZoneRecyclerView.setLayoutManager(gridLayoutManager);
+        userZoneRecyclerView.setAdapter(userZoneAdapter);
 
     }
 
