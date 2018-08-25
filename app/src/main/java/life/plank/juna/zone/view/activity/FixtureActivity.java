@@ -38,6 +38,8 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
+import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.classifyByMatchDay;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
@@ -160,6 +162,7 @@ public class FixtureActivity extends AppCompatActivity {
         private WeakReference<FixtureActivity> ref;
         private List<ScoreFixture> scoreFixtureList;
         private FixtureMatchdayAdapter fixtureMatchdayAdapter;
+        private int recyclerViewScrollIndex = 0;
 
         private UpdateAdapterTask(FixtureActivity activity, List<ScoreFixture> scoreFixtureList, FixtureMatchdayAdapter fixtureMatchdayAdapter) {
             this.ref = new WeakReference<>(activity);
@@ -174,7 +177,13 @@ public class FixtureActivity extends AppCompatActivity {
 
         @Override
         protected List<SectionedFixtureMatchDay> doInBackground(Void... voids) {
-            return classifyByMatchDay(scoreFixtureList);
+            List<SectionedFixtureMatchDay> sectionedFixtureMatchDayList = classifyByMatchDay(scoreFixtureList);
+            for (SectionedFixtureMatchDay matchDay : sectionedFixtureMatchDayList) {
+                if (matchDay.getSection() == PAST_MATCHES || matchDay.getSection() == LIVE_MATCHES) {
+                    recyclerViewScrollIndex = sectionedFixtureMatchDayList.indexOf(matchDay);
+                }
+            }
+            return sectionedFixtureMatchDayList;
         }
 
         @Override
@@ -184,7 +193,7 @@ public class FixtureActivity extends AppCompatActivity {
             }
             if (ref != null) {
                 ref.get().progressBar.setVisibility(View.GONE);
-//                ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
+                ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
             }
         }
     }

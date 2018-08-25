@@ -17,13 +17,10 @@ import static life.plank.juna.zone.domain.service.FootballFixtureClassifierServi
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.SCHEDULED_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.TOMORROWS_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.DateUtil.getDateFromObject;
 import static life.plank.juna.zone.util.DateUtil.getDateHeader;
 
 public class FootballFixtureClassifierService {
-
-    public static int recyclerViewScrollIndex = 0;
 
     public enum FixtureSection {
         PAST_MATCHES,
@@ -50,10 +47,6 @@ public class FootballFixtureClassifierService {
         int i = 0;
         boolean inserted = false;
         for (int j = 0; j < fixtures.size(); j++) {
-            int dateDiff = getDateDiffFromToday(fixtures.get(j).getMatchStartTime());
-            if (dateDiff <= 0) {
-                recyclerViewScrollIndex = j;
-            }
             if (i != j) {
                 if (Objects.equals(fixtures.get(i).getMatchDay(), fixtures.get(j).getMatchDay()) && !inserted) {
                     map.put(fixtures.get(i).getMatchDay(), classifyByDate(fixtures, fixtures.get(i).getMatchDay()));
@@ -67,7 +60,8 @@ public class FootballFixtureClassifierService {
         for (Integer matchDay : map.keySet()) {
             List<SectionedFixtureDate> sectionedFixtureDateList = map.get(matchDay);
             if (!isNullOrEmpty(sectionedFixtureDateList)) {
-                sectionedFixtureMatchDayList.add(SectionedFixtureMatchDay.getFrom(matchDay.toString(), map.get(matchDay)));
+                FixtureSection section = getSuitableSection(sectionedFixtureDateList.get(0).getScoreFixtureList().get(0).getMatchStartTime());
+                sectionedFixtureMatchDayList.add(SectionedFixtureMatchDay.getFrom(section, matchDay.toString(), map.get(matchDay)));
             }
         }
         return sectionedFixtureMatchDayList;
