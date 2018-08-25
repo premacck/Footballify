@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
@@ -58,7 +59,7 @@ public class DateUtil {
         return Long.parseLong(dateString);
     }
 
-    private static int getDateDiffFromToday(Date date) {
+    public static int getDateDiffFromToday(Date date) {
         return getDateFromObject(date) - getDateFromObject(new Date());
     }
 
@@ -88,16 +89,16 @@ public class DateUtil {
         return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(matchStartTime);
     }
 
-    public static String getDateHeader(Context context, FixtureSection section, Date matchStartTime) {
-        return getCurrentSectionHeader(context, section, matchStartTime);
+    public static String getDateHeader(FixtureSection section, Date matchStartTime) {
+        return getCurrentSectionHeader(section, matchStartTime);
     }
 
-    private static String getCurrentSectionHeader(Context context, FixtureSection section, Date matchStartTime) {
+    private static String getCurrentSectionHeader(FixtureSection section, Date matchStartTime) {
         switch (section) {
             case LIVE_MATCHES:
-                return context.getString(R.string.today);
+                return ZoneApplication.getContext().getString(R.string.today);
             case TOMORROWS_MATCHES:
-                return context.getString(R.string.tomorrow);
+                return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 return HEADER_DATE_FORMAT.format(matchStartTime);
         }

@@ -15,7 +15,8 @@ import java.util.Objects;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.data.network.model.SectionedFixture;
+import life.plank.juna.zone.data.network.model.SectionedFixtureDate;
+import life.plank.juna.zone.data.network.model.SectionedFixtureMatchDay;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
@@ -111,9 +112,20 @@ public class DataUtil {
     /**
      * Removes empty sections in the sectionsList, if any.
      */
-    public static List<SectionedFixture> removeEmptySections(List<SectionedFixture> list) {
-        List<SectionedFixture> newList = new ArrayList<>(list);
-        for (SectionedFixture fixture : newList) {
+    public static List<SectionedFixtureMatchDay> removeEmptyMatchDays(List<SectionedFixtureMatchDay> list) {
+        List<SectionedFixtureMatchDay> newList = new ArrayList<>(list);
+        for (SectionedFixtureMatchDay fixture : newList) {
+            if (fixture.getSectionedFixtureDateList().isEmpty()) {
+                list.remove(fixture);
+            }
+        }
+        newList.clear();
+        return list;
+    }
+
+    public static List<SectionedFixtureDate> removeEmptyFixtureDates(List<SectionedFixtureDate> list) {
+        List<SectionedFixtureDate> newList = new ArrayList<>(list);
+        for (SectionedFixtureDate fixture : newList) {
             if (fixture.getScoreFixtureList().isEmpty()) {
                 list.remove(fixture);
             }
