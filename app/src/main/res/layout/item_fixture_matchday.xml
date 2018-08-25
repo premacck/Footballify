@@ -21,7 +21,7 @@
         android:fontFamily="@font/rajdhani_semibold" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fixtures_matchday_list"
+        android:id="@+id/fixtures_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_fixture_date"

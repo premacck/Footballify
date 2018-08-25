@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +15,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.SectionedFixtureMatchDay;
+import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DateUtil.getDateHeader;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -25,11 +28,13 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatchdayAdapter.FixtureMatchDayViewHolder> {
 
     private FixtureActivity activity;
-    private List<SectionedFixtureMatchDay> sectionedFixtureMatchDayList;
+    private List<SectionedFixture> sectionedFixtureList;
+    private Picasso picasso;
 
-    public FixtureMatchdayAdapter(FixtureActivity activity) {
+    public FixtureMatchdayAdapter(FixtureActivity activity, Picasso picasso) {
         this.activity = activity;
-        this.sectionedFixtureMatchDayList = new ArrayList<>();
+        this.picasso = picasso;
+        this.sectionedFixtureList = new ArrayList<>();
     }
 
     @Override
@@ -40,14 +45,14 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
         );
     }
 
-    public void update(List<SectionedFixtureMatchDay> sectionedFixtureMatchDayList) {
-        this.sectionedFixtureMatchDayList.addAll(sectionedFixtureMatchDayList);
+    public void update(List<SectionedFixture> sectionedFixtureList) {
+        this.sectionedFixtureList.addAll(sectionedFixtureList);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return sectionedFixtureMatchDayList.size();
+        return sectionedFixtureList.size();
     }
 
     public static class FixtureMatchDayViewHolder extends BaseRecyclerView.ViewHolder {
@@ -55,8 +60,11 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
         private final WeakReference<FixtureMatchdayAdapter> ref;
         @BindView(R.id.matchday_header)
         TextView matchdayHeader;
-        @BindView(R.id.fixtures_matchday_list)
+        @BindView(R.id.date_time)
+        TextView dateTime;
+        @BindView(R.id.fixtures_list)
         RecyclerView recyclerView;
+        private SectionedFixture sectionedFixture;
 
         FixtureMatchDayViewHolder(View itemView, FixtureMatchdayAdapter adapter) {
             super(itemView);
@@ -66,15 +74,22 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
 
         @Override
         public void bind() {
-            SectionedFixtureMatchDay sectionedFixtureMatchDay = ref.get().sectionedFixtureMatchDayList.get(getAdapterPosition());
+            sectionedFixture = ref.get().sectionedFixtureList.get(getAdapterPosition());
 
-            if (!isNullOrEmpty(sectionedFixtureMatchDay.getSectionedFixtureDateList())) {
-                String matchdayHeaderText = ref.get().activity.getString(R.string.matchday_) + sectionedFixtureMatchDay.getMatchday();
+            if (!isNullOrEmpty(sectionedFixture.getScoreFixtureList())) {
+                String matchdayHeaderText = ref.get().activity.getString(R.string.matchday_) + sectionedFixture.getMatchday();
                 matchdayHeader.setText(matchdayHeaderText);
-                recyclerView.setAdapter(new FixtureDateAdapter(
-                        sectionedFixtureMatchDay.getSectionedFixtureDateList(),
-                        ref.get().activity
+                dateTime.setText(getDateHeader(
+                        ref.get().activity,
+                        sectionedFixture.getSection(),
+                        sectionedFixture.getScoreFixtureList().get(0).getMatchStartTime()
                 ));
+                recyclerView.setAdapter(
+                        new FixtureAdapter(
+                                sectionedFixture.getScoreFixtureList(),
+                                ref.get().picasso,
+                                ref.get().activity,
+                                sectionedFixture.getSection()));
             }
         }
     }
