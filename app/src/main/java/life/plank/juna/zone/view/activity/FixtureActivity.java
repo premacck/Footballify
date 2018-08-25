@@ -30,7 +30,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.data.network.model.SectionedFixture;
+import life.plank.juna.zone.data.network.model.SectionedFixtureMatchDay;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -38,7 +38,6 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.classifyByMatchDay;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
@@ -60,6 +59,7 @@ public class FixtureActivity extends AppCompatActivity {
     TextView headerView;
 
     @Inject
+    public
     Picasso picasso;
     @Inject
     @Named("footballData")
@@ -103,7 +103,7 @@ public class FixtureActivity extends AppCompatActivity {
     }
 
     public void populatePastMatchFixtureRecyclerView() {
-        fixtureMatchdayAdapter = new FixtureMatchdayAdapter(this, picasso);
+        fixtureMatchdayAdapter = new FixtureMatchdayAdapter(this);
         fixtureRecyclerView.setAdapter(fixtureMatchdayAdapter);
     }
 
@@ -155,12 +155,11 @@ public class FixtureActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private static class UpdateAdapterTask extends AsyncTask<Void, Void, List<SectionedFixture>> {
+    private static class UpdateAdapterTask extends AsyncTask<Void, Void, List<SectionedFixtureMatchDay>> {
 
         private WeakReference<FixtureActivity> ref;
         private List<ScoreFixture> scoreFixtureList;
         private FixtureMatchdayAdapter fixtureMatchdayAdapter;
-        private int todayIndex;
 
         private UpdateAdapterTask(FixtureActivity activity, List<ScoreFixture> scoreFixtureList, FixtureMatchdayAdapter fixtureMatchdayAdapter) {
             this.ref = new WeakReference<>(activity);
@@ -174,26 +173,18 @@ public class FixtureActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<SectionedFixture> doInBackground(Void... voids) {
-            todayIndex = 0;
-            List<SectionedFixture> sectionedFixtureList = classifyByMatchDay(scoreFixtureList);
-            for (SectionedFixture fixture : sectionedFixtureList) {
-                if (fixture.getSection() == LIVE_MATCHES) {
-                    todayIndex = sectionedFixtureList.indexOf(fixture);
-                    break;
-                }
-            }
-            return sectionedFixtureList;
+        protected List<SectionedFixtureMatchDay> doInBackground(Void... voids) {
+            return classifyByMatchDay(scoreFixtureList);
         }
 
         @Override
-        protected void onPostExecute(List<SectionedFixture> sectionedFixtures) {
+        protected void onPostExecute(List<SectionedFixtureMatchDay> sectionedFixtureMatchDays) {
             if (fixtureMatchdayAdapter != null) {
-                fixtureMatchdayAdapter.update(sectionedFixtures);
+                fixtureMatchdayAdapter.update(sectionedFixtureMatchDays);
             }
             if (ref != null) {
                 ref.get().progressBar.setVisibility(View.GONE);
-                ref.get().fixtureRecyclerView.scrollToPosition(todayIndex);
+//                ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
             }
         }
     }

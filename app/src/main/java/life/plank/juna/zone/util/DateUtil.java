@@ -95,6 +95,12 @@ public class DateUtil {
 
     private static String getCurrentSectionHeader(FixtureSection section, Date matchStartTime) {
         switch (section) {
+            case PAST_MATCHES:
+                if (getDateDiffFromToday(matchStartTime) == -1) {
+                    return ZoneApplication.getContext().getString(R.string.yesterday);
+                } else {
+                    return HEADER_DATE_FORMAT.format(matchStartTime);
+                }
             case LIVE_MATCHES:
                 return ZoneApplication.getContext().getString(R.string.today);
             case TOMORROWS_MATCHES:
