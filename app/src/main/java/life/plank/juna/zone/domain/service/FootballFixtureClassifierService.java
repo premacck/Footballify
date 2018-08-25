@@ -27,7 +27,7 @@ public class FootballFixtureClassifierService {
         SCHEDULED_MATCHES
     }
 
-    public static List<SectionedFixture> classifyByDate(List<ScoreFixture> fixtures) {
+    public static List<SectionedFixture> classifyByMatchDay(List<ScoreFixture> fixtures) {
         List<SectionedFixture> sectionedFixtureList = new ArrayList<>();
         Map<String, List<ScoreFixture>> map = new LinkedHashMap<>();
         int i = 0;
