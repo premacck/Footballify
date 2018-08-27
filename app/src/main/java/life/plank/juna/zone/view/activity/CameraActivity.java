@@ -56,7 +56,6 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
 import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
 //TODO: MOve all strings to strings.xml
@@ -83,6 +82,14 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     private String absolutePath;
     private Uri fileUri;
     private String path;
+
+    public static void launch(Context packageContext, String openFrom, String boardId, String api) {
+        Intent intent = new Intent(packageContext, CameraActivity.class);
+        intent.putExtra(packageContext.getString(R.string.intent_open_from), openFrom);
+        intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId);
+        intent.putExtra(packageContext.getString(R.string.intent_api), api);
+        packageContext.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

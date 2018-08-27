@@ -4,22 +4,20 @@
     android:layout_height="197dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardPreventCornerOverlap="false"
-    android:layout_margin="10dp"
     app:cardCornerRadius="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/highlights_thumbnail"
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/highlights_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/goal_image_three"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/white_gradient" />
+            app:use_controller="false"
+            app:use_artwork="true"
+            app:default_artwork="@drawable/goal_image_three"
+            app:resize_mode="fill" />
 
         <ImageView
             android:id="@+id/play_btn"

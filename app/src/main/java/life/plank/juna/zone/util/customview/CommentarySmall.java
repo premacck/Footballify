@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -25,7 +29,11 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
     @BindView(R.id.see_all)
     Button seeAllBtn;
     @BindView(R.id.commentary_list)
-    RecyclerView commentaryList;
+    RecyclerView commentaryRecyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.no_data)
+    TextView noDataTextView;
 
     private CommentarySmallListener listener;
     private CommentaryAdapter adapter;
@@ -51,8 +59,42 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         View rootView = inflate(context, R.layout.item_live_commentary_small, this);
         ButterKnife.bind(this, rootView);
 
-        setAdapter(new CommentaryAdapter());
+        commentaryRecyclerView.setLayoutManager(new LinearLayoutManager(context) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        });
+        ((LinearLayoutManager) commentaryRecyclerView.getLayoutManager()).setReverseLayout(true);
         seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
+    }
+
+    public void setAdapter(CommentaryAdapter adapter) {
+        this.adapter = adapter;
+        commentaryRecyclerView.setAdapter(adapter);
+    }
+
+    public void updateAdapter(List<Commentary> commentaries) {
+        progressBar.setVisibility(GONE);
+        noDataTextView.setVisibility(GONE);
+        commentaryRecyclerView.setVisibility(VISIBLE);
+        adapter.update(commentaries);
+        commentaryRecyclerView.scrollToPosition(commentaries.size() - 1);
+    }
+
+    public void notAvailable(@StringRes int message) {
+        noDataTextView.setText(message);
+        progressBar.setVisibility(GONE);
+        noDataTextView.setVisibility(VISIBLE);
+        commentaryRecyclerView.setVisibility(INVISIBLE);
+    }
+
+    public View getRootLayout() {
+        return this;
+    }
+
+    public List<Commentary> getCommentaryList() {
+        return adapter.getCommentaries();
     }
 
     @Override
@@ -71,15 +113,6 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
 
     public void dispose() {
         listener = null;
-    }
-
-    private void setAdapter(CommentaryAdapter adapter) {
-        this.adapter = adapter;
-        commentaryList.setAdapter(adapter);
-    }
-
-    private void notifyAdapter(List<Commentary> commentaries) {
-        adapter.update(commentaries);
     }
 
     public interface CommentarySmallListener {

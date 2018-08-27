@@ -20,7 +20,7 @@
     <string name="upload_successful">Upload successful</string>
     <string name="upload_failed">Upload failed, Try again later</string>
     <string name="matches_not_found">No matches found</string>
-    <string name="line_ups_not_available">Line-ups not available</string>
+    <string name="line_ups_not_available">Line-ups not available yet</string>
     <string name="match_summary_not_found">Match summary not found</string>
     <string name="failed_to_get_standings">Failed to get standings</string>
     <string name="failed_to_get_player_stats">Failed to get player stats</string>
@@ -41,4 +41,5 @@
     <string name="select_zone_for_board">Please select a zone for your board</string>
     <string name="please_enter_comment">Please enter comment to post</string>
     <string name="failed_to_retrieve_feed">Failed to retrieve feed</string>
+    <string name="could_not_navigate_to_board">Could not navigate to board</string>
 </resources>

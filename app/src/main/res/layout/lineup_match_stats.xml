@@ -33,7 +33,7 @@
                 android:text="@string/shots" />
 
             <TextView
-                android:id="@+id/away_team_shots"
+                android:id="@+id/visiting_team_shots"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,7 +63,7 @@
                 android:text="@string/shots_on_target" />
 
             <TextView
-                android:id="@+id/away_team_shots_on_target"
+                android:id="@+id/visiting_team_shots_on_target"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -93,7 +93,7 @@
                 android:text="@string/possession" />
 
             <TextView
-                android:id="@+id/away_team_possession"
+                android:id="@+id/visiting_team_possession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -122,7 +122,7 @@
                 android:text="@string/fouls" />
 
             <TextView
-                android:id="@+id/away_team_fouls"
+                android:id="@+id/visiting_team_fouls"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -151,7 +151,7 @@
                 android:src="@drawable/yellow_right" />
 
             <TextView
-                android:id="@+id/away_team_yellow_card"
+                android:id="@+id/visiting_team_yellow_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -180,7 +180,7 @@
                 android:src="@drawable/red_right" />
 
             <TextView
-                android:id="@+id/away_team_red_card"
+                android:id="@+id/visiting_team_red_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -209,7 +209,7 @@
                 android:text="@string/offside" />
 
             <TextView
-                android:id="@+id/away_team_offside"
+                android:id="@+id/visiting_team_offside"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -238,7 +238,7 @@
                 android:text="@string/corner" />
 
             <TextView
-                android:id="@+id/away_team_corner"
+                android:id="@+id/visiting_team_corner"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

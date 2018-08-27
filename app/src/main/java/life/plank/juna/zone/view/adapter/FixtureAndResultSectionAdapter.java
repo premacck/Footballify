@@ -24,6 +24,7 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.BoardActivity;
 
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.UIDisplayUtil.alternateBackgroundColor;
 
 public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<FixtureAndResultSectionAdapter.ViewHolder> {
 
@@ -86,11 +87,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         @Override
         public void bind() {
             scoreFixture = ref.get().scoreFixtureList.get(getAdapterPosition());
-            itemView.setBackgroundColor(ref.get().context.getColor(
-                    getAdapterPosition() % 2 == 0 ?
-                            R.color.white :
-                            R.color.background_color
-            ));
+            alternateBackgroundColor(itemView, getAdapterPosition());
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 picasso
                         .load(scoreFixture.getHomeTeam().getLogoLink())
@@ -123,7 +120,8 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
                     scoreFixture.getAwayGoals(),
                     scoreFixture.getForeignId(),
                     scoreFixture.getHomeTeam().getLogoLink(),
-                    scoreFixture.getAwayTeam().getLogoLink()
+                    scoreFixture.getAwayTeam().getLogoLink(),
+                    scoreFixture.getMatchDay()
             );
         }
     }

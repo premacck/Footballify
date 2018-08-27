@@ -5,15 +5,20 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchSummary;
+import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
@@ -88,7 +93,7 @@ public interface RestApi {
     //working
     @POST("/boards")
     Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
-                                                        @Header("Authorization") String authHeader);
+                                                    @Header("Authorization") String authHeader);
 
     //working
     @GET("seasons/matches")
@@ -99,6 +104,10 @@ public interface RestApi {
     //working
     @GET("/feedEntries")
     Observable<Response<List<UserFeed>>> getUserFeed(@Header("Authorization") String authHeader);
+
+    //working
+    @GET("boards/{id}")
+    Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //yet to verify
     @GET("api/feeditems")
@@ -125,5 +134,19 @@ public interface RestApi {
 
     @POST("feedItems/{id}/comments")
     Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);
-}
 
+    @GET("matches/{matchId}/events")
+    Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
+
+    @GET("matches/{matchId}/timestatus")
+    Observable<Response<List<LiveTimeStatus>>> getLiveTimeStatus(@Path("matchId") long matchId);
+
+    @GET("highlights/{matchId}")
+    Observable<Response<List<Highlights>>> getMatchHighlights(@Path("matchId") long matchId);
+
+    @GET("commentaries/{matchId}")
+    Observable<Response<List<Commentary>>> getCommentaries(@Path("matchId") long matchId);
+
+    @GET("matches/{matchId}/stats")
+    Observable<Response<MatchTeamStats>> getTeamStatsForMatch(@Path("matchId") long matchId);
+}

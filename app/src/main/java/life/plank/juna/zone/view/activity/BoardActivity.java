@@ -8,17 +8,15 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v8.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,8 +27,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,76 +41,78 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.Thumbnail;
-import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
+import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.util.customview.PublicBoardToolbar;
+import life.plank.juna.zone.view.fragment.board.BoardInfoFragment;
+import life.plank.juna.zone.view.fragment.board.BoardTilesFragment;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 /**
  * Created by plank-hasan on 5/3/2018.
  */
 
-public class BoardActivity extends AppCompatActivity implements OnClickFeedItemListener {
+public class BoardActivity extends AppCompatActivity implements PublicBoardHeaderListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
-    public static Bitmap blurredBitmap = null;
-    public static RenderScript renderScript;
-    @Inject
-    @Named("default")
-    Retrofit retrofit;
-    int TRCNumber = 20;
-    @BindView(R.id.board_recycler_view)
-    RecyclerView boardRecyclerView;
+
     @BindView(R.id.board_arc_menu)
     ArcMenu arcMenu;
-    @BindView(R.id.following_text_view)
-    TextView followingTextView;
-    @BindView(R.id.board_parent_layout)
-    CardView boardParentLayout;
-    BoardMediaAdapter boardMediaAdapter;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
-    @BindView(R.id.home_team_logo_image_view)
-    ImageView homeTeamLogoImageView;
-    @BindView(R.id.visiting_team_logo_image_view)
-    ImageView visitingTeamLogoImageView;
-    @BindView(R.id.home_team_score)
-    TextView homeTeamScore;
-    @BindView(R.id.visiting_team_score)
-    TextView visitingTeamScore;
-    @BindView(R.id.layout_board_engagement)
-    RelativeLayout layoutBoardEngagement;
-    @BindView(R.id.layout_info_tiles)
-    RelativeLayout layoutInfoTiles;
+    @BindView(R.id.board_toolbar)
+    PublicBoardToolbar publicBoardToolbar;
+    @BindView(R.id.board_view_pager)
+    ViewPager viewPager;
 
-    private ArrayList<FootballFeed> boardFeed;
-    private RestApi restApi;
-    private String enterBoardId;
+    @Inject
+    @Named("default")
+    RestApi restApi;
+    @Inject
+    Picasso picasso;
+    @Inject
+    Gson gson;
+    private long currentMatchId;
+    private String boardId;
     private String homeTeamLogo, visitingTeamLogo;
+    private int homeGoals, awayGoals, matchDay;
+
+    private LiveScoreData liveScoreData;
+    private List<MatchEvent> matchEventList;
+    private BoardPagerAdapter boardPagerAdapter;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            setDataReceivedFromPushNotification(intent);
+            if (intent.hasExtra(getString(R.string.intent_content_type))) {
+                setDataReceivedFromPushNotification(intent);
+            } else if (intent.hasExtra(getString(R.string.intent_zone_live_data))) {
+                setZoneLiveData(intent);
+            }
         }
     };
 
     public static void launch(Context packageContext, int homeGoals, int visitingGoals, long matchId,
-                              String homeTeamLogo, String visitingTeamLogo) {
+                              String homeTeamLogo, String visitingTeamLogo, Integer matchDay) {
         Intent intent = new Intent(packageContext, BoardActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
                 .putExtra(packageContext.getString(R.string.intent_visiting_team_score), visitingGoals)
                 .putExtra(packageContext.getString(R.string.match_id_string), matchId)
                 .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
-                .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo);
+                .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo)
+                .putExtra(packageContext.getString(R.string.matchday_), matchDay);
         packageContext.startActivity(intent);
     }
 
@@ -124,7 +124,7 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
         FootballFeed footballFeed = new FootballFeed();
-        Log.e(TAG, "content_type: " + contentType);
+        Log.d(TAG, "content_type: " + contentType);
         footballFeed.setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             footballFeed.setTitle(title);
@@ -136,205 +136,127 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
             footballFeed.setThumbnail(thumbnail);
             footballFeed.setUrl(imageUrl);
         }
-        boardFeed.add(0, footballFeed);
-        boardMediaAdapter.notifyItemInserted(0);
-        boardRecyclerView.smoothScrollToPosition(0);
+        try {
+            if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
+                ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).updateNewPost(footballFeed);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+        }
+    }
+
+    private void setZoneLiveData(Intent intent) {
+        ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
+        switch (zoneLiveData.getLiveDataType()) {
+            case SCORE_DATA:
+                liveScoreData = zoneLiveData.getScoreData();
+//                TODO: update live data here
+                break;
+            case MATCH_EVENTS:
+                matchEventList = zoneLiveData.getMatchEventList();
+//                TODO: update lineup substitutions from here
+                break;
+            default:
+                break;
+        }
+        try {
+            if (boardPagerAdapter.getCurrentFragment() instanceof BoardInfoFragment) {
+                ((BoardInfoFragment) boardPagerAdapter.getCurrentFragment()).updateZoneLiveData(zoneLiveData);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.e("Device ID", FirebaseInstanceId.getInstance().getToken());
+        Log.d("Device ID", FirebaseInstanceId.getInstance().getToken());
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
-        progressBar.setVisibility(View.VISIBLE);
-        if (boardFeed == null) boardFeed = new ArrayList<>();
 
         Intent intent = getIntent();
-        long currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
+        currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         homeTeamLogo = intent.getStringExtra(getString(R.string.pref_home_team_logo));
         visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
+        homeGoals = intent.getIntExtra(getString(R.string.intent_home_team_score), 0);
+        awayGoals = intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0);
+        matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
 
-        initRecyclerView();
-        setUpBoomMenu();
-
-        retrieveBoard(currentMatchId, AppConstants.BOARD_TYPE);
-        setToolbarTeamLogo();
-
-        layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
-        layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));
+        retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
+        setUpToolbar();
     }
 
-    private void setToolbarTeamLogo() {
-        Picasso.with(this).load(homeTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(homeTeamLogoImageView);
-        Picasso.with(this).load(visitingTeamLogo).fit().centerCrop().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder).into(visitingTeamLogoImageView);
-        homeTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_home_team_score)));
-        visitingTeamScore.setText(getIntent().getStringExtra(getString(R.string.intent_visiting_team_score)));
+    private void setUpToolbar() {
+        publicBoardToolbar.setHomeTeamLogo(picasso, homeTeamLogo);
+        publicBoardToolbar.setVisitingTeamLogo(picasso, visitingTeamLogo);
+        publicBoardToolbar.setScore(true, homeGoals + " - " + awayGoals);
+        publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
+    }
+
+    private void setupViewPagerWithFragments() {
+        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId, currentMatchId, homeTeamLogo, visitingTeamLogo);
+        viewPager.setAdapter(boardPagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(publicBoardToolbar.getInfoTilesTabLayout()));
+        publicBoardToolbar.getInfoTilesTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+        Objects.requireNonNull(publicBoardToolbar.getInfoTilesTabLayout().getTabAt(1)).select();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.intent_board)));
+        publicBoardToolbar.initListeners(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(mMessageReceiver);
-    }
-
-    //todo: Inject adapter
-    private void initRecyclerView() {
-//        TODO : Temporary change, this method is being migrated to BoardTilesFragment. Tiles will be populated there.
-        boardMediaAdapter = new BoardMediaAdapter(Picasso.with(this));
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        boardRecyclerView.setLayoutManager(gridLayoutManager);
-        boardMediaAdapter.setOnClickFeedItemListener(this);
-        boardRecyclerView.setAdapter(boardMediaAdapter);
-        renderScript = RenderScript.create(this);
-
-    }
-
-    private void setUpAdapterWithNewData(List<FootballFeed> boardFeedList) {
-        boardFeed.clear();
-        boardFeed.addAll(boardFeedList);
-        boardMediaAdapter.notifyDataSetChanged();
+        publicBoardToolbar.dispose();
     }
 
     public void setUpBoomMenu() {
-        //todo: will be add in Utils so we can Reuse the Code
-        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
-        int[] fabImages = {R.drawable.ic_settings_white,
-                R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.text_icon, R.drawable.ic_link, R.drawable.ic_video};
-        int[] backgroundColors = {R.drawable.fab_circle_background_grey,
-                R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Comment", "Attachment", "Video"};
-        for (int i = 0; i < fabImages.length; i++) {
-            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
-            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
-            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
-            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
-            fabImageVIew.setImageResource(fabImages[i]);
-            final int position = i;
-            //TODO: move common code to separate method
-            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (position) {
-                        case 0: {
-                            break;
-                        }
-                        case 1: {
-                            break;
-                        }
-                        case 2: {
-                            break;
-                        }
-                        case 3: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.gallery));
-                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 4: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.camera));
-                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 5: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_audio));
-                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 6: {
-                            Intent intent = new Intent(BoardActivity.this, PostCommentActivity.class);
-                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
-                            startActivity(intent);
-                            break;
-                        }
-                        case 7: {
-                            break;
-                        }
-                        case 8: {
-                            Intent intent = new Intent(BoardActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.video));
-                            intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_board_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                    }
-                }
-            });
-        }
+        UIDisplayUtil.setupBoomMenu(this, arcMenu, boardId);
     }
 
     @OnClick(R.id.line_chart)
     public void openTimeLine(View view) {
         if (boardParentViewBitmap == null) {
-            boardParentViewBitmap = loadBitmap(boardParentLayout, boardParentLayout, this);
+            boardParentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
         }
-        TimelineActivity.launch(this, view);
+        TimelineActivity.launch(this, view, currentMatchId);
     }
 
-    @OnClick({R.id.following_text_view})
-    //todo: can subscribe to Board,card and User field
-    public void onViewClicked(View view) {
-        String id = getString(R.string.board_id_prefix) + enterBoardId;
-        switch (view.getId()) {
-            case R.id.following_text_view:
-                if (followingTextView.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
-                    followingTextView.setText(R.string.unfollow);
-                    FirebaseMessaging.getInstance().subscribeToTopic(id);
-                } else {
-                    followingTextView.setText(R.string.follow);
-                    FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
-                }
-                break;
-        }
-    }
-
-    public void retrieveBoard(Long foreignId, String boardType) {
-
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-
-        restApi.retrieveBoard(foreignId, boardType, token)
+    public void retrieveBoardId(Long currentMatchId, String boardType) {
+        restApi.retrieveBoard(currentMatchId, boardType, getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<Board>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "In onError()" + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<Board> response) {
-                        if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                            enterBoardId = response.body().getId();
+                        Board board = response.body();
+                        if (response.code() == HttpURLConnection.HTTP_OK && board != null) {
+                            boardId = board.getId();
                             saveBoardId();
-                            retrieveBoardByBoardId(enterBoardId);
-                            String topic = getString(R.string.board_id_prefix) + enterBoardId;
-                            FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
+                            setUpBoomMenu();
+                            setupViewPagerWithFragments();
+
+                            String topic = getString(R.string.board_id_prefix) + boardId;
+                            FirebaseMessaging.getInstance().subscribeToTopic(topic);
                         }
                     }
                 });
@@ -343,62 +265,64 @@ public class BoardActivity extends AppCompatActivity implements OnClickFeedItemL
     public void saveBoardId() {
         SharedPreferences.Editor boardIdEditor;
         boardIdEditor = getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE).edit();
-        boardIdEditor.putString(getString(R.string.pref_enter_board_id), enterBoardId).apply();
-    }
-
-    public void retrieveBoardByBoardId(String boardId) {
-
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-
-        progressBar.setVisibility(View.VISIBLE);
-        restApi.retrieveByBoardId(boardId, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
-                    @Override
-                    public void onCompleted() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Log.e(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "On Error()" + e);
-                        progressBar.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<List<FootballFeed>> response) {
-                        progressBar.setVisibility(View.INVISIBLE);
-
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                if (response.body() != null)
-                                    setUpAdapterWithNewData(response.body());
-                                else
-                                    Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(BoardActivity.this, R.string.board_not_populated, Toast.LENGTH_SHORT).show();
-                                ;
-                                break;
-                            default:
-                                Toast.makeText(BoardActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
+        boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply();
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void followClicked(TextView followBtn) {
+        String id = getString(R.string.board_id_prefix) + boardId;
+        if (followBtn.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
+            followBtn.setText(R.string.unfollow);
+            FirebaseMessaging.getInstance().subscribeToTopic(id);
+        } else {
+            followBtn.setText(R.string.follow);
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
+        }
+    }
 
-        boardParentViewBitmap = loadBitmap(boardParentLayout, boardParentLayout, this);
-        Intent intent = new Intent(this, BoardFeedDetailActivity.class);
-        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
-        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(boardFeed));
-        intent.putExtra(getString(R.string.intent_board_id), enterBoardId);
-        startActivity(intent);
+    static class BoardPagerAdapter extends FragmentPagerAdapter {
+
+        private Fragment currentFragment;
+        private String boardId;
+        private final long matchId;
+        private String homeLogo;
+        private String visitingLogo;
+
+        BoardPagerAdapter(FragmentManager fragmentManager, String boardId, long matchId, String homeLogo, String visitingLogo) {
+            super(fragmentManager);
+            this.boardId = boardId;
+            this.matchId = matchId;
+            this.homeLogo = homeLogo;
+            this.visitingLogo = visitingLogo;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return BoardInfoFragment.newInstance(matchId, homeLogo, visitingLogo);
+                case 1:
+                    return BoardTilesFragment.newInstance(boardId);
+                default:
+                    return null;
+            }
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public void setPrimaryItem(ViewGroup container, int position, Object object) {
+            if (getCurrentFragment() != object) {
+                currentFragment = (Fragment) object;
+            }
+            super.setPrimaryItem(container, position, object);
+        }
+
+        Fragment getCurrentFragment() {
+            return currentFragment;
+        }
     }
 }

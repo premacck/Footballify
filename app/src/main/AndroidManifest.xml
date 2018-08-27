@@ -56,20 +56,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".view.activity.LineupActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.plank.life"
-                    android:scheme="https" />
-            </intent-filter>
-        </activity>
 
         <receiver
             android:name="com.microsoft.windowsazure.notifications.NotificationsBroadcastReceiver"
@@ -152,6 +138,7 @@
         <activity android:name=".view.activity.MatchResultDetailActivity" />
         <activity android:name=".view.activity.UserFeedActivity" />
         <activity android:name=".view.activity.TimelineActivity" />
+        <activity android:name=".view.activity.CommentaryActivity" />
     </application>
 
 </manifest>

@@ -51,4 +51,7 @@
     <color name="purple_timeline">#490064</color>
     <color name="transparent_black_10">#10000000</color>
     <color name="transparent_black_dd">#dd000000</color>
+    <color name="lineup_player_red">#fd0010</color>
+    <color name="commentary_yellow">#894e00</color>
+    <color name="commentary_red">#d0021b</color>
 </resources>

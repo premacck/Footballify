@@ -46,4 +46,27 @@ public class AppConstants {
     public static final String KICK_OFF = "KICK-OFF";
     public static final String HALF_TIME = "HALF-TIME";
     public static final String FULL_TIME = "FULL-TIME";
+
+    public static final String YELLOW = "yellow";
+    public static final String RED = "red";
+    public static final String LIVE = "LIVE";
+    public static final String LIVE_TIME = "00.00";
+    public static final String HT = "HT";
+    public static final String FT = "FT";
+
+    public static final String MATCH_EVENTS = "matchEventList";
+    public static final String SCORE_DATA = "scoreData";
+    public static final String TIME_STATUS = "timeStatus";
+    public static final String COMMENTARY_DATA = "commentaryList";
+
+    public static final String FIRST_HALF_ENDED_ = "First Half ended - ";
+    public static final String SECOND_HALF_ENDED_ = "Second Half ended - ";
+    public static final String THATS_ALL = "Thats all ";
+    public static final String GOAL_ = "Goal! ";
+    public static final String CORNER_ = "Corner - ";
+    public static final String SUBSTITUTION_ = "Substitution - ";
+    public static final String OFFSIDE_ = "Offside - ";
+    public static final String YELLOW_CARD_ = "yellow card";
+    public static final String RED_CARD_ = "red card";
+    public static final String FREE_KICK_ = "free kick";
 }

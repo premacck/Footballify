@@ -1,9 +1,6 @@
 package life.plank.juna.zone.view.fragment.board;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,12 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -32,9 +27,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.BoardFeedDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
@@ -43,6 +36,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
@@ -62,36 +57,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     private BoardMediaAdapter adapter;
 
     private String boardId;
-
-    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            setDataReceivedFromPushNotification(intent);
-        }
-    };
-
-    public void setDataReceivedFromPushNotification(Intent intent) {
-        String title = intent.getStringExtra(getString(R.string.intent_comment_title));
-        String contentType = intent.getStringExtra(getString(R.string.intent_content_type));
-        String thumbnailUrl = intent.getStringExtra(getString(R.string.intent_thumbnail_url));
-        Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
-        Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
-        String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
-        FootballFeed footballFeed = new FootballFeed();
-        Log.e(TAG, "content_type: " + contentType);
-        footballFeed.setContentType(contentType);
-        if (contentType.equals(AppConstants.ROOT_COMMENT)) {
-            footballFeed.setTitle(title);
-        } else {
-            Thumbnail thumbnail = new Thumbnail();
-            thumbnail.setImageWidth(thumbnailWidth);
-            thumbnail.setImageHeight(thumbnailHeight);
-            thumbnail.setImageUrl(thumbnailUrl);
-            footballFeed.setThumbnail(thumbnail);
-            footballFeed.setUrl(imageUrl);
-        }
-        updateNewPost(footballFeed);
-    }
 
     public BoardTilesFragment() {
     }
@@ -122,18 +87,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         initRecyclerView();
         updateTiles(boardId);
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Objects.requireNonNull(getContext()).registerReceiver(mMessageReceiver, new IntentFilter(getString(R.string.intent_board)));
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Objects.requireNonNull(getContext()).unregisterReceiver(mMessageReceiver);
     }
 
     private void initRecyclerView() {
@@ -193,11 +146,11 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     @Override
-    public void onItemClick(int position) {
-        Intent intent = new Intent(getActivity(), BoardFeedDetailActivity.class);
-        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
-        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getBoardFeed()));
-        intent.putExtra(getString(R.string.intent_board_id), boardId);
-        startActivity(intent);
+    public void onItemClick(int position, View fromView) {
+        Activity boardActivity = getActivity();
+        if (boardActivity != null) {
+            boardParentViewBitmap = loadBitmap(boardActivity.getWindow().getDecorView(), boardActivity.getWindow().getDecorView(), boardActivity);
+        }
+        BoardFeedDetailActivity.launch(getActivity(), position, adapter.getBoardFeed(), boardId, fromView);
     }
 }

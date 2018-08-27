@@ -1,5 +1,7 @@
 package life.plank.juna.zone.util;
 
+import android.util.SparseArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -83,7 +85,7 @@ public class ScrubberConstants {
         return SCRUBBER_VIEW_TOTAL_WINDOW;
     }
 
-    public static void getHighLightsMatchOne(HashMap<Integer, ScrubberViewData> scrubberViewDataHolder) {
+    public static void getHighLightsMatchOne(SparseArray<ScrubberViewData> scrubberViewDataHolder) {
         ArrayList<Tile> tileArrayList = new ArrayList<>();
         scrubberViewDataHolder.put(2, new ScrubberViewData(": Kante bursts down the inside-right channel, a most proactive move. He’s bundled off the ball, the Arsenal defence closing ranks and doing their job. But maybe there’s a very early sign that Chelseaaren’t just here to sit back and soak up pressure from the home side",
                 ScrubberConstants.getScrubberViewCursor(), new LiveFeedTileData(tileArrayList), false));

@@ -6,15 +6,17 @@ import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.activity.CameraActivity;
+import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
-import life.plank.juna.zone.view.activity.LineupActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
 import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
+import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
+import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
@@ -47,8 +49,6 @@ public interface UiComponent {
 
     void inject(FootballFeedDetailAdapter footballFeedDetailAdapter);
 
-    void inject(LineupActivity lineupActivity);
-
     void inject(MatchResultActivity matchResultActivity);
 
     void inject(PostCommentActivity postCommentActivity);
@@ -66,6 +66,12 @@ public interface UiComponent {
     void inject(BoardTilesFragment boardTilesFragment);
 
     void inject(BoardInfoFragment boardInfoFragment);
+
+    void inject(TimelineActivity timelineActivity);
+
+    void inject(PrivateBoardActivity privateBoardActivity);
+
+    void inject(CommentaryActivity commentaryActivity);
 
     @Subcomponent.Builder
     interface Builder {

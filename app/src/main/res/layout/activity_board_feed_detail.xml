@@ -18,6 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:transitionName="board_tile_transition"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp" />
 </RelativeLayout>

@@ -1,7 +1,11 @@
 package life.plank.juna.zone.util;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -9,12 +13,15 @@ import java.util.List;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
+import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
+import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
@@ -113,5 +120,24 @@ public class DataUtil {
         }
         newList.clear();
         return list;
+    }
+
+    public static ZoneLiveData getZoneLiveData(Intent intent, String key, Gson gson) {
+        return gson.fromJson(intent.getStringExtra(key), new TypeToken<ZoneLiveData>() {
+        }.getType());
+    }
+
+    public static String getFormattedExtraMinutes(int minute) {
+        return minute > 9 ? minute + ".00" : "0" + minute + ".00";
+    }
+
+    public static List<MatchEvent> extractSubstitutionEvents(List<MatchEvent> matchEvents) {
+        List<MatchEvent> newMatchEventList = new ArrayList<>(matchEvents);
+        for (MatchEvent matchEvent : matchEvents) {
+            if (!Objects.equals(matchEvent.getEventType(), SUBSTITUTION)) {
+                newMatchEventList.remove(matchEvent);
+            }
+        }
+        return newMatchEventList;
     }
 }

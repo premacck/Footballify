@@ -18,17 +18,22 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME;
 import static life.plank.juna.zone.util.AppConstants.GOAL;
 import static life.plank.juna.zone.util.AppConstants.HALF_TIME;
+import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.KICK_OFF;
+import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.AppConstants.LIVE_TIME;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
+import static life.plank.juna.zone.util.DataUtil.getFormattedExtraMinutes;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
@@ -54,12 +59,38 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         return matchEventList.size();
     }
 
+    public void updateEvents(List<MatchEvent> matchEventList) {
+        if (this.matchEventList.isEmpty()) {
+//            adding kickoff time statically. TODO : change to dynamic population after backend sends it.
+            matchEventList.add(new MatchEvent(new LiveTimeStatus(LIVE, 0, 0)));
+        }
+        this.matchEventList.addAll(matchEventList);
+        notifyDataSetChanged();
+    }
+
+    public void updateLiveEvents(List<MatchEvent> matchEventList) {
+        int initialSize = matchEventList.size();
+        this.matchEventList.addAll(matchEventList);
+        notifyItemRangeInserted(initialSize, matchEventList.size());
+    }
+
+    public void updateWhistleEvent(LiveTimeStatus timeStatus) {
+        matchEventList.add(new MatchEvent(timeStatus));
+        notifyItemInserted(matchEventList.size() - 1);
+    }
+
     static class TimelineViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.center_space)
         View verticalLine;
+        @BindView(R.id.whistle_event_layout)
+        RelativeLayout whistleLayout;
         @BindView(R.id.whistle)
         ImageView whistleImage;
+        @BindView(R.id.whistle_text_1)
+        TextView whistleEventUp;
+        @BindView(R.id.whistle_text_2)
+        TextView whistleEventDown;
         @BindView(R.id.minute)
         TextView minuteView;
         @BindView(R.id.timeline_layout)
@@ -82,23 +113,34 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         public void bind() {
             event = ref.get().matchEventList.get(getAdapterPosition());
 
-            placeTimelineLayout();
+            if (event.getLiveTimeStatus() != null) {
+                setLayout(true);
+                onWhistleEvent();
+            } else {
+                setLayout(false);
+                placeTimelineLayout();
 
-            switch (event.getEventType()) {
-                case GOAL:
-                    onGoalEvent();
-                    break;
-                case YELLOW_CARD:
-                case RED_CARD:
-                case YELLOW_RED:
-                    onCardEvent();
-                    break;
-                case SUBSTITUTION:
-                    onSubstitutionEvent();
-                    break;
-                default:
-                    break;
+                switch (event.getEventType()) {
+                    case GOAL:
+                        onGoalEvent();
+                        break;
+                    case YELLOW_CARD:
+                    case RED_CARD:
+                    case YELLOW_RED:
+                        onCardEvent();
+                        break;
+                    case SUBSTITUTION:
+                        onSubstitutionEvent();
+                        break;
+                    default:
+                        break;
+                }
             }
+        }
+
+        private void setLayout(boolean isWhistleEvent) {
+            whistleLayout.setVisibility(isWhistleEvent ? View.VISIBLE : View.GONE);
+            timelineLayout.setVisibility(isWhistleEvent ? View.GONE : View.VISIBLE);
         }
 
         private void placeTimelineLayout() {
@@ -114,6 +156,10 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             params.leftMargin = (int) getDp(ref.get().context, event.getIsHomeTeam() ? 0 : 22);
             timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
             timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
+            LinearLayout.LayoutParams eventParams = (LinearLayout.LayoutParams) timelineEventUp.getLayoutParams();
+            eventParams.gravity = Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START);
+            timelineEventUp.setLayoutParams(eventParams);
+            timelineEventDown.setLayoutParams(eventParams);
             timelineLayout.setLayoutParams(params);
         }
 
@@ -121,19 +167,21 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             whistleImage.setVisibility(View.VISIBLE);
             verticalLine.setVisibility(View.INVISIBLE);
             minuteView.setVisibility(View.GONE);
-            timelineEventUp.setText(getTimedEventString());
-            timelineEventDown.setVisibility(View.GONE);
+            whistleEventUp.setText(getTimedEventString());
+            whistleEventDown.setVisibility(View.VISIBLE);
+            whistleEventDown.setText(getTimedEventExtraString());
         }
 
         private void onCardEvent() {
             setCenterLayout();
+            timelineEventDown.setCompoundDrawablePadding((int) getDp(ref.get().context, 10));
             int suitableCardDrawable = event.getEventType().contains(ref.get().context.getString(R.string.red)) ?
                     event.getIsHomeTeam() ?
-                            R.drawable.yellow_left :
-                            R.drawable.yellow_right :
-                    event.getIsHomeTeam() ?
                             R.drawable.red_left :
-                            R.drawable.red_right;
+                            R.drawable.red_right :
+                    event.getIsHomeTeam() ?
+                            R.drawable.yellow_left :
+                            R.drawable.yellow_right;
             if (event.getIsHomeTeam()) {
                 timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, suitableCardDrawable, 0);
             } else {
@@ -145,6 +193,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
         private void onSubstitutionEvent() {
             setCenterLayout();
+            timelineEventDown.setCompoundDrawablePadding((int) getDp(ref.get().context, 10));
             if (event.getIsHomeTeam()) {
                 timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_in, 0);
                 timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_out, 0);
@@ -154,34 +203,57 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             }
             timelineEventUp.setText(event.getPlayerName());
             timelineEventDown.setVisibility(View.VISIBLE);
-            timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+            timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
             timelineEventDown.setText(event.getRelatedPlayerName());
         }
 
         private void onGoalEvent() {
             setCenterLayout();
-            if (event.getIsHomeTeam()) {
-                timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_goal_left, 0);
-                timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_assist, 0, 0, 0);
-            } else {
-                timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_goal_right, 0, 0, 0);
-                timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_assist, 0);
-            }
+            timelineEventDown.setCompoundDrawablePadding((int) getDp(ref.get().context, 4));
+            timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(
+                    event.getIsHomeTeam() ? 0 : R.drawable.ic_goal_right,
+                    0,
+                    event.getIsHomeTeam() ? R.drawable.ic_goal_left : 0,
+                    0
+            );
             timelineEventUp.setText(event.getPlayerName());
             timelineEventDown.setVisibility(View.VISIBLE);
-            timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 8);
-            String timelineEventDownText = event.getRelatedPlayerName() + "\t" + event.getResult();
+            timelineEventDown.setTextSize(TypedValue.COMPLEX_UNIT_SP, 10);
+            String timelineEventDownText;
+            if (event.getRelatedPlayerName() != null) {
+                timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(
+                        event.getIsHomeTeam() ? R.drawable.ic_assist : 0,
+                        0,
+                        event.getIsHomeTeam() ? 0 : R.drawable.ic_assist,
+                        0
+                );
+                timelineEventDownText = event.getIsHomeTeam() ?
+                        event.getRelatedPlayerName() + "    " + event.getResult() :
+                        event.getResult() + "    " + event.getRelatedPlayerName();
+            } else {
+                timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                timelineEventDownText = event.getResult();
+            }
             timelineEventDown.setText(timelineEventDownText);
         }
 
         private String getTimedEventString() {
-            switch (event.getMinute()) {
-                case 0:
+            switch (event.getLiveTimeStatus().getTimeStatus()) {
+                case LIVE:
                     return KICK_OFF;
-                case 45:
+                case HT:
                     return HALF_TIME;
                 default:
                     return FULL_TIME;
+            }
+        }
+
+        private String getTimedEventExtraString() {
+            switch (event.getLiveTimeStatus().getTimeStatus()) {
+                case LIVE:
+                    return LIVE_TIME;
+                default:
+                    return getFormattedExtraMinutes(event.getLiveTimeStatus().getExtraMinute());
             }
         }
 

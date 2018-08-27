@@ -91,4 +91,10 @@
         </attr>
         <attr name="tilt_" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="CircularTextView">
+        <attr name="strokeWidth" format="float" />
+        <attr name="strokeColor" format="color" />
+        <attr name="solidColor" format="color" />
+    </declare-styleable>
 </resources>
