@@ -57,6 +57,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
@@ -155,7 +156,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
                 liveScoreData = zoneLiveData.getScoreData();
-                publicBoardToolbar.setScore(true, liveScoreData.getHomeGoals() + " - " + liveScoreData.getAwayGoals());
+                publicBoardToolbar.setScore(true, liveScoreData.getHomeGoals() + DASH + liveScoreData.getAwayGoals());
                 break;
             default:
                 break;
@@ -194,7 +195,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private void setUpToolbar() {
         publicBoardToolbar.setHomeTeamLogo(picasso, homeTeamLogo);
         publicBoardToolbar.setVisitingTeamLogo(picasso, visitingTeamLogo);
-        publicBoardToolbar.setScore(true, homeGoals + " - " + awayGoals);
+        publicBoardToolbar.setScore(true, homeGoals + DASH + awayGoals);
         publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
     }
 

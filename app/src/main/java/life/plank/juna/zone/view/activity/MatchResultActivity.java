@@ -250,7 +250,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 if (GlobalVariable.getInstance().getTilePosition() != 3) {
                     matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
 //                    TODO : replace this with values retrieved from the API call.
-                    FixtureAndResultActivity.launch(
+                    FixtureActivity.launch(
                             MatchResultActivity.this,
                             AppConstants.SEASON_NAME,
                             AppConstants.LEAGUE_NAME,

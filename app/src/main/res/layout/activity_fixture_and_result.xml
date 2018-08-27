@@ -15,7 +15,7 @@
         android:layout_marginBottom="6dp"
         android:transitionName="match_fixture_result"
         app:cardCornerRadius="8dp"
-        tools:context=".view.activity.FixtureAndResultActivity">
+        tools:context=".view.activity.FixtureActivity">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/header"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_match_fixture_section" />
+                tools:listitem="@layout/item_fixture_matchday" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"

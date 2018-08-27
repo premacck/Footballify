@@ -68,11 +68,10 @@ public class LineupPlayer extends FrameLayout {
             setPlayerNumber(formation.getNumber())
 //    TODO : replace with boolean values once backend filters it
                     .setPlayerCard(
-                            formation.getYellowCard() == 1,
-                            formation.getRedCard() == 1,
-                            formation.getYellowRed() == 1)
-                    .setSubstituted(
-                            formation.getSubstituteIn() == 1)
+                            formation.getYellowCard(),
+                            formation.getRedCard(),
+                            formation.getYellowRed())
+                    .setSubstituted(formation.getSubstituteIn())
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
@@ -94,15 +93,15 @@ public class LineupPlayer extends FrameLayout {
         return this;
     }
 
-    public LineupPlayer setPlayerCard(boolean yellowCard, boolean redCard, boolean yellowRed) {
-        if (!yellowCard && !redCard && !yellowRed) {
+    public LineupPlayer setPlayerCard(int yellowCard, int redCard, int yellowRed) {
+        if (yellowCard == 0 && redCard == 0 && yellowRed == 0) {
             lineupPlayerCard.setVisibility(GONE);
             return this;
         }
         lineupPlayerCard.setVisibility(VISIBLE);
-        if (yellowRed) {
+        if (yellowRed == 1) {
             lineupPlayerCard.setImageResource(R.drawable.yellow_red);
-        } else if (redCard) {
+        } else if (redCard == 1) {
             lineupPlayerCard.setImageResource(R.drawable.red_right);
         } else {
             lineupPlayerCard.setImageResource(R.drawable.yellow_right);
@@ -136,8 +135,8 @@ public class LineupPlayer extends FrameLayout {
         return lineupPlayerSubstitution.getVisibility() == VISIBLE;
     }
 
-    public LineupPlayer setSubstituted(boolean isSubstitutedIn) {
-        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? GONE : VISIBLE);
+    public LineupPlayer setSubstituted(int isSubstitutedIn) {
+        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn == 1 ? VISIBLE : GONE);
         return this;
     }
 
