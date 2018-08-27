@@ -208,4 +208,9 @@ public class PrivateBoardActivity extends AppCompatActivity {
         UIDisplayUtil.setupBoomMenu(this, arcMenu, board.getId());
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(PrivateBoardActivity.this, SwipePageActivity.class));
+    }
 }

@@ -150,4 +150,5 @@
     </array>
     <string name="lineup_card">Lineup card</string>
     <string name="no_substitutions_yet">No substitutions yet</string>
+    <string name="preview_and_create"><![CDATA[Preview & create]]></string>
 </resources>
