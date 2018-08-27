@@ -54,4 +54,6 @@
     <color name="lineup_player_red">#fd0010</color>
     <color name="commentary_yellow">#894e00</color>
     <color name="commentary_red">#d0021b</color>
+    <color name="faded_red">#b82c3f</color>
+    <color name="darkish_pink">#dd5873</color>
 </resources>
