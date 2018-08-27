@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="-1sp"
                 android:padding="10dp"
-                android:text="Preview your board"
+                android:text="@string/preview_your_board"
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
@@ -87,7 +87,7 @@
                                 android:lineSpacingExtra="3sp"
                                 android:paddingStart="10dp"
                                 android:paddingTop="5dp"
-                                android:text="Description"
+                                android:text="@string/description"
                                 android:textColor="@color/grey"
                                 android:textSize="12sp" />
 
@@ -98,7 +98,6 @@
                                 android:layout_below="@+id/description_title"
                                 android:lineSpacingExtra="5sp"
                                 android:padding="10dp"
-                                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce or nare vestibulum erat sagittis sollicitudin. Morbi varius eros eget velit congue finibus. Etiam accumsan est augue, vel blandit mauris is a nu pretium malesuada."
                                 android:textColor="@color/grey"
                                 android:textSize="12sp" />
                         </RelativeLayout>
