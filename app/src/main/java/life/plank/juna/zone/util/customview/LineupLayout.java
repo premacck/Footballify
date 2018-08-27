@@ -66,10 +66,10 @@ public class LineupLayout extends FrameLayout {
     ImageView homeTeamLogo;
     @BindView(R.id.visiting_team_logo)
     ImageView visitingTeamLogo;
-    @BindView(R.id.home_team_logo_2)
-    ImageView homeTeamLogo2;
-    @BindView(R.id.visiting_team_logo_2)
-    ImageView visitingTeamLogo2;
+    @BindView(R.id.home_team_logo_under_manager)
+    ImageView homeTeamLogoUnderManager;
+    @BindView(R.id.visiting_team_logo_under_manager)
+    ImageView visitingTeamLogoUnderManager;
 
     @BindView(R.id.home_player_name)
     TextView homeManager;
@@ -120,8 +120,8 @@ public class LineupLayout extends FrameLayout {
         loadImage(picasso, visitingLogo, visitingTarget);
         loadImage(picasso, homeLogo, homeTeamLogo);
         loadImage(picasso, visitingLogo, visitingTeamLogo);
-        loadImage(picasso, homeLogo, homeTeamLogo2);
-        loadImage(picasso, visitingLogo, visitingTeamLogo2);
+        loadImage(picasso, homeLogo, homeTeamLogoUnderManager);
+        loadImage(picasso, visitingLogo, visitingTeamLogoUnderManager);
     }
 
     private void loadImage(Picasso picasso, String logo, Target target) {
