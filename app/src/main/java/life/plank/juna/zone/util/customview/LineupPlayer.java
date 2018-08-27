@@ -66,6 +66,7 @@ public class LineupPlayer extends FrameLayout {
     public void update(@ColorRes int labelColor) {
         if (formation != null) {
             setPlayerNumber(formation.getNumber())
+//    TODO : replace with boolean values once backend filters it
                     .setPlayerCard(
                             formation.getYellowCard(),
                             formation.getRedCard(),

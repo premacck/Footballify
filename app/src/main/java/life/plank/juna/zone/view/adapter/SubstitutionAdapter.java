@@ -25,10 +25,7 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
 
     @Override
     public SubstitutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SubstitutionViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_substitutes, parent, false),
-                this
-        );
+        return new SubstitutionViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_substitutes, parent, false), this);
     }
 
     @Override
