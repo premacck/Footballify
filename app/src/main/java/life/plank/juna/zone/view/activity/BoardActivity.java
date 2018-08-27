@@ -61,8 +61,6 @@ import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
-import static life.plank.juna.zone.view.fragment.board.BoardInfoFragment.HOME_TEAM_NAME;
-import static life.plank.juna.zone.view.fragment.board.BoardInfoFragment.VISITING_TEAM_NAME;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -117,8 +115,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 .putExtra(packageContext.getString(R.string.match_id_string), matchId)
                 .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
                 .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo)
-                .putExtra(HOME_TEAM_NAME, homeTeamName)
-                .putExtra(VISITING_TEAM_NAME, visitingTeamName)
+                .putExtra(packageContext.getString(R.string.pref_home_team_name), homeTeamName)
+                .putExtra(packageContext.getString(R.string.pref_visiting_team_name), visitingTeamName)
                 .putExtra(packageContext.getString(R.string.matchday_), matchDay);
         packageContext.startActivity(intent);
     }
@@ -185,8 +183,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
         homeGoals = intent.getIntExtra(getString(R.string.intent_home_team_score), 0);
         awayGoals = intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0);
-        homeTeamName = intent.getStringExtra(HOME_TEAM_NAME);
-        visitingTeamName = intent.getStringExtra(VISITING_TEAM_NAME);
+        homeTeamName = intent.getStringExtra(getString(R.string.pref_home_team_name));
+        visitingTeamName = intent.getStringExtra(getString(R.string.pref_visiting_team_name));
         matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
 
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
