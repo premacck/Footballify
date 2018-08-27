@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
@@ -102,6 +103,7 @@ public class TimelineActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
         }
         initRecyclerView();
         getTimeLineEvents();
@@ -119,9 +121,14 @@ public class TimelineActivity extends AppCompatActivity {
         unregisterReceiver(mMessageReceiver);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+    }
+
     private void initRecyclerView() {
         adapter = new TimelineAdapter(this);
-//        ((LinearLayoutManager) timelineRecyclerView.getLayoutManager()).setReverseLayout(true);
         timelineRecyclerView.setAdapter(adapter);
     }
 

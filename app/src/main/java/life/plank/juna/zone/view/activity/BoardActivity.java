@@ -188,6 +188,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         visitingTeamName = intent.getStringExtra(getString(R.string.pref_visiting_team_name));
         matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
 
+        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
         setUpToolbar();
     }
@@ -219,6 +220,12 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         super.onPause();
         unregisterReceiver(mMessageReceiver);
         publicBoardToolbar.dispose();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
     }
 
     public void setUpBoomMenu() {
