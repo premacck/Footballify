@@ -13,12 +13,9 @@ import life.plank.juna.zone.R;
 
 public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder> {
     private Context context;
-//    private ArrayList<UserFeed> userFeed;
 
     public UserZoneAdapter(Context context) {
         this.context = context;
-        //this.userFeed = userFeed;
-        //, ArrayList<UserFeed> userFeed
     }
 
     @Override
@@ -28,14 +25,12 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
 
     @Override
     public void onBindViewHolder(UserZoneAdapter.UserZoneViewHolder holder, int position) {
-
-        holder.footballTextView.setText("Football");
-        holder.matchStatusTextView.setText("Kick-off in 2hrs 13 mins");
-        holder.matchbetweenTextView.setText("Bournemouth vs Man. United");
+        //TODO: Set with data provided by backend
     }
 
     @Override
     public int getItemCount() {
+        //TODO: Remove hardcoded value after data is returned from the backend
         return 4;
     }
 
@@ -45,7 +40,7 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
         @BindView(R.id.match_status)
         TextView matchStatusTextView;
         @BindView(R.id.match_between)
-        TextView matchbetweenTextView;
+        TextView matchBetweenTextView;
 
         UserZoneViewHolder(View itemView) {
             super(itemView);

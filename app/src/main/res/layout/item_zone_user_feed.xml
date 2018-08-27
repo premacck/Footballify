@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_content"
     android:layout_width="match_parent"
     android:layout_height="142dp"
@@ -27,9 +26,9 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="20dp"
             android:padding="10dp"
+            android:text="@string/football"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            tools:text="@string/football" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/number_of_people_text_view"
@@ -135,9 +134,9 @@
                         android:layout_toRightOf="@+id/epl_logo"
                         android:fontFamily="@font/rajdhani_medium"
                         android:lineSpacingExtra="3sp"
+                        android:text="@string/match_status"
                         android:textColor="@color/grey"
-                        android:textSize="12sp"
-                        tools:text="Kick-off in 2hrs 13 mins" />
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/match_between"
@@ -147,9 +146,9 @@
                         android:layout_marginStart="9dp"
                         android:fontFamily="@font/raleway_medium"
                         android:lineSpacingExtra="3sp"
-                        android:textColor="#b82c3f"
-                        android:textSize="16sp"
-                        tools:text="Bournemouth vs Man. United" />
+                        android:text="@string/match_between"
+                        android:textColor="@color/faded_red"
+                        android:textSize="16sp" />
 
                 </RelativeLayout>
             </LinearLayout>

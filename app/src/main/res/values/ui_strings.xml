@@ -150,4 +150,6 @@
     </array>
     <string name="lineup_card">Lineup card</string>
     <string name="no_substitutions_yet">No substitutions yet</string>
+    <string name="match_status">Kick-off in 2hrs 13 mins</string>
+    <string name="match_between">Bournemouth vs Man. United</string>
 </resources>

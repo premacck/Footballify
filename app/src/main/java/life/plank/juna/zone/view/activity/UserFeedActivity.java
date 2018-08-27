@@ -40,18 +40,14 @@ public class UserFeedActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
-    private RestApi restApi;
     UserFeedAdapter userFeedAdapter;
-    private ArrayList<UserFeed> userFeed = new ArrayList<>();
-
     UserZoneAdapter userZoneAdapter;
-    //private ArrayList<UserFeed> zoneFeed = new ArrayList<>();
-
     @BindView(R.id.user_feed_recycler_view)
     RecyclerView userFeedRecyclerView;
-
     @BindView(R.id.user_zone_recycler_view)
     RecyclerView userZoneRecyclerView;
+    private RestApi restApi;
+    private ArrayList<UserFeed> userFeed = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
