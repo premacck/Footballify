@@ -58,6 +58,12 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
         notifyDataSetChanged();
     }
 
+    public void updateNew(List<Commentary> commentaries) {
+        int previousIndex = this.commentaries.size();
+        this.commentaries.addAll(commentaries);
+        notifyItemRangeInserted(previousIndex, commentaries.size());
+    }
+
     public List<Commentary> getCommentaries() {
         return commentaries;
     }

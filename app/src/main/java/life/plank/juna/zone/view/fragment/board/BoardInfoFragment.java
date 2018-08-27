@@ -45,6 +45,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -152,6 +153,9 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         LiveScoreData liveScoreData;
         List<MatchEvent> substitutionEventList;
         switch (zoneLiveData.getLiveDataType()) {
+            case COMMENTARY_DATA:
+                commentarySmall.updateNew(zoneLiveData.getCommentaryList());
+                break;
             case MATCH_EVENTS:
                 substitutionEventList = extractSubstitutionEvents(zoneLiveData.getMatchEventList());
                 lineupLayout.updateSubstitutions(substitutionEventList);

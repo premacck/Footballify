@@ -13,14 +13,21 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.Commentary;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
+import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.BoardActivity;
@@ -76,10 +83,22 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
                 sendNotification(boardNotification);
             } else if (dataPayload.containsKey(getApplicationContext().getString(R.string.intent_live_event_type))) {
-                JSONObject jsonObject = new JSONObject(dataPayload);
-                String zoneLiveDataString = jsonObject.toString();
-
-                updateZoneLiveData(getApplicationContext(), zoneLiveDataString);
+                updateZoneLiveData(
+                        getApplicationContext(),
+                        gson.toJson(
+                                new ZoneLiveData(
+                                        dataPayload.get(getApplicationContext().getString(R.string.intent_live_event_type)),
+                                        Long.parseLong(dataPayload.get(getApplicationContext().getString(R.string.intent_foreign_id))),
+                                        dataPayload.get(getApplicationContext().getString(R.string.intent_board_topic)),
+                                        dataPayload.get(getApplicationContext().getString(R.string.intent_live_data_type)),
+                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_score_data)), LiveScoreData.class),
+                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_match_event_list)), new TypeToken<List<MatchEvent>>() {
+                                        }.getType()),
+                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_commentary_list)), new TypeToken<List<Commentary>>() {
+                                        }.getType()),
+                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_live_time_status)), LiveTimeStatus.class)
+                                )
+                        ));
             }
         }
 

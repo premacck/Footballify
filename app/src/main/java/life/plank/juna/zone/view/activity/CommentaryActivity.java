@@ -113,7 +113,8 @@ public class CommentaryActivity extends AppCompatActivity {
 
     private void updateLiveCommentary(ZoneLiveData zoneLiveData) {
         if (zoneLiveData.getLiveDataType().equals(COMMENTARY_DATA) && !isNullOrEmpty(zoneLiveData.getCommentaryList())) {
-            adapter.update(zoneLiveData.getCommentaryList());
+            adapter.updateNew(zoneLiveData.getCommentaryList());
+            commentaryRecyclerView.smoothScrollToPosition(adapter.getCommentaries().size() + zoneLiveData.getCommentaryList().size() - 1);
         }
     }
 }
