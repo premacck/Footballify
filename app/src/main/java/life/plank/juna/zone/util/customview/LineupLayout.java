@@ -30,6 +30,7 @@ import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -168,7 +169,7 @@ public class LineupLayout extends FrameLayout {
         for (List<Lineups.Formation> formations : formationsList.subList(1, formationsList.size())) {
             text.append(formations.size());
             if (formationsList.indexOf(formations) < formationsList.size() - 1) {
-                text.append(" - ");
+                text.append(DASH);
             }
         }
         return text.toString();

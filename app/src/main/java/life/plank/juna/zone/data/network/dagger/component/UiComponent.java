@@ -8,7 +8,7 @@ import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
-import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
+import life.plank.juna.zone.view.activity.FixtureActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
 import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
@@ -41,7 +41,7 @@ public interface UiComponent {
 
     void inject(CreateBoardActivity createBoardActivity);
 
-    void inject(FixtureAndResultActivity fixtureAndResultActivity);
+    void inject(FixtureActivity fixtureActivity);
 
     void inject(SwipePageActivity swipePageActivity);
 

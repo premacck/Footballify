@@ -99,7 +99,7 @@
             android:name=".view.activity.MatchLeagueActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.FixtureAndResultActivity"
+            android:name=".view.activity.FixtureActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.RecordAudioActivity"

@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.SectionedFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
-import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
+import life.plank.juna.zone.view.activity.FixtureActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateHeader;
@@ -25,22 +25,22 @@ import static life.plank.juna.zone.util.DateUtil.getDateHeader;
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAndResultAdapter.FixtureAndResultViewHolder> {
+public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatchdayAdapter.FixtureMatchDayViewHolder> {
 
-    private FixtureAndResultActivity activity;
+    private FixtureActivity activity;
     private List<SectionedFixture> sectionedFixtureList;
     private Picasso picasso;
 
-    public FixtureAndResultAdapter(FixtureAndResultActivity activity, Picasso picasso) {
+    public FixtureMatchdayAdapter(FixtureActivity activity, Picasso picasso) {
         this.activity = activity;
         this.picasso = picasso;
         this.sectionedFixtureList = new ArrayList<>();
     }
 
     @Override
-    public FixtureAndResultViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FixtureAndResultViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture_section, parent, false),
+    public FixtureMatchDayViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new FixtureMatchDayViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fixture_matchday, parent, false),
                 this
         );
     }
@@ -55,9 +55,9 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         return sectionedFixtureList.size();
     }
 
-    public static class FixtureAndResultViewHolder extends BaseRecyclerView.ViewHolder {
+    public static class FixtureMatchDayViewHolder extends BaseRecyclerView.ViewHolder {
 
-        private final WeakReference<FixtureAndResultAdapter> ref;
+        private final WeakReference<FixtureMatchdayAdapter> ref;
         @BindView(R.id.matchday_header)
         TextView matchdayHeader;
         @BindView(R.id.date_time)
@@ -66,7 +66,7 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
         RecyclerView recyclerView;
         private SectionedFixture sectionedFixture;
 
-        FixtureAndResultViewHolder(View itemView, FixtureAndResultAdapter adapter) {
+        FixtureMatchDayViewHolder(View itemView, FixtureMatchdayAdapter adapter) {
             super(itemView);
             this.ref = new WeakReference<>(adapter);
             ButterKnife.bind(this, itemView);
@@ -85,7 +85,7 @@ public class FixtureAndResultAdapter extends BaseRecyclerView.Adapter<FixtureAnd
                         sectionedFixture.getScoreFixtureList().get(0).getMatchStartTime()
                 ));
                 recyclerView.setAdapter(
-                        new FixtureAndResultSectionAdapter(
+                        new FixtureAdapter(
                                 sectionedFixture.getScoreFixtureList(),
                                 ref.get().picasso,
                                 ref.get().activity,

@@ -26,15 +26,15 @@ import life.plank.juna.zone.view.activity.BoardActivity;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
 import static life.plank.juna.zone.util.UIDisplayUtil.alternateBackgroundColor;
 
-public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<FixtureAndResultSectionAdapter.ViewHolder> {
+public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.FixtureViewHolder> {
 
     private List<ScoreFixture> scoreFixtureList;
     private Picasso picasso;
     private Context context;
     private FixtureSection fixtureSection;
 
-    FixtureAndResultSectionAdapter(List<ScoreFixture> scoreFixtureList, Picasso picasso,
-                                   Context context, FixtureSection fixtureSection) {
+    FixtureAdapter(List<ScoreFixture> scoreFixtureList, Picasso picasso,
+                   Context context, FixtureSection fixtureSection) {
         this.scoreFixtureList = scoreFixtureList;
         this.picasso = picasso;
         this.context = context;
@@ -42,9 +42,9 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_match_fixture, parent, false),
+    public FixtureViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new FixtureViewHolder(
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fixture, parent, false),
                 this,
                 picasso,
                 context
@@ -56,7 +56,7 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         return scoreFixtureList.size();
     }
 
-    static class ViewHolder extends BaseRecyclerView.ViewHolder {
+    static class FixtureViewHolder extends BaseRecyclerView.ViewHolder {
 
         @BindView(R.id.home_team_name)
         TextView homeTeamName;
@@ -71,12 +71,12 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
         @BindView(R.id.visiting_team_name)
         TextView visitingTeamName;
 
-        private final WeakReference<FixtureAndResultSectionAdapter> ref;
+        private final WeakReference<FixtureAdapter> ref;
         private final Picasso picasso;
         private final Context context;
         private ScoreFixture scoreFixture;
 
-        ViewHolder(View itemView, FixtureAndResultSectionAdapter adapter, Picasso picasso, Context context) {
+        FixtureViewHolder(View itemView, FixtureAdapter adapter, Picasso picasso, Context context) {
             super(itemView);
             this.ref = new WeakReference<>(adapter);
             this.picasso = picasso;
@@ -121,6 +121,8 @@ public class FixtureAndResultSectionAdapter extends BaseRecyclerView.Adapter<Fix
                     scoreFixture.getForeignId(),
                     scoreFixture.getHomeTeam().getLogoLink(),
                     scoreFixture.getAwayTeam().getLogoLink(),
+                    scoreFixture.getHomeTeam().getName(),
+                    scoreFixture.getAwayTeam().getName(),
                     scoreFixture.getMatchDay()
             );
         }

@@ -9,6 +9,7 @@ import lombok.Data;
 public class SectionedFixture {
     FixtureSection section;
     String matchday;
+    String date;
     List<ScoreFixture> scoreFixtureList;
 
     private SectionedFixture(FixtureSection section, List<ScoreFixture> scoreFixtureList) {
@@ -22,11 +23,22 @@ public class SectionedFixture {
         this.scoreFixtureList = scoreFixtureList;
     }
 
+    private SectionedFixture(String matchday, String date, FixtureSection section, List<ScoreFixture> scoreFixtureList) {
+        this.matchday = matchday;
+        this.date = date;
+        this.section = section;
+        this.scoreFixtureList = scoreFixtureList;
+    }
+
     public static SectionedFixture getFrom(FixtureSection classification, List<ScoreFixture> scoreFixtureList) {
         return new SectionedFixture(classification, scoreFixtureList);
     }
 
     public static SectionedFixture getFrom(String matchday, FixtureSection section, List<ScoreFixture> scoreFixtureList) {
         return new SectionedFixture(matchday, section, scoreFixtureList);
+    }
+
+    public static SectionedFixture getFrom(String matchday, String date, FixtureSection section, List<ScoreFixture> scoreFixtureList) {
+        return new SectionedFixture(matchday, date, section, scoreFixtureList);
     }
 }
