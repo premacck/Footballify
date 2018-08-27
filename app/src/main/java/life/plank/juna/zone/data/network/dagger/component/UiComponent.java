@@ -9,7 +9,6 @@ import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.FixtureAndResultActivity;
-import life.plank.juna.zone.view.activity.LineupActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
 import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
@@ -49,8 +48,6 @@ public interface UiComponent {
     void inject(CameraActivity cameraActivity);
 
     void inject(FootballFeedDetailAdapter footballFeedDetailAdapter);
-
-    void inject(LineupActivity lineupActivity);
 
     void inject(MatchResultActivity matchResultActivity);
 
