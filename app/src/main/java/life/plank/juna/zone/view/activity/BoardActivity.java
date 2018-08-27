@@ -196,7 +196,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     }
 
     private void setupViewPagerWithFragments() {
-        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId, currentMatchId);
+        boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), boardId, currentMatchId, homeTeamLogo, visitingTeamLogo);
         viewPager.setAdapter(boardPagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(publicBoardToolbar.getInfoTilesTabLayout()));
         publicBoardToolbar.getInfoTilesTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
@@ -285,18 +285,22 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         private Fragment currentFragment;
         private String boardId;
         private final long matchId;
+        private String homeLogo;
+        private String visitingLogo;
 
-        BoardPagerAdapter(FragmentManager fragmentManager, String boardId, long matchId) {
+        BoardPagerAdapter(FragmentManager fragmentManager, String boardId, long matchId, String homeLogo, String visitingLogo) {
             super(fragmentManager);
             this.boardId = boardId;
             this.matchId = matchId;
+            this.homeLogo = homeLogo;
+            this.visitingLogo = visitingLogo;
         }
 
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return BoardInfoFragment.newInstance(matchId);
+                    return BoardInfoFragment.newInstance(matchId, homeLogo, visitingLogo);
                 case 1:
                     return BoardTilesFragment.newInstance(boardId);
                 default:

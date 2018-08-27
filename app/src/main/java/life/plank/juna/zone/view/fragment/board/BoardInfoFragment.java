@@ -8,7 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -21,42 +24,68 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Highlights;
+import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.customview.CommentarySmall;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
+import life.plank.juna.zone.util.customview.LineupLayout;
+import life.plank.juna.zone.util.customview.MatchHighlights;
+import life.plank.juna.zone.util.customview.MatchTeamStatsLayout;
+import life.plank.juna.zone.view.activity.CommentaryActivity;
+import life.plank.juna.zone.view.adapter.CommentaryAdapter;
 import retrofit2.Response;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
 public class BoardInfoFragment extends Fragment implements CommentarySmallListener {
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
     private static final String MATCH_ID = "match_id";
+    private static final String HOME_LOGO = "home_logo";
+    private static final String VISITING_LOGO = "visiting_logo";
 
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    @BindView(R.id.item_match_highlights)
+    MatchHighlights matchHighlightsLayout;
     @BindView(R.id.commentary_small)
     CommentarySmall commentarySmall;
+    @BindView(R.id.team_stats)
+    MatchTeamStatsLayout matchTeamStatsLayout;
+    @BindView(R.id.item_line_up)
+    LineupLayout lineupLayout;
 
     @Inject
     @Named("footballData")
     RestApi restApi;
+    @Inject
+    Gson gson;
+    @Inject
+    Picasso picasso;
     private long matchId;
+    private String homeLogo;
+    private String visitingLogo;
 
     public BoardInfoFragment() {
     }
 
-    public static BoardInfoFragment newInstance(long matchId) {
+    public static BoardInfoFragment newInstance(long matchId, String homeLogo, String visitingLogo) {
         BoardInfoFragment fragment = new BoardInfoFragment();
         Bundle args = new Bundle();
         args.putLong(MATCH_ID, matchId);
+        args.putString(HOME_LOGO, homeLogo);
+        args.putString(VISITING_LOGO, visitingLogo);
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +96,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         Bundle args = getArguments();
         if (args != null) {
             matchId = args.getLong(MATCH_ID);
+            homeLogo = args.getString(HOME_LOGO);
+            visitingLogo = args.getString(VISITING_LOGO);
         }
     }
 
@@ -75,7 +106,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
         ZoneApplication.getApplication().getUiComponent().inject(this);
-        progressBar.setVisibility(View.INVISIBLE);
+
         return rootView;
     }
 
@@ -114,7 +145,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         restApi.getMatchHighlights(matchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<Highlights>>() {
+                .subscribe(new Observer<Response<List<Highlights>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "getMatchHighlights() : Completed");
@@ -123,16 +154,19 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
+                        Toast.makeText(getContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onNext(Response<Highlights> response) {
-                        Highlights highlights = response.body();
+                    public void onNext(Response<List<Highlights>> response) {
+                        List<Highlights> highlights = response.body();
                         if (response.code() == HttpURLConnection.HTTP_OK && highlights != null) {
-                            if (highlights.getHighlightsUrl() != null) {
-//                                TODO : make highlights VISIBLE and prepare ExoPlayer.
+                            if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
+                                matchHighlightsLayout.setVisibility(View.VISIBLE);
+                                matchHighlightsLayout.setHighlights(highlights.get(0));
+//                                TODO : prepare ExoPlayer.
                             } else {
-//                                TODO : make highlights layout GONE.
+                                matchHighlightsLayout.setVisibility(View.GONE);
                             }
                         }
                     }

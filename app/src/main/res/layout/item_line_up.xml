@@ -33,7 +33,7 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/home_team_lineup"
+                android:id="@+id/home_team_lineup_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -61,15 +61,8 @@
                 android:contentDescription="@string/home_team_goal_area"
                 android:src="@drawable/ic_box_left" />
 
-            <life.plank.juna.zone.util.customview.LineupPlayer
-                android:id="@+id/home_goalee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="18dp" />
-
             <ImageView
+                android:id="@+id/lineup_center_lines"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -79,6 +72,25 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_box_center" />
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/no_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/rajdhani_regular"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textAllCaps="true"
+                android:visibility="gone"
+                android:text="@string/match_yet_to_start" />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -87,46 +99,13 @@
                 android:contentDescription="@string/away_team_goal_area"
                 android:src="@drawable/ic_box_right" />
 
-            <life.plank.juna.zone.util.customview.LineupPlayer
-                android:id="@+id/visiting_goalee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp" />
-
             <LinearLayout
                 android:id="@+id/home_team_lineup_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/center_space"
-                android:layout_below="@+id/home_goalee"
                 android:gravity="center"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/home_defenders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:id="@+id/home_mid_fielders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:id="@+id/home_attackers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
+                android:orientation="vertical" />
 
             <android.support.v4.widget.Space
                 android:id="@+id/center_space"
@@ -139,33 +118,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/center_space"
-                android:layout_above="@+id/visiting_goalee"
                 android:gravity="center"
-                android:layout_marginBottom="30dp"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:id="@+id/visiting_attackers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:id="@+id/visiting_mid_fielders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1" />
-
-                <LinearLayout
-                    android:id="@+id/visiting_defenders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_weight="1" />
-
-            </LinearLayout>
+                android:orientation="vertical" />
 
         </RelativeLayout>
 
@@ -190,7 +144,7 @@
                 android:textColor="@color/white" />
 
             <TextView
-                android:id="@+id/visiting_team_lineup"
+                android:id="@+id/visiting_team_lineup_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

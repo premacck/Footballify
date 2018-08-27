@@ -1,6 +1,7 @@
 package life.plank.juna.zone.util.customview;
 
 import android.content.Context;
+import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -12,9 +13,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-
-import static life.plank.juna.zone.util.AppConstants.RED;
-import static life.plank.juna.zone.util.AppConstants.YELLOW;
+import life.plank.juna.zone.data.network.model.Lineups;
 
 public class LineupPlayer extends FrameLayout {
 
@@ -31,32 +30,58 @@ public class LineupPlayer extends FrameLayout {
     @BindView(R.id.lineup_player_name)
     TextView lineupPlayerName;
 
-    private String givenCard = "none";
+    private Lineups.Formation formation;
 
     public LineupPlayer(@NonNull Context context) {
-        this(context, null);
+        this(context, null, R.color.purple);
     }
 
-    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    public LineupPlayer(@NonNull Context context, Lineups.Formation formation, @ColorRes int labelColor) {
+        this(context, null, formation, labelColor);
+        this.formation = formation;
     }
 
-    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, Lineups.Formation formation, @ColorRes int labelColor) {
+        this(context, attrs, 0, formation, labelColor);
+        this.formation = formation;
     }
 
-    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, Lineups.Formation formation, @ColorRes int labelColor) {
+        this(context, attrs, defStyleAttr, 0, formation, labelColor);
+        this.formation = formation;
+    }
+
+    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes, Lineups.Formation formation, @ColorRes int labelColor) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        init(context);
+        this.formation = formation;
+        init(context, labelColor);
     }
 
-    private void init(Context context) {
+    private void init(Context context, @ColorRes int labelColor) {
         View rootView = inflate(context, R.layout.item_player_in_lineup, this);
         ButterKnife.bind(this, rootView);
+        update(labelColor);
     }
 
-    public LineupPlayer setSolidColor(int backgroundColor) {
-        lineupPlayerNumber.setSolidColor(backgroundColor);
+    public void update(@ColorRes int labelColor) {
+        if (formation != null) {
+            setPlayerNumber(formation.getNumber())
+//    TODO : replace with boolean values once backend filters it
+                    .setPlayerCard(
+                            formation.getYellowCard() == 1,
+                            formation.getRedCard() == 1,
+                            formation.getYellowRed() == 1)
+                    .setSubstituted(
+                            formation.getSubstituteIn() == 1)
+                    .setSolidColor(labelColor)
+                    .setPlayerNumber(formation.getNumber())
+                    .setGoal(formation.getGoals())
+                    .setName(formation.getFullName());
+        }
+    }
+
+    public LineupPlayer setSolidColor(@ColorRes int labelColor) {
+        lineupPlayerNumber.setSolidColor(labelColor);
         return this;
     }
 
@@ -69,25 +94,20 @@ public class LineupPlayer extends FrameLayout {
         return this;
     }
 
-    public String getPlayerCard() {
-        return givenCard;
-    }
-
-    public void setPlayerCard(String cardGiven) {
-        this.givenCard = cardGiven;
-        switch (cardGiven) {
-            case YELLOW:
-                lineupPlayerCard.setVisibility(VISIBLE);
-                lineupPlayerCard.setImageResource(R.drawable.yellow_right);
-                break;
-            case RED:
-                lineupPlayerCard.setVisibility(VISIBLE);
-                lineupPlayerCard.setImageResource(R.drawable.red_right);
-                break;
-            default:
-                lineupPlayerCard.setVisibility(GONE);
-                break;
+    public LineupPlayer setPlayerCard(boolean yellowCard, boolean redCard, boolean yellowRed) {
+        if (!yellowCard && !redCard && !yellowRed) {
+            lineupPlayerCard.setVisibility(GONE);
+            return this;
         }
+        lineupPlayerCard.setVisibility(VISIBLE);
+        if (yellowRed) {
+            lineupPlayerCard.setImageResource(R.drawable.yellow_red);
+        } else if (redCard) {
+            lineupPlayerCard.setImageResource(R.drawable.red_right);
+        } else {
+            lineupPlayerCard.setImageResource(R.drawable.yellow_right);
+        }
+        return this;
     }
 
     public boolean hasScoredGoal() {
@@ -116,8 +136,8 @@ public class LineupPlayer extends FrameLayout {
         return lineupPlayerSubstitution.getVisibility() == VISIBLE;
     }
 
-    public LineupPlayer setSubstituted(boolean isSubstituted) {
-        this.lineupPlayerSubstitution.setVisibility(isSubstituted ? GONE : VISIBLE);
+    public LineupPlayer setSubstituted(boolean isSubstitutedIn) {
+        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? GONE : VISIBLE);
         return this;
     }
 

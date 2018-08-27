@@ -152,6 +152,7 @@
         <activity android:name=".view.activity.MatchResultDetailActivity" />
         <activity android:name=".view.activity.UserFeedActivity" />
         <activity android:name=".view.activity.TimelineActivity" />
+        <activity android:name=".view.activity.CommentaryActivity" />
     </application>
 
 </manifest>
