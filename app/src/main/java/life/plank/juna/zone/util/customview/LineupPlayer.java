@@ -66,13 +66,13 @@ public class LineupPlayer extends FrameLayout {
     public void update(@ColorRes int labelColor) {
         if (formation != null) {
             setPlayerNumber(formation.getNumber())
+//    TODO : replace with boolean values once backend filters it
                     .setPlayerCard(
                             formation.getYellowCard() == 1,
                             formation.getRedCard() == 1,
                             formation.getYellowRed() == 1)
                     .setSubstituted(
-                            formation.getSubstituteIn() == 1,
-                            formation.getSubstituteOut() == 1)
+                            formation.getSubstituteIn() == 1)
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
@@ -136,8 +136,8 @@ public class LineupPlayer extends FrameLayout {
         return lineupPlayerSubstitution.getVisibility() == VISIBLE;
     }
 
-    public LineupPlayer setSubstituted(boolean isSubstitutedIn, boolean substituteOut) {
-        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? VISIBLE : GONE);
+    public LineupPlayer setSubstituted(boolean isSubstitutedIn) {
+        this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? GONE : VISIBLE);
         return this;
     }
 
