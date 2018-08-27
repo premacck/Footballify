@@ -69,4 +69,8 @@ public class AppConstants {
     public static final String YELLOW_CARD_ = "yellow card";
     public static final String RED_CARD_ = "red card";
     public static final String FREE_KICK_ = "free kick";
+
+    public static final String DASH = " - ";
+    public static final String WIDE_DASH = "  -  ";
+    public static final String WIDE_SPACE = "     ";
 }

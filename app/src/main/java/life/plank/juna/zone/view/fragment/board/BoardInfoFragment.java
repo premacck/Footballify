@@ -179,13 +179,17 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
 
                     @Override
                     public void onNext(Response<List<MatchEvent>> response) {
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            List<MatchEvent> matchEvents = response.body();
-                            if (!isNullOrEmpty(matchEvents)) {
-                                lineupLayout.updateEvents(matchEvents);
-                            } else {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                List<MatchEvent> matchEvents = response.body();
+                                if (!isNullOrEmpty(matchEvents)) {
+                                    lineupLayout.updateEvents(matchEvents);
+                                } else
+                                    lineupLayout.onMatchYetToStart();
+                                break;
+                            default:
                                 lineupLayout.onMatchYetToStart();
-                            }
+                                break;
                         }
                     }
                 });
@@ -210,13 +214,17 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onNext(Response<List<Highlights>> response) {
                         List<Highlights> highlights = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK && highlights != null) {
-                            if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
-                                matchHighlightsLayout.setVisibility(View.VISIBLE);
-                                matchHighlightsLayout.setHighlights(getContext(), highlights.get(0));
-                            } else {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
+                                    matchHighlightsLayout.setVisibility(View.VISIBLE);
+                                    matchHighlightsLayout.setHighlights(getContext(), highlights.get(0));
+                                } else
+                                    matchHighlightsLayout.setVisibility(View.GONE);
+                                break;
+                            default:
                                 matchHighlightsLayout.setVisibility(View.GONE);
-                            }
+                                break;
                         }
                     }
                 });
@@ -241,13 +249,17 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onNext(Response<MatchTeamStats> response) {
                         MatchTeamStats matchTeamStats = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            if (matchTeamStats != null) {
-                                matchTeamStatsLayout.update(matchTeamStats, homeLogo, visitingLogo, picasso);
-                            } else
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (matchTeamStats != null) {
+                                    matchTeamStatsLayout.update(matchTeamStats, homeLogo, visitingLogo, picasso);
+                                } else
+                                    matchTeamStatsLayout.notAvailable(R.string.match_yet_to_start);
+                                break;
+                            default:
                                 matchTeamStatsLayout.notAvailable(R.string.match_yet_to_start);
-                        } else
-                            matchTeamStatsLayout.notAvailable(R.string.match_yet_to_start);
+                                break;
+                        }
                     }
                 });
     }
@@ -272,13 +284,17 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onNext(Response<List<Commentary>> response) {
                         List<Commentary> commentaryList = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            if (!isNullOrEmpty(commentaryList)) {
-                                commentarySmall.updateAdapter(commentaryList);
-                            } else
-                                commentarySmall.notAvailable(R.string.match_yet_to_start);
-                        } else
-                            commentarySmall.notAvailable(R.string.something_went_wrong);
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (!isNullOrEmpty(commentaryList)) {
+                                    commentarySmall.updateAdapter(commentaryList);
+                                } else
+                                    commentarySmall.notAvailable(R.string.match_yet_to_start);
+                                break;
+                            default:
+                                commentarySmall.notAvailable(R.string.something_went_wrong);
+                                break;
+                        }
                     }
                 });
     }
@@ -302,13 +318,17 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onNext(Response<Lineups> response) {
                         Lineups lineups = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            if (lineups != null) {
-                                lineupLayout.update(lineups, homeLogo, visitingLogo, picasso, homeTeamName, visitingTeamName);
-                            } else
-                                lineupLayout.notAvailable(R.string.match_yet_to_start);
-                        } else
-                            lineupLayout.notAvailable(R.string.line_ups_not_available);
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (lineups != null) {
+                                    lineupLayout.update(lineups, homeLogo, visitingLogo, picasso, homeTeamName, visitingTeamName);
+                                } else
+                                    lineupLayout.notAvailable(R.string.match_yet_to_start);
+                                break;
+                            default:
+                                lineupLayout.notAvailable(R.string.line_ups_not_available);
+                                break;
+                        }
                     }
                 });
     }

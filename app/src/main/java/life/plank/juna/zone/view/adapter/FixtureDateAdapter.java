@@ -28,10 +28,7 @@ public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdap
 
     @Override
     public FixtureDateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FixtureDateViewHolder(
-                LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fixture_date, parent, false),
-                this
-        );
+        return new FixtureDateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fixture_date, parent, false), this);
     }
 
     @Override
