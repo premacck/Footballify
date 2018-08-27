@@ -18,13 +18,20 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
 
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+import static life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 
@@ -51,8 +58,18 @@ public class LineupLayout extends FrameLayout {
     @BindView(R.id.visiting_team_lineup_text)
     TextView visitingTeamLineup;
 
-    @BindView(R.id.substitution_list)
-    RecyclerView substitutionList;
+    @BindView(R.id.substitution_recycler_view)
+    RecyclerView substitutionRecyclerView;
+    @BindView(R.id.no_substitutions_yet)
+    TextView noSubstitutionsYet;
+    @BindView(R.id.home_team_logo)
+    ImageView homeTeamLogo;
+    @BindView(R.id.visiting_team_logo)
+    ImageView visitingTeamLogo;
+    @BindView(R.id.home_team_logo_2)
+    ImageView homeTeamLogo2;
+    @BindView(R.id.visiting_team_logo_2)
+    ImageView visitingTeamLogo2;
 
     @BindView(R.id.home_player_name)
     TextView homeManager;
@@ -81,29 +98,42 @@ public class LineupLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public void update(Lineups lineups, String homeLogo, String visitingLogo, Picasso picasso) {
+    public void update(Lineups lineups, String homeLogo, String visitingLogo, Picasso picasso, String homeTeamName, String visitingTeamName) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         lineupCenterLines.setVisibility(VISIBLE);
 
-        setHomeTeamName(lineups.getHomeTeamName());
-        setVisitingTeamName(lineups.getVisitingTeamName());
-        setHomeTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
+        setHomeTeamName(homeTeamName);
+        setVisitingTeamName(visitingTeamName);
+        setHomeTeamLineup(getLineupText(lineups.getHomeTeamFormation()));
         setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
         setHomeManager(lineups.getHomeManagerName());
         setVisitingManager(lineups.getVisitingManagerName());
 
-        prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), R.color.lineup_player_red);
-        prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), R.color.purple);
+        prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), R.color.lineup_player_red, true);
+        prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), R.color.purple, false);
 
-        Target homeTarget = getStartDrawableTarget(getResources(), homeTeamName);
-        Target visitingTarget = getStartDrawableTarget(getResources(), visitingTeamName);
-        picasso.load(homeLogo)
+        Target homeTarget = getStartDrawableTarget(this.homeTeamName);
+        Target visitingTarget = getStartDrawableTarget(this.visitingTeamName);
+
+        loadImage(picasso, homeLogo, homeTarget);
+        loadImage(picasso, visitingLogo, visitingTarget);
+        loadImage(picasso, homeLogo, homeTeamLogo);
+        loadImage(picasso, visitingLogo, visitingTeamLogo);
+        loadImage(picasso, homeLogo, homeTeamLogo2);
+        loadImage(picasso, visitingLogo, visitingTeamLogo2);
+    }
+
+    private void loadImage(Picasso picasso, String logo, Target target) {
+        picasso.load(logo)
                 .resize((int) getDp(getContext(), 14), (int) getDp(getContext(), 14))
-                .into(homeTarget);
-        picasso.load(visitingLogo)
+                .into(target);
+    }
+
+    private void loadImage(Picasso picasso, String logo, ImageView target) {
+        picasso.load(logo)
                 .resize((int) getDp(getContext(), 14), (int) getDp(getContext(), 14))
-                .into(visitingTarget);
+                .into(target);
     }
 
     public void notAvailable(@StringRes int message) {
@@ -113,7 +143,10 @@ public class LineupLayout extends FrameLayout {
         lineupCenterLines.setVisibility(INVISIBLE);
     }
 
-    public void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, @ColorRes int labelColor) {
+    public void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, @ColorRes int labelColor, boolean isHomeTeam) {
+        if (!isHomeTeam) {
+            Collections.reverse(formationsList);
+        }
         for (List<Lineups.Formation> formations : formationsList) {
             lineupLayout.addView(getLineupLayoutLine(formations, labelColor));
         }
@@ -122,6 +155,8 @@ public class LineupLayout extends FrameLayout {
     private LinearLayout getLineupLayoutLine(List<Lineups.Formation> formations, @ColorRes int labelColor) {
         LinearLayout linearLayout = new LinearLayout(getContext());
         linearLayout.setGravity(Gravity.CENTER);
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1);
+        linearLayout.setLayoutParams(params);
         for (Lineups.Formation formation : formations) {
             linearLayout.addView(new LineupPlayer(getContext(), formation, labelColor));
         }
@@ -130,7 +165,7 @@ public class LineupLayout extends FrameLayout {
 
     private String getLineupText(List<List<Lineups.Formation>> formationsList) {
         StringBuilder text = new StringBuilder();
-        for (List<Lineups.Formation> formations : formationsList) {
+        for (List<Lineups.Formation> formations : formationsList.subList(1, formationsList.size())) {
             text.append(formations.size());
             if (formationsList.indexOf(formations) < formationsList.size() - 1) {
                 text.append(" - ");
@@ -185,5 +220,34 @@ public class LineupLayout extends FrameLayout {
 
     public void setVisitingManager(String visitingManager) {
         this.visitingManager.setText(visitingManager);
+    }
+
+    public void updateEvents(List<MatchEvent> matchEvents) {
+        List<MatchEvent> newMatchEventList = extractSubstitutionEvents(matchEvents);
+        if (!isNullOrEmpty(newMatchEventList)) {
+            onMatchStarted();
+            ((SubstitutionAdapter) substitutionRecyclerView.getAdapter()).update(newMatchEventList);
+        } else {
+            onMatchYetToStart();
+        }
+    }
+
+    private void onMatchStarted() {
+        noSubstitutionsYet.setVisibility(GONE);
+        substitutionRecyclerView.setVisibility(VISIBLE);
+    }
+
+    public void onMatchYetToStart() {
+        noSubstitutionsYet.setVisibility(VISIBLE);
+        substitutionRecyclerView.setVisibility(GONE);
+    }
+
+    public void setAdapter(SubstitutionAdapter substitutionAdapter) {
+        substitutionRecyclerView.setAdapter(substitutionAdapter);
+    }
+
+    public void updateSubstitutions(List<MatchEvent> substitutionEventList) {
+        onMatchStarted();
+        ((SubstitutionAdapter) substitutionRecyclerView.getAdapter()).updateNew(substitutionEventList);
     }
 }

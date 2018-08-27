@@ -24,31 +24,23 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Highlights;
-import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.customview.CommentarySmall;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
 import life.plank.juna.zone.util.customview.LineupLayout;
 import life.plank.juna.zone.util.customview.MatchHighlights;
 import life.plank.juna.zone.util.customview.MatchTeamStatsLayout;
-import life.plank.juna.zone.view.activity.CommentaryActivity;
-import life.plank.juna.zone.view.adapter.CommentaryAdapter;
 import retrofit2.Response;
 import rx.Observer;
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
-import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
 public class BoardInfoFragment extends Fragment implements CommentarySmallListener {
 
@@ -163,8 +155,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         if (response.code() == HttpURLConnection.HTTP_OK && highlights != null) {
                             if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
                                 matchHighlightsLayout.setVisibility(View.VISIBLE);
-                                matchHighlightsLayout.setHighlights(highlights.get(0));
-//                                TODO : prepare ExoPlayer.
+                                matchHighlightsLayout.setHighlights(getContext(), highlights.get(0));
                             } else {
                                 matchHighlightsLayout.setVisibility(View.GONE);
                             }

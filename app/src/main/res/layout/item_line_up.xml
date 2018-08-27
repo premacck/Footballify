@@ -29,7 +29,7 @@
                 android:fontFamily="@font/rajdhani_medium"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/arsenal"
+                android:drawablePadding="7dp"
                 android:textColor="@color/white" />
 
             <TextView
@@ -42,7 +42,6 @@
                 android:gravity="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/_4_3_3"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -140,7 +139,7 @@
                 android:fontFamily="@font/rajdhani_medium"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/west_ham"
+                android:drawablePadding="7dp"
                 android:textColor="@color/white" />
 
             <TextView
@@ -153,7 +152,6 @@
                 android:gravity="end"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="@string/_3_4_2_1"
                 android:textColor="@color/white" />
         </LinearLayout>
 
@@ -194,7 +192,7 @@
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/substitution_list"
+            android:id="@+id/substitution_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="7dp"

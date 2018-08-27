@@ -76,7 +76,7 @@ public class LineupPlayer extends FrameLayout {
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
-                    .setName(formation.getFullName());
+                    .setName(formation.getNickname());
         }
     }
 
