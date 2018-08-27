@@ -232,7 +232,7 @@
                 tools:ignore="RelativeOverlap" />
 
             <ImageView
-                android:id="@+id/home_team_logo_2"
+                android:id="@+id/home_team_logo_under_manager"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_centerVertical="true"
@@ -241,7 +241,7 @@
                 android:contentDescription="@string/pref_home_team_logo" />
 
             <ImageView
-                android:id="@+id/visiting_team_logo_2"
+                android:id="@+id/visiting_team_logo_under_manager"
                 android:layout_width="14dp"
                 android:layout_height="14dp"
                 android:layout_centerVertical="true"
