@@ -71,8 +71,7 @@ public class LineupPlayer extends FrameLayout {
                             formation.getRedCard() == 1,
                             formation.getYellowRed() == 1)
                     .setSubstituted(
-                            formation.getSubstituteIn() == 1,
-                            formation.getSubstituteOut() == 1)
+                            formation.getSubstituteIn() == 1)
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
@@ -136,7 +135,7 @@ public class LineupPlayer extends FrameLayout {
         return lineupPlayerSubstitution.getVisibility() == VISIBLE;
     }
 
-    public LineupPlayer setSubstituted(boolean isSubstitutedIn, boolean substituteOut) {
+    public LineupPlayer setSubstituted(boolean isSubstitutedIn) {
         this.lineupPlayerSubstitution.setVisibility(isSubstitutedIn ? GONE : VISIBLE);
         return this;
     }
