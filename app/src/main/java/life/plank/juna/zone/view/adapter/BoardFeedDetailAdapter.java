@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -193,7 +192,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.unlikeCountImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: Make api call to unlike
+                boardFeedItemDisLikeApiCall(feedId, enterBoardId, date, holder);
             }
         });
     }
@@ -224,6 +223,36 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
                                 holder.likeCountTextView.setText(Integer.toString(++likeCount));
+                                break;
+                            default:
+                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void boardFeedItemDisLikeApiCall(String feedItemId, String boardId, String dateCreated, FootballFeedDetailViewHolder holder) {
+        restApi.postDisLike(feedItemId, boardId, "Boards", dateCreated, getToken(context))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+                                //TODO: update dislike count
                                 break;
                             default:
                                 Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();

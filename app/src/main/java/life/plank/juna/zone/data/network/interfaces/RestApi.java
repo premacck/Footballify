@@ -119,6 +119,14 @@ public interface RestApi {
                                               @Query("time") String dateCreated,
                                               @Header("Authorization") String authHeader);
 
+    //working
+    @POST("activities/{id}/disLikes")
+    Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
+                                              @Query("targetId") String boardId,
+                                              @Query("target") String target,
+                                              @Query("time") String dateCreated,
+                                              @Header("Authorization") String authHeader);
+
     //yet to verify
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
