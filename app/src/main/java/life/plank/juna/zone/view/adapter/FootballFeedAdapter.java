@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,28 +20,29 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
-import life.plank.juna.zone.view.activity.MatchLeagueActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
-import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
-    private Context context;
-    private LayoutInflater mInflater;
-    private int heightsToBeRemoved;
-    private List<FootballFeed> footballFeedList = new ArrayList<>();
+    private List<FootballFeed> footballFeedList;
     private PinFeedListener pinFeedListener;
     private OnClickFeedItemListener onClickFeedItemListener;
+    private Activity activity;
 
-    public FootballFeedAdapter(Context context) {
-        this.heightsToBeRemoved = heightsToBeRemoved;
-        this.mInflater = LayoutInflater.from(context);
+    public FootballFeedAdapter(Activity activity) {
+        this.activity = activity;
+        this.footballFeedList = new ArrayList<>();
+        if (activity instanceof PinFeedListener) {
+            pinFeedListener = (PinFeedListener) activity;
+        }
+        if (activity instanceof OnClickFeedItemListener) {
+            onClickFeedItemListener = (OnClickFeedItemListener) activity;
+        }
     }
 
     @Override
     public FootballFeedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.football_feed_row, parent, false);
-        context = parent.getContext();
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_row, parent, false);
         return new FootballFeedViewHolder(view);
     }
 
@@ -50,10 +50,10 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.feedTitleTextView.setText(footballFeed.getTitle());
+        holder.kickoffTime.setText(R.string.kick_off_in_2hrs_13_mins);
         if (footballFeed.getThumbnail() != null) {
-            Picasso.with(context)
+            Picasso.with(activity)
                     .load(footballFeed.getThumbnail().getImageUrl())
-                    .fit().centerCrop()
                     .placeholder(R.drawable.ic_place_holder)
                     .error(R.drawable.ic_place_holder)
                     .into(holder.feedImageView);
@@ -62,38 +62,23 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            switch (position) {
-                case 0: {
-                    context.startActivity(new Intent(context, MatchResultActivity.class));
-                    break;
-                }
-                case 1: {
-                    context.startActivity(new Intent(context, MatchResultActivity.class));
-                    break;
-                }
-                case 2: {
-                    context.startActivity(new Intent(context, MatchLeagueActivity.class));
-                    break;
-                }
-                case 3: {
-                    context.startActivity(new Intent(context, MatchResultActivity.class));
-                    break;
-                }
-                case 4: {
-                    context.startActivity(new Intent(context, PrivateBoardActivity.class));
-                    break;
-                }
-                default: {
-                    onClickFeedItemListener.onItemClick(position, holder.itemView);
-                    break;
-                }
-            }
+            MatchResultActivity.launch(
+                    activity,
+                    footballFeed.getSeasonName(),
+                    footballFeed.getTitle(),
+                    footballFeed.getCountryName(),
+                    footballFeed.getThumbnail().getImageUrl()
+            );
         });
     }
 
     @Override
     public int getItemCount() {
         return footballFeedList.size();
+    }
+
+    public List<FootballFeed> getFootballFeedList() {
+        return footballFeedList;
     }
 
     public void setFootballFeedList(List<FootballFeed> footballFeeds) {
@@ -104,17 +89,11 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         notifyDataSetChanged();
     }
 
-    public void setPinFeedListener(PinFeedListener pinFeedListener) {
-        this.pinFeedListener = pinFeedListener;
-    }
-
-    public void setOnClickFeedItemListener(OnClickFeedItemListener onClickFeedItemListener) {
-        this.onClickFeedItemListener = onClickFeedItemListener;
-    }
-
     public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
+        @BindView(R.id.kickoff_time)
+        TextView kickoffTime;
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
 

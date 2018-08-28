@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -25,7 +24,6 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
@@ -33,6 +31,7 @@ import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 
+import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 
@@ -53,9 +52,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ProgressBar progressBar;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
-    FootballFeedAdapter footballFeedAdapter;
-    private GridLayoutManager gridLayoutManager;
-    private List<FootballFeed> footballFeeds;
+    FootballFeedAdapter adapter;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -92,20 +89,15 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void initRecyclerView() {
-        int numberOfRows = 1;
-        gridLayoutManager = new GridLayoutManager(this, numberOfRows, GridLayoutManager.VERTICAL, false);
-        feedRecyclerView.setLayoutManager(gridLayoutManager);
-        footballFeedAdapter = new FootballFeedAdapter(this);
-        feedRecyclerView.setAdapter(footballFeedAdapter);
+        adapter = new FootballFeedAdapter(this);
+        feedRecyclerView.setAdapter(adapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        footballFeedAdapter.setPinFeedListener(this);
-        footballFeedAdapter.setOnClickFeedItemListener(this);
     }
 
     public void getFootballFeed() {
         progressBar.setVisibility(View.GONE);
-        setUpStaticItemsToFeeds();
+        adapter.setFootballFeedList(getStaticFeedItems());
     }
 
     @Override
@@ -125,7 +117,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                     new TypeToken<List<FootballFeed>>() {
                     }.getType());
         }
-        pinnedFeedsList.add(footballFeeds.get(position));
+        pinnedFeedsList.add(adapter.getFootballFeedList().get(position));
         preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
     }
 
@@ -134,17 +126,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
         Intent intent = new Intent(this, FootballFeedDetailActivity.class);
         intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
-        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(footballFeeds));
+        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getFootballFeedList()));
         startActivity(intent);
-    }
-
-    private void setUpStaticItemsToFeeds() {
-        footballFeeds = new ArrayList<>();
-        footballFeeds.add(new FootballFeed("", "Standings", "", "", "", "", new Thumbnail("http://images.fineartamerica.com/images-medium-large/illuminated-american-football-field-at-night-darrin-klimek.jpg", 0, 0), null, "", null));
-        footballFeeds.add(new FootballFeed("", "Schedules", "", "", "", "", new Thumbnail("http://video.oneserviceplace.com/wp-content/uploads/2018/04/1523233581_maxresdefault.jpg", 0, 0), null, "", null));
-        footballFeeds.add(new FootballFeed("", "Premier League", "", "", "", "", new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0), null, "", null));
-        footballFeeds.add(new FootballFeed("", "World Cup", "", "", "", "", new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0), null, "", null));
-        footballFeedAdapter.setFootballFeedList(footballFeeds);
     }
 
     public void setUpBoomMenu() {
