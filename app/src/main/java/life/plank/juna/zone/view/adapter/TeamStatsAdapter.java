@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,12 +22,13 @@ import life.plank.juna.zone.data.network.model.TeamStatsModel;
  */
 
 public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.TeamStateViewHolder> {
-    private List<TeamStatsModel> teamStatsModelList;
-    private Context context;
 
-    public TeamStatsAdapter(Context context, List<TeamStatsModel> teamStatsModelList) {
-        this.context = context;
-        this.teamStatsModelList = teamStatsModelList;
+    private List<TeamStatsModel> teamStatsModelList;
+    private Picasso picasso;
+
+    public TeamStatsAdapter(Picasso picasso) {
+        this.picasso = picasso;
+        this.teamStatsModelList = new ArrayList<>();
     }
 
     @Override
@@ -43,11 +44,10 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         holder.teamStatsLossesTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalLosses()));
         holder.teamsStatsGoalForTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsFor()));
         holder.teamStatsDrawTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalDraws()));
-        holder.teamsStatsGoalAgaintsTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsAgainst()));
+        holder.teamsStatsGoalAgainstTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsAgainst()));
         holder.teamStatsSerialNumber.setText(String.valueOf(teamStatsModelList.get(position).getId()));
         holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
-        Picasso.with(context)
-                .load(teamStatsModelList.get(position).getFootballTeam().getLogoLink())
+        picasso.load(teamStatsModelList.get(position).getFootballTeam().getLogoLink())
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
@@ -57,6 +57,11 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
     @Override
     public int getItemCount() {
         return teamStatsModelList.size();
+    }
+
+    public void update(List<TeamStatsModel> teamStatsModelList) {
+        this.teamStatsModelList.addAll(teamStatsModelList);
+        notifyDataSetChanged();
     }
 
     public class TeamStateViewHolder extends RecyclerView.ViewHolder {
@@ -73,7 +78,7 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         @BindView(R.id.team_stats_goals_for_text_view)
         TextView teamsStatsGoalForTextView;
         @BindView(R.id.team_stats_goal_against_text_view)
-        TextView teamsStatsGoalAgaintsTextView;
+        TextView teamsStatsGoalAgainstTextView;
         @BindView(R.id.team_stats_serial_number_text_view)
         TextView teamStatsSerialNumber;
 

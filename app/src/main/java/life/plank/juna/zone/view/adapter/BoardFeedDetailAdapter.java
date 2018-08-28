@@ -22,7 +22,6 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 

@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,12 +23,13 @@ import life.plank.juna.zone.data.network.model.StandingModel;
  */
 
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
-    private Context context;
+
+    private Picasso picasso;
     private List<StandingModel> standingModelList;
 
-    public StandingTableAdapter(Context context, List<StandingModel> standingModel) {
-        this.context = context;
-        this.standingModelList = standingModel;
+    public StandingTableAdapter(Picasso picasso) {
+        this.picasso = picasso;
+        this.standingModelList = new ArrayList<>();
     }
 
     @Override
@@ -48,12 +49,17 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
         holder.goalAgainstTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
         holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
-        Picasso.with(context)
-                .load(standingModelList.get(position).getFootballTeam().getLogoLink())
+
+        picasso.load(standingModelList.get(position).getFootballTeam().getLogoLink())
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(holder.scoreView);
+    }
+
+    public void update(List<StandingModel> standingModelList) {
+        this.standingModelList.addAll(standingModelList);
+        notifyDataSetChanged();
     }
 
     @Override

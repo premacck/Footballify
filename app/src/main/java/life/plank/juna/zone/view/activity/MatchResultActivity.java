@@ -18,7 +18,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,7 +41,6 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.LOAD_VIEW;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
@@ -149,14 +147,13 @@ public class MatchResultActivity extends AppCompatActivity {
     }
 
     private void prepareRecyclerViews() {
-//        TODO: changing these parameters to fix build, will revert back in next pull request
-        standingTableAdapter = new StandingTableAdapter(this, new ArrayList<>());
+        standingTableAdapter = new StandingTableAdapter(picasso);
         standingRecyclerView.setAdapter(standingTableAdapter);
 
-        playerStatsAdapter = new PlayerStatsAdapter(this, new ArrayList<>());
+        playerStatsAdapter = new PlayerStatsAdapter();
         playerStatsRecyclerView.setAdapter(playerStatsAdapter);
 
-        teamStatsAdapter = new TeamStatsAdapter(this, new ArrayList<>());
+        teamStatsAdapter = new TeamStatsAdapter(picasso);
         teamStatsRecyclerView.setAdapter(teamStatsAdapter);
     }
 
@@ -168,7 +165,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<StandingModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getStandings()");
                     }
 
                     @Override
@@ -182,8 +179,7 @@ public class MatchResultActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
-//                                TODO : commenting this to fix build. will revert back in next pull request
-//                                standingTableAdapter.update(response.body());
+                                standingTableAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
@@ -202,7 +198,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getPlayerStats()");
                     }
 
                     @Override
@@ -216,8 +212,7 @@ public class MatchResultActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
-//                                TODO : commenting this to fix build. will revert back in next pull request
-//                                playerStatsAdapter.update(response.body());
+                                playerStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
@@ -238,7 +233,7 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getTeamStats()");
                     }
 
                     @Override
@@ -252,8 +247,7 @@ public class MatchResultActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
-//                                TODO : commenting this to fix build. will revert back in next pull request
-//                                teamStatsAdapter.update(response.body());
+                                teamStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
@@ -295,22 +289,24 @@ public class MatchResultActivity extends AppCompatActivity {
                 break;
             case R.id.see_all_standings:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                Intent intent = new Intent(this, MatchResultDetailActivity.class);
-                intent.putExtra(LOAD_VIEW, STANDINGS);
-                startActivity(intent);
+                MatchResultDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName);
                 break;
             case R.id.see_more_team_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
-                teamIntent.putExtra(LOAD_VIEW, TEAM_STATS);
-                startActivity(teamIntent);
+                MatchResultDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName);
                 break;
             case R.id.see_more_player_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
-                playerIntent.putExtra(LOAD_VIEW, PLAYER_STATS);
-                startActivity(playerIntent);
+                MatchResultDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName);
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        standingTableAdapter = null;
+        teamStatsAdapter = null;
+        playerStatsAdapter = null;
+        super.onDestroy();
     }
 }

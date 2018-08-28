@@ -4,15 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/blur_background_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitXY" />
-
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
@@ -20,12 +14,13 @@
         app:cardCornerRadius="@dimen/feed_card_corner_radius"
         app:cardUseCompatPadding="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RelativeLayout
+                android:id="@+id/headers_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -52,17 +47,28 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/standing_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/headers_container"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+            <TextView
+                android:id="@+id/no_data"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_below="@+id/headers_container"
+                android:fontFamily="@font/rajdhani_light"
+                android:visibility="gone" />
 
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="invisible" />
+                android:layout_centerInParent="true"
+                android:visibility="gone" />
 
-        </LinearLayout>
+        </RelativeLayout>
+
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

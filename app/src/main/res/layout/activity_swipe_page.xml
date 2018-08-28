@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:arc="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,21 +24,20 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_header" />
 
-    <RelativeLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/football_feed_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/feed_info"
         android:layout_marginEnd="2dp"
         android:layout_marginStart="2dp"
-        android:background="@color/background_color">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/football_feed_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp" />
-
-    </RelativeLayout>
+        android:paddingTop="5dp"
+        android:paddingBottom="50dp"
+        android:clipToPadding="false"
+        android:background="@color/background_color"
+        tools:listitem="@layout/football_feed_row"
+        arc:layoutManager="android.support.v7.widget.GridLayoutManager"
+        arc:spanCount="1" />
 
     <ProgressBar
         android:id="@+id/progress_bar"
