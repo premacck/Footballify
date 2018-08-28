@@ -173,7 +173,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        onStandingsChanged(false);
+                        updateUI(false, standingRecyclerView, STANDINGS);
                         Log.e(TAG, "onError: " + e);
                     }
 
@@ -181,14 +181,14 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<StandingModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                onStandingsChanged(true);
+                                updateUI(true, standingRecyclerView, STANDINGS);
 //                                TODO : commenting this to fix build. will revert back in next pull request
 //                                standingTableAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                onStandingsChanged(false);
+                                updateUI(false, standingRecyclerView, STANDINGS);
                             default:
-                                onStandingsChanged(false);
+                                updateUI(false, standingRecyclerView, STANDINGS);
                                 break;
                         }
                     }
@@ -207,7 +207,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        onPlayerStatsChanged(false);
+                        updateUI(false, playerStatsRecyclerView, PLAYER_STATS);
                         Log.e(TAG, " Error" + e);
                     }
 
@@ -215,15 +215,15 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<PlayerStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                onPlayerStatsChanged(true);
+                                updateUI(true, playerStatsRecyclerView, PLAYER_STATS);
 //                                TODO : commenting this to fix build. will revert back in next pull request
 //                                playerStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                onPlayerStatsChanged(false);
+                                updateUI(false, playerStatsRecyclerView, PLAYER_STATS);
                                 break;
                             default:
-                                onPlayerStatsChanged(false);
+                                updateUI(false, playerStatsRecyclerView, PLAYER_STATS);
                                 break;
                         }
                     }
@@ -243,7 +243,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        onTeamStatsChanged(false);
+                        updateUI(false, teamStatsRecyclerView, TEAM_STATS);
                         Log.e(TAG, " Error: " + e);
                     }
 
@@ -251,40 +251,40 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<TeamStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                onTeamStatsChanged(true);
+                                updateUI(true, teamStatsRecyclerView, TEAM_STATS);
 //                                TODO : commenting this to fix build. will revert back in next pull request
 //                                teamStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                onTeamStatsChanged(false);
+                                updateUI(false, teamStatsRecyclerView, TEAM_STATS);
                                 break;
                             default:
-                                onTeamStatsChanged(false);
+                                updateUI(false, teamStatsRecyclerView, TEAM_STATS);
                                 break;
                         }
                     }
                 });
     }
 
-    private void onStandingsChanged(boolean available) {
+    private void updateUI(boolean available, RecyclerView recyclerView, String viewToLoad) {
         progressBar.setVisibility(View.INVISIBLE);
-        standingRecyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        seeAllStandings.setVisibility(available ? View.VISIBLE : View.GONE);
-        noStandingsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-    }
-
-    private void onTeamStatsChanged(boolean available) {
-        progressBar.setVisibility(View.INVISIBLE);
-        teamStatsRecyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        seeMoreTeamStats.setVisibility(available ? View.VISIBLE : View.GONE);
-        noTeamStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-    }
-
-    private void onPlayerStatsChanged(boolean available) {
-        progressBar.setVisibility(View.INVISIBLE);
-        playerStatsRecyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        seeMorePlayerStats.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        noPlayerStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
+        recyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
+        switch (viewToLoad) {
+            case STANDINGS:
+                seeAllStandings.setVisibility(available ? View.VISIBLE : View.GONE);
+                noStandingsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
+                break;
+            case TEAM_STATS:
+                seeMoreTeamStats.setVisibility(available ? View.VISIBLE : View.GONE);
+                noTeamStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
+                break;
+            case PLAYER_STATS:
+                seeMorePlayerStats.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
+                noPlayerStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
+                break;
+            default:
+                break;
+        }
     }
 
     @OnClick({R.id.see_all_fixtures, R.id.following_text_view, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
