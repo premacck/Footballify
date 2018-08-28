@@ -18,8 +18,17 @@ public class FootballFeed {
     private String dateCreated;
     private String contentType;
     private Interactions interactions;
+    private String seasonName;
+    private String countryName;
 
     public FootballFeed() {
+    }
+
+    public FootballFeed(String title, Thumbnail thumbnail, String seasonName, String countryName) {
+        this.title = title;
+        this.thumbnail = thumbnail;
+        this.seasonName = seasonName;
+        this.countryName = countryName;
     }
 
     public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType, Interactions interactions) {

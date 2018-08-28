@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,8 @@ public class MatchResultDetailActivity extends AppCompatActivity {
     @Inject
     @Named("footballData")
     Retrofit retrofit;
+    @Inject
+    Picasso picasso;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.blur_background_image_view)
@@ -106,21 +110,24 @@ public class MatchResultDetailActivity extends AppCompatActivity {
 
     public void initStandingRecyclerView() {
         standingModel = new ArrayList<>();
-        standingTableAdapter = new StandingTableAdapter(this, standingModel);
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        standingTableAdapter = new StandingTableAdapter(this, new ArrayList<>());
         standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         standingRecyclerView.setAdapter(standingTableAdapter);
     }
 
     public void initTeamStatsRecyclerView() {
         teamStatsModel = new ArrayList<>();
-        teamStatsAdapter = new TeamStatsAdapter(this, teamStatsModel);
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        teamStatsAdapter = new TeamStatsAdapter(this, new ArrayList<>());
         standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         standingRecyclerView.setAdapter(teamStatsAdapter);
     }
 
     public void initPlayerStatsRecyclerView() {
         playerStatsModel = new ArrayList<>();
-        playerStatsAdapter = new PlayerStatsAdapter(this, playerStatsModel);
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        playerStatsAdapter = new PlayerStatsAdapter(this, new ArrayList<>());
         standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         standingRecyclerView.setAdapter(playerStatsAdapter);
     }
