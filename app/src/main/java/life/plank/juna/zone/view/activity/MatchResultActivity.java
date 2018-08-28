@@ -287,48 +287,44 @@ public class MatchResultActivity extends AppCompatActivity {
         noPlayerStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
     }
 
-    @OnClick(R.id.see_all_fixtures)
-    public void onFixtureSeeAllClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        FixtureActivity.launch(
-                MatchResultActivity.this,
-                seasonName,
-                leagueName,
-                countryName,
-                matchFixtureResultLayout
-        );
-    }
-
-    @OnClick(R.id.following_text_view)
-    public void onFollowingButtonClick() {
-        if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
-            followingTextVIew.setText(R.string.follow);
-        } else {
-            followingTextVIew.setText(R.string.unfollow);
+    @OnClick({R.id.see_all_fixtures, R.id.following_text_view, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
+    public void onItemClick(View view) {
+        switch (view.getId()) {
+            case R.id.see_all_fixtures:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                FixtureActivity.launch(
+                        MatchResultActivity.this,
+                        seasonName,
+                        leagueName,
+                        countryName,
+                        matchFixtureResultLayout
+                );
+                break;
+            case R.id.following_text_view:
+                if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
+                    followingTextVIew.setText(R.string.follow);
+                } else {
+                    followingTextVIew.setText(R.string.unfollow);
+                }
+                break;
+            case R.id.see_all_standings:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent intent = new Intent(this, MatchResultDetailActivity.class);
+                intent.putExtra(LOAD_VIEW, STANDINGS);
+                startActivity(intent);
+                break;
+            case R.id.see_more_team_stats:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
+                teamIntent.putExtra(LOAD_VIEW, TEAM_STATS);
+                startActivity(teamIntent);
+                break;
+            case R.id.see_more_player_stats:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
+                playerIntent.putExtra(LOAD_VIEW, PLAYER_STATS);
+                startActivity(playerIntent);
+                break;
         }
-    }
-
-    @OnClick(R.id.see_all_standings)
-    public void onSeeCompleteStandingsClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        Intent intent = new Intent(this, MatchResultDetailActivity.class);
-        intent.putExtra(LOAD_VIEW, STANDINGS);
-        startActivity(intent);
-    }
-
-    @OnClick(R.id.see_more_team_stats)
-    public void onSeeMoreTeamStatsClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
-        teamIntent.putExtra(LOAD_VIEW, TEAM_STATS);
-        startActivity(teamIntent);
-    }
-
-    @OnClick(R.id.see_more_player_stats)
-    public void onSeeMorePlayerStatsClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
-        playerIntent.putExtra(LOAD_VIEW, PLAYER_STATS);
-        startActivity(playerIntent);
     }
 }
