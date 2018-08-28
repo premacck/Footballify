@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent_layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
     tools:context=".view.activity.CreateBoardActivity">
 
@@ -17,15 +18,15 @@
             android:id="@+id/zone_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/board_maker"/>
+            app:title="@string/board_maker" />
 
         <RelativeLayout
             android:id="@+id/categories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/background_color"
             android:paddingBottom="15dp"
-            android:paddingRight="15dp"
-            android:background="@color/background_color">
+            android:paddingRight="15dp">
 
             <TextView
                 android:id="@+id/user_greeting"
@@ -54,52 +55,52 @@
 
             <ToggleButton
                 android:id="@+id/football"
+                style="@style/ZoneSelection"
                 android:layout_below="@+id/description"
                 android:textOff="@string/football"
-                android:textOn="@string/football"
-                style="@style/ZoneSelection"/>
+                android:textOn="@string/football" />
 
             <ToggleButton
                 android:id="@+id/music"
+                style="@style/ZoneSelection"
                 android:layout_below="@+id/description"
                 android:layout_toEndOf="@+id/football"
                 android:textOff="@string/music"
-                android:textOn="@string/music"
-                style="@style/ZoneSelection" />
+                android:textOn="@string/music" />
 
             <ToggleButton
                 android:id="@+id/drama"
+                style="@style/ZoneSelection"
                 android:layout_below="@+id/description"
                 android:layout_toEndOf="@+id/music"
                 android:textOff="@string/drama"
-                android:textOn="@string/drama"
-                style="@style/ZoneSelection" />
+                android:textOn="@string/drama" />
 
             <ToggleButton
                 android:id="@+id/tune"
+                style="@style/ZoneSelection"
                 android:layout_below="@+id/drama"
-                android:textOff="@string/tune"
-                android:textOn="@string/tune"
                 android:layout_marginBottom="2dp"
-                style="@style/ZoneSelection" />
+                android:textOff="@string/tune"
+                android:textOn="@string/tune" />
 
             <ToggleButton
                 android:id="@+id/skill"
+                style="@style/ZoneSelection"
                 android:layout_below="@+id/music"
+                android:layout_marginBottom="2dp"
                 android:layout_toEndOf="@+id/tune"
                 android:textOff="@string/skill"
-                android:textOn="@string/skill"
-                android:layout_marginBottom="2dp"
-                style="@style/ZoneSelection" />
+                android:textOn="@string/skill" />
 
             <ToggleButton
                 android:id="@+id/other"
+                style="@style/ZoneSelection"
                 android:layout_below="@+id/drama"
+                android:layout_marginBottom="2dp"
                 android:layout_toEndOf="@+id/skill"
                 android:textOff="@string/other"
-                android:textOn="@string/other"
-                android:layout_marginBottom="2dp"
-                style="@style/ZoneSelection" />
+                android:textOn="@string/other" />
 
         </RelativeLayout>
 
@@ -136,10 +137,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey_0_5"
-                    android:textColorHint="@color/grey_0_5"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/board_name"
                     android:inputType="text"
+                    android:textColorHint="@color/grey_0_5"
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -159,10 +160,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey_0_5"
-                    android:textColorHint="@color/grey_0_5"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/board_description"
                     android:inputType="text"
+                    android:textColorHint="@color/grey_0_5"
                     android:textSize="16sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -185,12 +186,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/pick_a_color_title"
-                android:paddingTop="6dp"
-                android:paddingBottom="6dp"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="10dp"
-                tools:listitem="@layout/item_board_color_theme"
-                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                tools:listitem="@layout/item_board_color_theme" />
 
             <TextView
                 android:id="@+id/board_icon_text_view"
@@ -208,22 +209,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_below="@+id/board_icon_text_view"
+                android:layout_marginEnd="17dp"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="17dp"
                 android:gravity="center_vertical"
-                android:layout_below="@+id/board_icon_text_view">
+                android:orientation="horizontal">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/private_board_icon_list"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
                     android:layout_weight="1"
-                    tools:listitem="@layout/item_board_icon"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+                    android:paddingBottom="4dp"
+                    android:paddingTop="4dp"
+                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                    tools:listitem="@layout/item_board_icon" />
 
                 <Button
                     android:id="@+id/upload_board_icon"
@@ -231,8 +232,8 @@
                     android:layout_height="20dp"
                     android:background="@drawable/blue_border_button"
                     android:text="@string/upload"
-                    android:textSize="12sp"
-                    android:textColor="@color/others_color_grey"/>
+                    android:textColor="@color/others_color_grey"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -242,12 +243,12 @@
             android:id="@+id/board_type_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:background="@color/background_color"
+            android:layout_marginEnd="17dp"
             android:layout_marginStart="17dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="17dp">
+            android:background="@color/background_color"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/board_visibility_text_view"
@@ -268,9 +269,9 @@
                     android:id="@+id/toggle_public_board"
                     android:layout_width="80dp"
                     android:layout_height="wrap_content"
-                    android:checked="true"
                     android:layout_marginStart="20dp"
                     android:buttonTint="@color/colorAccent"
+                    android:checked="true"
                     android:fontFamily="@font/rajdhani_medium"
                     android:text="@string/public_uppercase"
                     android:textAlignment="center"
@@ -301,7 +302,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/button_background"
             android:fontFamily="@font/raleway_bold"
-            android:text="@string/create_board"
+            android:text="@string/preview_and_create"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="19sp" />

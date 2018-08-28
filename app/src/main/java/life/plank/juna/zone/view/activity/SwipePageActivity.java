@@ -32,7 +32,6 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
-import rx.Subscription;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -43,10 +42,9 @@ import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    public static SwipePageActivity swipePageActivity;
+    public SwipePageActivity swipePageActivity;
     public static Bitmap parentViewBitmap = null;
 
-    int TRCNumber = 20;
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     @BindView(R.id.parent_layout)
@@ -57,13 +55,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ArcMenu arcMenu;
     FootballFeedAdapter footballFeedAdapter;
     private GridLayoutManager gridLayoutManager;
-    private int PAGE_SIZE;
-    private boolean isLastPage = false;
-    private boolean isLoading = false;
-    private String nextPageToken = "";
     private List<FootballFeed> footballFeeds;
-    private int apiHitCount = 0;
-    private Subscription subscription;
+
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {

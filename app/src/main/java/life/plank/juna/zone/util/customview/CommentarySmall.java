@@ -59,12 +59,6 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         View rootView = inflate(context, R.layout.item_live_commentary_small, this);
         ButterKnife.bind(this, rootView);
 
-        commentaryRecyclerView.setLayoutManager(new LinearLayoutManager(context) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-            }
-        });
         ((LinearLayoutManager) commentaryRecyclerView.getLayoutManager()).setReverseLayout(true);
         seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
     }
@@ -80,6 +74,11 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         commentaryRecyclerView.setVisibility(VISIBLE);
         adapter.update(commentaries);
         commentaryRecyclerView.scrollToPosition(commentaries.size() - 1);
+    }
+
+    public void updateNew(List<Commentary> commentaries) {
+        adapter.updateNew(commentaries);
+        commentaryRecyclerView.smoothScrollToPosition(adapter.getCommentaries().size() + commentaries.size() - 1);
     }
 
     public void notAvailable(@StringRes int message) {

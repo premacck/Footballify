@@ -139,6 +139,7 @@
         <activity android:name=".view.activity.UserFeedActivity" />
         <activity android:name=".view.activity.TimelineActivity" />
         <activity android:name=".view.activity.CommentaryActivity" />
+        <activity android:name=".view.activity.BoardPreviewActivity" />
     </application>
 
 </manifest>

@@ -2,21 +2,20 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
-
-import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,20 +29,18 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 
 public class CreateBoardActivity extends AppCompatActivity {
 
     private static final String TAG = CreateBoardActivity.class.getSimpleName();
 
+    @BindView(R.id.parent_layout)
+    ScrollView parentLayout;
     @BindView(R.id.football)
     ToggleButton football;
     @BindView(R.id.music)
@@ -84,6 +81,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     @Inject
     BoardIconAdapter boardIconAdapter;
     private RestApi restApi;
+    public static Bitmap parentViewBitmap = null;
     private String zone = "";
 
     public static void launch(Context packageContext) {
@@ -116,7 +114,8 @@ public class CreateBoardActivity extends AppCompatActivity {
         board.setDisplayname(boardName.getText().toString().trim());
         board.setDescription(boardDescription.getText().toString().trim());
         board.setColor(boardColorThemeAdapter.getSelectedColor());
-
+        board.setBoardType(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase));
+        board.setBoard(board);
         createBoard(board);
     }
 
@@ -139,65 +138,9 @@ public class CreateBoardActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
             return;
         }
-
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-        restApi.createPrivateBoard(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase), board, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<String>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<String> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                navigateToBoard(response.body(), token);
-                                break;
-                            default:
-                                Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void navigateToBoard(String boardId, String token) {
-        restApi.getBoardById(boardId, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Board>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        Toast.makeText(getApplicationContext(), R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<Board> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                startActivity(new Intent(CreateBoardActivity.this, PrivateBoardActivity.class));
-                                Board.getInstance().setBoard(response.body());
-                                break;
-                            default:
-                                Toast.makeText(getApplicationContext(), R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
-                                break;
-                        }
-                    }
-                });
+        parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
+        Intent intent = new Intent(this, BoardPreviewActivity.class);
+        intent.putExtra("boardType", boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase);
+        startActivity(intent);
     }
 }

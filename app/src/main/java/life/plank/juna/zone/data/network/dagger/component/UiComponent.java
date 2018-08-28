@@ -5,6 +5,7 @@ import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.BoardPreviewActivity;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
@@ -42,6 +43,8 @@ public interface UiComponent {
     void inject(CreateBoardActivity createBoardActivity);
 
     void inject(FixtureActivity fixtureActivity);
+
+    void inject(BoardPreviewActivity boardPreviewActivity);
 
     void inject(SwipePageActivity swipePageActivity);
 
