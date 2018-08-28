@@ -34,9 +34,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.ColorHashMap;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -54,7 +52,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
  */
 
 public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder> {
-    String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
+    private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -63,11 +61,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     MediaPlayer mediaPlayer = new MediaPlayer();
     private String boardId;
-    private List<FootballFeed> footballFeedsList = new ArrayList<>();
+    private List<FootballFeed> footballFeedsList;
     private RestApi restApi;
     private Context context;
-    private String objectId;
-    private int likeCount = 0;
+
+    private int likeCount;
     private String date;
     private String enterBoardId;
     ;
@@ -94,11 +92,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.pref_enter_board_id), 0);
         enterBoardId = matchPref.getString(context.getString(R.string.pref_enter_board_id), "NA");
         String feedId = footballFeedsList.get(position).getId();
-        populateCommentFeedRecyclerView(holder);
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
-        objectId = preference.getString(context.getString(R.string.pref_object_id), "NA");
 
         setupSwipeGesture(context, holder.dragHandleImageView);
+        if (footballFeedsList.get(position).getInteractions() != null) {
+            likeCount = footballFeedsList.get(position).getInteractions().getLikes();
+        } else {
+            likeCount = 0;
+        }
+
+        holder.likeCountTextView.setText(Integer.toString(likeCount));
 
         switch (footballFeedsList.get(position).getContentType()) {
             case "Image": {
@@ -184,20 +186,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.shareImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemShareApiCall(feedId, AppConstants.SHARE_TO, boardId, objectId);
+                // TODO: Make api call to share
             }
         });
 
         holder.unlikeCountImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                unlikeFeedItem(feedId, objectId);
-                //todo:will replace with getFootballFeed Api call original Like counts
-                if (likeCount == 0) {
-                    holder.likeCountTextView.setText(String.valueOf(likeCount));
-                } else {
-                    holder.likeCountTextView.setText(String.valueOf(--likeCount));
-                }
+                // TODO: Make api call to unlike
             }
         });
     }
@@ -225,100 +221,17 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
                     @Override
                     public void onNext(Response<JsonObject> response) {
-                        Log.d(TAG, "--Response Code--" + response.code());
-//                        likeCount++;
-//                        holder.likeCountTextView.setText(String.valueOf(likeCount));
-//                        holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
-                    }
-                });
-
-    }
-
-    private void boardFeedItemShareApiCall(String id, String shareTo, String boardId, String
-            userId) {
-        restApi.shareBoardFeedItem(id, shareTo, boardId, userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<FootballFeed>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<FootballFeed> feedItemModelResponse) {
-                        //TODO: Handle all response code
-                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void unlikeFeedItem(String id, String userId) {
-        restApi.unlikeBoardItem(id, userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> jsonObjectResponse) {
-                        Toast.makeText(context, R.string.share_feed_item_toast, Toast.LENGTH_LONG).show();
-                        //TODO: display updated like count
-                    }
-                });
-
-    }
-
-    private void postCommentOnBoardFeed(String getEditTextValue, String feedItemId, String
-            userId, String boardId, String time) {
-        restApi.postCommentOnFeeditem(getEditTextValue, feedItemId, userId, boardId, time)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
-                        Toast.makeText(context, "Something went wrong. Try again later", Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-
-
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                Toast.makeText(context, "Comment Posted Successfully", Toast.LENGTH_SHORT).show();
+                                holder.likeCountTextView.setText(Integer.toString(++likeCount));
                                 break;
                             default:
-                                Toast.makeText(context, "Failed to post comment", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
                 });
-    }
 
-    private void populateCommentFeedRecyclerView(FootballFeedDetailViewHolder holder) {
-        ViewAllCommentListAdapter viewAllCommentListAdapter = new ViewAllCommentListAdapter(context);
     }
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
