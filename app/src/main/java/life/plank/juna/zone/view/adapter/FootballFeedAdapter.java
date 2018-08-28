@@ -50,7 +50,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
         FootballFeed footballFeed = footballFeedList.get(position);
         holder.feedTitleTextView.setText(footballFeed.getTitle());
-        holder.kickoffTime.setText(R.string.kick_off_in_2hrs_13_mins);
+        holder.kickoffTime.setText(R.string.match_status);
         if (footballFeed.getThumbnail() != null) {
             Picasso.with(activity)
                     .load(footballFeed.getThumbnail().getImageUrl())
