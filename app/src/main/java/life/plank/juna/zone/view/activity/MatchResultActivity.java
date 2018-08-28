@@ -1,22 +1,23 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,8 +32,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -42,10 +41,9 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.LOAD_VIEW;
+import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
-import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class MatchResultActivity extends AppCompatActivity {
@@ -54,6 +52,8 @@ public class MatchResultActivity extends AppCompatActivity {
     @Inject
     @Named("footballData")
     Retrofit retrofit;
+    @Inject
+    Picasso picasso;
     @BindView(R.id.stats_parent_view)
     CardView statsParentView;
     @BindView(R.id.match_fixture_result)
@@ -74,13 +74,42 @@ public class MatchResultActivity extends AppCompatActivity {
     TextView followingTextVIew;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    List<StandingModel> standingModel;
-    List<PlayerStatsModel> playerStatsModelList;
-    List<TeamStatsModel> teamStatsModelList;
+    @BindView(R.id.no_standings)
+    TextView noStandingsTextView;
+    @BindView(R.id.no_team_stats)
+    TextView noTeamStatsTextView;
+    @BindView(R.id.no_player_stats)
+    TextView noPlayerStatsTextView;
+    @BindView(R.id.see_all_fixtures)
+    TextView seeAllFixtures;
+    @BindView(R.id.see_all_standings)
+    TextView seeAllStandings;
+    @BindView(R.id.see_more_team_stats)
+    TextView seeMoreTeamStats;
+    @BindView(R.id.see_more_player_stats)
+    TextView seeMorePlayerStats;
+    @BindView(R.id.league_logo)
+    ImageView leagueLogoImageView;
+    @BindView(R.id.league_name)
+    TextView leagueNameTextView;
+
     private StandingTableAdapter standingTableAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
     private RestApi restApi;
+    private String seasonName;
+    private String leagueName;
+    private String countryName;
+    private String leagueLogo;
+
+    public static void launch(Activity fromActivity, String seasonName, String leagueName, String countryName, String leagueLogo) {
+        Intent intent = new Intent(fromActivity, MatchResultActivity.class);
+        intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
+        intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
+        intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
+        intent.putExtra(fromActivity.getString(R.string.league_logo), leagueLogo);
+        fromActivity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,55 +119,45 @@ public class MatchResultActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         ButterKnife.bind(this);
 
-        getStandings(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
-        getPlayerStats(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
-        populateStandingRecyclerView();
-        populatePlayerStatsRecyclerView();
-        populateTeamStatsRecyclerView();
-        getTeamStats(AppConstants.LEAGUE_NAME, AppConstants.SEASON_NAME, AppConstants.COUNTRY_NAME);
+        Intent intent = getIntent();
+        if (intent != null) {
+            seasonName = intent.getStringExtra(getString(R.string.season_name));
+            leagueName = intent.getStringExtra(getString(R.string.league_name));
+            countryName = intent.getStringExtra(getString(R.string.country_name));
+            leagueLogo = intent.getStringExtra(getString(R.string.league_logo));
+        }
+
+        prepareLeagueInfo();
+        prepareRecyclerViews();
+
+        getStandings();
+        getPlayerStats();
+        getTeamStats();
 
         layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
         layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));
     }
 
-    public void populateStandingRecyclerView() {
-        standingModel = new ArrayList<>();
-        standingTableAdapter = new StandingTableAdapter(this, standingModel);
-        standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+    private void prepareLeagueInfo() {
+        leagueNameTextView.setText(leagueName);
+        picasso.load(leagueLogo)
+                .placeholder(R.drawable.ic_place_holder)
+                .error(R.drawable.ic_place_holder)
+                .into(leagueLogoImageView);
+    }
+
+    private void prepareRecyclerViews() {
+        standingTableAdapter = new StandingTableAdapter(picasso);
         standingRecyclerView.setAdapter(standingTableAdapter);
-    }
 
-    public void populatePlayerStatsRecyclerView() {
-        playerStatsModelList = new ArrayList<>();
-        playerStatsAdapter = new PlayerStatsAdapter(this, playerStatsModelList);
-        playerStatsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        playerStatsAdapter = new PlayerStatsAdapter();
         playerStatsRecyclerView.setAdapter(playerStatsAdapter);
-    }
 
-    public void populateStandingRecyclerView(List<StandingModel> standingModels) {
-        standingModel.addAll(standingModels);
-        standingTableAdapter.notifyDataSetChanged();
-    }
-
-    public void populatePlayerStatsRecyclerView(List<PlayerStatsModel> playerStatsModels) {
-        playerStatsModelList.addAll(playerStatsModels);
-        playerStatsAdapter.notifyDataSetChanged();
-    }
-
-    public void populateTeamStatsRecyclerView(List<TeamStatsModel> teamStatsModels) {
-        teamStatsModelList.addAll(teamStatsModels);
-        teamStatsAdapter.notifyDataSetChanged();
-    }
-
-    public void populateTeamStatsRecyclerView() {
-        teamStatsModelList = new ArrayList<>();
-        teamStatsAdapter = new TeamStatsAdapter(this, teamStatsModelList);
-        teamStatsRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        teamStatsAdapter = new TeamStatsAdapter(picasso);
         teamStatsRecyclerView.setAdapter(teamStatsAdapter);
     }
 
-
-    public void getStandings(String leagueName, String seasonName, String countryName) {
+    public void getStandings() {
         progressBar.setVisibility(View.VISIBLE);
         restApi.getStandings(leagueName, seasonName, countryName)
                 .subscribeOn(Schedulers.io())
@@ -146,69 +165,67 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<StandingModel>>>() {
                     @Override
                     public void onCompleted() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getStandings()");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        progressBar.setVisibility(View.VISIBLE);
+                        updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<List<StandingModel>> response) {
-                        progressBar.setVisibility(View.INVISIBLE);
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                populateStandingRecyclerView(response.body());
+                                updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
+                                standingTableAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(MatchResultActivity.this, R.string.failed_to_get_standings, Toast.LENGTH_SHORT).show();
+                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                             default:
-                                Toast.makeText(MatchResultActivity.this, R.string.failed_to_get_standings, Toast.LENGTH_SHORT).show();
+                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                                 break;
                         }
                     }
                 });
     }
 
-    public void getPlayerStats(String leagueName, String seasonName, String countryName) {
+    public void getPlayerStats() {
         restApi.getPlayerStats(leagueName, seasonName, countryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getPlayerStats()");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                         Log.e(TAG, " Error" + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<List<PlayerStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                populatePlayerStatsRecyclerView(response.body());
+                                updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
+                                playerStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_player_stats, Toast.LENGTH_LONG).show();
+                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 break;
                             default:
-                                populatePlayerStatsRecyclerView(response.body());
-                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_player_stats, Toast.LENGTH_LONG).show();
+                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 break;
                         }
                     }
                 });
     }
 
-    public void getTeamStats(String leagueName, String seasonName, String countryName) {
+    public void getTeamStats() {
         progressBar.setVisibility(View.VISIBLE);
         restApi.getTeamStats(leagueName, seasonName, countryName)
                 .subscribeOn(Schedulers.io())
@@ -216,86 +233,80 @@ public class MatchResultActivity extends AppCompatActivity {
                 .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
                     @Override
                     public void onCompleted() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getTeamStats()");
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                         Log.e(TAG, " Error: " + e);
                     }
 
                     @Override
                     public void onNext(Response<List<TeamStatsModel>> response) {
-                        progressBar.setVisibility(View.INVISIBLE);
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                populateTeamStatsRecyclerView(response.body());
+                                updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
+                                teamStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_team_stats, Toast.LENGTH_LONG).show();
+                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 break;
                             default:
-                                Toast.makeText(getApplicationContext(), R.string.failed_to_get_team_stats, Toast.LENGTH_LONG).show();
+                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 break;
                         }
                     }
                 });
     }
 
-    @OnClick({R.id.see_all, R.id.following_text_view, R.id.see_complete, R.id.see_more, R.id.see_more_player_stats})
-    public void onViewClicked(View view) {
+    private void updateUI(boolean available, RecyclerView recyclerView, TextView seeMoreView, TextView noDataView) {
+        progressBar.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
+        seeMoreView.setVisibility(available ? View.VISIBLE : View.GONE);
+        noDataView.setVisibility(available ? View.GONE : View.VISIBLE);
+    }
+
+    @OnClick({R.id.see_all_fixtures, R.id.following_text_view, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
+    public void onItemClick(View view) {
         switch (view.getId()) {
-            case R.id.see_all:
-                if (GlobalVariable.getInstance().getTilePosition() != 3) {
-                    matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-//                    TODO : replace this with values retrieved from the API call.
-                    FixtureActivity.launch(
-                            MatchResultActivity.this,
-                            AppConstants.SEASON_NAME,
-                            AppConstants.LEAGUE_NAME,
-                            AppConstants.COUNTRY_NAME,
-                            matchFixtureResultLayout
-                    );
-                    break;
-                } else {
-                    Intent intent = new Intent(this, WorldCupFixtureActivity.class);
-                    startActivity(intent);
-                    break;
-                }
-            case R.id.following_text_view: {
+            case R.id.see_all_fixtures:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                FixtureActivity.launch(
+                        MatchResultActivity.this,
+                        seasonName,
+                        leagueName,
+                        countryName,
+                        matchFixtureResultLayout
+                );
+                break;
+            case R.id.following_text_view:
                 if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
                     followingTextVIew.setText(R.string.follow);
                 } else {
                     followingTextVIew.setText(R.string.unfollow);
                 }
                 break;
-            }
-            case R.id.see_complete:
+            case R.id.see_all_standings:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                Intent intent = new Intent(this, MatchResultDetailActivity.class);
-                intent.putExtra(LOAD_VIEW, STANDINGS);
-                startActivity(intent);
+                MatchResultDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName);
                 break;
-            case R.id.see_more:
+            case R.id.see_more_team_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                Intent teamIntent = new Intent(this, MatchResultDetailActivity.class);
-                teamIntent.putExtra(LOAD_VIEW, TEAM_STATS);
-                startActivity(teamIntent);
+                MatchResultDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName);
                 break;
             case R.id.see_more_player_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                Intent playerIntent = new Intent(this, MatchResultDetailActivity.class);
-                playerIntent.putExtra(LOAD_VIEW, PLAYER_STATS);
-                startActivity(playerIntent);
+                MatchResultDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName);
                 break;
         }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
+    protected void onDestroy() {
+        standingTableAdapter = null;
+        teamStatsAdapter = null;
+        playerStatsAdapter = null;
+        super.onDestroy();
     }
 }
-

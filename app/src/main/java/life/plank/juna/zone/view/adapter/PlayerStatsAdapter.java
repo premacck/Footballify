@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -16,12 +16,11 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 
 public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.MatchLeagueViewHolder> {
-    private Context context;
+
     private List<PlayerStatsModel> playerStatsModels;
 
-    public PlayerStatsAdapter(Context context, List<PlayerStatsModel> playerStatsModelList) {
-        this.context = context;
-        this.playerStatsModels = playerStatsModelList;
+    public PlayerStatsAdapter() {
+        this.playerStatsModels = new ArrayList<>();
     }
 
     @Override
@@ -31,12 +30,12 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
 
     @Override
     public void onBindViewHolder(MatchLeagueViewHolder holder, int position) {
-        holder.PlayerStatsSerialNumberText.setText(String.valueOf(playerStatsModels.get(position).getId()));
-        holder.PlayerStatsPlayerNameText.setText(String.valueOf(playerStatsModels.get(position).getFullName()));
-        holder.PlayerStatsGoalsText.setText(String.valueOf(playerStatsModels.get(position).getGoals()));
-        holder.PlayerStatsAssistTextView.setText(String.valueOf(playerStatsModels.get(position).getAssists()));
-        holder.PlayerStatsYellowTextView.setText(String.valueOf(playerStatsModels.get(position).getYellowcards()));
-        holder.PlayerStatsRedCardTextView.setText(String.valueOf(playerStatsModels.get(position).getRedcards()));
+        holder.playerStatsSerialNumberText.setText(String.valueOf(playerStatsModels.get(position).getId()));
+        holder.playerStatsPlayerNameText.setText(String.valueOf(playerStatsModels.get(position).getFullName()));
+        holder.playerStatsGoalsText.setText(String.valueOf(playerStatsModels.get(position).getGoals()));
+        holder.playerStatsAssistTextView.setText(String.valueOf(playerStatsModels.get(position).getAssists()));
+        holder.playerStatsYellowTextView.setText(String.valueOf(playerStatsModels.get(position).getYellowcards()));
+        holder.playerStatsRedCardTextView.setText(String.valueOf(playerStatsModels.get(position).getRedcards()));
     }
 
     @Override
@@ -44,21 +43,26 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
         return playerStatsModels.size();
     }
 
+    public void update(List<PlayerStatsModel> playerStatsModelList) {
+        this.playerStatsModels.addAll(playerStatsModelList);
+        notifyDataSetChanged();
+    }
+
     public class MatchLeagueViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.player_stats_serial_number_text)
-        TextView PlayerStatsSerialNumberText;
+        TextView playerStatsSerialNumberText;
         @BindView(R.id.player_stats_team_logo)
-        ImageView PlayerStatsTeamLogoImage;
+        ImageView playerStatsTeamLogoImage;
         @BindView(R.id.player_stats_player_name)
-        TextView PlayerStatsPlayerNameText;
+        TextView playerStatsPlayerNameText;
         @BindView(R.id.player_stats_goals_text)
-        TextView PlayerStatsGoalsText;
+        TextView playerStatsGoalsText;
         @BindView(R.id.player_stats_assist_text)
-        TextView PlayerStatsAssistTextView;
+        TextView playerStatsAssistTextView;
         @BindView(R.id.player_stats_yellow_card_text)
-        TextView PlayerStatsYellowTextView;
+        TextView playerStatsYellowTextView;
         @BindView(R.id.player_stats_red_card_text)
-        TextView PlayerStatsRedCardTextView;
+        TextView playerStatsRedCardTextView;
 
         MatchLeagueViewHolder(View itemView) {
             super(itemView);
