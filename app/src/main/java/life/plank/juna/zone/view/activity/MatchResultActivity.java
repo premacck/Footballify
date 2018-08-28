@@ -173,7 +173,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        updateUI(false, standingRecyclerView, STANDINGS);
+                        updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                         Log.e(TAG, "onError: " + e);
                     }
 
@@ -181,14 +181,14 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<StandingModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                updateUI(true, standingRecyclerView, STANDINGS);
+                                updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
 //                                TODO : commenting this to fix build. will revert back in next pull request
 //                                standingTableAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, standingRecyclerView, STANDINGS);
+                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                             default:
-                                updateUI(false, standingRecyclerView, STANDINGS);
+                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                                 break;
                         }
                     }
@@ -207,7 +207,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        updateUI(false, playerStatsRecyclerView, PLAYER_STATS);
+                        updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                         Log.e(TAG, " Error" + e);
                     }
 
@@ -215,15 +215,15 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<PlayerStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                updateUI(true, playerStatsRecyclerView, PLAYER_STATS);
+                                updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
 //                                TODO : commenting this to fix build. will revert back in next pull request
 //                                playerStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, playerStatsRecyclerView, PLAYER_STATS);
+                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 break;
                             default:
-                                updateUI(false, playerStatsRecyclerView, PLAYER_STATS);
+                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 break;
                         }
                     }
@@ -243,7 +243,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        updateUI(false, teamStatsRecyclerView, TEAM_STATS);
+                        updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                         Log.e(TAG, " Error: " + e);
                     }
 
@@ -251,40 +251,26 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<TeamStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                updateUI(true, teamStatsRecyclerView, TEAM_STATS);
+                                updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
 //                                TODO : commenting this to fix build. will revert back in next pull request
 //                                teamStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, teamStatsRecyclerView, TEAM_STATS);
+                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 break;
                             default:
-                                updateUI(false, teamStatsRecyclerView, TEAM_STATS);
+                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 break;
                         }
                     }
                 });
     }
 
-    private void updateUI(boolean available, RecyclerView recyclerView, String viewToLoad) {
+    private void updateUI(boolean available, RecyclerView recyclerView, TextView seeMoreView, TextView noDataView) {
         progressBar.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        switch (viewToLoad) {
-            case STANDINGS:
-                seeAllStandings.setVisibility(available ? View.VISIBLE : View.GONE);
-                noStandingsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-                break;
-            case TEAM_STATS:
-                seeMoreTeamStats.setVisibility(available ? View.VISIBLE : View.GONE);
-                noTeamStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-                break;
-            case PLAYER_STATS:
-                seeMorePlayerStats.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-                noPlayerStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-                break;
-            default:
-                break;
-        }
+        seeMoreView.setVisibility(available ? View.VISIBLE : View.GONE);
+        noDataView.setVisibility(available ? View.GONE : View.VISIBLE);
     }
 
     @OnClick({R.id.see_all_fixtures, R.id.following_text_view, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
