@@ -50,7 +50,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(InviteToBoardActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new SearchViewAdapter(profileImageList, usernameList);
+        adapter = new SearchViewAdapter(profileImageList, usernameList, this);
         recyclerView.setAdapter(adapter);
         search.setOnQueryTextListener(this);
     }
