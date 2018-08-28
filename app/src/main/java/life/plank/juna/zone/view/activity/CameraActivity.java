@@ -16,6 +16,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -66,6 +67,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     Retrofit retrofit;
     @BindView(R.id.captured_image_view)
     ImageView capturedImageView;
+    @BindView(R.id.description_edit_text)
+    EditText descriptionEditTextView;
     @BindView(R.id.captured_video_view)
     VideoView capturedVideoView;
     @BindView(R.id.post_image)
@@ -301,7 +304,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         restApi.postMediaContentToServer(body, targetId, contentType, userId,
-                dateCreated, AppConstants.SHARE_TO, token)
+                dateCreated, AppConstants.SHARE_TO, descriptionEditTextView.getText().toString(), token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -309,6 +312,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
                     }
+
 
                     @Override
                     public void onError(Throwable e) {

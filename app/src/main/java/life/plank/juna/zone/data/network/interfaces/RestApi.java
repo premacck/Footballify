@@ -9,6 +9,7 @@ import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
@@ -18,7 +19,6 @@ import life.plank.juna.zone.data.network.model.SignInModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
@@ -74,11 +74,13 @@ public interface RestApi {
     //working
     @Multipart
     @POST("/activities/upload")
-    Observable<Response<JsonObject>> postMediaContentToServer(@Part MultipartBody.Part file, @Query("targetId")
-            String targetId, @Query("contentType") String contentType,
+    Observable<Response<JsonObject>> postMediaContentToServer(@Part MultipartBody.Part file,
+                                                              @Query("targetId") String targetId,
+                                                              @Query("contentType") String contentType,
                                                               @Query("userId") String userId,
                                                               @Query("dateCreated") String dateCreated,
                                                               @Query("feedType") String feedType,
+                                                              @Query("description") String description,
                                                               @Header("Authorization") String authHeader);
 
     //working
@@ -109,6 +111,14 @@ public interface RestApi {
     @GET("boards/{id}")
     Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
+    //working
+    @POST("activities/{id}/likes")
+    Observable<Response<JsonObject>> postLike(@Path("id") String feedItemId,
+                                              @Query("targetId") String boardId,
+                                              @Query("target") String target,
+                                              @Query("time") String dateCreated,
+                                              @Header("Authorization") String authHeader);
+
     //yet to verify
     @GET("api/feeditems")
     Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
@@ -118,9 +128,6 @@ public interface RestApi {
 
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
-
-    @POST("feedItems/{id}/likes")
-    Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
 
     @GET("matches/{matchId}/matchsummary")
     Observable<Response<MatchSummary>> getMatchSummary(@Path("matchId") long matchId);

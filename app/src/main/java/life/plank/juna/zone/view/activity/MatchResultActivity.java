@@ -41,6 +41,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.LOAD_VIEW;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
@@ -170,7 +171,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        onStandingsChanged(false);
+                        updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                         Log.e(TAG, "onError: " + e);
                     }
 
@@ -178,13 +179,13 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<StandingModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                onStandingsChanged(true);
+                                updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
                                 standingTableAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                onStandingsChanged(false);
+                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                             default:
-                                onStandingsChanged(false);
+                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
                                 break;
                         }
                     }
@@ -203,7 +204,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        onPlayerStatsChanged(false);
+                        updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                         Log.e(TAG, " Error" + e);
                     }
 
@@ -211,14 +212,14 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<PlayerStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                onPlayerStatsChanged(true);
+                                updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 playerStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                onPlayerStatsChanged(false);
+                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 break;
                             default:
-                                onPlayerStatsChanged(false);
+                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
                                 break;
                         }
                     }
@@ -238,7 +239,7 @@ public class MatchResultActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        onTeamStatsChanged(false);
+                        updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                         Log.e(TAG, " Error: " + e);
                     }
 
@@ -246,78 +247,60 @@ public class MatchResultActivity extends AppCompatActivity {
                     public void onNext(Response<List<TeamStatsModel>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                onTeamStatsChanged(true);
+                                updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 teamStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                onTeamStatsChanged(false);
+                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 break;
                             default:
-                                onTeamStatsChanged(false);
+                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
                                 break;
                         }
                     }
                 });
     }
 
-    private void onStandingsChanged(boolean available) {
+    private void updateUI(boolean available, RecyclerView recyclerView, TextView seeMoreView, TextView noDataView) {
         progressBar.setVisibility(View.INVISIBLE);
-        standingRecyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        seeAllStandings.setVisibility(available ? View.VISIBLE : View.GONE);
-        noStandingsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
+        recyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
+        seeMoreView.setVisibility(available ? View.VISIBLE : View.GONE);
+        noDataView.setVisibility(available ? View.GONE : View.VISIBLE);
     }
 
-    private void onTeamStatsChanged(boolean available) {
-        progressBar.setVisibility(View.INVISIBLE);
-        teamStatsRecyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        seeMoreTeamStats.setVisibility(available ? View.VISIBLE : View.GONE);
-        noTeamStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-    }
-
-    private void onPlayerStatsChanged(boolean available) {
-        progressBar.setVisibility(View.INVISIBLE);
-        playerStatsRecyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        seeMorePlayerStats.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
-        noPlayerStatsTextView.setVisibility(available ? View.GONE : View.VISIBLE);
-    }
-
-    @OnClick(R.id.see_all_fixtures)
-    public void onFixtureSeeAllClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        FixtureActivity.launch(
-                MatchResultActivity.this,
-                seasonName,
-                leagueName,
-                countryName,
-                matchFixtureResultLayout
-        );
-    }
-
-    @OnClick(R.id.following_text_view)
-    public void onFollowingButtonClick() {
-        if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
-            followingTextVIew.setText(R.string.follow);
-        } else {
-            followingTextVIew.setText(R.string.unfollow);
+    @OnClick({R.id.see_all_fixtures, R.id.following_text_view, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
+    public void onItemClick(View view) {
+        switch (view.getId()) {
+            case R.id.see_all_fixtures:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                FixtureActivity.launch(
+                        MatchResultActivity.this,
+                        seasonName,
+                        leagueName,
+                        countryName,
+                        matchFixtureResultLayout
+                );
+                break;
+            case R.id.following_text_view:
+                if (followingTextVIew.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
+                    followingTextVIew.setText(R.string.follow);
+                } else {
+                    followingTextVIew.setText(R.string.unfollow);
+                }
+                break;
+            case R.id.see_all_standings:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                MatchResultDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName);
+                break;
+            case R.id.see_more_team_stats:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                MatchResultDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName);
+                break;
+            case R.id.see_more_player_stats:
+                matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
+                MatchResultDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName);
+                break;
         }
-    }
-
-    @OnClick(R.id.see_all_standings)
-    public void onSeeCompleteStandingsClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        MatchResultDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName);
-    }
-
-    @OnClick(R.id.see_more_team_stats)
-    public void onSeeMoreTeamStatsClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        MatchResultDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName);
-    }
-
-    @OnClick(R.id.see_more_player_stats)
-    public void onSeeMorePlayerStatsClick() {
-        matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-        MatchResultDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName);
     }
 
     @Override
