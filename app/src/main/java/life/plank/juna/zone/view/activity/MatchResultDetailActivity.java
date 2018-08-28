@@ -110,21 +110,24 @@ public class MatchResultDetailActivity extends AppCompatActivity {
 
     public void initStandingRecyclerView() {
         standingModel = new ArrayList<>();
-        standingTableAdapter = new StandingTableAdapter(picasso);
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        standingTableAdapter = new StandingTableAdapter(this, new ArrayList<>());
         standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         standingRecyclerView.setAdapter(standingTableAdapter);
     }
 
     public void initTeamStatsRecyclerView() {
         teamStatsModel = new ArrayList<>();
-        teamStatsAdapter = new TeamStatsAdapter(picasso);
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        teamStatsAdapter = new TeamStatsAdapter(this, new ArrayList<>());
         standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         standingRecyclerView.setAdapter(teamStatsAdapter);
     }
 
     public void initPlayerStatsRecyclerView() {
         playerStatsModel = new ArrayList<>();
-        playerStatsAdapter = new PlayerStatsAdapter();
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        playerStatsAdapter = new PlayerStatsAdapter(this, new ArrayList<>());
         standingRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         standingRecyclerView.setAdapter(playerStatsAdapter);
     }

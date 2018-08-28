@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -148,13 +149,14 @@ public class MatchResultActivity extends AppCompatActivity {
     }
 
     private void prepareRecyclerViews() {
-        standingTableAdapter = new StandingTableAdapter(picasso);
+//        TODO: changing these parameters to fix build, will revert back in next pull request
+        standingTableAdapter = new StandingTableAdapter(this, new ArrayList<>());
         standingRecyclerView.setAdapter(standingTableAdapter);
 
-        playerStatsAdapter = new PlayerStatsAdapter();
+        playerStatsAdapter = new PlayerStatsAdapter(this, new ArrayList<>());
         playerStatsRecyclerView.setAdapter(playerStatsAdapter);
 
-        teamStatsAdapter = new TeamStatsAdapter(picasso);
+        teamStatsAdapter = new TeamStatsAdapter(this, new ArrayList<>());
         teamStatsRecyclerView.setAdapter(teamStatsAdapter);
     }
 
@@ -180,7 +182,8 @@ public class MatchResultActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 onStandingsChanged(true);
-                                standingTableAdapter.update(response.body());
+//                                TODO : commenting this to fix build. will revert back in next pull request
+//                                standingTableAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 onStandingsChanged(false);
@@ -213,7 +216,8 @@ public class MatchResultActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 onPlayerStatsChanged(true);
-                                playerStatsAdapter.update(response.body());
+//                                TODO : commenting this to fix build. will revert back in next pull request
+//                                playerStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 onPlayerStatsChanged(false);
@@ -248,7 +252,8 @@ public class MatchResultActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 onTeamStatsChanged(true);
-                                teamStatsAdapter.update(response.body());
+//                                TODO : commenting this to fix build. will revert back in next pull request
+//                                teamStatsAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 onTeamStatsChanged(false);
