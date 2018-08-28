@@ -384,6 +384,15 @@ public class UIDisplayUtil {
         });
     }
 
+    public static void setupSwipeGesture(Context context, View view) {
+        view.setOnTouchListener(new OnSwipeTouchListener(context) {
+            @Override
+            public void onSwipeDown() {
+                ((Activity) context).finish();
+            }
+        });
+    }
+
     public static void setSharedElementTransitionDuration(Activity activity, int duration) {
         activity.getWindow().getSharedElementEnterTransition().setDuration(duration);
         activity.getWindow().getSharedElementReturnTransition().setDuration(duration).setInterpolator(new DecelerateInterpolator());

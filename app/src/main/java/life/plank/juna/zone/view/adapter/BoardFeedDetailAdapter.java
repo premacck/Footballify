@@ -46,6 +46,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
+import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -58,6 +59,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     Retrofit retrofit;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
+
     MediaPlayer mediaPlayer = new MediaPlayer();
     private String boardId;
     private List<FootballFeed> footballFeedsList = new ArrayList<>();
@@ -86,6 +88,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+
         date = new SimpleDateFormat(context.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
         SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.pref_enter_board_id), 0);
         enterBoardId = matchPref.getString(context.getString(R.string.pref_enter_board_id), "NA");
@@ -93,6 +96,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         populateCommentFeedRecyclerView(holder);
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(context);
         objectId = preference.getString(context.getString(R.string.pref_object_id), "NA");
+
+        setupSwipeGesture(context, holder.dragHandleImageView);
+
         switch (footballFeedsList.get(position).getContentType()) {
             case "Image": {
                 mediaPlayer.stop();
@@ -331,6 +337,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
         TextView feedTextView;
+        @BindView(R.id.drag_handle)
+        ImageView dragHandleImageView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
