@@ -44,6 +44,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
@@ -176,7 +177,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boardFeedItemLikeApiCall(feedId, objectId, holder);
+                boardFeedItemLikeApiCall(feedId, enterBoardId, date, holder);
             }
         });
 
@@ -206,14 +207,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         return footballFeedsList.size();
     }
 
-    private void boardFeedItemLikeApiCall(String id, String userId, FootballFeedDetailViewHolder holder) {
-        restApi.getLikedFeedItem(id, userId)
+    private void boardFeedItemLikeApiCall(String feedItemId, String boardId, String dateCreated, FootballFeedDetailViewHolder holder) {
+        restApi.postLike(feedItemId, boardId, "Boards", dateCreated, getToken(context))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<FootballFeed>>() {
+                .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: ");
                     }
 
                     @Override
@@ -223,10 +224,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     }
 
                     @Override
-                    public void onNext(Response<FootballFeed> feedItemModelResponse) {
-                        likeCount++;
-                        holder.likeCountTextView.setText(String.valueOf(likeCount));
-                        holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
+                    public void onNext(Response<JsonObject> response) {
+                        Log.d(TAG, "--Response Code--" + response.code());
+//                        likeCount++;
+//                        holder.likeCountTextView.setText(String.valueOf(likeCount));
+//                        holder.likeCountTextView.setTextColor(context.getResources().getColor(R.color.text_hint_label_color));
                     }
                 });
 

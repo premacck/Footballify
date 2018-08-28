@@ -113,8 +113,8 @@ public interface RestApi {
 
     //working
     @POST("activities/{id}/likes")
-    Observable<Response<JsonObject>> postLike(@Part MultipartBody.Part file,
-                                              @Query("targetId") String targetId,
+    Observable<Response<JsonObject>> postLike(@Path("id") String feedItemId,
+                                              @Query("targetId") String boardId,
                                               @Query("target") String target,
                                               @Query("time") String dateCreated,
                                               @Header("Authorization") String authHeader);
@@ -128,9 +128,6 @@ public interface RestApi {
 
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
-
-    @POST("feedItems/{id}/likes")
-    Observable<Response<FootballFeed>> getLikedFeedItem(@Path("id") String id, @Query("userId") String userId);
 
     @GET("matches/{matchId}/matchsummary")
     Observable<Response<MatchSummary>> getMatchSummary(@Path("matchId") long matchId);
