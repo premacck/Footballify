@@ -63,6 +63,7 @@
             android:clipToPadding="false"
             android:layout_below="@+id/commentary_text"
             tools:listitem="@layout/item_commentary"
+            android:nestedScrollingEnabled="false"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         <ImageView

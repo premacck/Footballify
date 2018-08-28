@@ -15,6 +15,13 @@
     <string name="intent_comment_title">title</string>
     <string name="intent_content_type">contentType</string>
     <string name="intent_live_event_type">liveEventType</string>
+    <string name="intent_foreign_id">liveEventType</string>
+    <string name="intent_board_topic">boardTopic</string>
+    <string name="intent_live_data_type">liveDataType</string>
+    <string name="intent_score_data">scoreData</string>
+    <string name="intent_match_event_list">matchEventList</string>
+    <string name="intent_commentary_list">commentaryList</string>
+    <string name="intent_live_time_status">liveTimeStatus</string>
     <string name="intent_thumbnail_url">thumbnailUrl</string>
     <string name="intent_thumbnail_height">thumbnailHeight</string>
     <string name="intent_thumbnail_width">thumbnailWidth</string>
