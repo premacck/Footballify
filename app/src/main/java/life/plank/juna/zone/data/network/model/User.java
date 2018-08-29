@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.network.model;
 import lombok.Data;
 
 @Data
-public class SignInModel {
+public class User {
     private String objectId;
     private String displayName;
     private String emailAddress;

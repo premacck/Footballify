@@ -15,7 +15,7 @@ import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.data.network.model.SignInModel;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
@@ -69,7 +69,7 @@ public interface RestApi {
 
     //working
     @GET("/users")
-    Observable<Response<SignInModel>> getUser(@Header("Authorization") String authHeader);
+    Observable<Response<User>> getUser(@Header("Authorization") String authHeader);
 
     //working
     @Multipart

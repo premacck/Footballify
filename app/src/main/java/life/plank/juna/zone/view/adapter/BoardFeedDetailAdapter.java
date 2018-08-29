@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -59,7 +60,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     ImageView blurBackgroundImageView;
 
     MediaPlayer mediaPlayer = new MediaPlayer();
-    private String boardId;
+
     private List<FootballFeed> footballFeedsList;
     private RestApi restApi;
     private Context context;
@@ -73,7 +74,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ColorHashMap.HashMaps(context);
         this.context = context;
         this.footballFeedsList = footballFeedsList;
-        this.boardId = boardId;
     }
 
     @Override
@@ -91,7 +91,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.pref_enter_board_id), 0);
         enterBoardId = matchPref.getString(context.getString(R.string.pref_enter_board_id), "NA");
         String feedId = footballFeedsList.get(position).getId();
-
+        holder.userNameTextView.setText(footballFeedsList.get(position).getActor().getDisplayName());
+        holder.feedTitleTextView.setText(footballFeedsList.get(position).getDescription());
         setupSwipeGesture(context, holder.dragHandleImageView);
         if (footballFeedsList.get(position).getInteractions() != null) {
             likeCount = footballFeedsList.get(position).getInteractions().getLikes();
@@ -283,6 +284,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView feedTextView;
         @BindView(R.id.drag_handle)
         ImageView dragHandleImageView;
+        @BindView(R.id.user_name_text_view)
+        TextView userNameTextView;
+        @BindView(R.id.feed_title_text_view)
+        TextView feedTitleTextView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);

@@ -20,6 +20,8 @@ public class FootballFeed {
     private Interactions interactions;
     private String seasonName;
     private String countryName;
+    private String description;
+    private User actor;
 
     public FootballFeed() {
     }

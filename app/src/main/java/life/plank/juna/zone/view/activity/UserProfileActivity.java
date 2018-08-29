@@ -22,7 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.SignInModel;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
@@ -104,7 +104,7 @@ public class UserProfileActivity extends AppCompatActivity {
         restApi.getUser(getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<SignInModel>>() {
+                .subscribe(new Observer<Response<User>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
@@ -116,8 +116,8 @@ public class UserProfileActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<SignInModel> signInModelResponse) {
-                        SignInModel model = signInModelResponse.body();
+                    public void onNext(Response<User> response) {
+                        User model = response.body();
                         if (model != null) {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());

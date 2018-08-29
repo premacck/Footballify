@@ -63,7 +63,7 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.SignInModel;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
@@ -171,7 +171,7 @@ public class UIDisplayUtil {
         return str;
     }
 
-    public static void saveSignInUserDetails(Context context, SignInModel body) {
+    public static void saveSignInUserDetails(Context context, User body) {
         SharedPreferences.Editor editor = context.getSharedPreferences(SIGN_UP_USER_DETAILS, MODE_PRIVATE).edit();
         editor.putString(context.getString(R.string.pref_object_id), body.getObjectId());
         editor.putString(context.getString(R.string.pref_display_name), body.getDisplayName());
@@ -388,7 +388,7 @@ public class UIDisplayUtil {
         view.setOnTouchListener(new OnSwipeTouchListener(context) {
             @Override
             public void onSwipeDown() {
-                ((Activity) context).finish();
+                ((Activity) context).onBackPressed();
             }
         });
     }

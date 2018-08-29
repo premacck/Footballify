@@ -32,7 +32,7 @@ import javax.inject.Named;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.SignInModel;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -190,7 +190,7 @@ public class TokenActivity extends AppCompatActivity {
         restApi.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<SignInModel>>() {
+                .subscribe(new Subscriber<Response<User>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted");
@@ -203,7 +203,7 @@ public class TokenActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<SignInModel> response) {
+                    public void onNext(Response<User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 //TODO: Investigate why the response.body is saved

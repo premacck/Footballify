@@ -31,7 +31,7 @@
                 android:background="@drawable/circle_background_grey" />
 
             <TextView
-                android:id="@+id/name_text_view"
+                android:id="@+id/user_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
@@ -46,7 +46,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/name_text_view"
+                android:layout_toEndOf="@+id/user_name_text_view"
                 android:fontFamily="@font/rajdhani_regular"
                 android:lineSpacingExtra="5sp"
                 android:text="Created 2 weeks ago"
