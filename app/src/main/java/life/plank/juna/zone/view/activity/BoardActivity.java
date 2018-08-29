@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -28,8 +27,6 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
-import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -42,8 +39,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
@@ -82,6 +78,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     @Named("default")
     RestApi restApi;
     @Inject
+    @Named("footballData")
+    RestApi footballRestApi;
+    @Inject
     Picasso picasso;
     @Inject
     Gson gson;
@@ -91,10 +90,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private String visitingTeamLogo;
     private String homeTeamName;
     private String visitingTeamName;
-    private int homeGoals, awayGoals, matchDay;
+    private int homeGoals;
+    private int visitingGoals;
+    private int matchDay;
 
-    private LiveScoreData liveScoreData;
-    private List<MatchEvent> matchEventList;
     private BoardPagerAdapter boardPagerAdapter;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -155,8 +154,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                liveScoreData = zoneLiveData.getScoreData();
-                publicBoardToolbar.setScore(true, liveScoreData.getHomeGoals() + DASH + liveScoreData.getAwayGoals());
+                publicBoardToolbar.setScore(true, zoneLiveData.getScoreData().getHomeGoals() + DASH + zoneLiveData.getScoreData().getAwayGoals());
                 break;
             default:
                 break;
@@ -179,33 +177,46 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
-        currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
-        homeTeamLogo = intent.getStringExtra(getString(R.string.pref_home_team_logo));
-        visitingTeamLogo = intent.getStringExtra(getString(R.string.pref_visiting_team_logo));
-        homeGoals = intent.getIntExtra(getString(R.string.intent_home_team_score), 0);
-        awayGoals = intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0);
-        homeTeamName = intent.getStringExtra(getString(R.string.pref_home_team_name));
-        visitingTeamName = intent.getStringExtra(getString(R.string.pref_visiting_team_name));
-        matchDay = intent.getIntExtra(getString(R.string.matchday_), 1);
+        if (intent.hasExtra(getString(R.string.matchday_))) {
+            setUpToolbar(
+                    intent.getIntExtra(getString(R.string.matchday_), 1),
+                    intent.getStringExtra(getString(R.string.pref_home_team_logo)),
+                    intent.getStringExtra(getString(R.string.pref_visiting_team_logo)),
+                    intent.getIntExtra(getString(R.string.intent_home_team_score), 0),
+                    intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0),
+                    intent.getStringExtra(getString(R.string.pref_home_team_name)),
+                    intent.getStringExtra(getString(R.string.pref_visiting_team_name)),
+                    intent.getLongExtra(getString(R.string.match_id_string), 0)
+            );
+        } else {
+            currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
+            getMatchDetails();
+        }
 
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
-        setUpToolbar();
     }
 
-    private void setUpToolbar() {
-        publicBoardToolbar.setHomeTeamLogo(picasso, homeTeamLogo);
-        publicBoardToolbar.setVisitingTeamLogo(picasso, visitingTeamLogo);
-        publicBoardToolbar.setScore(true, homeGoals + DASH + awayGoals);
-        publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
+    private void setUpToolbar(int matchDay, String homeTeamLogo, String visitingTeamLogo, int homeGoals,
+                              int visitingGoals, String homeTeamName, String visitingTeamName, long currentMatchId) {
+        this.matchDay = matchDay;
+        this.homeTeamLogo = homeTeamLogo;
+        this.visitingTeamLogo = visitingTeamLogo;
+        this.homeGoals = homeGoals;
+        this.visitingGoals = visitingGoals;
+        this.homeTeamName = homeTeamName;
+        this.visitingTeamName = visitingTeamName;
+        this.currentMatchId = currentMatchId;
+        publicBoardToolbar.setHomeTeamLogo(picasso, this.homeTeamLogo);
+        publicBoardToolbar.setVisitingTeamLogo(picasso, this.visitingTeamLogo);
+        publicBoardToolbar.setScore(true, this.homeGoals + DASH + this.visitingGoals);
+        publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + this.matchDay);
     }
 
     private void setupViewPagerWithFragments() {
         boardPagerAdapter = new BoardPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(boardPagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(publicBoardToolbar.getInfoTilesTabLayout()));
-        publicBoardToolbar.getInfoTilesTabLayout().addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-        Objects.requireNonNull(publicBoardToolbar.getInfoTilesTabLayout().getTabAt(1)).select();
+        publicBoardToolbar.setupWithViewPager(viewPager);
     }
 
     @Override
@@ -268,6 +279,51 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
                             String topic = getString(R.string.board_id_prefix) + boardId;
                             FirebaseMessaging.getInstance().subscribeToTopic(topic);
+                        }
+                    }
+                });
+    }
+
+    public void getMatchDetails() {
+        footballRestApi.getMatchDetails(currentMatchId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<MatchSummary>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "getMatchDetails() : onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<MatchSummary> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                MatchSummary matchSummary = response.body();
+                                if (matchSummary != null) {
+                                    setUpToolbar(
+                                            matchSummary.getMatchDay(),
+                                            matchSummary.getHomeTeam().getLogoLink(),
+                                            matchSummary.getAwayTeam().getLogoLink(),
+                                            matchSummary.getHomeGoals(),
+                                            matchSummary.getAwayGoals(),
+                                            matchSummary.getHomeTeam().getName(),
+                                            matchSummary.getAwayTeam().getName(),
+                                            currentMatchId
+                                    );
+                                }
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(BoardActivity.this, R.string.match_summary_not_found, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                                break;
                         }
                     }
                 });

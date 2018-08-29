@@ -164,4 +164,7 @@ public interface RestApi {
 
     @GET("matches/{matchId}/stats")
     Observable<Response<MatchTeamStats>> getTeamStatsForMatch(@Path("matchId") long matchId);
+
+    @GET("matches/{matchId}")
+    Observable<Response<MatchSummary>> getMatchDetails(@Path("matchId") long matchId);
 }
