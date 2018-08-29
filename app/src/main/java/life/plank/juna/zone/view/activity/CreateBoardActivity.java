@@ -115,7 +115,6 @@ public class CreateBoardActivity extends AppCompatActivity {
         board.setDescription(boardDescription.getText().toString().trim());
         board.setColor(boardColorThemeAdapter.getSelectedColor());
         board.setBoardType(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase));
-        board.setBoard(board);
         createBoard(board);
     }
 
