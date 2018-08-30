@@ -75,7 +75,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ImageView optionsImage;
     Point point;
 
-    PopupWindow changeStatusPopUp;
+    PopupWindow optionPopUp;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -112,41 +112,41 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     }
 
-    private void showStatusPopup(final Activity context, Point p) {
+    private void showOptionPopup(final Activity context, Point p) {
 
         LinearLayout viewGroup = context.findViewById(R.id.popup);
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.menu_pop_up, viewGroup);
 
         // Creating the PopupWindow
-        changeStatusPopUp = new PopupWindow(context);
-        changeStatusPopUp.setContentView(layout);
-        changeStatusPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        changeStatusPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        changeStatusPopUp.setFocusable(true);
+        optionPopUp = new PopupWindow(context);
+        optionPopUp.setContentView(layout);
+        optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setFocusable(true);
 
         // Some offset to align the popup a bit to the left, and a bit down, relative to button's position.
         int OFFSET_X = -440;
         int OFFSET_Y = 100;
 
         //Clear the default translucent background
-        changeStatusPopUp.setBackgroundDrawable(new BitmapDrawable());
+        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
 
         // Displaying the popup at the specified location, + offsets.
-        changeStatusPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
+        optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
     }
 
     @OnClick(R.id.options_image)
-    public void onOptionClick(View v) {
+    public void onOptionClick(View view) {
         int[] location = new int[2];
 
-        v.getLocationOnScreen(location);
+        view.getLocationOnScreen(location);
 
         //Initialize the Point with x, and y positions
         point = new Point();
         point.x = location[0];
         point.y = location[1];
-        showStatusPopup(this, point);
+        showOptionPopup(this, point);
 
     }
 
