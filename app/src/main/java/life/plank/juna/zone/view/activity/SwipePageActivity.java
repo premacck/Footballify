@@ -1,15 +1,23 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -24,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FootballFeed;
@@ -44,9 +53,8 @@ import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener {
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    public SwipePageActivity swipePageActivity;
     public static Bitmap parentViewBitmap = null;
-
+    public SwipePageActivity swipePageActivity;
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     @BindView(R.id.parent_layout)
@@ -62,6 +70,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     CoordinatorLayout coordinatorLayout;
 
     FootballFeedAdapter adapter;
+
+    @BindView(R.id.options_image)
+    ImageView optionsImage;
+    Point point;
+
+    PopupWindow optionPopUp;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -95,6 +109,44 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         View bottomSheet = findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setPeekHeight(0);
+
+    }
+
+    private void showOptionPopup(final Activity context, Point p) {
+
+        LinearLayout viewGroup = context.findViewById(R.id.popup);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.menu_pop_up, viewGroup);
+
+        // Creating the PopupWindow
+        optionPopUp = new PopupWindow(context);
+        optionPopUp.setContentView(layout);
+        optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setFocusable(true);
+
+        // Some offset to align the popup a bit to the left, and a bit down, relative to button's position.
+        int OFFSET_X = -440;
+        int OFFSET_Y = 100;
+
+        //Clear the default translucent background
+        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
+
+        // Displaying the popup at the specified location, + offsets.
+        optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
+    }
+
+    @OnClick(R.id.options_image)
+    public void onOptionClick(View view) {
+        int[] location = new int[2];
+
+        view.getLocationOnScreen(location);
+
+        //Initialize the Point with x, and y positions
+        point = new Point();
+        point.x = location[0];
+        point.y = location[1];
+        showOptionPopup(this, point);
 
     }
 
