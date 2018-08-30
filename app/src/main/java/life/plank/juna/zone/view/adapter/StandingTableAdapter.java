@@ -90,8 +90,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         ImageView teamLogoImageView;
         @BindView(R.id.goal_against_text_view)
         TextView goalAgainstTextView;
-        @BindView(R.id.score_board_liner_layout)
-        LinearLayout scoreBoardLinerLayout;
 
         StandingScoreTableViewHolder(View itemView) {
             super(itemView);
