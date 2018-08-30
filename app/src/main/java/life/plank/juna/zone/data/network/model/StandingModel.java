@@ -4,14 +4,15 @@ import lombok.Data;
 
 @Data
 public class StandingModel {
-    private FootballTeam footballTeam;
+    private String teamName;
     private Integer position;
-    private Integer gamesPlayed;
-    private Integer gamesWon;
-    private Integer gamesDrawn;
-    private Integer gamesLost;
+    private String footballTeamLogo;
+    private Integer matchesPlayed;
+    private Integer wins;
+    private Integer draws;
+    private Integer losses;
     private Integer goalsFor;
     private Integer goalsAgainst;
+    private Integer goalDifference;
     private Integer points;
-
 }

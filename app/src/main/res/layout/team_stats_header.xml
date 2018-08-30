@@ -1,89 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/score_board_liner_layout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
+    android:paddingEnd="10dp"
     android:paddingStart="10dp"
-    android:paddingEnd="10dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight=".3"
-        android:gravity="center_horizontal"
-        android:text="@string/serial_number"
-        android:visibility="invisible" />
-
-    <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_weight=".7"
-        android:src="@drawable/ic_west_brom_logo"
-        android:visibility="invisible" />
-
-    <TextView
+        android:id="@+id/wins"
         style="@style/stats_header_text_style"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_weight="3"
-        android:gravity="start"
-        android:singleLine="true"
-        android:text="@string/my_team"
-        android:visibility="invisible"
-        tools:ignore="RtlHardcoded" />
-
-    <TextView
-        style="@style/stats_header_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_weight="1"
+        android:minWidth="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/losses"
         android:text="@string/win" />
 
     <TextView
+        android:id="@+id/losses"
         style="@style/stats_header_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:minWidth="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/goals"
         android:text="@string/loss" />
 
     <TextView
+        android:id="@+id/goals"
         style="@style/stats_header_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:minWidth="24dp"
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/passes"
         android:text="@string/goal" />
 
     <TextView
+        android:id="@+id/passes"
         style="@style/stats_header_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:minWidth="32dp"
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/shots"
         android:text="@string/pass" />
 
     <TextView
+        android:id="@+id/shots"
         style="@style/stats_header_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:minWidth="24dp"
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/yellow_cards"
         android:text="@string/shot" />
 
     <ImageView
-        android:layout_width="0dp"
+        android:id="@+id/yellow_cards"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:src="@drawable/yellow_right" />
+        android:layout_marginEnd="5dp"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/red_cards"
+        android:src="@drawable/yellow_right"
+        android:contentDescription="@string/yellow" />
 
     <ImageView
-        android:layout_width="0dp"
+        android:id="@+id/red_cards"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:src="@drawable/red_right" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/red_right"
+        android:contentDescription="@string/red" />
 
-</LinearLayout>
+</RelativeLayout>

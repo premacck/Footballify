@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,12 +32,17 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
 
     @Override
     public void onBindViewHolder(MatchLeagueViewHolder holder, int position) {
-        holder.playerStatsSerialNumberText.setText(String.valueOf(playerStatsModels.get(position).getId()));
-        holder.playerStatsPlayerNameText.setText(String.valueOf(playerStatsModels.get(position).getFullName()));
-        holder.playerStatsGoalsText.setText(String.valueOf(playerStatsModels.get(position).getGoals()));
-        holder.playerStatsAssistTextView.setText(String.valueOf(playerStatsModels.get(position).getAssists()));
-        holder.playerStatsYellowTextView.setText(String.valueOf(playerStatsModels.get(position).getYellowcards()));
-        holder.playerStatsRedCardTextView.setText(String.valueOf(playerStatsModels.get(position).getRedcards()));
+        holder.playerStatsSerialNumberText.setText(String.valueOf(position + 1));
+        holder.playerStatsPlayerNameText.setText(String.valueOf(playerStatsModels.get(position).getPlayerName()));
+        holder.playerStatsGoalsText.setText(String.valueOf(playerStatsModels.get(position).getGoal()));
+        holder.playerStatsAssistTextView.setText(String.valueOf(playerStatsModels.get(position).getAssist()));
+        holder.playerStatsYellowTextView.setText(String.valueOf(playerStatsModels.get(position).getYellowCard()));
+        holder.playerStatsRedCardTextView.setText(String.valueOf(playerStatsModels.get(position).getRedCard()));
+        Picasso.with(holder.playerStatsTeamLogoImage.getContext())
+                .load(playerStatsModels.get(position).getFootballTeamLogo())
+                .placeholder(R.drawable.ic_place_holder)
+                .error(R.drawable.ic_place_holder)
+                .into(holder.playerStatsTeamLogoImage);
     }
 
     @Override

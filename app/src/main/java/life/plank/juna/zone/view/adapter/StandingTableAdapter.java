@@ -40,21 +40,21 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
-        holder.teamNameTextView.setText(standingModelList.get(position).getFootballTeam().getName());
-        holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getGamesPlayed()));
-        holder.winTextView.setText(String.valueOf(standingModelList.get(position).getGamesWon()));
-        holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getGamesDrawn()));
-        holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getGamesLost()));
-        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalsFor()));
-        holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
+        holder.serialNumberTextView.setText(String.valueOf(position + 1));
+        holder.teamNameTextView.setText(standingModelList.get(position).getTeamName());
+        holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getMatchesPlayed()));
+        holder.winTextView.setText(String.valueOf(standingModelList.get(position).getWins()));
+        holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getDraws()));
+        holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getLosses()));
+        holder.goalForTextView.setText(String.valueOf(standingModelList.get(position).getGoalsFor()));
         holder.goalAgainstTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
-        holder.serialNumberTextView.setText(String.valueOf(standingModelList.get(position).getPosition()));
-
-        picasso.load(standingModelList.get(position).getFootballTeam().getLogoLink())
+        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalDifference()));
+        holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
+        picasso.load(standingModelList.get(position).getFootballTeamLogo())
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
-                .into(holder.scoreView);
+                .into(holder.teamLogoImageView);
     }
 
     public void update(List<StandingModel> standingModelList) {
@@ -82,14 +82,14 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
         TextView lossTextView;
         @BindView(R.id.goal_difference_text_view)
         TextView goalDifferenceTextView;
+        @BindView(R.id.goal_for_text_view)
+        TextView goalForTextView;
         @BindView(R.id.point_table_text_view)
         TextView pointTableTextView;
-        @BindView(R.id.score_view)
-        ImageView scoreView;
+        @BindView(R.id.team_logo_image_view)
+        ImageView teamLogoImageView;
         @BindView(R.id.goal_against_text_view)
         TextView goalAgainstTextView;
-        @BindView(R.id.score_board_liner_layout)
-        LinearLayout scoreBoardLinerLayout;
 
         StandingScoreTableViewHolder(View itemView) {
             super(itemView);

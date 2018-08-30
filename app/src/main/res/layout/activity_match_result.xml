@@ -123,8 +123,9 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/standings_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="210dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     app:cardCornerRadius="@dimen/feed_card_corner_radius"
                     app:cardUseCompatPadding="true">
@@ -174,6 +175,7 @@
                             android:id="@+id/see_all_standings"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/standing_recycler_view"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="5dp"
@@ -195,8 +197,9 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/team_stats_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
+                    android:layout_height="wrap_content"
                     app:cardCornerRadius="@dimen/feed_card_corner_radius"
                     app:cardUseCompatPadding="true">
 
@@ -245,6 +248,8 @@
                             android:id="@+id/see_more_team_stats"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_below="@+id/team_stats_recycler_view"
+                            android:gravity="center"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="5dp"
@@ -259,6 +264,7 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/player_stats_layout"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     app:cardCornerRadius="@dimen/feed_card_corner_radius"
