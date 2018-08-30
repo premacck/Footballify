@@ -10,6 +10,7 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="colorControlHighlight">@color/white</item>
         <item name="android:windowBackground">@null</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="SplashScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -19,7 +20,10 @@
     </style>
 
     <style name="stats_header_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:fontFamily">@font/rajdhani_medium</item>
         <item name="android:textColor">@color/black_50</item>
         <item name="android:textSize">10sp</item>
@@ -28,11 +32,14 @@
     </style>
 
     <style name="stats_row_text_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:fontFamily">@font/rajdhani_medium</item>
         <item name="android:textColor">@color/grey</item>
         <item name="android:textSize">10sp</item>
-        <item name="android:gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
         <item name="android:lineSpacingExtra">5sp</item>
     </style>
 
@@ -156,6 +163,16 @@
         <item name="android:text">@string/_16_2m</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="colorControlNormal">@color/color_control_normal</item>
+        <item name="colorControlActivated">@color/accent</item>
+        <item name="colorControlHighlight">@color/accent</item>
+    </style>
+
+    <style name="CustomHintAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorAccent</item>
     </style>
 
 </resources>

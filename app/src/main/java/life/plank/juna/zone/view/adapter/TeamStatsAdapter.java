@@ -40,14 +40,16 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
 
     @Override
     public void onBindViewHolder(TeamStateViewHolder holder, int position) {
-        holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalWins()));
-        holder.teamStatsLossesTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalLosses()));
-        holder.teamsStatsGoalForTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsFor()));
-        holder.teamStatsDrawTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalDraws()));
-        holder.teamsStatsGoalAgainstTextView.setText(String.valueOf(teamStatsModelList.get(position).getTotalGoalsAgainst()));
-        holder.teamStatsSerialNumber.setText(String.valueOf(teamStatsModelList.get(position).getId()));
-        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getFootballTeam().getName()));
-        picasso.load(teamStatsModelList.get(position).getFootballTeam().getLogoLink())
+        holder.teamStatsSerialNumber.setText(String.valueOf(position + 1));
+        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getTeamName()));
+        holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsModelList.get(position).getWin()));
+        holder.teamStatsLossesTextView.setText(String.valueOf(teamStatsModelList.get(position).getLoss()));
+        holder.teamsStatsGoalTextView.setText(String.valueOf(teamStatsModelList.get(position).getGoal()));
+        holder.teamStatsPassTextView.setText(String.valueOf(teamStatsModelList.get(position).getPass()));
+        holder.teamsStatsShotTextView.setText(String.valueOf(teamStatsModelList.get(position).getShot()));
+        holder.teamStatsRedCardTextView.setText(String.valueOf(teamStatsModelList.get(position).getRedCard()));
+        holder.teamStatsYellowCardTextView.setText(String.valueOf(teamStatsModelList.get(position).getYellowCard()));
+        picasso.load(teamStatsModelList.get(position).getFootballTeamLogo())
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
@@ -73,15 +75,18 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         TextView teamStatsWinsTextView;
         @BindView(R.id.team_stats_losses_text_view)
         TextView teamStatsLossesTextView;
-        @BindView(R.id.team_stats_draw_text_view)
-        TextView teamStatsDrawTextView;
-        @BindView(R.id.team_stats_goals_for_text_view)
-        TextView teamsStatsGoalForTextView;
-        @BindView(R.id.team_stats_goal_against_text_view)
-        TextView teamsStatsGoalAgainstTextView;
+        @BindView(R.id.team_stats_pass_text_view)
+        TextView teamStatsPassTextView;
+        @BindView(R.id.team_stats_goals_text_view)
+        TextView teamsStatsGoalTextView;
+        @BindView(R.id.team_stats_shot_text_view)
+        TextView teamsStatsShotTextView;
         @BindView(R.id.team_stats_serial_number_text_view)
         TextView teamStatsSerialNumber;
-
+        @BindView(R.id.team_stats_yellow_card)
+        TextView teamStatsYellowCardTextView;
+        @BindView(R.id.team_stats_red_card)
+        TextView teamStatsRedCardTextView;
 
         TeamStateViewHolder(View itemView) {
             super(itemView);

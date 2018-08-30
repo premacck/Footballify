@@ -56,4 +56,5 @@
     <color name="commentary_red">#d0021b</color>
     <color name="darkish_pink">#dd5873</color>
     <color name="red_pink">#ef3e56</color>
+    <color name="color_control_normal">#33000000</color>
 </resources>
