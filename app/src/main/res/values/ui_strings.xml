@@ -154,4 +154,8 @@
     <string name="match_between">Bournemouth vs Man. United</string>
     <string name="preview_and_create"><![CDATA[Preview & create]]></string>
     <string name="preview_your_board">Preview your board</string>
+    <string name="mark_fav">&#160;&#160;Mark as favourite</string>
+    <string name="mute_notification">&#160;&#160;Mute notifications</string>
+    <string name="unfollow_zone">&#160;&#160;Unfollow zone</string>
+    <string name="report_zone">&#160;&#160;Report zone</string>
 </resources>
