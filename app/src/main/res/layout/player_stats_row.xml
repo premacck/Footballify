@@ -1,67 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/score_board_liner_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
-    android:padding="10dp"
-    android:weightSum="7">
+    android:paddingEnd="10dp"
+    android:paddingStart="10dp"
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp">
 
     <TextView
         android:id="@+id/player_stats_serial_number_text"
         style="@style/stats_row_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight=".7"
-        android:text="@string/serial_number" />
+        android:minWidth="15dp"
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/player_stats_team_logo"
-        android:layout_width="0dp"
+        android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_weight=".3"
-        android:src="@drawable/ic_west_brom_logo" />
+        android:layout_toEndOf="@+id/player_stats_serial_number_text"
+        android:layout_centerVertical="true"
+        android:scaleType="centerInside"
+        android:contentDescription="@string/pref_home_team_logo" />
 
     <TextView
         android:id="@+id/player_stats_player_name"
         style="@style/stats_header_text_style"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_weight="2"
-        android:gravity="start"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:layout_toEndOf="@+id/player_stats_team_logo"
+        android:layout_toStartOf="@+id/player_stats_goals_text"
+        android:gravity="start|center_vertical"
+        android:maxLines="1"
         android:singleLine="true"
-        android:text="@string/my_team" />
+        android:ellipsize="end" />
 
     <TextView
         android:id="@+id/player_stats_goals_text"
         style="@style/stats_row_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_weight="1"
-        android:text="@string/team_goals" />
+        android:minWidth="24dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/player_stats_assist_text" />
 
     <TextView
         android:id="@+id/player_stats_assist_text"
         style="@style/stats_row_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/assist" />
+        android:minWidth="24dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/player_stats_yellow_card_text" />
 
     <TextView
         android:id="@+id/player_stats_yellow_card_text"
         style="@style/stats_row_text_style"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
+        android:minWidth="20dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/player_stats_red_card_text" />
 
     <TextView
         android:id="@+id/player_stats_red_card_text"
         style="@style/stats_row_text_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1" />
-</LinearLayout>
+        android:minWidth="20dp"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
