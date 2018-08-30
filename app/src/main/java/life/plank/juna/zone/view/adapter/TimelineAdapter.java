@@ -68,15 +68,35 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         notifyDataSetChanged();
     }
 
+    /**
+     * Adding the element at its respective position.
+     * Best case runtime : O(1)
+     * Worst case runtime : O(n)
+     * Live case runtime : O(1) - because live events are going to be coming "live", so it will always insert at 0th position.
+     */
     public void updateLiveEvents(List<MatchEvent> matchEventList) {
-        int initialSize = matchEventList.size();
-        this.matchEventList.addAll(matchEventList);
-        notifyItemRangeInserted(initialSize, matchEventList.size());
+        int positionToInsert = 0;
+        for (MatchEvent matchEvent : matchEventList) {
+            if (matchEvent.getMinute() > matchEventList.get(0).getMinute()) {
+                positionToInsert = this.matchEventList.indexOf(matchEvent);
+            } else break;
+        }
+        this.matchEventList.addAll(positionToInsert, matchEventList);
+        notifyItemRangeInserted(positionToInsert, matchEventList.size());
     }
 
+    /**
+     * Adding the whistle event at its respective position.
+     */
     public void updateWhistleEvent(LiveTimeStatus timeStatus) {
-        matchEventList.add(new MatchEvent(timeStatus));
-        notifyItemInserted(matchEventList.size() - 1);
+        int positionToInsert = 0;
+        for (MatchEvent matchEvent : matchEventList) {
+            if (matchEvent.getMinute() > timeStatus.getMinute()) {
+                positionToInsert = this.matchEventList.indexOf(matchEvent);
+            } else break;
+        }
+        matchEventList.add(positionToInsert, new MatchEvent(timeStatus));
+        notifyItemInserted(positionToInsert);
     }
 
     static class TimelineViewHolder extends BaseRecyclerView.ViewHolder {
