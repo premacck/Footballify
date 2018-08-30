@@ -87,11 +87,11 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                     public void onNext(Response<List<User>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                //TODO: Investigate why the response.body is saved
-                                //Send to adapter
                                 adapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
+                                userList.clear();
+                                adapter.notifyDataSetChanged();
                                 Log.d(TAG, getString(R.string.user_name_not_found));
                                 break;
                             default:
@@ -104,7 +104,6 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        adapter.filter(s);
         return true;
     }
 
@@ -112,8 +111,10 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     public boolean onQueryTextChange(String s) {
         if (!s.isEmpty()) {
             getSearchedUsers(s);
+        }else {
+            userList.clear();
+            adapter.notifyDataSetChanged();
         }
-        adapter.filter(s);
         return true;
     }
 }

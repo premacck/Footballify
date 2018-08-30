@@ -20,15 +20,12 @@ import life.plank.juna.zone.data.network.model.User;
 
 public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder> {
 
-    ArrayList<User> usernameListCopy = new ArrayList<>();
-    private List<Integer> profilePictureList;
     private List<User> userList;
     private Context context;
 
     public SearchViewAdapter(List<User> userList, Context context) {
         this.context = context;
         this.userList = userList;
-        usernameListCopy.addAll(this.userList);
     }
 
     @Override
@@ -63,22 +60,8 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
     }
 
     public void update(List<User> users) {
-        this.userList.addAll(users);
-        notifyDataSetChanged();
-    }
-
-    public void filter(String text) {
         userList.clear();
-        if (text.isEmpty()) {
-            userList.addAll(usernameListCopy);
-        } else {
-            text = text.toLowerCase();
-            for (User user : usernameListCopy) {
-                if (user.getDisplayName().toLowerCase().contains(text)) {
-                    userList.add(user);
-                }
-            }
-        }
+        this.userList.addAll(users);
         notifyDataSetChanged();
     }
 

@@ -254,11 +254,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                     public void onNext(Response<List<User>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                //TODO: Investigate why the response.body is saved
-                                //Send to adapter
                                 searchViewAdapter.update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
+                                userList.clear();
+                                searchViewAdapter.notifyDataSetChanged();
                                 Log.d(TAG, getString(R.string.user_name_not_found));
                                 break;
                             default:
@@ -345,7 +345,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     @Override
     public boolean onQueryTextSubmit(String s) {
-        searchViewAdapter.filter(s);
         return true;
     }
 
@@ -353,8 +352,10 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     public boolean onQueryTextChange(String s) {
         if (!s.isEmpty()) {
             getSearchedUsers(s);
+        } else {
+            userList.clear();
+            searchViewAdapter.notifyDataSetChanged();
         }
-        searchViewAdapter.filter(s);
         return true;
     }
 }
