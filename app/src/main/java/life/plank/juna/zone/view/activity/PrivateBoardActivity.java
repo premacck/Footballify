@@ -103,7 +103,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         initRecyclerView();
 
-        board = Board.getInstance().getBoard();
+        board = Board.getInstance();
         setUpBoomMenu();
         layoutBoardEngagement.setBackgroundColor(getColor(R.color.transparent_white_one));
         layoutInfoTiles.setBackgroundColor(getColor(R.color.transparent_white_two));

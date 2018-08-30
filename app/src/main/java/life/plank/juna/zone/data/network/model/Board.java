@@ -14,7 +14,6 @@ public class Board {
     private String zone;
     private String description;
     private String color;
-    private Board board;
 
     @Data
     public class BoardEvent {
@@ -34,5 +33,9 @@ public class Board {
         }
 
         return boardInstance;
+    }
+
+    public static void setInstance(Board board) {
+        boardInstance = board;
     }
 }

@@ -68,7 +68,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
 
-        board = Board.getInstance().getBoard();
+        board = Board.getInstance();
         boardTitle.setText(board.getDisplayname());
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
         description.setText(board.getDescription());
@@ -132,7 +132,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
                     public void onNext(Response<Board> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                Board.getInstance().setBoard(response.body());
+                                Board.setInstance(response.body());
                                 startActivity(new Intent(BoardPreviewActivity.this, PrivateBoardActivity.class));
                                 finish();
                                 break;

@@ -14,4 +14,5 @@ public class BoardNotification {
     private String action;
     private String actor;
     private String title;
+    private long foreignId;
 }

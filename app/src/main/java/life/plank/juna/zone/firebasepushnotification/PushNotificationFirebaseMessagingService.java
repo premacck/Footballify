@@ -31,6 +31,7 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
@@ -118,9 +119,9 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 + "ed" + " " + "an" + " "
                 + boardNotification.getContentType();
 
-
-        Intent msgIntent = new Intent(this, BoardActivity.class);
+        Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : BoardActivity.class);
         msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        msgIntent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
