@@ -19,12 +19,15 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
+        android:layout_toEndOf="@+id/serial_number_text_view"
         android:contentDescription="@string/pref_home_team_logo" />
 
     <TextView
         android:id="@+id/team_name_text_view"
         style="@style/stats_row_text_style"
         android:gravity="start|center_vertical"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
         android:layout_toEndOf="@+id/team_logo_image_view"
         android:layout_toStartOf="@+id/played_text_view"
         android:maxLines="1"

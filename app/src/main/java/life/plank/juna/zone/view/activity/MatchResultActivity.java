@@ -92,6 +92,12 @@ public class MatchResultActivity extends AppCompatActivity {
     ImageView leagueLogoImageView;
     @BindView(R.id.league_name)
     TextView leagueNameTextView;
+    @BindView(R.id.standings_layout)
+    CardView standingsLayout;
+    @BindView(R.id.team_stats_layout)
+    CardView teamStatsLayout;
+    @BindView(R.id.player_stats_layout)
+    CardView playerStatsLayout;
 
     private StandingTableAdapter standingTableAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
@@ -289,15 +295,15 @@ public class MatchResultActivity extends AppCompatActivity {
                 break;
             case R.id.see_all_standings:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                MatchResultDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName);
+                MatchResultDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName, standingsLayout);
                 break;
             case R.id.see_more_team_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                MatchResultDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName);
+                MatchResultDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName, teamStatsLayout);
                 break;
             case R.id.see_more_player_stats:
                 matchStatsParentViewBitmap = loadBitmap(statsParentView, statsParentView, this);
-                MatchResultDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName);
+                MatchResultDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName, playerStatsLayout);
                 break;
         }
     }
