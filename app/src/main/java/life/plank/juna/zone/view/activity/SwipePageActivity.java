@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
@@ -60,6 +63,12 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ProgressBar progressBar;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
+    @BindView(R.id.search_view)
+    SearchView search;
+    BottomSheetBehavior bottomSheetBehavior;
+    RecyclerView recyclerView;
+    CoordinatorLayout coordinatorLayout;
+
     FootballFeedAdapter adapter;
 
     @BindView(R.id.options_image)
@@ -89,9 +98,18 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         ButterKnife.bind(this);
         swipePageActivity = SwipePageActivity.this;
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
+        recyclerView = findViewById(R.id.recycler_view);
+
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
+
+        coordinatorLayout = findViewById(R.id.coordinator_layout);
+
+        View bottomSheet = findViewById(R.id.bottom_sheet);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setPeekHeight(0);
+
     }
 
     private void showStatusPopup(final Activity context, Point p) {
@@ -205,6 +223,9 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                 public void onClick(View v) {
                     switch (position) {
                         case 0: {
+                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                            search.setQueryHint(getString(R.string.search_query_hint));
+
                             break;
                         }
                         case 1: {
