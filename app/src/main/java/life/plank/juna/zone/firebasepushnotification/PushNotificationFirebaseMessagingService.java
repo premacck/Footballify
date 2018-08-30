@@ -119,7 +119,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 + "ed" + " " + "an" + " "
                 + boardNotification.getContentType();
 
-//        TODO : refine this check after implementation of public boards
         Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : BoardActivity.class);
         msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         msgIntent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
