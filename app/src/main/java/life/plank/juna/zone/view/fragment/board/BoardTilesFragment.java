@@ -85,7 +85,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
         ZoneApplication.getApplication().getUiComponent().inject(this);
         initRecyclerView();
-        updateTiles(boardId);
+        retrieveBoardByBoardId();
         return rootView;
     }
 
@@ -100,12 +100,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesList.smoothScrollToPosition(0);
     }
 
-    public void updateTiles(String boardId) {
-        this.boardId = boardId;
-        retrieveBoardByBoardId(boardId);
-    }
-
-    public void retrieveBoardByBoardId(String boardId) {
+    public void retrieveBoardByBoardId() {
         progressBar.setVisibility(View.VISIBLE);
         restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())

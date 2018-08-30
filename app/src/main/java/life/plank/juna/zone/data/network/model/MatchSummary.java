@@ -1,73 +1,37 @@
 package life.plank.juna.zone.data.network.model;
 
+import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class MatchSummary {
-
     private Integer id;
     private Integer foreignId;
     private Integer leagueRef;
-    private Integer seasonRef;
-    private Integer homeTeamRef;
-    private Integer awayTeamRef;
-    private Integer venueRef;
-    private TeamMatchSummary homeTeamMatchSummary;
-    private Integer homeTeamMatchSummaryRef;
-    private TeamMatchSummary awayTeamMatchSummary;
-    private Integer awayTeamMatchSummaryRef;
+    private FootballTeam homeTeam;
+    private FootballTeam awayTeam;
     private Integer homeGoals;
     private Integer awayGoals;
-    private Boolean hasExtraTime;
-    private String startDate;
-    private Boolean commentaries;
-    private Boolean winningOddsCalculated;
+    private String halfTimeScore;
+    private String fullTimeScore;
     private String hometeamFormation;
     private String awayteamFormation;
+    private Boolean commentaries;
+    private Stadium venue;
+    private String timeStatus;
+    private String matchStartTime;
+    private Integer minute;
+    private Integer extraMinute;
+    private Integer injuryTime;
+    private List<MatchEvent> matchEvents;
+    private List<Commentary> commentary;
+    private Integer matchDay;
+    private Boolean hasExtraTime;
+    private String startDate;
+    private Boolean winningOddsCalculated;
     private Integer homeTeamScore;
     private Integer awayTeamScore;
     private Integer homeTeamPenaltyScore;
     private Integer awayTeamPenaltyScore;
-    private String halfTimeScore;
-    private String fullTimeScore;
-    private String timeStatus;
-    private Integer minute;
-    private Integer extraMinute;
-    private Integer injuryTime;
-    private String matchStartTime;
-
-    @Data
-    public class TeamMatchSummary {
-
-        private Integer id;
-        private Integer footballTeamRef;
-        private Integer footballMatchRef;
-        private Integer totalShots;
-        private Integer onGoalShots;
-        private Integer offGoalShots;
-        private Integer blockedShots;
-        private Integer insideBoxShots;
-        private Integer outsideBoxShots;
-        private Integer totalPasses;
-        private Integer accuratePasses;
-        private Integer accuratePassesPercentage;
-        private Integer attacks;
-        private Integer dangerousAttacks;
-        private Integer fouls;
-        private Integer corners;
-        private Integer offsides;
-        private Integer possessionTime;
-        private Integer yellowCards;
-        private Integer redCards;
-        private Integer saves;
-        private Integer substitutions;
-        private Integer goalKick;
-        private Integer goalAttempts;
-        private Integer freeKick;
-        private Integer throwIn;
-        private Integer ballSafe;
-        private Integer trackingState;
-        private String entityIdentifier;
-
-    }
 }
