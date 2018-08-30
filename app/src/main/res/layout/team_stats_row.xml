@@ -20,7 +20,6 @@
         android:id="@+id/team_stats_team_logo"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/team_stats_serial_number_text_view"
         android:contentDescription="@string/pref_home_team_logo"
         android:visibility="visible" />
