@@ -76,7 +76,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
      */
     public void updateLiveEvents(List<MatchEvent> matchEventList) {
         int positionToInsert = 0;
-        for (MatchEvent matchEvent : matchEventList) {
+        for (MatchEvent matchEvent : this.matchEventList) {
             if (matchEvent.getMinute() > matchEventList.get(0).getMinute()) {
                 positionToInsert = this.matchEventList.indexOf(matchEvent);
             } else break;
