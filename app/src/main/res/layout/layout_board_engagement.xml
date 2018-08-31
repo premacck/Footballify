@@ -11,7 +11,7 @@
     android:paddingBottom="6dp">
 
     <TextView
-        android:id="@+id/follow_btn"
+        android:id="@+id/following_text_view"
         style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:id="@+id/likes_count"
         android:drawableStart="@drawable/ic_likes"
         android:layout_toEndOf="@+id/comment_count"
-        android:layout_toStartOf="@+id/follow_btn"
+        android:layout_toStartOf="@+id/following_text_view"
         style="@style/EngagementLayout" />
 
 </RelativeLayout>
