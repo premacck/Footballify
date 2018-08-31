@@ -139,6 +139,7 @@ public class TimelineActivity extends AppCompatActivity {
                 List<MatchEvent> matchEventList = zoneLiveData.getMatchEventList();
                 if (adapter != null && !isNullOrEmpty(matchEventList)) {
                     adapter.updateLiveEvents(matchEventList);
+                    timelineRecyclerView.smoothScrollToPosition(0);
                 }
                 break;
             case TIME_STATUS:
