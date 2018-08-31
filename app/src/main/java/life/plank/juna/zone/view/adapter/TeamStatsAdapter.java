@@ -66,6 +66,10 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         notifyDataSetChanged();
     }
 
+    public List<TeamStatsModel> getTeamStats() {
+        return teamStatsModelList;
+    }
+
     public class TeamStateViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.team_stats_team_logo)
         ImageView teamStatsTeamLogo;

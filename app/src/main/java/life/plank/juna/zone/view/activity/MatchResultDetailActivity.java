@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -55,6 +57,8 @@ public class MatchResultDetailActivity extends AppCompatActivity {
     RestApi restApi;
     @Inject
     Picasso picasso;
+    @Inject
+    Gson gson;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.progress_bar)
@@ -77,11 +81,12 @@ public class MatchResultDetailActivity extends AppCompatActivity {
     private String leagueName;
     private String countryName;
 
-    public static void launch(Activity fromActivity, String viewToLoad, String seasonName, String leagueName, String countryName, View fromView) {
+    public static void launch(Activity fromActivity, String viewToLoad, String seasonName, String leagueName, String countryName, String itemList, View fromView) {
         Intent intent = new Intent(fromActivity, MatchResultDetailActivity.class);
         intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
         intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
         intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
+        intent.putExtra(fromActivity.getString(R.string.intent_list), itemList);
         intent.putExtra(fromActivity.getString(R.string.intent_load_view), viewToLoad);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(fromActivity, Pair.create(fromView, fromActivity.getString(R.string.pref_match)));
         fromActivity.startActivity(intent, options.toBundle());
@@ -108,19 +113,25 @@ public class MatchResultDetailActivity extends AppCompatActivity {
                 case STANDINGS:
                     standingTableAdapter = new StandingTableAdapter(picasso);
                     prepareRecyclerView(standingTableAdapter);
-                    getStandings();
+                    standingTableAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<StandingModel>>() {
+                    }.getType()));
+//                    getStandings();
                     toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE);
                     break;
                 case TEAM_STATS:
                     teamStatsAdapter = new TeamStatsAdapter(picasso);
                     prepareRecyclerView(teamStatsAdapter);
-                    getTeamStats();
+                    teamStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<TeamStatsModel>>() {
+                    }.getType()));
+//                    getTeamStats();
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE);
                     break;
                 case PLAYER_STATS:
                     playerStatsAdapter = new PlayerStatsAdapter();
                     prepareRecyclerView(playerStatsAdapter);
-                    getPlayerStats();
+                    playerStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<PlayerStatsModel>>() {
+                    }.getType()));
+//                    getPlayerStats();
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.GONE, LinearLayout.VISIBLE);
                     break;
             }
