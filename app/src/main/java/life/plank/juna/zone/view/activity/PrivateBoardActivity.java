@@ -81,12 +81,13 @@ public class PrivateBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_private_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        board = Board.getInstance();
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
         }
+        toolbar.setTitle(board.getDisplayname());
+        toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
 

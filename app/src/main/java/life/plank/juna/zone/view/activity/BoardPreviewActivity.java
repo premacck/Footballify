@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,12 +8,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
 
@@ -26,8 +26,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.util.customview.GenericToolbar;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -39,25 +39,25 @@ public class BoardPreviewActivity extends AppCompatActivity {
     private static final String TAG = BoardPreviewActivity.class.getSimpleName();
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
-    @BindView(R.id.private_board_title)
-    TextView boardTitle;
-    @BindView(R.id.options_image)
-    ImageView optionsImage;
-    @BindView(R.id.share_image)
-    ImageView shareImage;
-    @BindView(R.id.following_text_view)
-    TextView followTextView;
     @BindView(R.id.description)
     TextView description;
-    @BindView(R.id.preview_board_layout)
-    RelativeLayout boardLayout;
     @BindView(R.id.create_board_button)
     Button createBoard;
+    @BindView(R.id.preview_toolbar)
+    GenericToolbar toolbar;
+
     Board board;
     @Inject
     @Named("default")
-    Retrofit retrofit;
-    private RestApi restApi;
+    RestApi restApi;
+    @Inject
+    Gson gson;
+
+    public static void launch(Context packageContext, String board) {
+        Intent intent = new Intent(packageContext, BoardPreviewActivity.class);
+        intent.putExtra(packageContext.getString(R.string.intent_board), board);
+        packageContext.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +66,19 @@ public class BoardPreviewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
 
-        board = Board.getInstance();
-        boardTitle.setText(board.getDisplayname());
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
+            board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
+        }
+        toolbar.setTitle(board.getDisplayname());
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
         description.setText(board.getDescription());
 
-        optionsImage.setVisibility(View.INVISIBLE);
-        shareImage.setVisibility(View.INVISIBLE);
-        followTextView.setVisibility(View.INVISIBLE);
+        toolbar.setupForPreview();
 
-        boardLayout.setBackground(new BitmapDrawable(getResources(), CreateBoardActivity.parentViewBitmap));
+
+        getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), CreateBoardActivity.parentViewBitmap));
     }
 
     @OnClick({R.id.create_board_button})
@@ -132,8 +133,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
                     public void onNext(Response<Board> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                Board.setInstance(response.body());
-                                startActivity(new Intent(BoardPreviewActivity.this, PrivateBoardActivity.class));
+                                PrivateBoardActivity.launch(BoardPreviewActivity.this, gson.toJson(response.body()));
                                 finish();
                                 break;
                             default:
