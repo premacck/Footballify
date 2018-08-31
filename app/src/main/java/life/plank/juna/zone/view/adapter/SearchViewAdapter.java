@@ -16,19 +16,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.User;
 
 public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder> {
 
-    ArrayList<String> usernameListCopy = new ArrayList<>();
-    private List<Integer> profilePictureList;
-    private List<String> usernameList;
+    private List<User> userList;
     private Context context;
 
-    public SearchViewAdapter(List<Integer> profilePictureList, List<String> usernameList, Context context) {
+    public SearchViewAdapter(List<User> userList, Context context) {
         this.context = context;
-        this.profilePictureList = profilePictureList;
-        this.usernameList = usernameList;
-        usernameListCopy.addAll(this.usernameList);
+        this.userList = userList;
     }
 
     @Override
@@ -38,8 +35,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
 
     @Override
     public void onBindViewHolder(SearchViewAdapter.SearchViewHolder holder, int position) {
-        holder.profileImageView.setImageResource(profilePictureList.get(position));
-        holder.usernameTextView.setText(usernameList.get(position));
+        holder.usernameTextView.setText(userList.get(position).getDisplayName());
 
         holder.profileImageView.setOnClickListener(view -> {
             if (holder.followTick.getVisibility() == View.VISIBLE) {
@@ -60,21 +56,12 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
 
     @Override
     public int getItemCount() {
-        return usernameList.size();
+        return userList.size();
     }
 
-    public void filter(String text) {
-        usernameList.clear();
-        if (text.isEmpty()) {
-            usernameList.addAll(usernameListCopy);
-        } else {
-            text = text.toLowerCase();
-            for (String item : usernameListCopy) {
-                if (item.toLowerCase().contains(text)) {
-                    usernameList.add(item);
-                }
-            }
-        }
+    public void update(List<User> users) {
+        userList.clear();
+        this.userList.addAll(users);
         notifyDataSetChanged();
     }
 

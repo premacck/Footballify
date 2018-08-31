@@ -11,7 +11,9 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,23 +29,37 @@ import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
+import life.plank.juna.zone.view.adapter.SearchViewAdapter;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 
@@ -51,10 +67,14 @@ import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener {
+public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener, SearchView.OnQueryTextListener {
+
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
     public SwipePageActivity swipePageActivity;
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     @BindView(R.id.parent_layout)
@@ -66,16 +86,18 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     @BindView(R.id.search_view)
     SearchView search;
     BottomSheetBehavior bottomSheetBehavior;
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    CoordinatorLayout coordinatorLayout;
-
-    FootballFeedAdapter adapter;
-
     @BindView(R.id.options_image)
     ImageView optionsImage;
-    Point point;
 
+    CoordinatorLayout coordinatorLayout;
+    FootballFeedAdapter adapter;
+    SearchViewAdapter searchViewAdapter;
+    ArrayList<User> userList = new ArrayList<>();
+    Point point;
     PopupWindow optionPopUp;
+    private RestApi restApi;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -96,13 +118,15 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
-        swipePageActivity = SwipePageActivity.this;
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        recyclerView = findViewById(R.id.recycler_view);
+        restApi = retrofit.create(RestApi.class);
+        swipePageActivity = SwipePageActivity.this;
 
         initRecyclerView();
         setUpData();
         setUpBoomMenu();
+        initBottomSheetRecyclerView();
+        search.setQueryHint(getString(R.string.search_query_hint));
 
         coordinatorLayout = findViewById(R.id.coordinator_layout);
 
@@ -163,6 +187,15 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         feedRecyclerView.setAdapter(adapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+
+    }
+
+    private void initBottomSheetRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
+        searchViewAdapter = new SearchViewAdapter(userList, this);
+        recyclerView.setAdapter(searchViewAdapter);
+        search.setOnQueryTextListener(this);
+
     }
 
     public void getFootballFeed() {
@@ -198,6 +231,41 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
         intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getFootballFeedList()));
         startActivity(intent);
+    }
+
+    private void getSearchedUsers(String displayName) {
+
+        restApi.getSearchedUsers(getToken(this), displayName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<List<User>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<List<User>> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                searchViewAdapter.update(response.body());
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                userList.clear();
+                                searchViewAdapter.notifyDataSetChanged();
+                                break;
+                            default:
+                                Log.e(TAG, response.message());
+                                break;
+                        }
+                    }
+                });
     }
 
     public void setUpBoomMenu() {
@@ -274,4 +342,19 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         }
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String s) {
+        if (!s.isEmpty()) {
+            getSearchedUsers(s);
+        } else {
+            userList.clear();
+            searchViewAdapter.notifyDataSetChanged();
+        }
+        return true;
+    }
 }

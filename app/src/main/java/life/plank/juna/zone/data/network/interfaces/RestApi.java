@@ -127,28 +127,16 @@ public interface RestApi {
                                               @Query("time") String dateCreated,
                                               @Header("Authorization") String authHeader);
 
-    //yet to verify
-    @GET("api/feeditems")
-    Observable<Response<List<FootballFeed>>> getFootballFeed(@Header("newsfeed-continuation-token") String header);
+    //working
+    @GET("/users/{displayName}")
+    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Path("displayName") String displayName);
+
 
     @GET("matches/{matchId}/lineups")
     Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
 
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
-
-    @GET("matches/{matchId}/matchsummary")
-    Observable<Response<MatchSummary>> getMatchSummary(@Path("matchId") long matchId);
-
-
-    @POST("feedItems/{id}/shares")
-    Observable<Response<FootballFeed>> shareBoardFeedItem(@Path("id") String id, @Query("shareTo") String shareTo, @Query("boardId") String boardId, @Query("userId") String userId);
-
-    @DELETE("feedItems/{id}/likes")
-    Observable<Response<JsonObject>> unlikeBoardItem(@Path("id") String id, @Query("userId") String userId);
-
-    @POST("feedItems/{id}/comments")
-    Observable<Response<JsonObject>> postCommentOnFeeditem(@Body String getEditTextValue, @Path("id") String feedItemId, @Query("userId") String userId, @Query("boardId") String boardId, @Query("time") String time);
 
     @GET("matches/{matchId}/events")
     Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
@@ -167,4 +155,5 @@ public interface RestApi {
 
     @GET("matches/{matchId}")
     Observable<Response<MatchSummary>> getMatchDetails(@Path("matchId") long matchId);
+
 }

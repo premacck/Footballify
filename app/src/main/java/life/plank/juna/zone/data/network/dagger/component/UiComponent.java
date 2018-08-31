@@ -10,6 +10,7 @@ import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.FixtureActivity;
+import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 import life.plank.juna.zone.view.activity.MatchResultActivity;
 import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
@@ -75,6 +76,8 @@ public interface UiComponent {
     void inject(PrivateBoardActivity privateBoardActivity);
 
     void inject(CommentaryActivity commentaryActivity);
+
+    void inject(InviteToBoardActivity inviteToBoardActivity);
 
     @Subcomponent.Builder
     interface Builder {
