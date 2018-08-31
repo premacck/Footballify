@@ -158,4 +158,16 @@
     <string name="mute_notification">&#160;&#160;Mute notifications</string>
     <string name="unfollow_zone">&#160;&#160;Unfollow zone</string>
     <string name="report_zone">&#160;&#160;Report zone</string>
+    <string name="lorem_ipsum">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Fusce ornarevestibulum erat sagittis sollicitudin.
+        Morbi varius eros eget velit congue finibus.
+        Etiam accumsan est augue, vel blandit mauris is a nu pretium malesuada.
+    </string>
+    <string name="members">Members</string>
+    <string name="board_yet_to_be_populated">
+        This board is currently empty\n
+        But it doesn\'t have to be!\n\n
+        Go on, post a pic, or do a shout-out\nMAKE SOME NOISE!
+    </string>
 </resources>
