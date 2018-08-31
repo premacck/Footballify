@@ -24,7 +24,7 @@ public interface EngagementInfoTilesToolbar {
 
     boolean isFollowing();
 
-    void setFollowing(boolean following);
+    void setFollowing(boolean isFollowing);
 
     TabLayout getInfoTilesTabLayout();
 
