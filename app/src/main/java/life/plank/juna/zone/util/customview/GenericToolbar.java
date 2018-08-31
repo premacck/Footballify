@@ -206,8 +206,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     }
 
     @Override
-    public void setFollowing(boolean following) {
-        this.isFollowing = following;
+    public void setFollowing(boolean isFollowing) {
+        this.isFollowing = isFollowing;
     }
 
     @Override
