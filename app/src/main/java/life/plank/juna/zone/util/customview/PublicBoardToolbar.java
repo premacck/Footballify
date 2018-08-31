@@ -43,7 +43,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     @BindView(R.id.share_btn)
     ImageButton shareBtn;
 
-    @BindView(R.id.follow_btn)
+    @BindView(R.id.following_text_view)
     TextView followBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;

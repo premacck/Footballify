@@ -37,7 +37,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     @BindView(R.id.options_menu)
     ImageButton optionsMenu;
 
-    @BindView(R.id.follow_btn)
+    @BindView(R.id.following_text_view)
     TextView followBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
