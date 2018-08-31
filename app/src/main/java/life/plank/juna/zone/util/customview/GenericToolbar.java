@@ -4,22 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -28,20 +26,16 @@ import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
-public class PublicBoardToolbar extends LinearLayout implements CustomViewListener, EngagementInfoTilesToolbar {
+public class GenericToolbar extends FrameLayout implements CustomViewListener, EngagementInfoTilesToolbar {
 
     @BindView(R.id.logo)
-    ImageView leagueLogoView;
-    @BindView(R.id.score)
-    TextView scoreView;
-    @BindView(R.id.home_team_logo)
-    ImageView homeTeamLogoView;
-    @BindView(R.id.visiting_team_logo)
-    ImageView visitingTeamLogoView;
-    @BindView(R.id.options_menu)
-    ImageButton optionsMenu;
+    ImageView logoImageView;
+    @BindView(R.id.title)
+    TextView titleTextView;
     @BindView(R.id.share_btn)
     ImageButton shareBtn;
+    @BindView(R.id.options_menu)
+    ImageButton optionsMenu;
 
     @BindView(R.id.follow_btn)
     TextView followBtn;
@@ -58,52 +52,47 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     TabLayout infoTilesTabLayout;
 
     PopupMenu menu;
-
     private boolean isFavourite;
     private boolean isNotificationOn;
     private boolean isFollowing;
 
-    private PublicBoardHeaderListener listener;
+    PublicBoardHeaderListener listener;
 
-    public PublicBoardToolbar(Context context) {
+    public GenericToolbar(@NonNull Context context) {
         this(context, null);
     }
 
-    public PublicBoardToolbar(Context context, @Nullable AttributeSet attrs) {
+    public GenericToolbar(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public PublicBoardToolbar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public GenericToolbar(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public PublicBoardToolbar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public GenericToolbar(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View rootView = inflate(context, R.layout.public_board_toolbar, this);
+        View rootView = inflate(context, R.layout.generic_toolbar, this);
         ButterKnife.bind(this, rootView);
-        initPopupMenu(context);
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.PublicBoardToolbar);
 
-        boolean initWithDefaults = array.getBoolean(R.styleable.PublicBoardToolbar_useDefaults, true);
-        if (initWithDefaults) {
-            initWithDefaults(context);
-            return;
-        }
-        setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
-        setLeagueLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.img_epl_logo));
-        setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_arsenal_logo));
-        setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_blackpool_logo));
-        setPeopleCount(array.getString(R.styleable.PublicBoardToolbar_peopleCount));
-        setCommentCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
-        setLikesCount(array.getString(R.styleable.PublicBoardToolbar_likesCount));
-        setBoardTitle(array.getString(R.styleable.PublicBoardToolbar_boardTitle));
-        showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
-
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GenericToolbar);
+        setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, getResources().getColor(R.color.transparent, null)));
+        setTitle(array.getString(R.styleable.GenericToolbar_toolbarTitle));
+        setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_pvt_board));
+        shareBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         array.recycle();
+    }
+
+    private void initViews(Context context) {
+        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
+
+        initPopupMenu(context);
+
+        optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     private void initPopupMenu(Context context) {
@@ -152,6 +141,11 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         addInfoTilesListener();
     }
 
+    private void addInfoTilesListener() {
+        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
+        optionsMenu.setOnClickListener(view -> menu.show());
+    }
+
     @Override
     public void dispose() {
         listener = null;
@@ -159,28 +153,8 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         optionsMenu.setOnClickListener(null);
     }
 
-    private void addInfoTilesListener() {
-        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
-        optionsMenu.setOnClickListener(view -> menu.show());
-    }
-
-    private void initWithDefaults(Context context) {
-        leagueLogoView.setImageResource(R.drawable.img_epl_logo);
-        homeTeamLogoView.setImageResource(R.drawable.ic_arsenal_logo);
-        visitingTeamLogoView.setImageResource(R.drawable.ic_blackpool_logo);
-        scoreView.setText(context.getString(R.string._8_8));
-    }
-
-    public int getSelectedSection() {
-        return infoTilesTabLayout.getSelectedTabPosition();
-    }
-
-    /**
-     * @param isScore For scores, keep it true and for upcoming match, set to false and give in the date string.
-     */
-    public void setScore(boolean isScore, String score) {
-        scoreView.setTextSize(TypedValue.COMPLEX_UNIT_SP, isScore ? 32 : 10);
-        scoreView.setText(score);
+    public void setTitle(String title) {
+        this.titleTextView.setText(title);
     }
 
     @Override
@@ -189,36 +163,12 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
-                .into(leagueLogoView);
+                .into(logoImageView);
     }
 
     @Override
     public void setLeagueLogo(@DrawableRes int resource) {
-        leagueLogoView.setImageResource(resource);
-    }
-
-    public void setHomeTeamLogo(Picasso picasso, String logoUrl) {
-        picasso.load(logoUrl)
-                .fit().centerCrop()
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
-                .into(homeTeamLogoView);
-    }
-
-    public void setHomeTeamLogo(@DrawableRes int resource) {
-        homeTeamLogoView.setImageResource(resource);
-    }
-
-    public void setVisitingTeamLogo(Picasso picasso, String logoUrl) {
-        picasso.load(logoUrl)
-                .fit().centerCrop()
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
-                .into(visitingTeamLogoView);
-    }
-
-    public void setVisitingTeamLogo(@DrawableRes int resource) {
-        visitingTeamLogoView.setImageResource(resource);
+        logoImageView.setImageResource(resource);
     }
 
     @Override
@@ -249,22 +199,6 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
         );
     }
 
-    public boolean isFavourite() {
-        return isFavourite;
-    }
-
-    public void setFavourite(boolean favourite) {
-        isFavourite = favourite;
-    }
-
-    public boolean isNotificationOn() {
-        return isNotificationOn;
-    }
-
-    public void setNotificationOn(boolean notificationOn) {
-        isNotificationOn = notificationOn;
-    }
-
     @Override
     public boolean isFollowing() {
         return isFollowing;
@@ -272,7 +206,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
 
     @Override
     public void setFollowing(boolean following) {
-        isFollowing = following;
+        this.isFollowing = following;
     }
 
     @Override
@@ -284,6 +218,5 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     public void setupWithViewPager(ViewPager viewPager) {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout));
         infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-        Objects.requireNonNull(infoTilesTabLayout.getTabAt(0)).select();
     }
 }

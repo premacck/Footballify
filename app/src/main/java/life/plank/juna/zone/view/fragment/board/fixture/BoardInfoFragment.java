@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.fragment.board;
+package life.plank.juna.zone.view.fragment.board.fixture;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,7 +27,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
@@ -150,7 +149,6 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
-        LiveScoreData liveScoreData;
         List<MatchEvent> substitutionEventList;
         switch (zoneLiveData.getLiveDataType()) {
             case COMMENTARY_DATA:

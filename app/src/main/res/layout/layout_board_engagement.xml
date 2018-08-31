@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/engagement_layout"
     android:layout_width="match_parent"
-    android:layout_height="25dp"
-    android:background="@color/transparent_white_one"
-    android:paddingEnd="16dp"
-    android:paddingStart="10dp">
+    android:layout_height="wrap_content"
+    android:background="@color/transparent_white_two"
+    android:paddingEnd="10dp"
+    android:paddingStart="11dp"
+    android:paddingTop="6dp"
+    android:elevation="2dp"
+    android:paddingBottom="6dp">
 
     <TextView
-        android:id="@+id/following_text_view"
+        android:id="@+id/follow_btn"
         style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,46 +20,21 @@
         android:text="@string/following" />
 
     <TextView
-        android:id="@+id/number_of_people_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:drawablePadding="5dp"
+        android:id="@+id/people_count"
         android:drawableStart="@drawable/ic_people"
-        android:fontFamily="@font/rajdhani_semibold"
-        android:lineSpacingExtra="3sp"
-        android:text="1.4M"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+        style="@style/EngagementLayout" />
 
     <TextView
-        android:id="@+id/number_of_comments_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:layout_toEndOf="@+id/number_of_people_text_view"
-        android:drawablePadding="5dp"
+        android:id="@+id/comment_count"
+        android:layout_toEndOf="@+id/people_count"
         android:drawableStart="@drawable/ic_card"
-        android:fontFamily="@font/rajdhani_semibold"
-        android:lineSpacingExtra="3sp"
-        android:text="3.8M"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+        style="@style/EngagementLayout" />
 
     <TextView
-        android:id="@+id/number_of_likes_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:layout_toEndOf="@+id/number_of_comments_text_view"
-        android:drawablePadding="5dp"
+        android:id="@+id/likes_count"
         android:drawableStart="@drawable/ic_likes"
-        android:fontFamily="@font/rajdhani_semibold"
-        android:lineSpacingExtra="3sp"
-        android:text="16.2M"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+        android:layout_toEndOf="@+id/comment_count"
+        android:layout_toStartOf="@+id/follow_btn"
+        style="@style/EngagementLayout" />
+
 </RelativeLayout>
