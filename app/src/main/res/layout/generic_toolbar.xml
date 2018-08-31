@@ -37,7 +37,6 @@
             android:fontFamily="@font/rajdhani_regular"
             android:textColor="@color/white"
             android:textSize="25sp"
-            android:drawableTop="@drawable/drag_handle_light"
             android:drawablePadding="8dp" />
 
         <ImageButton
