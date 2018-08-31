@@ -189,6 +189,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             getMatchDetails();
         }
 
+        publicBoardToolbar.setUpPopUp(this, currentMatchId);
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
     }
