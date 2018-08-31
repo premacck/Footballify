@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="11dp"
         android:gravity="center_vertical"
         android:layout_toStartOf="@+id/info_tiles_tab_layout"
         tools:ignore="UseCompoundDrawables">
@@ -24,7 +23,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_lock"
-            android:visibility="gone"
             android:contentDescription="@string/lock" />
 
         <TextView
@@ -32,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"
+            android:layout_marginStart="8dp"
             android:drawablePadding="7dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
