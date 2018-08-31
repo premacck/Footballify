@@ -271,8 +271,8 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     }
 
     @Override
-    public void setFollowing(boolean following) {
-        isFollowing = following;
+    public void setFollowing(boolean isFollowing) {
+        this.isFollowing = isFollowing;
     }
 
     @Override

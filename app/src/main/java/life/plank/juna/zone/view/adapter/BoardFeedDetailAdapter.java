@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
@@ -13,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -65,7 +65,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private RestApi restApi;
     private Context context;
 
-    private int likeCount;
     private String date;
     private String enterBoardId;
     ;
@@ -94,19 +93,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.userNameTextView.setText(footballFeedsList.get(position).getActor().getDisplayName());
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getDescription());
         setupSwipeGesture(context, holder.dragHandleImageView);
-        if (footballFeedsList.get(position).getInteractions() != null) {
-            likeCount = footballFeedsList.get(position).getInteractions().getLikes();
-        } else {
-            likeCount = 0;
-        }
-
-        holder.likeCountTextView.setText(Integer.toString(likeCount));
 
         switch (footballFeedsList.get(position).getContentType()) {
             case "Image": {
                 mediaPlayer.stop();
                 holder.feedImageView.setVisibility(View.VISIBLE);
                 holder.feedTextView.setVisibility(View.INVISIBLE);
+
                 try {
                     Picasso.with(context).
                             load(footballFeedsList.get(position).getThumbnail().getImageUrl())
@@ -190,10 +183,19 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         });
 
-        holder.unlikeCountImageView.setOnClickListener(new View.OnClickListener() {
+        holder.unlikeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boardFeedItemDisLikeApiCall(feedId, enterBoardId, date, holder);
+            }
+        });
+
+        holder.feedTitleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+                holder.feedDescription.setText(footballFeedsList.get(position).getDescription());
             }
         });
     }
@@ -223,7 +225,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                holder.likeCountTextView.setText(Integer.toString(++likeCount));
                                 break;
                             default:
                                 Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
@@ -274,10 +275,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView likeImageView;
         @BindView(R.id.share_image_view)
         ImageView shareImageView;
-        @BindView(R.id.number_of_likes_text_view)
-        TextView likeCountTextView;
         @BindView(R.id.unlike_image_view)
-        ImageView unlikeCountImageView;
+        ImageView unlikeImageView;
         @BindView(R.id.captured_video_view)
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
@@ -288,6 +287,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView userNameTextView;
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
+        @BindView(R.id.feed_description)
+        TextView feedDescription;
+        @BindView(R.id.scroll_view)
+        ScrollView scrollView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
