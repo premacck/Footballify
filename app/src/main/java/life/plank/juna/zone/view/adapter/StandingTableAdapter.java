@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -65,6 +64,10 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
     @Override
     public int getItemCount() {
         return standingModelList.size();
+    }
+
+    public List<StandingModel> getStandings() {
+        return standingModelList;
     }
 
     public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {

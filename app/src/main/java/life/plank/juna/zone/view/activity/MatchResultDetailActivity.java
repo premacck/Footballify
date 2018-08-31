@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -55,6 +57,8 @@ public class MatchResultDetailActivity extends AppCompatActivity {
     RestApi restApi;
     @Inject
     Picasso picasso;
+    @Inject
+    Gson gson;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.progress_bar)
@@ -77,11 +81,12 @@ public class MatchResultDetailActivity extends AppCompatActivity {
     private String leagueName;
     private String countryName;
 
-    public static void launch(Activity fromActivity, String viewToLoad, String seasonName, String leagueName, String countryName, View fromView) {
+    public static void launch(Activity fromActivity, String viewToLoad, String seasonName, String leagueName, String countryName, String itemList, View fromView) {
         Intent intent = new Intent(fromActivity, MatchResultDetailActivity.class);
         intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
         intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
         intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
+        intent.putExtra(fromActivity.getString(R.string.intent_list), itemList);
         intent.putExtra(fromActivity.getString(R.string.intent_load_view), viewToLoad);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(fromActivity, Pair.create(fromView, fromActivity.getString(R.string.pref_match)));
         fromActivity.startActivity(intent, options.toBundle());
@@ -108,19 +113,22 @@ public class MatchResultDetailActivity extends AppCompatActivity {
                 case STANDINGS:
                     standingTableAdapter = new StandingTableAdapter(picasso);
                     prepareRecyclerView(standingTableAdapter);
-                    getStandings();
+                    standingTableAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<StandingModel>>() {
+                    }.getType()));
                     toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE);
                     break;
                 case TEAM_STATS:
                     teamStatsAdapter = new TeamStatsAdapter(picasso);
                     prepareRecyclerView(teamStatsAdapter);
-                    getTeamStats();
+                    teamStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<TeamStatsModel>>() {
+                    }.getType()));
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE);
                     break;
                 case PLAYER_STATS:
                     playerStatsAdapter = new PlayerStatsAdapter();
                     prepareRecyclerView(playerStatsAdapter);
-                    getPlayerStats();
+                    playerStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<PlayerStatsModel>>() {
+                    }.getType()));
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.GONE, LinearLayout.VISIBLE);
                     break;
             }
@@ -135,122 +143,6 @@ public class MatchResultDetailActivity extends AppCompatActivity {
 
     private void prepareRecyclerView(RecyclerView.Adapter adapter) {
         standingRecyclerView.setAdapter(adapter);
-    }
-
-    public void getStandings() {
-        progressBar.setVisibility(View.VISIBLE);
-        restApi.getStandings(leagueName, seasonName, countryName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<StandingModel>>>() {
-                    @Override
-                    public void onCompleted() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        progressBar.setVisibility(View.VISIBLE);
-                        Log.e(TAG, "onError: " + e);
-                        onRecyclerViewContentChanged(false, R.string.something_went_wrong);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<StandingModel>> response) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                onRecyclerViewContentChanged(true, 0);
-                                standingTableAdapter.update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                onRecyclerViewContentChanged(false, R.string.failed_to_get_standings);
-                            default:
-                                onRecyclerViewContentChanged(false, R.string.failed_to_get_standings);
-                                break;
-                        }
-                    }
-                });
-    }
-
-    public void getTeamStats() {
-        progressBar.setVisibility(View.VISIBLE);
-        restApi.getTeamStats(leagueName, seasonName, countryName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
-                    @Override
-                    public void onCompleted() {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, " Error: " + e);
-                        onRecyclerViewContentChanged(false, R.string.something_went_wrong);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<TeamStatsModel>> response) {
-                        progressBar.setVisibility(View.INVISIBLE);
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                onRecyclerViewContentChanged(true, 0);
-                                teamStatsAdapter.update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                onRecyclerViewContentChanged(false, R.string.failed_to_get_team_stats);
-                                break;
-                            default:
-                                onRecyclerViewContentChanged(false, R.string.failed_to_get_team_stats);
-                                break;
-                        }
-                    }
-                });
-    }
-
-    public void getPlayerStats() {
-        restApi.getPlayerStats(leagueName, seasonName, countryName)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, " Error" + e);
-                        onRecyclerViewContentChanged(false, R.string.something_went_wrong);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<PlayerStatsModel>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                onRecyclerViewContentChanged(true, 0);
-                                playerStatsAdapter.update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                onRecyclerViewContentChanged(false, R.string.failed_to_get_player_stats);
-                                break;
-                            default:
-                                onRecyclerViewContentChanged(false, R.string.failed_to_get_player_stats);
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void onRecyclerViewContentChanged(boolean isDataAvailable, @StringRes int message) {
-        progressBar.setVisibility(View.GONE);
-        standingRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.INVISIBLE);
-        noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
-        String messageString = message != 0 ? getString(message) : null;
-        noDataTextView.setText(messageString);
     }
 
     @Override

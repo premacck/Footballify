@@ -55,6 +55,10 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
         notifyDataSetChanged();
     }
 
+    public List<PlayerStatsModel> getPlayerStats() {
+        return playerStatsModels;
+    }
+
     public class MatchLeagueViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.player_stats_serial_number_text)
         TextView playerStatsSerialNumberText;
