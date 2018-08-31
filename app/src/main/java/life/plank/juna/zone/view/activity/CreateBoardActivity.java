@@ -15,6 +15,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -80,6 +81,8 @@ public class CreateBoardActivity extends AppCompatActivity {
     BoardColorThemeAdapter boardColorThemeAdapter;
     @Inject
     BoardIconAdapter boardIconAdapter;
+    @Inject
+    Gson gson;
     private RestApi restApi;
     public static Bitmap parentViewBitmap = null;
     private String zone = "";
@@ -109,13 +112,13 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     @OnClick(R.id.create_board_button)
     public void onViewClicked(View view) {
-        Board board = Board.getInstance();
-        board.setZone(zone.toLowerCase().trim());
-        board.setDisplayname(boardName.getText().toString().trim());
-        board.setDescription(boardDescription.getText().toString().trim());
-        board.setColor(boardColorThemeAdapter.getSelectedColor());
-        board.setBoardType(getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase));
-        createBoard(board);
+        createBoard(new Board(
+                boardName.getText().toString().trim(),
+                getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase),
+                zone.toLowerCase().trim(),
+                boardDescription.getText().toString().trim(),
+                boardColorThemeAdapter.getSelectedColor()
+        ));
     }
 
     private void createBoard(Board board) {
@@ -137,9 +140,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
             return;
         }
-        parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
-        Intent intent = new Intent(this, BoardPreviewActivity.class);
-        intent.putExtra("boardType", boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase);
-        startActivity(intent);
+        parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
+        BoardPreviewActivity.launch(this, gson.toJson(board));
     }
 }

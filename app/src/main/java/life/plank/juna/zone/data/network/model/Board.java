@@ -22,20 +22,11 @@ public class Board {
 
     }
 
-    private static Board boardInstance;
-
-    private Board() {
-    }  //private constructor.
-
-    public static Board getInstance() {
-        if (boardInstance == null) { //if there is no instance available. create new one.
-            boardInstance = new Board();
-        }
-
-        return boardInstance;
-    }
-
-    public static void setInstance(Board board) {
-        boardInstance = board;
+    public Board(String displayname, String boardType, String zone, String description, String color) {
+        this.displayname = displayname;
+        this.boardType = boardType;
+        this.zone = zone;
+        this.description = description;
+        this.color = color;
     }
 }

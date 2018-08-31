@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -195,6 +196,10 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         boardTitleView.setText(boardTitle);
     }
 
+    public void setBoardTitle(@StringRes int boardTitle) {
+        boardTitleView.setText(boardTitle);
+    }
+
     @Override
     public void showLock(boolean showLock) {
         lockImageView.setVisibility(showLock ? VISIBLE : GONE);
@@ -219,5 +224,12 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     public void setupWithViewPager(ViewPager viewPager) {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout));
         infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
+    }
+
+    public void setupForPreview() {
+        shareBtn.setVisibility(INVISIBLE);
+        optionsMenu.setVisibility(INVISIBLE);
+        followBtn.setVisibility(INVISIBLE);
+        infoTilesTabLayout.setVisibility(INVISIBLE);
     }
 }
