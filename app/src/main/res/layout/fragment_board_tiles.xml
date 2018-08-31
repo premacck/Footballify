@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:arc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".view.fragment.board.BoardInfoFragment">
+    tools:context=".view.fragment.board.fixture.BoardInfoFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/board_tiles_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title_fragment"
         android:paddingTop="0.5dp"
         android:paddingBottom="0.5dp"
         android:clipToPadding="false"
@@ -25,5 +25,27 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/no_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:fontFamily="@font/rajdhani_medium"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
+
+    <com.bvapp.arcmenulibrary.ArcMenu
+        android:id="@+id/board_arc_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        arc:menuChildAnim="false"
+        arc:menuClickAnim="true"
+        arc:menuGravity="Bottom_Middle"
+        arc:menuImage="@drawable/ic_un"
+        arc:menuNormalColor="@color/fab_button_pink"
+        arc:menuShadowElevation="true"
+        arc:menuType="normal" />
 
 </RelativeLayout>

@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
+            android:scaleType="centerInside"
             android:layout_toStartOf="@+id/center_space" />
 
         <android.support.v4.widget.Space
@@ -68,6 +68,8 @@
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:layout_toEndOf="@+id/center_space"
+            android:layout_below="@+id/kickoff_time"
+            android:gravity="center_vertical"
             android:maxLines="2"
             android:ellipsize="end"
             android:fontFamily="@font/raleway_medium"

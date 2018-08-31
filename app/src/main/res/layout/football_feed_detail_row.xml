@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:src="@drawable/drag_handle" />
+            android:src="@drawable/drag_handle_dark" />
 
         <RelativeLayout
             android:id="@+id/feed_top_bar"

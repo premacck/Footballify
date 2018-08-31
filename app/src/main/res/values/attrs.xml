@@ -97,4 +97,16 @@
         <attr name="strokeColor" format="color" />
         <attr name="solidColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="GenericToolbar">
+        <attr name="backgroundColor" format="color" />
+        <attr name="toolbarTitle" format="string" />
+        <attr name="boardTypeTitle" format="string" />
+        <attr name="logo" format="reference" />
+        <attr name="isLockVisible" format="boolean" />
+        <attr name="shareButtonVisibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

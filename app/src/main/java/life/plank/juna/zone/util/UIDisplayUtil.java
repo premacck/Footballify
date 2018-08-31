@@ -26,6 +26,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -79,7 +80,7 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 public class UIDisplayUtil {
 
-    public static final Typeface RAJDHANI_BOLD = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf");
+    private static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
     private static String SIGN_UP_USER_DETAILS = "signUpPageDetails";
 
     public UIDisplayUtil() {
@@ -555,12 +556,34 @@ public class UIDisplayUtil {
             }
             SpannableStringBuilder text = new SpannableStringBuilder(normalText);
             int startIndex = text.toString().indexOf(boldText);
-            text.setSpan(new StyleSpan(RAJDHANI_BOLD.getStyle()), startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
+            text.setSpan(BOLD_STYLE, startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
             text.setSpan(
                     new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), color, null)),
                     startIndex, startIndex + boldText.length(), SPAN_EXCLUSIVE_EXCLUSIVE
             );
             return text;
         }
+    }
+
+    public static CharSequence getSpannedString(Context context, @StringRes int stringRes) {
+        try {
+            if (stringRes == R.string.board_yet_to_be_populated) {
+                SpannableStringBuilder builder = new SpannableStringBuilder(context.getString(stringRes));
+                builder.setSpan(BOLD_STYLE, 31, 56, SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(BOLD_STYLE, 97, 112, SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.green, null)),
+                        31, 56, SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                builder.setSpan(
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.text_hint_label_color, null)),
+                        97, 112, SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                return builder;
+            }
+        } catch (Exception e) {
+            Log.e("getSpannedString()", e.getMessage());
+        }
+        return context.getString(stringRes);
     }
 }

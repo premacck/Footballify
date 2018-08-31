@@ -17,23 +17,14 @@
         android:contentDescription="@string/thumbnail" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:ellipsize="end"
-        android:fontFamily="@font/raleway_bold"
-        android:gravity="center"
-        android:maxLines="4"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:visibility="gone" />
-
-    <TextView
         android:id="@+id/comment_text_view"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_centerInParent="true"
+        android:fontFamily="@font/raleway_bold"
         android:gravity="center"
-        android:maxLength="100"
+        android:maxLines="4"
+        android:lineSpacingExtra="6sp"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
