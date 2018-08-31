@@ -59,6 +59,7 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 
@@ -233,9 +234,8 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void getSearchedUsers(String displayName) {
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
-        restApi.getSearchedUsers(token, displayName)
+        restApi.getSearchedUsers(getToken(this), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {
@@ -259,7 +259,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 userList.clear();
                                 searchViewAdapter.notifyDataSetChanged();
-                                Log.d(TAG, getString(R.string.user_name_not_found));
                                 break;
                             default:
                                 Log.e(TAG, response.message());

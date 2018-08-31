@@ -29,6 +29,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class InviteToBoardActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 
@@ -66,9 +67,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     }
 
     private void getSearchedUsers(String displayName) {
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
-        restApi.getSearchedUsers(token, displayName)
+        restApi.getSearchedUsers(getToken(this), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {
@@ -92,7 +92,6 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 userList.clear();
                                 adapter.notifyDataSetChanged();
-                                Log.d(TAG, getString(R.string.user_name_not_found));
                                 break;
                             default:
                                 Log.e(TAG, response.message());
