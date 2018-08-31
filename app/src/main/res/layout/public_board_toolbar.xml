@@ -14,7 +14,7 @@
         android:elevation="2dp">
 
         <ImageView
-            android:id="@+id/league_logo"
+            android:id="@+id/logo"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_centerVertical="true"
@@ -71,96 +71,8 @@
             android:contentDescription="@string/share" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/engagement_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent_white_two"
-        android:paddingEnd="10dp"
-        android:paddingStart="11dp"
-        android:paddingTop="6dp"
-        android:elevation="2dp"
-        android:paddingBottom="6dp">
+    <include layout="@layout/layout_board_engagement" />
 
-        <TextView
-            android:id="@+id/follow_btn"
-            style="@style/following_text_view_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:text="@string/following" />
-
-        <TextView
-            android:id="@+id/people_count"
-            android:drawableStart="@drawable/ic_people"
-            style="@style/EngagementLayout" />
-
-        <TextView
-            android:id="@+id/comment_count"
-            android:layout_toEndOf="@+id/people_count"
-            android:drawableStart="@drawable/ic_card"
-            style="@style/EngagementLayout" />
-
-        <TextView
-            android:id="@+id/likes_count"
-            android:drawableStart="@drawable/ic_likes"
-            android:layout_toEndOf="@+id/comment_count"
-            android:layout_toStartOf="@+id/follow_btn"
-            style="@style/EngagementLayout" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/info_tiles_layout"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:elevation="1dp"
-        android:animateLayoutChanges="true"
-        android:background="@color/transparent_white_one">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="11dp"
-            android:layout_toStartOf="@+id/info_tiles_tab_layout">
-
-            <TextView
-                android:id="@+id/board_type_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/rajdhani_medium"
-                android:text="@string/matchday_36"
-                android:drawablePadding="7dp"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/info_tiles_tab_layout"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            style="@style/InfoTilesTabLayout">
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/info" />
-
-            <android.support.design.widget.TabItem
-                android:id="@+id/tiles"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tiles" />
-
-        </android.support.design.widget.TabLayout>
-
-    </RelativeLayout>
+    <include layout="@layout/layout_info_tiles" />
 
 </LinearLayout>

@@ -24,8 +24,8 @@ import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
-import life.plank.juna.zone.view.fragment.board.BoardInfoFragment;
-import life.plank.juna.zone.view.fragment.board.BoardTilesFragment;
+import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
+import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
 /**
  * This Component is the sub-component of AppComponent.
