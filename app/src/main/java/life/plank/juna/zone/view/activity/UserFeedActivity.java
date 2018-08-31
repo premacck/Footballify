@@ -79,17 +79,6 @@ public class UserFeedActivity extends AppCompatActivity {
 
     }
 
-    //TODO: replace this with on selection of football feed board
-    @OnClick({R.id.user_profile})
-    public void onViewClicked(View view) {
-
-        switch (view.getId()) {
-            case R.id.user_profile:
-                startActivity(new Intent(UserFeedActivity.this, SwipePageActivity.class));
-                break;
-        }
-    }
-
     public void getUserFeed() {
 
         String token = getSharedPrefsBoolean(getString(R.string.pref_login_credentails), getString(R.string.pref_is_logged_in)) ?
