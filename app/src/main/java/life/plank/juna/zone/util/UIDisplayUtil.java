@@ -582,7 +582,7 @@ public class UIDisplayUtil {
                 return builder;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("getSpannedString()", e.getMessage());
         }
         return context.getString(stringRes);
     }
