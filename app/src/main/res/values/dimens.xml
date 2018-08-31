@@ -4,6 +4,7 @@
     <dimen name="scrubber_view_width">1dp</dimen>
     <dimen name="feed_card_corner_radius">8dp</dimen>
     <dimen name="text_10sp">10sp</dimen>
+    <dimen name="text_12sp">12sp</dimen>
     <dimen name="text_6p">6sp</dimen>
     <dimen name="vertical_divider_width">1dp</dimen>
     <dimen name="text_8sp">8sp</dimen>
