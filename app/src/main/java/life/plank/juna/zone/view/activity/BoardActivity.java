@@ -19,7 +19,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -44,7 +43,6 @@ import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
@@ -67,8 +65,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
 
-    @BindView(R.id.board_arc_menu)
-    ArcMenu arcMenu;
     @BindView(R.id.board_toolbar)
     PublicBoardToolbar publicBoardToolbar;
     @BindView(R.id.board_view_pager)
@@ -239,10 +235,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
     }
 
-    public void setUpBoomMenu() {
-        UIDisplayUtil.setupBoomMenu(this, arcMenu, boardId);
-    }
-
     @OnClick(R.id.line_chart)
     public void openTimeLine(View view) {
         if (boardParentViewBitmap == null) {
@@ -273,8 +265,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                         if (response.code() == HttpURLConnection.HTTP_OK && board != null) {
                             boardId = board.getId();
                             saveBoardId();
-
-                            setUpBoomMenu();
                             setupViewPagerWithFragments();
 
                             String topic = getString(R.string.board_id_prefix) + boardId;

@@ -37,6 +37,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     @BindView(R.id.options_menu)
     ImageButton optionsMenu;
 
+    @BindView(R.id.lock)
+    ImageView lockImageView;
     @BindView(R.id.following_text_view)
     TextView followBtn;
     @BindView(R.id.people_count)
@@ -82,8 +84,10 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GenericToolbar);
         setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, getResources().getColor(R.color.transparent, null)));
         setTitle(array.getString(R.styleable.GenericToolbar_toolbarTitle));
+        setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle));
         setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_pvt_board));
         shareBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
+        showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false));
         array.recycle();
     }
 
@@ -193,10 +197,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
 
     @Override
     public void showLock(boolean showLock) {
-        boardTitleView.setCompoundDrawablesWithIntrinsicBounds(
-                showLock ? R.drawable.ic_lock : 0,
-                0, 0, 0
-        );
+        lockImageView.setVisibility(showLock ? VISIBLE : GONE);
     }
 
     @Override
