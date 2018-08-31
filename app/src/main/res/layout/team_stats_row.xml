@@ -26,7 +26,7 @@
 
     <TextView
         android:id="@+id/team_stats_team_name_text_view"
-        style="@style/stats_header_text_style"
+        style="@style/stats_row_text_style"
         android:maxLines="1"
         android:singleLine="true"
         android:ellipsize="end"
