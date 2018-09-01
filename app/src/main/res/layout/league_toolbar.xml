@@ -82,7 +82,7 @@
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:gravity="center_horizontal"
-            android:text="FOLLOWING"
+            android:text="@string/following"
             android:textColor="#ffffff"
             android:textSize="10sp" />
 
