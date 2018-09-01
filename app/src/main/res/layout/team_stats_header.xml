@@ -10,7 +10,6 @@
     android:paddingBottom="5dp">
 
     <TextView
-        android:id="@+id/wins"
         style="@style/stats_header_text_style"
         android:minWidth="20dp"
         android:layout_marginEnd="5dp"

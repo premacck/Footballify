@@ -13,11 +13,6 @@
 
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
 
-    <string-array name="football_teams"></string-array>
-
-    <string name="replace_rt">RT:</string>
-    <string name="replace_trc">TRC:</string>
-
     <string name="header_fa_cup">FA CUP</string>
     <string name="round_fa_cup">FIFTH ROUND</string>
     <string name="team_one_fa_cup">Wigan</string>
@@ -29,19 +24,12 @@
     <string name="team_one_south">Wealdstone</string>
     <string name="team_two_south">Gloucester City</string>
     <string name="serial_number">1</string>
-    <string name="my_team">My Team</string>
     <string name="title_activity_video_player">VideoPlayerActivity</string>
     <string name="liverpool">LiverPool</string>
     <string name="sun_11_13">Sun, 11/13</string>
 
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
-
-    <string name="arsenal">Arsenal</string>
-    <string name="_4_3_3">4-3-3</string>
-    <string name="west_ham">West Ham</string>
-    <string name="_3_4_2_1">3-4-2-1</string>
-    <string name="h_bellerin">H. Bellerin</string>
 
     <string name="premier_league">Premier League</string>
     <string name="_1_4m">1.4M</string>
@@ -51,12 +39,9 @@
     <string name="reply">Reply</string>
 
     <string name="assist">Assist</string>
-    <string name="team_goals">G</string>
     <string name="team_losses">L</string>
     <string name="matchday_36">Matchday_36</string>
-    <string name="match_day_37">Match Day 37</string>
     <string name="match_id_string">match_id</string>
-    <string name="match_event">match_event</string>
 
     //todo change this date with original timestamp
     <string name="simple_date_format">dd-mm-yyyy</string>
@@ -83,7 +68,6 @@
     <string name="bearer">Bearer</string>
     <string name="board_id_prefix">Board-</string>
     <string name="juna_logo">Juna logo</string>
-    <string name="popularity">Popularity</string>
     <string name="profile_pic">Profile pic</string>
     <string name="add_board">Add board</string>
     <string name="season_name">season_name</string>
@@ -92,11 +76,8 @@
     <string name="matchday_">Matchday&#160;</string>
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
-    <string name="scheduled_matches">Scheduled matches</string>
-    <string name="fixtures">Fixtures</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="private_board">Private Board</string>
     <string name="timeline_activity">timeline_activity</string>
     <string name="board_pop_up">BoardPopUp</string>

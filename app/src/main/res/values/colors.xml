@@ -8,11 +8,8 @@
     <color name="white">#FFFFFF</color>
     <color name="off_white">#b3ffffff</color>
     <color name="black">#000000</color>
-    <color name="orange">#F8B809</color>
     <color name="green">#7cb36c</color>
     <color name="red">#E10C1B</color>
-    <color name="orange_end_gradient">#ed7e2f</color>
-    <color name="grid_item_grey">#6e777d</color>
     <color name="background_grey">#303331</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="light_black">#030303</color>
@@ -26,7 +23,6 @@
     <color name="purple">#530D1B</color>
     <color name="football_ground_green">#0F9D58</color>
     <color name="teams_background_green">#0B8449</color>
-    <color name="white_40_opacity">#40FFFFFF</color>
     <color name="football_feed_background">#66dd5873</color>
     <color name="info_text_color">#99ffffff</color>
     <color name="purple_toolbar_background">#37003c</color>
@@ -47,7 +43,6 @@
     <color name="chocolate_brown">#482d00</color>
     <color name="faded_red">#b82c3f</color>
     <color name="black_76_opaque">#4c000000</color>
-    <color name="black_170_opaque">#AA000000</color>
     <color name="purple_timeline">#490064</color>
     <color name="transparent_black_10">#10000000</color>
     <color name="transparent_black_dd">#dd000000</color>
@@ -56,5 +51,4 @@
     <color name="commentary_red">#d0021b</color>
     <color name="darkish_pink">#dd5873</color>
     <color name="red_pink">#ef3e56</color>
-    <color name="color_control_normal">#33000000</color>
 </resources>

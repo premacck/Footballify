@@ -165,14 +165,4 @@
         <item name="android:textSize">12sp</item>
     </style>
 
-    <style name="CustomTextInputLayout" parent="Widget.Design.TextInputLayout">
-        <item name="colorControlNormal">@color/color_control_normal</item>
-        <item name="colorControlActivated">@color/accent</item>
-        <item name="colorControlHighlight">@color/accent</item>
-    </style>
-
-    <style name="CustomHintAppearance" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/colorAccent</item>
-    </style>
-
 </resources>

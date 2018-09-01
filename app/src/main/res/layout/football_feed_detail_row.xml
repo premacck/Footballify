@@ -64,7 +64,6 @@
                 android:src="@drawable/ic_options_grey" />
 
             <TextView
-                android:id="@+id/shares_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toStartOf="@+id/menu_image_view"

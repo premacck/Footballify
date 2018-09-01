@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="username_empty">Email address cannot be empty</string>
     <string name="something_went_wrong">Something went wrong. Try again later</string>
     <string name="user_name_not_found">Username does not exist</string>
     <string name="username_exists">Username already exists</string>
@@ -10,7 +9,6 @@
     <string name="start_playing">Start playing</string>
     <string name="send">SEND</string>
     <string name="failed_to_retrieve_board">Failed to retrieve board</string>
-    <string name="board_not_populated">This board is yet to be populated</string>
     <string name="could_not_process_image">Sorry could not process image</string>
     <string name="file_too_large">file size is large</string>
     <string name="unable_to_process">Unable to process,try again</string>
@@ -19,7 +17,6 @@
     <string name="failed_to_process_image">Sorry could not process image</string>
     <string name="upload_successful">Upload successful</string>
     <string name="upload_failed">Upload failed, Try again later</string>
-    <string name="matches_not_found">No matches found</string>
     <string name="line_ups_not_available">Line-ups not available yet</string>
     <string name="match_summary_not_found">Match summary not found</string>
     <string name="failed_to_get_standings">Failed to get standings</string>
@@ -28,7 +25,6 @@
     <string name="comment_posted_successfully">Comment posted successfully</string>
     <string name="enter_text_to_be_posted">Please enter text to be posted</string>
     <string name="could_not_post_comment">Could not post comment</string>
-    <string name="share_feed_item_toast">Feed Item Shared Successfully</string>
     <string name="image_upload_cancelled">Upload image cancelled</string>
     <string name="camera_access">Requires Access to Camera.</string>
     <string name="external_storage_excess">Requires Access to Your Storage</string>
@@ -36,7 +32,6 @@
     <string name="cannot_connect_to_the_internet">Cannot connect to the internet</string>
     <string name="add_permission">Enable permission from settings</string>
     <string name="could_not_create_board">Couldn\'t create the board, please try again.</string>
-    <string name="all_fields_are_required">All fields are required</string>
     <string name="select_board_color">Please select your board color</string>
     <string name="select_zone_for_board">Please select a zone for your board</string>
     <string name="please_enter_comment">Please enter comment to post</string>

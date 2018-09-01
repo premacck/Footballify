@@ -37,7 +37,6 @@
                 android:layout_marginTop="40dp">
 
                 <EditText
-                    android:id="@+id/invite_link_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/grey"
@@ -79,7 +78,6 @@
                 android:layout_below="@+id/search_view" />
 
             <Button
-                android:id="@+id/invite_link_button"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/search_result_recycler_view"

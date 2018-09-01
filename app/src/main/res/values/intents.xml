@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="intent_match_if">MATCH_ID</string>
     <string name="intent_open_from">OPEN_FROM</string>
     <string name="intent_gallery">Gallery</string>
     <string name="intent_api">API</string>
