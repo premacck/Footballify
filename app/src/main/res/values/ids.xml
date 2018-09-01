@@ -6,9 +6,6 @@
     <item name="action_remove_favourite" type="id">remove_favourite</item>
     <item name="action_show_notifications" type="id">show_notifications</item>
     <item name="action_hide_notifications" type="id">hide_notifications</item>
-    <item name="action_follow_zone" type="id">follow_zone</item>
-    <item name="action_unfollow_zone" type="id">unfollow_zone</item>
-    <item name="action_report_zone" type="id">report_zone</item>
     <item name="action_follow_board" type="id">follow_board</item>
     <item name="action_unfollow_board" type="id">unfollow_board</item>
     <item name="action_report_board" type="id">report_board</item>

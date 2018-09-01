@@ -23,7 +23,6 @@
             app:useDefaults="true" />
 
         <life.plank.juna.zone.view.fragment.GraphFragment
-            android:id="@+id/title_fragment_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
