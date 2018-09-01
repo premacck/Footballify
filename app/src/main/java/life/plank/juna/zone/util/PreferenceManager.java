@@ -41,7 +41,8 @@ public class PreferenceManager {
     }
 
     public static void saveTokenValidity(Map<String, String> additionalParameters) {
-        long validity = Long.parseLong(additionalParameters.get("not_before")) + Long.parseLong(additionalParameters.get("id_token_expires_in"));
+        long validity = Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_not_before))) +
+                Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_id_token_expires_in)));
         getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails))
                 .edit()
                 .putLong(ZoneApplication.getContext().getString(R.string.pref_token_validity), validity)
