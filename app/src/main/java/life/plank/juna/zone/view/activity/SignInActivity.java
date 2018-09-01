@@ -137,12 +137,12 @@ public class SignInActivity extends AppCompatActivity {
                         this,
                         authRequest,
                         serviceConfig.discoveryDoc,
-                        authState, emailEditText.getText().toString()),
+                        authState),
                 mAuthService.createCustomTabsIntentBuilder()
                         .setToolbarColor(getResources().getColor(R.color.colorAccent))
                         .build());
+        finish();
     }
-
 
     @OnClick({R.id.login, R.id.forgot_password_text_view, R.id.sign_up_card, R.id.skip_login})
     public void onViewClicked(View view) {

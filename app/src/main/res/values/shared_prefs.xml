@@ -18,4 +18,8 @@
     <string name="pref_login_credentails">LoginCredentails</string>
     <string name="pref_is_logged_in">isLoggedIn</string>
     <string name="pref_football_match_sub">footballmatch-</string>
+    <string name="pref_refresh_token">refresh_token</string>
+    <string name="pref_token_validity">token_validity</string>
+    <string name="pref_id_token_expires_in">id_token_expires_in</string>
+    <string name="pref_not_before">not_before</string>
 </resources>
