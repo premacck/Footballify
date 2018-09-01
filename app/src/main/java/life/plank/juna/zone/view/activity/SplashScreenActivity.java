@@ -19,6 +19,8 @@ import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 
+import static life.plank.juna.zone.util.PreferenceManager.isTokenValid;
+
 /**
  * Created by plank-dhamini on 18/7/2018.
  */
@@ -46,7 +48,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                launchSplashScreen();
+                proceedToApp();
             }
 
             @Override
@@ -59,8 +61,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
     }
 
-    private void launchSplashScreen() {
-        startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
+    private void proceedToApp() {
+        startActivity(new Intent(SplashScreenActivity.this, isTokenValid() ? SwipePageActivity.class : SignInActivity.class));
         finish();
     }
 

@@ -41,7 +41,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.saveTokenValidity;
 
 /**
  * Client to the Native Oauth library.
@@ -53,7 +54,6 @@ public class TokenActivity extends AppCompatActivity {
     private static final String KEY_USER_INFO = "userInfo";
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
-    private static String emailId;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -66,8 +66,7 @@ public class TokenActivity extends AppCompatActivity {
             @NonNull Context context,
             @NonNull AuthorizationRequest request,
             @Nullable AuthorizationServiceDiscovery discoveryDoc,
-            @NonNull AuthState authState, String emailAddress) {
-        emailId = emailAddress;
+            @NonNull AuthState authState) {
         Intent intent = new Intent(context, TokenActivity.class);
         intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
         if (discoveryDoc != null) {
@@ -77,22 +76,21 @@ public class TokenActivity extends AppCompatActivity {
         return PendingIntent.getActivity(context, request.hashCode(), intent, 0);
     }
 
-    static AuthState getAuthStateFromIntent(Intent intent) {
-        if (!intent.hasExtra(EXTRA_AUTH_STATE)) {
-            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
+    @Override
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        if (mAuthState != null) {
+            state.putString(KEY_AUTH_STATE, mAuthState.jsonSerializeString());
         }
-        try {
-            return AuthState.jsonDeserialize(intent.getStringExtra(EXTRA_AUTH_STATE));
-        } catch (JSONException ex) {
-            Log.e(TAG, "Malformed AuthState JSON saved", ex);
-            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
+
+        if (mUserInfoJson != null) {
+            state.putString(KEY_USER_INFO, mUserInfoJson.toString());
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_token);
 
         mAuthService = new AuthorizationService(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
@@ -124,8 +122,7 @@ public class TokenActivity extends AppCompatActivity {
 
             if (response != null) {
                 Log.d(TAG, "Received AuthorizationResponse.");
-                exchangeAuthorizationCode(response);
-
+                performTokenRequest(response.createTokenExchangeRequest());
                 Log.d("Response", " " + response);
             } else {
                 Log.i(TAG, "Authorization failed: " + ex);
@@ -133,38 +130,16 @@ public class TokenActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        if (mAuthState != null) {
-            state.putString(KEY_AUTH_STATE, mAuthState.jsonSerializeString());
+    static AuthState getAuthStateFromIntent(Intent intent) {
+        if (!intent.hasExtra(EXTRA_AUTH_STATE)) {
+            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
         }
-
-        if (mUserInfoJson != null) {
-            state.putString(KEY_USER_INFO, mUserInfoJson.toString());
+        try {
+            return AuthState.jsonDeserialize(intent.getStringExtra(EXTRA_AUTH_STATE));
+        } catch (JSONException ex) {
+            Log.e(TAG, "Malformed AuthState JSON saved", ex);
+            throw new IllegalArgumentException("The AuthState instance is missing in the intent.");
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mAuthService.dispose();
-    }
-
-    private void receivedTokenResponse(
-            @Nullable TokenResponse tokenResponse,
-            @Nullable AuthorizationException authException) {
-        Log.d(TAG, "Token request complete");
-        mAuthState.update(tokenResponse, authException);
-        Log.d("Id Token", " " + tokenResponse.idToken);
-
-        SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
-        prefEditor.putString(getString(R.string.pref_azure_token), tokenResponse.idToken).apply();
-
-        getSignInResponse();
-    }
-
-    private void exchangeAuthorizationCode(AuthorizationResponse authorizationResponse) {
-        performTokenRequest(authorizationResponse.createTokenExchangeRequest());
     }
 
     private void performTokenRequest(TokenRequest request) {
@@ -183,11 +158,22 @@ public class TokenActivity extends AppCompatActivity {
                 this::receivedTokenResponse);
     }
 
+    private void receivedTokenResponse(
+            @Nullable TokenResponse tokenResponse,
+            @Nullable AuthorizationException authException) {
+        Log.d(TAG, "Token request complete");
+        mAuthState.update(tokenResponse, authException);
+        if (tokenResponse != null) {
+            saveTokenValidity(tokenResponse.additionalParameters);
+            Log.d("Id Token", " " + tokenResponse.idToken);
+            SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
+            prefEditor.putString(getString(R.string.pref_azure_token), tokenResponse.idToken).apply();
+        }
+        getSignInResponse();
+    }
+
     private void getSignInResponse() {
-
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-
-        restApi.getUser(token)
+        restApi.getUser(getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<User>>() {
@@ -212,7 +198,7 @@ public class TokenActivity extends AppCompatActivity {
 
                                 UIDisplayUtil.saveSignInUserDetails(TokenActivity.this, response.body());
                                 startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
-
+                                finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
@@ -224,6 +210,10 @@ public class TokenActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuthService.dispose();
+    }
 }
-
-
