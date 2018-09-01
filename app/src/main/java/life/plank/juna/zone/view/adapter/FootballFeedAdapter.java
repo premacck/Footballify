@@ -20,7 +20,7 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
-import life.plank.juna.zone.view.activity.MatchResultActivity;
+import life.plank.juna.zone.view.activity.LeagueInfoActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
@@ -62,7 +62,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            MatchResultActivity.launch(
+            LeagueInfoActivity.launch(
                     activity,
                     footballFeed.getSeasonName(),
                     footballFeed.getTitle(),

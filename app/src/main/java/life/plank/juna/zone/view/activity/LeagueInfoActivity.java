@@ -1,15 +1,16 @@
-package life.plank.juna.zone.view.fragment.league;
+package life.plank.juna.zone.view.activity;
 
-import android.content.Context;
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,9 +33,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.view.activity.FixtureActivity;
-import life.plank.juna.zone.view.activity.MatchResultActivity;
-import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
+import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -46,11 +45,23 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
-public class LeagueInfoFragment extends Fragment {
+public class LeagueInfoActivity extends AppCompatActivity implements PublicBoardHeaderListener {
+    public static Bitmap matchStatsParentViewBitmap = null;
+    String TAG = LeagueInfoActivity.class.getSimpleName();
 
-    private static final String TAG = LeagueInfoFragment.class.getSimpleName();
+    @Inject
+    Picasso picasso;
 
+    @BindView(R.id.stats_parent_view)
+    CardView statsParentView;
+    @BindView(R.id.league_toolbar)
+    LinearLayout toolbar;
+    @BindView(R.id.logo)
+    ImageView logo;
+    @BindView(R.id.title)
+    TextView title;
     @BindView(R.id.match_fixture_result)
     CardView matchFixtureResultLayout;
     @BindView(R.id.standing_recycler_view)
@@ -85,8 +96,7 @@ public class LeagueInfoFragment extends Fragment {
     @Inject
     @Named("footballData")
     RestApi restApi;
-    @Inject
-    Picasso picasso;
+
     @Inject
     Gson gson;
 
@@ -97,42 +107,57 @@ public class LeagueInfoFragment extends Fragment {
     private String leagueName;
     private String countryName;
 
-    public LeagueInfoFragment() {
-    }
+    private String leagueLogo;
 
-    public static LeagueInfoFragment newInstance(Context context, String seasonName, String leagueName, String countryName) {
-        LeagueInfoFragment fragment = new LeagueInfoFragment();
-        Bundle args = new Bundle();
-        args.putString(context.getString(R.string.season_name), seasonName);
-        args.putString(context.getString(R.string.league_name), leagueName);
-        args.putString(context.getString(R.string.country_name), countryName);
-        fragment.setArguments(args);
-        return fragment;
+    public static void launch(Activity fromActivity, String seasonName, String leagueName, String countryName, String leagueLogo) {
+        Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
+        intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
+        intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
+        intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
+        intent.putExtra(fromActivity.getString(R.string.league_logo), leagueLogo);
+        fromActivity.startActivity(intent);
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bundle args = getArguments();
-        if (args != null) {
-            seasonName = args.getString(getString(R.string.season_name));
-            leagueName = args.getString(getString(R.string.league_name));
-            countryName = args.getString(getString(R.string.country_name));
+        setContentView(R.layout.activity_match_result);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
+        ButterKnife.bind(this);
+
+        Intent intent = getIntent();
+        if (intent != null) {
+            seasonName = intent.getStringExtra(getString(R.string.season_name));
+            leagueName = intent.getStringExtra(getString(R.string.league_name));
+            countryName = intent.getStringExtra(getString(R.string.country_name));
+            leagueLogo = intent.getStringExtra(getString(R.string.league_logo));
         }
-    }
 
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_league_info, container, false);
-        ButterKnife.bind(this, rootView);
-
-        ZoneApplication.getApplication().getUiComponent().inject(this);
         prepareRecyclerViews();
         getStandings();
-        getPlayerStats();
         getTeamStats();
+        getPlayerStats();
 
-        return rootView;
+        title.setText(leagueName);
+        picasso.load(leagueLogo)
+                .fit().centerCrop()
+                .placeholder(R.drawable.ic_place_holder)
+                .error(R.drawable.ic_place_holder)
+                .into(logo);
+
+    }
+
+    public void updateBackgroundBitmap() {
+        matchStatsParentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
+    }
+
+    @Override
+    public void followClicked(TextView followBtn) {
+        if (followBtn.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
+            followBtn.setText(R.string.follow);
+        } else {
+            followBtn.setText(R.string.unfollow);
+        }
     }
 
     private void prepareRecyclerViews() {
@@ -258,11 +283,11 @@ public class LeagueInfoFragment extends Fragment {
 
     @OnClick({R.id.see_all_fixtures, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
     public void onItemClick(View view) {
-        ((MatchResultActivity) Objects.requireNonNull(getActivity())).updateBackgroundBitmap();
+        Objects.requireNonNull(this).updateBackgroundBitmap();
         switch (view.getId()) {
             case R.id.see_all_fixtures:
                 FixtureActivity.launch(
-                        getActivity(),
+                        this,
                         seasonName,
                         leagueName,
                         countryName,
@@ -270,15 +295,15 @@ public class LeagueInfoFragment extends Fragment {
                 );
                 break;
             case R.id.see_all_standings:
-                MatchResultDetailActivity.launch(getActivity(), STANDINGS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName,
                         gson.toJson(standingTableAdapter.getStandings()), standingsLayout);
                 break;
             case R.id.see_more_team_stats:
-                MatchResultDetailActivity.launch(getActivity(), TEAM_STATS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName,
                         gson.toJson(teamStatsAdapter.getTeamStats()), teamStatsLayout);
                 break;
             case R.id.see_more_player_stats:
-                MatchResultDetailActivity.launch(getActivity(), PLAYER_STATS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName,
                         gson.toJson(playerStatsAdapter.getPlayerStats()), playerStatsLayout);
                 break;
         }

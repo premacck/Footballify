@@ -40,11 +40,11 @@ import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
-import static life.plank.juna.zone.view.activity.MatchResultActivity.matchStatsParentViewBitmap;
+import static life.plank.juna.zone.view.activity.LeagueInfoActivity.matchStatsParentViewBitmap;
 
-public class MatchResultDetailActivity extends AppCompatActivity {
+public class LeagueInfoDetailActivity extends AppCompatActivity {
 
-    private static final String TAG = MatchResultDetailActivity.class.getSimpleName();
+    private static final String TAG = LeagueInfoDetailActivity.class.getSimpleName();
     @Inject
     @Named("footballData")
     RestApi restApi;
@@ -75,7 +75,7 @@ public class MatchResultDetailActivity extends AppCompatActivity {
     private String countryName;
 
     public static void launch(Activity fromActivity, String viewToLoad, String seasonName, String leagueName, String countryName, String itemList, View fromView) {
-        Intent intent = new Intent(fromActivity, MatchResultDetailActivity.class);
+        Intent intent = new Intent(fromActivity, LeagueInfoDetailActivity.class);
         intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
         intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
         intent.putExtra(fromActivity.getString(R.string.country_name), countryName);

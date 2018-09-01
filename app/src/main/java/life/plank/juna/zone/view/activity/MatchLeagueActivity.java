@@ -50,7 +50,7 @@ public class MatchLeagueActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.info_text_view:
-                Intent intent = new Intent(this, MatchResultActivity.class);
+                Intent intent = new Intent(this, LeagueInfoActivity.class);
                 startActivity(intent);
                 break;
         }

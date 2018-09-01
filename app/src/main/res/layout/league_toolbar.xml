@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingEnd="8dp"
+        android:paddingStart="8dp">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:contentDescription="@string/league_logo"
+            android:scaleType="centerInside" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/logo"
+            android:layout_toStartOf="@+id/share_btn"
+            android:drawablePadding="8dp"
+            android:drawableTop="@drawable/drag_handle_light"
+            android:ellipsize="end"
+            android:fontFamily="@font/rajdhani_regular"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:paddingBottom="15dp"
+            android:paddingTop="5dp"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="25sp" />
+
+        <ImageButton
+            android:id="@+id/share_btn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/options_menu"
+            android:background="@null"
+            android:contentDescription="@string/share"
+            android:scaleType="center"
+            android:src="@drawable/ic_share" />
+
+        <ImageButton
+            android:id="@+id/options_menu"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:background="@color/transparent"
+            android:contentDescription="@string/options_menu"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_options" />
+
+    </RelativeLayout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/engagement_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent_white_two"
+        android:elevation="2dp"
+        android:paddingBottom="6dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="11dp"
+        android:paddingTop="6dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
+            android:text="FOLLOWING"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/people_count"
+            style="@style/EngagementLayout"
+            android:drawableStart="@drawable/ic_people" />
+
+    </RelativeLayout>
+
+</LinearLayout>
