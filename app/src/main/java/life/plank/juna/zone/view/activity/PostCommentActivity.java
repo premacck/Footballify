@@ -91,11 +91,10 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
-        String getEditTextValue = commentBg + "$" + commentEditText.getText().toString();
-        if (getEditTextValue.isEmpty()) {
+        if (commentEditText.getText().toString().isEmpty()) {
             Toast.makeText(this, R.string.please_enter_comment, Toast.LENGTH_LONG).show();
         } else {
-            postCommentOnBoardFeed(getEditTextValue, boardId, AppConstants.ROOT_COMMENT, userId, date);
+            postCommentOnBoardFeed(commentBg + "$" + commentEditText.getText().toString(), boardId, AppConstants.ROOT_COMMENT, userId, date);
             finish();
         }
     }
