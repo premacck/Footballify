@@ -1,11 +1,8 @@
 package life.plank.juna.zone.view.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
@@ -14,11 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -58,9 +52,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
 
 /**
@@ -96,7 +90,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
-    PopupWindow optionPopUp;
     private RestApi restApi;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -136,30 +129,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     }
 
-    private void showOptionPopup(final Activity context, Point p) {
-
-        LinearLayout viewGroup = context.findViewById(R.id.popup);
-        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.menu_pop_up, viewGroup);
-
-        // Creating the PopupWindow
-        optionPopUp = new PopupWindow(context);
-        optionPopUp.setContentView(layout);
-        optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-        optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-        optionPopUp.setFocusable(true);
-
-        // Some offset to align the popup a bit to the left, and a bit down, relative to button's position.
-        int OFFSET_X = -440;
-        int OFFSET_Y = 100;
-
-        //Clear the default translucent background
-        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
-
-        // Displaying the popup at the specified location, + offsets.
-        optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + OFFSET_X, p.y + OFFSET_Y);
-    }
-
     @OnClick(R.id.options_image)
     public void onOptionClick(View view) {
         int[] location = new int[2];
@@ -170,7 +139,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         point = new Point();
         point.x = location[0];
         point.y = location[1];
-        showOptionPopup(this, point);
+        showOptionPopup(this, point, getString(R.string.home_pop_up), null, -440, 100);
 
     }
 

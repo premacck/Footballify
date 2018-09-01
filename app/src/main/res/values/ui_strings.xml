@@ -171,4 +171,7 @@
         Go on, post a pic, or do a shout-out\nMAKE SOME NOISE!
     </string>
     <string name="public_board">Public Board</string>
+    <string name="show_notification">&#160;&#160;Show Notifications</string>
+    <string name="unfollow_board_popup">&#160;&#160;Unfollow Board</string>
+    <string name="report_board_popup">&#160;&#160;Report Board</string>
 </resources>
