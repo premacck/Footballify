@@ -43,7 +43,7 @@ import static life.plank.juna.zone.domain.service.FootballFixtureClassifierServi
 import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.classifyByMatchDay;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
-import static life.plank.juna.zone.view.activity.MatchResultActivity.matchStatsParentViewBitmap;
+import static life.plank.juna.zone.view.activity.LeagueInfoActivity.matchStatsParentViewBitmap;
 
 public class FixtureActivity extends AppCompatActivity {
 

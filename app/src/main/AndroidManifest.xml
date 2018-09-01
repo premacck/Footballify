@@ -115,7 +115,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activity.MatchResultActivity"
+            android:name=".view.activity.LeagueInfoActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.BoardFeedDetailActivity"
@@ -135,7 +135,7 @@
         <activity android:name=".view.activity.TokenActivity" />
         <activity android:name=".view.activity.InviteToBoardActivity" />
         <activity android:name=".view.activity.UserProfileActivity" />
-        <activity android:name=".view.activity.MatchResultDetailActivity" />
+        <activity android:name=".view.activity.LeagueInfoDetailActivity" />
         <activity android:name=".view.activity.UserFeedActivity" />
         <activity android:name=".view.activity.TimelineActivity" />
         <activity android:name=".view.activity.CommentaryActivity" />

@@ -11,8 +11,8 @@ import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 import life.plank.juna.zone.view.activity.InviteToBoardActivity;
-import life.plank.juna.zone.view.activity.MatchResultActivity;
-import life.plank.juna.zone.view.activity.MatchResultDetailActivity;
+import life.plank.juna.zone.view.activity.LeagueInfoActivity;
+import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
@@ -27,7 +27,6 @@ import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
-import life.plank.juna.zone.view.fragment.league.LeagueInfoFragment;
 
 /**
  * This Component is the sub-component of AppComponent.
@@ -55,7 +54,7 @@ public interface UiComponent {
 
     void inject(FootballFeedDetailAdapter footballFeedDetailAdapter);
 
-    void inject(MatchResultActivity matchResultActivity);
+    void inject(LeagueInfoActivity leagueInfoActivity);
 
     void inject(PostCommentActivity postCommentActivity);
 
@@ -65,7 +64,7 @@ public interface UiComponent {
 
     void inject(UserProfileActivity userProfileActivity);
 
-    void inject(MatchResultDetailActivity matchResultDetailActivity);
+    void inject(LeagueInfoDetailActivity leagueInfoDetailActivity);
 
     void inject(UserFeedActivity userFeedActivity);
 
@@ -80,8 +79,6 @@ public interface UiComponent {
     void inject(CommentaryActivity commentaryActivity);
 
     void inject(InviteToBoardActivity inviteToBoardActivity);
-
-    void inject(LeagueInfoFragment leagueInfoFragment);
 
     void inject(PrivateBoardInfoFragment privateBoardInfoFragment);
 
