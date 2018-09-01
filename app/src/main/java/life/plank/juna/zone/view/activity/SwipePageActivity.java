@@ -139,7 +139,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         point = new Point();
         point.x = location[0];
         point.y = location[1];
-        showOptionPopup(this, point, "HomePopUp", null, -440, 100);
+        showOptionPopup(this, point, getString(R.string.home_pop_up), null, -440, 100);
 
     }
 

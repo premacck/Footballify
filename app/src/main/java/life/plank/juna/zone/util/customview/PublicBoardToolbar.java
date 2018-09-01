@@ -115,7 +115,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
             Point point = new Point();
             point.x = location[0];
             point.y = location[1];
-            showOptionPopup(context, point, "BoardPopUp", currentMatchId, -400, 100);
+            showOptionPopup(context, point, context.getString(R.string.board_pop_up), currentMatchId, -400, 100);
         });
     }
 
