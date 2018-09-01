@@ -62,7 +62,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void proceedToApp() {
-        startActivity(new Intent(SplashScreenActivity.this, isTokenValid() ? SwipePageActivity.class : SignInActivity.class));
+        startActivity(new Intent(SplashScreenActivity.this, isTokenValid() ? UserFeedActivity.class : SignInActivity.class));
         finish();
     }
 
