@@ -32,8 +32,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.helper.StackAnimation;
 import retrofit2.Retrofit;
 
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
@@ -50,6 +48,7 @@ public class SignInActivity extends AppCompatActivity {
     EditText emailEditText;
     @BindView(R.id.password_edit_text)
     EditText passwordEditText;
+    SharedPreferences.Editor prefEditor;
 
     TextWatcher loginFieldsWatcher = new TextWatcher() {
         @Override
@@ -80,9 +79,8 @@ public class SignInActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         ButterKnife.bind(this);
-        SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
+        prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
         prefEditor.putBoolean(getString(R.string.pref_is_logged_in), false).apply();
-
 
         emailEditText.addTextChangedListener(loginFieldsWatcher);
         passwordEditText.addTextChangedListener(loginFieldsWatcher);
@@ -184,6 +182,7 @@ public class SignInActivity extends AppCompatActivity {
                         } else {
                             Log.d(TAG, "configuration retrieved for " + idp.name
                                     + ", proceeding");
+                            prefEditor.putString(getString(R.string.pref_email_address), emailEditText.getText().toString()).apply();
                             if (idp.getClientId() == null) {
                                 // Do dynamic client registration if no client_id
                                 makeRegistrationRequest(serviceConfiguration, idp);

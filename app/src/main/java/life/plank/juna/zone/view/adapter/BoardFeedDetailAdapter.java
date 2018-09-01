@@ -52,15 +52,13 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
  */
 
 public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder> {
-    private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     @Inject
     @Named("default")
     Retrofit retrofit;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
-
     MediaPlayer mediaPlayer = new MediaPlayer();
-
+    private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     private List<FootballFeed> footballFeedsList;
     private RestApi restApi;
     private Context context;
@@ -90,7 +88,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.pref_enter_board_id), 0);
         enterBoardId = matchPref.getString(context.getString(R.string.pref_enter_board_id), "NA");
         String feedId = footballFeedsList.get(position).getId();
-        holder.userNameTextView.setText(footballFeedsList.get(position).getActor().getDisplayName());
+        if (footballFeedsList.get(position).getActor() != null) {
+            holder.userNameTextView.setText(footballFeedsList.get(position).getActor().getDisplayName());
+        } else {
+            SharedPreferences userPref = context.getSharedPreferences(context.getString(R.string.pref_login_credentails), 0);
+            String userEmailId = userPref.getString(context.getString(R.string.pref_email_address), "NA");
+            holder.userNameTextView.setText(userEmailId);
+        }
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getDescription());
         setupSwipeGesture(context, holder.dragHandleImageView);
 
