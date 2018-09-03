@@ -219,7 +219,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                             case HttpURLConnection.HTTP_OK:
                                 if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
                                     matchHighlightsLayout.setVisibility(View.VISIBLE);
-                                    matchHighlightsLayout.setHighlights(picasso, highlights.get(0));
+                                    matchHighlightsLayout.setHighlights(getContext(), highlights.get(0));
                                 } else
                                     matchHighlightsLayout.setVisibility(View.GONE);
                                 break;
