@@ -149,7 +149,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    static class PrivateBoardPagerAdapter extends FragmentPagerAdapter {
+    class PrivateBoardPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment currentFragment;
         private String boardId;
@@ -163,7 +163,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return PrivateBoardInfoFragment.newInstance();
+                    return PrivateBoardInfoFragment.newInstance(board.getDescription());
                 case 1:
                     return BoardTilesFragment.newInstance(boardId);
                 default:

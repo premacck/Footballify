@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:isScrollContainer="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <life.plank.juna.zone.util.customview.ZoneToolBar
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <android.support.v7.widget.CardView style="@style/CardView.Default">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="6dp"
-                android:paddingStart="6dp"
+                android:paddingBottom="12dp"
                 android:paddingEnd="6dp"
-                android:paddingBottom="12dp">
+                android:paddingStart="6dp"
+                android:paddingTop="6dp">
 
                 <TextView
                     android:id="@+id/personal_info_text_view"
@@ -41,9 +41,9 @@
                     android:id="@+id/edit_profile_button"
                     android:layout_width="83dp"
                     android:layout_height="14dp"
+                    android:layout_alignBottom="@+id/personal_info_text_view"
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/personal_info_text_view"
-                    android:layout_alignBottom="@+id/personal_info_text_view"
                     android:background="@drawable/edit_profile_button"
                     android:fontFamily="@font/rajdhani_medium"
                     android:text="@string/edit_profile"
@@ -58,15 +58,15 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="8dp"
-                    android:src="@drawable/ic_profile_dummy"
-                    android:contentDescription="@string/profile_pic" />
+                    android:contentDescription="@string/profile_pic"
+                    android:src="@drawable/ic_profile_dummy" />
 
                 <TextView
                     android:id="@+id/name_label_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_alignTop="@+id/profile_picture_image_view"
+                    android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
                     android:fontFamily="@font/rajdhani_medium"
                     android:text="@string/name"
@@ -75,16 +75,16 @@
 
                 <TextView
                     android:id="@+id/name_text_view"
+                    style="@style/Input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/name_label_text_view"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:ellipsize="end"
                     android:fontFamily="@font/rajdhani_medium"
-                    android:textColor="@color/grey"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ellipsize="end"
-                    style="@style/Input" />
+                    android:textColor="@color/grey" />
 
                 <TextView
                     android:id="@+id/email_label_text_view"
@@ -105,10 +105,10 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/email_label_text_view"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
+                    android:ellipsize="end"
                     android:fontFamily="@font/rajdhani_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:textColor="@color/grey" />
 
                 <TextView
@@ -132,10 +132,10 @@
                     android:layout_marginBottom="13dp"
                     android:layout_toEndOf="@+id/profile_picture_image_view"
                     android:layout_toStartOf="@+id/location_text_view"
+                    android:ellipsize="end"
                     android:fontFamily="@font/rajdhani_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:textColor="@color/grey" />
 
                 <TextView
@@ -156,12 +156,12 @@
                     style="@style/Input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/location_label_text_view"
                     android:layout_alignStart="@+id/location_label_text_view"
+                    android:layout_below="@+id/location_label_text_view"
+                    android:ellipsize="end"
                     android:fontFamily="@font/rajdhani_medium"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:ellipsize="end"
                     android:textColor="@color/grey" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
@@ -171,10 +171,10 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="6dp"
+                android:paddingBottom="10dp"
                 android:paddingEnd="6dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="10dp">
+                android:paddingStart="6dp"
+                android:paddingTop="6dp">
 
                 <TextView
                     android:id="@+id/my_boards_title_text_view"
@@ -183,36 +183,43 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/my_boards" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/my_boards_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_below="@+id/my_boards_title_text_view"
-                    android:layout_toStartOf="@+id/create_board_button"
-                    tools:listitem="@layout/item_my_boards"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
-
-                <ImageButton
-                    android:id="@+id/create_board_button"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/new_board_circle"
-                    android:contentDescription="@string/add_board"
-                    android:layout_alignParentEnd="true"
-                    android:layout_below="@id/my_boards_title_text_view" />
-
-                <TextView
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignStart="@+id/create_board_button"
-                    android:layout_alignEnd="@+id/create_board_button"
-                    android:layout_below="@+id/create_board_button"
-                    android:layout_marginTop="3dp"
-                    android:gravity="center"
-                    android:fontFamily="@font/rajdhani_medium"
-                    android:text="@string/new_"/>
+                    android:layout_below="@+id/my_boards_title_text_view">
 
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/my_boards_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_toStartOf="@+id/create_board_button"
+                        app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                        tools:listitem="@layout/item_my_boards" />
+
+                    <ImageButton
+                        android:id="@+id/create_board_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@android:color/transparent"
+                        android:contentDescription="@string/add_board"
+                        android:src="@drawable/new_board_circle" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/create_board_button"
+                        android:layout_alignStart="@+id/create_board_button"
+                        android:layout_below="@+id/create_board_button"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/rajdhani_medium"
+                        android:gravity="center"
+                        android:text="@string/new_" />
+
+                </RelativeLayout>
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
@@ -222,21 +229,21 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:paddingStart="6dp"
-                android:paddingEnd="6dp"
-                android:paddingTop="6dp"
+                android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:orientation="vertical">
+                android:paddingEnd="6dp"
+                android:paddingStart="6dp"
+                android:paddingTop="6dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/raleway_semibold"
-                android:lineSpacingExtra="3sp"
-                android:text="@string/app_preferences"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@string/app_preferences"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -249,18 +256,18 @@
                 android:layout_height="wrap_content"
                 android:padding="6dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/raleway_semibold"
-                android:lineSpacingExtra="3sp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/coin_count"
-                android:text="@string/coin_summary"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginStart="6dp"
+                    android:layout_toStartOf="@+id/coin_count"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@string/coin_summary"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/coin_count"
@@ -268,56 +275,56 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentTop="true"
-                    android:drawableStart="@drawable/img_coin"
                     android:drawablePadding="4dp"
-                    android:paddingTop="2dp"
+                    android:drawableStart="@drawable/img_coin"
                     android:paddingBottom="2dp"
-                    android:textSize="20sp"
+                    android:paddingTop="2dp"
+                    android:text="32,420"
                     android:textColor="@color/grey"
-                    android:text="32,420"/>
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/transactions_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/coin_count"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:textColor="@color/black_50"
-                    android:text="@string/last_transactions"/>
+                    android:layout_marginStart="8dp"
+                    android:text="@string/last_transactions"
+                    android:textColor="@color/black_50" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/last_transactions_list"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_below="@+id/transactions_header"
-                    android:paddingTop="7dp"
-                    android:clipToPadding="false"
-                    tools:listitem="@layout/item_user_transactions_header"
-                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:nestedScrollingEnabled="false"/>
+                    android:layout_marginStart="8dp"
+                    android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
+                    android:paddingTop="7dp"
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_user_transactions_header" />
 
                 <TextView
                     android:id="@+id/get_coins_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/last_transactions_list"
-                    android:layout_marginTop="12dp"
                     android:layout_marginBottom="6dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:textColor="@color/black_50"
-                    android:text="@string/get_coins"/>
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/get_coins"
+                    android:textColor="@color/black_50" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/get_coins_list"
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_below="@+id/get_coins_header"
-                    tools:listitem="@layout/item_get_coins"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                    tools:listitem="@layout/item_get_coins" />
 
             </RelativeLayout>
 
@@ -328,35 +335,35 @@
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="100dp"
-                android:paddingStart="6dp"
+                android:paddingBottom="10dp"
                 android:paddingEnd="6dp"
-                android:paddingTop="6dp"
-                android:paddingBottom="10dp">
+                android:paddingStart="6dp"
+                android:paddingTop="6dp">
 
-            <TextView
-                android:id="@+id/payment_info_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="6dp"
-                android:fontFamily="@font/raleway_semibold"
-                android:lineSpacingExtra="3sp"
-                android:text="@string/payment_info"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/payment_info_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@string/payment_info"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/payment_info_header"
-                android:gravity="center"
-                android:background="@color/light_grey"
-                android:layout_marginStart="6dp"
-                android:layout_marginEnd="6dp"
-                android:fontFamily="@font/raleway_semibold"
-                android:lineSpacingExtra="3sp"
-                android:text="@string/payment_info"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/payment_info_header"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@color/light_grey"
+                    android:fontFamily="@font/raleway_semibold"
+                    android:gravity="center"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@string/payment_info"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
@@ -370,16 +377,16 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/logout_button_bg"
             android:fontFamily="@font/rajdhani_semibold"
-            android:textSize="16sp"
             android:text="@string/logout"
             android:textAllCaps="false"
-            android:textColor="@color/grey" />
+            android:textColor="@color/grey"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:text="@string/looking_for_something_else"/>
+            android:text="@string/looking_for_something_else" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

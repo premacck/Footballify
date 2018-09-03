@@ -6,10 +6,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
@@ -18,20 +20,22 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 public class PrivateBoardInfoFragment extends Fragment {
 
     private static final String TAG = PrivateBoardInfoFragment.class.getSimpleName();
+    private static final String DESCRIPTION = "description";
 
     @Inject
     @Named("default")
     RestApi restApi;
+    @BindView(R.id.description)
+    TextView descriptionTextView;
+    private String description;
 
     public PrivateBoardInfoFragment() {
     }
 
-    public static PrivateBoardInfoFragment newInstance() {
+    public static PrivateBoardInfoFragment newInstance(String description) {
         PrivateBoardInfoFragment fragment = new PrivateBoardInfoFragment();
         Bundle args = new Bundle();
-//        TODO : pass arguments here
-//        args.putString(ARG_PARAM1, param1);
-//        args.putString(ARG_PARAM2, param2);
+        args.putString(DESCRIPTION, description);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,12 +43,10 @@ public class PrivateBoardInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        TODO : check arguments and retrieve them from bundle
-//        Bundle args = getArguments();
-//        if (args != null) {
-//            mParam1 = args.getString(ARG_PARAM1);
-//            mParam2 = args.getString(ARG_PARAM2);
-//        }
+        Bundle args = getArguments();
+        if (args != null) {
+            description = args.getString(DESCRIPTION);
+        }
     }
 
     @Override
@@ -52,6 +54,7 @@ public class PrivateBoardInfoFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_private_board_info, container, false);
         ButterKnife.bind(this, rootView);
         ZoneApplication.getApplication().getUiComponent().inject(this);
+        descriptionTextView.setText(description);
         return rootView;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
@@ -11,6 +12,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -26,6 +29,8 @@ import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
+import life.plank.juna.zone.view.adapter.SearchViewAdapter;
+import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -78,6 +83,8 @@ public class UserProfileActivity extends AppCompatActivity {
     @Inject
     GetCoinsAdapter getCoinsAdapter;
     private RestApi restApi;
+    private UserBoardsAdapter userBoardsAdapter;
+    ArrayList<User> userList = new ArrayList<>();
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
@@ -93,11 +100,21 @@ public class UserProfileActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
 
         getUserDetails();
+        initRecyclerView();
     }
 
     @OnClick(R.id.create_board_button)
     public void launchBoardMaker() {
         CreateBoardActivity.launch(this);
+    }
+
+    private void initRecyclerView() {
+        RecyclerView recyclerView = findViewById(R.id.my_boards_list);
+        LinearLayoutManager horizontalLayoutManager
+                = new LinearLayoutManager(UserProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(horizontalLayoutManager);
+        userBoardsAdapter = new UserBoardsAdapter(userList, this);
+        recyclerView.setAdapter(userBoardsAdapter);
     }
 
     private void getUserDetails() {
