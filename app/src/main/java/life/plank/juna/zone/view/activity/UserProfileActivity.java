@@ -10,10 +10,13 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,11 +28,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
-import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -82,9 +85,9 @@ public class UserProfileActivity extends AppCompatActivity {
     LastTransactionsAdapter lastTransactionsAdapter;
     @Inject
     GetCoinsAdapter getCoinsAdapter;
+    ArrayList<Board> userList = new ArrayList<>();
     private RestApi restApi;
     private UserBoardsAdapter userBoardsAdapter;
-    ArrayList<User> userList = new ArrayList<>();
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
@@ -101,6 +104,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         getUserDetails();
         initRecyclerView();
+        getUserBoards();
     }
 
     @OnClick(R.id.create_board_button)
@@ -115,6 +119,39 @@ public class UserProfileActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(horizontalLayoutManager);
         userBoardsAdapter = new UserBoardsAdapter(userList, this);
         recyclerView.setAdapter(userBoardsAdapter);
+    }
+
+    public void getUserBoards() {
+        restApi.getUserBoards(getToken(this))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<Board>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Response<List<Board>> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                userBoardsAdapter.update(response.body());
+                                userBoardsAdapter.notifyDataSetChanged();
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(UserProfileActivity.this, R.string.cannot_find_user_boards, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(UserProfileActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
     }
 
     private void getUserDetails() {
