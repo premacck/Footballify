@@ -63,7 +63,8 @@ public class TokenActivity extends AppCompatActivity {
     @Named("default")
     Retrofit retrofit;
     private AuthState mAuthState;
-    private AuthorizationService mAuthService;
+    @Inject
+    AuthorizationService mAuthService;
     private JSONObject mUserInfoJson;
     private RestApi restApi;
     private boolean isTokenRefreshCall;
@@ -74,6 +75,7 @@ public class TokenActivity extends AppCompatActivity {
             @Nullable AuthorizationServiceDiscovery discoveryDoc,
             @NonNull AuthState authState, boolean isTokenRefreshCall) {
         Intent intent = new Intent(context, TokenActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
         intent.putExtra(IS_TOKEN_REFRESH_CALL, isTokenRefreshCall);
         if (discoveryDoc != null) {
@@ -99,7 +101,6 @@ public class TokenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mAuthService = new AuthorizationService(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         if (savedInstanceState != null) {
@@ -183,6 +184,7 @@ public class TokenActivity extends AppCompatActivity {
         }
         if (isTokenRefreshCall) {
             startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+            finish();
         } else {
             getSignInResponse();
         }
