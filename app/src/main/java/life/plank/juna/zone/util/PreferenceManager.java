@@ -2,6 +2,7 @@ package life.plank.juna.zone.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.StringRes;
 
 import java.util.Map;
 
@@ -33,25 +34,29 @@ public class PreferenceManager {
         return context.getString(R.string.bearer) + " " + getSharedPrefsString(context.getString(R.string.pref_login_credentails), context.getString(R.string.pref_azure_token));
     }
 
-    public static void saveRefreshToken(String refreshToken) {
+    public static void saveTokens(String idToken, String refreshToken) {
         getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails))
                 .edit()
+                .putString(ZoneApplication.getContext().getString(R.string.pref_azure_token), idToken)
                 .putString(ZoneApplication.getContext().getString(R.string.pref_refresh_token), refreshToken)
                 .apply();
     }
 
-    public static void saveTokenValidity(Map<String, String> additionalParameters) {
-        long validity = Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_not_before))) +
+    public static void saveTokensValidity(Map<String, String> additionalParameters) {
+        long idTokenValidity = Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_not_before))) +
                 Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_id_token_expires_in)));
+        long refreshTokenValidity = Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_not_before))) +
+                Long.parseLong(additionalParameters.get(ZoneApplication.getContext().getString(R.string.pref_refresh_token_expires_in)));
         getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails))
                 .edit()
-                .putLong(ZoneApplication.getContext().getString(R.string.pref_token_validity), validity)
+                .putLong(ZoneApplication.getContext().getString(R.string.pref_id_token_validity), idTokenValidity)
+                .putLong(ZoneApplication.getContext().getString(R.string.pref_refresh_token_validity), refreshTokenValidity)
                 .apply();
     }
 
-    public static boolean isTokenValid() {
+    public static boolean checkTokenValidity(@StringRes int whichToken) {
         SharedPreferences loginPrefs = getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails));
-        long validity = loginPrefs.getLong(ZoneApplication.getContext().getString(R.string.pref_token_validity), 0);
+        long validity = loginPrefs.getLong(ZoneApplication.getContext().getString(whichToken), 0);
         return validity > System.currentTimeMillis() / 1000;
     }
 

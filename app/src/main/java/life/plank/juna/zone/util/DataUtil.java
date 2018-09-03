@@ -1,6 +1,8 @@
 package life.plank.juna.zone.util;
 
 import android.content.Intent;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -227,5 +229,9 @@ public class DataUtil {
                 "Europe"
         ));
         return footballFeeds;
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 }
