@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -68,6 +69,7 @@ public class TokenActivity extends AppCompatActivity {
     private JSONObject mUserInfoJson;
     private RestApi restApi;
     private boolean isTokenRefreshCall;
+    private ProgressDialog progressDialog;
 
     public static PendingIntent createPostAuthorizationIntent(
             @NonNull Context context,
@@ -101,6 +103,10 @@ public class TokenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Just a moment...");
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.show();
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         if (savedInstanceState != null) {
@@ -231,7 +237,10 @@ public class TokenActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        if (progressDialog != null) {
+            progressDialog.cancel();
+        }
         mAuthService.dispose();
+        super.onDestroy();
     }
 }
