@@ -19,7 +19,11 @@
     <string name="pref_is_logged_in">isLoggedIn</string>
     <string name="pref_football_match_sub">footballmatch-</string>
     <string name="pref_refresh_token">refresh_token</string>
-    <string name="pref_token_validity">token_validity</string>
+    <string name="pref_id_token_validity">id_token_validity</string>
+    <string name="pref_refresh_token_validity">refresh_token_validity</string>
     <string name="pref_id_token_expires_in">id_token_expires_in</string>
+    <string name="pref_refresh_token_expires_in">refresh_token_expires_in</string>
     <string name="pref_not_before">not_before</string>
+    <string name="pref_openid_offline_access">openid offline_access</string>
+    <string name="pref_auth_state">auth_state</string>
 </resources>

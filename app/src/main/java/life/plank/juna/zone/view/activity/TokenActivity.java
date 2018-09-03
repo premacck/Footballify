@@ -25,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -40,9 +41,12 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.PreferenceManager.getSavedAuthState;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.PreferenceManager.saveTokenValidity;
+import static life.plank.juna.zone.util.PreferenceManager.saveAuthState;
+import static life.plank.juna.zone.util.PreferenceManager.saveTokens;
+import static life.plank.juna.zone.util.PreferenceManager.saveTokensValidity;
 
 /**
  * Client to the Native Oauth library.
@@ -54,6 +58,7 @@ public class TokenActivity extends AppCompatActivity {
     private static final String KEY_USER_INFO = "userInfo";
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
+    private static final String IS_TOKEN_REFRESH_CALL = "isTokenRefreshCall";
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -61,14 +66,16 @@ public class TokenActivity extends AppCompatActivity {
     private AuthorizationService mAuthService;
     private JSONObject mUserInfoJson;
     private RestApi restApi;
+    private boolean isTokenRefreshCall;
 
-    static PendingIntent createPostAuthorizationIntent(
+    public static PendingIntent createPostAuthorizationIntent(
             @NonNull Context context,
             @NonNull AuthorizationRequest request,
             @Nullable AuthorizationServiceDiscovery discoveryDoc,
-            @NonNull AuthState authState) {
+            @NonNull AuthState authState, boolean isTokenRefreshCall) {
         Intent intent = new Intent(context, TokenActivity.class);
         intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
+        intent.putExtra(IS_TOKEN_REFRESH_CALL, isTokenRefreshCall);
         if (discoveryDoc != null) {
             intent.putExtra(EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString());
         }
@@ -98,8 +105,7 @@ public class TokenActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(KEY_AUTH_STATE)) {
                 try {
-                    mAuthState = AuthState.jsonDeserialize(
-                            savedInstanceState.getString(KEY_AUTH_STATE));
+                    mAuthState = AuthState.jsonDeserialize(Objects.requireNonNull(savedInstanceState.getString(KEY_AUTH_STATE)));
                 } catch (JSONException ex) {
                     Log.e(TAG, "Malformed authorization JSON saved", ex);
                 }
@@ -120,12 +126,19 @@ public class TokenActivity extends AppCompatActivity {
             AuthorizationException ex = AuthorizationException.fromIntent(getIntent());
             mAuthState.update(response, ex);
 
+            isTokenRefreshCall = getIntent().getBooleanExtra(IS_TOKEN_REFRESH_CALL, false);
             if (response != null) {
                 Log.d(TAG, "Received AuthorizationResponse.");
-                performTokenRequest(response.createTokenExchangeRequest());
-                Log.d("Response", " " + response);
+                if (isTokenRefreshCall) {
+                    mAuthState = getSavedAuthState();
+                    if (mAuthState != null) {
+                        performTokenRequest(mAuthState.createTokenRefreshRequest());
+                    } else {
+                        performTokenRequest(response.createTokenExchangeRequest());
+                    }
+                } else performTokenRequest(response.createTokenExchangeRequest());
             } else {
-                Log.i(TAG, "Authorization failed: " + ex);
+                Log.e(TAG, "Authorization failed: " + ex);
             }
         }
     }
@@ -147,7 +160,7 @@ public class TokenActivity extends AppCompatActivity {
         try {
             clientAuthentication = mAuthState.getClientAuthentication();
         } catch (ClientAuthentication.UnsupportedAuthenticationMethod ex) {
-            Log.d(TAG, "Token request cannot be made, client authentication for the token "
+            Log.e(TAG, "Token request cannot be made, client authentication for the token "
                     + "endpoint could not be constructed (%s)", ex);
             return;
         }
@@ -164,12 +177,15 @@ public class TokenActivity extends AppCompatActivity {
         Log.d(TAG, "Token request complete");
         mAuthState.update(tokenResponse, authException);
         if (tokenResponse != null) {
-            saveTokenValidity(tokenResponse.additionalParameters);
-            Log.d("Id Token", " " + tokenResponse.idToken);
-            SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
-            prefEditor.putString(getString(R.string.pref_azure_token), tokenResponse.idToken).apply();
+            saveAuthState(mAuthState);
+            saveTokens(tokenResponse.idToken, tokenResponse.refreshToken);
+            saveTokensValidity(tokenResponse.additionalParameters);
         }
-        getSignInResponse();
+        if (isTokenRefreshCall) {
+            startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+        } else {
+            getSignInResponse();
+        }
     }
 
     private void getSignInResponse() {

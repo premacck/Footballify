@@ -18,8 +18,9 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
+import life.plank.juna.zone.util.AuthUtil;
 
-import static life.plank.juna.zone.util.PreferenceManager.isTokenValid;
+import static life.plank.juna.zone.util.PreferenceManager.checkTokenValidity;
 
 /**
  * Created by plank-dhamini on 18/7/2018.
@@ -61,8 +62,24 @@ public class SplashScreenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Flow:
+     * * check if the refresh token is valid
+     * * if the refresh token is valid, check if ID token is valid
+     * * if Id token is valid, proceed to {@link UserFeedActivity}
+     * * if Id token is not valid, try to refresh the token
+     * * if the refresh token is not valid, go to {@link SignInActivity}
+     */
     private void proceedToApp() {
-        startActivity(new Intent(SplashScreenActivity.this, isTokenValid() ? UserFeedActivity.class : SignInActivity.class));
+        if (checkTokenValidity(R.string.pref_refresh_token_validity)) {
+            if (checkTokenValidity(R.string.pref_id_token_validity)) {
+                startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
+            } else {
+                AuthUtil.loginOrRefreshToken(this, null, true);
+            }
+        } else {
+            startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
+        }
         finish();
     }
 
