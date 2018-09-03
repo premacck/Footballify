@@ -41,8 +41,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.PreferenceManager.getSavedAuthState;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.saveAuthState;
 import static life.plank.juna.zone.util.PreferenceManager.saveTokens;
 import static life.plank.juna.zone.util.PreferenceManager.saveTokensValidity;
 
@@ -64,6 +66,7 @@ public class TokenActivity extends AppCompatActivity {
     private AuthorizationService mAuthService;
     private JSONObject mUserInfoJson;
     private RestApi restApi;
+    private boolean isTokenRefreshCall;
 
     public static PendingIntent createPostAuthorizationIntent(
             @NonNull Context context,
@@ -123,13 +126,19 @@ public class TokenActivity extends AppCompatActivity {
             AuthorizationException ex = AuthorizationException.fromIntent(getIntent());
             mAuthState.update(response, ex);
 
-            boolean isTokenRefreshCall = getIntent().getBooleanExtra(IS_TOKEN_REFRESH_CALL, false);
+            isTokenRefreshCall = getIntent().getBooleanExtra(IS_TOKEN_REFRESH_CALL, false);
             if (response != null) {
                 Log.d(TAG, "Received AuthorizationResponse.");
-                performTokenRequest(isTokenRefreshCall ? mAuthState.createTokenRefreshRequest() : response.createTokenExchangeRequest());
-                Log.d("Response", " " + response);
+                if (isTokenRefreshCall) {
+                    mAuthState = getSavedAuthState();
+                    if (mAuthState != null) {
+                        performTokenRequest(mAuthState.createTokenRefreshRequest());
+                    } else {
+                        performTokenRequest(response.createTokenExchangeRequest());
+                    }
+                } else performTokenRequest(response.createTokenExchangeRequest());
             } else {
-                Log.i(TAG, "Authorization failed: " + ex);
+                Log.e(TAG, "Authorization failed: " + ex);
             }
         }
     }
@@ -168,10 +177,15 @@ public class TokenActivity extends AppCompatActivity {
         Log.d(TAG, "Token request complete");
         mAuthState.update(tokenResponse, authException);
         if (tokenResponse != null) {
+            saveAuthState(mAuthState);
             saveTokens(tokenResponse.idToken, tokenResponse.refreshToken);
             saveTokensValidity(tokenResponse.additionalParameters);
         }
-        getSignInResponse();
+        if (isTokenRefreshCall) {
+            startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+        } else {
+            getSignInResponse();
+        }
     }
 
     private void getSignInResponse() {

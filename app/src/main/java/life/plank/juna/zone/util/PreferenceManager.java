@@ -3,8 +3,14 @@ package life.plank.juna.zone.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.StringRes;
+import android.util.Log;
+
+import net.openid.appauth.AuthState;
+
+import org.json.JSONException;
 
 import java.util.Map;
+import java.util.Objects;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
@@ -58,6 +64,25 @@ public class PreferenceManager {
         SharedPreferences loginPrefs = getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails));
         long validity = loginPrefs.getLong(ZoneApplication.getContext().getString(whichToken), 0);
         return validity > System.currentTimeMillis() / 1000;
+    }
+
+    public static void saveAuthState(AuthState authState) {
+        getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails))
+                .edit()
+                .putString(ZoneApplication.getContext().getString(R.string.pref_auth_state), authState.jsonSerializeString())
+                .apply();
+    }
+
+    public static AuthState getSavedAuthState() {
+        try {
+            return AuthState.jsonDeserialize(
+                    Objects.requireNonNull(getSharedPrefs(ZoneApplication.getContext().getString(R.string.pref_login_credentails))
+                            .getString(ZoneApplication.getContext().getString(R.string.pref_auth_state), null))
+            );
+        } catch (JSONException e) {
+            Log.e("saveAuthState()", e.getMessage());
+            return null;
+        }
     }
 
     public void saveString(String key, String value) {
