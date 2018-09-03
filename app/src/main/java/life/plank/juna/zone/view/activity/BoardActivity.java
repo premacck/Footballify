@@ -86,9 +86,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private String visitingTeamLogo;
     private String homeTeamName;
     private String visitingTeamName;
-    private int homeGoals;
-    private int visitingGoals;
-    private int matchDay;
 
     private BoardPagerAdapter boardPagerAdapter;
 
@@ -196,18 +193,15 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     private void setUpToolbar(int matchDay, String homeTeamLogo, String visitingTeamLogo, int homeGoals,
                               int visitingGoals, String homeTeamName, String visitingTeamName, long currentMatchId) {
-        this.matchDay = matchDay;
         this.homeTeamLogo = homeTeamLogo;
         this.visitingTeamLogo = visitingTeamLogo;
-        this.homeGoals = homeGoals;
-        this.visitingGoals = visitingGoals;
         this.homeTeamName = homeTeamName;
         this.visitingTeamName = visitingTeamName;
         this.currentMatchId = currentMatchId;
         publicBoardToolbar.setHomeTeamLogo(picasso, this.homeTeamLogo);
         publicBoardToolbar.setVisitingTeamLogo(picasso, this.visitingTeamLogo);
-        publicBoardToolbar.setScore(true, this.homeGoals + DASH + this.visitingGoals);
-        publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + this.matchDay);
+        publicBoardToolbar.setScore(true, homeGoals + DASH + visitingGoals);
+        publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
     }
 
     private void setupViewPagerWithFragments() {

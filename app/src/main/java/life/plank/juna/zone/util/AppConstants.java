@@ -72,4 +72,8 @@ public class AppConstants {
     public static final String DASH = " - ";
     public static final String WIDE_DASH = "  -  ";
     public static final String WIDE_SPACE = "     ";
+
+    public static final String VIDEO = "Video";
+    public static final String AUDIO = "Audio";
+    public static final String IMAGE = "Image";
 }
