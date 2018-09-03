@@ -35,8 +35,7 @@ public class AuthUtil {
      * @param email              The email hint to auto-fill in the opening web page. Could be null.
      * @param isTokenRefreshCall true when calling to get new ID token from refresh token.
      */
-    public static void loginOrRefreshToken(Activity activity, String email, boolean isTokenRefreshCall) {
-        AuthorizationService authService = new AuthorizationService(activity);
+    public static void loginOrRefreshToken(Activity activity, AuthorizationService authService, String email, boolean isTokenRefreshCall) {
         List<IdentityProvider> providers = IdentityProvider.getEnabledProviders(activity);
 
         for (final IdentityProvider idp : providers) {
