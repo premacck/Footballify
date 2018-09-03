@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +17,13 @@ import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static life.plank.juna.zone.util.AppConstants.AUDIO;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 
@@ -29,11 +33,11 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
 
     private List<FootballFeed> boardFeed;
-    private Picasso picasso;
     private OnClickFeedItemListener listener;
+    private BoardTilesFragment fragment;
 
-    public BoardMediaAdapter(Picasso picasso) {
-        this.picasso = picasso;
+    public BoardMediaAdapter(BoardTilesFragment fragment) {
+        this.fragment = fragment;
         this.boardFeed = new ArrayList<>();
     }
 
@@ -47,46 +51,45 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        if (boardFeed.get(position).getThumbnail() != null) {
-            switch (boardFeed.get(position).getContentType()) {
-                case "Audio": {
-                    holder.commentTextView.setVisibility(View.INVISIBLE);
-                    holder.tileImageView.setVisibility(View.VISIBLE);
-                    holder.tileImageView.setImageResource(R.drawable.ic_audio);
-                    break;
-                }
-                case "Image": {
-                    holder.commentTextView.setVisibility(View.INVISIBLE);
-                    holder.tileImageView.setVisibility(View.VISIBLE);
-                    picasso
+        switch (boardFeed.get(position).getContentType()) {
+            case AUDIO:
+                setVisibility(holder, GONE, VISIBLE, GONE);
+                holder.tileImageView.setImageResource(R.drawable.ic_audio);
+                break;
+            case IMAGE:
+                setVisibility(holder, GONE, VISIBLE, GONE);
+                if (boardFeed.get(position).getThumbnail() != null) {
+                    fragment.picasso
                             .load(boardFeed.get(position).getThumbnail().getImageUrl())
                             .fit().centerCrop()
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
                             .into(holder.tileImageView);
-                    break;
                 }
-                case "Video": {
-                    holder.commentTextView.setVisibility(View.INVISIBLE);
-                    holder.tileImageView.setVisibility(View.VISIBLE);
-                    String uri = boardFeed.get(position).getUrl();
-                    picasso
-                            .load(uri)
-                            .placeholder(R.drawable.ic_video)
-                            .error(R.drawable.ic_video)
+                break;
+            case VIDEO:
+                setVisibility(holder, GONE, VISIBLE, VISIBLE);
+                if (boardFeed.get(position).getThumbnail() != null) {
+                    fragment.picasso
+                            .load(boardFeed.get(position).getThumbnail().getImageUrl())
+                            .placeholder(R.drawable.ic_place_holder)
+                            .error(R.drawable.ic_place_holder)
                             .into(holder.tileImageView);
-                    break;
                 }
-            }
-        } else {
-            if (boardFeed.get(position).getContentType().equals("rootComment")) {
+                break;
+            default:
+                setVisibility(holder, VISIBLE, GONE, GONE);
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
-                holder.tileImageView.setVisibility(View.INVISIBLE);
                 holder.commentTextView.setBackgroundColor(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
-
-            }
+                break;
         }
+    }
+
+    private void setVisibility(BoardMediaViewHolder holder, int commentTextViewVisibility, int tileImageViewVisibility, int playBtnVisibility) {
+        holder.commentTextView.setVisibility(commentTextViewVisibility);
+        holder.tileImageView.setVisibility(tileImageViewVisibility);
+        holder.playBtn.setVisibility(playBtnVisibility);
     }
 
     public void update(List<FootballFeed> boardFeed) {
@@ -118,6 +121,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
         @BindView(R.id.tile_image_view)
         ImageView tileImageView;
+        @BindView(R.id.play_btn)
+        ImageView playBtn;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
 

@@ -58,6 +58,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     ArcMenu arcMenu;
 
     @Inject
+    public
     Picasso picasso;
     @Inject
     @Named("default")
@@ -99,12 +100,15 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     private void initRecyclerView() {
-        adapter = new BoardMediaAdapter(picasso);
+        adapter = new BoardMediaAdapter(this);
         adapter.setOnClickFeedItemListener(this);
         boardTilesRecyclerView.setAdapter(adapter);
     }
 
     public void updateNewPost(FootballFeed footballFeed) {
+        if (adapter.getBoardFeed().isEmpty()) {
+            updateUi(true, 0);
+        }
         adapter.updateNewPost(footballFeed);
         boardTilesRecyclerView.smoothScrollToPosition(0);
     }
@@ -148,7 +152,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                 });
     }
 
-    private void updateUi(boolean isDataAvailable, @StringRes int message) {
+    public void updateUi(boolean isDataAvailable, @StringRes int message) {
         progressBar.setVisibility(View.GONE);
         boardTilesRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
         noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);

@@ -116,6 +116,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         ButterKnife.bind(this, rootView);
         ZoneApplication.getApplication().getUiComponent().inject(this);
 
+        getMatchHighlights();
         getCommentaries();
         getMatchTeamStats();
         getLineupFormation();
@@ -127,14 +128,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public void onResume() {
         super.onResume();
         commentarySmall.initListeners(this);
-        matchHighlightsLayout.initExoPlayer(getContext());
     }
 
     @Override
     public void onPause() {
         super.onPause();
         commentarySmall.dispose();
-        matchHighlightsLayout.dispose();
     }
 
     @SuppressWarnings("ConstantConditions")
