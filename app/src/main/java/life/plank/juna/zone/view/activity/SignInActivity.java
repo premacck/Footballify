@@ -10,8 +10,6 @@ import android.widget.ImageView;
 
 import net.openid.appauth.AuthorizationService;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -32,14 +30,14 @@ public class SignInActivity extends AppCompatActivity {
     @BindView(R.id.password_edit_text)
     EditText passwordEditText;
 
-    @Inject
-    AuthorizationService authService;
+    private AuthorizationService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        authService = new AuthorizationService(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         ButterKnife.bind(this);
@@ -79,5 +77,11 @@ public class SignInActivity extends AppCompatActivity {
                 break;
 
         }
+    }
+
+    @Override
+    protected void onStop() {
+        authService.dispose();
+        super.onStop();
     }
 }

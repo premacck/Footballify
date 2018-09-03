@@ -112,7 +112,7 @@ public class AuthUtil {
         Log.d(TAG, "Making auth request to " + serviceConfig.authorizationEndpoint);
         Intent cancelIntent = new Intent(activity, SignInActivity.class);
         cancelIntent.putExtra(EXTRA_FAILED, true);
-        cancelIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        cancelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         authService.performAuthorizationRequest(
                 authRequest,
