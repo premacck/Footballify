@@ -1,7 +1,11 @@
 package life.plank.juna.zone.data.network.dagger.module;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import net.openid.appauth.AuthorizationService;
 
 import java.io.File;
 import java.util.Date;
@@ -40,31 +44,11 @@ public class NetworkModule {
         return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS);
     }
 
-    @Named("body")
-    @NetworkScope
-    @Provides
-    HttpLoggingInterceptor provideBodyHttpLoggingInterceptor() {
-        return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-    }
-
     @NetworkScope
     @Provides
     @Named("header")
     public OkHttpClient provideDefaultOkHttpClient(@Named("header") HttpLoggingInterceptor httpLoggingInterceptor) {
         return new OkHttpClient().newBuilder()
-                .addInterceptor(httpLoggingInterceptor)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
-                .build();
-    }
-
-    @NetworkScope
-    @Provides
-    @Named("body")
-    public OkHttpClient provideOkHttpClient(@Named("body") HttpLoggingInterceptor httpLoggingInterceptor) {
-        return new OkHttpClient.Builder()
                 .addInterceptor(httpLoggingInterceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
@@ -86,5 +70,11 @@ public class NetworkModule {
     @Provides
     public NullOnEmptyConverterFactory provideNullOnEmptyConverterFactory() {
         return new NullOnEmptyConverterFactory();
+    }
+
+    @NetworkScope
+    @Provides
+    public AuthorizationService provideAuthorizationService(Context context) {
+        return new AuthorizationService(context);
     }
 }
