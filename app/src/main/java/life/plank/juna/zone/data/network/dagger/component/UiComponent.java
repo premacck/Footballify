@@ -25,6 +25,7 @@ import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
+import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
@@ -84,6 +85,8 @@ public interface UiComponent {
     void inject(PrivateBoardInfoFragment privateBoardInfoFragment);
 
     void inject(SplashScreenActivity splashScreenActivity);
+
+    void inject(UserBoardsAdapter userBoardsAdapter);
 
     @Subcomponent.Builder
     interface Builder {
