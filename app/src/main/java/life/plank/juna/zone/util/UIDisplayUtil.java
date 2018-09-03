@@ -90,7 +90,7 @@ public class UIDisplayUtil {
     public static int getCommentColor(String comment) {
         ColorHashMap.HashMaps(getApplicationContext());
         int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
-        return getApplicationContext().getResources().getColor(color);
+        return getApplicationContext().getResources().getColor(color, null);
     }
 
     public static CharSequence getCommentText(String comment) {
@@ -141,7 +141,7 @@ public class UIDisplayUtil {
         final Allocation output = Allocation.createTyped(rs, input.getType());
         final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
         // must be >0 and <= 25
-        script.setRadius(20f);
+        script.setRadius(25f);
         script.setInput(input);
         script.forEach(output);
         output.copyTo(bitmap2);
@@ -267,17 +267,14 @@ public class UIDisplayUtil {
     }
 
     public static Bitmap captureView(View view, Context context) {
-        Bitmap blurredBitmap = null;
+        Bitmap blurredBitmap;
         RenderScript renderScript = RenderScript.create(context);
-        if (blurredBitmap != null) {
-            return blurredBitmap;
-        }
         blurredBitmap = Bitmap.createBitmap(view.getMeasuredWidth(),
                 view.getMeasuredHeight(),
                 Bitmap.Config.ARGB_4444);
         Canvas canvas = new Canvas(blurredBitmap);
         view.draw(canvas);
-        UIDisplayUtil.blurBitmapWithRenderscript(renderScript, blurredBitmap);
+        blurBitmapWithRenderscript(renderScript, blurredBitmap);
         Paint paint = new Paint();
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         ColorFilter filter = new LightingColorFilter(0xFF7F7F7F, 0x00000000);    // darken
