@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,16 +14,16 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.data.network.model.Board;
 
 public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder> {
 
-    private List<User> userList;
+    private List<Board> boardList;
     private Context context;
 
-    public UserBoardsAdapter(List<User> userList, Context context) {
+    public UserBoardsAdapter(List<Board> boardList, Context context) {
         this.context = context;
-        this.userList = userList;
+        this.boardList = boardList;
     }
 
     @Override
@@ -32,21 +33,18 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
 
     @Override
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
-        //TODO: display actual user details
-        holder.usernameTextView.setText("UserName");
-        holder.profileImageView.setBackground(context.getDrawable(R.drawable.ic_profile_dummy));
-
+        holder.usernameTextView.setText(boardList.get(position).getDisplayname());
+        holder.profileImageView.setBackgroundColor(Color.parseColor(boardList.get(position).getColor()));
     }
 
     @Override
     public int getItemCount() {
-        //TODO: Replace with userList.size();
-        return 20;
+        return boardList.size();
     }
 
-    public void update(List<User> users) {
-        userList.clear();
-        this.userList.addAll(users);
+    public void update(List<Board> users) {
+        boardList.clear();
+        this.boardList.addAll(users);
         notifyDataSetChanged();
     }
 
