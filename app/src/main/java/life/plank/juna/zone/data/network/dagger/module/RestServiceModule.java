@@ -64,16 +64,4 @@ public class RestServiceModule {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
-
-    @NetworkScope
-    @Provides
-    @Named("azure")
-    public Retrofit getAzureRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson) {
-        return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.azure_base_url))
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-    }
 }
