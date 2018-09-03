@@ -42,7 +42,7 @@ public class RestServiceModule {
     @NetworkScope
     @Provides
     @Named("default")
-    public Retrofit getRetrofit(@Named("body") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
+    public Retrofit getRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.feed_data_base_url))
                 .client(okHttpClient)
