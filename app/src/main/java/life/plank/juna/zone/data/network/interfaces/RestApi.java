@@ -15,15 +15,14 @@ import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -63,7 +62,7 @@ public interface RestApi {
     @GET("/boards")
     Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
-    @GET("/boards/createdBy")
+    @GET("/boards/myBoards")
     Observable<Response<List<Board>>> getUserBoards(@Header("Authorization") String authHeader);
 
     //working
@@ -125,10 +124,10 @@ public interface RestApi {
     //working
     @POST("activities/{id}/disLikes")
     Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
-                                              @Query("targetId") String boardId,
-                                              @Query("target") String target,
-                                              @Query("time") String dateCreated,
-                                              @Header("Authorization") String authHeader);
+                                                 @Query("targetId") String boardId,
+                                                 @Query("target") String target,
+                                                 @Query("time") String dateCreated,
+                                                 @Header("Authorization") String authHeader);
 
     //working
     @GET("/users/{displayName}")
