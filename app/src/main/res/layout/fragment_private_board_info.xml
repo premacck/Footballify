@@ -71,7 +71,13 @@
                     android:textColor="@color/grey"
                     android:textSize="12sp" />
 
-                <!--TODO : FlexBoxLayout should do the work here, or we can use RecyclerView with GridLayoutManager-->
+                <ImageButton
+                    android:id="@+id/invite_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:contentDescription="@string/add_board"
+                    android:src="@drawable/new_board_circle" />
 
             </LinearLayout>
 

@@ -1,11 +1,13 @@
 package life.plank.juna.zone.view.fragment.board.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -16,6 +18,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 
 public class PrivateBoardInfoFragment extends Fragment {
 
@@ -27,6 +30,8 @@ public class PrivateBoardInfoFragment extends Fragment {
     RestApi restApi;
     @BindView(R.id.description)
     TextView descriptionTextView;
+    @BindView(R.id.invite_user)
+    ImageButton inviteUser;
     private String description;
 
     public PrivateBoardInfoFragment() {
@@ -55,6 +60,14 @@ public class PrivateBoardInfoFragment extends Fragment {
         ButterKnife.bind(this, rootView);
         ZoneApplication.getApplication().getUiComponent().inject(this);
         descriptionTextView.setText(description);
+        inviteUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getActivity(), InviteToBoardActivity.class);
+                getActivity().startActivity(myIntent);
+            }
+        });
         return rootView;
     }
+
 }
