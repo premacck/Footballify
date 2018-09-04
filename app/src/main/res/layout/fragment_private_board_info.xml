@@ -71,13 +71,10 @@
                     android:textColor="@color/grey"
                     android:textSize="12sp" />
 
-                <ImageButton
-                    android:id="@+id/invite_user"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/board_members_recycler_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:contentDescription="@string/add_board"
-                    android:src="@drawable/new_board_circle" />
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
