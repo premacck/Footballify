@@ -14,12 +14,9 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import net.openid.appauth.AuthorizationService;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
@@ -38,15 +35,14 @@ public class SplashScreenActivity extends AppCompatActivity {
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
 
-    @Inject
-    AuthorizationService authService;
+    private AuthorizationService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
-        ZoneApplication.getApplication().getUiComponent().inject(this);
+        authService = new AuthorizationService(this);
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
 
@@ -83,13 +79,14 @@ public class SplashScreenActivity extends AppCompatActivity {
         if (checkTokenValidity(R.string.pref_refresh_token_validity)) {
             if (checkTokenValidity(R.string.pref_id_token_validity)) {
                 startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
+                finish();
             } else {
                 AuthUtil.loginOrRefreshToken(this, authService, null, true);
             }
         } else {
             startActivity(new Intent(SplashScreenActivity.this, SignInActivity.class));
+            finish();
         }
-        finish();
     }
 
     /**
@@ -120,5 +117,11 @@ public class SplashScreenActivity extends AppCompatActivity {
             Intent intent = new Intent(this, RegistrationIntentService.class);
             startService(intent);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        authService.dispose();
+        super.onDestroy();
     }
 }
