@@ -17,15 +17,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.interfaces.OnItemClickListener;
 
 public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.SearchViewHolder> {
 
     private List<User> userList;
     private Context context;
+    private OnItemClickListener onItemClickListener;
 
-    public SearchViewAdapter(List<User> userList, Context context) {
+    public SearchViewAdapter(List<User> userList, Context context, OnItemClickListener onItemClickListener) {
         this.context = context;
         this.userList = userList;
+        this.onItemClickListener = onItemClickListener;
     }
 
     @Override
@@ -50,6 +53,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
                 holder.profileImageView.setAlpha(160);
                 holder.usernameTextView.setTextColor(Color.BLACK);
                 holder.profileImageView.setColorFilter(context.getResources().getColor(R.color.red_pink), PorterDuff.Mode.LIGHTEN);
+                onItemClickListener.onItemClicked(userList.get(position).getObjectId());
             }
         });
     }

@@ -65,6 +65,9 @@ public interface RestApi {
     @GET("/boards/myBoards")
     Observable<Response<List<Board>>> getUserBoards(@Header("Authorization") String authHeader);
 
+    @GET("/boards/{id}/invite")
+    Observable<Response<JsonObject>> inviteUserToJoinBoard(@Body List<User> user, @Path("id") String boardId, @Header("Authorization") String authHeader);
+
     //working
     @GET("/boards/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Query("id") String boardId, @Header("Authorization") String authHeader);

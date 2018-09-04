@@ -39,6 +39,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStatus;
@@ -90,6 +91,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
+    OnItemClickListener onItemClickListener;
     private RestApi restApi;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -161,7 +163,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     private void initBottomSheetRecyclerView() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-        searchViewAdapter = new SearchViewAdapter(userList, this);
+        searchViewAdapter = new SearchViewAdapter(userList, this,onItemClickListener);
         recyclerView.setAdapter(searchViewAdapter);
         search.setOnQueryTextListener(this);
 

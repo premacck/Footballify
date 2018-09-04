@@ -29,41 +29,11 @@
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/invite_link_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:fontFamily="@font/rajdhani_medium"
-                    android:hint="Invitation Link"
-                    android:inputType="textEmailAddress" />
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/copy_link_button"
-                android:layout_width="160dp"
-                android:layout_height="50dp"
-                android:layout_below="@+id/invite_link_input_layout"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/blue_border_button"
-                android:fontFamily="@font/raleway_semibold"
-                android:text="Copy Link"
-                android:textAllCaps="false"
-                android:textColor="@color/accent"
-                android:textSize="20sp" />
-
             <SearchView
                 android:id="@+id/search_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/copy_link_button"
+                android:layout_below="@+id/title"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="38dp"
                 android:clickable="true"
@@ -78,6 +48,7 @@
                 android:layout_below="@+id/search_view" />
 
             <Button
+                android:id="@+id/invite_user"
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/search_result_recycler_view"

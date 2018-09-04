@@ -8,19 +8,25 @@ import android.util.Log;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -28,10 +34,9 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
-public class InviteToBoardActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
+public class InviteToBoardActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, OnItemClickListener {
 
     private static final String TAG = InviteToBoardActivity.class.getSimpleName();
     @Inject
@@ -39,7 +44,9 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     Retrofit retrofit;
     @BindView(R.id.search_view)
     SearchView search;
+    Set<User> usr = new HashSet<>();
     ArrayList<User> userList = new ArrayList<>();
+
     private SearchViewAdapter adapter;
     private RestApi restApi;
 
@@ -61,7 +68,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(InviteToBoardActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new SearchViewAdapter(userList, this);
+        adapter = new SearchViewAdapter(userList, this, this::onItemClicked);
         recyclerView.setAdapter(adapter);
         search.setOnQueryTextListener(this);
     }
@@ -101,6 +108,42 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                 });
     }
 
+    @OnClick(R.id.invite_user)
+    public void onClickInviteUser() {
+        //inviteUserToJoinBoard();
+    }
+
+    private void inviteUserToJoinBoard(String boardId, List<User> user) {
+        restApi.inviteUserToJoinBoard(user, boardId, getToken(this))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+                                break;
+                            case HttpURLConnection.HTTP_BAD_REQUEST:
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+    }
+
     @Override
     public boolean onQueryTextSubmit(String s) {
         return true;
@@ -110,10 +153,20 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     public boolean onQueryTextChange(String s) {
         if (!s.isEmpty()) {
             getSearchedUsers(s);
-        }else {
+        } else {
             userList.clear();
             adapter.notifyDataSetChanged();
         }
         return true;
+    }
+
+
+    @Override
+    public void onItemClicked(String objectId) {
+        Log.d(TAG, "onItemClicked: " + objectId);
+        User us = new User();
+        us.setObjectId(objectId);
+        usr.add(us);
+        Log.d(TAG, "------" + usr);
     }
 }
