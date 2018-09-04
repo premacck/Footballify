@@ -46,13 +46,13 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
                 holder.usernameTextView.setVisibility(View.VISIBLE);
                 holder.usernameTextView.setTextColor(context.getResources().getColor(R.color.grey));
                 holder.profileImageView.clearColorFilter();
-
+                onItemClickListener.onItemClicked(userList.get(position).getObjectId(), false);
             } else {
                 holder.followTick.setVisibility(View.VISIBLE);
                 holder.profileImageView.setAlpha(160);
                 holder.usernameTextView.setTextColor(Color.BLACK);
                 holder.profileImageView.setColorFilter(context.getResources().getColor(R.color.red_pink), PorterDuff.Mode.LIGHTEN);
-                onItemClickListener.onItemClicked(userList.get(position).getObjectId());
+                onItemClickListener.onItemClicked(userList.get(position).getObjectId(), true);
             }
         });
     }

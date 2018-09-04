@@ -44,7 +44,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     Retrofit retrofit;
     @BindView(R.id.search_view)
     SearchView search;
-    Set<User> usr = new HashSet<>();
+    Set<User> userSet = new HashSet<>();
     ArrayList<User> userList = new ArrayList<>();
 
     private SearchViewAdapter adapter;
@@ -110,10 +110,10 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
     @OnClick(R.id.invite_user)
     public void onClickInviteUser() {
-        //inviteUserToJoinBoard();
+        inviteUserToJoinBoard(getIntent().getStringExtra(getString(R.string.intent_board_id)), userSet);
     }
 
-    private void inviteUserToJoinBoard(String boardId, List<User> user) {
+    private void inviteUserToJoinBoard(String boardId, Set<User> user) {
         restApi.inviteUserToJoinBoard(user, boardId, getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -131,11 +131,12 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
                     @Override
                     public void onNext(Response<JsonObject> response) {
-
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
+                                finish();
                                 break;
                             case HttpURLConnection.HTTP_BAD_REQUEST:
+                                Toast.makeText(InviteToBoardActivity.this, R.string.invite_user_failed, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
                                 break;
@@ -162,11 +163,13 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
 
     @Override
-    public void onItemClicked(String objectId) {
-        Log.d(TAG, "onItemClicked: " + objectId);
-        User us = new User();
-        us.setObjectId(objectId);
-        usr.add(us);
-        Log.d(TAG, "------" + usr);
+    public void onItemClicked(String objectId, Boolean isSelected) {
+        User user = new User();
+        user.setObjectId(objectId);
+        if (isSelected) {
+            userSet.add(user);
+        } else {
+            userSet.remove(user);
+        }
     }
 }
