@@ -57,6 +57,7 @@ public class AppConstants {
     public static final String SCORE_DATA = "scoreData";
     public static final String TIME_STATUS = "timeStatus";
     public static final String COMMENTARY_DATA = "commentaryList";
+    public static final String LINEUPS_DATA = "liveTeamFormations";
 
     public static final String FIRST_HALF_ENDED_ = "First Half ended - ";
     public static final String SECOND_HALF_ENDED_ = "Second Half ended - ";
@@ -76,4 +77,8 @@ public class AppConstants {
     public static final String VIDEO = "Video";
     public static final String AUDIO = "Audio";
     public static final String IMAGE = "Image";
+    public static final String CAMERA = "Camera";
+    public static final String GALLERY = "Gallery";
+    public static final String TYPE_VIDEO = "video/";
+    public static final String TYPE_IMAGE = "image/";
 }

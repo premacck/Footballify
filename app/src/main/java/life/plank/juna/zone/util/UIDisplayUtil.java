@@ -72,6 +72,10 @@ import life.plank.juna.zone.view.activity.PostCommentActivity;
 import static android.content.Context.MODE_PRIVATE;
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static com.facebook.FacebookSdk.getApplicationContext;
+import static life.plank.juna.zone.util.AppConstants.AUDIO;
+import static life.plank.juna.zone.util.AppConstants.GALLERY;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
@@ -433,23 +437,27 @@ public class UIDisplayUtil {
                     break;
                 }
                 case 3: {
-                    CameraActivity.launch(activity, activity.getString(R.string.gallery), boardId, activity.getString(R.string.intent_board_activity));
+                    if (boardId != null)
+                        CameraActivity.launch(activity, GALLERY, boardId, activity.getString(R.string.intent_board_activity));
                     break;
                 }
                 case 4: {
-                    CameraActivity.launch(activity, activity.getString(R.string.camera), boardId, activity.getString(R.string.intent_board_activity));
+                    if (boardId != null)
+                        CameraActivity.launch(activity, IMAGE, boardId, activity.getString(R.string.intent_board_activity));
                     break;
                 }
                 case 5: {
-                    CameraActivity.launch(activity, activity.getString(R.string.intent_audio), boardId, activity.getString(R.string.intent_board_activity));
+                    if (boardId != null)
+                        CameraActivity.launch(activity, AUDIO, boardId, activity.getString(R.string.intent_board_activity));
                     break;
                 }
                 case 6: {
-                    PostCommentActivity.launch(activity, boardId);
+                    if (boardId != null) PostCommentActivity.launch(activity, boardId);
                     break;
                 }
                 case 8: {
-                    CameraActivity.launch(activity, activity.getString(R.string.video), boardId, activity.getString(R.string.intent_board_activity));
+                    if (boardId != null)
+                        CameraActivity.launch(activity, VIDEO, boardId, activity.getString(R.string.intent_board_activity));
                     break;
                 }
             }

@@ -49,6 +49,7 @@
     <string name="gallery">Gallery</string>
     <string name="video">Video</string>
     <string name="image_format">image/*</string>
+    <string name="video_and_image_format">video/*, image/*</string>
     <string name="select_audio">Select Audio</string>
 
     <string name="target_type_board">Board</string>
@@ -84,5 +85,8 @@
     <string name="home_pop_up">HomePopUp</string>
     <string name="mime_type_m3u8">application/vnd.apple.mpegurl</string>
     <string name="utf_8_">utf-8</string>
+    <string name="media_type_image">image/png</string>
+    <string name="media_type_video">video/mp4</string>
+    <string name="media_type_audio">audio/mpeg</string>
 
 </resources>
