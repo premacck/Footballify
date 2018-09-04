@@ -62,7 +62,7 @@ public class MatchHighlights extends FrameLayout {
             playButton.setVisibility(GONE);
             highlightsThumbnail.setVisibility(GONE);
             webView.setWebViewClient(new WebViewClient());
-            webView.loadData(highlights.getHighlightsUrl(), "application/vnd.apple.mpegurl", "utf-8");
+            webView.loadData(highlights.getHighlightsUrl(), getContext().getString(R.string.mime_type_m3u8), getContext().getString(R.string.utf_8_));
         }
     }
 
