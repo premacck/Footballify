@@ -136,6 +136,9 @@ public interface RestApi {
     @GET("/users/{displayName}")
     Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Path("displayName") String displayName);
 
+    //working
+    @GET("/boards/{boardId}/members")
+    Observable<Response<List<User>>> getBoardMembers(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
 
     @GET("matches/{matchId}/lineups")
     Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
