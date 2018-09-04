@@ -104,7 +104,7 @@ public class TokenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Just a moment...");
+        progressDialog.setMessage(getString(R.string.just_a_moment));
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
