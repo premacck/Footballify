@@ -163,7 +163,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return PrivateBoardInfoFragment.newInstance(board.getDescription());
+                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId());
                 case 1:
                     return BoardTilesFragment.newInstance(boardId);
                 default:
