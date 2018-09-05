@@ -2,9 +2,12 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -229,6 +232,41 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
+                                int tint = ContextCompat.getColor(context, R.color.football_ground_green);
+                                holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                                holder.unlikeImageView.setVisibility(View.INVISIBLE);
+                                holder.likeCountTextView.setVisibility(View.VISIBLE);
+                                holder.likeCountTextView.setText("1.8M");
+                                holder.likeSeparator.setVisibility(View.INVISIBLE);
+                                break;
+                            default:
+                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void boardFeedItemDeleteLike(String feedItemId, FootballFeedDetailViewHolder holder) {
+        restApi.deleteLike(feedItemId,getToken(context))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
                                 break;
                             default:
                                 Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
@@ -269,6 +307,37 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
+    private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
+        restApi.deleteDisLike(feedItemId, getToken(context))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
+                                //TODO: update dislike count
+                                break;
+                            default:
+                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+
+    }
+
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
@@ -295,6 +364,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView feedDescription;
         @BindView(R.id.scroll_view)
         ScrollView scrollView;
+        @BindView(R.id.like_count)
+        TextView likeCountTextView;
+        @BindView(R.id.unlike_count)
+        TextView unlikeCountTextView;
+        @BindView(R.id.like_separator)
+        View likeSeparator;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);

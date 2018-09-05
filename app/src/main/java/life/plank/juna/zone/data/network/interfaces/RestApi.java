@@ -23,6 +23,7 @@ import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -121,6 +122,10 @@ public interface RestApi {
                                               @Query("time") String dateCreated,
                                               @Header("Authorization") String authHeader);
 
+    @DELETE("activities/{id}/likes")
+    Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
+                                              @Header("Authorization") String authHeader);
+
     //working
     @POST("activities/{id}/disLikes")
     Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
@@ -128,6 +133,10 @@ public interface RestApi {
                                                  @Query("target") String target,
                                                  @Query("time") String dateCreated,
                                                  @Header("Authorization") String authHeader);
+
+    @DELETE("activities/{id}/disLikes")
+    Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
+                                                @Header("Authorization") String authHeader);
 
     //working
     @GET("/users/{displayName}")
