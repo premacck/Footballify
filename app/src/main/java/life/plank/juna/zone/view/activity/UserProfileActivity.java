@@ -112,6 +112,12 @@ public class UserProfileActivity extends AppCompatActivity {
         CreateBoardActivity.launch(this);
     }
 
+    @OnClick(R.id.edit_profile_button)
+    public void editUserProfile(){
+        EditProfileActivity.launch(this);
+    }
+
+
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.my_boards_list);
         LinearLayoutManager horizontalLayoutManager
