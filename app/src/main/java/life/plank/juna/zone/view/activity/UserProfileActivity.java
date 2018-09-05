@@ -30,6 +30,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
@@ -71,6 +72,8 @@ public class UserProfileActivity extends AppCompatActivity {
     RecyclerView lastTransactionsList;
     @BindView(R.id.get_coins_list)
     RecyclerView getCoinsList;
+    @BindView(R.id.settings_toolbar)
+    ZoneToolBar toolbar;
 
     @BindView(R.id.logout_button)
     Button logoutButton;
@@ -101,7 +104,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-
+        toolbar.setTitle(getString(R.string.settings));
         getUserDetails();
         initRecyclerView();
         getUserBoards();
