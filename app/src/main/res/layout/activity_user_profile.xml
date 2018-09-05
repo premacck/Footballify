@@ -182,7 +182,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="@string/my_boards" />
+                    android:fontFamily="@font/raleway_semibold"
+                    android:lineSpacingExtra="3sp"
+                    android:text="@string/my_boards"
+                    android:textColor="@color/grey"
+                    android:textSize="12sp" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
