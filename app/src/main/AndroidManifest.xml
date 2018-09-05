@@ -76,6 +76,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activity.CameraActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.VideoPlayerActivity"
@@ -95,9 +96,6 @@
 
         <activity android:name=".view.activity.SwipePageActivity" />
         <activity android:name=".view.activity.AudioRecorderActivity" />
-        <activity
-            android:name=".view.activity.MatchLeagueActivity"
-            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FixtureActivity"
             android:screenOrientation="portrait" />
