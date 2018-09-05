@@ -1,51 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--<merge>-->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="80dp"
-        android:orientation="horizontal"
-        android:weightSum="20"
-        android:gravity="center_vertical">
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="22dp"
-            android:src="@drawable/img_juna_logo"
-            android:layout_weight="1"
-            android:contentDescription="@string/juna_logo" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="@color/white"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:weightSum="20">
 
-        <TextView
-            android:id="@+id/toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="16"
-            android:layout_marginStart="12dp"
-            android:fontFamily="@font/raleway_medium"
-            android:textSize="20sp"/>
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="22dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/juna_logo"
+        android:src="@drawable/img_juna_logo" />
 
-        <TextView
-            android:id="@+id/toolbar_coin_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:fontFamily="@font/rajdhani_medium"
-            android:drawableStart="@drawable/img_coin"
-            android:drawablePadding="2dp"
-            android:gravity="center_vertical"
-            android:textColor="@color/grey"
-            android:textSize="20sp"
-            android:layout_weight="1" />
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="16"
+        android:fontFamily="@font/raleway_medium"
+        android:textSize="24sp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/toolbar_profile_pic"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center"
-            android:layout_marginEnd="15dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/profile_pic" />
+    <TextView
+        android:id="@+id/toolbar_coin_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:drawablePadding="2dp"
+        android:drawableStart="@drawable/img_coin"
+        android:fontFamily="@font/rajdhani_medium"
+        android:gravity="center_vertical"
+        android:textColor="@color/grey"
+        android:textSize="20sp" />
 
-    </LinearLayout>
-<!--</merge>-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/toolbar_profile_pic"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="15dp"
+        android:layout_weight="1"
+        android:contentDescription="@string/profile_pic" />
+
+</LinearLayout>
