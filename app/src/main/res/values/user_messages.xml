@@ -9,14 +9,14 @@
     <string name="start_playing">Start playing</string>
     <string name="send">SEND</string>
     <string name="failed_to_retrieve_board">Failed to retrieve board</string>
-    <string name="could_not_process_image">Sorry could not process image</string>
-    <string name="file_too_large">file size is large</string>
+    <string name="could_not_process_image">Sorry, could not process image</string>
+    <string name="file_too_large">file size is too large</string>
     <string name="unable_to_process">Unable to process,try again</string>
     <string name="video_recording_cancelled">Video recording cancelled</string>
     <string name="video_recording_failed">Failed to record video</string>
     <string name="failed_to_process_image">Sorry could not process image</string>
     <string name="upload_successful">Upload successful</string>
-    <string name="upload_failed">Upload failed, Try again later</string>
+    <string name="upload_failed">Upload failed, please try again</string>
     <string name="line_ups_not_available">Line-ups not available yet</string>
     <string name="match_summary_not_found">Match summary not found</string>
     <string name="failed_to_get_standings">Failed to get standings</string>

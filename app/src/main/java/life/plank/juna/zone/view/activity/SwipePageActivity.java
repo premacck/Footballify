@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.SearchView;
@@ -52,6 +51,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.AUDIO;
+import static life.plank.juna.zone.util.AppConstants.GALLERY;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
@@ -278,21 +281,21 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         }
                         case 3: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_gallery));
+                            intent.putExtra(getString(R.string.intent_open_from), GALLERY);
                             intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
                         }
                         case 4: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_camera));
+                            intent.putExtra(getString(R.string.intent_open_from), IMAGE);
                             intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
                         }
                         case 5: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_audio));
+                            intent.putExtra(getString(R.string.intent_open_from), AUDIO);
                             intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
@@ -302,7 +305,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                         }
                         case 7: {
                             Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), getString(R.string.intent_video));
+                            intent.putExtra(getString(R.string.intent_open_from), VIDEO);
                             intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
                             startActivity(intent);
                             break;
