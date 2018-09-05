@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -32,6 +33,7 @@ import com.iceteck.silicompressorr.SiliCompressor;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -71,6 +73,7 @@ import static life.plank.juna.zone.util.AppConstants.TYPE_VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO_CAPTURE;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 
 public class CameraActivity extends AppCompatActivity {
@@ -266,20 +269,7 @@ public class CameraActivity extends AppCompatActivity {
                         updateUI(VIDEO);
                         Uri videoUri = data.getData();
                         path = UIDisplayUtil.getPathForVideo(videoUri, this);
-                        capturedVideoView.setVideoURI(videoUri);
-                        capturedVideoView.setOnPreparedListener(mediaPlayer -> {
-                            mediaPlayer.setLooping(true);
-                            progressBar.setVisibility(View.GONE);
-                            playBtn.setVisibility(View.VISIBLE);
-                            mHandler = new Handler();
-                            mHandler.postDelayed(() -> scrollView.smoothScrollTo(0, scrollView.getBottom()), 1500);
-                        });
-//                        try {
-//                            SiliCompressor.with(getApplicationContext()).compressVideo(videoUri, getCacheDir().getAbsolutePath());
-//                        } catch (Exception e) {
-//                            Log.d(TAG, "Video compression failed");
-//                            finish();
-//                        }
+                        new VideoCompressionTask(CameraActivity.this, videoUri, getCacheDir().getAbsolutePath()).execute();
                         break;
                     case RESULT_CANCELED:
                         finish();
@@ -490,5 +480,62 @@ public class CameraActivity extends AppCompatActivity {
             mHandler = null;
         }
         super.onDestroy();
+    }
+
+    static class VideoCompressionTask extends AsyncTask<Void, Void, String> {
+
+        private WeakReference<CameraActivity> ref;
+        private Uri videoUri;
+        private String destinationPath;
+
+        VideoCompressionTask(CameraActivity cameraActivity, Uri videoUri, String destinationPath) {
+            this.ref = new WeakReference<>(cameraActivity);
+            this.videoUri = videoUri;
+            this.destinationPath = destinationPath;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            enableOrDisableView(ref.get().postBtn, false);
+            ref.get().progressBar.setVisibility(View.VISIBLE);
+            ref.get().postBtn.setText(R.string.optimizing_video);
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            try {
+                return SiliCompressor.with(ref.get()).compressVideo(videoUri, destinationPath);
+            } catch (Exception e) {
+                Log.e(TAG, "doInBackground: Compressing video - ", e);
+            }
+            return null;
+        }
+
+        @SuppressWarnings("ResultOfMethodCallIgnored")
+        @Override
+        protected void onPostExecute(String compressedVideoPath) {
+            super.onPostExecute(compressedVideoPath);
+            enableOrDisableView(ref.get().postBtn, true);
+            ref.get().postBtn.setText(R.string.post);
+            if (compressedVideoPath != null) {
+//                Deleting original video file and using the compressed one.
+                ref.get().capturedVideoView.setVideoPath(compressedVideoPath);
+                File originalVideo = new File(videoUri.getPath());
+                if (originalVideo.exists()) {
+                    originalVideo.delete();
+                }
+            } else {
+//                Using the original video in case of compression failure.
+                ref.get().capturedVideoView.setVideoURI(videoUri);
+            }
+            ref.get().capturedVideoView.setOnPreparedListener(mediaPlayer -> {
+                mediaPlayer.setLooping(true);
+                ref.get().progressBar.setVisibility(View.GONE);
+                ref.get().playBtn.setVisibility(View.VISIBLE);
+                ref.get().mHandler = new Handler();
+                ref.get().mHandler.postDelayed(() -> ref.get().scrollView.smoothScrollTo(0, ref.get().scrollView.getBottom()), 1500);
+            });
+        }
     }
 }
