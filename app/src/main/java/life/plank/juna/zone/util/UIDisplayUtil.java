@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -590,5 +591,11 @@ public class UIDisplayUtil {
 
     private static class UIDisplayUtilWrapper {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    }
+
+    public static void enableOrDisableView(View view, boolean isEnabled) {
+        view.setEnabled(isEnabled);
+        view.setClickable(isEnabled);
+        view.setBackgroundTintList(isEnabled ? null : ColorStateList.valueOf(ZoneApplication.getContext().getColor(R.color.colorDisabled)));
     }
 }
