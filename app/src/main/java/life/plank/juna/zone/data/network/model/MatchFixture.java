@@ -6,11 +6,11 @@ import java.util.List;
 import lombok.Data;
 
 @Data
-public class ScoreFixture {
-
+public class MatchFixture {
     private Integer id;
     private Long foreignId;
     private League league;
+    private Stadium venue;
     private FootballTeam homeTeam;
     private FootballTeam awayTeam;
     private List<MatchEvent> matchEvents;
@@ -36,13 +36,4 @@ public class ScoreFixture {
     private Integer injuryTime;
     private Date matchStartTime;
     private Integer trackingState;
-
-    @Data
-    public class League {
-        private Integer id;
-        private Long foreignId;
-        private String name;
-        private Boolean isCup;
-        private Integer countryRef;
-    }
 }

@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class Stadium {
-    public Integer capacity;
-    public String name;
-    public Integer id;
-    public Integer foreignId;
-    public String surface;
-    public String address;
-    public String city;
-    public String imagePath;
+    private Integer capacity;
+    private String name;
+    private Integer id;
+    private Integer foreignId;
+    private String surface;
+    private String address;
+    private String city;
+    private String imagePath;
 }

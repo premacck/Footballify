@@ -28,6 +28,8 @@ public class MatchTeamStatsLayout extends FrameLayout {
     LinearLayout matchTeamStatsLayout;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.venue_name)
+    TextView venueName;
     @BindView(R.id.no_data)
     TextView noDataTextView;
 
@@ -125,6 +127,15 @@ public class MatchTeamStatsLayout extends FrameLayout {
         noDataTextView.setVisibility(VISIBLE);
         teamsLogoLayout.setVisibility(INVISIBLE);
         matchTeamStatsLayout.setVisibility(INVISIBLE);
+    }
+
+    public String getVenueName() {
+        return venueName.getText().toString();
+    }
+
+    public MatchTeamStatsLayout setVenueName(String venueName) {
+        this.venueName.setText(venueName);
+        return this;
     }
 
     public String getHomeTeamShots() {
