@@ -2,7 +2,9 @@ package life.plank.juna.zone.view.activity;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -54,6 +56,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSharedElementTransitionDuration(this, 200);
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
+        saveBoardId();
         boardBlurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardActivity.boardParentViewBitmap));
         populateRecyclerView();
     }
@@ -82,5 +85,11 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
         boardFeedDetailsRecyclerView.setAdapter(mAdapter);
         SnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(boardFeedDetailsRecyclerView);
+    }
+
+    public void saveBoardId() {
+        SharedPreferences.Editor boardIdEditor;
+        boardIdEditor = getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE).edit();
+        boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply();
     }
 }

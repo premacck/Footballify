@@ -137,23 +137,23 @@
                 android:background="@color/grey" />
 
             <TextView
-                android:id="@+id/unlike_count"
+                android:id="@+id/dislike_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_toStartOf="@id/dislike_image_view"
+                android:lineSpacingExtra="5sp"
                 android:text="1.8 M"
                 android:textSize="10sp"
-                android:lineSpacingExtra="5sp"
-                android:visibility="invisible"
-                android:layout_toEndOf="@id/separator"
-                android:layout_toStartOf="@id/unlike_image_view"/>
+                android:visibility="invisible" />
 
             <ImageView
                 android:id="@+id/like_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/unlike_image_view"
+                android:layout_toStartOf="@+id/dislike_image_view"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:src="@drawable/ic_arrow_up_grey" />
@@ -162,7 +162,7 @@
                 android:id="@+id/like_separator"
                 android:layout_width="0.4dp"
                 android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/unlike_image_view"
+                android:layout_toStartOf="@+id/dislike_image_view"
                 android:background="@color/grey" />
 
             <TextView
@@ -170,15 +170,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="1.8 M"
-                android:textSize="10sp"
-                android:visibility="invisible"
-                android:lineSpacingExtra="5sp"
                 android:layout_toEndOf="@id/like_image_view"
-                android:layout_toStartOf="@id/share_image_view" />
+                android:layout_toStartOf="@id/share_image_view"
+                android:lineSpacingExtra="5sp"
+                android:text=""
+                android:textSize="10sp"
+                android:visibility="invisible" />
 
             <ImageView
-                android:id="@+id/unlike_image_view"
+                android:id="@+id/dislike_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
