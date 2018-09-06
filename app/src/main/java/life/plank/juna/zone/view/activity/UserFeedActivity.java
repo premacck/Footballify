@@ -1,13 +1,14 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
+
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -18,7 +19,6 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -58,6 +58,11 @@ public class UserFeedActivity extends AppCompatActivity {
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
 
+        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
+        String userObjectId = editor.getString(getApplicationContext().getString(R.string.pref_object_id), "NA");
+
+        String topic = getString(R.string.juna_user_topic) + userObjectId;
+        FirebaseMessaging.getInstance().subscribeToTopic(topic);
         initRecyclerView();
         initZoneRecyclerView();
         getUserFeed();

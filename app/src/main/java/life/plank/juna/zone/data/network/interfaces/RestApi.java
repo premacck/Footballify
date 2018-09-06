@@ -3,6 +3,7 @@ package life.plank.juna.zone.data.network.interfaces;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.Commentary;
@@ -62,8 +63,13 @@ public interface RestApi {
     @GET("/boards")
     Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
+    //working
     @GET("/boards/myBoards")
     Observable<Response<List<Board>>> getUserBoards(@Header("Authorization") String authHeader);
+
+    //working
+    @POST("/boards/{id}/invite")
+    Observable<Response<JsonObject>> inviteUserToJoinBoard(@Body Set<User> user, @Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
     @GET("/boards/feedItems")
