@@ -42,7 +42,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getSavedAuthState;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.PreferenceManager.saveAuthState;
@@ -59,7 +58,6 @@ public class TokenActivity extends AppCompatActivity {
     private static final String KEY_USER_INFO = "userInfo";
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
-    private static final String IS_TOKEN_REFRESH_CALL = "isTokenRefreshCall";
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -68,18 +66,16 @@ public class TokenActivity extends AppCompatActivity {
     AuthorizationService mAuthService;
     private JSONObject mUserInfoJson;
     private RestApi restApi;
-    private boolean isTokenRefreshCall;
     private ProgressDialog progressDialog;
 
     public static PendingIntent createPostAuthorizationIntent(
             @NonNull Context context,
             @NonNull AuthorizationRequest request,
             @Nullable AuthorizationServiceDiscovery discoveryDoc,
-            @NonNull AuthState authState, boolean isTokenRefreshCall) {
+            @NonNull AuthState authState) {
         Intent intent = new Intent(context, TokenActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(EXTRA_AUTH_STATE, authState.jsonSerializeString());
-        intent.putExtra(IS_TOKEN_REFRESH_CALL, isTokenRefreshCall);
         if (discoveryDoc != null) {
             intent.putExtra(EXTRA_AUTH_SERVICE_DISCOVERY, discoveryDoc.docJson.toString());
         }
@@ -133,17 +129,9 @@ public class TokenActivity extends AppCompatActivity {
             AuthorizationException ex = AuthorizationException.fromIntent(getIntent());
             mAuthState.update(response, ex);
 
-            isTokenRefreshCall = getIntent().getBooleanExtra(IS_TOKEN_REFRESH_CALL, false);
             if (response != null) {
                 Log.d(TAG, "Received AuthorizationResponse.");
-                if (isTokenRefreshCall) {
-                    mAuthState = getSavedAuthState();
-                    if (mAuthState != null) {
-                        performTokenRequest(mAuthState.createTokenRefreshRequest());
-                    } else {
-                        performTokenRequest(response.createTokenExchangeRequest());
-                    }
-                } else performTokenRequest(response.createTokenExchangeRequest());
+                performTokenRequest(response.createTokenExchangeRequest());
             } else {
                 Log.e(TAG, "Authorization failed: " + ex);
             }
@@ -188,12 +176,7 @@ public class TokenActivity extends AppCompatActivity {
             saveTokens(tokenResponse.idToken, tokenResponse.refreshToken);
             saveTokensValidity(tokenResponse.additionalParameters);
         }
-        if (isTokenRefreshCall) {
-            startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
-            finish();
-        } else {
-            getSignInResponse();
-        }
+        getSignInResponse();
     }
 
     private void getSignInResponse() {

@@ -14,7 +14,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +31,6 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -55,7 +53,6 @@ import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -228,14 +225,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     protected void onDestroy() {
         super.onDestroy();
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
-    }
-
-    @OnClick(R.id.line_chart)
-    public void openTimeLine(View view) {
-        if (boardParentViewBitmap == null) {
-            boardParentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-        }
-        TimelineActivity.launch(this, view, currentMatchId);
     }
 
     public void retrieveBoardId(Long currentMatchId, String boardType) {

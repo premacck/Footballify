@@ -46,6 +46,9 @@ public class AppConstants {
     public static final String HALF_TIME = "HALF-TIME";
     public static final String FULL_TIME = "FULL-TIME";
 
+    //    TODO : this field is for demo purposes only. Remove this constant after getting real scrubber data from backend
+    public static final String FOUL = "foul";
+
     public static final String YELLOW = "yellow";
     public static final String RED = "red";
     public static final String LIVE = "LIVE";
