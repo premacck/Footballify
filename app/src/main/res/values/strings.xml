@@ -85,6 +85,7 @@
     <string name="home_pop_up">HomePopUp</string>
     <string name="mime_type_m3u8">application/vnd.apple.mpegurl</string>
     <string name="utf_8_">utf-8</string>
+    <string name="juna_user_topic">JunaUser-</string>
     <string name="media_type_image">image/png</string>
     <string name="media_type_video">video/mp4</string>
     <string name="media_type_audio">audio/mpeg</string>

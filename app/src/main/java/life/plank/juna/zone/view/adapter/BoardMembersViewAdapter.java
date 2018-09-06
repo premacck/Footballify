@@ -21,10 +21,12 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
 
     private List<User> userList;
     private Context context;
+    private String boardId;
 
-    public BoardMembersViewAdapter(List<User> userList, Context context) {
+    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId) {
         this.context = context;
         this.userList = userList;
+        this.boardId = boardId;
     }
 
     @Override
@@ -41,6 +43,7 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
 
         holder.profileImageView.setOnClickListener(view -> {
             Intent inviteToBoard = new Intent(context, InviteToBoardActivity.class);
+            inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
             inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(inviteToBoard);
         });

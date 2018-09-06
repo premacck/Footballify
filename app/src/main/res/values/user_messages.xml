@@ -39,4 +39,5 @@
     <string name="could_not_navigate_to_board">Could not navigate to board</string>
     <string name="like_failed">Failed to like feed</string>
     <string name="failed_to_retrieve_members">Failed to retrieve members</string>
+    <string name="invite_user_failed">Couldn\'t invite user</string>
 </resources>
