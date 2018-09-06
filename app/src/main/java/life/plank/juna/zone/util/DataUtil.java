@@ -435,19 +435,23 @@ public class DataUtil {
     /**
      * TODO: replace dummy List calls with list obtained from API call.
      */
-    public static class PrepareDummyChartTask extends AsyncTask<Void, Void, LineData> {
+    public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
 
-        private WeakReference<LineChart> match1LineChart;
+        private WeakReference<LineChart> lineChartRef;
         private boolean isRandom;
 
-        public PrepareDummyChartTask(LineChart match1LineChart, boolean isRandom) {
-            this.match1LineChart = new WeakReference<>(match1LineChart);
+        private ScrubberLoader(LineChart lineChart, boolean isRandom) {
+            this.lineChartRef = new WeakReference<>(lineChart);
             this.isRandom = isRandom;
+        }
+
+        public static ScrubberLoader prepare(LineChart lineChart, boolean isRandom) {
+            return new ScrubberLoader(lineChart, isRandom);
         }
 
         @Override
         protected void onPreExecute() {
-            prepareScrubber(match1LineChart.get());
+            prepareScrubber(lineChartRef.get());
         }
 
         @Override
@@ -459,8 +463,8 @@ public class DataUtil {
 
         @Override
         protected void onPostExecute(LineData lineData) {
-            match1LineChart.get().setData(lineData);
-            match1LineChart.get().invalidate();
+            lineChartRef.get().setData(lineData);
+            lineChartRef.get().invalidate();
         }
     }
 }

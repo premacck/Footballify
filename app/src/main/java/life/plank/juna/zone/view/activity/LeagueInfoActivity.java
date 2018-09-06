@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -34,6 +35,7 @@ import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
+import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -92,6 +94,10 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     CardView teamStatsLayout;
     @BindView(R.id.player_stats_layout)
     CardView playerStatsLayout;
+    @BindView(R.id.match_1_line_chart)
+    LineChart match1LineChart;
+    @BindView(R.id.match_2_line_chart)
+    LineChart match2LineChart;
 
     @Inject
     @Named("footballData")
@@ -121,7 +127,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_result);
+        setContentView(R.layout.activity_league_info);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
 
@@ -133,6 +139,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
             leagueLogo = intent.getStringExtra(getString(R.string.league_logo));
         }
 
+        prepareDummyChart();
         prepareRecyclerViews();
         getStandings();
         getTeamStats();
@@ -145,6 +152,11 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
                 .error(R.drawable.ic_place_holder)
                 .into(logo);
 
+    }
+
+    private void prepareDummyChart() {
+        ScrubberLoader.prepare(match1LineChart, true).execute();
+        ScrubberLoader.prepare(match2LineChart, false).execute();
     }
 
     public void updateBackgroundBitmap() {

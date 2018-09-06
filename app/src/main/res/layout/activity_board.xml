@@ -1,42 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:arc="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/board_parent_layout"
+    xmlns:arc="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    arc:cardBackgroundColor="@color/grey"
-    arc:cardCornerRadius="8dp"
-    arc:cardElevation="5dp">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/others_color_grey"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/board_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/board_blur_bg"
-        android:orientation="vertical">
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical"
+        arc:cardCornerRadius="8dp"
+        arc:cardElevation="8dp">
 
-        <life.plank.juna.zone.util.customview.PublicBoardToolbar
-            android:id="@+id/board_toolbar"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:useDefaults="true" />
+            android:layout_height="match_parent"
+            android:background="@drawable/board_blur_bg"
+            android:orientation="vertical">
 
-        <life.plank.juna.zone.view.fragment.GraphFragment
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <android.support.design.widget.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                <life.plank.juna.zone.util.customview.PublicBoardToolbar
+                    android:id="@+id/board_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:useDefaults="true"
+                    arc:showLock="false" />
+
+            </android.support.design.widget.AppBarLayout>
 
             <android.support.v4.view.ViewPager
                 android:id="@+id/board_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:nestedScrollingEnabled="false"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-        </RelativeLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/thumbnail"
+                android:src="@drawable/drag_handle_light" />
 
-    </LinearLayout>
+        </android.support.design.widget.CoordinatorLayout>
 
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
