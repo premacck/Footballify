@@ -7,6 +7,7 @@ import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.Commentary;
+import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
@@ -15,7 +16,6 @@ import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchSummary;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
@@ -108,9 +108,9 @@ public interface RestApi {
 
     //working
     @GET("seasons/matches")
-    Observable<Response<List<ScoreFixture>>> getScoresAndFixtures(@Query("seasonName") String seasonName,
-                                                                  @Query("leagueName") String leagueName,
-                                                                  @Query("countryName") String countryName);
+    Observable<Response<List<FixtureByMatchDay>>> getFixtures(@Query("seasonName") String seasonName,
+                                                              @Query("leagueName") String leagueName,
+                                                              @Query("countryName") String countryName);
 
     //working
     @GET("/feedEntries")

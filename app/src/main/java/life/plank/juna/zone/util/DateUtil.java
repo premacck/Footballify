@@ -12,9 +12,7 @@ import java.util.Objects;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.wasMatchYesterday;
 import static life.plank.juna.zone.util.DataUtil.formatInt;
 
 public class DateUtil {
@@ -85,25 +83,23 @@ public class DateUtil {
         }
     }
 
+    public static boolean wasMatchYesterday(Date matchStartTime) {
+        long timeDifferenceInHours = DateUtil.getDifferenceInHours((matchStartTime), new Date());
+        return timeDifferenceInHours < -24 && timeDifferenceInHours > -48;
+    }
+
     static String getFutureMatchTime(Date matchStartTime) {
         return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(matchStartTime);
     }
 
-    public static String getDateHeader(FixtureSection section, Date matchStartTime) {
-        return getCurrentSectionHeader(section, matchStartTime);
-    }
-
-    private static String getCurrentSectionHeader(FixtureSection section, Date matchStartTime) {
-        switch (section) {
-            case PAST_MATCHES:
-                if (getDateDiffFromToday(matchStartTime) == -1) {
-                    return ZoneApplication.getContext().getString(R.string.yesterday);
-                } else {
-                    return HEADER_DATE_FORMAT.format(matchStartTime);
-                }
-            case LIVE_MATCHES:
+    public static String getDateHeader(Date matchStartTime) {
+        int dateDiff = getDateDiffFromToday(matchStartTime);
+        switch (dateDiff) {
+            case -1:
+                return ZoneApplication.getContext().getString(R.string.yesterday);
+            case 0:
                 return ZoneApplication.getContext().getString(R.string.today);
-            case TOMORROWS_MATCHES:
+            case 1:
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 return HEADER_DATE_FORMAT.format(matchStartTime);

@@ -32,15 +32,10 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
-import life.plank.juna.zone.data.network.model.SectionedFixtureDate;
-import life.plank.juna.zone.data.network.model.SectionedFixtureMatchDay;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
-import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.GOAL;
@@ -52,6 +47,7 @@ import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.WIDE_SPACE;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
+import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
@@ -77,20 +73,26 @@ public class DataUtil {
         return Objects.equals(s, "null");
     }
 
-    public static String getSeparator(ScoreFixture scoreFixture, FixtureSection fixtureSection, ImageView winPointer) {
-        if (fixtureSection == PAST_MATCHES) {
-            return getPastMatchSeparator(scoreFixture, winPointer);
-        } else if (fixtureSection == LIVE_MATCHES) {
-            if (getTimeDiffFromNow(scoreFixture.getMatchStartTime()) < 0) {
-                winPointer.setVisibility(View.INVISIBLE);
-                return scoreFixture.getHomeGoals() + WIDE_DASH + scoreFixture.getAwayGoals();
-            } else {
-                winPointer.setVisibility(View.INVISIBLE);
-                return getFutureMatchTime(scoreFixture.getMatchStartTime());
-            }
-        } else {
-            winPointer.setVisibility(View.INVISIBLE);
-            return getFutureMatchTime(scoreFixture.getMatchStartTime());
+    public static String getSeparator(ScoreFixture scoreFixture, ImageView winPointer) {
+        winPointer.setVisibility(View.INVISIBLE);
+        int dateDiff = getDateDiffFromToday(scoreFixture.getMatchStartTime());
+        switch (dateDiff) {
+            case -1:
+                return ZoneApplication.getContext().getString(R.string.yesterday);
+            case 0:
+                if (getTimeDiffFromNow(scoreFixture.getMatchStartTime()) < 0) {
+                    return scoreFixture.getHomeGoals() + WIDE_DASH + scoreFixture.getAwayGoals();
+                } else {
+                    return getFutureMatchTime(scoreFixture.getMatchStartTime());
+                }
+            case 1:
+                return ZoneApplication.getContext().getString(R.string.tomorrow);
+            default:
+                if (dateDiff < -1) {
+                    return getPastMatchSeparator(scoreFixture, winPointer);
+                } else {
+                    return getFutureMatchTime(scoreFixture.getMatchStartTime());
+                }
         }
     }
 
@@ -136,31 +138,6 @@ public class DataUtil {
             }
         }
         return teamNameSeparator;
-    }
-
-    /**
-     * Removes empty sections in the sectionsList, if any.
-     */
-    public static List<SectionedFixtureMatchDay> removeEmptyMatchDays(List<SectionedFixtureMatchDay> list) {
-        List<SectionedFixtureMatchDay> newList = new ArrayList<>(list);
-        for (SectionedFixtureMatchDay fixture : newList) {
-            if (fixture.getSectionedFixtureDateList().isEmpty()) {
-                list.remove(fixture);
-            }
-        }
-        newList.clear();
-        return list;
-    }
-
-    public static List<SectionedFixtureDate> removeEmptyFixtureDates(List<SectionedFixtureDate> list) {
-        List<SectionedFixtureDate> newList = new ArrayList<>(list);
-        for (SectionedFixtureDate fixture : newList) {
-            if (fixture.getScoreFixtureList().isEmpty()) {
-                list.remove(fixture);
-            }
-        }
-        newList.clear();
-        return list;
     }
 
     public static ZoneLiveData getZoneLiveData(Intent intent, String key, Gson gson) {

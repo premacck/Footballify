@@ -12,17 +12,19 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.SectionedFixtureDate;
+import life.plank.juna.zone.data.network.model.FixtureByDate;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 
+import static life.plank.juna.zone.util.DateUtil.getDateHeader;
+
 public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdapter.FixtureDateViewHolder> {
 
-    private List<SectionedFixtureDate> sectionedFixtureDateList;
+    private List<FixtureByDate> fixtureByDateList;
     private FixtureActivity activity;
 
-    FixtureDateAdapter(List<SectionedFixtureDate> sectionedFixtureDateList, FixtureActivity activity) {
-        this.sectionedFixtureDateList = sectionedFixtureDateList;
+    FixtureDateAdapter(List<FixtureByDate> fixtureByDateList, FixtureActivity activity) {
+        this.fixtureByDateList = fixtureByDateList;
         this.activity = activity;
     }
 
@@ -33,7 +35,7 @@ public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdap
 
     @Override
     public int getItemCount() {
-        return sectionedFixtureDateList.size();
+        return fixtureByDateList.size();
     }
 
     static class FixtureDateViewHolder extends BaseRecyclerView.ViewHolder {
@@ -53,16 +55,9 @@ public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdap
 
         @Override
         public void bind() {
-            SectionedFixtureDate sectionedFixtureDate = ref.get().sectionedFixtureDateList.get(getAdapterPosition());
-
-            dateTime.setText(sectionedFixtureDate.getDate());
-            recyclerView.setAdapter(
-                    new FixtureAdapter(
-                            sectionedFixtureDate.getScoreFixtureList(),
-                            ref.get().activity,
-                            sectionedFixtureDate.getSection()
-                    )
-            );
+            FixtureByDate fixtureByDate = ref.get().fixtureByDateList.get(getAdapterPosition());
+            dateTime.setText(getDateHeader(fixtureByDate.getDate()));
+            recyclerView.setAdapter(new FixtureAdapter(fixtureByDate.getFixtures(), ref.get().activity));
         }
     }
 }
