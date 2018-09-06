@@ -3,34 +3,26 @@ package life.plank.juna.zone.util.customview;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SnapHelper;
 import android.util.AttributeSet;
 import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Highlights;
 
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-
 public class MatchHighlights extends FrameLayout {
 
-    @BindView(R.id.highlights_player)
-    WebView webView;
-    @BindView(R.id.highlights_thumbnail)
-    ImageView highlightsThumbnail;
-    @BindView(R.id.play_btn)
-    ImageView playButton;
+    @BindView(R.id.list_highlights)
+    RecyclerView highlightsRecyclerView;
 
-    private boolean areHighlightsSet;
-    private Highlights highlights;
+    private HighlightsAdapter adapter;
 
     public MatchHighlights(@NonNull Context context) {
         this(context, null);
@@ -50,28 +42,18 @@ public class MatchHighlights extends FrameLayout {
     }
 
     private void init(Context context) {
-        View rootView = inflate(context, R.layout.item_match_highlights, this);
+        View rootView = inflate(context, R.layout.item_match_highlights_layout, this);
         ButterKnife.bind(this, rootView);
-        areHighlightsSet = false;
-        webView.setScrollBarStyle(View.SCROLLBARS_INSIDE_INSET);
     }
 
-    @OnClick(R.id.play_btn)
-    public void playVideo() {
-        if (highlights != null && areHighlightsSet) {
-            playButton.setVisibility(GONE);
-            highlightsThumbnail.setVisibility(GONE);
-            webView.setWebViewClient(new WebViewClient());
-            webView.loadData(highlights.getHighlightsUrl(), getContext().getString(R.string.mime_type_m3u8), getContext().getString(R.string.utf_8_));
-        }
+    public void setAdapter(HighlightsAdapter adapter) {
+        this.adapter = adapter;
+        SnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(highlightsRecyclerView);
+        highlightsRecyclerView.setAdapter(this.adapter);
     }
 
-    public void setHighlights(Picasso picasso, Highlights highlights) {
-        this.highlights = highlights;
-        if (!isNullOrEmpty(highlights.getHighlightsThumbUrl()) && !highlights.getHighlightsThumbUrl().equals("TBA")) {
-            picasso.load(highlights.getHighlightsThumbUrl())
-                    .into(highlightsThumbnail);
-        }
-        areHighlightsSet = true;
+    public void setHighlights(List<Highlights> highlights) {
+        adapter.update(highlights);
     }
 }
