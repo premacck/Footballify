@@ -30,7 +30,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.ScoreFixture;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
@@ -73,68 +73,68 @@ public class DataUtil {
         return Objects.equals(s, "null");
     }
 
-    public static String getSeparator(ScoreFixture scoreFixture, ImageView winPointer) {
+    public static String getSeparator(MatchFixture matchFixture, ImageView winPointer) {
         winPointer.setVisibility(View.INVISIBLE);
-        int dateDiff = getDateDiffFromToday(scoreFixture.getMatchStartTime());
+        int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
         switch (dateDiff) {
             case -1:
                 return ZoneApplication.getContext().getString(R.string.yesterday);
             case 0:
-                if (getTimeDiffFromNow(scoreFixture.getMatchStartTime()) < 0) {
-                    return scoreFixture.getHomeGoals() + WIDE_DASH + scoreFixture.getAwayGoals();
+                if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
+                    return matchFixture.getHomeGoals() + WIDE_DASH + matchFixture.getAwayGoals();
                 } else {
-                    return getFutureMatchTime(scoreFixture.getMatchStartTime());
+                    return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }
             case 1:
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 if (dateDiff < -1) {
-                    return getPastMatchSeparator(scoreFixture, winPointer);
+                    return getPastMatchSeparator(matchFixture, winPointer);
                 } else {
-                    return getFutureMatchTime(scoreFixture.getMatchStartTime());
+                    return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }
         }
     }
 
-    private static String getPastMatchSeparator(ScoreFixture scoreFixture, ImageView winPointer) {
+    private static String getPastMatchSeparator(MatchFixture matchFixture, ImageView winPointer) {
         String teamNameSeparator;
-        if (scoreFixture.getAwayTeamPenaltyScore() == 0 && scoreFixture.getHomeTeamPenaltyScore() == 0) {
-            if (scoreFixture.getHomeGoals() > scoreFixture.getAwayGoals()) {
+        if (matchFixture.getAwayTeamPenaltyScore() == 0 && matchFixture.getHomeTeamPenaltyScore() == 0) {
+            if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(R.drawable.ic_win_home);
-                teamNameSeparator = scoreFixture.getHomeGoals() + WIDE_SPACE +
-                        scoreFixture.getAwayGoals();
-            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()) {
+                teamNameSeparator = matchFixture.getHomeGoals() + WIDE_SPACE +
+                        matchFixture.getAwayGoals();
+            } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(R.drawable.ic_win_away);
-                teamNameSeparator = scoreFixture.getHomeGoals() + WIDE_SPACE +
-                        scoreFixture.getAwayGoals();
+                teamNameSeparator = matchFixture.getHomeGoals() + WIDE_SPACE +
+                        matchFixture.getAwayGoals();
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = scoreFixture.getHomeGoals() + WIDE_DASH +
-                        scoreFixture.getAwayGoals();
+                teamNameSeparator = matchFixture.getHomeGoals() + WIDE_DASH +
+                        matchFixture.getAwayGoals();
             }
         } else {
-            if (scoreFixture.getHomeGoals() > scoreFixture.getAwayGoals()) {
+            if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(R.drawable.ic_win_home);
-                teamNameSeparator = scoreFixture.getHomeGoals() +
-                        "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + WIDE_SPACE +
-                        "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
-                        scoreFixture.getAwayGoals();
-            } else if (scoreFixture.getAwayGoals() > scoreFixture.getHomeGoals()) {
+                teamNameSeparator = matchFixture.getHomeGoals() +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + WIDE_SPACE +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
+                        matchFixture.getAwayGoals();
+            } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(R.drawable.ic_win_away);
-                teamNameSeparator = scoreFixture.getHomeGoals() +
-                        "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + WIDE_SPACE +
-                        "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
-                        scoreFixture.getAwayGoals();
+                teamNameSeparator = matchFixture.getHomeGoals() +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + WIDE_SPACE +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
+                        matchFixture.getAwayGoals();
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = scoreFixture.getHomeGoals() +
-                        "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" + WIDE_DASH +
-                        "(" + scoreFixture.getHomeTeamPenaltyScore() + ")" +
-                        scoreFixture.getAwayGoals();
+                teamNameSeparator = matchFixture.getHomeGoals() +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + WIDE_DASH +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
+                        matchFixture.getAwayGoals();
             }
         }
         return teamNameSeparator;

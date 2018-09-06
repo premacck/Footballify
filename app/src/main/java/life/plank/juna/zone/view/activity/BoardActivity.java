@@ -36,7 +36,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.MatchSummary;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
@@ -262,7 +262,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         footballRestApi.getMatchDetails(currentMatchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<MatchSummary>>() {
+                .subscribe(new Observer<Response<MatchFixture>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "getMatchDetails() : onCompleted");
@@ -275,10 +275,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                     }
 
                     @Override
-                    public void onNext(Response<MatchSummary> response) {
+                    public void onNext(Response<MatchFixture> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                MatchSummary matchSummary = response.body();
+                                MatchFixture matchSummary = response.body();
                                 if (matchSummary != null) {
                                     setUpToolbar(
                                             matchSummary.getMatchDay(),

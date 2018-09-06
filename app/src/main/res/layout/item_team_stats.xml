@@ -22,7 +22,7 @@
             android:fontFamily="@font/raleway_semibold"
             android:textSize="12sp"
             android:textColor="@color/grey"
-            android:text="@string/team_stats" />
+            android:text="@string/match_stats" />
 
         <android.support.v4.widget.Space
             android:id="@+id/center_space"
@@ -32,6 +32,7 @@
             android:layout_centerHorizontal="true" />
 
         <TextView
+            android:id="@+id/venue_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"

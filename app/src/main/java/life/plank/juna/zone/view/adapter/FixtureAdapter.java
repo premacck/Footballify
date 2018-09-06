@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.ScoreFixture;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.activity.FixtureActivity;
@@ -23,11 +23,11 @@ import static life.plank.juna.zone.util.UIDisplayUtil.alternateBackgroundColor;
 
 public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.FixtureViewHolder> {
 
-    private List<ScoreFixture> scoreFixtureList;
+    private List<MatchFixture> matchFixtureList;
     private FixtureActivity activity;
 
-    FixtureAdapter(List<ScoreFixture> scoreFixtureList, FixtureActivity activity) {
-        this.scoreFixtureList = scoreFixtureList;
+    FixtureAdapter(List<MatchFixture> matchFixtureList, FixtureActivity activity) {
+        this.matchFixtureList = matchFixtureList;
         this.activity = activity;
     }
 
@@ -41,7 +41,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
     @Override
     public int getItemCount() {
-        return scoreFixtureList.size();
+        return matchFixtureList.size();
     }
 
     static class FixtureViewHolder extends BaseRecyclerView.ViewHolder {
@@ -60,7 +60,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
         TextView visitingTeamName;
 
         private final WeakReference<FixtureAdapter> ref;
-        private ScoreFixture scoreFixture;
+        private MatchFixture scoreFixture;
 
         FixtureViewHolder(View itemView, FixtureAdapter adapter) {
             super(itemView);
@@ -70,7 +70,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
         @Override
         public void bind() {
-            scoreFixture = ref.get().scoreFixtureList.get(getAdapterPosition());
+            scoreFixture = ref.get().matchFixtureList.get(getAdapterPosition());
             alternateBackgroundColor(itemView, getAdapterPosition());
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 ref.get().activity.picasso
