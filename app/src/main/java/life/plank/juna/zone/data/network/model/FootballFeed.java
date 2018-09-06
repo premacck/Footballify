@@ -49,6 +49,7 @@ public class FootballFeed {
     @Data
     public class Interactions {
         private Integer likes;
+        private Integer dislikes;
         private Integer shares;
         private Integer pins;
         private Integer comments;

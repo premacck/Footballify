@@ -6,5 +6,5 @@ package life.plank.juna.zone.interfaces;
 
 @FunctionalInterface
 public interface OnItemClickListener {
-    void onItemClicked(int positon);
+    void onItemClicked(String objectId, Boolean isSelected);
 }

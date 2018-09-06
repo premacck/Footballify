@@ -64,12 +64,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     RecyclerView privateBoardIconList;
     @BindView(R.id.upload_board_icon)
     Button uploadBoardIcon;
-    @BindView(R.id.board_type_radio_group)
-    RadioGroup boardTypeRadioGroup;
-    @BindView(R.id.toggle_public_board)
-    RadioButton togglePublicBoard;
-    @BindView(R.id.toggle_private_board)
-    RadioButton togglePrivateBoard;
+
     @BindView(R.id.create_board_button)
     Button createPrivateBoard;
     @Inject
@@ -114,7 +109,7 @@ public class CreateBoardActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         createBoard(new Board(
                 boardName.getText().toString().trim(),
-                getString(boardTypeRadioGroup.getCheckedRadioButtonId() == R.id.toggle_public_board ? R.string.public_lowercase : R.string.private_lowercase),
+                getString(R.string.private_lowercase),
                 zone.toLowerCase().trim(),
                 boardDescription.getText().toString().trim(),
                 boardColorThemeAdapter.getSelectedColor()

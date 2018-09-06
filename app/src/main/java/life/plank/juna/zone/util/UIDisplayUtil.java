@@ -382,6 +382,7 @@ public class UIDisplayUtil {
 
     public static void setupBoomMenu(Activity activity, ArcMenu arcMenu, String boardId) {
         arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
+        arcMenu.setDuration(250);
         int[] fabImages = getBoomMenuFabImages();
         int[] backgroundColors = getBoomMenuBackgroundColors();
         String[] titles = getBoomMenuTitles(activity);

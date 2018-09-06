@@ -6,6 +6,8 @@
     <color name="colorDisabled">#19000000</color>
     <color name="mainGradientStart">#c86dd7</color>
     <color name="mainGradientEnd">#3023ae</color>
+    <color name="mainGradientTranslucentStart">#4c913baf</color>
+    <color name="mainGradientTranslucentEnd">#00913baf</color>
     <color name="white">#FFFFFF</color>
     <color name="off_white">#b3ffffff</color>
     <color name="black">#000000</color>
@@ -52,4 +54,6 @@
     <color name="commentary_red">#d0021b</color>
     <color name="darkish_pink">#dd5873</color>
     <color name="red_pink">#ef3e56</color>
+    <color name="salmon">#ff7979</color>
+    <color name="frog_green">#66bd06</color>
 </resources>

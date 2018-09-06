@@ -9,12 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -30,7 +30,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
-public class PublicBoardToolbar extends LinearLayout implements CustomViewListener, EngagementInfoTilesToolbar {
+public class PublicBoardToolbar extends Toolbar implements CustomViewListener, EngagementInfoTilesToolbar {
 
     @BindView(R.id.logo)
     ImageView leagueLogoView;
@@ -54,6 +54,8 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     @BindView(R.id.likes_count)
     TextView likesCountView;
 
+    @BindView(R.id.lock)
+    ImageView lockImageView;
     @BindView(R.id.board_type_title)
     TextView boardTitleView;
     @BindView(R.id.info_tiles_tab_layout)
@@ -74,11 +76,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     }
 
     public PublicBoardToolbar(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
-    }
-
-    public PublicBoardToolbar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
+        super(context, attrs, defStyleAttr);
         init(context, attrs);
     }
 
@@ -93,9 +91,9 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
             return;
         }
         setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
-        setLeagueLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.img_epl_logo));
-        setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_arsenal_logo));
-        setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, R.drawable.ic_blackpool_logo));
+        setLeagueLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
+        setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
+        setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setPeopleCount(array.getString(R.styleable.PublicBoardToolbar_peopleCount));
         setCommentCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
         setLikesCount(array.getString(R.styleable.PublicBoardToolbar_likesCount));
@@ -178,7 +176,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
 
     @Override
     public void setLeagueLogo(@DrawableRes int resource) {
-        leagueLogoView.setImageResource(resource);
+        if (resource != 0) leagueLogoView.setImageResource(resource);
     }
 
     public void setHomeTeamLogo(Picasso picasso, String logoUrl) {
@@ -190,7 +188,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     }
 
     public void setHomeTeamLogo(@DrawableRes int resource) {
-        homeTeamLogoView.setImageResource(resource);
+        if (resource != 0) homeTeamLogoView.setImageResource(resource);
     }
 
     public void setVisitingTeamLogo(Picasso picasso, String logoUrl) {
@@ -202,7 +200,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
     }
 
     public void setVisitingTeamLogo(@DrawableRes int resource) {
-        visitingTeamLogoView.setImageResource(resource);
+        if (resource != 0) visitingTeamLogoView.setImageResource(resource);
     }
 
     @Override
@@ -227,10 +225,7 @@ public class PublicBoardToolbar extends LinearLayout implements CustomViewListen
 
     @Override
     public void showLock(boolean showLock) {
-        boardTitleView.setCompoundDrawablesWithIntrinsicBounds(
-                showLock ? R.drawable.ic_lock : 0,
-                0, 0, 0
-        );
+        lockImageView.setVisibility(showLock ? VISIBLE : GONE);
     }
 
     public boolean isFavourite() {

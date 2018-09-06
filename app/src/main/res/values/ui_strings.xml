@@ -171,7 +171,8 @@
     <string name="report_board_popup">&#160;&#160;Report Board</string>
     <string name="cannot_find_user_boards">Cannot find boards for user</string>
     <string name="match_highlights">Match Highlights</string>
-    <string name="just_a_moment">Just a moment...</string>
+    <string name="just_a_moment">Just a moment…</string>
     <string name="optimizing_video">Optimizing video</string>
     <string name="settings">Settings</string>
+    <string name="scrubber">Scrubber</string>
 </resources>

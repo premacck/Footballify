@@ -11,6 +11,12 @@
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/scrubber"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/background_color" />
+
         <life.plank.juna.zone.util.customview.MatchHighlights
             android:id="@+id/item_match_highlights"
             android:visibility="gone"

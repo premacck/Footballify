@@ -129,6 +129,70 @@
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
+            <View
+                android:id="@+id/separator"
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/like_image_view"
+                android:background="@color/grey" />
+
+            <TextView
+                android:id="@+id/dislike_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_toStartOf="@id/dislike_image_view"
+                android:lineSpacingExtra="5sp"
+                android:text="1.8 M"
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/like_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/dislike_image_view"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:src="@drawable/ic_arrow_up_grey" />
+
+            <View
+                android:id="@+id/like_separator"
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/dislike_image_view"
+                android:background="@color/grey" />
+
+            <TextView
+                android:id="@+id/like_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/like_image_view"
+                android:layout_toStartOf="@id/share_image_view"
+                android:lineSpacingExtra="5sp"
+                android:text=""
+                android:textSize="10sp"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/dislike_image_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/share_image_view"
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:src="@drawable/ic_arrow_down_grey" />
+
+            <View
+                android:layout_width="0.4dp"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/share_image_view"
+                android:background="@color/grey" />
+
             <ImageView
                 android:id="@+id/share_image_view"
                 android:layout_width="wrap_content"
@@ -138,44 +202,6 @@
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
                 android:src="@drawable/ic_share_grey" />
-
-            <View
-                android:layout_width="0.4dp"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/share_image_view"
-                android:background="@color/grey" />
-
-            <ImageView
-                android:id="@+id/like_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/share_image_view"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:src="@drawable/ic_arrow_up_grey" />
-
-            <View
-                android:layout_width="0.4dp"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/unlike_image_view"
-                android:background="@color/grey" />
-
-            <ImageView
-                android:id="@+id/unlike_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/like_image_view"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:src="@drawable/ic_arrow_down_grey" />
-
-            <View
-                android:layout_width="0.4dp"
-                android:layout_height="match_parent"
-                android:layout_toStartOf="@+id/like_image_view"
-                android:background="@color/grey" />
 
         </RelativeLayout>
 

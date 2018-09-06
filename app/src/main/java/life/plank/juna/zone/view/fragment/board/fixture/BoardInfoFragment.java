@@ -10,17 +10,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -30,12 +33,14 @@ import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.util.customview.CommentarySmall;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
 import life.plank.juna.zone.util.customview.LineupLayout;
 import life.plank.juna.zone.util.customview.MatchHighlights;
 import life.plank.juna.zone.util.customview.MatchTeamStatsLayout;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
+import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.adapter.CommentaryAdapter;
 import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
 import retrofit2.Response;
@@ -69,6 +74,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     MatchTeamStatsLayout matchTeamStatsLayout;
     @BindView(R.id.item_line_up)
     LineupLayout lineupLayout;
+    @BindView(R.id.scrubber)
+    LineChart scrubber;
 
     @Inject
     @Named("footballData")
@@ -122,6 +129,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         getMatchTeamStats();
         getLineupFormation();
         getMatchEvents();
+
+        ScrubberLoader.prepare(scrubber, false).execute();
         return rootView;
     }
 
@@ -135,6 +144,14 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public void onPause() {
         super.onPause();
         commentarySmall.dispose();
+    }
+
+    @OnClick(R.id.scrubber)
+    public void openTimeLine(View view) {
+        if (boardParentViewBitmap == null) {
+            boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
+        }
+        TimelineActivity.launch(getActivity(), view, matchId);
     }
 
     @SuppressWarnings("ConstantConditions")

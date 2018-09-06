@@ -3,6 +3,7 @@ package life.plank.juna.zone.data.network.interfaces;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.Commentary;
@@ -23,6 +24,7 @@ import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -62,8 +64,13 @@ public interface RestApi {
     @GET("/boards")
     Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
+    //working
     @GET("/boards/myBoards")
     Observable<Response<List<Board>>> getUserBoards(@Header("Authorization") String authHeader);
+
+    //working
+    @POST("/boards/{id}/invite")
+    Observable<Response<JsonObject>> inviteUserToJoinBoard(@Body Set<User> user, @Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
     @GET("/boards/feedItems")
@@ -121,6 +128,10 @@ public interface RestApi {
                                               @Query("time") String dateCreated,
                                               @Header("Authorization") String authHeader);
 
+    @DELETE("activities/{id}/likes")
+    Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
+                                              @Header("Authorization") String authHeader);
+
     //working
     @POST("activities/{id}/disLikes")
     Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
@@ -128,6 +139,10 @@ public interface RestApi {
                                                  @Query("target") String target,
                                                  @Query("time") String dateCreated,
                                                  @Header("Authorization") String authHeader);
+
+    @DELETE("activities/{id}/disLikes")
+    Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
+                                                @Header("Authorization") String authHeader);
 
     //working
     @GET("/users/{displayName}")
