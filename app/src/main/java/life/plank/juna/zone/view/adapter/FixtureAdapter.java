@@ -14,7 +14,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.activity.FixtureActivity;
@@ -26,12 +25,10 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
     private List<ScoreFixture> scoreFixtureList;
     private FixtureActivity activity;
-    private FixtureSection section;
 
-    FixtureAdapter(List<ScoreFixture> scoreFixtureList, FixtureActivity activity, FixtureSection section) {
+    FixtureAdapter(List<ScoreFixture> scoreFixtureList, FixtureActivity activity) {
         this.scoreFixtureList = scoreFixtureList;
         this.activity = activity;
-        this.section = section;
     }
 
     @Override
@@ -94,7 +91,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
             homeTeamName.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamName.setText(scoreFixture.getAwayTeam().getName());
-            separatorView.setText(getSeparator(scoreFixture, ref.get().section, winPointer));
+            separatorView.setText(getSeparator(scoreFixture, winPointer));
         }
 
         @OnClick(R.id.root_layout)

@@ -5,23 +5,16 @@ import java.util.List;
 
 import lombok.Data;
 
-//todo: streamline this model in next pull request
 @Data
 public class ScoreFixture {
 
     private Integer id;
     private Long foreignId;
     private League league;
-    private Integer leagueRef;
-    private Integer seasonRef;
     private FootballTeam homeTeam;
-    private Integer homeTeamRef;
     private FootballTeam awayTeam;
-    private Integer awayTeamRef;
-    private Integer venueRef;
-    private List<MatchEvent> matchEvents = null;
-    private Integer homeTeamMatchSummaryRef;
-    private Integer awayTeamMatchSummaryRef;
+    private List<MatchEvent> matchEvents;
+    private List<Commentary> commentary;
     private Integer matchDay;
     private Integer homeGoals;
     private Integer awayGoals;
@@ -46,15 +39,10 @@ public class ScoreFixture {
 
     @Data
     public class League {
-
         private Integer id;
         private Long foreignId;
         private String name;
         private Boolean isCup;
         private Integer countryRef;
     }
-
 }
-
-
-
