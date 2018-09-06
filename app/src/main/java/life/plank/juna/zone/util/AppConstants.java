@@ -84,4 +84,8 @@ public class AppConstants {
     public static final String GALLERY = "Gallery";
     public static final String TYPE_VIDEO = "video/";
     public static final String TYPE_IMAGE = "image/";
+
+    public static final String PAST_MATCHES = "PAST_MATCHES";
+    public static final String TODAY_MATCHES = "TODAY_MATCHES";
+    public static final String SCHEDULED_MATCHES = "SCHEDULED_MATCHES";
 }

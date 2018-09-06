@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,8 +30,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.ScoreFixture;
-import life.plank.juna.zone.data.network.model.SectionedFixtureMatchDay;
+import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -38,9 +38,8 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.LIVE_MATCHES;
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.FixtureSection.PAST_MATCHES;
-import static life.plank.juna.zone.domain.service.FootballFixtureClassifierService.classifyByMatchDay;
+import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
+import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.LeagueInfoActivity.matchStatsParentViewBitmap;
@@ -100,21 +99,21 @@ public class FixtureActivity extends AppCompatActivity {
         leagueName = intent.getStringExtra(getString(R.string.league_name));
         countryName = intent.getStringExtra(getString(R.string.country_name));
 
-        populatePastMatchFixtureRecyclerView();
-        getScoreFixture();
+        prepareRecyclerView();
+        getFixtures();
     }
 
-    public void populatePastMatchFixtureRecyclerView() {
+    public void prepareRecyclerView() {
         fixtureMatchdayAdapter = new FixtureMatchdayAdapter(this);
         fixtureRecyclerView.setAdapter(fixtureMatchdayAdapter);
     }
 
-    public void getScoreFixture() {
+    public void getFixtures() {
         progressBar.setVisibility(View.VISIBLE);
-        restApi.getScoresAndFixtures(seasonName, leagueName, countryName)
+        restApi.getFixtures(seasonName, leagueName, countryName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<ScoreFixture>>>() {
+                .subscribe(new Observer<Response<List<FixtureByMatchDay>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -128,13 +127,13 @@ public class FixtureActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<List<ScoreFixture>> response) {
+                    public void onNext(Response<List<FixtureByMatchDay>> response) {
                         progressBar.setVisibility(View.GONE);
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                List<ScoreFixture> scoreFixtureList = response.body();
-                                if (scoreFixtureList != null) {
-                                    new UpdateAdapterTask(FixtureActivity.this, scoreFixtureList, fixtureMatchdayAdapter).execute();
+                                List<FixtureByMatchDay> fixtureByMatchDayList = response.body();
+                                if (fixtureByMatchDayList != null) {
+                                    new UpdateAdapterTask(FixtureActivity.this, fixtureByMatchDayList, fixtureMatchdayAdapter).execute();
                                 } else onNoMatchesFound();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -157,16 +156,16 @@ public class FixtureActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private static class UpdateAdapterTask extends AsyncTask<Void, Void, List<SectionedFixtureMatchDay>> {
+    private static class UpdateAdapterTask extends AsyncTask<Void, Void, Void> {
 
         private WeakReference<FixtureActivity> ref;
-        private List<ScoreFixture> scoreFixtureList;
+        private List<FixtureByMatchDay> fixtureByMatchDayList;
         private FixtureMatchdayAdapter fixtureMatchdayAdapter;
         private int recyclerViewScrollIndex = 0;
 
-        private UpdateAdapterTask(FixtureActivity activity, List<ScoreFixture> scoreFixtureList, FixtureMatchdayAdapter fixtureMatchdayAdapter) {
+        private UpdateAdapterTask(FixtureActivity activity, List<FixtureByMatchDay> fixtureByMatchDayList, FixtureMatchdayAdapter fixtureMatchdayAdapter) {
             this.ref = new WeakReference<>(activity);
-            this.scoreFixtureList = scoreFixtureList;
+            this.fixtureByMatchDayList = fixtureByMatchDayList;
             this.fixtureMatchdayAdapter = fixtureMatchdayAdapter;
         }
 
@@ -176,20 +175,19 @@ public class FixtureActivity extends AppCompatActivity {
         }
 
         @Override
-        protected List<SectionedFixtureMatchDay> doInBackground(Void... voids) {
-            List<SectionedFixtureMatchDay> sectionedFixtureMatchDayList = classifyByMatchDay(scoreFixtureList);
-            for (SectionedFixtureMatchDay matchDay : sectionedFixtureMatchDayList) {
-                if (matchDay.getSection() == PAST_MATCHES || matchDay.getSection() == LIVE_MATCHES) {
-                    recyclerViewScrollIndex = sectionedFixtureMatchDayList.indexOf(matchDay);
+        protected Void doInBackground(Void... voids) {
+            for (FixtureByMatchDay matchDay : fixtureByMatchDayList) {
+                if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES) || Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {
+                    recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay);
                 }
             }
-            return sectionedFixtureMatchDayList;
+            return null;
         }
 
         @Override
-        protected void onPostExecute(List<SectionedFixtureMatchDay> sectionedFixtureMatchDays) {
+        protected void onPostExecute(Void aVoid) {
             if (fixtureMatchdayAdapter != null) {
-                fixtureMatchdayAdapter.update(sectionedFixtureMatchDays);
+                fixtureMatchdayAdapter.update(fixtureByMatchDayList);
             }
             if (ref.get() != null) {
                 ref.get().progressBar.setVisibility(View.GONE);
