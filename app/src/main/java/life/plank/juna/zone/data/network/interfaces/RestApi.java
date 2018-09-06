@@ -65,7 +65,7 @@ public interface RestApi {
     Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/boards/myBoards")
+    @GET("/boards/createdBy")
     Observable<Response<List<Board>>> getUserBoards(@Header("Authorization") String authHeader);
 
     //working
