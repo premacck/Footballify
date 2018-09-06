@@ -39,18 +39,20 @@
                     android:textColor="@color/grey"
                     android:textSize="12sp" />
 
-                <life.plank.juna.zone.view.fragment.GraphFragment
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/match_1_line_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp" />
+                    android:layout_height="100dp" />
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="@color/light_grey" />
 
-                <life.plank.juna.zone.view.fragment.GraphFragment
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/match_2_line_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="70dp" />
+                    android:layout_height="100dp" />
 
                 <TextView
                     android:id="@+id/see_all_fixtures"

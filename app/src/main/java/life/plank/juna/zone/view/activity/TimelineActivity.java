@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.LineChart;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 
@@ -32,9 +33,10 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
 import retrofit2.Response;
 import rx.Observer;
@@ -62,6 +64,8 @@ public class TimelineActivity extends AppCompatActivity {
     TextView headerView;
     @BindView(R.id.timeline_recycler_view)
     RecyclerView timelineRecyclerView;
+    @BindView(R.id.scrubber)
+    LineChart scrubber;
 
     @Inject
     @Named("footballData")
@@ -107,6 +111,8 @@ public class TimelineActivity extends AppCompatActivity {
         }
         initRecyclerView();
         getTimeLineEvents();
+
+        ScrubberLoader.prepare(scrubber, false).execute();
     }
 
     @Override

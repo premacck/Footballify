@@ -191,7 +191,7 @@ public class FixtureActivity extends AppCompatActivity {
             if (fixtureMatchdayAdapter != null) {
                 fixtureMatchdayAdapter.update(sectionedFixtureMatchDays);
             }
-            if (ref != null) {
+            if (ref.get() != null) {
                 ref.get().progressBar.setVisibility(View.GONE);
                 ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
             }
