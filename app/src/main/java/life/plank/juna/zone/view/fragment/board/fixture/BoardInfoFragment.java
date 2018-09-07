@@ -240,7 +240,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         List<Highlights> highlights = response.body();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
+                                if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsLink() != null) {
                                     matchHighlightsLayout.setVisibility(View.VISIBLE);
                                     matchHighlightsLayout.setHighlights(highlights);
                                 } else
