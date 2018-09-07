@@ -9,6 +9,7 @@ import life.plank.juna.zone.view.activity.BoardPreviewActivity;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
+import life.plank.juna.zone.view.activity.EditProfileActivity;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoActivity;
@@ -87,6 +88,8 @@ public interface UiComponent {
     void inject(SplashScreenActivity splashScreenActivity);
 
     void inject(UserBoardsAdapter userBoardsAdapter);
+
+    void inject(EditProfileActivity editProfileActivity);
 
     @Subcomponent.Builder
     interface Builder {
