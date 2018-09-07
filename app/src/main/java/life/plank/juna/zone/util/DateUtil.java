@@ -105,4 +105,12 @@ public class DateUtil {
                 return HEADER_DATE_FORMAT.format(matchStartTime);
         }
     }
+
+    static String getDateForScrubber(long milliSeconds) {
+        try {
+            return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(new Date(milliSeconds));
+        } catch (Exception e) {
+            return String.valueOf(milliSeconds);
+        }
+    }
 }

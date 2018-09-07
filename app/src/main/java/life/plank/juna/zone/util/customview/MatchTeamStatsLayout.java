@@ -89,7 +89,7 @@ public class MatchTeamStatsLayout extends FrameLayout {
     }
 
     private void init(Context context) {
-        View rootView = inflate(context, R.layout.item_team_stats, this);
+        View rootView = inflate(context, R.layout.item_match_stats, this);
         ButterKnife.bind(this, rootView);
     }
 
@@ -98,7 +98,9 @@ public class MatchTeamStatsLayout extends FrameLayout {
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
-        setHomeTeamShots(matchTeamStats.getHomeShots())
+//        TODO : set actual venue name in next pull request.
+        setVenueName("")
+                .setHomeTeamShots(matchTeamStats.getHomeShots())
                 .setVisitingTeamShots(matchTeamStats.getAwayShots())
                 .setHomeTeamShotsOnTarget(matchTeamStats.getHomeShotsOnTarget())
                 .setVisitingTeamShotsOnTarget(matchTeamStats.getAwayShotsOnTarget())
@@ -127,6 +129,12 @@ public class MatchTeamStatsLayout extends FrameLayout {
         noDataTextView.setVisibility(VISIBLE);
         teamsLogoLayout.setVisibility(INVISIBLE);
         matchTeamStatsLayout.setVisibility(INVISIBLE);
+    }
+
+    public void setLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? VISIBLE : GONE);
+        teamsLogoLayout.setVisibility(isLoading ? GONE : VISIBLE);
+        matchTeamStatsLayout.setVisibility(isLoading ? GONE : VISIBLE);
     }
 
     public String getVenueName() {
