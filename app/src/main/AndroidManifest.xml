@@ -139,6 +139,7 @@
         <activity android:name=".view.activity.CommentaryActivity" />
         <activity android:name=".view.activity.BoardPreviewActivity" />
         <activity android:name=".view.activity.EditProfileActivity" />
+        <activity android:name=".view.activity.JoinBoardActivity" />
     </application>
 
 </manifest>

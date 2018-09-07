@@ -88,6 +88,9 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle));
         setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_pvt_board));
         shareBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
+        optionsMenu.setVisibility(array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
+        followBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
+        infoTilesTabLayout.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false));
         array.recycle();
     }
