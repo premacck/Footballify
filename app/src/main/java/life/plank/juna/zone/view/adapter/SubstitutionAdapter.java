@@ -19,7 +19,7 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
 
     private List<MatchEvent> matchEventList;
 
-    SubstitutionAdapter() {
+    public SubstitutionAdapter() {
         matchEventList = new ArrayList<>();
     }
 

@@ -157,7 +157,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void seeAllClicked() {
+    public void seeAllClicked(View view) {
         if (!isNullOrEmpty(commentarySmall.getCommentaryList())) {
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(getActivity().getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getActivity());
