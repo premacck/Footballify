@@ -13,7 +13,7 @@ import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchSummary;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.SignUpModel;
@@ -174,6 +174,6 @@ public interface RestApi {
     Observable<Response<MatchTeamStats>> getTeamStatsForMatch(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}")
-    Observable<Response<MatchSummary>> getMatchDetails(@Path("matchId") long matchId);
+    Observable<Response<MatchFixture>> getMatchDetails(@Path("matchId") long matchId);
 
 }

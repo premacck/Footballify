@@ -11,7 +11,7 @@ import java.util.Objects;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.ScoreFixture;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 
 import static life.plank.juna.zone.util.DataUtil.formatInt;
 
@@ -65,20 +65,20 @@ public class DateUtil {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
 
-    public static String getFormattedDate(Context context, ScoreFixture scoreFixture) {
-        if (Objects.equals(scoreFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
+    public static String getFormattedDate(Context context, MatchFixture matchFixture) {
+        if (Objects.equals(matchFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
             return "FT, " +
-                    (wasMatchYesterday(scoreFixture.getMatchStartTime()) ?
+                    (wasMatchYesterday(matchFixture.getMatchStartTime()) ?
                             context.getString(R.string.yesterday) :
-                            new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime()));
+                            new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault()).format(matchFixture.getMatchStartTime()));
         } else {
-            switch (getDateDiffFromToday(scoreFixture.getMatchStartTime())) {
+            switch (getDateDiffFromToday(matchFixture.getMatchStartTime())) {
                 case 0:
                     return context.getString(R.string.today);
                 case 1:
                     return context.getString(R.string.tomorrow);
                 default:
-                    return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(scoreFixture.getMatchStartTime());
+                    return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(matchFixture.getMatchStartTime());
             }
         }
     }
