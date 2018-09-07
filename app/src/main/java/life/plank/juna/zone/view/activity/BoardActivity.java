@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -62,6 +63,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
 
+    @BindView(R.id.board_parent_layout)
+    CoordinatorLayout boardParentLayout;
     @BindView(R.id.board_toolbar)
     PublicBoardToolbar publicBoardToolbar;
     @BindView(R.id.board_view_pager)
@@ -78,11 +81,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     @Inject
     Gson gson;
     private long currentMatchId;
+    private boolean isBoardActive;
     private String boardId;
-    private String homeTeamLogo;
-    private String visitingTeamLogo;
-    private String homeTeamName;
-    private String visitingTeamName;
+    private MatchFixture fixture;
 
     private BoardPagerAdapter boardPagerAdapter;
 
@@ -97,17 +98,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     };
 
-    public static void launch(Context packageContext, int homeGoals, int visitingGoals, long matchId,
-                              String homeTeamLogo, String visitingTeamLogo, String homeTeamName, String visitingTeamName, Integer matchDay) {
+    public static void launch(Context packageContext, MatchFixture fixture) {
         Intent intent = new Intent(packageContext, BoardActivity.class);
-        intent.putExtra(packageContext.getString(R.string.intent_home_team_score), homeGoals)
-                .putExtra(packageContext.getString(R.string.intent_visiting_team_score), visitingGoals)
-                .putExtra(packageContext.getString(R.string.match_id_string), matchId)
-                .putExtra(packageContext.getString(R.string.pref_home_team_logo), homeTeamLogo)
-                .putExtra(packageContext.getString(R.string.pref_visiting_team_logo), visitingTeamLogo)
-                .putExtra(packageContext.getString(R.string.pref_home_team_name), homeTeamName)
-                .putExtra(packageContext.getString(R.string.pref_visiting_team_name), visitingTeamName)
-                .putExtra(packageContext.getString(R.string.matchday_), matchDay);
+        intent.putExtra(packageContext.getString(R.string.intent_score_data), new Gson().toJson(fixture));
         packageContext.startActivity(intent);
     }
 
@@ -161,22 +154,20 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Device ID", FirebaseInstanceId.getInstance().getToken());
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(getString(R.string.matchday_))) {
+        if (intent.hasExtra(getString(R.string.intent_score_data))) {
+            fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_score_data)), MatchFixture.class);
+            currentMatchId = fixture.getForeignId();
             setUpToolbar(
-                    intent.getIntExtra(getString(R.string.matchday_), 1),
-                    intent.getStringExtra(getString(R.string.pref_home_team_logo)),
-                    intent.getStringExtra(getString(R.string.pref_visiting_team_logo)),
-                    intent.getIntExtra(getString(R.string.intent_home_team_score), 0),
-                    intent.getIntExtra(getString(R.string.intent_visiting_team_score), 0),
-                    intent.getStringExtra(getString(R.string.pref_home_team_name)),
-                    intent.getStringExtra(getString(R.string.pref_visiting_team_name)),
-                    intent.getLongExtra(getString(R.string.match_id_string), 0)
+                    fixture.getMatchDay(),
+                    fixture.getHomeTeam().getLogoLink(),
+                    fixture.getAwayTeam().getLogoLink(),
+                    fixture.getHomeGoals(),
+                    fixture.getAwayGoals()
             );
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
@@ -188,15 +179,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
     }
 
-    private void setUpToolbar(int matchDay, String homeTeamLogo, String visitingTeamLogo, int homeGoals,
-                              int visitingGoals, String homeTeamName, String visitingTeamName, long currentMatchId) {
-        this.homeTeamLogo = homeTeamLogo;
-        this.visitingTeamLogo = visitingTeamLogo;
-        this.homeTeamName = homeTeamName;
-        this.visitingTeamName = visitingTeamName;
-        this.currentMatchId = currentMatchId;
-        publicBoardToolbar.setHomeTeamLogo(picasso, this.homeTeamLogo);
-        publicBoardToolbar.setVisitingTeamLogo(picasso, this.visitingTeamLogo);
+    private void setUpToolbar(int matchDay, String homeTeamLogo, String visitingTeamLogo, int homeGoals, int visitingGoals) {
+        publicBoardToolbar.setHomeTeamLogo(picasso, homeTeamLogo);
+        publicBoardToolbar.setVisitingTeamLogo(picasso, visitingTeamLogo);
         publicBoardToolbar.setScore(true, homeGoals + DASH + visitingGoals);
         publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
     }
@@ -248,6 +233,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                         Board board = response.body();
                         if (response.code() == HttpURLConnection.HTTP_OK && board != null) {
                             boardId = board.getId();
+                            isBoardActive = board.getIsActive();
+                            toggleBoardActivation();
                             saveBoardId();
                             setupViewPagerWithFragments();
 
@@ -256,6 +243,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                         }
                     }
                 });
+    }
+
+    private void toggleBoardActivation() {
+        boardParentLayout.getBackground().setColorFilter(getColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER);
     }
 
     public void getMatchDetails() {
@@ -285,10 +276,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                                             matchSummary.getHomeTeam().getLogoLink(),
                                             matchSummary.getAwayTeam().getLogoLink(),
                                             matchSummary.getHomeGoals(),
-                                            matchSummary.getAwayGoals(),
-                                            matchSummary.getHomeTeam().getName(),
-                                            matchSummary.getAwayTeam().getName(),
-                                            currentMatchId
+                                            matchSummary.getAwayGoals()
                                     );
                                 }
                                 break;
@@ -335,15 +323,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return BoardInfoFragment.newInstance(
-                            ref.get().currentMatchId,
-                            ref.get().homeTeamLogo,
-                            ref.get().visitingTeamLogo,
-                            ref.get().homeTeamName,
-                            ref.get().visitingTeamName
-                    );
+                    return BoardInfoFragment.newInstance(ref.get().fixture, ref.get().gson);
                 case 1:
-                    return BoardTilesFragment.newInstance(ref.get().boardId);
+                    return BoardTilesFragment.newInstance(ref.get().boardId, ref.get().isBoardActive);
                 default:
                     return null;
             }

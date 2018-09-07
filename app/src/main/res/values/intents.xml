@@ -21,6 +21,7 @@
     <string name="intent_match_event_list">matchEventList</string>
     <string name="intent_commentary_list">commentaryList</string>
     <string name="intent_live_time_status">liveTimeStatus</string>
+    <string name="intent_scrubber_data">scrubberData</string>
     <string name="intent_thumbnail_url">thumbnailUrl</string>
     <string name="intent_thumbnail_height">thumbnailHeight</string>
     <string name="intent_thumbnail_width">thumbnailWidth</string>

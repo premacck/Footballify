@@ -48,6 +48,7 @@ import static life.plank.juna.zone.util.AppConstants.WIDE_SPACE;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
+import static life.plank.juna.zone.util.DateUtil.getDateForScrubber;
 import static life.plank.juna.zone.util.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
@@ -253,39 +254,40 @@ public class DataUtil {
     //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
     static List<ScrubberData> getDefinedDummyScrubberData() {
         List<ScrubberData> scrubberDataList = new ArrayList<>();
-        scrubberDataList.add(new ScrubberData(0, getRandomInteraction(), LIVE, false));
-        scrubberDataList.add(new ScrubberData(2, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(4, getRandomInteraction(), GOAL, true));
-        scrubberDataList.add(new ScrubberData(6, getRandomInteraction(), SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(8, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(12, getRandomInteraction(), YELLOW_CARD, false));
-        scrubberDataList.add(new ScrubberData(15, getRandomInteraction(), SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(18, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(20, getRandomInteraction(), YELLOW_CARD, true));
-        scrubberDataList.add(new ScrubberData(21, getRandomInteraction(), GOAL, false));
-        scrubberDataList.add(new ScrubberData(22, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(24, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(28, getRandomInteraction(), SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(32, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(38, getRandomInteraction(), RED_CARD, true));
-        scrubberDataList.add(new ScrubberData(42, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(45, getRandomInteraction(), HT, true));
-        scrubberDataList.add(new ScrubberData(46, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(48, getRandomInteraction(), GOAL, true));
-        scrubberDataList.add(new ScrubberData(52, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(53, getRandomInteraction(), SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(54, getRandomInteraction(), SUBSTITUTION, false));
-        scrubberDataList.add(new ScrubberData(58, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(62, getRandomInteraction(), GOAL, true));
-        scrubberDataList.add(new ScrubberData(66, getRandomInteraction(), RED_CARD, false));
-        scrubberDataList.add(new ScrubberData(71, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(77, getRandomInteraction(), SUBSTITUTION, true));
-        scrubberDataList.add(new ScrubberData(82, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(85, getRandomInteraction(), GOAL, true));
-        scrubberDataList.add(new ScrubberData(89, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(90, getRandomInteraction(), YELLOW_RED, true));
-        scrubberDataList.add(new ScrubberData(92, getRandomInteraction(), FOUL, true));
-        scrubberDataList.add(new ScrubberData(94, getRandomInteraction(), FT, true));
+        scrubberDataList.add(new ScrubberData(0, 18, LIVE, false));
+        scrubberDataList.add(new ScrubberData(2, 48, FOUL, true));
+        scrubberDataList.add(new ScrubberData(4, 21, GOAL, true));
+        scrubberDataList.add(new ScrubberData(6, 9, SUBSTITUTION, false));
+        scrubberDataList.add(new ScrubberData(8, 28, FOUL, true));
+        scrubberDataList.add(new ScrubberData(12, 4, YELLOW_CARD, false));
+        scrubberDataList.add(new ScrubberData(15, 17, SUBSTITUTION, true));
+        scrubberDataList.add(new ScrubberData(18, 13, FOUL, true));
+        scrubberDataList.add(new ScrubberData(20, 34, YELLOW_CARD, true));
+        scrubberDataList.add(new ScrubberData(21, 25, GOAL, false));
+        scrubberDataList.add(new ScrubberData(22, 15, FOUL, true));
+        scrubberDataList.add(new ScrubberData(24, 20, FOUL, true));
+        scrubberDataList.add(new ScrubberData(28, 18, SUBSTITUTION, false));
+        scrubberDataList.add(new ScrubberData(32, 8, FOUL, true));
+        scrubberDataList.add(new ScrubberData(38, 34, RED_CARD, true));
+        scrubberDataList.add(new ScrubberData(42, 3, FOUL, true));
+        scrubberDataList.add(new ScrubberData(45, 21, HT, true));
+        scrubberDataList.add(new ScrubberData(46, 9, FOUL, true));
+        scrubberDataList.add(new ScrubberData(48, 40, GOAL, true));
+        scrubberDataList.add(new ScrubberData(52, 42, FOUL, true));
+        scrubberDataList.add(new ScrubberData(53, 45, SUBSTITUTION, true));
+        scrubberDataList.add(new ScrubberData(54, 38, SUBSTITUTION, false));
+        scrubberDataList.add(new ScrubberData(58, 20, FOUL, true));
+        scrubberDataList.add(new ScrubberData(62, 47, GOAL, true));
+        scrubberDataList.add(new ScrubberData(64, 11, FOUL, true));
+        scrubberDataList.add(new ScrubberData(66, 31, RED_CARD, false));
+        scrubberDataList.add(new ScrubberData(71, 14, FOUL, true));
+        scrubberDataList.add(new ScrubberData(77, 42, SUBSTITUTION, true));
+        scrubberDataList.add(new ScrubberData(82, 21, FOUL, true));
+        scrubberDataList.add(new ScrubberData(85, 15, GOAL, true));
+        scrubberDataList.add(new ScrubberData(89, 30, FOUL, true));
+        scrubberDataList.add(new ScrubberData(90, 35, YELLOW_RED, true));
+        scrubberDataList.add(new ScrubberData(92, 32, FOUL, true));
+        scrubberDataList.add(new ScrubberData(94, 47, FT, true));
         return scrubberDataList;
     }
 
@@ -407,6 +409,7 @@ public class DataUtil {
         lineChart.setDrawGridBackground(false);
         lineChart.getLegend().setEnabled(false);
         lineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+        lineChart.getXAxis().setValueFormatter((value, axis) -> getDateForScrubber((long) value));
     }
 
     /**
@@ -422,8 +425,8 @@ public class DataUtil {
             this.isRandom = isRandom;
         }
 
-        public static ScrubberLoader prepare(LineChart lineChart, boolean isRandom) {
-            return new ScrubberLoader(lineChart, isRandom);
+        public static void prepare(LineChart lineChart, boolean isRandom) {
+            new ScrubberLoader(lineChart, isRandom).execute();
         }
 
         @Override

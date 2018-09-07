@@ -27,6 +27,7 @@ import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
@@ -96,6 +97,8 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                                         gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_match_event_list)), new TypeToken<List<MatchEvent>>() {
                                         }.getType()),
                                         gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_commentary_list)), new TypeToken<List<Commentary>>() {
+                                        }.getType()),
+                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_scrubber_data)), new TypeToken<List<ScrubberData>>() {
                                         }.getType()),
                                         gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_live_time_status)), LiveTimeStatus.class)
                                 )

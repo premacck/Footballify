@@ -66,14 +66,16 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     private BoardMediaAdapter adapter;
 
     private String boardId;
+    private boolean isBoardActive;
 
     public BoardTilesFragment() {
     }
 
-    public static BoardTilesFragment newInstance(String boardId) {
+    public static BoardTilesFragment newInstance(String boardId, boolean isBoardActive) {
         BoardTilesFragment fragment = new BoardTilesFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
+        bundle.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_board_active), isBoardActive);
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -84,6 +86,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         Bundle bundle = getArguments();
         if (bundle != null) {
             boardId = bundle.getString(getString(R.string.intent_board_id));
+            isBoardActive = bundle.getBoolean(getString(R.string.intent_is_board_active));
         }
     }
 
@@ -95,7 +98,9 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         ZoneApplication.getApplication().getUiComponent().inject(this);
         initRecyclerView();
         retrieveBoardByBoardId();
-        setupBoomMenu(getActivity(), arcMenu, boardId);
+        if (isBoardActive) {
+            setupBoomMenu(getActivity(), arcMenu, boardId);
+        }
         return rootView;
     }
 
