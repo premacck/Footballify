@@ -13,8 +13,7 @@ public class MatchFixture {
     private Stadium venue;
     private FootballTeam homeTeam;
     private FootballTeam awayTeam;
-    private List<MatchEvent> matchEvents;
-    private List<Commentary> commentary;
+    private List<Highlights> highlights;
     private Integer matchDay;
     private Integer homeGoals;
     private Integer awayGoals;

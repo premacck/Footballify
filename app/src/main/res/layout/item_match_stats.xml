@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="6dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="5dp"
+    app:cardCornerRadius="8dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_toStartOf="@+id/center_space"
+            android:fontFamily="@font/raleway_semibold"
+            android:gravity="center_vertical|start"
+            android:text="@string/match_stats"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
+
+        <android.support.v4.widget.Space
+            android:id="@+id/center_space"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/venue_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/title"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignTop="@+id/title"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_toEndOf="@+id/center_space"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:gravity="center_vertical|end"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/text_10sp" />
+
+        <RelativeLayout
+            android:id="@+id/teams_logo_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/background_color"
+            android:paddingBottom="5dp"
+            android:paddingEnd="35dp"
+            android:paddingStart="35dp"
+            android:paddingTop="5dp">
+
+            <ImageView
+                android:id="@+id/home_team_logo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@string/pref_home_team_logo" />
+
+            <ImageView
+                android:id="@+id/visiting_team_logo"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/pref_visiting_team_logo" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/match_team_stats_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/teams_logo_layout"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/home_team_shots"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_shots_on_target"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_possession"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_fouls"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_yellow_card"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_red_card"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_offside"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/home_team_corner"
+                    style="@style/TeamStatsTextView" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.4"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TeamStatsTextView"
+                    android:text="@string/shots" />
+
+                <TextView
+                    style="@style/TeamStatsTextView"
+                    android:text="@string/shots_on_target" />
+
+                <TextView
+                    style="@style/TeamStatsTextView"
+                    android:text="@string/possession" />
+
+                <TextView
+                    style="@style/TeamStatsTextView"
+                    android:text="@string/fouls" />
+
+                <ImageView
+                    style="@style/TeamStatsTextView"
+                    android:contentDescription="@string/yellow"
+                    android:src="@drawable/yellow_right" />
+
+                <ImageView
+                    style="@style/TeamStatsTextView"
+                    android:contentDescription="@string/red"
+                    android:src="@drawable/red_right" />
+
+                <TextView
+                    style="@style/TeamStatsTextView"
+                    android:text="@string/offside" />
+
+                <TextView
+                    style="@style/TeamStatsTextView"
+                    android:text="@string/corner" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2.2"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/visiting_team_shots"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_shots_on_target"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_possession"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_fouls"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_yellow_card"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_red_card"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_offside"
+                    style="@style/TeamStatsTextView" />
+
+                <TextView
+                    android:id="@+id/visiting_team_corner"
+                    style="@style/TeamStatsTextView" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/rajdhani_regular"
+            android:text="@string/match_stats_not_available_yet"
+            android:textAllCaps="true"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
