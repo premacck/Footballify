@@ -5,7 +5,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -25,14 +24,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static life.plank.juna.zone.util.AppConstants.DASH;
-import static life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 
@@ -59,24 +55,6 @@ public class LineupLayout extends FrameLayout {
     @BindView(R.id.visiting_team_lineup_text)
     TextView visitingTeamLineup;
 
-    @BindView(R.id.substitution_recycler_view)
-    RecyclerView substitutionRecyclerView;
-    @BindView(R.id.no_substitutions_yet)
-    TextView noSubstitutionsYet;
-    @BindView(R.id.home_team_logo)
-    ImageView homeTeamLogo;
-    @BindView(R.id.visiting_team_logo)
-    ImageView visitingTeamLogo;
-    @BindView(R.id.home_team_logo_under_manager)
-    ImageView homeTeamLogoUnderManager;
-    @BindView(R.id.visiting_team_logo_under_manager)
-    ImageView visitingTeamLogoUnderManager;
-
-    @BindView(R.id.home_player_name)
-    TextView homeManager;
-    @BindView(R.id.visiting_player_name)
-    TextView visitingManager;
-
     public LineupLayout(@NonNull Context context) {
         this(context, null);
     }
@@ -99,17 +77,15 @@ public class LineupLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public void update(Lineups lineups, String homeLogo, String visitingLogo, Picasso picasso, String homeTeamName, String visitingTeamName) {
+    public void update(Lineups lineups, MatchFixture fixture, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         lineupCenterLines.setVisibility(VISIBLE);
 
-        setHomeTeamName(homeTeamName);
-        setVisitingTeamName(visitingTeamName);
+        setHomeTeamName(fixture.getHomeTeam().getName());
+        setVisitingTeamName(fixture.getAwayTeam().getName());
         setHomeTeamLineup(getLineupText(lineups.getHomeTeamFormation()));
         setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
-        setHomeManager(lineups.getHomeManagerName());
-        setVisitingManager(lineups.getVisitingManagerName());
 
         prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), R.color.lineup_player_red, true);
         prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), R.color.purple, false);
@@ -117,12 +93,8 @@ public class LineupLayout extends FrameLayout {
         Target homeTarget = getStartDrawableTarget(this.homeTeamName);
         Target visitingTarget = getStartDrawableTarget(this.visitingTeamName);
 
-        loadImage(picasso, homeLogo, homeTarget);
-        loadImage(picasso, visitingLogo, visitingTarget);
-        loadImage(picasso, homeLogo, homeTeamLogo);
-        loadImage(picasso, visitingLogo, visitingTeamLogo);
-        loadImage(picasso, homeLogo, homeTeamLogoUnderManager);
-        loadImage(picasso, visitingLogo, visitingTeamLogoUnderManager);
+        loadImage(picasso, fixture.getHomeTeam().getLogoLink(), homeTarget);
+        loadImage(picasso, fixture.getAwayTeam().getLogoLink(), visitingTarget);
     }
 
     private void loadImage(Picasso picasso, String logo, Target target) {
@@ -131,10 +103,8 @@ public class LineupLayout extends FrameLayout {
                 .into(target);
     }
 
-    private void loadImage(Picasso picasso, String logo, ImageView target) {
-        picasso.load(logo)
-                .resize((int) getDp(getContext(), 14), (int) getDp(getContext(), 14))
-                .into(target);
+    public void setLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? VISIBLE : GONE);
     }
 
     public void notAvailable(@StringRes int message) {
@@ -175,80 +145,19 @@ public class LineupLayout extends FrameLayout {
         return text.toString();
     }
 
-    public String getHomeTeamName() {
-        return homeTeamName.getText().toString();
-    }
-
     public void setHomeTeamName(String homeTeamName) {
         this.homeTeamName.setText(homeTeamName);
-    }
-
-    public String getHomeTeamLineup() {
-        return homeTeamLineup.getText().toString();
     }
 
     public void setHomeTeamLineup(String homeTeamLineup) {
         this.homeTeamLineup.setText(homeTeamLineup);
     }
 
-    public String getVisitingTeamName() {
-        return visitingTeamName.getText().toString();
-    }
-
     public void setVisitingTeamName(String visitingTeamName) {
         this.visitingTeamName.setText(visitingTeamName);
     }
 
-    public String getVisitingTeamLineup() {
-        return visitingTeamLineup.getText().toString();
-    }
-
     public void setVisitingTeamLineup(String visitingTeamLineup) {
         this.visitingTeamLineup.setText(visitingTeamLineup);
-    }
-
-    public TextView getHomeManager() {
-        return homeManager;
-    }
-
-    public void setHomeManager(String homeManager) {
-        this.homeManager.setText(homeManager);
-    }
-
-    public TextView getVisitingManager() {
-        return visitingManager;
-    }
-
-    public void setVisitingManager(String visitingManager) {
-        this.visitingManager.setText(visitingManager);
-    }
-
-    public void updateEvents(List<MatchEvent> matchEvents) {
-        List<MatchEvent> newMatchEventList = extractSubstitutionEvents(matchEvents);
-        if (!isNullOrEmpty(newMatchEventList)) {
-            onMatchStarted();
-            ((SubstitutionAdapter) substitutionRecyclerView.getAdapter()).update(newMatchEventList);
-        } else {
-            onMatchYetToStart();
-        }
-    }
-
-    private void onMatchStarted() {
-        noSubstitutionsYet.setVisibility(GONE);
-        substitutionRecyclerView.setVisibility(VISIBLE);
-    }
-
-    public void onMatchYetToStart() {
-        noSubstitutionsYet.setVisibility(VISIBLE);
-        substitutionRecyclerView.setVisibility(GONE);
-    }
-
-    public void setAdapter(SubstitutionAdapter substitutionAdapter) {
-        substitutionRecyclerView.setAdapter(substitutionAdapter);
-    }
-
-    public void updateSubstitutions(List<MatchEvent> substitutionEventList) {
-        onMatchStarted();
-        ((SubstitutionAdapter) substitutionRecyclerView.getAdapter()).updateNew(substitutionEventList);
     }
 }

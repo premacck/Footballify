@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 
 public class MatchTeamStatsLayout extends FrameLayout {
@@ -93,33 +94,36 @@ public class MatchTeamStatsLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public void update(MatchTeamStats matchTeamStats, String homeLogo, String visitingLogo, Picasso picasso) {
+    public void update(MatchTeamStats matchTeamStats, MatchFixture fixture, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
-//        TODO : set actual venue name in next pull request.
-        setVenueName("")
-                .setHomeTeamShots(matchTeamStats.getHomeShots())
-                .setVisitingTeamShots(matchTeamStats.getAwayShots())
-                .setHomeTeamShotsOnTarget(matchTeamStats.getHomeShotsOnTarget())
-                .setVisitingTeamShotsOnTarget(matchTeamStats.getAwayShotsOnTarget())
-                .setHomeTeamPossession(matchTeamStats.getHomePossession())
-                .setVisitingTeamPossession(matchTeamStats.getAwayPossession())
-                .setHomeTeamFouls(matchTeamStats.getHomeFouls())
-                .setVisitingTeamFouls(matchTeamStats.getAwayFouls())
-                .setHomeTeamYellowCard(matchTeamStats.getHomeYellowCards())
-                .setVisitingTeamYellowCard(matchTeamStats.getAwayYellowCards())
-                .setHomeTeamRedCard(matchTeamStats.getHomeRedCards())
-                .setVisitingTeamRedCard(matchTeamStats.getAwayRedCards())
-                .setHomeTeamOffside(matchTeamStats.getHomeOffsides())
-                .setVisitingTeamOffside(matchTeamStats.getAwayOffsides())
-                .setHomeTeamCorner(matchTeamStats.getHomeCorners())
-                .setVisitingTeamCorner(matchTeamStats.getAwayCorners());
 
-        picasso.load(homeLogo)
+        this.venueName.setText(fixture.getVenue().getName());
+        this.homeTeamShots.setText(String.valueOf(matchTeamStats.getHomeShots()));
+        this.homeTeamShotsOnTarget.setText(String.valueOf(matchTeamStats.getHomeShotsOnTarget()));
+        String homeTeamPossession = matchTeamStats.getHomePossession() + "%";
+        this.homeTeamPossession.setText(String.valueOf(homeTeamPossession));
+        this.homeTeamFouls.setText(String.valueOf(matchTeamStats.getHomeFouls()));
+        this.homeTeamYellowCard.setText(String.valueOf(matchTeamStats.getHomeYellowCards()));
+        this.homeTeamRedCard.setText(String.valueOf(matchTeamStats.getHomeRedCards()));
+        this.homeTeamOffside.setText(String.valueOf(matchTeamStats.getHomeOffsides()));
+        this.homeTeamCorner.setText(String.valueOf(matchTeamStats.getHomeCorners()));
+
+        this.visitingTeamShots.setText(String.valueOf(matchTeamStats.getAwayShots()));
+        this.visitingTeamShotsOnTarget.setText(String.valueOf(matchTeamStats.getAwayShotsOnTarget()));
+        String visitingTeamPossession = matchTeamStats.getAwayPossession() + "%";
+        this.visitingTeamPossession.setText(visitingTeamPossession);
+        this.visitingTeamFouls.setText(String.valueOf(matchTeamStats.getAwayFouls()));
+        this.visitingTeamYellowCard.setText(String.valueOf(matchTeamStats.getAwayYellowCards()));
+        this.visitingTeamRedCard.setText(String.valueOf(matchTeamStats.getAwayRedCards()));
+        this.visitingTeamOffside.setText(String.valueOf(matchTeamStats.getAwayOffsides()));
+        this.visitingTeamCorner.setText(String.valueOf(matchTeamStats.getAwayCorners()));
+
+        picasso.load(fixture.getHomeTeam().getLogoLink())
                 .into(homeTeamLogoImageView);
-        picasso.load(visitingLogo)
+        picasso.load(fixture.getAwayTeam().getLogoLink())
                 .into(visitingTeamLogoImageView);
     }
 
@@ -135,162 +139,5 @@ public class MatchTeamStatsLayout extends FrameLayout {
         progressBar.setVisibility(isLoading ? VISIBLE : GONE);
         teamsLogoLayout.setVisibility(isLoading ? GONE : VISIBLE);
         matchTeamStatsLayout.setVisibility(isLoading ? GONE : VISIBLE);
-    }
-
-    public String getVenueName() {
-        return venueName.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVenueName(String venueName) {
-        this.venueName.setText(venueName);
-        return this;
-    }
-
-    public String getHomeTeamShots() {
-        return homeTeamShots.getText().toString();
-    }
-
-    /**
-     * @return the instance of TeamStats (in all other setters too), useful in method chaining.
-     */
-    public MatchTeamStatsLayout setHomeTeamShots(int homeTeamShots) {
-        this.homeTeamShots.setText(String.valueOf(homeTeamShots));
-        return this;
-    }
-
-    public String getHomeTeamShotsOnTarget() {
-        return homeTeamShotsOnTarget.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamShotsOnTarget(int homeTeamShotsOnTarget) {
-        this.homeTeamShotsOnTarget.setText(String.valueOf(homeTeamShotsOnTarget));
-        return this;
-    }
-
-    public String getHomeTeamPossession() {
-        return homeTeamPossession.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamPossession(int homeTeamPossession) {
-        String possession = homeTeamPossession + "%";
-        this.homeTeamPossession.setText(String.valueOf(possession));
-        return this;
-    }
-
-    public String getHomeTeamFouls() {
-        return homeTeamFouls.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamFouls(int homeTeamFouls) {
-        this.homeTeamFouls.setText(String.valueOf(homeTeamFouls));
-        return this;
-    }
-
-    public String getHomeTeamYellowCard() {
-        return homeTeamYellowCard.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamYellowCard(int homeTeamYellowCard) {
-        this.homeTeamYellowCard.setText(String.valueOf(homeTeamYellowCard));
-        return this;
-    }
-
-    public String getHomeTeamRedCard() {
-        return homeTeamRedCard.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamRedCard(int homeTeamRedCard) {
-        this.homeTeamRedCard.setText(String.valueOf(homeTeamRedCard));
-        return this;
-    }
-
-    public String getHomeTeamOffside() {
-        return homeTeamOffside.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamOffside(int homeTeamOffside) {
-        this.homeTeamOffside.setText(String.valueOf(homeTeamOffside));
-        return this;
-    }
-
-    public String getHomeTeamCorner() {
-        return homeTeamCorner.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setHomeTeamCorner(int homeTeamCorner) {
-        this.homeTeamCorner.setText(String.valueOf(homeTeamCorner));
-        return this;
-    }
-
-    public String getVisitingTeamShots() {
-        return visitingTeamShots.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamShots(int visitingTeamShots) {
-        this.visitingTeamShots.setText(String.valueOf(visitingTeamShots));
-        return this;
-    }
-
-    public String getVisitingTeamShotsOnTarget() {
-        return visitingTeamShotsOnTarget.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamShotsOnTarget(int visitingTeamShotsOnTarget) {
-        this.visitingTeamShotsOnTarget.setText(String.valueOf(visitingTeamShotsOnTarget));
-        return this;
-    }
-
-    public String getVisitingTeamPossession() {
-        return visitingTeamPossession.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamPossession(int visitingTeamPossession) {
-        String possession = visitingTeamPossession + "%";
-        this.visitingTeamPossession.setText(possession);
-        return this;
-    }
-
-    public String getVisitingTeamFouls() {
-        return visitingTeamFouls.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamFouls(int visitingTeamFouls) {
-        this.visitingTeamFouls.setText(String.valueOf(visitingTeamFouls));
-        return this;
-    }
-
-    public String getVisitingTeamYellowCard() {
-        return visitingTeamYellowCard.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamYellowCard(int visitingTeamYellowCard) {
-        this.visitingTeamYellowCard.setText(String.valueOf(visitingTeamYellowCard));
-        return this;
-    }
-
-    public String getVisitingTeamRedCard() {
-        return visitingTeamRedCard.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamRedCard(int visitingTeamRedCard) {
-        this.visitingTeamRedCard.setText(String.valueOf(visitingTeamRedCard));
-        return this;
-    }
-
-    public String getVisitingTeamOffside() {
-        return visitingTeamOffside.getText().toString();
-    }
-
-    public MatchTeamStatsLayout setVisitingTeamOffside(int visitingTeamOffside) {
-        this.visitingTeamOffside.setText(String.valueOf(visitingTeamOffside));
-        return this;
-    }
-
-    public String getVisitingTeamCorner() {
-        return visitingTeamCorner.getText().toString();
-    }
-
-    public void setVisitingTeamCorner(int visitingTeamCorner) {
-        this.visitingTeamCorner.setText(String.valueOf(visitingTeamCorner));
     }
 }

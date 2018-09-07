@@ -8,10 +8,11 @@ import lombok.Data;
 public class Lineups {
     private List<List<Formation>> homeTeamFormation;
     private List<List<Formation>> awayTeamFormation;
-    private final String homeTeamName;
-    private final String visitingTeamName;
-    private final String homeManagerName;
-    private final String visitingManagerName;
+    private String homeTeamName;
+    private String visitingTeamName;
+    private String homeManagerName;
+    private String visitingManagerName;
+    private int errorMessage;
 
     @Data
     public class Formation {

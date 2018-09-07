@@ -20,4 +20,5 @@ public class MatchTeamStats {
     private int awayYellowCards;
     private int awayOffsides;
     private int awayCorners;
+    private int errorMessage;
 }
