@@ -36,6 +36,7 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.util.customview.CommentarySmall;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
+import life.plank.juna.zone.util.customview.HighlightsAdapter;
 import life.plank.juna.zone.util.customview.LineupLayout;
 import life.plank.juna.zone.util.customview.MatchHighlights;
 import life.plank.juna.zone.util.customview.MatchTeamStatsLayout;
@@ -218,6 +219,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     public void getMatchHighlights() {
+        matchHighlightsLayout.setAdapter(new HighlightsAdapter());
         restApi.getMatchHighlights(matchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -240,7 +242,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                             case HttpURLConnection.HTTP_OK:
                                 if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsUrl() != null) {
                                     matchHighlightsLayout.setVisibility(View.VISIBLE);
-                                    matchHighlightsLayout.setHighlights(picasso, highlights.get(0));
+                                    matchHighlightsLayout.setHighlights(highlights);
                                 } else
                                     matchHighlightsLayout.setVisibility(View.GONE);
                                 break;
