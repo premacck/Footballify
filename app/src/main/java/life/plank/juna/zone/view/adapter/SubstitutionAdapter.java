@@ -19,7 +19,7 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
 
     private List<MatchEvent> matchEventList;
 
-    public SubstitutionAdapter() {
+    SubstitutionAdapter() {
         matchEventList = new ArrayList<>();
     }
 
@@ -48,14 +48,15 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
 
         @BindView(R.id.minute)
         TextView minuteTextView;
-        @BindView(R.id.home_player_number)
-        TextView homePlayerNumber;
         @BindView(R.id.home_player_name)
         TextView homePlayerName;
+        @BindView(R.id.home_related_player_name)
+        TextView homeRelatedPlayerName;
         @BindView(R.id.visiting_player_name)
         TextView visitingPlayerName;
-        @BindView(R.id.visiting_player_number)
-        TextView visitingPlayerNumber;
+        @BindView(R.id.visiting_related_player_name)
+        TextView visitingRelatedPlayerName;
+
         private final WeakReference<SubstitutionAdapter> ref;
 
         SubstitutionViewHolder(View itemView, SubstitutionAdapter substitutionAdapter) {
@@ -68,14 +69,20 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
         public void bind() {
             MatchEvent event = ref.get().matchEventList.get(getAdapterPosition());
             if (event.getIsHomeTeam()) {
-                homePlayerName.setText(event.getRelatedPlayerName());
-                homePlayerName.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_substitute_in, 0, 0, 0);
-                visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                homePlayerName.setText(event.getPlayerName());
+                homeRelatedPlayerName.setText(event.getRelatedPlayerName());
+                visitingPlayerName.setVisibility(View.GONE);
+                visitingRelatedPlayerName.setVisibility(View.GONE);
             } else {
-                visitingPlayerName.setText(event.getRelatedPlayerName());
-                visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_in, 0);
-                homePlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                visitingPlayerName.setText(event.getPlayerName());
+                visitingRelatedPlayerName.setText(event.getRelatedPlayerName());
+                homePlayerName.setVisibility(View.GONE);
+                homeRelatedPlayerName.setVisibility(View.GONE);
             }
+            homePlayerName.setCompoundDrawablesWithIntrinsicBounds(event.getIsHomeTeam() ? R.drawable.ic_substitute_in : 0, 0, 0, 0);
+            homeRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(event.getIsHomeTeam() ? R.drawable.ic_substitute_out : 0, 0, 0, 0);
+            visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.getIsHomeTeam() ? 0 : R.drawable.ic_substitute_in, 0);
+            visitingRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.getIsHomeTeam() ? 0 : R.drawable.ic_substitute_out, 0);
             String timeText;
             timeText = (event.getExtraMinute() > 0 ?
                     event.getMinute() + " + " + event.getExtraMinute() :
