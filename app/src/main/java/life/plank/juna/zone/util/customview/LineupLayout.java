@@ -24,7 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
+import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -159,5 +161,25 @@ public class LineupLayout extends FrameLayout {
 
     public void setVisitingTeamLineup(String visitingTeamLineup) {
         this.visitingTeamLineup.setText(visitingTeamLineup);
+    }
+
+    //    TODO : remove in next pull request
+    public void update(Lineups lineups, String homeLogo, String visitingLogo, Picasso picasso, String homeName, String visitingName) {
+    }
+
+    //    TODO : remove in next pull request
+    public void onMatchYetToStart() {
+    }
+
+    //    TODO : remove in next pull request
+    public void updateSubstitutions(List<MatchEvent> matchEvents) {
+    }
+
+    //    TODO : remove in next pull request
+    public void updateEvents(List<MatchEvent> matchEvents) {
+    }
+
+    //    TODO : remove in next pull request
+    public void setAdapter(SubstitutionAdapter adapter) {
     }
 }

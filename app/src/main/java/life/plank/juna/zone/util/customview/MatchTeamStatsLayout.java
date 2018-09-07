@@ -127,6 +127,10 @@ public class MatchTeamStatsLayout extends FrameLayout {
                 .into(visitingTeamLogoImageView);
     }
 
+    //    TODO : remove in next pull request
+    public void update(MatchTeamStats matchTeamStats, String homeLogo, String visitingLogo, Picasso picasso) {
+    }
+
     public void notAvailable(@StringRes int message) {
         noDataTextView.setText(message);
         progressBar.setVisibility(GONE);
