@@ -16,7 +16,8 @@ public class ZoneLiveData {
     private LiveTimeStatus liveTimeStatus;
 
     public ZoneLiveData(String liveEventType, long foreignId, String boardTopic, String liveDataType,
-                        LiveScoreData scoreData, List<MatchEvent> matchEventList, List<Commentary> commentaryList, LiveTimeStatus liveTimeStatus) {
+                        LiveScoreData scoreData, List<MatchEvent> matchEventList, List<Commentary> commentaryList,
+                        LiveTimeStatus liveTimeStatus) {
         this.liveEventType = liveEventType;
         this.foreignId = foreignId;
         this.boardTopic = boardTopic;

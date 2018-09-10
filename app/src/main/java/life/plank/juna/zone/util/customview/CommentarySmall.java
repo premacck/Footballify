@@ -60,7 +60,12 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
         ButterKnife.bind(this, rootView);
 
         ((LinearLayoutManager) commentaryRecyclerView.getLayoutManager()).setReverseLayout(true);
-        seeAllBtn.setOnClickListener(view -> listener.seeAllClicked());
+        seeAllBtn.setOnClickListener(view -> listener.seeAllClicked(this));
+    }
+
+    public void setLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? VISIBLE : GONE);
+        commentaryRecyclerView.setVisibility(isLoading ? GONE : VISIBLE);
     }
 
     public void setAdapter(CommentaryAdapter adapter) {
@@ -115,6 +120,6 @@ public class CommentarySmall extends FrameLayout implements CustomViewListener {
     }
 
     public interface CommentarySmallListener {
-        void seeAllClicked();
+        void seeAllClicked(View view);
     }
 }
