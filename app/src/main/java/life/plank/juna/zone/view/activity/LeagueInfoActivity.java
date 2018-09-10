@@ -155,8 +155,8 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     private void prepareDummyChart() {
-        ScrubberLoader.prepare(match1LineChart, true).execute();
-        ScrubberLoader.prepare(match2LineChart, false).execute();
+        ScrubberLoader.prepare(match1LineChart, true);
+        ScrubberLoader.prepare(match2LineChart, false);
     }
 
     public void updateBackgroundBitmap() {

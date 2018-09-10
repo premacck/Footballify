@@ -4,13 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -23,27 +22,20 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Commentary;
-import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
-import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
-import life.plank.juna.zone.util.customview.CommentarySmall;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
-import life.plank.juna.zone.util.customview.HighlightsAdapter;
-import life.plank.juna.zone.util.customview.LineupLayout;
-import life.plank.juna.zone.util.customview.MatchHighlights;
-import life.plank.juna.zone.util.customview.MatchTeamStatsLayout;
+import life.plank.juna.zone.util.customview.ScrubberLayout.ScrubberLayoutListener;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
-import life.plank.juna.zone.view.adapter.CommentaryAdapter;
-import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
+import life.plank.juna.zone.view.adapter.BoardInfoAdapter;
 import retrofit2.Response;
 import rx.Observer;
 import rx.Subscriber;
@@ -53,30 +45,16 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
 import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
-import static life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
-public class BoardInfoFragment extends Fragment implements CommentarySmallListener {
+public class BoardInfoFragment extends Fragment implements CommentarySmallListener, ScrubberLayoutListener {
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
-    private static final String MATCH_ID = "match_id";
-    private static final String HOME_LOGO = "home_logo";
-    private static final String VISITING_LOGO = "visiting_logo";
-    public static final String HOME_TEAM_NAME = "home_team_name";
-    public static final String VISITING_TEAM_NAME = "visiting_team_name";
 
-    @BindView(R.id.item_match_highlights)
-    MatchHighlights matchHighlightsLayout;
-    @BindView(R.id.commentary_small)
-    CommentarySmall commentarySmall;
-    @BindView(R.id.team_stats)
-    MatchTeamStatsLayout matchTeamStatsLayout;
-    @BindView(R.id.item_line_up)
-    LineupLayout lineupLayout;
-    @BindView(R.id.scrubber)
-    LineChart scrubber;
+    @BindView(R.id.list_board_info)
+    RecyclerView boardInfoRecyclerView;
 
     @Inject
     @Named("footballData")
@@ -85,23 +63,16 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     Gson gson;
     @Inject
     Picasso picasso;
-    private long matchId;
-    private String homeLogo;
-    private String visitingLogo;
-    private String homeTeamName;
-    private String visitingTeamName;
+    private MatchFixture fixture;
+    private BoardInfoAdapter adapter;
 
     public BoardInfoFragment() {
     }
 
-    public static BoardInfoFragment newInstance(long matchId, String homeLogo, String visitingLogo, String homeTeamName, String visitingTeamName) {
+    public static BoardInfoFragment newInstance(MatchFixture fixture, Gson gson) {
         BoardInfoFragment fragment = new BoardInfoFragment();
         Bundle args = new Bundle();
-        args.putLong(MATCH_ID, matchId);
-        args.putString(HOME_LOGO, homeLogo);
-        args.putString(VISITING_LOGO, visitingLogo);
-        args.putString(HOME_TEAM_NAME, homeTeamName);
-        args.putString(VISITING_TEAM_NAME, visitingTeamName);
+        args.putString(ZoneApplication.getContext().getString(R.string.intent_board), gson.toJson(fixture));
         fragment.setArguments(args);
         return fragment;
     }
@@ -109,13 +80,10 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ZoneApplication.getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            matchId = args.getLong(MATCH_ID);
-            homeLogo = args.getString(HOME_LOGO);
-            visitingLogo = args.getString(VISITING_LOGO);
-            homeTeamName = args.getString(HOME_TEAM_NAME);
-            visitingTeamName = args.getString(VISITING_TEAM_NAME);
+            fixture = gson.fromJson(args.getString(getString(R.string.intent_board)), MatchFixture.class);
         }
     }
 
@@ -123,58 +91,44 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-        ZoneApplication.getApplication().getUiComponent().inject(this);
 
-        getMatchHighlights();
+        adapter = new BoardInfoAdapter(this, getContext(), picasso, true, fixture);
+        boardInfoRecyclerView.setAdapter(adapter);
+
         getCommentaries();
         getMatchTeamStats();
         getLineupFormation();
         getMatchEvents();
 
-        ScrubberLoader.prepare(scrubber, false).execute();
         return rootView;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        commentarySmall.initListeners(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        commentarySmall.dispose();
-    }
-
-    @OnClick(R.id.scrubber)
-    public void openTimeLine(View view) {
+    public void onScrubberClick(View view) {
         if (boardParentViewBitmap == null) {
             boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
         }
-        TimelineActivity.launch(getActivity(), view, matchId);
+        TimelineActivity.launch(getActivity(), view, fixture.getForeignId());
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void seeAllClicked(View view) {
-        if (!isNullOrEmpty(commentarySmall.getCommentaryList())) {
+        if (!isNullOrEmpty(adapter.getCommentaryList())) {
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(getActivity().getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getActivity());
             }
-            CommentaryActivity.launch(getActivity(), commentarySmall.getRootLayout(), gson.toJson(commentarySmall.getCommentaryList()));
+            CommentaryActivity.launch(getActivity(), view, gson.toJson(adapter.getCommentaryList()));
         }
     }
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
-        List<MatchEvent> substitutionEventList;
         switch (zoneLiveData.getLiveDataType()) {
             case COMMENTARY_DATA:
-                commentarySmall.updateNew(zoneLiveData.getCommentaryList());
+                adapter.setCommentaries(zoneLiveData.getCommentaryList(), false);
                 break;
             case MATCH_EVENTS:
-                substitutionEventList = extractSubstitutionEvents(zoneLiveData.getMatchEventList());
-                lineupLayout.updateSubstitutions(substitutionEventList);
+                adapter.setMatchEvents(zoneLiveData.getMatchEventList(), false);
                 break;
             case LINEUPS_DATA:
                 getLineupFormation();
@@ -185,8 +139,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     private void getMatchEvents() {
-        lineupLayout.setAdapter(new SubstitutionAdapter());
-        restApi.getMatchEvents(matchId)
+        restApi.getMatchEvents(fixture.getForeignId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<MatchEvent>>>() {
@@ -198,6 +151,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
+                        adapter.setMatchEvents(null, true);
                     }
 
                     @Override
@@ -206,48 +160,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                             case HttpURLConnection.HTTP_OK:
                                 List<MatchEvent> matchEvents = response.body();
                                 if (!isNullOrEmpty(matchEvents)) {
-                                    lineupLayout.updateEvents(matchEvents);
+                                    adapter.setMatchEvents(matchEvents, false);
                                 } else
-                                    lineupLayout.onMatchYetToStart();
+                                    adapter.setMatchEvents(null, true);
                                 break;
                             default:
-                                lineupLayout.onMatchYetToStart();
-                                break;
-                        }
-                    }
-                });
-    }
-
-    public void getMatchHighlights() {
-        matchHighlightsLayout.setAdapter(new HighlightsAdapter());
-        restApi.getMatchHighlights(matchId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<Highlights>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "getMatchHighlights() : Completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        Toast.makeText(getContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<List<Highlights>> response) {
-                        List<Highlights> highlights = response.body();
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                if (!isNullOrEmpty(highlights) && highlights.get(0).getHighlightsLink() != null) {
-                                    matchHighlightsLayout.setVisibility(View.VISIBLE);
-                                    matchHighlightsLayout.setHighlights(highlights);
-                                } else
-                                    matchHighlightsLayout.setVisibility(View.GONE);
-                                break;
-                            default:
-                                matchHighlightsLayout.setVisibility(View.GONE);
+                                adapter.setMatchEvents(null, true);
                                 break;
                         }
                     }
@@ -255,7 +173,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     private void getMatchTeamStats() {
-        restApi.getTeamStatsForMatch(matchId)
+        restApi.getTeamStatsForMatch(fixture.getForeignId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<MatchTeamStats>>() {
@@ -267,7 +185,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
-                        matchTeamStatsLayout.notAvailable(R.string.something_went_wrong);
+                        adapter.setMatchTeamStats(null, R.string.something_went_wrong);
                     }
 
                     @Override
@@ -276,12 +194,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (matchTeamStats != null) {
-                                    matchTeamStatsLayout.update(matchTeamStats, homeLogo, visitingLogo, picasso);
+                                    adapter.setMatchTeamStats(matchTeamStats, 0);
                                 } else
-                                    matchTeamStatsLayout.notAvailable(R.string.match_yet_to_start);
+                                    adapter.setMatchTeamStats(null, R.string.match_yet_to_start);
                                 break;
                             default:
-                                matchTeamStatsLayout.notAvailable(R.string.match_yet_to_start);
+                                adapter.setMatchTeamStats(null, R.string.something_went_wrong);
                                 break;
                         }
                     }
@@ -289,8 +207,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     private void getCommentaries() {
-        commentarySmall.setAdapter(new CommentaryAdapter());
-        restApi.getCommentaries(matchId)
+        restApi.getCommentaries(fixture.getForeignId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<Commentary>>>() {
@@ -302,7 +219,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
-                        commentarySmall.notAvailable(R.string.something_went_wrong);
+                        adapter.setCommentaries(null, true);
                     }
 
                     @Override
@@ -311,12 +228,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (!isNullOrEmpty(commentaryList)) {
-                                    commentarySmall.updateAdapter(commentaryList);
+                                    adapter.setCommentaries(commentaryList, false);
                                 } else
-                                    commentarySmall.notAvailable(R.string.match_yet_to_start);
+                                    adapter.setCommentaries(null, true);
                                 break;
                             default:
-                                commentarySmall.notAvailable(R.string.something_went_wrong);
+                                adapter.setCommentaries(null, true);
                                 break;
                         }
                     }
@@ -324,7 +241,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     }
 
     private void getLineupFormation() {
-        restApi.getLineUpsData(matchId)
+        restApi.getLineUpsData(fixture.getForeignId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Lineups>>() {
@@ -336,7 +253,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e("", "onError: " + e);
-                        lineupLayout.notAvailable(R.string.something_went_wrong);
+                        adapter.setLineups(null, R.string.something_went_wrong);
                     }
 
                     @Override
@@ -345,12 +262,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (lineups != null) {
-                                    lineupLayout.update(lineups, homeLogo, visitingLogo, picasso, homeTeamName, visitingTeamName);
+                                    adapter.setLineups(lineups, 0);
                                 } else
-                                    lineupLayout.notAvailable(R.string.match_yet_to_start);
+                                    adapter.setLineups(null, R.string.match_yet_to_start);
                                 break;
                             default:
-                                lineupLayout.notAvailable(R.string.line_ups_not_available);
+                                adapter.setLineups(null, R.string.line_ups_not_available);
                                 break;
                         }
                     }

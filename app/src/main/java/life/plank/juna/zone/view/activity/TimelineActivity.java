@@ -112,7 +112,7 @@ public class TimelineActivity extends AppCompatActivity {
         initRecyclerView();
         getTimeLineEvents();
 
-        ScrubberLoader.prepare(scrubber, false).execute();
+        ScrubberLoader.prepare(scrubber, false);
     }
 
     @Override

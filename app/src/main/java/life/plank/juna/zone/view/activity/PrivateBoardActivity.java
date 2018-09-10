@@ -97,7 +97,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
     }
 
     private void setupViewPagerWithFragments() {
-        pagerAdapter = new PrivateBoardPagerAdapter(getSupportFragmentManager(), board.getId());
+        pagerAdapter = new PrivateBoardPagerAdapter(getSupportFragmentManager(), board);
         viewPager.setAdapter(pagerAdapter);
         toolbar.setupWithViewPager(viewPager);
     }
@@ -149,14 +149,14 @@ public class PrivateBoardActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    class PrivateBoardPagerAdapter extends FragmentPagerAdapter {
+    static class PrivateBoardPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment currentFragment;
-        private String boardId;
+        private Board board;
 
-        PrivateBoardPagerAdapter(FragmentManager fm, String boardId) {
+        PrivateBoardPagerAdapter(FragmentManager fm, Board board) {
             super(fm);
-            this.boardId = boardId;
+            this.board = board;
         }
 
         @Override
@@ -165,7 +165,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
                 case 0:
                     return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId());
                 case 1:
-                    return BoardTilesFragment.newInstance(boardId);
+                    return BoardTilesFragment.newInstance(board.getId(), board.getIsActive());
                 default:
                     return null;
             }

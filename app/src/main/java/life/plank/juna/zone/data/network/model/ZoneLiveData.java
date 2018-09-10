@@ -14,10 +14,11 @@ public class ZoneLiveData {
     private List<MatchEvent> matchEventList;
     private List<Commentary> commentaryList;
     private LiveTimeStatus liveTimeStatus;
+    private List<ScrubberData> scrubberDataList;
 
     public ZoneLiveData(String liveEventType, long foreignId, String boardTopic, String liveDataType,
                         LiveScoreData scoreData, List<MatchEvent> matchEventList, List<Commentary> commentaryList,
-                        LiveTimeStatus liveTimeStatus) {
+                        List<ScrubberData> scrubberDataList, LiveTimeStatus liveTimeStatus) {
         this.liveEventType = liveEventType;
         this.foreignId = foreignId;
         this.boardTopic = boardTopic;
@@ -25,6 +26,7 @@ public class ZoneLiveData {
         this.scoreData = scoreData;
         this.matchEventList = matchEventList;
         this.commentaryList = commentaryList;
+        this.scrubberDataList = scrubberDataList;
         this.liveTimeStatus = liveTimeStatus;
     }
 }
