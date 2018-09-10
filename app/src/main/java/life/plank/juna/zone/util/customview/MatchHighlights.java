@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SnapHelper;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -47,6 +46,8 @@ public class MatchHighlights extends FrameLayout {
     private void init(Context context) {
         View rootView = inflate(context, R.layout.item_match_highlights_layout, this);
         ButterKnife.bind(this, rootView);
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(highlightsRecyclerView);
     }
 
     public void setLoading(boolean isLoading) {
@@ -56,8 +57,6 @@ public class MatchHighlights extends FrameLayout {
 
     public void setAdapter(HighlightsAdapter adapter) {
         this.adapter = adapter;
-        SnapHelper snapHelper = new PagerSnapHelper();
-        snapHelper.attachToRecyclerView(highlightsRecyclerView);
         highlightsRecyclerView.setAdapter(this.adapter);
     }
 

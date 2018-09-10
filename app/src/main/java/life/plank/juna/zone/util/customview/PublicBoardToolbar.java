@@ -88,6 +88,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         boolean initWithDefaults = array.getBoolean(R.styleable.PublicBoardToolbar_useDefaults, true);
         if (initWithDefaults) {
             initWithDefaults(context);
+            showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
             return;
         }
         setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
@@ -103,7 +104,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         array.recycle();
     }
 
-    public void setUpPopUp(Activity context, Long currentMatchId) {
+    public void setUpPopUp(Activity activity, Long currentMatchId) {
         optionsMenu.setOnClickListener(view -> {
             int[] location = new int[2];
 
@@ -113,7 +114,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             Point point = new Point();
             point.x = location[0];
             point.y = location[1];
-            showOptionPopup(context, point, context.getString(R.string.board_pop_up), currentMatchId, -400, 100);
+            showOptionPopup(activity, point, activity.getString(R.string.board_pop_up), currentMatchId, -400, 100);
         });
     }
 
