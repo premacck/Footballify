@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minWidth="50dp"
     android:maxWidth="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
-    android:layout_marginStart="15dp"
-    android:layout_marginEnd="15dp"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="26dp"
-        android:layout_height="26dp">
+        android:layout_width="32dp"
+        android:layout_height="32dp">
 
         <life.plank.juna.zone.util.customview.CircularTextView
             android:id="@+id/lineup_player_number"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
             android:layout_margin="5dp"
             android:gravity="center"
             android:fontFamily="@font/rajdhani_semibold"
@@ -29,22 +27,23 @@
 
         <ImageView
             android:id="@+id/lineup_player_card"
-            android:layout_width="11dp"
-            android:layout_height="11dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="1dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginTop="2dp"
+            android:visibility="gone"
             android:contentDescription="@string/lineup_card" />
 
         <ImageView
             android:id="@+id/lineup_player_goal"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="1dp"
-            android:layout_marginStart="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginStart="2dp"
             android:src="@drawable/ic_goal_left"
             android:visibility="gone"
             android:contentDescription="@string/lineup_card" />
@@ -55,7 +54,7 @@
             android:layout_height="8dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="8dp"
             android:fontFamily="@font/rajdhani_semibold"
             android:textSize="@dimen/text_6p"
             android:textColor="@color/black"
@@ -66,12 +65,12 @@
 
         <ImageView
             android:id="@+id/lineup_player_substitution"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginBottom="1dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
             android:src="@drawable/ic_player_substitute_down"
             android:visibility="gone"
             android:contentDescription="@string/lineup_card" />
@@ -85,6 +84,8 @@
         android:maxWidth="80dp"
         android:fontFamily="@font/rajdhani_medium"
         android:gravity="center"
+        android:paddingEnd="2dp"
+        android:paddingStart="2dp"
         android:textSize="@dimen/text_10sp"
         android:maxLines="2"
         android:ellipsize="end"
