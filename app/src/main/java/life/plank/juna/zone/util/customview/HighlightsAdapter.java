@@ -61,7 +61,7 @@ public class HighlightsAdapter extends BaseRecyclerView.Adapter<HighlightsAdapte
             highlights = ref.get().highlightsList.get(getAdapterPosition());
             webView.setWebChromeClient(new WebChromeClient());
             webView.getSettings().setJavaScriptEnabled(true);
-            webView.loadUrl(highlights.getHighlightsUrl());
+            webView.loadUrl(highlights.getHighlightsLink());
         }
     }
 }
