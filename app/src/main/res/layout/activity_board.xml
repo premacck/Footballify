@@ -45,7 +45,6 @@
                     android:id="@+id/board_toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     app:useDefaults="true"
                     arc:showLock="false" />
 
