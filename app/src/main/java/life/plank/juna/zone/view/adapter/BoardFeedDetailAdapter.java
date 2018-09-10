@@ -68,8 +68,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private Context context;
     private String date;
     private String boardId;
+    private boolean isBoardActive;
 
-    public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId) {
+    public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId, boolean isBoardActive) {
+        this.boardId = boardId;
+        this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(context);
         this.context = context;
         this.footballFeedsList = footballFeedsList;
@@ -181,34 +184,28 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setText(getCommentText(comment));
             }
         }
-        holder.likeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.likeImageView.setOnClickListener(v -> {
+            if (isBoardActive) {
                 boardFeedItemLikeApiCall(feedId, date, holder, position);
             }
         });
 
-        holder.shareImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.shareImageView.setOnClickListener(v -> {
+            if (isBoardActive) {
                 // TODO: Make api call to share
             }
         });
 
-        holder.dislikeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.dislikeImageView.setOnClickListener(v -> {
+            if (isBoardActive) {
                 boardFeedItemDisLikeApiCall(feedId, date, holder, position);
             }
         });
 
-        holder.feedTitleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                holder.feedDescription.setText(footballFeedsList.get(position).getDescription());
-            }
+        holder.feedTitleTextView.setOnClickListener(view -> {
+            holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+            holder.feedDescription.setText(footballFeedsList.get(position).getDescription());
         });
     }
 
