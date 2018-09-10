@@ -9,6 +9,7 @@ import android.support.v7.widget.SnapHelper;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -21,6 +22,8 @@ public class MatchHighlights extends FrameLayout {
 
     @BindView(R.id.list_highlights)
     RecyclerView highlightsRecyclerView;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
 
     private HighlightsAdapter adapter;
 
@@ -44,6 +47,11 @@ public class MatchHighlights extends FrameLayout {
     private void init(Context context) {
         View rootView = inflate(context, R.layout.item_match_highlights_layout, this);
         ButterKnife.bind(this, rootView);
+    }
+
+    public void setLoading(boolean isLoading) {
+        progressBar.setVisibility(isLoading ? VISIBLE : GONE);
+        highlightsRecyclerView.setVisibility(isLoading ? GONE : VISIBLE);
     }
 
     public void setAdapter(HighlightsAdapter adapter) {
