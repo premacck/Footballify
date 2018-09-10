@@ -16,6 +16,8 @@ public class CircularTextView extends AppCompatTextView {
     private float strokeWidth;
     private int strokeColor;
     private int solidColor;
+    private Paint circlePaint;
+    private Paint strokePaint;
 
     public CircularTextView(Context context) {
         this(context, null);
@@ -41,12 +43,12 @@ public class CircularTextView extends AppCompatTextView {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        Paint circlePaint = new Paint();
+    protected void onDraw(Canvas canvas) {
+        if (circlePaint == null) circlePaint = new Paint();
         circlePaint.setColor(solidColor);
         circlePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-        Paint strokePaint = new Paint();
+        if (strokePaint == null) strokePaint = new Paint();
         strokePaint.setColor(strokeColor);
         strokePaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
@@ -63,7 +65,7 @@ public class CircularTextView extends AppCompatTextView {
 
         canvas.drawCircle(diameter / 2, diameter / 2, radius - strokeWidth, circlePaint);
 
-        super.draw(canvas);
+        super.onDraw(canvas);
     }
 
     public void setStrokeWidth(float dp) {
@@ -76,5 +78,6 @@ public class CircularTextView extends AppCompatTextView {
 
     public void setSolidColor(int color) {
         solidColor = color;
+        invalidate();
     }
 }

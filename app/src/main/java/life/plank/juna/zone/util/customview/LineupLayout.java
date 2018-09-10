@@ -1,7 +1,6 @@
 package life.plank.juna.zone.util.customview;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -24,9 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -89,8 +86,8 @@ public class LineupLayout extends FrameLayout {
         setHomeTeamLineup(getLineupText(lineups.getHomeTeamFormation()));
         setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
 
-        prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), R.color.lineup_player_red, true);
-        prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), R.color.purple, false);
+        prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), getContext().getColor(R.color.lineup_player_red), true);
+        prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), getContext().getColor(R.color.purple), false);
 
         Target homeTarget = getStartDrawableTarget(this.homeTeamName);
         Target visitingTarget = getStartDrawableTarget(this.visitingTeamName);
@@ -116,7 +113,7 @@ public class LineupLayout extends FrameLayout {
         lineupCenterLines.setVisibility(INVISIBLE);
     }
 
-    public void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, @ColorRes int labelColor, boolean isHomeTeam) {
+    public void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, int labelColor, boolean isHomeTeam) {
         if (!isHomeTeam) {
             Collections.reverse(formationsList);
         }
@@ -125,13 +122,17 @@ public class LineupLayout extends FrameLayout {
         }
     }
 
-    private LinearLayout getLineupLayoutLine(List<Lineups.Formation> formations, @ColorRes int labelColor) {
+    private LinearLayout getLineupLayoutLine(List<Lineups.Formation> formations, int labelColor) {
         LinearLayout linearLayout = new LinearLayout(getContext());
+        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setWeightSum(formations.size());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1);
         linearLayout.setLayoutParams(params);
         for (Lineups.Formation formation : formations) {
-            linearLayout.addView(new LineupPlayer(getContext(), formation, labelColor));
+            LineupPlayer lineupPlayer = new LineupPlayer(getContext(), formation, labelColor);
+            linearLayout.addView(lineupPlayer);
+            ((LinearLayout.LayoutParams) lineupPlayer.getLayoutParams()).weight = 1;
         }
         return linearLayout;
     }
@@ -161,25 +162,5 @@ public class LineupLayout extends FrameLayout {
 
     public void setVisitingTeamLineup(String visitingTeamLineup) {
         this.visitingTeamLineup.setText(visitingTeamLineup);
-    }
-
-    //    TODO : remove in next pull request
-    public void update(Lineups lineups, String homeLogo, String visitingLogo, Picasso picasso, String homeName, String visitingName) {
-    }
-
-    //    TODO : remove in next pull request
-    public void onMatchYetToStart() {
-    }
-
-    //    TODO : remove in next pull request
-    public void updateSubstitutions(List<MatchEvent> matchEvents) {
-    }
-
-    //    TODO : remove in next pull request
-    public void updateEvents(List<MatchEvent> matchEvents) {
-    }
-
-    //    TODO : remove in next pull request
-    public void setAdapter(SubstitutionAdapter adapter) {
     }
 }

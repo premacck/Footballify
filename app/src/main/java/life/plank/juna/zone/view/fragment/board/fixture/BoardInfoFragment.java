@@ -273,4 +273,10 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     }
                 });
     }
+
+    @Override
+    public void onDetach() {
+        adapter = null;
+        super.onDetach();
+    }
 }
