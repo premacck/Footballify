@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
                     android:layout_marginStart="10dp"
-                    android:fontFamily="@font/raleway_medium"
+                    android:fontFamily="@font/raleway_semibold"
                     android:lineSpacingExtra="5sp"
                     android:padding="5dp"
                     android:text="@string/matches_fixtures_amp_results"
