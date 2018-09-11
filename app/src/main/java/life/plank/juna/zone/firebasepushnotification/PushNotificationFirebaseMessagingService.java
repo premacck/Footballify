@@ -146,7 +146,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         if (boardNotification.getInvitationLink() != null) {
             Intent intent = new Intent(this, JoinBoardActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
+            intent.putExtra(getString(R.string.board_id_prefix), boardNotification.getBoardId());
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
             defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         } else {
