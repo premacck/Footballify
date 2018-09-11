@@ -82,6 +82,7 @@
             android:name=".view.activity.VideoPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_video_player"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <provider
@@ -94,19 +95,26 @@
                 android:resource="@xml/provider_path" />
         </provider>
 
-        <activity android:name=".view.activity.SwipePageActivity" />
-        <activity android:name=".view.activity.AudioRecorderActivity" />
+        <activity
+            android:name=".view.activity.SwipePageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.AudioRecorderActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.FixtureActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.RecordAudioActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.PostRecordedAudioActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.AuthForgotPasswordActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.BoardActivity"
@@ -123,24 +131,54 @@
         <activity
             android:name=".view.activity.PostCommentActivity"
             android:label="@string/title_activity_post_comment"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".view.activity.WorldCupFixtureActivity" />
-        <activity android:name=".view.activity.ZoneActivity" />
-        <activity android:name=".view.activity.SignInActivity" />
-        <activity android:name=".view.activity.PrivateBoardActivity" />
+        <activity
+            android:name=".view.activity.WorldCupFixtureActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.ZoneActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.SignInActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PrivateBoardActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.CreateBoardActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".view.activity.TokenActivity" />
-        <activity android:name=".view.activity.InviteToBoardActivity" />
-        <activity android:name=".view.activity.UserProfileActivity" />
-        <activity android:name=".view.activity.LeagueInfoDetailActivity" />
-        <activity android:name=".view.activity.UserFeedActivity" />
-        <activity android:name=".view.activity.TimelineActivity" />
-        <activity android:name=".view.activity.CommentaryActivity" />
-        <activity android:name=".view.activity.BoardPreviewActivity" />
-        <activity android:name=".view.activity.EditProfileActivity" />
-        <activity android:name=".view.activity.JoinBoardActivity" />
+        <activity
+            android:name=".view.activity.TokenActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.InviteToBoardActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.UserProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.LeagueInfoDetailActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.UserFeedActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.TimelineActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.CommentaryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.BoardPreviewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.EditProfileActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.JoinBoardActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
