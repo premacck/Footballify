@@ -114,6 +114,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.LeagueInfoActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.BoardFeedDetailActivity"
