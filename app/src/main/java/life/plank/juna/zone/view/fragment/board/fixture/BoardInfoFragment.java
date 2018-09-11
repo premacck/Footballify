@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -69,6 +70,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
 
     private MatchFixture fixture;
     private BoardInfoAdapter adapter;
+    private List<MatchEvent> matchEvents;
 
     public BoardInfoFragment() {
     }
@@ -95,24 +97,29 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-
         adapter = new BoardInfoAdapter(this, getContext(), picasso, true, fixture, snapHelper);
         boardInfoRecyclerView.setAdapter(adapter);
-
-        getCommentaries();
-        getMatchTeamStats();
-        getLineupFormation();
-        getMatchEvents();
-
         return rootView;
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getCommentaries();
+        getMatchTeamStats();
+        getLineupFormation();
+        getMatchEvents();
+    }
+
+    @Override
     public void onScrubberClick(View view) {
-        if (boardParentViewBitmap == null) {
-            boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
-        }
-        TimelineActivity.launch(getActivity(), view, fixture.getForeignId());
+        if (!isNullOrEmpty(matchEvents)) {
+            if (boardParentViewBitmap == null) {
+                boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
+            }
+            TimelineActivity.launch(getActivity(), view, fixture.getForeignId(), gson.toJson(matchEvents), gson.toJson(fixture));
+        } else
+            Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -162,7 +169,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     public void onNext(Response<List<MatchEvent>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                List<MatchEvent> matchEvents = response.body();
+                                matchEvents = response.body();
                                 if (!isNullOrEmpty(matchEvents)) {
                                     adapter.setMatchEvents(matchEvents, false);
                                 } else

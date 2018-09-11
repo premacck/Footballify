@@ -96,7 +96,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            BoardActivity.launch(ref.get().activity, scoreFixture);
+            BoardActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(scoreFixture));
         }
     }
 }
