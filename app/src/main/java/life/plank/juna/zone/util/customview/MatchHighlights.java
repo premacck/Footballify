@@ -24,29 +24,35 @@ public class MatchHighlights extends FrameLayout {
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
 
+    private PagerSnapHelper snapHelper;
+
     private HighlightsAdapter adapter;
 
     public MatchHighlights(@NonNull Context context) {
-        this(context, null);
+        super(context);
     }
 
-    public MatchHighlights(@NonNull Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    public MatchHighlights(@NonNull Context context, PagerSnapHelper snapHelper) {
+        this(context, null, snapHelper);
     }
 
-    public MatchHighlights(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, 0);
+    public MatchHighlights(@NonNull Context context, @Nullable AttributeSet attrs, PagerSnapHelper snapHelper) {
+        this(context, attrs, 0, snapHelper);
     }
 
-    public MatchHighlights(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MatchHighlights(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, PagerSnapHelper snapHelper) {
+        this(context, attrs, defStyleAttr, 0, snapHelper);
+    }
+
+    public MatchHighlights(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes, PagerSnapHelper snapHelper) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        this.snapHelper = snapHelper;
         init(context);
     }
 
     private void init(Context context) {
         View rootView = inflate(context, R.layout.item_match_highlights_layout, this);
         ButterKnife.bind(this, rootView);
-        PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(highlightsRecyclerView);
     }
 

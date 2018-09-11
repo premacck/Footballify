@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.PagerSnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,13 +62,15 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private List<MatchEvent> matchEventList;
     private List<TeamStatsModel> teamStatModels;
     private List<StandingModel> standingsList;
+    private PagerSnapHelper snapHelper;
 
-    public BoardInfoAdapter(BoardInfoFragment fragment, Context context, Picasso picasso, boolean isBoardStarted, MatchFixture fixture) {
+    public BoardInfoAdapter(BoardInfoFragment fragment, Context context, Picasso picasso, boolean isBoardStarted, MatchFixture fixture, PagerSnapHelper snapHelper) {
         this.fragment = fragment;
         this.isBoardStarted = isBoardStarted;
         this.picasso = picasso;
         this.context = context;
         this.fixture = fixture;
+        this.snapHelper = snapHelper;
 
         scrubberDataList = new ArrayList<>();
         commentaryList = new ArrayList<>();
@@ -397,7 +400,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     case TYPE_SCRUBBER_VIEW:
                         return new ScrubberLayout(ref.get().context, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_HIGHLIGHTS_VIEW:
-                        return new MatchHighlights(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new MatchHighlights(ref.get().context, null, R.style.BoardInfoLayout, ref.get().snapHelper);
                     case TYPE_COMMENTARY_VIEW:
                         return new CommentarySmall(ref.get().context, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_STATS_VIEW:
