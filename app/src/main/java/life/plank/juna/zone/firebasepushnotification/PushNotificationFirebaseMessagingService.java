@@ -32,6 +32,7 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
@@ -103,6 +104,13 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                                         gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_live_time_status)), LiveTimeStatus.class)
                                 )
                         ));
+                }
+                //TODO: Move to strings.xml and change to camel case once done on backend
+                else if (dataPayload.containsKey("InvitationLink")) {
+                JSONObject jsonObject = new JSONObject(dataPayload);
+                String notificationString = jsonObject.toString();
+                BoardNotification boardNotification = gson.fromJson(notificationString, BoardNotification.class);
+                sendNotification(boardNotification);
             }
         }
 
@@ -116,17 +124,38 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
     public void sendNotification(BoardNotification boardNotification) {
 
-        String messageBody = boardNotification.getActor()
-                + " "
-                + boardNotification.getAction()
-                + "ed" + " " + "an" + " "
-                + boardNotification.getContentType();
+        //TODO: Construct custom message
+        PendingIntent pendingIntent;
+        Uri defaultSoundUri;
+        String messageBody;
 
-        Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : BoardActivity.class);
-        msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        msgIntent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (boardNotification.getInvitationLink() != null) {
+
+            messageBody = boardNotification.getInviterName()
+                    + " invited you to join "
+                    + boardNotification.getBoardId()
+                    + " board";
+        } else {
+            messageBody = boardNotification.getActor()
+                    + " "
+                    + boardNotification.getAction()
+                    + "ed" + " " + "an" + " "
+                    + boardNotification.getContentType();
+        }
+
+        if (boardNotification.getInvitationLink() != null) {
+            Intent intent = new Intent(this, JoinBoardActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
+            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        } else {
+            Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : BoardActivity.class);
+            msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            msgIntent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
+            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        }
 
         //TODO: Remove this and make it general, Such that the message is appropriate when the user uploads a video , image or any other content
         //Will be done in the next pull request
