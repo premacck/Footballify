@@ -1,6 +1,7 @@
 package life.plank.juna.zone.data.network.dagger.module;
 
 import android.content.Context;
+import android.support.v7.widget.PagerSnapHelper;
 
 import com.squareup.picasso.Picasso;
 
@@ -19,6 +20,12 @@ public class UiModule {
     @Provides
     public Picasso providePicasso(Context context) {
         return Picasso.with(context);
+    }
+
+    @UiScope
+    @Provides
+    public PagerSnapHelper providePagerSnapHelper() {
+        return new PagerSnapHelper();
     }
 }
 
