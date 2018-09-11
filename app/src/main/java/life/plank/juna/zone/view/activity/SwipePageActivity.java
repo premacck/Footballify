@@ -65,7 +65,7 @@ import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener, SearchView.OnQueryTextListener {
+public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener, SearchView.OnQueryTextListener, OnItemClickListener {
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
@@ -94,7 +94,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
-    OnItemClickListener onItemClickListener;
+
     private RestApi restApi;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -166,7 +166,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     private void initBottomSheetRecyclerView() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-        searchViewAdapter = new SearchViewAdapter(userList, this,onItemClickListener);
+        searchViewAdapter = new SearchViewAdapter(userList, this, this);
         recyclerView.setAdapter(searchViewAdapter);
         search.setOnQueryTextListener(this);
 
@@ -330,5 +330,10 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             searchViewAdapter.notifyDataSetChanged();
         }
         return true;
+    }
+
+    @Override
+    public void onItemClicked(String objectId, Boolean isSelected) {
+        //TODO: handle on item click
     }
 }
