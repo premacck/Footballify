@@ -39,12 +39,14 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
     ImageView boardBlurBackgroundImageView;
     CustomLinearLayoutManager customLinearLayoutManager;
     String boardId;
+    private boolean isBoardActive;
 
-    public static void launch(Activity packageContext, int position, List<FootballFeed> boardFeed, String boardId, View fromView) {
+    public static void launch(Activity packageContext, int position, List<FootballFeed> boardFeed, String boardId, View fromView, boolean isBoardActive) {
         Intent intent = new Intent(packageContext, BoardFeedDetailActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_position), String.valueOf(position));
         intent.putExtra(packageContext.getString(R.string.intent_feed_items), new Gson().toJson(boardFeed));
         intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId);
+        intent.putExtra(packageContext.getString(R.string.intent_is_board_active), isBoardActive);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, "board_tile_transition"));
         packageContext.startActivity(intent, options.toBundle());
     }
@@ -56,6 +58,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setSharedElementTransitionDuration(this, 200);
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
+        isBoardActive = getIntent().getBooleanExtra(getString(R.string.intent_is_board_active), false);
         saveBoardId();
         boardBlurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardActivity.boardParentViewBitmap));
         populateRecyclerView();
@@ -73,7 +76,7 @@ public class BoardFeedDetailActivity extends AppCompatActivity {
     public void populateRecyclerView() {
         BoardFeedDetailAdapter mAdapter = new BoardFeedDetailAdapter(BoardFeedDetailActivity.this,
                 new Gson().fromJson(getIntent().getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FootballFeed>>() {
-                }.getType()), boardId);
+                }.getType()), boardId, isBoardActive);
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);
         boardFeedDetailsRecyclerView.setLayoutManager(customLinearLayoutManager);
         try {

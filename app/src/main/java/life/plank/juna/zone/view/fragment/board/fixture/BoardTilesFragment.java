@@ -172,6 +172,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         if (boardActivity != null) {
             boardParentViewBitmap = loadBitmap(boardActivity.getWindow().getDecorView(), boardActivity.getWindow().getDecorView(), boardActivity);
         }
-        BoardFeedDetailActivity.launch(getActivity(), position, adapter.getBoardFeed(), boardId, fromView);
+        BoardFeedDetailActivity.launch(getActivity(), position, adapter.getBoardFeed(), boardId, fromView, isBoardActive);
     }
 }
