@@ -42,4 +42,6 @@
     <string name="invite_user_failed">Couldn\'t invite user</string>
     <string name="board_not_active_message">Cannot perform this action since this board is not active.</string>
     <string name="cancel">Cancel</string>
+    <string name="hey_there">Hey there!</string>
+    <string name="connect_message">Looks like you\'re not connected with us. Please connect with Juna to enjoy way more content.</string>
 </resources>
