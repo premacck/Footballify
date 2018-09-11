@@ -28,6 +28,7 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static life.plank.juna.zone.util.AppConstants.DASH;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 
@@ -83,12 +84,13 @@ public class LineupLayout extends FrameLayout {
 
         setHomeTeamName(fixture.getHomeTeam().getName());
         setVisitingTeamName(fixture.getAwayTeam().getName());
-        setHomeTeamLineup(getLineupText(lineups.getHomeTeamFormation()));
-        setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
+        if (!isNullOrEmpty(lineups.getHomeTeamFormation()) && !isNullOrEmpty(lineups.getAwayTeamFormation())) {
+            setHomeTeamLineup(getLineupText(lineups.getHomeTeamFormation()));
+            setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
 
-        prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), getContext().getColor(R.color.lineup_player_red), true);
-        prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), getContext().getColor(R.color.purple), false);
-
+            prepareLineup(homeTeamLineupLayout, lineups.getHomeTeamFormation(), getContext().getColor(R.color.lineup_player_red), true);
+            prepareLineup(visitingTeamLineupLayout, lineups.getAwayTeamFormation(), getContext().getColor(R.color.purple), false);
+        }
         Target homeTarget = getStartDrawableTarget(this.homeTeamName);
         Target visitingTarget = getStartDrawableTarget(this.visitingTeamName);
 

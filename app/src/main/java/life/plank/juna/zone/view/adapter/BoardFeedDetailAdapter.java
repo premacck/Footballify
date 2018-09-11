@@ -1,6 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.media.AudioManager;
@@ -47,6 +47,7 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
@@ -65,13 +66,16 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     private List<FootballFeed> footballFeedsList;
     private RestApi restApi;
-    private Context context;
+    private Activity activity;
     private String date;
     private String boardId;
+    private boolean isBoardActive;
 
-    public BoardFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList, String boardId) {
-        ColorHashMap.HashMaps(context);
-        this.context = context;
+    public BoardFeedDetailAdapter(Activity activity, List<FootballFeed> footballFeedsList, String boardId, boolean isBoardActive) {
+        this.boardId = boardId;
+        this.isBoardActive = isBoardActive;
+        ColorHashMap.HashMaps(activity);
+        this.activity = activity;
         this.footballFeedsList = footballFeedsList;
     }
 
@@ -86,25 +90,25 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
 
-        date = new SimpleDateFormat(context.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
+        date = new SimpleDateFormat(activity.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
 
         if (footballFeedsList.get(position).getInteractions() != null) {
             holder.likeCountTextView.setText(String.valueOf(footballFeedsList.get(position).getInteractions().getLikes()));
             holder.dislikeCountTextView.setText(String.valueOf(footballFeedsList.get(position).getInteractions().getDislikes()));
         }
 
-        SharedPreferences matchPref = context.getSharedPreferences(context.getString(R.string.pref_enter_board_id), 0);
-        boardId = matchPref.getString(context.getString(R.string.pref_enter_board_id), "NA");
+        SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
+        boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
         String feedId = footballFeedsList.get(position).getId();
         if (footballFeedsList.get(position).getActor() != null) {
             holder.userNameTextView.setText(footballFeedsList.get(position).getActor().getDisplayName());
         } else {
-            SharedPreferences userPref = context.getSharedPreferences(context.getString(R.string.pref_login_credentails), 0);
-            String userEmailId = userPref.getString(context.getString(R.string.pref_email_address), "NA");
+            SharedPreferences userPref = activity.getSharedPreferences(activity.getString(R.string.pref_login_credentails), 0);
+            String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");
             holder.userNameTextView.setText(userEmailId);
         }
         holder.feedTitleTextView.setText(footballFeedsList.get(position).getDescription());
-        setupSwipeGesture(context, holder.dragHandleImageView);
+        setupSwipeGesture(activity, holder.dragHandleImageView);
 
         switch (footballFeedsList.get(position).getContentType()) {
             case "Image": {
@@ -113,7 +117,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setVisibility(View.INVISIBLE);
 
                 try {
-                    Picasso.with(context).
+                    Picasso.with(activity).
                             load(footballFeedsList.get(position).getThumbnail().getImageUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
@@ -134,7 +138,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
-                    mediaPlayer.setDataSource(context, videoUri);
+                    mediaPlayer.setDataSource(activity, videoUri);
                     mediaPlayer.prepare();
                 } catch (IOException e) {
                     mediaPlayer.stop();
@@ -143,7 +147,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 mediaPlayer.start();
 
                 try {
-                    Picasso.with(context).
+                    Picasso.with(activity).
                             load(footballFeedsList.get(position).getUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
@@ -158,7 +162,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setVisibility(View.INVISIBLE);
                 holder.feedImageView.setVisibility(View.INVISIBLE);
                 holder.capturedVideoView.setVisibility(View.VISIBLE);
-                MediaController mediaController = new MediaController(context);
+                MediaController mediaController = new MediaController(activity);
                 holder.capturedVideoView.setMediaController(mediaController);
                 String uri = footballFeedsList.get(position).getUrl();
                 Uri videoUri = Uri.parse(uri);
@@ -181,34 +185,34 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setText(getCommentText(comment));
             }
         }
-        holder.likeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.likeImageView.setOnClickListener(v -> {
+            if (isBoardActive) {
                 boardFeedItemLikeApiCall(feedId, date, holder, position);
+            } else {
+                displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
         });
 
-        holder.shareImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.shareImageView.setOnClickListener(v -> {
+            if (isBoardActive) {
                 // TODO: Make api call to share
+            } else {
+                displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
         });
 
-        holder.dislikeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        holder.dislikeImageView.setOnClickListener(v -> {
+            if (isBoardActive) {
                 boardFeedItemDisLikeApiCall(feedId, date, holder, position);
+            } else {
+                displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
         });
 
-        holder.feedTitleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
-                holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-                holder.feedDescription.setText(footballFeedsList.get(position).getDescription());
-            }
+        holder.feedTitleTextView.setOnClickListener(view -> {
+            holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
+            holder.feedDescription.setText(footballFeedsList.get(position).getDescription());
         });
     }
 
@@ -218,7 +222,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemLikeApiCall(String feedItemId, String dateCreated, FootballFeedDetailViewHolder holder, int position) {
-        restApi.postLike(feedItemId, boardId, "Boards", dateCreated, getToken(context))
+        restApi.postLike(feedItemId, boardId, "Boards", dateCreated, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -230,14 +234,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                int tint = ContextCompat.getColor(context, R.color.frog_green);
+                                int tint = ContextCompat.getColor(activity, R.color.frog_green);
                                 holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
                                 holder.dislikeImageView.setVisibility(View.INVISIBLE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
@@ -245,7 +249,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 retrieveBoardById(holder, position);
                                 break;
                             default:
-                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -266,7 +270,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "On Error()" + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -277,10 +281,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 notifyDataSetChanged();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(context, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(context, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -288,7 +292,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDeleteLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteLike(feedItemId, getToken(context))
+        restApi.deleteLike(feedItemId, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -300,7 +304,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -310,7 +314,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 //TODO: Add logic to toggle the visibility of like count
                                 break;
                             default:
-                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -318,7 +322,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDisLikeApiCall(String feedItemId, String dateCreated, FootballFeedDetailViewHolder holder, int position) {
-        restApi.postDisLike(feedItemId, boardId, "Boards", dateCreated, getToken(context))
+        restApi.postDisLike(feedItemId, boardId, "Boards", dateCreated, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -330,14 +334,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                int tint = ContextCompat.getColor(context, R.color.salmon);
+                                int tint = ContextCompat.getColor(activity, R.color.salmon);
                                 holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
                                 holder.likeImageView.setVisibility(View.INVISIBLE);
                                 holder.dislikeCountTextView.setVisibility(View.VISIBLE);
@@ -345,7 +349,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 retrieveBoardById(holder, position);
                                 break;
                             default:
-                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -354,7 +358,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteDisLike(feedItemId, getToken(context))
+        restApi.deleteDisLike(feedItemId, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -366,7 +370,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -376,7 +380,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 //TODO: update dislike count
                                 break;
                             default:
-                                Toast.makeText(context, R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
