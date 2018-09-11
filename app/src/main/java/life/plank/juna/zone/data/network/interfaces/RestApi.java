@@ -11,7 +11,6 @@ import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchTeamStats;
@@ -164,9 +163,6 @@ public interface RestApi {
 
     @GET("matches/{matchId}/events")
     Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
-
-    @GET("matches/{matchId}/timestatus")
-    Observable<Response<List<LiveTimeStatus>>> getLiveTimeStatus(@Path("matchId") long matchId);
 
     @GET("highlights/{matchId}")
     Observable<Response<List<Highlights>>> getMatchHighlights(@Path("matchId") long matchId);

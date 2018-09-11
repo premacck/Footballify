@@ -15,6 +15,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -60,11 +61,12 @@ public class FixtureActivity extends AppCompatActivity {
     TextView headerView;
 
     @Inject
-    public
-    Picasso picasso;
+    public Picasso picasso;
     @Inject
     @Named("footballData")
     Retrofit retrofit;
+    @Inject
+    public Gson gson;
 
     private FixtureMatchdayAdapter fixtureMatchdayAdapter;
     private RestApi restApi;

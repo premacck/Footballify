@@ -38,7 +38,9 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
+import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.GOAL;
+import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
@@ -445,6 +447,17 @@ public class DataUtil {
         protected void onPostExecute(LineData lineData) {
             lineChartRef.get().setData(lineData);
             lineChartRef.get().invalidate();
+        }
+    }
+
+    public static String getDisplayTimeStatus(String apiTimeStatus) {
+        switch (apiTimeStatus) {
+            case HT:
+                return HALF_TIME_LOWERCASE;
+            case FT:
+                return FULL_TIME_LOWERCASE;
+            default:
+                return apiTimeStatus;
         }
     }
 }

@@ -17,13 +17,14 @@ import static life.plank.juna.zone.util.DataUtil.formatInt;
 
 public class DateUtil {
 
+    private static final String TIMELINE_HEADER_DATE_STRING = "EEE, dd MMM";
     private static final String ISO_DATE_STRING = "yyyy-MM-dd'T'HH:mm:ss";
     private static final String HEADER_DATE_STRING = "EEE dd MMM yyyy";
     private static final String SCHEDULED_DATE_STRING = "EEE dd MM";
     private static final String FUTURE_DATE_FORM_STRING = "HH:mm";
-
-    private static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
+    public static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
+    private static final SimpleDateFormat TIMELINE_HEADER_DATE_FORMAT = new SimpleDateFormat(TIMELINE_HEADER_DATE_STRING, Locale.getDefault());
 
     private static Date getIsoFormattedDate(String dateString) throws ParseException {
         return ISO_DATE_FORMAT.parse(dateString);
@@ -103,6 +104,20 @@ public class DateUtil {
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 return HEADER_DATE_FORMAT.format(matchStartTime);
+        }
+    }
+
+    public static String getTimelineDateHeader(Date matchStartTime) {
+        int dateDiff = getDateDiffFromToday(matchStartTime);
+        switch (dateDiff) {
+            case -1:
+                return ZoneApplication.getContext().getString(R.string.yesterday);
+            case 0:
+                return ZoneApplication.getContext().getString(R.string.today);
+            case 1:
+                return ZoneApplication.getContext().getString(R.string.tomorrow);
+            default:
+                return TIMELINE_HEADER_DATE_FORMAT.format(matchStartTime);
         }
     }
 
