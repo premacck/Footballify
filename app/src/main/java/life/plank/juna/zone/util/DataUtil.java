@@ -164,7 +164,7 @@ public class DataUtil {
         List<FootballFeed> footballFeeds = new ArrayList<>();
         footballFeeds.add(new FootballFeed(
                 "Premier League",
-                new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0),
+                new Thumbnail("https://image.ibb.co/msPsep/img_epl_logo.png", 0, 0),
                 "2018/2019",
                 "England"
         ));

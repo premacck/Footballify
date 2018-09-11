@@ -147,11 +147,9 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
 
         title.setText(leagueName);
         picasso.load(leagueLogo)
-                .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(logo);
-
     }
 
     private void prepareDummyChart() {
