@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -31,8 +29,6 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -41,7 +37,6 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
-import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import retrofit2.Response;
@@ -64,14 +59,16 @@ public class PrivateBoardActivity extends AppCompatActivity {
     @Inject
     Gson gson;
 
+    private static RestApi rest;
+
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
     @BindView(R.id.private_board_toolbar)
     GenericToolbar toolbar;
     @BindView(R.id.private_board_view_pager)
     ViewPager viewPager;
-    Point point;
-    Boolean isOwner;
+
+    static String boardId;
     private Board board;
     private PrivateBoardPagerAdapter pagerAdapter;
 
@@ -88,42 +85,8 @@ public class PrivateBoardActivity extends AppCompatActivity {
         packageContext.startActivity(intent);
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_private_board);
-        ButterKnife.bind(this);
-        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
-            board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
-        }
-
-        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
-        editor.getString(getString(R.string.pref_display_name), "NA");
-
-        if (board.getOwner().getDisplayName().equals(editor.getString(getString(R.string.pref_display_name), "NA"))) {
-            toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_owner_popup));
-
-        } else {
-            toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
-        }
-
-        toolbar.setTitle(board.getDisplayname());
-        toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
-        toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
-        boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
-
-        setupViewPagerWithFragments();
-        String topic = getString(R.string.board_id_prefix) + board.getId();
-        FirebaseMessaging.getInstance().subscribeToTopic(topic);
-
-    }
-
-    public  void deletePrivateBoard(String boardId) {
-        restApi.deleteBoard(boardId, getToken(this))
+    public static void deletePrivateBoard() {
+        rest.deleteBoard(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -143,14 +106,49 @@ public class PrivateBoardActivity extends AppCompatActivity {
                         response.code();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                //TODO: Add logic to toggle the visibility of like count
+
                                 break;
                             default:
-                                //Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
+
                                 break;
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_private_board);
+        ButterKnife.bind(this);
+        ((ZoneApplication) getApplication()).getUiComponent().inject(this);
+        rest = restApi;
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
+            board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
+        }
+
+        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
+        editor.getString(getString(R.string.pref_display_name), "NA");
+
+        boardId = board.getId();
+        if (board.getOwner().getDisplayName().equals(editor.getString(getString(R.string.pref_display_name), "NA"))) {
+            toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_owner_popup));
+
+        } else {
+            toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
+        }
+
+        toolbar.setTitle(board.getDisplayname());
+        toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
+        toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
+        boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
+
+        setupViewPagerWithFragments();
+        String topic = getString(R.string.board_id_prefix) + board.getId();
+        FirebaseMessaging.getInstance().subscribeToTopic(topic);
+
     }
 
     private void setupViewPagerWithFragments() {

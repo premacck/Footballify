@@ -14,10 +14,11 @@ import android.widget.TextView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
 public class CustomPopup {
 
-    static PopupWindow optionPopUp;
+    private static PopupWindow optionPopUp;
 
     public static void showOptionPopup(final Activity context, Point p, String popUpType, Long currentMatchId, int offsetX, int offsetY) {
 
@@ -54,15 +55,15 @@ public class CustomPopup {
 
             unfollowText.setOnClickListener(view -> {
                 optionPopUp.dismiss();
+                PrivateBoardActivity.deletePrivateBoard();
             });
-
             TextView reportText = layout.findViewById(R.id.report);
             reportText.setText("  Settings");
             reportText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
             reportText.setOnClickListener(view -> optionPopUp.dismiss());
 
 
-        }else if (popUpType.equals(context.getString(R.string.private_board_user_popup))) {
+        } else if (popUpType.equals(context.getString(R.string.private_board_user_popup))) {
 
             TextView unfollowText = layout.findViewById(R.id.unfollow);
             unfollowText.setText(R.string.unfollow_board_popup);
@@ -88,5 +89,4 @@ public class CustomPopup {
         // Displaying the popup at the specified location, + offsets.
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
     }
-
 }
