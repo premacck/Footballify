@@ -22,8 +22,8 @@ public class AdaptersModule {
 
     @UiScope
     @Provides
-    public BoardIconAdapter provideBoardIconAdapter(Picasso picasso) {
-        return new BoardIconAdapter(picasso);
+    public BoardIconAdapter provideBoardIconAdapter() {
+        return new BoardIconAdapter();
     }
 
     @UiScope

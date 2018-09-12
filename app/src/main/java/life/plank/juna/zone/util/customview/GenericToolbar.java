@@ -86,7 +86,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         setBackgroundColor(array.getColor(R.styleable.GenericToolbar_backgroundColor, getResources().getColor(R.color.transparent, null)));
         setTitle(array.getString(R.styleable.GenericToolbar_toolbarTitle));
         setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle));
-        setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_pvt_board));
+        setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_board_beer));
         shareBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         optionsMenu.setVisibility(array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         followBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
