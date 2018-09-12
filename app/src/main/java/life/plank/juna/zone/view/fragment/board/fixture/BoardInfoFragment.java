@@ -74,6 +74,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     private MatchFixture fixture;
     private BoardInfoAdapter adapter;
     private List<MatchEvent> matchEvents;
+    private long timeDiffOfMatchFromNow;
 
     public BoardInfoFragment() {
     }
@@ -100,7 +101,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new BoardInfoAdapter(this, getContext(), picasso, true, fixture, snapHelper);
+        timeDiffOfMatchFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
+        adapter = new BoardInfoAdapter(this, getContext(), picasso, timeDiffOfMatchFromNow < 0, fixture, snapHelper);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -108,15 +110,14 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        long timeDiff = getTimeDiffFromNow(fixture.getMatchStartTime());
-        if (timeDiff >= 0) {
+        if (timeDiffOfMatchFromNow >= 0) {
+            getMatchStandings();
+            getTeamStats();
+        } else {
             getCommentaries();
             getMatchStats();
             getLineupFormation();
             getMatchEvents();
-        } else {
-            getMatchStandings();
-            getTeamStats();
         }
     }
 
