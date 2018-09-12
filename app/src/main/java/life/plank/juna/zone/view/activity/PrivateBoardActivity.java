@@ -109,11 +109,9 @@ public class PrivateBoardActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
                                 Toast.makeText(ZoneApplication.getContext(), R.string.board_deletion, Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(ZoneApplication.getContext()     , UserProfileActivity.class);
+                                Intent intent = new Intent(ZoneApplication.getContext(), UserProfileActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 ZoneApplication.getContext().startActivity(intent);
-
-
                                 break;
                             default:
                                 Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
