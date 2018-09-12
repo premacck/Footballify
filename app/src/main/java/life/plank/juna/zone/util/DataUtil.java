@@ -36,6 +36,7 @@ import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
+import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
@@ -44,6 +45,7 @@ import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
+import static life.plank.juna.zone.util.AppConstants.SPACE;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.WIDE_SPACE;
@@ -92,50 +94,80 @@ public class DataUtil {
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 if (dateDiff < -1) {
-                    return getPastMatchSeparator(matchFixture, winPointer);
+                    return getPastMatchSeparator(matchFixture, winPointer, false);
                 } else {
                     return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }
         }
     }
 
-    private static String getPastMatchSeparator(MatchFixture matchFixture, ImageView winPointer) {
+    //    TODO : merge this method with the above one in next pull request
+    public static String getBoardSeparator(MatchFixture matchFixture, ImageView winPointer) {
+        winPointer.setVisibility(View.INVISIBLE);
+        int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
+        switch (dateDiff) {
+            case -1:
+                return ZoneApplication.getContext().getString(R.string.yesterday);
+            case 0:
+                if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
+                    return matchFixture.getHomeGoals() + DASH + matchFixture.getAwayGoals();
+                } else {
+                    return getFutureMatchTime(matchFixture.getMatchStartTime());
+                }
+            case 1:
+                return ZoneApplication.getContext().getString(R.string.tomorrow);
+            default:
+                if (dateDiff < -1) {
+                    return getPastMatchSeparator(matchFixture, winPointer, true);
+                } else {
+                    return getFutureMatchTime(matchFixture.getMatchStartTime());
+                }
+        }
+    }
+
+    private static String getPastMatchSeparator(MatchFixture matchFixture, ImageView winPointer, boolean isBoard) {
         String teamNameSeparator;
+        int homeWinDrawable = isBoard ?
+                R.drawable.ic_win_home_light :
+                R.drawable.ic_win_home_dark;
+        int visitingWinDrawable = isBoard ?
+                R.drawable.ic_win_away_light :
+                R.drawable.ic_win_away_dark;
         if (matchFixture.getAwayTeamPenaltyScore() == 0 && matchFixture.getHomeTeamPenaltyScore() == 0) {
             if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
-                winPointer.setImageResource(R.drawable.ic_win_home);
-                teamNameSeparator = matchFixture.getHomeGoals() + WIDE_SPACE +
+                winPointer.setImageResource(homeWinDrawable);
+                teamNameSeparator = matchFixture.getHomeGoals() + (isBoard ? SPACE : WIDE_SPACE) +
                         matchFixture.getAwayGoals();
             } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
-                winPointer.setImageResource(R.drawable.ic_win_away);
-                teamNameSeparator = matchFixture.getHomeGoals() + WIDE_SPACE +
+                winPointer.setImageResource(visitingWinDrawable);
+                teamNameSeparator = matchFixture.getHomeGoals() + (isBoard ? SPACE : WIDE_SPACE) +
                         matchFixture.getAwayGoals();
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = matchFixture.getHomeGoals() + WIDE_DASH +
+                teamNameSeparator = matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) +
                         matchFixture.getAwayGoals();
             }
         } else {
             if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
-                winPointer.setImageResource(R.drawable.ic_win_home);
+                winPointer.setImageResource(homeWinDrawable);
                 teamNameSeparator = matchFixture.getHomeGoals() +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + WIDE_SPACE +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? SPACE : WIDE_SPACE) +
                         "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
                         matchFixture.getAwayGoals();
             } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
-                winPointer.setImageResource(R.drawable.ic_win_away);
+                winPointer.setImageResource(visitingWinDrawable);
                 teamNameSeparator = matchFixture.getHomeGoals() +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + WIDE_SPACE +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? SPACE : WIDE_SPACE) +
                         "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
                         matchFixture.getAwayGoals();
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
                 teamNameSeparator = matchFixture.getHomeGoals() +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + WIDE_DASH +
+                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? DASH : WIDE_DASH) +
                         "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
                         matchFixture.getAwayGoals();
             }

@@ -141,7 +141,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                publicBoardToolbar.setScore(true, zoneLiveData.getScoreData().getHomeGoals() + DASH + zoneLiveData.getScoreData().getAwayGoals());
+                publicBoardToolbar.setScore(zoneLiveData.getScoreData().getHomeGoals() + DASH + zoneLiveData.getScoreData().getAwayGoals());
                 break;
             default:
                 break;
@@ -166,13 +166,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         if (intent.hasExtra(getString(R.string.intent_score_data))) {
             fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_score_data)), MatchFixture.class);
             currentMatchId = fixture.getForeignId();
-            setUpToolbar(
-                    fixture.getMatchDay(),
-                    fixture.getHomeTeam().getLogoLink(),
-                    fixture.getAwayTeam().getLogoLink(),
-                    fixture.getHomeGoals(),
-                    fixture.getAwayGoals()
-            );
+            if (fixture != null) {
+                publicBoardToolbar.prepare(picasso, fixture);
+            }
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
             getMatchDetails();
@@ -181,13 +177,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
         retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
-    }
-
-    private void setUpToolbar(int matchDay, String homeTeamLogo, String visitingTeamLogo, int homeGoals, int visitingGoals) {
-        publicBoardToolbar.setHomeTeamLogo(picasso, homeTeamLogo);
-        publicBoardToolbar.setVisitingTeamLogo(picasso, visitingTeamLogo);
-        publicBoardToolbar.setScore(true, homeGoals + DASH + visitingGoals);
-        publicBoardToolbar.setBoardTitle(getString(R.string.matchday_) + matchDay);
     }
 
     private void setupViewPagerWithFragments() {
@@ -277,15 +266,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                     public void onNext(Response<MatchFixture> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                MatchFixture matchSummary = response.body();
-                                if (matchSummary != null) {
-                                    setUpToolbar(
-                                            matchSummary.getMatchDay(),
-                                            matchSummary.getHomeTeam().getLogoLink(),
-                                            matchSummary.getAwayTeam().getLogoLink(),
-                                            matchSummary.getHomeGoals(),
-                                            matchSummary.getAwayGoals()
-                                    );
+                                fixture = response.body();
+                                if (fixture != null) {
+                                    publicBoardToolbar.prepare(picasso, fixture);
                                 }
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:

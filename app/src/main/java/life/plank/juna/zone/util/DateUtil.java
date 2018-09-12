@@ -26,12 +26,21 @@ public class DateUtil {
     private static final String HEADER_DATE_STRING = "EEE dd MMM yyyy";
     private static final String SCHEDULED_DATE_STRING = "EEE dd MM";
     private static final String FUTURE_DATE_FORM_STRING = "HH:mm";
+    private static final String MINUTE_SECOND_TIME_STRING = "mm:ss";
+    private static final String SCHEDULED_MATCH_DATE_STRING = "EEE dd/MM\nK.mm aaa";
     public static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat TIMELINE_HEADER_DATE_FORMAT = new SimpleDateFormat(TIMELINE_HEADER_DATE_STRING, Locale.getDefault());
+    private static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
+    private static final SimpleDateFormat MINUTE_SECOND_TIME_FORMAT = new SimpleDateFormat(MINUTE_SECOND_TIME_STRING, Locale.getDefault());
+    private static final SimpleDateFormat SCHEDULED_MATCH_DATE_FORMAT = new SimpleDateFormat(SCHEDULED_MATCH_DATE_STRING, Locale.getDefault());
 
     private static Date getIsoFormattedDate(String dateString) throws ParseException {
         return ISO_DATE_FORMAT.parse(dateString);
+    }
+
+    private static String getIsoFormattedDate(Date date) {
+        return ISO_DATE_FORMAT.format(date);
     }
 
     public static long getDifferenceInHours(Date firstDate, Date secondDate) {
@@ -66,7 +75,7 @@ public class DateUtil {
         return getDateFromObject(date) - getDateFromObject(new Date());
     }
 
-    static long getTimeDiffFromNow(Date date) {
+    public static long getTimeDiffFromNow(Date date) {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
 
@@ -94,7 +103,7 @@ public class DateUtil {
     }
 
     static String getFutureMatchTime(Date matchStartTime) {
-        return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(matchStartTime);
+        return FUTURE_DATE_FORMAT.format(matchStartTime);
     }
 
     public static CharSequence getDateHeader(Date matchStartTime) {
@@ -132,9 +141,21 @@ public class DateUtil {
 
     static String getDateForScrubber(long milliSeconds) {
         try {
-            return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(new Date(milliSeconds));
+            return FUTURE_DATE_FORMAT.format(new Date(milliSeconds));
         } catch (Exception e) {
             return String.valueOf(milliSeconds);
         }
+    }
+
+    public static String getMinuteSecondFormatDate(Date date) {
+        return MINUTE_SECOND_TIME_FORMAT.format(date);
+    }
+
+    public static String getMinutesElapsedFrom(Date date) {
+        return MINUTE_SECOND_TIME_FORMAT.format(new Date(getTimeDiffFromNow(date)));
+    }
+
+    public static String getScheduledMatchDateString(Date date) {
+        return SCHEDULED_MATCH_DATE_FORMAT.format(date);
     }
 }
