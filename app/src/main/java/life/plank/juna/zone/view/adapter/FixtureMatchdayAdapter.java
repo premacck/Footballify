@@ -17,6 +17,7 @@ import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 
+import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
@@ -69,8 +70,18 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
             FixtureByMatchDay fixtureByMatchDay = ref.get().fixtureByMatchDayList.get(getAdapterPosition());
 
             if (!isNullOrEmpty(fixtureByMatchDay.getFixtureByDateList())) {
+                matchdayHeader.setBackgroundResource(
+                        fixtureByMatchDay.getDaySection().equals(TODAY_MATCHES) ?
+                                R.color.light_header :
+                                R.color.lighter_header
+                );
+                matchdayHeader.setTextColor(ref.get().activity.getColor(
+                        fixtureByMatchDay.getDaySection().equals(TODAY_MATCHES) ?
+                                R.color.fab_button_pink :
+                                R.color.grey
+                ));
                 String matchdayHeaderText =
-                        ref.get().activity.getString(ref.get().activity.isCup ? R.string.matchday_ : R.string.round_) +
+                        ref.get().activity.getString(ref.get().activity.isCup ? R.string.round_ : R.string.matchday_) +
                                 (ref.get().activity.isCup ? fixtureByMatchDay.getMatchDay() : (fixtureByMatchDay.getMatchDay() + 1));
                 matchdayHeader.setText(matchdayHeaderText);
                 recyclerView.setAdapter(new FixtureDateAdapter(fixtureByMatchDay.getFixtureByDateList(), ref.get().activity));
