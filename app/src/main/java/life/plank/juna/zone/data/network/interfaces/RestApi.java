@@ -2,6 +2,7 @@ package life.plank.juna.zone.data.network.interfaces;
 
 import com.google.gson.JsonObject;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -13,8 +14,9 @@ import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.MatchTeamStats;
+import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
+import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.SignUpModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
@@ -176,9 +178,17 @@ public interface RestApi {
     Observable<Response<List<Commentary>>> getCommentaries(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/stats")
-    Observable<Response<MatchTeamStats>> getTeamStatsForMatch(@Path("matchId") long matchId);
+    Observable<Response<MatchStats>> getMatchStatsForMatch(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}")
     Observable<Response<MatchFixture>> getMatchDetails(@Path("matchId") long matchId);
 
+    @GET("matches/{matchId}/standings")
+    Observable<Response<List<StandingModel>>> getMatchStandingsForMatch(@Path("matchId") long matchId);
+
+    @GET("matches/{matchId}/teamStats")
+    Observable<Response<List<TeamStatsModel>>> getTeamStatsForMatch(@Path("matchId") long matchId);
+
+    @GET("matches/{matchId}/scrubber/{hour}")
+    Observable<Response<List<ScrubberData>>> getScrubberDetails(@Path("matchId") long matchId, @Path("hour") Date currentMatchTime);
 }

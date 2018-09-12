@@ -19,9 +19,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.MatchTeamStats;
+import life.plank.juna.zone.data.network.model.MatchStats;
 
-public class MatchTeamStatsLayout extends FrameLayout {
+public class MatchStatsLayout extends FrameLayout {
 
     @BindView(R.id.teams_logo_layout)
     RelativeLayout teamsLogoLayout;
@@ -72,19 +72,19 @@ public class MatchTeamStatsLayout extends FrameLayout {
     @BindView(R.id.visiting_team_corner)
     TextView visitingTeamCorner;
 
-    public MatchTeamStatsLayout(@NonNull Context context) {
+    public MatchStatsLayout(@NonNull Context context) {
         this(context, null);
     }
 
-    public MatchTeamStatsLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public MatchStatsLayout(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public MatchTeamStatsLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MatchStatsLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public MatchTeamStatsLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public MatchStatsLayout(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
@@ -94,32 +94,32 @@ public class MatchTeamStatsLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public void update(MatchTeamStats matchTeamStats, MatchFixture fixture, Picasso picasso) {
+    public void update(MatchStats matchStats, MatchFixture fixture, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
 
         this.venueName.setText(fixture.getVenue().getName());
-        this.homeTeamShots.setText(String.valueOf(matchTeamStats.getHomeShots()));
-        this.homeTeamShotsOnTarget.setText(String.valueOf(matchTeamStats.getHomeShotsOnTarget()));
-        String homeTeamPossession = matchTeamStats.getHomePossession() + "%";
+        this.homeTeamShots.setText(String.valueOf(matchStats.getHomeShots()));
+        this.homeTeamShotsOnTarget.setText(String.valueOf(matchStats.getHomeShotsOnTarget()));
+        String homeTeamPossession = matchStats.getHomePossession() + "%";
         this.homeTeamPossession.setText(String.valueOf(homeTeamPossession));
-        this.homeTeamFouls.setText(String.valueOf(matchTeamStats.getHomeFouls()));
-        this.homeTeamYellowCard.setText(String.valueOf(matchTeamStats.getHomeYellowCards()));
-        this.homeTeamRedCard.setText(String.valueOf(matchTeamStats.getHomeRedCards()));
-        this.homeTeamOffside.setText(String.valueOf(matchTeamStats.getHomeOffsides()));
-        this.homeTeamCorner.setText(String.valueOf(matchTeamStats.getHomeCorners()));
+        this.homeTeamFouls.setText(String.valueOf(matchStats.getHomeFouls()));
+        this.homeTeamYellowCard.setText(String.valueOf(matchStats.getHomeYellowCards()));
+        this.homeTeamRedCard.setText(String.valueOf(matchStats.getHomeRedCards()));
+        this.homeTeamOffside.setText(String.valueOf(matchStats.getHomeOffsides()));
+        this.homeTeamCorner.setText(String.valueOf(matchStats.getHomeCorners()));
 
-        this.visitingTeamShots.setText(String.valueOf(matchTeamStats.getAwayShots()));
-        this.visitingTeamShotsOnTarget.setText(String.valueOf(matchTeamStats.getAwayShotsOnTarget()));
-        String visitingTeamPossession = matchTeamStats.getAwayPossession() + "%";
+        this.visitingTeamShots.setText(String.valueOf(matchStats.getAwayShots()));
+        this.visitingTeamShotsOnTarget.setText(String.valueOf(matchStats.getAwayShotsOnTarget()));
+        String visitingTeamPossession = matchStats.getAwayPossession() + "%";
         this.visitingTeamPossession.setText(visitingTeamPossession);
-        this.visitingTeamFouls.setText(String.valueOf(matchTeamStats.getAwayFouls()));
-        this.visitingTeamYellowCard.setText(String.valueOf(matchTeamStats.getAwayYellowCards()));
-        this.visitingTeamRedCard.setText(String.valueOf(matchTeamStats.getAwayRedCards()));
-        this.visitingTeamOffside.setText(String.valueOf(matchTeamStats.getAwayOffsides()));
-        this.visitingTeamCorner.setText(String.valueOf(matchTeamStats.getAwayCorners()));
+        this.visitingTeamFouls.setText(String.valueOf(matchStats.getAwayFouls()));
+        this.visitingTeamYellowCard.setText(String.valueOf(matchStats.getAwayYellowCards()));
+        this.visitingTeamRedCard.setText(String.valueOf(matchStats.getAwayRedCards()));
+        this.visitingTeamOffside.setText(String.valueOf(matchStats.getAwayOffsides()));
+        this.visitingTeamCorner.setText(String.valueOf(matchStats.getAwayCorners()));
 
         picasso.load(fixture.getHomeTeam().getLogoLink())
                 .into(homeTeamLogoImageView);
@@ -128,7 +128,7 @@ public class MatchTeamStatsLayout extends FrameLayout {
     }
 
     //    TODO : remove in next pull request
-    public void update(MatchTeamStats matchTeamStats, String homeLogo, String visitingLogo, Picasso picasso) {
+    public void update(MatchStats matchStats, String homeLogo, String visitingLogo, Picasso picasso) {
     }
 
     public void notAvailable(@StringRes int message) {
