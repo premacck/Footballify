@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -105,10 +106,12 @@ public class PrivateBoardActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<JsonObject> response) {
-                        response.code();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                //TODO: Display user profile view after successfully deleting a board
+                                Toast.makeText(ZoneApplication.getContext(), R.string.board_deletion, Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(ZoneApplication.getContext(), UserProfileActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                ZoneApplication.getContext().startActivity(intent);
                                 break;
                             default:
                                 Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -201,7 +204,9 @@ public class PrivateBoardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(PrivateBoardActivity.this, SwipePageActivity.class));
+        Intent intent = new Intent(PrivateBoardActivity.this, UserProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         super.onBackPressed();
     }
 
