@@ -60,6 +60,7 @@
                         android:gravity="center"
                         android:padding="1dp"
                         android:text="Change Picture"
+                        android:textAllCaps="true"
                         android:textSize="10sp" />
 
                     <TextView
@@ -71,6 +72,7 @@
                         android:gravity="center"
                         android:padding="1dp"
                         android:text="Remove Picture"
+                        android:textAllCaps="true"
                         android:textSize="10sp" />
 
                 </LinearLayout>
