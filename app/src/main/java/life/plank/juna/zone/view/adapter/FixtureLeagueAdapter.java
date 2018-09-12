@@ -81,7 +81,7 @@ public class FixtureLeagueAdapter extends BaseRecyclerView.Adapter<FixtureLeague
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 ref.get().picasso
                         .load(scoreFixture.getHomeTeam().getLogoLink())
-                        .resize((int) getDp(homeTeamNameTextView.getContext(), 12), (int) getDp(homeTeamNameTextView.getContext(), 12))
+                        .resize((int) getDp(12), (int) getDp(12))
                         .placeholder(R.drawable.ic_place_holder)
                         .error(R.drawable.ic_place_holder)
                         .into(getEndDrawableTarget(homeTeamNameTextView));
@@ -89,7 +89,7 @@ public class FixtureLeagueAdapter extends BaseRecyclerView.Adapter<FixtureLeague
             if (scoreFixture.getHomeTeam().getLogoLink() != null) {
                 ref.get().picasso
                         .load(scoreFixture.getAwayTeam().getLogoLink())
-                        .resize((int) getDp(visitingTeamNameTextView.getContext(), 12), (int) getDp(visitingTeamNameTextView.getContext(), 12))
+                        .resize((int) getDp(12), (int) getDp(12))
                         .placeholder(R.drawable.ic_place_holder)
                         .error(R.drawable.ic_place_holder)
                         .into(getStartDrawableTarget(visitingTeamNameTextView));
@@ -97,7 +97,7 @@ public class FixtureLeagueAdapter extends BaseRecyclerView.Adapter<FixtureLeague
 
             homeTeamNameTextView.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamNameTextView.setText(scoreFixture.getAwayTeam().getName());
-            scoreTextView.setText(getSeparator(scoreFixture, winPointer));
+            scoreTextView.setText(getSeparator(scoreFixture, winPointer, false));
             timeStatusTextView.setText(scoreFixture.getTimeStatus());
             ScrubberLoader.prepare(scrubber, false);
         }

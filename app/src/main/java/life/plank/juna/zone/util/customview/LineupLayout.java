@@ -100,7 +100,7 @@ public class LineupLayout extends FrameLayout {
 
     private void loadImage(Picasso picasso, String logo, Target target) {
         picasso.load(logo)
-                .resize((int) getDp(getContext(), 14), (int) getDp(getContext(), 14))
+                .resize((int) getDp(14), (int) getDp(14))
                 .into(target);
     }
 

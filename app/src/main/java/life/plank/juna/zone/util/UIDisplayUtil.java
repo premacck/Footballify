@@ -327,8 +327,8 @@ public class UIDisplayUtil {
                 true);
     }
 
-    public static float getDp(Context context, float pixels) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixels, context.getResources().getDisplayMetrics());
+    public static float getDp(float dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ZoneApplication.getContext().getResources().getDisplayMetrics());
     }
 
     public static void toggleZone(Context context, ToggleButton view) {
@@ -343,7 +343,7 @@ public class UIDisplayUtil {
             view.setElevation(5);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
-            view.setGravity(Gravity.LEFT);
+            view.setGravity(Gravity.START);
             view.setPadding(50, 10, 10, 10);
         }
     }

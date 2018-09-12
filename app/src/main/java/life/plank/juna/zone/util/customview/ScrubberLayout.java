@@ -80,7 +80,7 @@ public class ScrubberLayout extends FrameLayout implements CustomViewListener {
                 R.drawable.ic_expand
         );
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) scrubber.getLayoutParams();
-        params.height = (int) getDp(getContext(), isExpanded ? 250 : 70);
+        params.height = (int) getDp(isExpanded ? 250 : 70);
         scrubber.setLayoutParams(params);
     }
 

@@ -78,7 +78,7 @@ public class DataUtil {
         return Objects.equals(s, "null");
     }
 
-    public static String getSeparator(MatchFixture matchFixture, ImageView winPointer) {
+    public static String getSeparator(MatchFixture matchFixture, ImageView winPointer, boolean isBoard) {
         winPointer.setVisibility(View.INVISIBLE);
         int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
         switch (dateDiff) {
@@ -86,7 +86,7 @@ public class DataUtil {
                 return ZoneApplication.getContext().getString(R.string.yesterday);
             case 0:
                 if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
-                    return matchFixture.getHomeGoals() + WIDE_DASH + matchFixture.getAwayGoals();
+                    return matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) + matchFixture.getAwayGoals();
                 } else {
                     return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }
@@ -94,7 +94,7 @@ public class DataUtil {
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:
                 if (dateDiff < -1) {
-                    return getPastMatchSeparator(matchFixture, winPointer, false);
+                    return getPastMatchSeparator(matchFixture, winPointer, isBoard);
                 } else {
                     return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }

@@ -34,7 +34,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
-import static life.plank.juna.zone.util.DataUtil.getBoardSeparator;
+import static life.plank.juna.zone.util.DataUtil.getSeparator;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.DateUtil.getMinuteSecondFormatDate;
 import static life.plank.juna.zone.util.DateUtil.getMinutesElapsedFrom;
@@ -189,7 +189,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void prepare(Picasso picasso, MatchFixture fixture) {
         setHomeTeamLogo(picasso, fixture.getHomeTeam().getLogoLink());
         setVisitingTeamLogo(picasso, fixture.getAwayTeam().getLogoLink());
-        setScore(getBoardSeparator(fixture, winPointer));
+        setScore(getSeparator(fixture, winPointer, true));
         setBoardTitle(ZoneApplication.getContext().getString(R.string.matchday_) + fixture.getMatchDay());
         int dateDiff = getDateDiffFromToday(fixture.getMatchStartTime());
         if (dateDiff <= -1) {
@@ -267,7 +267,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void setScheduledTimeStatus(Date matchStartTime) {
         scoreView.setVisibility(GONE);
         winPointer.setVisibility(GONE);
-        scoreLayout.setPadding(0, (int) getDp(ZoneApplication.getContext(), 9), 0, 0);
+        scoreLayout.setPadding(0, (int) getDp(9), 0, 0);
         timeStatusTextView.setText(getScheduledMatchDateString(matchStartTime));
     }
 
@@ -294,7 +294,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void setHomeTeamLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
                 .centerInside()
-                .resize((int) getDp(ZoneApplication.getContext(), 30), (int) getDp(ZoneApplication.getContext(), 30))
+                .resize((int) getDp(30), (int) getDp(30))
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(homeTeamLogoView);
@@ -307,7 +307,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void setVisitingTeamLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
                 .centerInside()
-                .resize((int) getDp(ZoneApplication.getContext(), 30), (int) getDp(ZoneApplication.getContext(), 30))
+                .resize((int) getDp(30), (int) getDp(30))
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(visitingTeamLogoView);
