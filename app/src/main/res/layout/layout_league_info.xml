@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
             android:transitionName="match_fixture_result"
             app:cardCornerRadius="@dimen/feed_card_corner_radius"
             app:cardUseCompatPadding="true">
@@ -59,7 +60,7 @@
                     android:layout_marginTop="100dp" />
 
                 <TextView
-                    android:id="@+id/no_data"
+                    android:id="@+id/fixture_no_data"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
