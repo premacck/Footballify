@@ -107,6 +107,11 @@ public interface RestApi {
                                                     @Header("Authorization") String authHeader);
 
     //working
+    @DELETE("/boards/{id}")
+    Observable<Response<JsonObject>> deleteBoard(@Path("id") String boardId,
+                                                 @Header("Authorization") String authHeader);
+
+    //working
     @GET("seasons/matches")
     Observable<Response<List<FixtureByMatchDay>>> getFixtures(@Query("seasonName") String seasonName,
                                                               @Query("leagueName") String leagueName,

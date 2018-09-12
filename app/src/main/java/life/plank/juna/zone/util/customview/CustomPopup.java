@@ -14,10 +14,11 @@ import android.widget.TextView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
 public class CustomPopup {
 
-    static PopupWindow optionPopUp;
+    private static PopupWindow optionPopUp;
 
     public static void showOptionPopup(final Activity context, Point p, String popUpType, Long currentMatchId, int offsetX, int offsetY) {
 
@@ -25,24 +26,52 @@ public class CustomPopup {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.menu_pop_up, viewGroup);
 
+        TextView popupItemOne = layout.findViewById(R.id.popup_item_one);
+        popupItemOne.setOnClickListener(view -> optionPopUp.dismiss());
+
+        TextView popUpItemTwo = layout.findViewById(R.id.popup_item_two);
+        popUpItemTwo.setText(R.string.show_notification);
+        popUpItemTwo.setOnClickListener(view -> optionPopUp.dismiss());
+
+        TextView popupItemThree = layout.findViewById(R.id.popup_item_three);
+        TextView popupItemFour = layout.findViewById(R.id.popup_item_four);
+
         if (popUpType.equals(context.getString(R.string.board_pop_up))) {
-            TextView favText = layout.findViewById(R.id.fav);
-            favText.setOnClickListener(view -> optionPopUp.dismiss());
 
-            TextView notificationText = layout.findViewById(R.id.mute_notification);
-            notificationText.setText(R.string.show_notification);
-            notificationText.setOnClickListener(view -> optionPopUp.dismiss());
-
-            TextView unfollowText = layout.findViewById(R.id.unfollow);
-            unfollowText.setText(R.string.unfollow_board_popup);
-            unfollowText.setOnClickListener(view -> {
+            popupItemThree.setText(R.string.unfollow_board_popup);
+            popupItemThree.setOnClickListener(view -> {
                 optionPopUp.dismiss();
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
             });
 
-            TextView reportText = layout.findViewById(R.id.report);
-            reportText.setText(R.string.report_board_popup);
-            reportText.setOnClickListener(view -> optionPopUp.dismiss());
+            popupItemFour.setText(R.string.report_board_popup);
+            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+
+
+        } else if (popUpType.equals(context.getString(R.string.private_board_owner_popup))) {
+
+            popupItemThree.setText(R.string.delete_board_popup);
+            popupItemThree.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
+
+            popupItemThree.setOnClickListener(view -> {
+                optionPopUp.dismiss();
+                PrivateBoardActivity.deletePrivateBoard();
+            });
+
+            popupItemFour.setText(R.string.settings_board_popup);
+            popupItemFour.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
+            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+
+
+        } else if (popUpType.equals(context.getString(R.string.private_board_user_popup))) {
+
+            popupItemThree.setText(R.string.unfollow_board_popup);
+            popupItemThree.setOnClickListener(view -> {
+                optionPopUp.dismiss();
+            });
+
+            popupItemFour.setText(R.string.report_board_popup);
+            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
         }
 
         // Creating the PopupWindow
