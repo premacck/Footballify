@@ -380,9 +380,9 @@ public class DataUtil {
         List<Entry> entries = new ArrayList<>();
         for (ScrubberData scrubberData : scrubberDataList) {
             entries.add(new Entry(
-                    scrubberData.getMillisecondsX(),
-                    scrubberData.getInteractionY(),
-                    getSuitableScrubberIcon(scrubberData.getEvent().getEventType(), scrubberData.getEvent().getIsHomeTeam())
+                    scrubberData.getXValue(),
+                    scrubberData.getYValue(),
+                    getSuitableScrubberIcon(scrubberData.getEventType(), scrubberData.isHomeTeam())
             ));
         }
         LineDataSet dataSet = new LineDataSet(entries, ZoneApplication.getContext().getString(R.string.scrubber));
