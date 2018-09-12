@@ -36,6 +36,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FixtureByDate;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
@@ -75,6 +76,8 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     CardView matchFixtureResultLayout;
     @BindView(R.id.fixture_progress_bar)
     ProgressBar fixtureProgressBar;
+    @BindView(R.id.fixture_no_data)
+    TextView fixtureNoData;
     @BindView(R.id.fixtures_section_list)
     RecyclerView fixtureRecyclerView;
     @BindView(R.id.standing_recycler_view)
@@ -117,20 +120,14 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     private StandingTableAdapter standingTableAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
-    private String seasonName;
-    private String leagueName;
-    private String countryName;
 
-    private String leagueLogo;
+    private FootballFeed footballFeed;
     private FixtureLeagueAdapter fixtureLeagueAdapter;
     public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
-    public static void launch(Activity fromActivity, String seasonName, String leagueName, String countryName, String leagueLogo) {
+    public static void launch(Activity fromActivity, String footballFeedString) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
-        intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
-        intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
-        intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
-        intent.putExtra(fromActivity.getString(R.string.league_logo), leagueLogo);
+        intent.putExtra(fromActivity.getString(R.string.intent_feed_items), footballFeedString);
         fromActivity.startActivity(intent);
     }
 
@@ -143,10 +140,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
 
         Intent intent = getIntent();
         if (intent != null) {
-            seasonName = intent.getStringExtra(getString(R.string.season_name));
-            leagueName = intent.getStringExtra(getString(R.string.league_name));
-            countryName = intent.getStringExtra(getString(R.string.country_name));
-            leagueLogo = intent.getStringExtra(getString(R.string.league_logo));
+            footballFeed = gson.fromJson(intent.getStringExtra(getString(R.string.intent_feed_items)), FootballFeed.class);
         }
 
         prepareRecyclerViews();
@@ -155,8 +149,8 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
         getTeamStats();
         getPlayerStats();
 
-        title.setText(leagueName);
-        picasso.load(leagueLogo)
+        title.setText(footballFeed.getTitle());
+        picasso.load(footballFeed.getThumbnail().getImageUrl())
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(logo);
@@ -190,7 +184,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     public void getStandings() {
-        restApi.getStandings(leagueName, seasonName, countryName)
+        restApi.getStandings(footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<StandingModel>>>() {
@@ -223,7 +217,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     public void getPlayerStats() {
-        restApi.getPlayerStats(leagueName, seasonName, countryName)
+        restApi.getPlayerStats(footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
@@ -257,7 +251,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     public void getTeamStats() {
-        restApi.getTeamStats(leagueName, seasonName, countryName)
+        restApi.getTeamStats(footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
@@ -303,26 +297,26 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
         switch (view.getId()) {
             case R.id.see_all_fixtures:
                 if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                    FixtureActivity.launch(this, matchFixtureResultLayout);
+                    FixtureActivity.launch(this, matchFixtureResultLayout, footballFeed.isCup());
                 }
                 break;
             case R.id.see_all_standings:
-                LeagueInfoDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, STANDINGS, footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName(),
                         gson.toJson(standingTableAdapter.getStandings()), standingsLayout);
                 break;
             case R.id.see_more_team_stats:
-                LeagueInfoDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, TEAM_STATS, footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName(),
                         gson.toJson(teamStatsAdapter.getTeamStats()), teamStatsLayout);
                 break;
             case R.id.see_more_player_stats:
-                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName(),
                         gson.toJson(playerStatsAdapter.getPlayerStats()), playerStatsLayout);
                 break;
         }
     }
 
     public void getFixtures() {
-        restApi.getFixtures(seasonName, leagueName, countryName)
+        restApi.getFixtures(footballFeed.getSeasonName(), footballFeed.getTitle(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
@@ -336,6 +330,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "Error: " + e);
+                        updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
                     }
 
                     @Override
@@ -345,11 +340,14 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
                                 fixtureByMatchDayList = response.body();
                                 if (!isNullOrEmpty(fixtureByMatchDayList)) {
                                     UpdateFixtureAdapterTask.parse(LeagueInfoActivity.this);
-                                }
+                                    updateUI(true, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+                                } else
+                                    updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
+                                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
                             default:
-
+                                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
                                 break;
                         }
                     }

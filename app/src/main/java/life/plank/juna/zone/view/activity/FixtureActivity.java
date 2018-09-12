@@ -54,11 +54,13 @@ public class FixtureActivity extends AppCompatActivity {
     public Picasso picasso;
     @Inject
     public Gson gson;
+    public boolean isCup;
 
     private FixtureMatchdayAdapter fixtureMatchdayAdapter;
 
-    public static void launch(Activity packageContext, View fromView) {
+    public static void launch(Activity packageContext, View fromView, boolean isCup) {
         Intent intent = new Intent(packageContext, FixtureActivity.class);
+        intent.putExtra(packageContext.getString(R.string.intent_is_cup), isCup);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, "match_fixture_result"));
         packageContext.startActivity(intent, options.toBundle());
     }
@@ -80,6 +82,7 @@ public class FixtureActivity extends AppCompatActivity {
             onNoMatchesFound();
             return;
         }
+        isCup = intent.getBooleanExtra(getString(R.string.intent_is_cup), false);
 
         UpdateAdapterTask.parse(this);
         prepareRecyclerView();
