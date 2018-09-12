@@ -40,6 +40,7 @@
     <string name="like_failed">Failed to like feed</string>
     <string name="failed_to_retrieve_members">Failed to retrieve members</string>
     <string name="invite_user_failed">Couldn\'t invite user</string>
+    <string name="failed_to_follow_board">Failed to follow board</string>
     <string name="board_not_active_message">Cannot perform this action since this board is not active.</string>
     <string name="cancel">Cancel</string>
     <string name="hey_there">Hey there!</string>

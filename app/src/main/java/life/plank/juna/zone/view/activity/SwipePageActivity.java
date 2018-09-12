@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.content.ContextCompat;
@@ -43,6 +44,7 @@ import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
@@ -65,7 +67,7 @@ import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener, SearchView.OnQueryTextListener {
+public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener, SearchView.OnQueryTextListener, OnItemClickListener {
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
@@ -94,7 +96,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
-    OnItemClickListener onItemClickListener;
+
     private RestApi restApi;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
@@ -132,6 +134,21 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setPeekHeight(0);
 
+        bottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
+                    UIDisplayUtil.hideSoftKeyboard(findViewById(android.R.id.content), getApplicationContext());
+                }
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                // React to dragging events
+            }
+        });
+
+
     }
 
     @OnClick(R.id.options_image)
@@ -166,7 +183,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     private void initBottomSheetRecyclerView() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-        searchViewAdapter = new SearchViewAdapter(userList, this,onItemClickListener);
+        searchViewAdapter = new SearchViewAdapter(userList, this, this);
         recyclerView.setAdapter(searchViewAdapter);
         search.setOnQueryTextListener(this);
 
@@ -330,5 +347,10 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
             searchViewAdapter.notifyDataSetChanged();
         }
         return true;
+    }
+
+    @Override
+    public void onItemClicked(String objectId, Boolean isSelected) {
+        //TODO: handle on item click
     }
 }

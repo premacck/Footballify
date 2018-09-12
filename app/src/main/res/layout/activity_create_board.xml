@@ -238,7 +238,7 @@
 
         <Button
             android:id="@+id/create_board_button"
-            android:layout_width="187dp"
+            android:layout_width="222dp"
             android:layout_height="50dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"

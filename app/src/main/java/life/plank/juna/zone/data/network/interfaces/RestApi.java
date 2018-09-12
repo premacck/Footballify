@@ -135,7 +135,7 @@ public interface RestApi {
 
     @DELETE("activities/{id}/likes")
     Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
-                                              @Header("Authorization") String authHeader);
+                                                @Header("Authorization") String authHeader);
 
     //working
     @POST("activities/{id}/disLikes")
@@ -147,7 +147,7 @@ public interface RestApi {
 
     @DELETE("activities/{id}/disLikes")
     Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
-                                                @Header("Authorization") String authHeader);
+                                                   @Header("Authorization") String authHeader);
 
     //working
     @GET("/users/{displayName}")
@@ -156,6 +156,10 @@ public interface RestApi {
     //working
     @GET("/boards/{boardId}/members")
     Observable<Response<List<User>>> getBoardMembers(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
+
+    //working
+    @POST("/boards/{boardId}/activities/follow")
+    Observable<Response<JsonObject>> followBoard(@Header("Authorization") String authHeader, @Path("boardId") String boardId);
 
     @GET("matches/{matchId}/lineups")
     Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
