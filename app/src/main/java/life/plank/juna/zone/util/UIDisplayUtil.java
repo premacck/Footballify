@@ -327,8 +327,8 @@ public class UIDisplayUtil {
                 true);
     }
 
-    public static float getDp(float pixels) {
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, pixels, ZoneApplication.getContext().getResources().getDisplayMetrics());
+    public static float getDp(float dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ZoneApplication.getContext().getResources().getDisplayMetrics());
     }
 
     public static void toggleZone(Context context, ToggleButton view) {
