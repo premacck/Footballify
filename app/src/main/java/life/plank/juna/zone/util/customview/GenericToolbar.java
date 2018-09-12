@@ -3,6 +3,7 @@ package life.plank.juna.zone.util.customview;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Point;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +27,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
+
+import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
 public class GenericToolbar extends FrameLayout implements CustomViewListener, EngagementInfoTilesToolbar {
 
@@ -54,9 +57,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     @BindView(R.id.info_tiles_tab_layout)
     TabLayout infoTilesTabLayout;
 
-    PopupMenu menu;
-    private boolean isFavourite;
-    private boolean isNotificationOn;
     private boolean isFollowing;
 
     PublicBoardHeaderListener listener;
@@ -95,41 +95,24 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         array.recycle();
     }
 
+    public void setUpPrivateBoardPopUp(Activity activity, String popupType) {
+        optionsMenu.setOnClickListener(view -> {
+            int[] location = new int[2];
+
+            view.getLocationOnScreen(location);
+
+            //Initialize the Point with x, and y positions
+            Point point = new Point();
+            point.x = location[0];
+            point.y = location[1];
+            showOptionPopup(activity, point, popupType, null, -400, 100);
+        });
+    }
+
     private void initViews(Context context) {
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
+        }
 
-        initPopupMenu(context);
-
-        optionsMenu.setOnClickListener(view -> menu.show());
-    }
-
-    private void initPopupMenu(Context context) {
-        menu = new PopupMenu(context, optionsMenu);
-        menu.getMenu().add(
-                R.id.group_board,
-                isFavourite ? R.id.action_remove_favourite : R.id.action_mark_favourite,
-                1,
-                isFavourite ? getContext().getString(R.string.remove_favourite) : getContext().getString(R.string.mark_favourite)
-        );
-        menu.getMenu().add(
-                R.id.group_board,
-                isNotificationOn ? R.id.action_hide_notifications : R.id.action_show_notifications,
-                2,
-                isNotificationOn ? getContext().getString(R.string.hide_notifications) : getContext().getString(R.string.show_notifications)
-        );
-        menu.getMenu().add(
-                R.id.group_board,
-                isFollowing ? R.id.action_unfollow_board : R.id.action_follow_board,
-                3,
-                isFollowing ? getContext().getString(R.string.follow_board) : getContext().getString(R.string.unfollow_board)
-        );
-        menu.getMenu().add(
-                R.id.group_board,
-                R.id.action_report_board,
-                4,
-                getContext().getString(R.string.report_board)
-        );
-    }
 
     @Override
     public void initListeners(Fragment fragment) {
@@ -151,7 +134,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
 
     private void addInfoTilesListener() {
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
-        optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     @Override
