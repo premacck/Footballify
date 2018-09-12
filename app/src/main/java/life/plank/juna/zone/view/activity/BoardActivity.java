@@ -102,9 +102,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     };
 
-    public static void launch(Context packageContext, MatchFixture fixture) {
+    public static void launch(Context packageContext, String fixtureJson) {
         Intent intent = new Intent(packageContext, BoardActivity.class);
-        intent.putExtra(packageContext.getString(R.string.intent_score_data), new Gson().toJson(fixture));
+        intent.putExtra(packageContext.getString(R.string.intent_score_data), fixtureJson);
         packageContext.startActivity(intent);
     }
 
@@ -221,7 +221,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
-                .doOnCompleted(() -> progressBar.setVisibility(View.GONE))
+                .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
                 .subscribe(new Observer<Response<Board>>() {
                     @Override
                     public void onCompleted() {
@@ -260,7 +260,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
-                .doOnCompleted(() -> progressBar.setVisibility(View.GONE))
+                .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
                 .subscribe(new Observer<Response<MatchFixture>>() {
                     @Override
                     public void onCompleted() {

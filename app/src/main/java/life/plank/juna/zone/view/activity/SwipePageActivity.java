@@ -48,7 +48,6 @@ import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -71,10 +70,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
-    public SwipePageActivity swipePageActivity;
-    @Inject
-    @Named("default")
-    Retrofit retrofit;
+
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     @BindView(R.id.parent_layout)
@@ -97,7 +93,11 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ArrayList<User> userList = new ArrayList<>();
     Point point;
 
-    private RestApi restApi;
+    @Inject
+    @Named("default")
+    RestApi restApi;
+    @Inject
+    public Gson gson;
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
@@ -119,8 +119,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         setContentView(R.layout.activity_swipe_page);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
-        swipePageActivity = SwipePageActivity.this;
 
         initRecyclerView();
         setUpData();
@@ -169,7 +167,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         if (NetworkStatus.isNetworkAvailable(parentLayout, this)) {
             getFootballFeed();
         } else {
-            Toast.makeText(swipePageActivity, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.no_internet_connection, Toast.LENGTH_SHORT).show();
         }
     }
 

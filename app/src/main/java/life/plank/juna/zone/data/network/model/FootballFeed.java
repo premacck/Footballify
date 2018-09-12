@@ -21,16 +21,18 @@ public class FootballFeed {
     private String seasonName;
     private String countryName;
     private String description;
+    private boolean isCup;
     private User actor;
 
     public FootballFeed() {
     }
 
-    public FootballFeed(String title, Thumbnail thumbnail, String seasonName, String countryName) {
+    public FootballFeed(String title, Thumbnail thumbnail, String seasonName, String countryName, boolean isCup) {
         this.title = title;
         this.thumbnail = thumbnail;
         this.seasonName = seasonName;
         this.countryName = countryName;
+        this.isCup = isCup;
     }
 
     public FootballFeed(String id, String title, String url, String source, String datePublished, String summary, Thumbnail thumbnail, String dateCreated, String contentType, Interactions interactions) {

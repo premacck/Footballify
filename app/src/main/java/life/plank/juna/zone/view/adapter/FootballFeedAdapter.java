@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,22 +20,21 @@ import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.LeagueInfoActivity;
+import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
 
     private List<FootballFeed> footballFeedList;
     private PinFeedListener pinFeedListener;
     private OnClickFeedItemListener onClickFeedItemListener;
-    private Activity activity;
+    private SwipePageActivity activity;
 
-    public FootballFeedAdapter(Activity activity) {
+    public FootballFeedAdapter(SwipePageActivity activity) {
         this.activity = activity;
         this.footballFeedList = new ArrayList<>();
-        if (activity instanceof PinFeedListener) {
-            pinFeedListener = (PinFeedListener) activity;
-        }
-        if (activity instanceof OnClickFeedItemListener) {
-            onClickFeedItemListener = (OnClickFeedItemListener) activity;
+        if (activity != null) {
+            pinFeedListener = activity;
+            onClickFeedItemListener = activity;
         }
     }
 
@@ -62,13 +60,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            LeagueInfoActivity.launch(
-                    activity,
-                    footballFeed.getSeasonName(),
-                    footballFeed.getTitle(),
-                    footballFeed.getCountryName(),
-                    footballFeed.getThumbnail().getImageUrl()
-            );
+            LeagueInfoActivity.launch(activity, activity.gson.toJson(footballFeed));
         });
     }
 
@@ -89,7 +81,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         notifyDataSetChanged();
     }
 
-    public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
+    static class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
         @BindView(R.id.kickoff_time)

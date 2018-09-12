@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -14,11 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,11 +34,15 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.FixtureByDate;
+import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
-import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
+import life.plank.juna.zone.view.adapter.FixtureLeagueAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -44,17 +51,18 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
+import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class LeagueInfoActivity extends AppCompatActivity implements PublicBoardHeaderListener {
     public static Bitmap matchStatsParentViewBitmap = null;
     String TAG = LeagueInfoActivity.class.getSimpleName();
-
-    @Inject
-    Picasso picasso;
 
     @BindView(R.id.stats_parent_view)
     CardView statsParentView;
@@ -66,6 +74,12 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     TextView title;
     @BindView(R.id.match_fixture_result)
     CardView matchFixtureResultLayout;
+    @BindView(R.id.fixture_progress_bar)
+    ProgressBar fixtureProgressBar;
+    @BindView(R.id.fixture_no_data)
+    TextView fixtureNoData;
+    @BindView(R.id.fixtures_section_list)
+    RecyclerView fixtureRecyclerView;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.team_stats_recycler_view)
@@ -94,33 +108,26 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     CardView teamStatsLayout;
     @BindView(R.id.player_stats_layout)
     CardView playerStatsLayout;
-    @BindView(R.id.match_1_line_chart)
-    LineChart match1LineChart;
-    @BindView(R.id.match_2_line_chart)
-    LineChart match2LineChart;
 
     @Inject
     @Named("footballData")
     RestApi restApi;
-
     @Inject
-    Gson gson;
+    public Picasso picasso;
+    @Inject
+    public Gson gson;
 
     private StandingTableAdapter standingTableAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
-    private String seasonName;
-    private String leagueName;
-    private String countryName;
 
-    private String leagueLogo;
+    private FootballFeed footballFeed;
+    private FixtureLeagueAdapter fixtureLeagueAdapter;
+    public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
-    public static void launch(Activity fromActivity, String seasonName, String leagueName, String countryName, String leagueLogo) {
+    public static void launch(Activity fromActivity, String footballFeedString) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
-        intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
-        intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
-        intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
-        intent.putExtra(fromActivity.getString(R.string.league_logo), leagueLogo);
+        intent.putExtra(fromActivity.getString(R.string.intent_feed_items), footballFeedString);
         fromActivity.startActivity(intent);
     }
 
@@ -133,28 +140,20 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
 
         Intent intent = getIntent();
         if (intent != null) {
-            seasonName = intent.getStringExtra(getString(R.string.season_name));
-            leagueName = intent.getStringExtra(getString(R.string.league_name));
-            countryName = intent.getStringExtra(getString(R.string.country_name));
-            leagueLogo = intent.getStringExtra(getString(R.string.league_logo));
+            footballFeed = gson.fromJson(intent.getStringExtra(getString(R.string.intent_feed_items)), FootballFeed.class);
         }
 
-        prepareDummyChart();
         prepareRecyclerViews();
+        getFixtures();
         getStandings();
         getTeamStats();
         getPlayerStats();
 
-        title.setText(leagueName);
-        picasso.load(leagueLogo)
+        title.setText(footballFeed.getTitle());
+        picasso.load(footballFeed.getThumbnail().getImageUrl())
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(logo);
-    }
-
-    private void prepareDummyChart() {
-        ScrubberLoader.prepare(match1LineChart, true);
-        ScrubberLoader.prepare(match2LineChart, false);
     }
 
     public void updateBackgroundBitmap() {
@@ -171,6 +170,9 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     private void prepareRecyclerViews() {
+        fixtureLeagueAdapter = new FixtureLeagueAdapter(picasso);
+        fixtureRecyclerView.setAdapter(fixtureLeagueAdapter);
+
         standingTableAdapter = new StandingTableAdapter(picasso);
         standingRecyclerView.setAdapter(standingTableAdapter);
 
@@ -182,8 +184,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     public void getStandings() {
-        progressBar.setVisibility(View.VISIBLE);
-        restApi.getStandings(leagueName, seasonName, countryName)
+        restApi.getStandings(footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<StandingModel>>>() {
@@ -216,7 +217,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     public void getPlayerStats() {
-        restApi.getPlayerStats(leagueName, seasonName, countryName)
+        restApi.getPlayerStats(footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
@@ -250,8 +251,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     public void getTeamStats() {
-        progressBar.setVisibility(View.VISIBLE);
-        restApi.getTeamStats(leagueName, seasonName, countryName)
+        restApi.getTeamStats(footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
@@ -296,34 +296,131 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
         Objects.requireNonNull(this).updateBackgroundBitmap();
         switch (view.getId()) {
             case R.id.see_all_fixtures:
-                FixtureActivity.launch(
-                        this,
-                        seasonName,
-                        leagueName,
-                        countryName,
-                        matchFixtureResultLayout
-                );
+                if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                    FixtureActivity.launch(this, matchFixtureResultLayout, footballFeed.isCup());
+                }
                 break;
             case R.id.see_all_standings:
-                LeagueInfoDetailActivity.launch(this, STANDINGS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, STANDINGS, footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName(),
                         gson.toJson(standingTableAdapter.getStandings()), standingsLayout);
                 break;
             case R.id.see_more_team_stats:
-                LeagueInfoDetailActivity.launch(this, TEAM_STATS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, TEAM_STATS, footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName(),
                         gson.toJson(teamStatsAdapter.getTeamStats()), teamStatsLayout);
                 break;
             case R.id.see_more_player_stats:
-                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, seasonName, leagueName, countryName,
+                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, footballFeed.getTitle(), footballFeed.getSeasonName(), footballFeed.getCountryName(),
                         gson.toJson(playerStatsAdapter.getPlayerStats()), playerStatsLayout);
                 break;
         }
     }
 
+    public void getFixtures() {
+        restApi.getFixtures(footballFeed.getSeasonName(), footballFeed.getTitle(), footballFeed.getCountryName())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
+                .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
+                .subscribe(new Observer<Response<List<FixtureByMatchDay>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "Error: " + e);
+                        updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+                    }
+
+                    @Override
+                    public void onNext(Response<List<FixtureByMatchDay>> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                fixtureByMatchDayList = response.body();
+                                if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                                    UpdateFixtureAdapterTask.parse(LeagueInfoActivity.this);
+                                    updateUI(true, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+                                } else
+                                    updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+                            default:
+                                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private static class UpdateFixtureAdapterTask extends AsyncTask<Void, Void, List<MatchFixture>> {
+
+        private WeakReference<LeagueInfoActivity> ref;
+        private int recyclerViewScrollIndex = 0;
+
+        private static void parse(LeagueInfoActivity activity) {
+            new UpdateFixtureAdapterTask(activity).execute();
+        }
+
+        private UpdateFixtureAdapterTask(LeagueInfoActivity activity) {
+            this.ref = new WeakReference<>(activity);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            ref.get().fixtureProgressBar.setVisibility(View.VISIBLE);
+            ref.get().seeAllFixtures.setEnabled(false);
+            ref.get().seeAllFixtures.setClickable(false);
+        }
+
+        @Override
+        protected List<MatchFixture> doInBackground(Void... voids) {
+            if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                for (FixtureByMatchDay matchDay : fixtureByMatchDayList) {
+                    if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES) || Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {
+                        recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay);
+                    }
+                }
+                List<MatchFixture> matchFixtures = new ArrayList<>();
+                List<FixtureByDate> fixtureByDateList = fixtureByMatchDayList.get(recyclerViewScrollIndex).getFixtureByDateList();
+                for (FixtureByDate fixtureByDate : fixtureByDateList) {
+                    for (MatchFixture matchFixture : fixtureByDate.getFixtures()) {
+                        if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
+                            matchFixtures.add(matchFixture);
+                        }
+                    }
+                }
+                Collections.reverse(matchFixtures);
+                return matchFixtures.size() >= 2 ? matchFixtures.subList(0, 2) : matchFixtures;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<MatchFixture> matchFixtures) {
+            if (!isNullOrEmpty(matchFixtures) && ref.get() != null) {
+                if (ref.get().fixtureLeagueAdapter != null) {
+                    ref.get().fixtureLeagueAdapter.update(matchFixtures);
+                }
+                ref.get().fixtureProgressBar.setVisibility(View.GONE);
+                ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
+                ref.get().seeAllFixtures.setEnabled(true);
+                ref.get().seeAllFixtures.setClickable(true);
+            }
+        }
+    }
+
     @Override
     public void onDestroy() {
+        fixtureLeagueAdapter = null;
         standingTableAdapter = null;
         teamStatsAdapter = null;
         playerStatsAdapter = null;
+        if (!isNullOrEmpty(fixtureByMatchDayList)) {
+            fixtureByMatchDayList.clear();
+            fixtureByMatchDayList = null;
+        }
         super.onDestroy();
     }
 }
