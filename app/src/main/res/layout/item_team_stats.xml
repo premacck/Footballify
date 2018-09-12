@@ -223,7 +223,6 @@
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/rajdhani_light"
                 android:text="@string/team_stats_not_available_yet"
-                android:textAllCaps="true"
                 android:textColor="@color/grey"
                 android:visibility="gone" />
 
