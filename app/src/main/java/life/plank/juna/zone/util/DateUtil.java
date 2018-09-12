@@ -1,6 +1,9 @@
 package life.plank.juna.zone.util;
 
 import android.content.Context;
+import android.support.v4.content.res.ResourcesCompat;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,6 +16,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 
+import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static life.plank.juna.zone.util.DataUtil.formatInt;
 
 public class DateUtil {
@@ -93,13 +97,18 @@ public class DateUtil {
         return new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault()).format(matchStartTime);
     }
 
-    public static String getDateHeader(Date matchStartTime) {
+    public static CharSequence getDateHeader(Date matchStartTime) {
         int dateDiff = getDateDiffFromToday(matchStartTime);
         switch (dateDiff) {
             case -1:
                 return ZoneApplication.getContext().getString(R.string.yesterday);
             case 0:
-                return ZoneApplication.getContext().getString(R.string.today);
+                SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.getContext().getString(R.string.today));
+                builder.setSpan(
+                        new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.fab_button_pink, null)),
+                        0, 4, SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                return builder;
             case 1:
                 return ZoneApplication.getContext().getString(R.string.tomorrow);
             default:

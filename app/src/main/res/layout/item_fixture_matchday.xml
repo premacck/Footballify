@@ -10,7 +10,6 @@
         android:id="@+id/matchday_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_header"
         android:gravity="center_vertical|start"
         android:textSize="12sp"
         android:paddingStart="6dp"
