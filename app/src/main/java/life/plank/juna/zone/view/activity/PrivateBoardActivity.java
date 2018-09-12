@@ -82,6 +82,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
     public static void launch(Context packageContext, String board) {
         Intent intent = new Intent(packageContext, PrivateBoardActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_board), board);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         packageContext.startActivity(intent);
     }
 

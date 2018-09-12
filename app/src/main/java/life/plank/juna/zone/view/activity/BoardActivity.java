@@ -16,7 +16,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,6 +71,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     PublicBoardToolbar publicBoardToolbar;
     @BindView(R.id.board_view_pager)
     ViewPager viewPager;
+    @BindView(R.id.board_progress_bar)
+    ProgressBar progressBar;
 
     @Inject
     @Named("default")
@@ -216,6 +220,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         restApi.retrieveBoard(currentMatchId, boardType, getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
+                .doOnCompleted(() -> progressBar.setVisibility(View.GONE))
                 .subscribe(new Observer<Response<Board>>() {
                     @Override
                     public void onCompleted() {
@@ -253,6 +259,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         footballRestApi.getMatchDetails(currentMatchId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
+                .doOnCompleted(() -> progressBar.setVisibility(View.GONE))
                 .subscribe(new Observer<Response<MatchFixture>>() {
                     @Override
                     public void onCompleted() {

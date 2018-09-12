@@ -31,7 +31,7 @@
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/drag_handle_light"
             android:ellipsize="end"
-            android:fontFamily="@font/rajdhani_regular"
+            android:fontFamily="@font/raleway_semibold"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:paddingBottom="15dp"
@@ -76,19 +76,34 @@
         android:paddingTop="6dp">
 
         <TextView
+            android:id="@+id/people_count"
+            style="@style/EngagementLayout"
+            android:drawableStart="@drawable/ic_people" />
+
+        <TextView
+            android:id="@+id/comment_count"
+            style="@style/EngagementLayout"
+            android:layout_toEndOf="@+id/people_count"
+            android:drawableStart="@drawable/ic_card" />
+
+        <TextView
+            android:id="@+id/likes_count"
+            style="@style/EngagementLayout"
+            android:layout_toEndOf="@+id/comment_count"
+            android:layout_toStartOf="@+id/following_text_view"
+            android:drawableStart="@drawable/ic_likes" />
+
+        <TextView
+            android:id="@+id/following_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:layout_marginEnd="18dp"
             android:gravity="center_horizontal"
             android:text="@string/following"
             android:textColor="#ffffff"
-            android:textSize="10sp" />
-
-        <TextView
-            android:id="@+id/people_count"
-            style="@style/EngagementLayout"
-            android:drawableStart="@drawable/ic_people" />
+            android:textSize="@dimen/text_10sp" />
 
     </RelativeLayout>
 
