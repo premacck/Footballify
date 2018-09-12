@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
+import android.os.CountDownTimer;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -11,31 +12,49 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.Date;
 import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
+import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
+import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.DataUtil.getBoardSeparator;
+import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
+import static life.plank.juna.zone.util.DateUtil.getMinuteSecondFormatDate;
+import static life.plank.juna.zone.util.DateUtil.getMinutesElapsedFrom;
+import static life.plank.juna.zone.util.DateUtil.getScheduledMatchDateString;
+import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
 public class PublicBoardToolbar extends Toolbar implements CustomViewListener, EngagementInfoTilesToolbar {
 
     @BindView(R.id.logo)
     ImageView leagueLogoView;
+    @BindView(R.id.score_layout)
+    LinearLayout scoreLayout;
     @BindView(R.id.score)
     TextView scoreView;
+    @BindView(R.id.time_status)
+    TextView timeStatusTextView;
+    @BindView(R.id.win_pointer)
+    ImageView winPointer;
     @BindView(R.id.home_team_logo)
     ImageView homeTeamLogoView;
     @BindView(R.id.visiting_team_logo)
@@ -65,6 +84,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     private boolean isNotificationOn;
     private boolean isFollowing;
 
+    private CountDownTimer countDownTimer;
     private PublicBoardHeaderListener listener;
 
     public PublicBoardToolbar(Context context) {
@@ -91,7 +111,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
             return;
         }
-        setScore(true, array.getString(R.styleable.PublicBoardToolbar_score));
+        setScore(array.getString(R.styleable.PublicBoardToolbar_score));
         setLeagueLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setHomeTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
@@ -141,6 +161,10 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         listener = null;
         followBtn.setOnClickListener(null);
         optionsMenu.setOnClickListener(null);
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
     }
 
     private void addInfoTilesListener() {
@@ -158,12 +182,99 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         return infoTilesTabLayout.getSelectedTabPosition();
     }
 
-    /**
-     * @param isScore For scores, keep it true and for upcoming match, set to false and give in the date string.
-     */
-    public void setScore(boolean isScore, String score) {
-        scoreView.setTextSize(TypedValue.COMPLEX_UNIT_SP, isScore ? 32 : 10);
+    public void setScore(String score) {
         scoreView.setText(score);
+    }
+
+    public void prepare(Picasso picasso, MatchFixture fixture) {
+        setHomeTeamLogo(picasso, fixture.getHomeTeam().getLogoLink());
+        setVisitingTeamLogo(picasso, fixture.getAwayTeam().getLogoLink());
+        setScore(getBoardSeparator(fixture, winPointer));
+        setBoardTitle(ZoneApplication.getContext().getString(R.string.matchday_) + fixture.getMatchDay());
+        int dateDiff = getDateDiffFromToday(fixture.getMatchStartTime());
+        if (dateDiff <= -1) {
+//                past
+            setFullTimeStatus();
+        } else if (dateDiff >= 1) {
+//                scheduled
+            setScheduledTimeStatus(fixture.getMatchStartTime());
+        } else {
+            if (getTimeDiffFromNow(fixture.getMatchStartTime()) < 0) {
+//                live
+                setTimeStatus(fixture.getMatchStartTime(), fixture.getExtraMinute(), fixture.getTimeStatus());
+            } else {
+//                scheduled today
+                setTodayMatchCountdown(fixture);
+            }
+        }
+    }
+
+    /**
+     * Time status setter for past matches
+     */
+    public void setFullTimeStatus() {
+        this.timeStatusTextView.setText(FULL_TIME_LOWERCASE);
+    }
+
+    /**
+     * Time status setter for live matches
+     */
+    public void setTimeStatus(Date matchStartTime, int extraMinute, String timeStatus) {
+        if (Objects.equals(timeStatus, LIVE)) {
+            resetCountDownTimer();
+            countDownTimer = new CountDownTimer(5400000, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    String timeStatusText = extraMinute > 0 ? getMinutesElapsedFrom(matchStartTime) + " + " + extraMinute : getMinutesElapsedFrom(matchStartTime);
+                    timeStatusTextView.setText(timeStatusText);
+                }
+
+                @Override
+                public void onFinish() {
+                    timeStatusTextView.setText(FULL_TIME_LOWERCASE);
+                }
+            };
+            countDownTimer.start();
+        } else
+            timeStatusTextView.setText(timeStatus);
+    }
+
+    /**
+     * Time status setter for live matches
+     */
+    public void setTodayMatchCountdown(MatchFixture fixture) {
+        long timeDiffFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
+        resetCountDownTimer();
+        countDownTimer = new CountDownTimer(timeDiffFromNow, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeStatusTextView.setText(getMinuteSecondFormatDate(new Date(millisUntilFinished)));
+            }
+
+            @Override
+            public void onFinish() {
+                timeStatusTextView.setText(LIVE);
+                fixture.setTimeStatus(LIVE);
+                setTimeStatus(fixture.getMatchStartTime(), fixture.getExtraMinute(), fixture.getTimeStatus());
+            }
+        };
+        countDownTimer.start();
+    }
+
+    /**
+     * Time status setter for scheduled matches
+     */
+    public void setScheduledTimeStatus(Date matchStartTime) {
+        scoreView.setVisibility(GONE);
+        winPointer.setVisibility(GONE);
+        scoreLayout.setPadding(0, (int) getDp(ZoneApplication.getContext(), 9), 0, 0);
+        timeStatusTextView.setText(getScheduledMatchDateString(matchStartTime));
+    }
+
+    private void resetCountDownTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 
     @Override
@@ -182,7 +293,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 
     public void setHomeTeamLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
-                .fit().centerCrop()
+                .centerInside()
+                .resize((int) getDp(ZoneApplication.getContext(), 30), (int) getDp(ZoneApplication.getContext(), 30))
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(homeTeamLogoView);
@@ -194,7 +306,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 
     public void setVisitingTeamLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
-                .fit().centerCrop()
+                .centerInside()
+                .resize((int) getDp(ZoneApplication.getContext(), 30), (int) getDp(ZoneApplication.getContext(), 30))
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(visitingTeamLogoView);
