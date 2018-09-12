@@ -16,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -59,7 +60,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
     @Inject
     Gson gson;
 
-    private static RestApi rest;
+    private static RestApi staticRestApi;
 
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
@@ -87,7 +88,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
     }
 
     public static void deletePrivateBoard() {
-        rest.deleteBoard(boardId, getToken(ZoneApplication.getContext()))
+        staticRestApi.deleteBoard(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -99,7 +100,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        //Toast.makeText(R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -107,10 +108,10 @@ public class PrivateBoardActivity extends AppCompatActivity {
                         response.code();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-
+                                //TODO: Display user profile view after successfully deleting a board
                                 break;
                             default:
-
+                                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -124,7 +125,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_private_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        rest = restApi;
+        staticRestApi = restApi;
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
@@ -136,7 +137,6 @@ public class PrivateBoardActivity extends AppCompatActivity {
         boardId = board.getId();
         if (board.getOwner().getDisplayName().equals(editor.getString(getString(R.string.pref_display_name), "NA"))) {
             toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_owner_popup));
-
         } else {
             toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
         }

@@ -33,45 +33,43 @@ public class CustomPopup {
         notificationText.setText(R.string.show_notification);
         notificationText.setOnClickListener(view -> optionPopUp.dismiss());
 
+        TextView unfollowText = layout.findViewById(R.id.unfollow);
+        TextView reportText = layout.findViewById(R.id.report);
+
         if (popUpType.equals(context.getString(R.string.board_pop_up))) {
 
-            TextView unfollowText = layout.findViewById(R.id.unfollow);
             unfollowText.setText(R.string.unfollow_board_popup);
             unfollowText.setOnClickListener(view -> {
                 optionPopUp.dismiss();
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
             });
 
-            TextView reportText = layout.findViewById(R.id.report);
             reportText.setText(R.string.report_board_popup);
             reportText.setOnClickListener(view -> optionPopUp.dismiss());
 
 
         } else if (popUpType.equals(context.getString(R.string.private_board_owner_popup))) {
 
-            TextView unfollowText = layout.findViewById(R.id.unfollow);
-            unfollowText.setText("  Delete board");
+            unfollowText.setText(R.string.delete_board_popup);
             unfollowText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
 
             unfollowText.setOnClickListener(view -> {
                 optionPopUp.dismiss();
                 PrivateBoardActivity.deletePrivateBoard();
             });
-            TextView reportText = layout.findViewById(R.id.report);
-            reportText.setText("  Settings");
+
+            reportText.setText(R.string.settings_board_popup);
             reportText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
             reportText.setOnClickListener(view -> optionPopUp.dismiss());
 
 
         } else if (popUpType.equals(context.getString(R.string.private_board_user_popup))) {
 
-            TextView unfollowText = layout.findViewById(R.id.unfollow);
             unfollowText.setText(R.string.unfollow_board_popup);
             unfollowText.setOnClickListener(view -> {
                 optionPopUp.dismiss();
             });
 
-            TextView reportText = layout.findViewById(R.id.report);
             reportText.setText(R.string.report_board_popup);
             reportText.setOnClickListener(view -> optionPopUp.dismiss());
         }
@@ -89,4 +87,5 @@ public class CustomPopup {
         // Displaying the popup at the specified location, + offsets.
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
     }
+
 }
