@@ -115,38 +115,9 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     private void initViews(Context context) {
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
 
-        //initPopupMenu(context);
-
-        optionsMenu.setOnClickListener(view -> menu.show());
+        //optionsMenu.setOnClickListener(view -> menu.show());
     }
 
-    private void initPopupMenu(Context context) {
-        menu = new PopupMenu(context, optionsMenu);
-        menu.getMenu().add(
-                R.id.group_board,
-                isFavourite ? R.id.action_remove_favourite : R.id.action_mark_favourite,
-                1,
-                isFavourite ? getContext().getString(R.string.remove_favourite) : getContext().getString(R.string.mark_favourite)
-        );
-        menu.getMenu().add(
-                R.id.group_board,
-                isNotificationOn ? R.id.action_hide_notifications : R.id.action_show_notifications,
-                2,
-                isNotificationOn ? getContext().getString(R.string.hide_notifications) : getContext().getString(R.string.show_notifications)
-        );
-        menu.getMenu().add(
-                R.id.group_board,
-                isFollowing ? R.id.action_unfollow_board : R.id.action_follow_board,
-                3,
-                isFollowing ? getContext().getString(R.string.follow_board) : getContext().getString(R.string.unfollow_board)
-        );
-        menu.getMenu().add(
-                R.id.group_board,
-                R.id.action_report_board,
-                4,
-                getContext().getString(R.string.report_board)
-        );
-    }
 
     @Override
     public void initListeners(Fragment fragment) {
@@ -168,7 +139,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
 
     private void addInfoTilesListener() {
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
-        //optionsMenu.setOnClickListener(view -> menu.show());
     }
 
     @Override
