@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -61,6 +62,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
     Gson gson;
 
     private static RestApi staticRestApi;
+    private static Context mContext;
 
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
@@ -105,10 +107,13 @@ public class PrivateBoardActivity extends AppCompatActivity {
 
                     @Override
                     public void onNext(Response<JsonObject> response) {
-                        response.code();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                //TODO: Display user profile view after successfully deleting a board
+                                Toast.makeText(ZoneApplication.getContext(), "Board deleted successfully", Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(mContext, UserProfileActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mContext.startActivity(intent);
+
                                 break;
                             default:
                                 Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -126,6 +131,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         staticRestApi = restApi;
+        mContext = this;
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
@@ -201,7 +207,9 @@ public class PrivateBoardActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(PrivateBoardActivity.this, SwipePageActivity.class));
+        Intent intent = new Intent(PrivateBoardActivity.this, UserProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         super.onBackPressed();
     }
 
