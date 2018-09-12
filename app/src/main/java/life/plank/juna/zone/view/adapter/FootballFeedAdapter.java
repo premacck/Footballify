@@ -89,7 +89,7 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         notifyDataSetChanged();
     }
 
-    public class FootballFeedViewHolder extends RecyclerView.ViewHolder {
+    static class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_title_text_view)
         TextView feedTitleTextView;
         @BindView(R.id.kickoff_time)
