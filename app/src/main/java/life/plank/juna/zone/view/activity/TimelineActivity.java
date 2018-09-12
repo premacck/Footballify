@@ -7,21 +7,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.Pair;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.Picasso;
 
-import java.net.HttpURLConnection;
+import java.lang.ref.WeakReference;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,21 +38,24 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
-import retrofit2.Response;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS;
+import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
+import static life.plank.juna.zone.util.DataUtil.getSeparator;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DateUtil.getTimelineDateHeader;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTarget;
+import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
@@ -60,8 +66,18 @@ public class TimelineActivity extends AppCompatActivity {
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.header)
-    TextView headerView;
+    @BindView(R.id.timeline_header_layout)
+    RelativeLayout headerLayout;
+    @BindView(R.id.venue_name)
+    TextView venueNameTextView;
+    @BindView(R.id.time_status)
+    TextView timeStatusTextView;
+    @BindView(R.id.score)
+    TextView scoreTextView;
+    @BindView(R.id.win_pointer)
+    ImageView winPointer;
+    @BindView(R.id.date)
+    TextView dateTextView;
     @BindView(R.id.timeline_recycler_view)
     RecyclerView timelineRecyclerView;
     @BindView(R.id.scrubber)
@@ -71,10 +87,14 @@ public class TimelineActivity extends AppCompatActivity {
     @Named("footballData")
     RestApi restApi;
     @Inject
+    Picasso picasso;
+    @Inject
     Gson gson;
 
     private long currentMatchId;
     private TimelineAdapter adapter;
+    private List<MatchEvent> matchEvents;
+    private MatchFixture fixture;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -85,9 +105,11 @@ public class TimelineActivity extends AppCompatActivity {
         }
     };
 
-    public static void launch(Activity packageContext, View fromView, long currentMatchId) {
+    public static void launch(Activity packageContext, View fromView, long currentMatchId, String matchEvents, String matchFixture) {
         Intent intent = new Intent(packageContext, TimelineActivity.class);
         intent.putExtra(packageContext.getString(R.string.match_id_string), currentMatchId);
+        intent.putExtra(packageContext.getString(R.string.intent_match_event_list), matchEvents);
+        intent.putExtra(packageContext.getString(R.string.intent_match_fixture), matchFixture);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, packageContext.getString(R.string.timeline_activity)));
         packageContext.startActivity(intent, options.toBundle());
     }
@@ -100,18 +122,30 @@ public class TimelineActivity extends AppCompatActivity {
 
         ZoneApplication.getApplication().getUiComponent().inject(this);
         setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
-        setupSwipeGesture(this, headerView);
+        setupSwipeGesture(this, headerLayout);
 
         getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), boardParentViewBitmap));
 
         Intent intent = getIntent();
         if (intent != null) {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
-            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+            FixtureAndMatchEventParser.parse(this);
         }
         initRecyclerView();
-        getTimeLineEvents();
+    }
 
+    private void prepareViews() {
+        venueNameTextView.setText(fixture.getVenue().getName());
+        timeStatusTextView.setText(getDisplayTimeStatus(fixture.getTimeStatus()));
+        dateTextView.setText(getTimelineDateHeader(fixture.getMatchStartTime()));
+        scoreTextView.setText(getSeparator(fixture, winPointer));
+
+        picasso.load(fixture.getHomeTeam().getLogoLink())
+                .resize((int) getDp(this, 24), (int) getDp(this, 24))
+                .into(getEndDrawableTarget(timeStatusTextView));
+        picasso.load(fixture.getAwayTeam().getLogoLink())
+                .resize((int) getDp(this, 24), (int) getDp(this, 24))
+                .into(getStartDrawableTarget(dateTextView));
         ScrubberLoader.prepare(scrubber, false);
     }
 
@@ -129,8 +163,9 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        adapter = null;
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+        super.onDestroy();
     }
 
     private void initRecyclerView() {
@@ -163,32 +198,38 @@ public class TimelineActivity extends AppCompatActivity {
         }
     }
 
-    private void getTimeLineEvents() {
-        restApi.getMatchEvents(currentMatchId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<MatchEvent>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "getMatchEvents : Completed");
-                    }
+    static class FixtureAndMatchEventParser extends AsyncTask<Intent, Void, Void> {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
+        private WeakReference<TimelineActivity> ref;
 
-                    @Override
-                    public void onNext(Response<List<MatchEvent>> response) {
-                        progressBar.setVisibility(View.GONE);
-                        if (response.code() == HttpURLConnection.HTTP_OK) {
-                            List<MatchEvent> matchEvents = response.body();
-                            if (!isNullOrEmpty(matchEvents)) {
-                                adapter.updateEvents(matchEvents);
-                            } else
-                                Toast.makeText(TimelineActivity.this, R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+        static void parse(TimelineActivity activity) {
+            new FixtureAndMatchEventParser(activity).execute(activity.getIntent());
+        }
+
+        private FixtureAndMatchEventParser(TimelineActivity activity) {
+            this.ref = new WeakReference<>(activity);
+        }
+
+        @Override
+        protected Void doInBackground(Intent... intents) {
+            ref.get().matchEvents = ref.get().gson.fromJson(
+                    intents[0].getStringExtra(ref.get().getString(R.string.intent_match_event_list)),
+                    new TypeToken<List<MatchEvent>>() {
+                    }.getType()
+            );
+            ref.get().fixture = ref.get().gson.fromJson(
+                    intents[0].getStringExtra(ref.get().getString(R.string.intent_match_fixture)),
+                    MatchFixture.class
+            );
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            ref.get().adapter.updateEvents(ref.get().matchEvents);
+            ref.get().prepareViews();
+            FirebaseMessaging.getInstance().subscribeToTopic(ref.get().getString(R.string.pref_football_match_sub) + ref.get().currentMatchId);
+            ref.get().progressBar.setVisibility(View.GONE);
+        }
     }
 }
