@@ -20,6 +20,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 
 public class TeamStatsLayout extends FrameLayout {
@@ -91,13 +92,13 @@ public class TeamStatsLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    public void update(List<TeamStatsModel> teamStatModels, String homeLogo, String visitingLogo, Picasso picasso) {
+    public void update(List<TeamStatsModel> teamStatModels, MatchFixture fixture, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
-//        TODO : set actual league name in next pull request.
-        setLeagueName("")
+        
+        setLeagueName(fixture.getLeague().getName())
                 .setHomeTeamWin((int) teamStatModels.get(0).getWin())
                 .setHomeTeamLoss((int) teamStatModels.get(0).getLoss())
                 .setHomeTeamGoals((int) teamStatModels.get(0).getGoal())
@@ -113,9 +114,9 @@ public class TeamStatsLayout extends FrameLayout {
                 .setVisitingTeamYellowCard((int) teamStatModels.get(1).getYellowCard())
                 .setVisitingTeamRedCard((int) teamStatModels.get(1).getRedCard());
 
-        picasso.load(homeLogo)
+        picasso.load(fixture.getHomeTeam().getLogoLink())
                 .into(homeTeamLogoImageView);
-        picasso.load(visitingLogo)
+        picasso.load(fixture.getAwayTeam().getLogoLink())
                 .into(visitingTeamLogoImageView);
     }
 

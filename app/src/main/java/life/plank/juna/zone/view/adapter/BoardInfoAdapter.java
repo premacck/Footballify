@@ -384,8 +384,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     teamStatsLayout.setLoading(false);
                     teamStatsLayout.update(
                             ref.get().teamStatModels,
-                            ref.get().fixture.getHomeTeam().getLogoLink(),
-                            ref.get().fixture.getAwayTeam().getLogoLink(),
+                            ref.get().fixture,
                             ref.get().picasso
                     );
                 } else teamStatsLayout.notAvailable(R.string.team_stats_not_available_yet);
