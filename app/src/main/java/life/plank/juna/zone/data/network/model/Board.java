@@ -14,13 +14,7 @@ public class Board {
     private String zone;
     private String description;
     private String color;
-
-    @Data
-    public class BoardEvent {
-        private String type;
-        private Integer foreignId;
-
-    }
+    private User owner;
 
     public Board(String displayname, String boardType, String zone, String description, String color) {
         this.displayname = displayname;
@@ -28,5 +22,12 @@ public class Board {
         this.zone = zone;
         this.description = description;
         this.color = color;
+    }
+
+    @Data
+    public class BoardEvent {
+        private String type;
+        private Integer foreignId;
+
     }
 }

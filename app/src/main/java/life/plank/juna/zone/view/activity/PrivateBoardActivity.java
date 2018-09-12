@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,10 +16,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
+
+import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,6 +40,10 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
+import retrofit2.Response;
+import rx.Subscriber;
+
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
  * Created by plank-dhamini on 25/7/2018.
@@ -51,6 +60,8 @@ public class PrivateBoardActivity extends AppCompatActivity {
     @Inject
     Gson gson;
 
+    private static RestApi staticRestApi;
+
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
     @BindView(R.id.private_board_toolbar)
@@ -58,6 +69,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
     @BindView(R.id.private_board_view_pager)
     ViewPager viewPager;
 
+    static String boardId;
     private Board board;
     private PrivateBoardPagerAdapter pagerAdapter;
 
@@ -75,6 +87,37 @@ public class PrivateBoardActivity extends AppCompatActivity {
         packageContext.startActivity(intent);
     }
 
+    public static void deletePrivateBoard() {
+        staticRestApi.deleteBoard(boardId, getToken(ZoneApplication.getContext()))
+                .subscribeOn(rx.schedulers.Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        response.code();
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
+                                //TODO: Display user profile view after successfully deleting a board
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,11 +125,22 @@ public class PrivateBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_private_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-
+        staticRestApi = restApi;
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
         }
+
+        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
+        editor.getString(getString(R.string.pref_display_name), "NA");
+
+        boardId = board.getId();
+        if (board.getOwner().getDisplayName().equals(editor.getString(getString(R.string.pref_display_name), "NA"))) {
+            toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_owner_popup));
+        } else {
+            toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
+        }
+
         toolbar.setTitle(board.getDisplayname());
         toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
@@ -95,6 +149,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         setupViewPagerWithFragments();
         String topic = getString(R.string.board_id_prefix) + board.getId();
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
+
     }
 
     private void setupViewPagerWithFragments() {

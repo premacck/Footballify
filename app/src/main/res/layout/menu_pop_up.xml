@@ -15,7 +15,7 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/fav"
+            android:id="@+id/popup_item_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -27,7 +27,7 @@
             android:textColor="@color/grey" />
 
         <TextView
-            android:id="@+id/mute_notification"
+            android:id="@+id/popup_item_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -39,7 +39,7 @@
             android:textColor="@color/grey" />
 
         <TextView
-            android:id="@+id/unfollow"
+            android:id="@+id/popup_item_three"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
@@ -51,7 +51,7 @@
             android:textColor="@color/grey" />
 
         <TextView
-            android:id="@+id/report"
+            android:id="@+id/popup_item_four"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
