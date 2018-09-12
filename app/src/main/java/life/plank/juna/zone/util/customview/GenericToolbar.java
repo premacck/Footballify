@@ -57,9 +57,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     @BindView(R.id.info_tiles_tab_layout)
     TabLayout infoTilesTabLayout;
 
-    PopupMenu menu;
-    private boolean isFavourite;
-    private boolean isNotificationOn;
     private boolean isFollowing;
 
     PublicBoardHeaderListener listener;
@@ -114,9 +111,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
 
     private void initViews(Context context) {
         followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
-
-        //optionsMenu.setOnClickListener(view -> menu.show());
-    }
+        }
 
 
     @Override

@@ -26,52 +26,52 @@ public class CustomPopup {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.menu_pop_up, viewGroup);
 
-        TextView favText = layout.findViewById(R.id.fav);
-        favText.setOnClickListener(view -> optionPopUp.dismiss());
+        TextView popupItemOne = layout.findViewById(R.id.popup_item_one);
+        popupItemOne.setOnClickListener(view -> optionPopUp.dismiss());
 
-        TextView notificationText = layout.findViewById(R.id.mute_notification);
-        notificationText.setText(R.string.show_notification);
-        notificationText.setOnClickListener(view -> optionPopUp.dismiss());
+        TextView popUpItemTwo = layout.findViewById(R.id.popup_item_two);
+        popUpItemTwo.setText(R.string.show_notification);
+        popUpItemTwo.setOnClickListener(view -> optionPopUp.dismiss());
 
-        TextView unfollowText = layout.findViewById(R.id.unfollow);
-        TextView reportText = layout.findViewById(R.id.report);
+        TextView popupItemThree = layout.findViewById(R.id.popup_item_three);
+        TextView popupItemFour = layout.findViewById(R.id.popup_item_four);
 
         if (popUpType.equals(context.getString(R.string.board_pop_up))) {
 
-            unfollowText.setText(R.string.unfollow_board_popup);
-            unfollowText.setOnClickListener(view -> {
+            popupItemThree.setText(R.string.unfollow_board_popup);
+            popupItemThree.setOnClickListener(view -> {
                 optionPopUp.dismiss();
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
             });
 
-            reportText.setText(R.string.report_board_popup);
-            reportText.setOnClickListener(view -> optionPopUp.dismiss());
+            popupItemFour.setText(R.string.report_board_popup);
+            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
 
 
         } else if (popUpType.equals(context.getString(R.string.private_board_owner_popup))) {
 
-            unfollowText.setText(R.string.delete_board_popup);
-            unfollowText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
+            popupItemThree.setText(R.string.delete_board_popup);
+            popupItemThree.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
 
-            unfollowText.setOnClickListener(view -> {
+            popupItemThree.setOnClickListener(view -> {
                 optionPopUp.dismiss();
                 PrivateBoardActivity.deletePrivateBoard();
             });
 
-            reportText.setText(R.string.settings_board_popup);
-            reportText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
-            reportText.setOnClickListener(view -> optionPopUp.dismiss());
+            popupItemFour.setText(R.string.settings_board_popup);
+            popupItemFour.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
+            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
 
 
         } else if (popUpType.equals(context.getString(R.string.private_board_user_popup))) {
 
-            unfollowText.setText(R.string.unfollow_board_popup);
-            unfollowText.setOnClickListener(view -> {
+            popupItemThree.setText(R.string.unfollow_board_popup);
+            popupItemThree.setOnClickListener(view -> {
                 optionPopUp.dismiss();
             });
 
-            reportText.setText(R.string.report_board_popup);
-            reportText.setOnClickListener(view -> optionPopUp.dismiss());
+            popupItemFour.setText(R.string.report_board_popup);
+            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
         }
 
         // Creating the PopupWindow
