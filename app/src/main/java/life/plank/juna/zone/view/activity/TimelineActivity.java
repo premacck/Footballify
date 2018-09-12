@@ -191,29 +191,4 @@ public class TimelineActivity extends AppCompatActivity {
                     }
                 });
     }
-
-    private void getLiveTimeStatus() {
-        restApi.getLiveTimeStatus(currentMatchId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<LiveTimeStatus>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "getLiveTimeStatus() :Completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(Response<List<LiveTimeStatus>> response) {
-                        List<LiveTimeStatus> timeStatusList = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK && !isNullOrEmpty(timeStatusList)) {
-//                            TODO : integrate whistle time events with match events in the adapter.
-                        }
-                    }
-                });
-    }
 }

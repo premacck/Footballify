@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 import net.openid.appauth.AuthorizationService;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -59,11 +60,18 @@ public class NetworkModule {
 
     @NetworkScope
     @Provides
-    public Gson provideGson() {
+    public Gson provideGson(ISO8601DateSerializer iso8601DateSerializer) {
         return new GsonBuilder()
-                .registerTypeAdapter(Date.class, new ISO8601DateSerializer())
+                .registerTypeAdapter(Date.class, iso8601DateSerializer)
+                .setDateFormat(DateFormat.FULL, DateFormat.FULL)
                 .setLenient()
                 .create();
+    }
+
+    @NetworkScope
+    @Provides
+    public ISO8601DateSerializer provideISO8601DateSerializer() {
+        return new ISO8601DateSerializer();
     }
 
     @NetworkScope
