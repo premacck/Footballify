@@ -172,8 +172,8 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             params.removeRule(event.getIsHomeTeam() ? RelativeLayout.ALIGN_PARENT_END : RelativeLayout.ALIGN_PARENT_START);
             params.addRule(event.getIsHomeTeam() ? RelativeLayout.START_OF : RelativeLayout.END_OF, R.id.center_space);
             params.removeRule(event.getIsHomeTeam() ? RelativeLayout.END_OF : RelativeLayout.START_OF);
-            params.rightMargin = (int) getDp(ref.get().context, event.getIsHomeTeam() ? 22 : 0);
-            params.leftMargin = (int) getDp(ref.get().context, event.getIsHomeTeam() ? 0 : 22);
+            params.rightMargin = (int) getDp(event.getIsHomeTeam() ? 22 : 0);
+            params.leftMargin = (int) getDp(event.getIsHomeTeam() ? 0 : 22);
             timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
             timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
             LinearLayout.LayoutParams eventParams = (LinearLayout.LayoutParams) timelineEventUp.getLayoutParams();
@@ -194,7 +194,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
         private void onCardEvent() {
             setCenterLayout();
-            timelineEventDown.setCompoundDrawablePadding((int) getDp(ref.get().context, 10));
+            timelineEventDown.setCompoundDrawablePadding((int) getDp(10));
             int suitableCardDrawable = event.getEventType().contains(ref.get().context.getString(R.string.red)) ?
                     event.getIsHomeTeam() ?
                             R.drawable.red_left :
@@ -213,7 +213,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
         private void onSubstitutionEvent() {
             setCenterLayout();
-            timelineEventDown.setCompoundDrawablePadding((int) getDp(ref.get().context, 10));
+            timelineEventDown.setCompoundDrawablePadding((int) getDp(10));
             if (event.getIsHomeTeam()) {
                 timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_in, 0);
                 timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_out, 0);
@@ -229,7 +229,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
 
         private void onGoalEvent() {
             setCenterLayout();
-            timelineEventDown.setCompoundDrawablePadding((int) getDp(ref.get().context, 4));
+            timelineEventDown.setCompoundDrawablePadding((int) getDp(4));
             timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(
                     event.getIsHomeTeam() ? 0 : R.drawable.ic_goal_right,
                     0,

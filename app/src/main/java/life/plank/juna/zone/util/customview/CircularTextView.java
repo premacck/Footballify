@@ -69,7 +69,7 @@ public class CircularTextView extends AppCompatTextView {
     }
 
     public void setStrokeWidth(float dp) {
-        strokeWidth = getDp(getContext(), dp);
+        strokeWidth = getDp(dp);
     }
 
     public void setStrokeColor(int color) {

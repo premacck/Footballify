@@ -91,7 +91,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
             homeTeamName.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamName.setText(scoreFixture.getAwayTeam().getName());
-            separatorView.setText(getSeparator(scoreFixture, winPointer));
+            separatorView.setText(getSeparator(scoreFixture, winPointer, false));
         }
 
         @OnClick(R.id.root_layout)

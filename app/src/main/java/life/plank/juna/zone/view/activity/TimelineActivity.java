@@ -138,13 +138,13 @@ public class TimelineActivity extends AppCompatActivity {
         venueNameTextView.setText(fixture.getVenue().getName());
         timeStatusTextView.setText(getDisplayTimeStatus(fixture.getTimeStatus()));
         dateTextView.setText(getTimelineDateHeader(fixture.getMatchStartTime()));
-        scoreTextView.setText(getSeparator(fixture, winPointer));
+        scoreTextView.setText(getSeparator(fixture, winPointer, false));
 
         picasso.load(fixture.getHomeTeam().getLogoLink())
-                .resize((int) getDp(this, 24), (int) getDp(this, 24))
+                .resize((int) getDp(24), (int) getDp(24))
                 .into(getEndDrawableTarget(timeStatusTextView));
         picasso.load(fixture.getAwayTeam().getLogoLink())
-                .resize((int) getDp(this, 24), (int) getDp(this, 24))
+                .resize((int) getDp(24), (int) getDp(24))
                 .into(getStartDrawableTarget(dateTextView));
         ScrubberLoader.prepare(scrubber, false);
     }
