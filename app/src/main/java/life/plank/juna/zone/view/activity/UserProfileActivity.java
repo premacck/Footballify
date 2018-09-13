@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,10 +45,12 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.DataUtil.equalsNullString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
+    public static Bitmap parentViewBitmap = null;
 
     @BindView(R.id.edit_profile_button)
     Button editProfileButton;
@@ -117,6 +120,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.edit_profile_button)
     public void editUserProfile(){
+        parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
         EditProfileActivity.launch(this);
     }
 

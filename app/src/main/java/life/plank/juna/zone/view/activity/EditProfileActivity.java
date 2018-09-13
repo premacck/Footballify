@@ -5,12 +5,14 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -35,6 +37,8 @@ public class EditProfileActivity extends AppCompatActivity {
     CircleImageView profilePicture;
     @BindView(R.id.change_picture_text_view)
     TextView changePicture;
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, EditProfileActivity.class));
@@ -47,6 +51,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
+        blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), UserProfileActivity.parentViewBitmap));
     }
 
     @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view})
