@@ -45,6 +45,8 @@ public class BoardPreviewActivity extends AppCompatActivity {
     Button createBoard;
     @BindView(R.id.preview_toolbar)
     GenericToolbar toolbar;
+    @BindView(R.id.title)
+    TextView titleTextView;
 
     Board board;
     @Inject
@@ -76,7 +78,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
         description.setText(board.getDescription());
 
         toolbar.setupForPreview();
-
+        titleTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
         getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), CreateBoardActivity.parentViewBitmap));
     }
