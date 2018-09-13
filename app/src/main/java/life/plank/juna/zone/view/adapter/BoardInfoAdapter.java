@@ -21,7 +21,7 @@ import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.MatchTeamStats;
+import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
@@ -30,7 +30,7 @@ import life.plank.juna.zone.util.customview.CommentarySmall;
 import life.plank.juna.zone.util.customview.HighlightsAdapter;
 import life.plank.juna.zone.util.customview.LineupLayout;
 import life.plank.juna.zone.util.customview.MatchHighlights;
-import life.plank.juna.zone.util.customview.MatchTeamStatsLayout;
+import life.plank.juna.zone.util.customview.MatchStatsLayout;
 import life.plank.juna.zone.util.customview.ScrubberLayout;
 import life.plank.juna.zone.util.customview.StandingsLayout;
 import life.plank.juna.zone.util.customview.SubstitutionLayout;
@@ -57,7 +57,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private List<ScrubberData> scrubberDataList;
     private MatchFixture fixture;
     private List<Commentary> commentaryList;
-    private MatchTeamStats matchTeamStats;
+    private MatchStats matchStats;
     private Lineups lineups;
     private List<MatchEvent> matchEventList;
     private List<TeamStatsModel> teamStatModels;
@@ -74,7 +74,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
 
         scrubberDataList = new ArrayList<>();
         commentaryList = new ArrayList<>();
-        matchTeamStats = new MatchTeamStats();
+        matchStats = new MatchStats();
         lineups = new Lineups();
         matchEventList = new ArrayList<>();
         teamStatModels = new ArrayList<>();
@@ -160,11 +160,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         return commentaryList;
     }
 
-    public void setMatchTeamStats(MatchTeamStats matchTeamStats, int message) {
-        if (matchTeamStats != null) {
-            this.matchTeamStats = matchTeamStats;
+    public void setMatchStats(MatchStats matchStats, int message) {
+        if (matchStats != null) {
+            this.matchStats = matchStats;
         }
-        this.matchTeamStats.setErrorMessage(message);
+        this.matchStats.setErrorMessage(message);
         if (isBoardStarted) notifyItemChanged(3);
     }
 
@@ -186,7 +186,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         if (!isBoardStarted) notifyItemChanged(1);
     }
 
-    public void setTeamStatModels(List<TeamStatsModel> teamStatModels, boolean isError) {
+    public void setTeamStats(List<TeamStatsModel> teamStatModels, boolean isError) {
         validateAndUpdateList(this.teamStatModels, teamStatModels, isError);
         if (!isBoardStarted) notifyItemChanged(2);
     }
@@ -296,17 +296,17 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
 
         private void prepareMatchStats() {
             try {
-                MatchTeamStatsLayout matchTeamStatsLayout = (MatchTeamStatsLayout) rootLayout.getChildAt(0);
-                if (ref.get().matchTeamStats != null) {
-                    if (ref.get().matchTeamStats.getErrorMessage() == 0) {
-                        matchTeamStatsLayout.setLoading(false);
-                        matchTeamStatsLayout.update(
-                                ref.get().matchTeamStats,
+                MatchStatsLayout matchStatsLayout = (MatchStatsLayout) rootLayout.getChildAt(0);
+                if (ref.get().matchStats != null) {
+                    if (ref.get().matchStats.getErrorMessage() == 0) {
+                        matchStatsLayout.setLoading(false);
+                        matchStatsLayout.update(
+                                ref.get().matchStats,
                                 ref.get().fixture,
                                 ref.get().picasso
                         );
                     } else {
-                        matchTeamStatsLayout.notAvailable(ref.get().matchTeamStats.getErrorMessage());
+                        matchStatsLayout.notAvailable(ref.get().matchStats.getErrorMessage());
                     }
                 }
             } catch (Exception e) {
@@ -371,7 +371,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     standingsLayout.setAdapter(new StandingTableAdapter(ref.get().picasso));
                     standingsLayout.update(ref.get().standingsList);
                 } else
-                    standingsLayout.setLoading(true);
+                    standingsLayout.notAvailable(R.string.failed_to_get_standings);
             } catch (Exception e) {
                 Log.e(TAG, "prepareStandings: ", e);
             }
@@ -384,11 +384,10 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     teamStatsLayout.setLoading(false);
                     teamStatsLayout.update(
                             ref.get().teamStatModels,
-                            ref.get().fixture.getHomeTeam().getLogoLink(),
-                            ref.get().fixture.getAwayTeam().getLogoLink(),
+                            ref.get().fixture,
                             ref.get().picasso
                     );
-                } else teamStatsLayout.setLoading(true);
+                } else teamStatsLayout.notAvailable(R.string.team_stats_not_available_yet);
             } catch (Exception e) {
                 Log.e(TAG, "prepareTeamStats: ", e);
             }
@@ -404,7 +403,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     case TYPE_COMMENTARY_VIEW:
                         return new CommentarySmall(ref.get().context, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_STATS_VIEW:
-                        return new MatchTeamStatsLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new MatchStatsLayout(ref.get().context, null, R.style.BoardInfoLayout);
                     case TYPE_LINEUPS_VIEW:
                         return new LineupLayout(ref.get().context, null, R.style.BoardInfoLayout);
                     case TYPE_SUBSTITUTION_VIEW:

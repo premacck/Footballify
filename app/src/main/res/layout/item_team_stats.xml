@@ -221,11 +221,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:fontFamily="@font/rajdhani_regular"
+                android:fontFamily="@font/rajdhani_light"
                 android:text="@string/team_stats_not_available_yet"
-                android:textAllCaps="true"
                 android:textColor="@color/grey"
-                android:textSize="16sp"
                 android:visibility="gone" />
 
         </RelativeLayout>

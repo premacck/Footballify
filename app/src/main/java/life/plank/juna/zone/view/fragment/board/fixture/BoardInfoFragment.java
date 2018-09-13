@@ -31,7 +31,9 @@ import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.MatchTeamStats;
+import life.plank.juna.zone.data.network.model.MatchStats;
+import life.plank.juna.zone.data.network.model.StandingModel;
+import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
 import life.plank.juna.zone.util.customview.ScrubberLayout.ScrubberLayoutListener;
@@ -48,6 +50,7 @@ import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
 import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
@@ -71,6 +74,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     private MatchFixture fixture;
     private BoardInfoAdapter adapter;
     private List<MatchEvent> matchEvents;
+    private long timeDiffOfMatchFromNow;
 
     public BoardInfoFragment() {
     }
@@ -97,7 +101,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new BoardInfoAdapter(this, getContext(), picasso, true, fixture, snapHelper);
+        timeDiffOfMatchFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
+        adapter = new BoardInfoAdapter(this, getContext(), picasso, timeDiffOfMatchFromNow < 0, fixture, snapHelper);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -105,10 +110,15 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getCommentaries();
-        getMatchTeamStats();
-        getLineupFormation();
-        getMatchEvents();
+        if (timeDiffOfMatchFromNow >= 0) {
+            getMatchStandings();
+            getTeamStats();
+        } else {
+            getCommentaries();
+            getMatchStats();
+            getLineupFormation();
+            getMatchEvents();
+        }
     }
 
     @Override
@@ -183,11 +193,11 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 });
     }
 
-    private void getMatchTeamStats() {
-        restApi.getTeamStatsForMatch(fixture.getForeignId())
+    private void getMatchStats() {
+        restApi.getMatchStatsForMatch(fixture.getForeignId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<MatchTeamStats>>() {
+                .subscribe(new Observer<Response<MatchStats>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
@@ -196,21 +206,21 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
-                        adapter.setMatchTeamStats(null, R.string.something_went_wrong);
+                        adapter.setMatchStats(null, R.string.something_went_wrong);
                     }
 
                     @Override
-                    public void onNext(Response<MatchTeamStats> response) {
-                        MatchTeamStats matchTeamStats = response.body();
+                    public void onNext(Response<MatchStats> response) {
+                        MatchStats matchStats = response.body();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                if (matchTeamStats != null) {
-                                    adapter.setMatchTeamStats(matchTeamStats, 0);
+                                if (matchStats != null) {
+                                    adapter.setMatchStats(matchStats, 0);
                                 } else
-                                    adapter.setMatchTeamStats(null, R.string.match_yet_to_start);
+                                    adapter.setMatchStats(null, R.string.match_yet_to_start);
                                 break;
                             default:
-                                adapter.setMatchTeamStats(null, R.string.something_went_wrong);
+                                adapter.setMatchStats(null, R.string.something_went_wrong);
                                 break;
                         }
                     }
@@ -279,6 +289,73 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                                 break;
                             default:
                                 adapter.setLineups(null, R.string.line_ups_not_available);
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void getMatchStandings() {
+        restApi.getMatchStandingsForMatch(fixture.getForeignId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<StandingModel>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted : getMatchStandings()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: getMatchStandings()", e);
+                        adapter.setStandings(null, true);
+                    }
+
+                    @Override
+                    public void onNext(Response<List<StandingModel>> response) {
+                        List<StandingModel> standingModelList = response.body();
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (!isNullOrEmpty(standingModelList)) {
+                                    adapter.setStandings(standingModelList, false);
+                                } else
+                                    adapter.setStandings(standingModelList, true);
+                                break;
+                            default:
+                                adapter.setStandings(standingModelList, true);
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void getTeamStats() {
+        restApi.getTeamStatsForMatch(fixture.getForeignId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted : getTeamStats()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: getTeamStats()", e);
+                    }
+
+                    @Override
+                    public void onNext(Response<List<TeamStatsModel>> response) {
+                        List<TeamStatsModel> teamStatsModelList = response.body();
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (!isNullOrEmpty(teamStatsModelList)) {
+                                    adapter.setTeamStats(teamStatsModelList, false);
+                                } else
+                                    adapter.setTeamStats(teamStatsModelList, true);
+                                break;
+                            default:
+                                adapter.setTeamStats(teamStatsModelList, true);
                                 break;
                         }
                     }

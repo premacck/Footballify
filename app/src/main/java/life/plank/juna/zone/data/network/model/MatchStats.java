@@ -3,7 +3,7 @@ package life.plank.juna.zone.data.network.model;
 import lombok.Data;
 
 @Data
-public class MatchTeamStats {
+public class MatchStats {
     private int homeShots;
     private int homeShotsOnTarget;
     private int homePossession;
