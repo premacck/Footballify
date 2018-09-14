@@ -45,7 +45,7 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
+import life.plank.juna.zone.view.adapter.FootballLeagueAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -56,7 +56,7 @@ import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
-import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
+import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
@@ -88,7 +88,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ImageView optionsImage;
 
     CoordinatorLayout coordinatorLayout;
-    FootballFeedAdapter adapter;
+    FootballLeagueAdapter adapter;
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
@@ -172,7 +172,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void initRecyclerView() {
-        adapter = new FootballFeedAdapter(this);
+        adapter = new FootballLeagueAdapter(this);
         feedRecyclerView.setAdapter(adapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
@@ -189,7 +189,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     public void getFootballFeed() {
         progressBar.setVisibility(View.GONE);
-        adapter.setFootballFeedList(getStaticFeedItems());
+        adapter.setLeagueList(getStaticLeagues());
     }
 
     @Override
@@ -221,7 +221,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
                     new TypeToken<List<FootballFeed>>() {
                     }.getType());
         }
-        pinnedFeedsList.add(adapter.getFootballFeedList().get(position));
+//        pinnedFeedsList.add(adapter.getLeagueList().get(position));
         preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
     }
 
@@ -230,7 +230,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
         Intent intent = new Intent(this, FootballFeedDetailActivity.class);
         intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
-        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getFootballFeedList()));
+        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getLeagueList()));
         startActivity(intent);
     }
 

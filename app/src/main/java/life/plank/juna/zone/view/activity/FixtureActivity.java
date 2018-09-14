@@ -1,14 +1,12 @@
 package life.plank.juna.zone.view.activity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -58,11 +56,11 @@ public class FixtureActivity extends AppCompatActivity {
 
     private FixtureMatchdayAdapter fixtureMatchdayAdapter;
 
-    public static void launch(Activity packageContext, View fromView, boolean isCup) {
+    public static void launch(Activity packageContext, boolean isCup) {
         Intent intent = new Intent(packageContext, FixtureActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_is_cup), isCup);
-        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, "match_fixture_result"));
-        packageContext.startActivity(intent, options.toBundle());
+        packageContext.startActivity(intent);
+        packageContext.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     @Override
@@ -137,12 +135,15 @@ public class FixtureActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             if (ref.get() != null) {
-                if (!isNullOrEmpty(fixtureByMatchDayList) && ref.get().fixtureMatchdayAdapter != null) {
-                    ref.get().fixtureMatchdayAdapter.update(fixtureByMatchDayList);
-                }
                 ref.get().progressBar.setVisibility(View.GONE);
                 ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

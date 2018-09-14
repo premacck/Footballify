@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +17,7 @@ import life.plank.juna.zone.view.activity.FixtureActivity;
 
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.view.activity.LeagueInfoActivity.fixtureByMatchDayList;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -26,11 +25,9 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatchdayAdapter.FixtureMatchDayViewHolder> {
 
     private FixtureActivity activity;
-    private List<FixtureByMatchDay> fixtureByMatchDayList;
 
     public FixtureMatchdayAdapter(FixtureActivity activity) {
         this.activity = activity;
-        this.fixtureByMatchDayList = new ArrayList<>();
     }
 
     @Override
@@ -41,14 +38,9 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
         );
     }
 
-    public void update(List<FixtureByMatchDay> fixtureByMatchDayList) {
-        this.fixtureByMatchDayList.addAll(fixtureByMatchDayList);
-        notifyDataSetChanged();
-    }
-
     @Override
     public int getItemCount() {
-        return fixtureByMatchDayList.size();
+        return fixtureByMatchDayList != null ? fixtureByMatchDayList.size() : 0;
     }
 
     public static class FixtureMatchDayViewHolder extends BaseRecyclerView.ViewHolder {
@@ -67,7 +59,7 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
 
         @Override
         public void bind() {
-            FixtureByMatchDay fixtureByMatchDay = ref.get().fixtureByMatchDayList.get(getAdapterPosition());
+            FixtureByMatchDay fixtureByMatchDay = fixtureByMatchDayList.get(getAdapterPosition());
 
             if (!isNullOrEmpty(fixtureByMatchDay.getFixtureByDateList())) {
                 matchdayHeader.setBackgroundResource(
@@ -82,7 +74,7 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
                 ));
                 String matchdayHeaderText =
                         ref.get().activity.getString(ref.get().activity.isCup ? R.string.round_ : R.string.matchday_) +
-                                (ref.get().activity.isCup ? fixtureByMatchDay.getMatchDay() : (fixtureByMatchDay.getMatchDay() + 1));
+                                (ref.get().activity.isCup ? fixtureByMatchDay.getMatchDay() : fixtureByMatchDay.getMatchDay());
                 matchdayHeader.setText(matchdayHeaderText);
                 recyclerView.setAdapter(new FixtureDateAdapter(fixtureByMatchDay.getFixtureByDateList(), ref.get().activity));
             }
