@@ -17,11 +17,13 @@ public class Lineups {
     @Data
     public class Formation {
         private String nickname;
+        private String imagePath;
         private int number;
         private int formationNumber;
-        private int yellowCard;
-        private int redCard;
-        private int yellowRed;
+        //        TODO : change yellowcard, redcard and yellowred fields to camelCase when they are updated in backend
+        private int yellowcard;
+        private int redcard;
+        private int yellowred;
         private int goals;
         private int substituteIn;
         private int substituteOut;
