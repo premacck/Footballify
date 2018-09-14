@@ -101,30 +101,6 @@ public class DataUtil {
         }
     }
 
-    //    TODO : merge this method with the above one in next pull request
-    public static String getBoardSeparator(MatchFixture matchFixture, ImageView winPointer) {
-        winPointer.setVisibility(View.INVISIBLE);
-        int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
-        switch (dateDiff) {
-            case -1:
-                return ZoneApplication.getContext().getString(R.string.yesterday);
-            case 0:
-                if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
-                    return matchFixture.getHomeGoals() + DASH + matchFixture.getAwayGoals();
-                } else {
-                    return getFutureMatchTime(matchFixture.getMatchStartTime());
-                }
-            case 1:
-                return ZoneApplication.getContext().getString(R.string.tomorrow);
-            default:
-                if (dateDiff < -1) {
-                    return getPastMatchSeparator(matchFixture, winPointer, true);
-                } else {
-                    return getFutureMatchTime(matchFixture.getMatchStartTime());
-                }
-        }
-    }
-
     private static String getPastMatchSeparator(MatchFixture matchFixture, ImageView winPointer, boolean isBoard) {
         String teamNameSeparator;
         int homeWinDrawable = isBoard ?
@@ -380,9 +356,9 @@ public class DataUtil {
         List<Entry> entries = new ArrayList<>();
         for (ScrubberData scrubberData : scrubberDataList) {
             entries.add(new Entry(
-                    scrubberData.getXValue(),
-                    scrubberData.getYValue(),
-                    getSuitableScrubberIcon(scrubberData.getEventType(), scrubberData.isHomeTeam())
+                    scrubberData.getMillisecondsX(),
+                    scrubberData.getInteractionY(),
+                    getSuitableScrubberIcon(scrubberData.getEvent().getEventType(), scrubberData.getEvent().getIsHomeTeam())
             ));
         }
         LineDataSet dataSet = new LineDataSet(entries, ZoneApplication.getContext().getString(R.string.scrubber));

@@ -15,6 +15,11 @@ public class MatchEvent {
     private String result;
     private LiveTimeStatus liveTimeStatus;
 
+    public MatchEvent(String eventType, boolean isHomeTeam) {
+        this.eventType = eventType;
+        this.isHomeTeam = isHomeTeam;
+    }
+
     /**
      * Constructor to add whistle events (kick-off, half-time, full-time etc.) in football timeline.
      */
