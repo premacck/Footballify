@@ -197,6 +197,18 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
         savePinnedFeedsToPreference(position);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        arcMenu.menuIn();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        arcMenu.menuOut();
+    }
+
     private void savePinnedFeedsToPreference(int position) {
         PreferenceManager preferenceManager = new PreferenceManager(this);
         Gson gson = new Gson();
