@@ -20,6 +20,7 @@ public class Lineups {
         private String imagePath;
         private int number;
         private int formationNumber;
+        //        TODO : change yellowcard, redcard and yellowred fields to camelCase when they are updated in backend
         private int yellowcard;
         private int redcard;
         private int yellowred;
