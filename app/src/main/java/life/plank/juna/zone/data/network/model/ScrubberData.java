@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class ScrubberData {
-    private int millisecondsX;
-    private int interactionY;
+    private long millisecondsX;
+    private long interactionY;
     private MatchEvent event;
 
     public ScrubberData(int millisecondsX, int interactionY, String eventType, boolean isHomeTeam) {
