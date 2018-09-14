@@ -448,6 +448,7 @@ public class DataUtil {
             new ScrubberLoader(lineChart, scrubberDataList).execute();
         }
 
+        //        TODO: remove below two methods once Scrubber API integration completes
         private ScrubberLoader(LineChart lineChart, boolean isRandom) {
             this.lineChartRef = new WeakReference<>(lineChart);
             this.isRandom = isRandom;
