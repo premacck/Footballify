@@ -433,14 +433,22 @@ public class DataUtil {
         lineChart.getXAxis().setValueFormatter((value, axis) -> getDateForScrubber((long) value));
     }
 
-    /**
-     * TODO: replace dummy List calls with list obtained from API call.
-     */
     public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
 
         private WeakReference<LineChart> lineChartRef;
+        private List<ScrubberData> scrubberDataList;
         private boolean isRandom;
 
+        private ScrubberLoader(LineChart lineChart, List<ScrubberData> scrubberDataList) {
+            this.lineChartRef = new WeakReference<>(lineChart);
+            this.scrubberDataList = scrubberDataList;
+        }
+
+        public static void prepare(LineChart lineChart, List<ScrubberData> scrubberDataList) {
+            new ScrubberLoader(lineChart, scrubberDataList).execute();
+        }
+
+        //        TODO: remove below two methods once Scrubber API integration completes
         private ScrubberLoader(LineChart lineChart, boolean isRandom) {
             this.lineChartRef = new WeakReference<>(lineChart);
             this.isRandom = isRandom;
@@ -458,7 +466,12 @@ public class DataUtil {
         @Override
         protected LineData doInBackground(Void... voids) {
             List<ILineDataSet> lineDataSets1 = new ArrayList<>();
-            lineDataSets1.add(getLineDataSet(isRandom ? getRandomDummyScrubberData() : getDefinedDummyScrubberData()));
+            lineDataSets1.add(getLineDataSet(
+                    isNullOrEmpty(scrubberDataList) ?
+                            isRandom ?
+                                    getRandomDummyScrubberData() :
+                                    getDefinedDummyScrubberData() :
+                            scrubberDataList));
             return new LineData(lineDataSets1);
         }
 
