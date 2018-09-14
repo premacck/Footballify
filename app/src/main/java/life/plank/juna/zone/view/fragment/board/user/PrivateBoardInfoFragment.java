@@ -89,7 +89,7 @@ public class PrivateBoardInfoFragment extends Fragment {
 
     private void initRecyclerView() {
         boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
-        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId);
+        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this);
         boardMembersRecyclerView.setAdapter(boardMembersViewAdapter);
     }
 
