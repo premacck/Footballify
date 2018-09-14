@@ -4,17 +4,13 @@ import lombok.Data;
 
 @Data
 public class ScrubberData {
-    private int range;
-    private int xValue;
-    private int yValue;
-    private String eventType;
-    private String description;
-    private boolean isHomeTeam;
+    private long millisecondsX;
+    private long interactionY;
+    private MatchEvent event;
 
-    public ScrubberData(int xValue, int yValue, String eventType, boolean isHomeTeam) {
-        this.xValue = xValue;
-        this.yValue = yValue;
-        this.eventType = eventType;
-        this.isHomeTeam = isHomeTeam;
+    public ScrubberData(int millisecondsX, int interactionY, String eventType, boolean isHomeTeam) {
+        this.millisecondsX = millisecondsX;
+        this.interactionY = interactionY;
+        this.event = new MatchEvent(eventType, isHomeTeam);
     }
 }
