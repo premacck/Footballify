@@ -1,10 +1,12 @@
 package life.plank.juna.zone.view.activity;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -27,6 +29,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
+import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -46,7 +49,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     SearchView search;
     Set<User> userSet = new HashSet<>();
     ArrayList<User> userList = new ArrayList<>();
-
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
     private SearchViewAdapter adapter;
     private RestApi restApi;
 
@@ -60,6 +64,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         restApi = retrofit.create(RestApi.class);
         initRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
+        blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardMembersViewAdapter.parentViewBitmap));
     }
 
     //TODO: Move the card up when the user clicks on the search view
