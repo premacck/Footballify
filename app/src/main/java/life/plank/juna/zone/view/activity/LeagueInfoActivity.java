@@ -297,7 +297,7 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
         switch (view.getId()) {
             case R.id.see_all_fixtures:
                 if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                    FixtureActivity.launch(this, matchFixtureResultLayout, footballFeed.isCup());
+                    FixtureActivity.launch(this, footballFeed.isCup());
                 }
                 break;
             case R.id.see_all_standings:
