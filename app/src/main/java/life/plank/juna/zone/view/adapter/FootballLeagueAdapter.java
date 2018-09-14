@@ -15,23 +15,25 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.LeagueInfoActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 
-public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapter.FootballFeedViewHolder> {
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
-    private List<FootballFeed> footballFeedList;
+public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAdapter.FootballFeedViewHolder> {
+
+    private List<League> leagueList;
     private PinFeedListener pinFeedListener;
     private OnClickFeedItemListener onClickFeedItemListener;
     private SwipePageActivity activity;
 
-    public FootballFeedAdapter(SwipePageActivity activity) {
+    public FootballLeagueAdapter(SwipePageActivity activity) {
         this.activity = activity;
-        this.footballFeedList = new ArrayList<>();
+        this.leagueList = new ArrayList<>();
         if (activity != null) {
             pinFeedListener = activity;
             onClickFeedItemListener = activity;
@@ -46,12 +48,12 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
 
     @Override
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
-        FootballFeed footballFeed = footballFeedList.get(position);
-        holder.feedTitleTextView.setText(footballFeed.getTitle());
+        League league = leagueList.get(position);
+        holder.feedTitleTextView.setText(league.getName());
         holder.kickoffTime.setText(R.string.match_status);
-        if (footballFeed.getThumbnail() != null) {
+        if (!isNullOrEmpty(league.getThumbUrl())) {
             Picasso.with(activity)
-                    .load(footballFeed.getThumbnail().getImageUrl())
+                    .load(league.getThumbUrl())
                     .placeholder(R.drawable.ic_place_holder)
                     .error(R.drawable.ic_place_holder)
                     .into(holder.feedImageView);
@@ -60,24 +62,24 @@ public class FootballFeedAdapter extends RecyclerView.Adapter<FootballFeedAdapte
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            LeagueInfoActivity.launch(activity, activity.gson.toJson(footballFeed));
+            LeagueInfoActivity.launch(activity, activity.gson.toJson(league));
         });
     }
 
     @Override
     public int getItemCount() {
-        return footballFeedList.size();
+        return leagueList.size();
     }
 
-    public List<FootballFeed> getFootballFeedList() {
-        return footballFeedList;
+    public List<League> getLeagueList() {
+        return leagueList;
     }
 
-    public void setFootballFeedList(List<FootballFeed> footballFeeds) {
+    public void setLeagueList(List<League> footballFeeds) {
         if (footballFeeds == null) {
             return;
         }
-        footballFeedList.addAll(footballFeeds);
+        leagueList.addAll(footballFeeds);
         notifyDataSetChanged();
     }
 
