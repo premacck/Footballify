@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,19 +35,25 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import okhttp3.MediaType;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
+import static life.plank.juna.zone.util.AppConstants.BMP;
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
+import static life.plank.juna.zone.util.AppConstants.GIF;
 import static life.plank.juna.zone.util.AppConstants.GOAL;
 import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
+import static life.plank.juna.zone.util.AppConstants.JPEG;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.AppConstants.PNG;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.AppConstants.SPACE;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.AppConstants.TYPE_IMAGE;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.WIDE_SPACE;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
@@ -491,5 +498,33 @@ public class DataUtil {
             default:
                 return apiTimeStatus;
         }
+    }
+
+    public static MediaType getMediaType(String url) {
+        String extension = url.substring(url.lastIndexOf(".") + 1);
+        MediaType mediaType = null;
+
+        switch (extension) {
+            case PNG:
+                mediaType = MediaType.parse(TYPE_IMAGE+PNG);
+                break;
+
+            case JPEG:
+                mediaType = MediaType.parse(TYPE_IMAGE+JPEG);
+                break;
+
+            case GIF:
+                mediaType = MediaType.parse(TYPE_IMAGE+GIF);
+                break;
+
+            case BMP:
+                mediaType = MediaType.parse(TYPE_IMAGE+BMP);
+                break;
+
+            default:
+                Log.e("", "Image format not allowed");
+                break;
+        }
+        return mediaType;
     }
 }

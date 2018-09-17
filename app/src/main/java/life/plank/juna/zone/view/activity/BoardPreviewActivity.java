@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
@@ -27,11 +29,15 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.customview.GenericToolbar;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
 public class BoardPreviewActivity extends AppCompatActivity {
@@ -85,8 +91,25 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
     @OnClick({R.id.create_board_button})
     public void createBoard() {
+        String baseDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM).getAbsolutePath();
+        String fileName = "/Screenshots/Testupload.png";
+
+        String url = baseDir + File.separator + fileName;
+
+        MediaType mediaType = getMediaType(url);
+
+        File fileToUpload = new File(url);
+        RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
+
+        RequestBody displayName = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDisplayname());
+        RequestBody zone = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getZone());
+        RequestBody description = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDescription());
+        RequestBody color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getColor());
+
         String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-        restApi.createPrivateBoard(board.getBoardType(), board, token)
+        restApi.createPrivateBoard(board.getBoardType(), displayName, zone, description, color, body, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
