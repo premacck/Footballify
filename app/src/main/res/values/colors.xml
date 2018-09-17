@@ -57,15 +57,15 @@
     <color name="red_pink">#ef3e56</color>
     <color name="salmon">#ff7979</color>
     <color name="frog_green">#66bd06</color>
-    <color name="colorLeagueGradient">#50ffffff</color>
-    <color name="colorPremierLeague">#37003C</color>
-    <color name="colorLaLiga">#3D3D3D</color>
-    <color name="colorBundesliga">#8E0607</color>
-    <color name="colorChampionsLeague">#1D1D1B</color>
-    <color name="colorSerieA">#0D6B32</color>
-    <color name="colorLigue1">#56656D</color>
-    <color name="colorFACup">#001D4C</color>
-    <color name="colorCopaDelRey">#A9002C</color>
-    <color name="colorCoppaItalia">#AD9959</color>
-    <color name="colorEuropaLeague">#EF851B</color>
+    <color name="color_league_gradient">#50ffffff</color>
+    <color name="black_currant">#37003C</color>
+    <color name="eclipse">#3D3D3D</color>
+    <color name="sangria">#8E0607</color>
+    <color name="maire">#1D1D1B</color>
+    <color name="crusoe">#0D6B32</color>
+    <color name="shuttle_grey">#56656D</color>
+    <color name="sapphire">#001D4C</color>
+    <color name="carmine">#A9002C</color>
+    <color name="husk">#AD9959</color>
+    <color name="carrot_orange">#EF851B</color>
 </resources>
