@@ -144,7 +144,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
             toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
         }
 
-        toolbar.setTitle(board.getDisplayname());
+        toolbar.setTitle(board.getName());
         toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
