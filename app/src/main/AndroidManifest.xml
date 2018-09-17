@@ -134,9 +134,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activity.WorldCupFixtureActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.ZoneActivity"
             android:screenOrientation="portrait" />
         <activity
