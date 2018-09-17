@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -134,7 +133,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
         }
 
-        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
+        SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         editor.getString(getString(R.string.pref_display_name), "NA");
 
         boardId = board.getId();
