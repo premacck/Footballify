@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.v4.graphics.ColorUtils;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
@@ -29,11 +31,10 @@ import java.util.Random;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
-import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import okhttp3.MediaType;
 
@@ -177,87 +178,96 @@ public class DataUtil {
         return newMatchEventList;
     }
 
-    public static List<FootballFeed> getStaticFeedItems() {
-        List<FootballFeed> footballFeeds = new ArrayList<>();
-        footballFeeds.add(new FootballFeed(
+    public static List<League> getStaticLeagues() {
+        List<League> footballFeeds = new ArrayList<>();
+        footballFeeds.add(new League(
                 "Premier League",
-                new Thumbnail("https://image.ibb.co/msPsep/img_epl_logo.png", 0, 0),
+                false,
                 "2018/2019",
                 "England",
-                false
+                "https://image.ibb.co/msPsep/img_epl_logo.png",
+                R.color.black_currant
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "La Liga",
-                new Thumbnail("https://cdn.bleacherreport.net/images/team_logos/328x328/la_liga.png", 0, 0),
+                false,
                 "2018/2019",
                 "Spain",
-                false
+                "https://cdn.bleacherreport.net/images/team_logos/328x328/la_liga.png",
+                R.color.eclipse
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Bundesliga",
-                new Thumbnail("http://logok.org/wp-content/uploads/2014/12/Bundesliga-logo-880x655.png", 0, 0),
+                false,
                 "2018/2019",
                 "Germany",
-                false
+                "http://logok.org/wp-content/uploads/2014/12/Bundesliga-logo-880x655.png",
+                R.color.sangria
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Champions League",
-                new Thumbnail("https://www.seeklogo.net/wp-content/uploads/2013/06/uefa-champions-league-eps-vector-logo.png", 0, 0),
+                false,
                 "2018/2019",
                 "Europe",
-                false
+                "https://www.seeklogo.net/wp-content/uploads/2013/06/uefa-champions-league-eps-vector-logo.png",
+                R.color.maire
         ));
-/*        TODO : add this one after it is done in backend.
-        footballFeeds.add(new FootballFeed(
-                "EFL",
-                new Thumbnail("https://cdn.pulselive.com/test/client/pl/dev/i/elements/premier-league-logo-header.png", 0, 0),
-                "2018/2019",
-                "England",
-                false
-        ));*/
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Serie A",
-                new Thumbnail("http://www.tvsette.net/wp-content/uploads/2017/06/SERIE-A-LOGO.png", 0, 0),
+                false,
                 "2018/2019",
                 "Italy",
-                false
+                "http://www.tvsette.net/wp-content/uploads/2017/06/SERIE-A-LOGO.png",
+                R.color.crusoe
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Ligue 1",
-                new Thumbnail("http://logok.org/wp-content/uploads/2014/11/Ligue-1-logo-france-880x660.png", 0, 0),
+                false,
                 "2018/2019",
                 "France",
-                false
+                "http://logok.org/wp-content/uploads/2014/11/Ligue-1-logo-france-880x660.png",
+                R.color.shuttle_grey
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "FA Cup",
-                new Thumbnail("https://vignette.wikia.nocookie.net/logopedia/images/3/33/The_Emirates_FA_Cup.png", 0, 0),
+                true,
                 "2018/2019",
                 "England",
-                true
+                "https://vignette.wikia.nocookie.net/logopedia/images/3/33/The_Emirates_FA_Cup.png",
+                R.color.sapphire
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Copa Del Rey",
-                new Thumbnail("https://www.primeradivision.pl/luba/dane/pliki/bank_zdj/duzy/copadelrey.jpg", 0, 0),
+                true,
                 "2018/2019",
                 "Spain",
-                true
+                "https://www.primeradivision.pl/luba/dane/pliki/bank_zdj/duzy/copadelrey.jpg",
+                R.color.carmine
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Coppa Italia",
-                new Thumbnail("https://cdn.ghanasoccernet.com/2018/07/5b3f92288827c.jpg", 0, 0),
+                true,
                 "2018/2019",
                 "Italy",
-                true
+                "https://cdn.ghanasoccernet.com/2018/07/5b3f92288827c.jpg",
+                R.color.husk
         ));
-        footballFeeds.add(new FootballFeed(
+        footballFeeds.add(new League(
                 "Europa League",
-                new Thumbnail("https://cdn.foxsports.com.br/sites/foxsports-br/files/img/competition/shields-original/logo-uefa-europa-league.png", 0, 0),
+                false,
                 "2018/2019",
                 "Europe",
-                false
+                "https://cdn.foxsports.com.br/sites/foxsports-br/files/img/competition/shields-original/logo-uefa-europa-league.png",
+                R.color.carrot_orange
         ));
         return footballFeeds;
+    }
+
+    public static GradientDrawable getLeagueBackground(@ColorRes int leagueColor) {
+        return new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{
+                ColorUtils.compositeColors(ZoneApplication.getContext().getColor(R.color.color_league_gradient), ZoneApplication.getContext().getColor(leagueColor)),
+                ZoneApplication.getContext().getColor(leagueColor)
+        });
     }
 
     public static boolean isValidEmail(CharSequence target) {

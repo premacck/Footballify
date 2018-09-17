@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -36,16 +35,11 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.User;
-import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
-import life.plank.juna.zone.interfaces.PinFeedListener;
-import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.NetworkStatus;
-import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;
-import life.plank.juna.zone.view.adapter.FootballFeedAdapter;
+import life.plank.juna.zone.view.adapter.FootballLeagueAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -56,9 +50,8 @@ import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
-import static life.plank.juna.zone.util.DataUtil.getStaticFeedItems;
+import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
 
@@ -66,7 +59,7 @@ import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements PinFeedListener, OnClickFeedItemListener, SearchView.OnQueryTextListener, OnItemClickListener {
+public class SwipePageActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, OnItemClickListener {
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
@@ -88,7 +81,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     ImageView optionsImage;
 
     CoordinatorLayout coordinatorLayout;
-    FootballFeedAdapter adapter;
+    FootballLeagueAdapter adapter;
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
@@ -172,7 +165,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     }
 
     private void initRecyclerView() {
-        adapter = new FootballFeedAdapter(this);
+        adapter = new FootballLeagueAdapter(this);
         feedRecyclerView.setAdapter(adapter);
         feedRecyclerView.setHasFixedSize(true);
         feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
@@ -189,12 +182,7 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
 
     public void getFootballFeed() {
         progressBar.setVisibility(View.GONE);
-        adapter.setFootballFeedList(getStaticFeedItems());
-    }
-
-    @Override
-    public void onPinFeed(int position) {
-        savePinnedFeedsToPreference(position);
+        adapter.setLeagueList(getStaticLeagues());
     }
 
     @Override
@@ -207,31 +195,6 @@ public class SwipePageActivity extends AppCompatActivity implements PinFeedListe
     protected void onPause() {
         super.onPause();
         arcMenu.menuOut();
-    }
-
-    private void savePinnedFeedsToPreference(int position) {
-        PreferenceManager preferenceManager = new PreferenceManager(this);
-        Gson gson = new Gson();
-        String pinnedList = preferenceManager.getPinnedFeeds(AppConstants.PINNED_FEEDS);
-        List<FootballFeed> pinnedFeedsList;
-        if ("".contentEquals(pinnedList)) {
-            pinnedFeedsList = new ArrayList<>();
-        } else {
-            pinnedFeedsList = gson.fromJson(pinnedList,
-                    new TypeToken<List<FootballFeed>>() {
-                    }.getType());
-        }
-        pinnedFeedsList.add(adapter.getFootballFeedList().get(position));
-        preferenceManager.savePinnedFeeds(gson.toJson(pinnedFeedsList));
-    }
-
-    @Override
-    public void onItemClick(int position, View fromView) {
-        parentViewBitmap = loadBitmap(parentLayout, parentLayout, this);
-        Intent intent = new Intent(this, FootballFeedDetailActivity.class);
-        intent.putExtra(getString(R.string.intent_position), String.valueOf(position));
-        intent.putExtra(getString(R.string.intent_feed_items), new Gson().toJson(adapter.getFootballFeedList()));
-        startActivity(intent);
     }
 
     private void getSearchedUsers(String displayName) {
