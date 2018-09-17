@@ -38,4 +38,5 @@
     <string name="intent_is_board_active">is_board_active</string>
     <string name="intent_match_fixture">match_fixture</string>
     <string name="intent_is_cup">is_cup</string>
+    <string name="intent_league">intent_league</string>
 </resources>
