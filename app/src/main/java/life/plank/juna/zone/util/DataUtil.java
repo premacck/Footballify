@@ -132,20 +132,20 @@ public class DataUtil {
                 winPointer.setImageResource(homeWinDrawable);
                 teamNameSeparator = matchFixture.getHomeGoals() +
                         "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? SPACE : WIDE_SPACE) +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
+                        "(" + matchFixture.getAwayTeamPenaltyScore() + ")" +
                         matchFixture.getAwayGoals();
             } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
                 teamNameSeparator = matchFixture.getHomeGoals() +
                         "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? SPACE : WIDE_SPACE) +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
+                        "(" + matchFixture.getAwayTeamPenaltyScore() + ")" +
                         matchFixture.getAwayGoals();
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
                 teamNameSeparator = matchFixture.getHomeGoals() +
                         "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? DASH : WIDE_DASH) +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" +
+                        "(" + matchFixture.getAwayTeamPenaltyScore() + ")" +
                         matchFixture.getAwayGoals();
             }
         }
