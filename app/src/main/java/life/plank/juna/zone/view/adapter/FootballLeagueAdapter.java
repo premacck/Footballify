@@ -16,8 +16,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.League;
-import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.interfaces.PinFeedListener;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.LeagueInfoActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
@@ -27,17 +25,11 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAdapter.FootballFeedViewHolder> {
 
     private List<League> leagueList;
-    private PinFeedListener pinFeedListener;
-    private OnClickFeedItemListener onClickFeedItemListener;
     private SwipePageActivity activity;
 
     public FootballLeagueAdapter(SwipePageActivity activity) {
         this.activity = activity;
         this.leagueList = new ArrayList<>();
-        if (activity != null) {
-            pinFeedListener = activity;
-            onClickFeedItemListener = activity;
-        }
     }
 
     @Override
