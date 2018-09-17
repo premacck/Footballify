@@ -1,5 +1,8 @@
 package life.plank.juna.zone.data.network.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 import java.util.List;
 
@@ -33,7 +36,9 @@ public class MatchDetails {
     private List<Highlights> highlights;
     private List<MatchEvent> matchEvents;
     private List<Commentary> commentary;
-    private Boolean commentaries;
+    @SerializedName("commentaries")
+    @Expose
+    private boolean isCommentaryAvailable;
     private MatchStats matchStats;
     private Lineups lineups;
     private List<StandingModel> standingsList;
