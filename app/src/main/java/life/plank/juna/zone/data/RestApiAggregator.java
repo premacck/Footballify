@@ -1,5 +1,6 @@
 package life.plank.juna.zone.data;
 
+import android.util.Log;
 import android.util.Pair;
 
 import java.util.List;
@@ -36,8 +37,11 @@ public class RestApiAggregator {
                         ((boardResponse, matchDetailsResponse) -> {
                             if (boardResponse.code() == HTTP_OK && matchDetailsResponse.code() == HTTP_OK) {
                                 return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
-                            } else
+                            } else {
+                                Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());
+                                Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
                                 return null;
+                            }
                         })));*/
         return null;
     }
@@ -57,8 +61,11 @@ public class RestApiAggregator {
                                 matchDetails.setMatchStats(matchStatsResponse.body());
                                 matchDetails.setLineups(lineupsResponse.body());
                                 return matchDetails;
-                            } else
+                            } else {
+                                Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
+                                Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
                                 return null;
+                            }
                         }))));
     }
 
@@ -77,8 +84,11 @@ public class RestApiAggregator {
                                 matchDetails.setStandingsList(standingsResponse.body());
                                 matchDetails.setTeamStatsList(teamStatsResponse.body());
                                 return matchDetails;
-                            } else
+                            } else {
+                                Log.e("getPreMatchBoardData", "standingsResponse : " + standingsResponse.code() + " : " + standingsResponse.message());
+                                Log.e("getPreMatchBoardData", "teamStatsResponse : " + teamStatsResponse.code() + " : " + teamStatsResponse.message());
                                 return null;
+                            }
                         }))));
     }
 
