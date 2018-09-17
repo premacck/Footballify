@@ -34,6 +34,7 @@ import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
 import static life.plank.juna.zone.util.DataUtil.getFormattedExtraMinutes;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.TimelineViewHolder> {
@@ -75,14 +76,16 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
      * Live case runtime : O(1) - because live events are going to be coming "live", so it will always insert at 0th position.
      */
     public void updateLiveEvents(List<MatchEvent> matchEventList) {
-        int positionToInsert = 0;
-        for (MatchEvent matchEvent : this.matchEventList) {
-            if (matchEvent.getMinute() > matchEventList.get(0).getMinute()) {
-                positionToInsert = this.matchEventList.indexOf(matchEvent);
-            } else break;
+        if (!isNullOrEmpty(matchEventList) && !isNullOrEmpty(matchEventList.get(0).getPlayerName())) {
+            int positionToInsert = 0;
+            for (MatchEvent matchEvent : this.matchEventList) {
+                if (matchEvent.getMinute() > matchEventList.get(0).getMinute()) {
+                    positionToInsert = this.matchEventList.indexOf(matchEvent);
+                } else break;
+            }
+            this.matchEventList.addAll(positionToInsert, matchEventList);
+            notifyItemRangeInserted(positionToInsert, matchEventList.size());
         }
-        this.matchEventList.addAll(positionToInsert, matchEventList);
-        notifyItemRangeInserted(positionToInsert, matchEventList.size());
     }
 
     /**
@@ -161,6 +164,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         private void setLayout(boolean isWhistleEvent) {
             whistleLayout.setVisibility(isWhistleEvent ? View.VISIBLE : View.GONE);
             timelineLayout.setVisibility(isWhistleEvent ? View.GONE : View.VISIBLE);
+            minuteView.setVisibility(isWhistleEvent ? View.GONE : View.VISIBLE);
         }
 
         private void placeTimelineLayout() {
