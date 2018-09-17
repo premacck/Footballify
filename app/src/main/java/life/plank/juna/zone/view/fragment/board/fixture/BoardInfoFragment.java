@@ -47,7 +47,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
-import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
 import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -103,7 +102,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
         timeDiffOfMatchFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
-        adapter = new BoardInfoAdapter(this, getContext(), picasso, timeDiffOfMatchFromNow < 0, snapHelper);
+        adapter = new BoardInfoAdapter(this, getContext(), picasso, timeDiffOfMatchFromNow < 0, fixture, snapHelper);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -154,9 +153,6 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 break;
             case LINEUPS_DATA:
                 getLineupFormation();
-                break;
-            case HIGHLIGHTS_DATA:
-//                TODO update live highlights here
                 break;
             default:
                 break;
