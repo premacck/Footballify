@@ -179,7 +179,7 @@ public class DataUtil {
                 "2018/2019",
                 "England",
                 "https://image.ibb.co/msPsep/img_epl_logo.png",
-                R.color.color_premier_league
+                R.color.black_currant
         ));
         footballFeeds.add(new League(
                 "La Liga",
@@ -187,7 +187,7 @@ public class DataUtil {
                 "2018/2019",
                 "Spain",
                 "https://cdn.bleacherreport.net/images/team_logos/328x328/la_liga.png",
-                R.color.color_la_liga
+                R.color.eclipse
         ));
         footballFeeds.add(new League(
                 "Bundesliga",
@@ -195,7 +195,7 @@ public class DataUtil {
                 "2018/2019",
                 "Germany",
                 "http://logok.org/wp-content/uploads/2014/12/Bundesliga-logo-880x655.png",
-                R.color.color_bundesliga
+                R.color.sangria
         ));
         footballFeeds.add(new League(
                 "Champions League",
@@ -203,7 +203,7 @@ public class DataUtil {
                 "2018/2019",
                 "Europe",
                 "https://www.seeklogo.net/wp-content/uploads/2013/06/uefa-champions-league-eps-vector-logo.png",
-                R.color.color_champions_league
+                R.color.maire
         ));
         footballFeeds.add(new League(
                 "Serie A",
@@ -211,7 +211,7 @@ public class DataUtil {
                 "2018/2019",
                 "Italy",
                 "http://www.tvsette.net/wp-content/uploads/2017/06/SERIE-A-LOGO.png",
-                R.color.color_serie_a
+                R.color.crusoe
         ));
         footballFeeds.add(new League(
                 "Ligue 1",
@@ -219,7 +219,7 @@ public class DataUtil {
                 "2018/2019",
                 "France",
                 "http://logok.org/wp-content/uploads/2014/11/Ligue-1-logo-france-880x660.png",
-                R.color.color_ligue_1
+                R.color.shuttle_grey
         ));
         footballFeeds.add(new League(
                 "FA Cup",
@@ -227,7 +227,7 @@ public class DataUtil {
                 "2018/2019",
                 "England",
                 "https://vignette.wikia.nocookie.net/logopedia/images/3/33/The_Emirates_FA_Cup.png",
-                R.color.color_FA_cup
+                R.color.sapphire
         ));
         footballFeeds.add(new League(
                 "Copa Del Rey",
@@ -235,7 +235,7 @@ public class DataUtil {
                 "2018/2019",
                 "Spain",
                 "https://www.primeradivision.pl/luba/dane/pliki/bank_zdj/duzy/copadelrey.jpg",
-                R.color.color_copa_del_rey
+                R.color.carmine
         ));
         footballFeeds.add(new League(
                 "Coppa Italia",
@@ -243,7 +243,7 @@ public class DataUtil {
                 "2018/2019",
                 "Italy",
                 "https://cdn.ghanasoccernet.com/2018/07/5b3f92288827c.jpg",
-                R.color.color_coppa_italia
+                R.color.husk
         ));
         footballFeeds.add(new League(
                 "Europa League",
@@ -251,7 +251,7 @@ public class DataUtil {
                 "2018/2019",
                 "Europe",
                 "https://cdn.foxsports.com.br/sites/foxsports-br/files/img/competition/shields-original/logo-uefa-europa-league.png",
-                R.color.color_europa_league
+                R.color.carrot_orange
         ));
         return footballFeeds;
     }
