@@ -8,6 +8,7 @@ public class AppConstants {
     public static final String FOOTBALL_FEEDS_HEADER_KEY = "newsfeed-continuation-token";
     public static final String PINNED_FEEDS = "pinnedfeeds";
     public static final int PAGINATION_DELAY = 1000;
+    public static final String GMT = "GMT";
 
     public static final String REGULAR_EXPRESSION_RT = "RT:(\\d*)";
     public static final String REGULAR_EXPRESSION_TRC = "TRC:(\\d*)";
@@ -87,7 +88,11 @@ public class AppConstants {
     public static final String GALLERY = "Gallery";
     public static final String TYPE_VIDEO = "video/";
     public static final String TYPE_IMAGE = "image/";
-
+    public static final String PNG = "png";
+    public static final String JPEG = "jpeg";
+    public static final String BMP = "bmp";
+    public static final String GIF = "gif";
+    
     public static final String PAST_MATCHES = "PAST_MATCHES";
     public static final String TODAY_MATCHES = "TODAY_MATCHES";
     public static final String SCHEDULED_MATCHES = "SCHEDULED_MATCHES";

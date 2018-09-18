@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -134,7 +133,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
         }
 
-        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
+        SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         editor.getString(getString(R.string.pref_display_name), "NA");
 
         boardId = board.getId();
@@ -144,8 +143,9 @@ public class PrivateBoardActivity extends AppCompatActivity {
             toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
         }
 
-        toolbar.setTitle(board.getDisplayname());
+        toolbar.setTitle(board.getName());
         toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
+        toolbar.setLeagueLogo(picasso, board.getBoardIcon().getUrl());
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
 

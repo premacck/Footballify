@@ -77,7 +77,6 @@ public class UserProfileActivity extends AppCompatActivity {
     RecyclerView getCoinsList;
     @BindView(R.id.settings_toolbar)
     ZoneToolBar toolbar;
-
     @BindView(R.id.logout_button)
     Button logoutButton;
     @Inject
@@ -85,8 +84,6 @@ public class UserProfileActivity extends AppCompatActivity {
     Retrofit retrofit;
     @Inject
     Picasso picasso;
-    @Inject
-    MyBoardsAdapter myBoardsAdapter;
     @Inject
     LastTransactionsAdapter lastTransactionsAdapter;
     @Inject
@@ -130,7 +127,7 @@ public class UserProfileActivity extends AppCompatActivity {
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(UserProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        userBoardsAdapter = new UserBoardsAdapter(userList, this);
+        userBoardsAdapter = new UserBoardsAdapter(userList, this, picasso);
         recyclerView.setAdapter(userBoardsAdapter);
     }
 

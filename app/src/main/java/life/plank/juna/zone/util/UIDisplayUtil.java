@@ -17,6 +17,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -45,6 +46,7 @@ import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -90,7 +92,6 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 public class UIDisplayUtil {
 
     private static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
-    private static String SIGN_UP_USER_DETAILS = "signUpPageDetails";
 
     public UIDisplayUtil() {
 
@@ -182,7 +183,7 @@ public class UIDisplayUtil {
     }
 
     public static void saveSignInUserDetails(Context context, User body) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(SIGN_UP_USER_DETAILS, MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.pref_user_details), MODE_PRIVATE).edit();
         editor.putString(context.getString(R.string.pref_object_id), body.getObjectId());
         editor.putString(context.getString(R.string.pref_display_name), body.getDisplayName());
         editor.putString(context.getString(R.string.pref_email_address), body.getEmailAddress());
@@ -194,8 +195,8 @@ public class UIDisplayUtil {
         editor.apply();
     }
 
-    public static SharedPreferences getSignupUserData(Context mContext) {
-        return mContext.getSharedPreferences(SIGN_UP_USER_DETAILS, MODE_PRIVATE);
+    public static SharedPreferences getSignupUserData(Context context) {
+        return context.getSharedPreferences(context.getString(R.string.pref_user_details), MODE_PRIVATE);
     }
 
     public static String getPathForVideo(Uri contentUri, Context mContext) {
@@ -612,5 +613,11 @@ public class UIDisplayUtil {
                 .setNegativeButton(R.string.sign_up, (dialog, which) -> activity.startActivity(new Intent(activity, SignUpActivity.class)))
                 .setNeutralButton(R.string.cancel, (dialog, which) -> dialog.cancel())
                 .show();
+    }
+
+    public static int[] getScreenSize(Display display) {
+        Point size = new Point();
+        display.getSize(size);
+        return new int[]{size.x, size.y};
     }
 }

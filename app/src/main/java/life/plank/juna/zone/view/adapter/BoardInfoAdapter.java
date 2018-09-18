@@ -1,6 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.v7.widget.PagerSnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +39,7 @@ import life.plank.juna.zone.util.customview.TeamStatsLayout;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
 public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.ViewHolder> {
 
@@ -51,11 +52,12 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private static final int TYPE_SUBSTITUTION_VIEW = 16;
     private static final int TYPE_STANDINGS_VIEW = 21;
     private static final int TYPE_TEAM_STATS_VIEW = 22;
-    private final Context context;
+    private final Activity activity;
     private BoardInfoFragment fragment;
     private boolean isBoardStarted;
     private Picasso picasso;
     private List<ScrubberData> scrubberDataList;
+    private MatchFixture fixture;
     private MatchDetails matchDetails;
     private MatchStats matchStats;
     private Lineups lineups;
@@ -63,16 +65,12 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private List<StandingModel> standingsList;
     private PagerSnapHelper snapHelper;
 
-    //    TODO : Remove in next pull request.
-    public BoardInfoAdapter(BoardInfoFragment fragment, Context context, Picasso picasso, boolean isBoardStarted, MatchFixture fixture, PagerSnapHelper snapHelper) {
-        this.context = context;
-    }
-
-    public BoardInfoAdapter(BoardInfoFragment fragment, Context context, Picasso picasso, boolean isBoardStarted, PagerSnapHelper snapHelper) {
+    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardStarted, MatchFixture fixture, PagerSnapHelper snapHelper) {
         this.fragment = fragment;
         this.isBoardStarted = isBoardStarted;
         this.picasso = picasso;
-        this.context = context;
+        this.activity = activity;
+        this.fixture = fixture;
         this.snapHelper = snapHelper;
 
         scrubberDataList = new ArrayList<>();
@@ -284,7 +282,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                 if (!isNullOrEmpty(ref.get().matchDetails.getHighlights())) {
                     matchHighlightsLayout.setLoading(false);
                     matchHighlightsLayout.setVisibility(View.VISIBLE);
-                    matchHighlightsLayout.setAdapter(new HighlightsAdapter());
+                    int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
+//                    Setting highlights width to 80 % of screen size
+                    highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
+                    int highlightsHeight = (highlightsWidth * 9) / 16;
+                    matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
                     matchHighlightsLayout.setHighlights(ref.get().matchDetails.getHighlights());
                 } else
                     matchHighlightsLayout.setVisibility(View.GONE);
@@ -415,28 +417,28 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
             if (ref.get().isBoardStarted) {
                 switch (viewType) {
                     case TYPE_SCRUBBER_VIEW:
-                        return new ScrubberLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new ScrubberLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_HIGHLIGHTS_VIEW:
-                        return new MatchHighlights(ref.get().context, null, R.style.BoardInfoLayout, ref.get().snapHelper);
+                        return new MatchHighlights(ref.get().activity, null, R.style.BoardInfoLayout, ref.get().snapHelper);
                     case TYPE_COMMENTARY_VIEW:
-                        return new CommentarySmall(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new CommentarySmall(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_STATS_VIEW:
-                        return new MatchStatsLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new MatchStatsLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_LINEUPS_VIEW:
-                        return new LineupLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new LineupLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_SUBSTITUTION_VIEW:
-                        return new SubstitutionLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new SubstitutionLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     default:
                         return null;
                 }
             } else {
                 switch (viewType) {
                     case TYPE_SCRUBBER_VIEW:
-                        return new ScrubberLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new ScrubberLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_STANDINGS_VIEW:
-                        return new StandingsLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new StandingsLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_TEAM_STATS_VIEW:
-                        return new TeamStatsLayout(ref.get().context, null, R.style.BoardInfoLayout);
+                        return new TeamStatsLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     default:
                         return null;
                 }
