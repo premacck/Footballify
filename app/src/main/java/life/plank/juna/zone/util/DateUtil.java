@@ -75,7 +75,7 @@ public class DateUtil {
     }
 
     public static int getDateDiffFromToday(Date date) {
-        long diffInMillis = Math.abs(new Date().getTime() - date.getTime());
+        long diffInMillis = new Date().getTime() - date.getTime();
         return (int) TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
     }
 
@@ -119,7 +119,7 @@ public class DateUtil {
                 SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.getContext().getString(R.string.today));
                 builder.setSpan(
                         new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.fab_button_pink, null)),
-                        0, 4, SPAN_EXCLUSIVE_EXCLUSIVE
+                        0, 5, SPAN_EXCLUSIVE_EXCLUSIVE
                 );
                 return builder;
             case 1:
