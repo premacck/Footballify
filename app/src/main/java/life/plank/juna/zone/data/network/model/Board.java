@@ -27,12 +27,12 @@ public class Board {
     }
 
     @Data
-    public class BoardIcon {
+    public static class BoardIcon {
         private String url;
     }
 
     @Data
-    public class BoardEvent {
+    public static class BoardEvent {
         private String type;
         private Integer foreignId;
 
