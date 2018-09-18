@@ -23,9 +23,11 @@ import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -103,8 +105,14 @@ public interface RestApi {
                                                             @Header("Authorization") String authHeader);
 
     //working
+    @Multipart
     @POST("/boards")
-    Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType, @Body Board privateBoard,
+    Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType,
+                                                    @Part("name") RequestBody name,
+                                                    @Part("zone") RequestBody zone,
+                                                    @Part("description") RequestBody description,
+                                                    @Part("color") RequestBody color,
+                                                    @Part MultipartBody.Part file,
                                                     @Header("Authorization") String authHeader);
 
     //working

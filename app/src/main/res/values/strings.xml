@@ -92,5 +92,6 @@
     <string name="media_type_audio">audio/mpeg</string>
     <string name="private_board_owner_popup">PrivateBoardOwnerPopUp</string>
     <string name="private_board_user_popup">PrivateBoardUserPopUp</string>
+    <string name="text_content_type">text/plain</string>
 
 </resources>
