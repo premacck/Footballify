@@ -181,7 +181,7 @@ public class CreateBoardActivity extends AppCompatActivity {
             return;
         }
         if (isNullOrEmpty(file)) {
-            Toast.makeText(this, "Select an image to upload", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.select_image_to_upload, Toast.LENGTH_SHORT).show();
             return;
         }
         if (getMediaType(filePath) == null){
