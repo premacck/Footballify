@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.widget.RelativeLayout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -20,8 +21,12 @@ import life.plank.juna.zone.util.BaseRecyclerView;
 public class HighlightsAdapter extends BaseRecyclerView.Adapter<HighlightsAdapter.MatchHighlightsViewHolder> {
 
     private List<Highlights> highlightsList;
+    private int width;
+    private int height;
 
-    public HighlightsAdapter() {
+    public HighlightsAdapter(int width, int height) {
+        this.width = width;
+        this.height = height;
         highlightsList = new ArrayList<>();
     }
 
@@ -62,6 +67,10 @@ public class HighlightsAdapter extends BaseRecyclerView.Adapter<HighlightsAdapte
             webView.setWebChromeClient(new WebChromeClient());
             webView.getSettings().setJavaScriptEnabled(true);
             webView.loadUrl(highlights.getHighlightsLink());
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) webView.getLayoutParams();
+            params.width = ref.get().width;
+            params.height = ref.get().height;
+            webView.setLayoutParams(params);
         }
     }
 }
