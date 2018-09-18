@@ -11,7 +11,9 @@ import lombok.Data;
 @Data
 public class MatchDetails {
     private Integer id;
-    private Long foreignId;
+    @SerializedName("foreignId")
+    @Expose
+    private Long matchId;
     private FootballTeam homeTeam;
     private FootballTeam awayTeam;
     private Integer matchDay;

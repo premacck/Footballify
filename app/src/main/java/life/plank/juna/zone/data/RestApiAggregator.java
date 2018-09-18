@@ -52,11 +52,11 @@ public class RestApiAggregator {
      *
      * @return {@link MatchDetails} containing {@link MatchStats} and {@link Lineups}
      */
-    public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi, long matchId) {
+    public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
-                        restApi.getMatchStatsForMatch(matchId),
-                        restApi.getLineUpsData(matchId),
+                        restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
+                        restApi.getLineUpsData(matchDetails.getMatchId()),
                         (((matchStatsResponse, lineupsResponse) -> {
                             if (matchStatsResponse.code() == HTTP_OK && lineupsResponse.code() == HTTP_OK) {
                                 matchDetails.setMatchStats(matchStatsResponse.body());
@@ -75,11 +75,11 @@ public class RestApiAggregator {
      *
      * @return {@link MatchDetails} containing {@link List<StandingModel>} and {@link List<TeamStatsModel>}
      */
-    public static Observable<MatchDetails> getPreMatchBoardData(MatchDetails matchDetails, RestApi restApi, long matchId) {
+    public static Observable<MatchDetails> getPreMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
-                        restApi.getMatchStandingsForMatch(matchId),
-                        restApi.getTeamStatsForMatch(matchId),
+                        restApi.getMatchStandingsForMatch(matchDetails.getMatchId()),
+                        restApi.getTeamStatsForMatch(matchDetails.getMatchId()),
                         (((standingsResponse, teamStatsResponse) -> {
                             if (standingsResponse.code() == HTTP_OK && teamStatsResponse.code() == HTTP_OK) {
                                 matchDetails.setStandingsList(standingsResponse.body());
