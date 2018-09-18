@@ -22,6 +22,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,10 +32,14 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
+import life.plank.juna.zone.util.DateUtil;
 
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
+import static life.plank.juna.zone.util.AppConstants.GMT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.DateUtil.getAbsoluteTimeDiffFromNow;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.DateUtil.getMinuteSecondFormatDate;
 import static life.plank.juna.zone.util.DateUtil.getMinutesElapsedFrom;
@@ -204,7 +209,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
                 setTimeStatus(fixture.getMatchStartTime(), fixture.getExtraMinute(), fixture.getTimeStatus());
             } else {
 //                scheduled today
-                setTodayMatchCountdown(fixture);
+                setTodayMatchCountdown(fixture, getAbsoluteTimeDiffFromNow(fixture.getMatchStartTime()));
             }
         }
     }
@@ -236,15 +241,15 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             };
             countDownTimer.start();
         } else
-            timeStatusTextView.setText(timeStatus);
+            timeStatusTextView.setText(getDisplayTimeStatus(timeStatus));
     }
 
     /**
      * Time status setter for live matches
      */
-    public void setTodayMatchCountdown(MatchFixture fixture) {
-        long timeDiffFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
+    public void setTodayMatchCountdown(MatchFixture fixture, long timeDiffFromNow) {
         resetCountDownTimer();
+        DateUtil.HOUR_MINUTE_SECOND_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(GMT));
         countDownTimer = new CountDownTimer(timeDiffFromNow, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {

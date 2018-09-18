@@ -8,6 +8,7 @@ public class AppConstants {
     public static final String FOOTBALL_FEEDS_HEADER_KEY = "newsfeed-continuation-token";
     public static final String PINNED_FEEDS = "pinnedfeeds";
     public static final int PAGINATION_DELAY = 1000;
+    public static final String GMT = "GMT";
 
     public static final String REGULAR_EXPRESSION_RT = "RT:(\\d*)";
     public static final String REGULAR_EXPRESSION_TRC = "TRC:(\\d*)";
