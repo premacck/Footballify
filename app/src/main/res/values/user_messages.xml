@@ -46,5 +46,6 @@
     <string name="hey_there">Hey there!</string>
     <string name="connect_message">Looks like you\'re not connected with us. Please connect with Juna to enjoy way more content.</string>
     <string name="board_deletion">Board deleted successfully</string>
+    <string name="board_name_already_exists">Board name already exists</string>
 
 </resources>
