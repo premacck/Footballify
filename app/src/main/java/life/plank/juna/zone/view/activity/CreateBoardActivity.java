@@ -29,10 +29,12 @@ import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
+import okhttp3.MediaType;
 import retrofit2.Retrofit;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
+import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
@@ -115,7 +117,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                 zone.toLowerCase().trim(),
                 boardDescription.getText().toString().trim(),
                 boardColorThemeAdapter.getSelectedColor()
-        ));
+        ), boardIconAdapter.getSelectedPath());
     }
 
     @OnClick(R.id.upload_board_icon)
@@ -132,9 +134,13 @@ public class CreateBoardActivity extends AppCompatActivity {
         switch (requestCode) {
             case GALLERY_IMAGE_RESULT:
                 switch (resultCode) {
+
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
+                        boardIconAdapter.boardIconList.add(0, filePath);
+                        boardIconAdapter.notifyItemInserted(0);
                         break;
+
                     case RESULT_CANCELED:
                         finish();
                         break;
@@ -155,7 +161,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 
-    private void createBoard(Board board) {
+    private void createBoard(Board board, String file) {
         if (isNullOrEmpty(board.getZone())) {
             Toast.makeText(this, R.string.select_zone_for_board, Toast.LENGTH_SHORT).show();
             return;
@@ -174,7 +180,16 @@ public class CreateBoardActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
             return;
         }
+        if (isNullOrEmpty(file)) {
+            Toast.makeText(this, R.string.select_image_to_upload, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (getMediaType(filePath) == null){
+            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-        BoardPreviewActivity.launch(this, gson.toJson(board), filePath);
+        BoardPreviewActivity.launch(this, gson.toJson(board), file);
     }
 }
