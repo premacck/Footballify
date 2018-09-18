@@ -11,7 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
@@ -75,8 +74,7 @@ public class DateUtil {
     }
 
     public static int getDateDiffFromToday(Date date) {
-        long diffInMillis = new Date().getTime() - date.getTime();
-        return (int) TimeUnit.DAYS.convert(diffInMillis, TimeUnit.MILLISECONDS);
+        return getDateFromObject(date) - getDateFromObject(new Date());
     }
 
     public static long getTimeDiffFromNow(Date date) {
