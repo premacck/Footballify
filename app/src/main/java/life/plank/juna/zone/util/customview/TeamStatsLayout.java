@@ -20,9 +20,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
+import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class TeamStatsLayout extends FrameLayout {
 
@@ -93,17 +94,14 @@ public class TeamStatsLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    //    TODO : remove in next pull request
-    public void update(List<TeamStatsModel> teamStatModels, MatchFixture fixture, Picasso picasso) {
-    }
-
-    public void update(List<TeamStatsModel> teamStatModels, MatchDetails matchDetails, Picasso picasso) {
+    public void update(List<TeamStatsModel> teamStatModels, League league, String homeTeamLogo, String visitingTeamLogo, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
 
-        setLeagueName(matchDetails.getLeague().getName())
+        String leagueString = league.getSeasonName() + " " + league.getName();
+        setLeagueName(leagueString)
                 .setHomeTeamWin((int) teamStatModels.get(0).getWin())
                 .setHomeTeamLoss((int) teamStatModels.get(0).getLoss())
                 .setHomeTeamGoals((int) teamStatModels.get(0).getGoal())
@@ -119,9 +117,11 @@ public class TeamStatsLayout extends FrameLayout {
                 .setVisitingTeamYellowCard((int) teamStatModels.get(1).getYellowCard())
                 .setVisitingTeamRedCard((int) teamStatModels.get(1).getRedCard());
 
-        picasso.load(matchDetails.getHomeTeam().getLogoLink())
+        picasso.load(homeTeamLogo)
+                .resize((int) getDp(14), (int) getDp(14))
                 .into(homeTeamLogoImageView);
-        picasso.load(matchDetails.getAwayTeam().getLogoLink())
+        picasso.load(visitingTeamLogo)
+                .resize((int) getDp(14), (int) getDp(14))
                 .into(visitingTeamLogoImageView);
     }
 

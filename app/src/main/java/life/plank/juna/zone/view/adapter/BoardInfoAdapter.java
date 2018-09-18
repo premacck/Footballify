@@ -19,8 +19,8 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.StandingModel;
@@ -56,28 +56,24 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private boolean isBoardStarted;
     private Picasso picasso;
     private List<ScrubberData> scrubberDataList;
-    private MatchFixture fixture;
-    private List<Commentary> commentaryList;
+    private MatchDetails matchDetails;
     private MatchStats matchStats;
     private Lineups lineups;
-    private List<MatchEvent> matchEventList;
     private List<TeamStatsModel> teamStatModels;
     private List<StandingModel> standingsList;
     private PagerSnapHelper snapHelper;
 
-    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardStarted, MatchFixture fixture, PagerSnapHelper snapHelper) {
+    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardStarted, MatchDetails matchDetails, PagerSnapHelper snapHelper) {
         this.fragment = fragment;
         this.isBoardStarted = isBoardStarted;
         this.picasso = picasso;
         this.activity = activity;
-        this.fixture = fixture;
+        this.matchDetails = matchDetails;
         this.snapHelper = snapHelper;
 
         scrubberDataList = new ArrayList<>();
-        commentaryList = new ArrayList<>();
         matchStats = new MatchStats();
         lineups = new Lineups();
-        matchEventList = new ArrayList<>();
         teamStatModels = new ArrayList<>();
         standingsList = new ArrayList<>();
     }
@@ -134,11 +130,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
      * <br/>\t * Standings
      * <br/>\t * Team stats
      *
-     * @return 6 for started board, 3 otherwise
+     * @return if matchDetails are there, 6 for started board, 3 otherwise
      */
     @Override
     public int getItemCount() {
-        return isBoardStarted ? 6 : 3;
+        return matchDetails != null ? (isBoardStarted ? 6 : 3) : 0;
     }
 
     public void setScrubberData(List<ScrubberData> scrubberDataList, boolean isError) {
@@ -146,19 +142,52 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         notifyItemChanged(0);
     }
 
-    public void setFixture(MatchFixture fixture) {
-        this.fixture = fixture;
-        notifyItemChanged(1);
-        notifyItemChanged(isBoardStarted ? 3 : 2);
+    public void setMatchDetails(MatchDetails matchDetails, boolean isMatchStarted) {
+        this.matchDetails = matchDetails;
+        if (isMatchStarted) {
+            if (matchDetails != null) {
+                setMatchStats(matchDetails.getMatchStats(), 0);
+                setLineups(matchDetails.getLineups(), 0);
+            } else {
+                setMatchStats(null, R.string.match_yet_to_start);
+                setLineups(null, R.string.line_ups_not_available);
+            }
+//            Update Match Highlights
+            notifyItemChanged(1);
+
+//            Update MatchStats (3) or TeamStats(2)
+            notifyItemChanged(isBoardStarted ? 3 : 2);
+
+            if (isBoardStarted) {
+//                Update Commentaries
+                notifyItemChanged(2);
+
+//                Update Match Events (Substitutions)
+                notifyItemChanged(5);
+            }
+        } else {
+            if (matchDetails != null) {
+                setStandings(matchDetails.getStandingsList(), false);
+                setTeamStats(matchDetails.getTeamStatsList(), false);
+            } else {
+                setStandings(null, true);
+                setTeamStats(null, true);
+            }
+        }
     }
 
+    /**
+     * Method to update live commentaries only.
+     */
     public void setCommentaries(List<Commentary> commentaryList, boolean isError) {
-        validateAndUpdateList(this.commentaryList, commentaryList, isError);
-        if (isBoardStarted) notifyItemChanged(2);
+        if (matchDetails != null) {
+            validateAndUpdateList(matchDetails.getCommentary(), commentaryList, isError);
+            if (isBoardStarted) notifyItemChanged(2);
+        }
     }
 
     public List<Commentary> getCommentaryList() {
-        return commentaryList;
+        return matchDetails.getCommentary();
     }
 
     public void setMatchStats(MatchStats matchStats, int message) {
@@ -177,9 +206,14 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         if (isBoardStarted) notifyItemChanged(4);
     }
 
+    /**
+     * Method to update live match events only.
+     */
     public void setMatchEvents(List<MatchEvent> matchEventList, boolean isError) {
-        validateAndUpdateList(this.matchEventList, matchEventList, isError);
-        if (isBoardStarted) notifyItemChanged(5);
+        if (matchDetails != null) {
+            validateAndUpdateList(matchDetails.getMatchEvents(), matchEventList, isError);
+            if (isBoardStarted) notifyItemChanged(5);
+        }
     }
 
     public void setStandings(List<StandingModel> standingsList, boolean isError) {
@@ -264,17 +298,19 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareMatchHighlights() {
             try {
                 MatchHighlights matchHighlightsLayout = (MatchHighlights) rootLayout.getChildAt(0);
-                if (!isNullOrEmpty(ref.get().fixture.getHighlights())) {
-                    matchHighlightsLayout.setLoading(false);
-                    matchHighlightsLayout.setVisibility(View.VISIBLE);
-                    int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
-//                    Setting highlights width to 80 % of screen size
-                    highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
-                    int highlightsHeight = (highlightsWidth * 9) / 16;
-                    matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
-                    matchHighlightsLayout.setHighlights(ref.get().fixture.getHighlights());
-                } else
-                    matchHighlightsLayout.setVisibility(View.GONE);
+                if (ref.get().matchDetails != null) {
+                    if (!isNullOrEmpty(ref.get().matchDetails.getHighlights())) {
+                        matchHighlightsLayout.setLoading(false);
+                        matchHighlightsLayout.setVisibility(View.VISIBLE);
+                        int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
+//                        Setting highlights width to 80 % of screen size
+                        highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
+                        int highlightsHeight = (highlightsWidth * 9) / 16;
+                        matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
+                        matchHighlightsLayout.setHighlights(ref.get().matchDetails.getHighlights());
+                    } else
+                        matchHighlightsLayout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 Log.e(TAG, "prepareMatchHighlights: ", e);
             }
@@ -283,11 +319,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareCommentary() {
             try {
                 CommentarySmall commentaryLayout = (CommentarySmall) rootLayout.getChildAt(0);
-                if (ref.get().commentaryList != null) {
-                    if (!ref.get().commentaryList.isEmpty()) {
+                if (ref.get().matchDetails != null && ref.get().matchDetails.getCommentary() != null) {
+                    if (!ref.get().matchDetails.getCommentary().isEmpty()) {
                         commentaryLayout.setLoading(false);
                         commentaryLayout.setAdapter(new CommentaryAdapter());
-                        commentaryLayout.updateAdapter(ref.get().commentaryList);
+                        commentaryLayout.updateAdapter(ref.get().matchDetails.getCommentary());
                         commentaryLayout.initListeners(ref.get().fragment);
                     } else
                         commentaryLayout.setLoading(true);
@@ -302,12 +338,14 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareMatchStats() {
             try {
                 MatchStatsLayout matchStatsLayout = (MatchStatsLayout) rootLayout.getChildAt(0);
-                if (ref.get().matchStats != null) {
+                if (ref.get().matchDetails != null && ref.get().matchStats != null) {
                     if (ref.get().matchStats.getErrorMessage() == 0) {
                         matchStatsLayout.setLoading(false);
                         matchStatsLayout.update(
                                 ref.get().matchStats,
-                                ref.get().fixture,
+                                ref.get().matchDetails.getVenue().getName(),
+                                ref.get().matchDetails.getHomeTeam().getLogoLink(),
+                                ref.get().matchDetails.getAwayTeam().getLogoLink(),
                                 ref.get().picasso
                         );
                     } else {
@@ -322,10 +360,15 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareLineups() {
             try {
                 LineupLayout lineupLayout = (LineupLayout) rootLayout.getChildAt(0);
-                if (ref.get().lineups != null) {
+                if (ref.get().matchDetails != null && ref.get().lineups != null) {
                     if (ref.get().lineups.getErrorMessage() == 0) {
                         lineupLayout.setLoading(false);
-                        lineupLayout.update(ref.get().lineups, ref.get().fixture, ref.get().picasso);
+                        lineupLayout.update(
+                                ref.get().lineups,
+                                ref.get().matchDetails.getHomeTeam(),
+                                ref.get().matchDetails.getAwayTeam(),
+                                ref.get().picasso
+                        );
                     } else {
                         lineupLayout.notAvailable(ref.get().lineups.getErrorMessage());
                     }
@@ -338,14 +381,19 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareSubstitutions() {
             try {
                 SubstitutionLayout substitutionLayout = (SubstitutionLayout) rootLayout.getChildAt(0);
-                substitutionLayout.setLoading(false);
-                substitutionLayout.setAdapter(new SubstitutionAdapter());
-                substitutionLayout.update(
-                        ref.get().matchEventList,
-                        ref.get().fixture.getHomeTeam().getLogoLink(),
-                        ref.get().fixture.getAwayTeam().getLogoLink(),
-                        ref.get().picasso
-                );
+                if (ref.get().matchDetails != null) {
+                    substitutionLayout.setVisibility(View.VISIBLE);
+                    substitutionLayout.setLoading(false);
+                    substitutionLayout.setAdapter(new SubstitutionAdapter());
+                    substitutionLayout.update(
+                            ref.get().matchDetails.getMatchEvents(),
+                            ref.get().matchDetails.getHomeTeam().getLogoLink(),
+                            ref.get().matchDetails.getAwayTeam().getLogoLink(),
+                            ref.get().picasso
+                    );
+                } else {
+                    substitutionLayout.setVisibility(View.GONE);
+                }
             } catch (Exception e) {
                 Log.e(TAG, "prepareSubstitutions: ", e);
             }
@@ -389,7 +437,9 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     teamStatsLayout.setLoading(false);
                     teamStatsLayout.update(
                             ref.get().teamStatModels,
-                            ref.get().fixture,
+                            ref.get().matchDetails.getLeague(),
+                            ref.get().matchDetails.getHomeTeam().getLogoLink(),
+                            ref.get().matchDetails.getAwayTeam().getLogoLink(),
                             ref.get().picasso
                     );
                 } else teamStatsLayout.notAvailable(R.string.team_stats_not_available_yet);

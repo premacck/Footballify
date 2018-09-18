@@ -18,9 +18,9 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchStats;
+
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class MatchStatsLayout extends FrameLayout {
 
@@ -95,17 +95,13 @@ public class MatchStatsLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    //    TODO : remove in next pull request
-    public void update(MatchStats matchStats, MatchFixture fixture, Picasso picasso) {
-    }
-
-    public void update(MatchStats matchStats, MatchDetails matchDetails, Picasso picasso) {
+    public void update(MatchStats matchStats, String venueName, String homeTeamLogo, String visitingTeamLogo, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
 
-        this.venueName.setText(matchDetails.getVenue().getName());
+        this.venueName.setText(venueName);
         this.homeTeamShots.setText(String.valueOf(matchStats.getHomeShots()));
         this.homeTeamShotsOnTarget.setText(String.valueOf(matchStats.getHomeShotsOnTarget()));
         String homeTeamPossession = matchStats.getHomePossession() + "%";
@@ -126,9 +122,11 @@ public class MatchStatsLayout extends FrameLayout {
         this.visitingTeamOffside.setText(String.valueOf(matchStats.getAwayOffsides()));
         this.visitingTeamCorner.setText(String.valueOf(matchStats.getAwayCorners()));
 
-        picasso.load(matchDetails.getHomeTeam().getLogoLink())
+        picasso.load(homeTeamLogo)
+                .resize((int) getDp(14), (int) getDp(14))
                 .into(homeTeamLogoImageView);
-        picasso.load(matchDetails.getAwayTeam().getLogoLink())
+        picasso.load(visitingTeamLogo)
+                .resize((int) getDp(14), (int) getDp(14))
                 .into(visitingTeamLogoImageView);
     }
 

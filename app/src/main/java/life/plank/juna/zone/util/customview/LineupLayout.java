@@ -22,9 +22,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.FootballTeam;
 import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -78,17 +77,13 @@ public class LineupLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
-    //    TODO : remove in next pull request
-    public void update(Lineups lineups, MatchFixture fixture, Picasso picasso) {
-    }
-
-    public void update(Lineups lineups, MatchDetails matchDetails, Picasso picasso) {
+    public void update(Lineups lineups, FootballTeam homeTeam, FootballTeam visitingTeam, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         lineupCenterLines.setVisibility(VISIBLE);
 
-        setHomeTeamName(matchDetails.getHomeTeam().getName());
-        setVisitingTeamName(matchDetails.getAwayTeam().getName());
+        setHomeTeamName(homeTeam.getName());
+        setVisitingTeamName(visitingTeam.getName());
         if (!isNullOrEmpty(lineups.getHomeTeamFormation()) && !isNullOrEmpty(lineups.getAwayTeamFormation())) {
             setHomeTeamLineup(getLineupText(lineups.getHomeTeamFormation()));
             setVisitingTeamLineup(getLineupText(lineups.getAwayTeamFormation()));
@@ -99,8 +94,8 @@ public class LineupLayout extends FrameLayout {
         Target homeTarget = getStartDrawableTarget(this.homeTeamName);
         Target visitingTarget = getStartDrawableTarget(this.visitingTeamName);
 
-        loadImage(picasso, matchDetails.getHomeTeam().getLogoLink(), homeTarget);
-        loadImage(picasso, matchDetails.getAwayTeam().getLogoLink(), visitingTarget);
+        loadImage(picasso, homeTeam.getLogoLink(), homeTarget);
+        loadImage(picasso, visitingTeam.getLogoLink(), visitingTarget);
     }
 
     private void loadImage(Picasso picasso, String logo, Target target) {

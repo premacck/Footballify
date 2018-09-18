@@ -12,11 +12,14 @@ import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.util.AppConstants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
+import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
  * Class for Aggregating multiple API calls.
@@ -29,8 +32,7 @@ public class RestApiAggregator {
      * @return {@link Pair} containing {@link Board} and {@link MatchDetails}
      */
     public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, RestApi footballRestApi, long matchId) {
-//        TODO : un-comment this after updating MatchFixture class
-        /*return afterSubscribingAndObservingOn(
+        return afterSubscribingAndObservingOn(
                 Observable.zip(
                         restApi.retrieveBoard(matchId, AppConstants.BOARD_TYPE, getToken(getContext())),
                         footballRestApi.getMatchDetails(matchId),
@@ -42,8 +44,7 @@ public class RestApiAggregator {
                                 Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
                                 return null;
                             }
-                        })));*/
-        return null;
+                        })));
     }
 
     /**
@@ -51,11 +52,11 @@ public class RestApiAggregator {
      *
      * @return {@link MatchDetails} containing {@link MatchStats} and {@link Lineups}
      */
-    public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi, long matchId) {
+    public static Observable<MatchDetails> getPostMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
-                        restApi.getMatchStatsForMatch(matchId),
-                        restApi.getLineUpsData(matchId),
+                        restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
+                        restApi.getLineUpsData(matchDetails.getMatchId()),
                         (((matchStatsResponse, lineupsResponse) -> {
                             if (matchStatsResponse.code() == HTTP_OK && lineupsResponse.code() == HTTP_OK) {
                                 matchDetails.setMatchStats(matchStatsResponse.body());
@@ -74,11 +75,11 @@ public class RestApiAggregator {
      *
      * @return {@link MatchDetails} containing {@link List<StandingModel>} and {@link List<TeamStatsModel>}
      */
-    public static Observable<MatchDetails> getPreMatchBoardData(MatchDetails matchDetails, RestApi restApi, long matchId) {
+    public static Observable<MatchDetails> getPreMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
-                        restApi.getMatchStandingsForMatch(matchId),
-                        restApi.getTeamStatsForMatch(matchId),
+                        restApi.getMatchStandingsForMatch(matchDetails.getMatchId()),
+                        restApi.getTeamStatsForMatch(matchDetails.getMatchId()),
                         (((standingsResponse, teamStatsResponse) -> {
                             if (standingsResponse.code() == HTTP_OK && teamStatsResponse.code() == HTTP_OK) {
                                 matchDetails.setStandingsList(standingsResponse.body());

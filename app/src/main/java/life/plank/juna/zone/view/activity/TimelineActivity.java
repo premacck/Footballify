@@ -135,7 +135,8 @@ public class TimelineActivity extends AppCompatActivity {
     }
 
     private void prepareViews() {
-        venueNameTextView.setText(fixture.getVenue().getName());
+//        TODO : set venue name when MatchFixture is replaced by MatchDetails in the match board.
+//        venueNameTextView.setText(fixture.getVenue().getName());
         timeStatusTextView.setText(getDisplayTimeStatus(fixture.getTimeStatus()));
         dateTextView.setText(getTimelineDateHeader(fixture.getMatchStartTime()));
         scoreTextView.setText(getSeparator(fixture, winPointer, false));
