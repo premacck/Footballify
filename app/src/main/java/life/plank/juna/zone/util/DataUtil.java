@@ -84,7 +84,7 @@ public class DataUtil {
         int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
         switch (dateDiff) {
             case -1:
-                return ZoneApplication.getContext().getString(R.string.yesterday);
+                return getPastMatchSeparator(matchFixture, winPointer, isBoard);
             case 0:
                 if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
                     return matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) + matchFixture.getAwayGoals();
@@ -92,7 +92,7 @@ public class DataUtil {
                     return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }
             case 1:
-                return ZoneApplication.getContext().getString(R.string.tomorrow);
+                return getFutureMatchTime(matchFixture.getMatchStartTime());
             default:
                 if (dateDiff < -1) {
                     return getPastMatchSeparator(matchFixture, winPointer, isBoard);

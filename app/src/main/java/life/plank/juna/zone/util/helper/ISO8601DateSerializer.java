@@ -12,6 +12,7 @@ import java.lang.reflect.Type;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import static life.plank.juna.zone.util.DateUtil.ISO_DATE_FORMAT;
 
@@ -21,6 +22,7 @@ public class ISO8601DateSerializer implements JsonDeserializer<Date>, JsonSerial
 
     public ISO8601DateSerializer() {
         format = ISO_DATE_FORMAT;
+        format.setTimeZone(TimeZone.getTimeZone("GMT"));
     }
 
     @Override
