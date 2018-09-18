@@ -69,9 +69,9 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     }
 
     class BoardMembersViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.profile_image)
+        @BindView(R.id.image)
         ImageView profileImageView;
-        @BindView(R.id.username)
+        @BindView(R.id.title)
         TextView usernameTextView;
 
         BoardMembersViewHolder(View itemView) {

@@ -18,6 +18,7 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchStats;
 
@@ -94,13 +95,17 @@ public class MatchStatsLayout extends FrameLayout {
         ButterKnife.bind(this, rootView);
     }
 
+    //    TODO : remove in next pull request
     public void update(MatchStats matchStats, MatchFixture fixture, Picasso picasso) {
+    }
+
+    public void update(MatchStats matchStats, MatchDetails matchDetails, Picasso picasso) {
         progressBar.setVisibility(GONE);
         noDataTextView.setVisibility(GONE);
         teamsLogoLayout.setVisibility(VISIBLE);
         matchTeamStatsLayout.setVisibility(VISIBLE);
 
-        this.venueName.setText(fixture.getVenue().getName());
+        this.venueName.setText(matchDetails.getVenue().getName());
         this.homeTeamShots.setText(String.valueOf(matchStats.getHomeShots()));
         this.homeTeamShotsOnTarget.setText(String.valueOf(matchStats.getHomeShotsOnTarget()));
         String homeTeamPossession = matchStats.getHomePossession() + "%";
@@ -121,14 +126,10 @@ public class MatchStatsLayout extends FrameLayout {
         this.visitingTeamOffside.setText(String.valueOf(matchStats.getAwayOffsides()));
         this.visitingTeamCorner.setText(String.valueOf(matchStats.getAwayCorners()));
 
-        picasso.load(fixture.getHomeTeam().getLogoLink())
+        picasso.load(matchDetails.getHomeTeam().getLogoLink())
                 .into(homeTeamLogoImageView);
-        picasso.load(fixture.getAwayTeam().getLogoLink())
+        picasso.load(matchDetails.getAwayTeam().getLogoLink())
                 .into(visitingTeamLogoImageView);
-    }
-
-    //    TODO : remove in next pull request
-    public void update(MatchStats matchStats, String homeLogo, String visitingLogo, Picasso picasso) {
     }
 
     public void notAvailable(@StringRes int message) {
