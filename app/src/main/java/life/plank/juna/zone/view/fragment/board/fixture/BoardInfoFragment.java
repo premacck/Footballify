@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,8 +63,6 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     Gson gson;
     @Inject
     Picasso picasso;
-    @Inject
-    PagerSnapHelper snapHelper;
 
     private MatchDetails matchDetails;
     private BoardInfoAdapter adapter;
@@ -96,8 +93,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new BoardInfoAdapter(this, getActivity(), picasso, timeDiffOfMatchFromNow >= 0, matchDetails, snapHelper);
         timeDiffOfMatchFromNow = getTimeDiffFromNow(matchDetails.getMatchStartTime());
+        adapter = new BoardInfoAdapter(this, getActivity(), picasso, timeDiffOfMatchFromNow < 0, matchDetails);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }

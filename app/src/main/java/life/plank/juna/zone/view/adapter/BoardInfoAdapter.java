@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.PagerSnapHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,15 +60,13 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private Lineups lineups;
     private List<TeamStatsModel> teamStatModels;
     private List<StandingModel> standingsList;
-    private PagerSnapHelper snapHelper;
 
-    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardStarted, MatchDetails matchDetails, PagerSnapHelper snapHelper) {
+    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardStarted, MatchDetails matchDetails) {
         this.fragment = fragment;
         this.isBoardStarted = isBoardStarted;
         this.picasso = picasso;
         this.activity = activity;
         this.matchDetails = matchDetails;
-        this.snapHelper = snapHelper;
 
         scrubberDataList = new ArrayList<>();
         matchStats = new MatchStats();
@@ -134,7 +131,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
      */
     @Override
     public int getItemCount() {
-        return matchDetails != null ? (isBoardStarted ? 6 : 3) : 0;
+        return isBoardStarted ? 6 : 3;
     }
 
     public void setScrubberData(List<ScrubberData> scrubberDataList, boolean isError) {
@@ -231,7 +228,9 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
             if (originalList == null) {
                 originalList = new ArrayList<>();
             }
-            originalList.addAll(newList);
+            if (!isNullOrEmpty(newList)) {
+                originalList.addAll(newList);
+            }
         } else {
             originalList = null;
         }
@@ -303,10 +302,9 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                         matchHighlightsLayout.setLoading(false);
                         matchHighlightsLayout.setVisibility(View.VISIBLE);
                         int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
-//                        Setting highlights width to 80 % of screen size
-                        highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
-                        int highlightsHeight = (highlightsWidth * 9) / 16;
-                        matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
+//                        Setting highlights
+                        int highlightsHeight = (highlightsWidth * 9) / 17;
+                        matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsHeight));
                         matchHighlightsLayout.setHighlights(ref.get().matchDetails.getHighlights());
                     } else
                         matchHighlightsLayout.setVisibility(View.GONE);
@@ -454,7 +452,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     case TYPE_SCRUBBER_VIEW:
                         return new ScrubberLayout(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_HIGHLIGHTS_VIEW:
-                        return new MatchHighlights(ref.get().activity, null, R.style.BoardInfoLayout, ref.get().snapHelper);
+                        return new MatchHighlights(ref.get().activity, null);
                     case TYPE_COMMENTARY_VIEW:
                         return new CommentarySmall(ref.get().activity, null, R.style.BoardInfoLayout);
                     case TYPE_MATCH_STATS_VIEW:
