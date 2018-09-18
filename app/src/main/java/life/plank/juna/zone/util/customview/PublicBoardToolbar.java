@@ -35,6 +35,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.DateUtil;
 
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
+import static life.plank.juna.zone.util.AppConstants.GMT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
@@ -248,7 +249,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
      */
     public void setTodayMatchCountdown(MatchFixture fixture, long timeDiffFromNow) {
         resetCountDownTimer();
-        DateUtil.HOUR_MINUTE_SECOND_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("GMT"));
+        DateUtil.HOUR_MINUTE_SECOND_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone(GMT));
         countDownTimer = new CountDownTimer(timeDiffFromNow, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
