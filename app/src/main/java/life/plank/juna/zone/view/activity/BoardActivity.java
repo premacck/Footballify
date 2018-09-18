@@ -16,6 +16,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -27,7 +28,6 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -36,9 +36,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
@@ -47,15 +49,11 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
-import retrofit2.Response;
 import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -88,6 +86,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private boolean isBoardActive;
     private String boardId;
     private MatchFixture fixture;
+    private MatchDetails matchDetails;
 
     private BoardPagerAdapter boardPagerAdapter;
 
@@ -171,12 +170,11 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             }
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
-            getMatchDetails();
         }
 
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
         FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
-        retrieveBoardId(currentMatchId, AppConstants.BOARD_TYPE);
+        getBoardIdAndMatchDetails(currentMatchId);
     }
 
     private void setupViewPagerWithFragments() {
@@ -205,36 +203,39 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
     }
 
-    public void retrieveBoardId(Long currentMatchId, String boardType) {
-        restApi.retrieveBoard(currentMatchId, boardType, getToken(this))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+    public void getBoardIdAndMatchDetails(Long currentMatchId) {
+        RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId)
                 .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
                 .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
-                .subscribe(new Observer<Response<Board>>() {
+                .subscribe(new Observer<Pair<Board, MatchDetails>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getBoardIdAndMatchDetails");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "In onError()" + e);
+                        Log.e(TAG, "In onError() : getBoardIdAndMatchDetails" + e);
                         Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
-                    public void onNext(Response<Board> response) {
-                        Board board = response.body();
-                        if (response.code() == HttpURLConnection.HTTP_OK && board != null) {
-                            boardId = board.getId();
-                            isBoardActive = board.getIsActive();
+                    public void onNext(Pair<Board, MatchDetails> boardMatchDetailsPair) {
+                        if (boardMatchDetailsPair != null) {
+                            matchDetails = boardMatchDetailsPair.second;
+                            if (matchDetails != null) {
+                                publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails));
+                            }
+                            boardId = boardMatchDetailsPair.first.getId();
+                            isBoardActive = boardMatchDetailsPair.first.getIsActive();
                             toggleBoardActivation();
                             saveBoardId();
                             setupViewPagerWithFragments();
 
                             String topic = getString(R.string.board_id_prefix) + boardId;
                             FirebaseMessaging.getInstance().subscribeToTopic(topic);
+                        } else {
+                            Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -242,44 +243,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     private void toggleBoardActivation() {
         boardParentLayout.getBackground().setColorFilter(getColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER);
-    }
-
-    public void getMatchDetails() {
-        footballRestApi.getMatchDetails(currentMatchId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
-                .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
-                .subscribe(new Observer<Response<MatchFixture>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "getMatchDetails() : onCompleted");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<MatchFixture> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                fixture = response.body();
-                                if (fixture != null) {
-                                    publicBoardToolbar.prepare(picasso, fixture);
-                                }
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(BoardActivity.this, R.string.match_summary_not_found, Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
     }
 
     public void saveBoardId() {

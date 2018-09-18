@@ -21,7 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 
 public class TeamStatsLayout extends FrameLayout {
@@ -91,10 +90,6 @@ public class TeamStatsLayout extends FrameLayout {
     private void init(Context context) {
         View rootView = inflate(context, R.layout.item_team_stats, this);
         ButterKnife.bind(this, rootView);
-    }
-
-    //    TODO : remove in next pull request
-    public void update(List<TeamStatsModel> teamStatModels, MatchFixture fixture, Picasso picasso) {
     }
 
     public void update(List<TeamStatsModel> teamStatModels, MatchDetails matchDetails, Picasso picasso) {

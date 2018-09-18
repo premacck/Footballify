@@ -12,8 +12,8 @@ import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScrubberData;
@@ -27,7 +27,6 @@ import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -189,7 +188,7 @@ public interface RestApi {
     Observable<Response<MatchStats>> getMatchStatsForMatch(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}")
-    Observable<Response<MatchFixture>> getMatchDetails(@Path("matchId") long matchId);
+    Observable<Response<MatchDetails>> getMatchDetails(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/standings")
     Observable<Response<List<StandingModel>>> getMatchStandingsForMatch(@Path("matchId") long matchId);

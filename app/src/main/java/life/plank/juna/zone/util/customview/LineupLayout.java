@@ -24,7 +24,6 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -76,10 +75,6 @@ public class LineupLayout extends FrameLayout {
     private void init(Context context) {
         View rootView = inflate(context, R.layout.item_line_up, this);
         ButterKnife.bind(this, rootView);
-    }
-
-    //    TODO : remove in next pull request
-    public void update(Lineups lineups, MatchFixture fixture, Picasso picasso) {
     }
 
     public void update(Lineups lineups, MatchDetails matchDetails, Picasso picasso) {

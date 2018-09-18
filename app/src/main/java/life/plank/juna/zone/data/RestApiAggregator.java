@@ -12,11 +12,14 @@ import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.util.AppConstants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
+import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
  * Class for Aggregating multiple API calls.
@@ -29,8 +32,7 @@ public class RestApiAggregator {
      * @return {@link Pair} containing {@link Board} and {@link MatchDetails}
      */
     public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, RestApi footballRestApi, long matchId) {
-//        TODO : un-comment this after updating MatchFixture class
-        /*return afterSubscribingAndObservingOn(
+        return afterSubscribingAndObservingOn(
                 Observable.zip(
                         restApi.retrieveBoard(matchId, AppConstants.BOARD_TYPE, getToken(getContext())),
                         footballRestApi.getMatchDetails(matchId),
@@ -42,8 +44,7 @@ public class RestApiAggregator {
                                 Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
                                 return null;
                             }
-                        })));*/
-        return null;
+                        })));
     }
 
     /**

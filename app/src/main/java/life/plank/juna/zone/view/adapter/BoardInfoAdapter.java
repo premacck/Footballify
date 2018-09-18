@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.MatchStats;
@@ -57,10 +58,9 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private Picasso picasso;
     private List<ScrubberData> scrubberDataList;
     private MatchFixture fixture;
-    private List<Commentary> commentaryList;
+    private MatchDetails matchDetails;
     private MatchStats matchStats;
     private Lineups lineups;
-    private List<MatchEvent> matchEventList;
     private List<TeamStatsModel> teamStatModels;
     private List<StandingModel> standingsList;
     private PagerSnapHelper snapHelper;
@@ -74,10 +74,8 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         this.snapHelper = snapHelper;
 
         scrubberDataList = new ArrayList<>();
-        commentaryList = new ArrayList<>();
         matchStats = new MatchStats();
         lineups = new Lineups();
-        matchEventList = new ArrayList<>();
         teamStatModels = new ArrayList<>();
         standingsList = new ArrayList<>();
     }
@@ -134,11 +132,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
      * <br/>\t * Standings
      * <br/>\t * Team stats
      *
-     * @return 6 for started board, 3 otherwise
+     * @return if matchDetails are there, 6 for started board, 3 otherwise
      */
     @Override
     public int getItemCount() {
-        return isBoardStarted ? 6 : 3;
+        return matchDetails != null ? (isBoardStarted ? 6 : 3) : 0;
     }
 
     public void setScrubberData(List<ScrubberData> scrubberDataList, boolean isError) {
@@ -146,19 +144,33 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         notifyItemChanged(0);
     }
 
-    public void setFixture(MatchFixture fixture) {
-        this.fixture = fixture;
+    public void setMatchDetails(MatchDetails matchDetails) {
+        this.matchDetails = matchDetails;
+//        Update Match Highlights
         notifyItemChanged(1);
+
+//        Update MatchStats (3) or TeamStats(2)
         notifyItemChanged(isBoardStarted ? 3 : 2);
+
+        if (isBoardStarted) {
+//            Update Commentaries
+            notifyItemChanged(2);
+
+//            Update Match Events
+            notifyItemChanged(5);
+        }
     }
 
+    /**
+     * Method to update live commentaries only.
+     */
     public void setCommentaries(List<Commentary> commentaryList, boolean isError) {
-        validateAndUpdateList(this.commentaryList, commentaryList, isError);
+        validateAndUpdateList(matchDetails.getCommentary(), commentaryList, isError);
         if (isBoardStarted) notifyItemChanged(2);
     }
 
     public List<Commentary> getCommentaryList() {
-        return commentaryList;
+        return matchDetails.getCommentary();
     }
 
     public void setMatchStats(MatchStats matchStats, int message) {
@@ -177,8 +189,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         if (isBoardStarted) notifyItemChanged(4);
     }
 
+    /**
+     * Method to update live match events only.
+     */
     public void setMatchEvents(List<MatchEvent> matchEventList, boolean isError) {
-        validateAndUpdateList(this.matchEventList, matchEventList, isError);
+        validateAndUpdateList(matchDetails.getMatchEvents(), matchEventList, isError);
         if (isBoardStarted) notifyItemChanged(5);
     }
 
@@ -264,7 +279,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareMatchHighlights() {
             try {
                 MatchHighlights matchHighlightsLayout = (MatchHighlights) rootLayout.getChildAt(0);
-                if (!isNullOrEmpty(ref.get().fixture.getHighlights())) {
+                if (!isNullOrEmpty(ref.get().matchDetails.getHighlights())) {
                     matchHighlightsLayout.setLoading(false);
                     matchHighlightsLayout.setVisibility(View.VISIBLE);
                     int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
@@ -272,7 +287,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
                     int highlightsHeight = (highlightsWidth * 9) / 16;
                     matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
-                    matchHighlightsLayout.setHighlights(ref.get().fixture.getHighlights());
+                    matchHighlightsLayout.setHighlights(ref.get().matchDetails.getHighlights());
                 } else
                     matchHighlightsLayout.setVisibility(View.GONE);
             } catch (Exception e) {
@@ -283,11 +298,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         private void prepareCommentary() {
             try {
                 CommentarySmall commentaryLayout = (CommentarySmall) rootLayout.getChildAt(0);
-                if (ref.get().commentaryList != null) {
-                    if (!ref.get().commentaryList.isEmpty()) {
+                if (ref.get().matchDetails.getCommentary() != null) {
+                    if (!ref.get().matchDetails.getCommentary().isEmpty()) {
                         commentaryLayout.setLoading(false);
                         commentaryLayout.setAdapter(new CommentaryAdapter());
-                        commentaryLayout.updateAdapter(ref.get().commentaryList);
+                        commentaryLayout.updateAdapter(ref.get().matchDetails.getCommentary());
                         commentaryLayout.initListeners(ref.get().fragment);
                     } else
                         commentaryLayout.setLoading(true);
@@ -307,7 +322,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                         matchStatsLayout.setLoading(false);
                         matchStatsLayout.update(
                                 ref.get().matchStats,
-                                ref.get().fixture,
+                                ref.get().matchDetails,
                                 ref.get().picasso
                         );
                     } else {
@@ -325,7 +340,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                 if (ref.get().lineups != null) {
                     if (ref.get().lineups.getErrorMessage() == 0) {
                         lineupLayout.setLoading(false);
-                        lineupLayout.update(ref.get().lineups, ref.get().fixture, ref.get().picasso);
+                        lineupLayout.update(ref.get().lineups, ref.get().matchDetails, ref.get().picasso);
                     } else {
                         lineupLayout.notAvailable(ref.get().lineups.getErrorMessage());
                     }
@@ -341,9 +356,9 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                 substitutionLayout.setLoading(false);
                 substitutionLayout.setAdapter(new SubstitutionAdapter());
                 substitutionLayout.update(
-                        ref.get().matchEventList,
-                        ref.get().fixture.getHomeTeam().getLogoLink(),
-                        ref.get().fixture.getAwayTeam().getLogoLink(),
+                        ref.get().matchDetails.getMatchEvents(),
+                        ref.get().matchDetails.getHomeTeam().getLogoLink(),
+                        ref.get().matchDetails.getAwayTeam().getLogoLink(),
                         ref.get().picasso
                 );
             } catch (Exception e) {
@@ -389,7 +404,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     teamStatsLayout.setLoading(false);
                     teamStatsLayout.update(
                             ref.get().teamStatModels,
-                            ref.get().fixture,
+                            ref.get().matchDetails,
                             ref.get().picasso
                     );
                 } else teamStatsLayout.notAvailable(R.string.team_stats_not_available_yet);
