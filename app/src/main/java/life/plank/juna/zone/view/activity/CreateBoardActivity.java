@@ -122,6 +122,8 @@ public class CreateBoardActivity extends AppCompatActivity {
     public void onButtonClicked(View view) {
         if (UIDisplayUtil.checkPermission(CreateBoardActivity.this)) {
             getImageResourceFromGallery();
+        }else{
+            Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
         }
     }
 
