@@ -38,6 +38,7 @@ import life.plank.juna.zone.util.customview.TeamStatsLayout;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
 public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.ViewHolder> {
 
@@ -301,7 +302,11 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                     if (!isNullOrEmpty(ref.get().matchDetails.getHighlights())) {
                         matchHighlightsLayout.setLoading(false);
                         matchHighlightsLayout.setVisibility(View.VISIBLE);
-                        matchHighlightsLayout.setAdapter(new HighlightsAdapter());
+                        int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
+    //                    Setting highlights width to 80 % of screen size
+                        highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
+                        int highlightsHeight = (highlightsWidth * 9) / 16;
+                        matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
                         matchHighlightsLayout.setHighlights(ref.get().matchDetails.getHighlights());
                     } else
                         matchHighlightsLayout.setVisibility(View.GONE);

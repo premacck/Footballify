@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 
 import javax.inject.Inject;
@@ -27,11 +28,15 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.customview.GenericToolbar;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
 public class BoardPreviewActivity extends AppCompatActivity {
@@ -49,15 +54,17 @@ public class BoardPreviewActivity extends AppCompatActivity {
     TextView titleTextView;
 
     Board board;
+    String filePath;
     @Inject
     @Named("default")
     RestApi restApi;
     @Inject
     Gson gson;
 
-    public static void launch(Context packageContext, String board) {
+    public static void launch(Context packageContext, String board, String filePath) {
         Intent intent = new Intent(packageContext, BoardPreviewActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_board), board);
+        intent.putExtra(packageContext.getString(R.string.intent_file_path), filePath);
         packageContext.startActivity(intent);
     }
 
@@ -73,6 +80,11 @@ public class BoardPreviewActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
         }
+
+        if (intent != null && intent.hasExtra(getString(R.string.intent_file_path))) {
+            filePath = intent.getStringExtra(getString(R.string.intent_file_path));
+        }
+
         toolbar.setTitle(board.getDisplayname());
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
         description.setText(board.getDescription());
@@ -85,8 +97,19 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
     @OnClick({R.id.create_board_button})
     public void createBoard() {
+        MediaType mediaType = getMediaType(filePath);
+
+        File fileToUpload = new File(filePath);
+        RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
+
+        RequestBody displayName = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDisplayname());
+        RequestBody zone = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getZone());
+        RequestBody description = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDescription());
+        RequestBody color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getColor());
+
         String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-        restApi.createPrivateBoard(board.getBoardType(), board, token)
+        restApi.createPrivateBoard(board.getBoardType(), displayName, zone, description, color, image, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
@@ -106,6 +129,9 @@ public class BoardPreviewActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 navigateToBoard(response.body(), token);
+                                break;
+                            case HttpURLConnection.HTTP_CONFLICT:
+                                Toast.makeText(getApplicationContext(), R.string.board_name_already_exists, Toast.LENGTH_LONG).show();
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
