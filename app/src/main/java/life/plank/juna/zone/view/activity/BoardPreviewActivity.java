@@ -107,6 +107,9 @@ public class BoardPreviewActivity extends AppCompatActivity {
                             case HttpURLConnection.HTTP_OK:
                                 navigateToBoard(response.body(), token);
                                 break;
+                            case HttpURLConnection.HTTP_CONFLICT:
+                                Toast.makeText(getApplicationContext(), R.string.board_name_already_exists, Toast.LENGTH_LONG).show();
+                                break;
                             default:
                                 Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
                                 break;

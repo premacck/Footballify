@@ -7,6 +7,7 @@ import lombok.Data;
 public class Board {
     private String id;
     private String displayname;
+    private String name;
     private String matchStartTime;
     private String boardType;
     private Boolean isActive;
