@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -43,24 +43,26 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     private List<Board> boardList;
     private Context context;
     private RestApi restApi;
+    private Picasso picasso;
 
-    public UserBoardsAdapter(List<Board> boardList, Context context) {
+    public UserBoardsAdapter(List<Board> boardList, Context context, Picasso picasso) {
         this.context = context;
         this.boardList = boardList;
+        this.picasso = picasso;
     }
 
     @Override
     public UserBoardsAdapter.UserBoardsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         getApplication().getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-        return new UserBoardsAdapter.UserBoardsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false));
+        return new UserBoardsAdapter.UserBoardsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_and_title, parent, false));
     }
 
     @Override
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
-        holder.usernameTextView.setText(boardList.get(position).getName());
-        holder.profileImageView.setBackgroundColor(Color.parseColor(boardList.get(position).getColor()));
-        holder.profileImageView.setOnClickListener(new View.OnClickListener() {
+        holder.boardTitle.setText(boardList.get(position).getName());
+        picasso.load(boardList.get(position).getBoardIcon().getUrl()).into(holder.boardIcon);
+        holder.boardIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 navigateToBoard(boardList.get(position).getId());
@@ -80,10 +82,10 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     }
 
     public class UserBoardsViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.profile_image)
-        ImageView profileImageView;
-        @BindView(R.id.username)
-        TextView usernameTextView;
+        @BindView(R.id.image)
+        ImageView boardIcon;
+        @BindView(R.id.title)
+        TextView boardTitle;
 
         UserBoardsViewHolder(View itemView) {
             super(itemView);

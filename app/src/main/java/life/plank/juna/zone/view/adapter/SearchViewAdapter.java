@@ -32,7 +32,7 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
 
     @Override
     public SearchViewAdapter.SearchViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false));
+        return new SearchViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_and_title, parent, false));
     }
 
     @Override
@@ -69,9 +69,9 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
     }
 
     public class SearchViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.profile_image)
+        @BindView(R.id.image)
         ImageView profileImageView;
-        @BindView(R.id.username)
+        @BindView(R.id.title)
         TextView usernameTextView;
         @BindView(R.id.follow_image_view)
         ImageView followTick;
