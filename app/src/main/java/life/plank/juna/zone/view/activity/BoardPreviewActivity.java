@@ -101,7 +101,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
         File fileToUpload = new File(filePath);
         RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
 
         RequestBody displayName = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDisplayname());
         RequestBody zone = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getZone());
@@ -109,7 +109,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
         RequestBody color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getColor());
 
         String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-        restApi.createPrivateBoard(board.getBoardType(), displayName, zone, description, color, body, token)
+        restApi.createPrivateBoard(board.getBoardType(), displayName, zone, description, color, image, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
