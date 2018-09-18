@@ -29,10 +29,12 @@ import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
+import okhttp3.MediaType;
 import retrofit2.Retrofit;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
+import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
@@ -136,7 +138,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
                         boardIconAdapter.boardIconList.add(0, filePath);
-                        boardIconAdapter.notifyDataSetChanged();
+                        boardIconAdapter.notifyItemInserted(0);
                         break;
 
                     case RESULT_CANCELED:
@@ -182,6 +184,11 @@ public class CreateBoardActivity extends AppCompatActivity {
             Toast.makeText(this, "Select an image to upload", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (getMediaType(filePath) == null){
+            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
         BoardPreviewActivity.launch(this, gson.toJson(board), file);
     }

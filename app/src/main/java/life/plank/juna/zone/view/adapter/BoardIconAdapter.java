@@ -31,14 +31,6 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
     public List<String> boardIconList = new ArrayList<>();;
 
     public BoardIconAdapter() {
-        //TODO: Will be uncommented after changes are made on the backend
-//        ArrayList<Drawable> boardIconList = new ArrayList<>();
-//        boardIconList.add(ZoneApplication.getContext().getDrawable(R.drawable.ic_board_beer));
-//        boardIconList.add(ZoneApplication.getContext().getDrawable(R.drawable.ic_board_football));
-//        boardIconList.add(ZoneApplication.getContext().getDrawable(R.drawable.ic_board_tshirt));
-//        boardIconList.add(ZoneApplication.getContext().getDrawable(R.drawable.ic_board_cup));
-//        boardIconList.add(ZoneApplication.getContext().getDrawable(R.drawable.ic_board_music));
-//        boardIconList.add(ZoneApplication.getContext().getDrawable(R.drawable.ic_board_guitar));
         this.boardIconList = boardIconList;
     }
 
@@ -88,7 +80,7 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
             ButterKnife.bind(this, itemView);
         }
 
-        @OnClick({R.id.root_layout})
+        @OnClick({R.id.image_root_layout})
         public void onColorThemeSelected() {
             int previousSelection = selectedIndex;
             imageSelectionMarker.setVisibility(selectedIndex == getAdapterPosition() ? View.INVISIBLE : View.VISIBLE);
