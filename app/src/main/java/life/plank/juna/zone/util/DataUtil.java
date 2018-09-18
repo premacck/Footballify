@@ -8,7 +8,6 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.graphics.ColorUtils;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.ImageView;
@@ -65,6 +64,21 @@ import static life.plank.juna.zone.util.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
 public class DataUtil {
+
+    private static final String[] dummyEvents = new String[]{
+            GOAL,
+            SUBSTITUTION,
+            YELLOW_CARD,
+            RED_CARD,
+            YELLOW_RED,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL
+    };
+    private static Random random = new Random();
 
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
@@ -274,21 +288,6 @@ public class DataUtil {
         return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    private static final String[] dummyEvents = new String[]{
-            GOAL,
-            SUBSTITUTION,
-            YELLOW_CARD,
-            RED_CARD,
-            YELLOW_RED,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL
-    };
-    private static Random random = new Random();
-
     //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
     static List<ScrubberData> getDefinedDummyScrubberData() {
         List<ScrubberData> scrubberDataList = new ArrayList<>();
@@ -450,6 +449,44 @@ public class DataUtil {
         lineChart.getXAxis().setValueFormatter((value, axis) -> getDateForScrubber((long) value));
     }
 
+    public static String getDisplayTimeStatus(String apiTimeStatus) {
+        switch (apiTimeStatus) {
+            case HT:
+                return HALF_TIME_LOWERCASE;
+            case FT:
+                return FULL_TIME_LOWERCASE;
+            default:
+                return apiTimeStatus;
+        }
+    }
+
+    public static MediaType getMediaType(String url) {
+        String extension = url.substring(url.lastIndexOf(".") + 1);
+        MediaType mediaType = null;
+
+        switch (extension) {
+            case PNG:
+                mediaType = MediaType.parse(TYPE_IMAGE + PNG);
+                break;
+
+            case JPEG:
+                mediaType = MediaType.parse(TYPE_IMAGE + JPEG);
+                break;
+
+            case GIF:
+                mediaType = MediaType.parse(TYPE_IMAGE + GIF);
+                break;
+
+            case BMP:
+                mediaType = MediaType.parse(TYPE_IMAGE + BMP);
+                break;
+
+            default:
+                break;
+        }
+        return mediaType;
+    }
+
     public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
 
         private WeakReference<LineChart> lineChartRef;
@@ -461,14 +498,14 @@ public class DataUtil {
             this.scrubberDataList = scrubberDataList;
         }
 
-        public static void prepare(LineChart lineChart, List<ScrubberData> scrubberDataList) {
-            new ScrubberLoader(lineChart, scrubberDataList).execute();
-        }
-
         //        TODO: remove below two methods once Scrubber API integration completes
         private ScrubberLoader(LineChart lineChart, boolean isRandom) {
             this.lineChartRef = new WeakReference<>(lineChart);
             this.isRandom = isRandom;
+        }
+
+        public static void prepare(LineChart lineChart, List<ScrubberData> scrubberDataList) {
+            new ScrubberLoader(lineChart, scrubberDataList).execute();
         }
 
         public static void prepare(LineChart lineChart, boolean isRandom) {
@@ -497,44 +534,5 @@ public class DataUtil {
             lineChartRef.get().setData(lineData);
             lineChartRef.get().invalidate();
         }
-    }
-
-    public static String getDisplayTimeStatus(String apiTimeStatus) {
-        switch (apiTimeStatus) {
-            case HT:
-                return HALF_TIME_LOWERCASE;
-            case FT:
-                return FULL_TIME_LOWERCASE;
-            default:
-                return apiTimeStatus;
-        }
-    }
-
-    public static MediaType getMediaType(String url) {
-        String extension = url.substring(url.lastIndexOf(".") + 1);
-        MediaType mediaType = null;
-
-        switch (extension) {
-            case PNG:
-                mediaType = MediaType.parse(TYPE_IMAGE+PNG);
-                break;
-
-            case JPEG:
-                mediaType = MediaType.parse(TYPE_IMAGE+JPEG);
-                break;
-
-            case GIF:
-                mediaType = MediaType.parse(TYPE_IMAGE+GIF);
-                break;
-
-            case BMP:
-                mediaType = MediaType.parse(TYPE_IMAGE+BMP);
-                break;
-
-            default:
-                Log.e("", "Image format not allowed");
-                break;
-        }
-        return mediaType;
     }
 }
