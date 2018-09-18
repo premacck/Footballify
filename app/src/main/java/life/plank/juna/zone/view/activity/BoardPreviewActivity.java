@@ -55,15 +55,17 @@ public class BoardPreviewActivity extends AppCompatActivity {
     TextView titleTextView;
 
     Board board;
+    String filePath;
     @Inject
     @Named("default")
     RestApi restApi;
     @Inject
     Gson gson;
 
-    public static void launch(Context packageContext, String board) {
+    public static void launch(Context packageContext, String board, String filePath) {
         Intent intent = new Intent(packageContext, BoardPreviewActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_board), board);
+        intent.putExtra(packageContext.getString(R.string.intent_file_path), filePath);
         packageContext.startActivity(intent);
     }
 
@@ -79,6 +81,11 @@ public class BoardPreviewActivity extends AppCompatActivity {
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
             board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
         }
+
+        if (intent != null && intent.hasExtra(getString(R.string.intent_file_path))) {
+            filePath = intent.getStringExtra(getString(R.string.intent_file_path));
+        }
+
         toolbar.setTitle(board.getDisplayname());
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
         description.setText(board.getDescription());
@@ -91,15 +98,9 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
     @OnClick({R.id.create_board_button})
     public void createBoard() {
-        String baseDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM).getAbsolutePath();
-        String fileName = "/Screenshots/Testupload.png";
+        MediaType mediaType = getMediaType(filePath);
 
-        String url = baseDir + File.separator + fileName;
-
-        MediaType mediaType = getMediaType(url);
-
-        File fileToUpload = new File(url);
+        File fileToUpload = new File(filePath);
         RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
         MultipartBody.Part body = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
 
