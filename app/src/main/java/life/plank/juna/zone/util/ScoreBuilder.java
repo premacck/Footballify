@@ -27,45 +27,14 @@ public class ScoreBuilder {
         return this;
     }
 
-    public ScoreBuilder space() {
-        stringBuilder.append(SPACE);
+    public ScoreBuilder setGoals(int goals) {
+        stringBuilder.append(goals);
         return this;
     }
 
-    public ScoreBuilder wideSpace() {
-        stringBuilder.append(WIDE_SPACE);
-        return this;
-    }
-
-    public ScoreBuilder wideDash() {
-        stringBuilder.append(WIDE_DASH);
-        return this;
-    }
-
-    public ScoreBuilder dash() {
-        stringBuilder.append(DASH);
-        return this;
-    }
-
-    public ScoreBuilder homeGoals(int homeGoals) {
-        stringBuilder.append(homeGoals);
-        return this;
-    }
-
-    public ScoreBuilder visitingGoals(int visitingGoals) {
-        stringBuilder.append(visitingGoals);
-        return this;
-    }
-
-    public ScoreBuilder homeGoals(int homeGoals, int homePenaltyGoals) {
+    public ScoreBuilder setGoals(int homeGoals, int homePenaltyGoals) {
         stringBuilder.append(homeGoals)
                 .append(" (").append(homePenaltyGoals).append(") ");
-        return this;
-    }
-
-    public ScoreBuilder visitingGoals(int visitingGoals, int visitingPenaltyGoals) {
-        stringBuilder.append(visitingGoals)
-                .append(" (").append(visitingPenaltyGoals).append(") ");
         return this;
     }
 
@@ -75,33 +44,33 @@ public class ScoreBuilder {
 
     public static String getWinScore(int homeGoals, int visitingGoals, boolean isBoard) {
         return ScoreBuilder.start()
-                .homeGoals(homeGoals)
+                .setGoals(homeGoals)
                 .spacingByPage(isBoard)
-                .visitingGoals(visitingGoals)
+                .setGoals(visitingGoals)
                 .getScore();
     }
 
     public static String getTiedScore(int homeGoals, int visitingGoals, boolean isBoard) {
         return ScoreBuilder.start()
-                .homeGoals(homeGoals)
+                .setGoals(homeGoals)
                 .dashingByPage(isBoard)
-                .visitingGoals(visitingGoals)
+                .setGoals(visitingGoals)
                 .getScore();
     }
 
     public static String getWinPenaltyScore(int homeGoals, int homePenaltyGoals, int visitingGoals, int visitingPenaltyGoals, boolean isBoard) {
         return ScoreBuilder.start()
-                .homeGoals(homeGoals, homePenaltyGoals)
+                .setGoals(homeGoals, homePenaltyGoals)
                 .spacingByPage(isBoard)
-                .visitingGoals(visitingGoals, visitingPenaltyGoals)
+                .setGoals(visitingGoals, visitingPenaltyGoals)
                 .getScore();
     }
 
     public static String getTiedPenaltyScore(int homeGoals, int homePenaltyGoals, int visitingGoals, int visitingPenaltyGoals, boolean isBoard) {
         return ScoreBuilder.start()
-                .homeGoals(homeGoals, homePenaltyGoals)
+                .setGoals(homeGoals, homePenaltyGoals)
                 .dashingByPage(isBoard)
-                .visitingGoals(visitingGoals, visitingPenaltyGoals)
+                .setGoals(visitingGoals, visitingPenaltyGoals)
                 .getScore();
     }
 }
