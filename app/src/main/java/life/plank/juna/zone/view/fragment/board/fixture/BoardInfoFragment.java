@@ -102,7 +102,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
         timeDiffOfMatchFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
-        adapter = new BoardInfoAdapter(this, getContext(), picasso, timeDiffOfMatchFromNow < 0, fixture, snapHelper);
+        adapter = new BoardInfoAdapter(this, getActivity(), picasso, timeDiffOfMatchFromNow < 0, fixture, snapHelper);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }

@@ -17,6 +17,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -45,6 +46,7 @@ import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -611,5 +613,11 @@ public class UIDisplayUtil {
                 .setNegativeButton(R.string.sign_up, (dialog, which) -> activity.startActivity(new Intent(activity, SignUpActivity.class)))
                 .setNeutralButton(R.string.cancel, (dialog, which) -> dialog.cancel())
                 .show();
+    }
+
+    public static int[] getScreenSize(Display display) {
+        Point size = new Point();
+        display.getSize(size);
+        return new int[]{size.x, size.y};
     }
 }
