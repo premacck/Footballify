@@ -16,7 +16,6 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
-import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -26,14 +25,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.MatchStats;
-import life.plank.juna.zone.data.network.model.StandingModel;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
 import life.plank.juna.zone.util.customview.ScrubberLayout.ScrubberLayoutListener;
@@ -71,18 +67,17 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     @Inject
     PagerSnapHelper snapHelper;
 
-    private MatchFixture fixture;
+    private MatchDetails matchDetails;
     private BoardInfoAdapter adapter;
-    private List<MatchEvent> matchEvents;
     private long timeDiffOfMatchFromNow;
 
     public BoardInfoFragment() {
     }
 
-    public static BoardInfoFragment newInstance(MatchFixture fixture, Gson gson) {
+    public static BoardInfoFragment newInstance(String matchDetailsObjectString) {
         BoardInfoFragment fragment = new BoardInfoFragment();
         Bundle args = new Bundle();
-        args.putString(ZoneApplication.getContext().getString(R.string.intent_board), gson.toJson(fixture));
+        args.putString(ZoneApplication.getContext().getString(R.string.intent_board), matchDetailsObjectString);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,7 +88,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         ZoneApplication.getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            fixture = gson.fromJson(args.getString(getString(R.string.intent_board)), MatchFixture.class);
+            matchDetails = gson.fromJson(args.getString(getString(R.string.intent_board)), MatchDetails.class);
         }
     }
 
@@ -101,8 +96,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-        timeDiffOfMatchFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
-        adapter = new BoardInfoAdapter(this, getActivity(), picasso, timeDiffOfMatchFromNow < 0, fixture, snapHelper);
+        adapter = new BoardInfoAdapter(this, getActivity(), picasso, timeDiffOfMatchFromNow >= 0, matchDetails, snapHelper);
+        timeDiffOfMatchFromNow = getTimeDiffFromNow(matchDetails.getMatchStartTime());
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -111,23 +106,19 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (timeDiffOfMatchFromNow >= 0) {
-            getMatchStandings();
-            getTeamStats();
+            getPreMatchData();
         } else {
-            getCommentaries();
-            getMatchStats();
-            getLineupFormation();
-            getMatchEvents();
+            getPostMatchData();
         }
     }
 
     @Override
     public void onScrubberClick(View view) {
-        if (!isNullOrEmpty(matchEvents)) {
+        if (matchDetails != null && !isNullOrEmpty(matchDetails.getMatchEvents())) {
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
             }
-            TimelineActivity.launch(getActivity(), view, fixture.getForeignId(), gson.toJson(matchEvents), gson.toJson(fixture));
+            TimelineActivity.launch(getActivity(), view, matchDetails.getMatchId(), gson.toJson(matchDetails.getMatchEvents()), gson.toJson(MatchFixture.from(matchDetails)));
         } else
             Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
@@ -159,110 +150,50 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         }
     }
 
-    private void getMatchEvents() {
-        restApi.getMatchEvents(fixture.getForeignId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<MatchEvent>>>() {
+    private void getPreMatchData() {
+        RestApiAggregator.getPreMatchBoardData(matchDetails, restApi)
+                .subscribe(new Observer<MatchDetails>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "getMatchEvents : Completed");
+                        Log.i(TAG, "onCompleted : getPreMatchData");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        adapter.setMatchEvents(null, true);
+                        Log.e(TAG, "getPreMatchData : " + e.getMessage());
+                        adapter.setMatchDetails(null, false);
                     }
 
                     @Override
-                    public void onNext(Response<List<MatchEvent>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                matchEvents = response.body();
-                                if (!isNullOrEmpty(matchEvents)) {
-                                    adapter.setMatchEvents(matchEvents, false);
-                                } else
-                                    adapter.setMatchEvents(null, true);
-                                break;
-                            default:
-                                adapter.setMatchEvents(null, true);
-                                break;
-                        }
+                    public void onNext(MatchDetails matchDetails) {
+                        adapter.setMatchDetails(matchDetails, false);
                     }
                 });
     }
 
-    private void getMatchStats() {
-        restApi.getMatchStatsForMatch(fixture.getForeignId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<MatchStats>>() {
+    private void getPostMatchData() {
+        RestApiAggregator.getPostMatchBoardData(matchDetails, restApi)
+                .subscribe(new Observer<MatchDetails>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted");
+                        Log.i(TAG, "onCompleted : getPostMatchData");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        adapter.setMatchStats(null, R.string.something_went_wrong);
+                        Log.e(TAG, "getPostMatchData : " + e.getMessage());
+                        adapter.setMatchDetails(null, true);
                     }
 
                     @Override
-                    public void onNext(Response<MatchStats> response) {
-                        MatchStats matchStats = response.body();
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                if (matchStats != null) {
-                                    adapter.setMatchStats(matchStats, 0);
-                                } else
-                                    adapter.setMatchStats(null, R.string.match_yet_to_start);
-                                break;
-                            default:
-                                adapter.setMatchStats(null, R.string.something_went_wrong);
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void getCommentaries() {
-        restApi.getCommentaries(fixture.getForeignId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<Commentary>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "getCommentaries() : Completed");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        adapter.setCommentaries(null, true);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<Commentary>> response) {
-                        List<Commentary> commentaryList = response.body();
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                if (!isNullOrEmpty(commentaryList)) {
-                                    adapter.setCommentaries(commentaryList, false);
-                                } else
-                                    adapter.setCommentaries(null, true);
-                                break;
-                            default:
-                                adapter.setCommentaries(null, true);
-                                break;
-                        }
+                    public void onNext(MatchDetails matchDetails) {
+                        adapter.setMatchDetails(matchDetails, true);
                     }
                 });
     }
 
     private void getLineupFormation() {
-        restApi.getLineUpsData(fixture.getForeignId())
+        restApi.getLineUpsData(matchDetails.getMatchId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Lineups>>() {
@@ -289,73 +220,6 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                                 break;
                             default:
                                 adapter.setLineups(null, R.string.line_ups_not_available);
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void getMatchStandings() {
-        restApi.getMatchStandingsForMatch(fixture.getForeignId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<StandingModel>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted : getMatchStandings()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: getMatchStandings()", e);
-                        adapter.setStandings(null, true);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<StandingModel>> response) {
-                        List<StandingModel> standingModelList = response.body();
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                if (!isNullOrEmpty(standingModelList)) {
-                                    adapter.setStandings(standingModelList, false);
-                                } else
-                                    adapter.setStandings(standingModelList, true);
-                                break;
-                            default:
-                                adapter.setStandings(standingModelList, true);
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void getTeamStats() {
-        restApi.getTeamStatsForMatch(fixture.getForeignId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted : getTeamStats()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: getTeamStats()", e);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<TeamStatsModel>> response) {
-                        List<TeamStatsModel> teamStatsModelList = response.body();
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                if (!isNullOrEmpty(teamStatsModelList)) {
-                                    adapter.setTeamStats(teamStatsModelList, false);
-                                } else
-                                    adapter.setTeamStats(teamStatsModelList, true);
-                                break;
-                            default:
-                                adapter.setTeamStats(teamStatsModelList, true);
                                 break;
                         }
                     }

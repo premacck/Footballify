@@ -164,7 +164,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         Intent intent = getIntent();
         if (intent.hasExtra(getString(R.string.intent_score_data))) {
             fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_score_data)), MatchFixture.class);
-            currentMatchId = fixture.getForeignId();
+            currentMatchId = fixture.getMatchId();
             if (fixture != null) {
                 publicBoardToolbar.prepare(picasso, fixture);
             }
@@ -277,7 +277,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return BoardInfoFragment.newInstance(ref.get().fixture, ref.get().gson);
+                    return BoardInfoFragment.newInstance(ref.get().gson.toJson(ref.get().matchDetails));
                 case 1:
                     return BoardTilesFragment.newInstance(ref.get().boardId, ref.get().isBoardActive);
                 default:
