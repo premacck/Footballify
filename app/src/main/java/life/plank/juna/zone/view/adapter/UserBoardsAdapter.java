@@ -58,7 +58,7 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
 
     @Override
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
-        holder.usernameTextView.setText(boardList.get(position).getDisplayname());
+        holder.usernameTextView.setText(boardList.get(position).getName());
         holder.profileImageView.setBackgroundColor(Color.parseColor(boardList.get(position).getColor()));
         holder.profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override

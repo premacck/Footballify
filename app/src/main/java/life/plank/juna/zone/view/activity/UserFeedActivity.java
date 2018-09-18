@@ -58,7 +58,7 @@ public class UserFeedActivity extends AppCompatActivity {
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
 
-        SharedPreferences editor = getApplicationContext().getSharedPreferences("signUpPageDetails", MODE_PRIVATE);
+        SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         String userObjectId = editor.getString(getApplicationContext().getString(R.string.pref_object_id), "NA");
 
         String topic = getString(R.string.juna_user_topic) + userObjectId;
