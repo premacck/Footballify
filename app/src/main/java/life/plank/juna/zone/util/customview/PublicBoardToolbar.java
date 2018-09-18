@@ -37,11 +37,11 @@ import life.plank.juna.zone.util.DateUtil;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.DateUtil.getAbsoluteTimeDiffFromNow;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.DateUtil.getMinuteSecondFormatDate;
 import static life.plank.juna.zone.util.DateUtil.getMinutesElapsedFrom;
 import static life.plank.juna.zone.util.DateUtil.getScheduledMatchDateString;
-import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
@@ -201,7 +201,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 //                scheduled
             setScheduledTimeStatus(fixture.getMatchStartTime());
         } else {
-            long timeDiffFromNow = getTimeDiffFromNow(fixture.getMatchStartTime());
+            long timeDiffFromNow = getAbsoluteTimeDiffFromNow(fixture.getMatchStartTime());
             if (timeDiffFromNow < 0) {
 //                live
                 setTimeStatus(fixture.getMatchStartTime(), fixture.getExtraMinute(), fixture.getTimeStatus());

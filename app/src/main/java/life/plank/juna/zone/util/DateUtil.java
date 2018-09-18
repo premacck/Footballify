@@ -78,6 +78,10 @@ public class DateUtil {
     }
 
     public static long getTimeDiffFromNow(Date date) {
+        return getTimeFromObject(date) - getTimeFromObject(new Date());
+    }
+
+    public static long getAbsoluteTimeDiffFromNow(Date date) {
         return Math.abs(new Date().getTime() - date.getTime());
     }
 
