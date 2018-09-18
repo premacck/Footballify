@@ -27,6 +27,7 @@ public class DateUtil {
     private static final String SCHEDULED_DATE_STRING = "EEE dd MM";
     private static final String FUTURE_DATE_FORM_STRING = "HH:mm";
     private static final String MINUTE_SECOND_TIME_STRING = "mm:ss";
+    private static final String HOUR_MINUTE_SECOND_TIME_STRING = "HH:mm:ss";
     private static final String SCHEDULED_MATCH_DATE_STRING = "EEE dd/MM\nK.mm aaa";
     public static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
@@ -34,6 +35,7 @@ public class DateUtil {
     private static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
     private static final SimpleDateFormat MINUTE_SECOND_TIME_FORMAT = new SimpleDateFormat(MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final SimpleDateFormat SCHEDULED_MATCH_DATE_FORMAT = new SimpleDateFormat(SCHEDULED_MATCH_DATE_STRING, Locale.getDefault());
+    public static final SimpleDateFormat HOUR_MINUTE_SECOND_DATE_FORMAT = new SimpleDateFormat(HOUR_MINUTE_SECOND_TIME_STRING, Locale.getDefault());
 
     private static Date getIsoFormattedDate(String dateString) throws ParseException {
         return ISO_DATE_FORMAT.parse(dateString);
@@ -79,6 +81,10 @@ public class DateUtil {
         return getTimeFromObject(date) - getTimeFromObject(new Date());
     }
 
+    public static long getAbsoluteTimeDiffFromNow(Date date) {
+        return Math.abs(new Date().getTime() - date.getTime());
+    }
+
     public static String getFormattedDate(Context context, MatchFixture matchFixture) {
         if (Objects.equals(matchFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
             return "FT, " +
@@ -115,7 +121,7 @@ public class DateUtil {
                 SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.getContext().getString(R.string.today));
                 builder.setSpan(
                         new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.fab_button_pink, null)),
-                        0, 4, SPAN_EXCLUSIVE_EXCLUSIVE
+                        0, 5, SPAN_EXCLUSIVE_EXCLUSIVE
                 );
                 return builder;
             case 1:
@@ -148,7 +154,7 @@ public class DateUtil {
     }
 
     public static String getMinuteSecondFormatDate(Date date) {
-        return MINUTE_SECOND_TIME_FORMAT.format(date);
+        return HOUR_MINUTE_SECOND_DATE_FORMAT.format(date);
     }
 
     public static String getMinutesElapsedFrom(Date date) {
