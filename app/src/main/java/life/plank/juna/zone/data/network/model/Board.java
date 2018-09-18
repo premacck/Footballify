@@ -16,6 +16,7 @@ public class Board {
     private String description;
     private String color;
     private User owner;
+    private BoardIcon boardIcon;
 
     public Board(String displayname, String boardType, String zone, String description, String color) {
         this.displayname = displayname;
@@ -23,6 +24,11 @@ public class Board {
         this.zone = zone;
         this.description = description;
         this.color = color;
+    }
+
+    @Data
+    public class BoardIcon {
+        private String url;
     }
 
     @Data

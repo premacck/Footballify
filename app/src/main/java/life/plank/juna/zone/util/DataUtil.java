@@ -35,18 +35,24 @@ import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import okhttp3.MediaType;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
+import static life.plank.juna.zone.util.AppConstants.BMP;
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
+import static life.plank.juna.zone.util.AppConstants.GIF;
 import static life.plank.juna.zone.util.AppConstants.GOAL;
 import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
+import static life.plank.juna.zone.util.AppConstants.JPEG;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.AppConstants.PNG;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.AppConstants.TYPE_IMAGE;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
@@ -56,6 +62,21 @@ import static life.plank.juna.zone.util.DateUtil.getFutureMatchTime;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
 public class DataUtil {
+
+    private static final String[] dummyEvents = new String[]{
+            GOAL,
+            SUBSTITUTION,
+            YELLOW_CARD,
+            RED_CARD,
+            YELLOW_RED,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL,
+            FOUL, FOUL, FOUL, FOUL
+    };
+    private static Random random = new Random();
 
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
@@ -82,7 +103,7 @@ public class DataUtil {
         int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
         switch (dateDiff) {
             case -1:
-                return ZoneApplication.getContext().getString(R.string.yesterday);
+                return getPastMatchSeparator(matchFixture, winPointer, isBoard);
             case 0:
                 if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
                     return matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) + matchFixture.getAwayGoals();
@@ -90,7 +111,7 @@ public class DataUtil {
                     return getFutureMatchTime(matchFixture.getMatchStartTime());
                 }
             case 1:
-                return ZoneApplication.getContext().getString(R.string.tomorrow);
+                return getFutureMatchTime(matchFixture.getMatchStartTime());
             default:
                 if (dateDiff < -1) {
                     return getPastMatchSeparator(matchFixture, winPointer, isBoard);
@@ -256,21 +277,6 @@ public class DataUtil {
         return (target != null && !TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
     }
 
-    private static final String[] dummyEvents = new String[]{
-            GOAL,
-            SUBSTITUTION,
-            YELLOW_CARD,
-            RED_CARD,
-            YELLOW_RED,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL,
-            FOUL, FOUL, FOUL, FOUL
-    };
-    private static Random random = new Random();
-
     //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
     static List<ScrubberData> getDefinedDummyScrubberData() {
         List<ScrubberData> scrubberDataList = new ArrayList<>();
@@ -432,6 +438,44 @@ public class DataUtil {
         lineChart.getXAxis().setValueFormatter((value, axis) -> getDateForScrubber((long) value));
     }
 
+    public static String getDisplayTimeStatus(String apiTimeStatus) {
+        switch (apiTimeStatus) {
+            case HT:
+                return HALF_TIME_LOWERCASE;
+            case FT:
+                return FULL_TIME_LOWERCASE;
+            default:
+                return apiTimeStatus;
+        }
+    }
+
+    public static MediaType getMediaType(String url) {
+        String extension = url.substring(url.lastIndexOf(".") + 1);
+        MediaType mediaType = null;
+
+        switch (extension) {
+            case PNG:
+                mediaType = MediaType.parse(TYPE_IMAGE + PNG);
+                break;
+
+            case JPEG:
+                mediaType = MediaType.parse(TYPE_IMAGE + JPEG);
+                break;
+
+            case GIF:
+                mediaType = MediaType.parse(TYPE_IMAGE + GIF);
+                break;
+
+            case BMP:
+                mediaType = MediaType.parse(TYPE_IMAGE + BMP);
+                break;
+
+            default:
+                break;
+        }
+        return mediaType;
+    }
+
     public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
 
         private WeakReference<LineChart> lineChartRef;
@@ -443,14 +487,14 @@ public class DataUtil {
             this.scrubberDataList = scrubberDataList;
         }
 
-        public static void prepare(LineChart lineChart, List<ScrubberData> scrubberDataList) {
-            new ScrubberLoader(lineChart, scrubberDataList).execute();
-        }
-
         //        TODO: remove below two methods once Scrubber API integration completes
         private ScrubberLoader(LineChart lineChart, boolean isRandom) {
             this.lineChartRef = new WeakReference<>(lineChart);
             this.isRandom = isRandom;
+        }
+
+        public static void prepare(LineChart lineChart, List<ScrubberData> scrubberDataList) {
+            new ScrubberLoader(lineChart, scrubberDataList).execute();
         }
 
         public static void prepare(LineChart lineChart, boolean isRandom) {
@@ -478,17 +522,6 @@ public class DataUtil {
         protected void onPostExecute(LineData lineData) {
             lineChartRef.get().setData(lineData);
             lineChartRef.get().invalidate();
-        }
-    }
-
-    public static String getDisplayTimeStatus(String apiTimeStatus) {
-        switch (apiTimeStatus) {
-            case HT:
-                return HALF_TIME_LOWERCASE;
-            case FT:
-                return FULL_TIME_LOWERCASE;
-            default:
-                return apiTimeStatus;
         }
     }
 }

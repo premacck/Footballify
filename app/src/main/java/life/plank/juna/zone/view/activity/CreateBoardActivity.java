@@ -9,8 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -28,18 +26,21 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
 import retrofit2.Retrofit;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
+import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
+import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 
 public class CreateBoardActivity extends AppCompatActivity {
 
     private static final String TAG = CreateBoardActivity.class.getSimpleName();
-
+    public static Bitmap parentViewBitmap = null;
     @BindView(R.id.parent_layout)
     ScrollView parentLayout;
     @BindView(R.id.football)
@@ -64,7 +65,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     RecyclerView privateBoardIconList;
     @BindView(R.id.upload_board_icon)
     Button uploadBoardIcon;
-
     @BindView(R.id.create_board_button)
     Button createPrivateBoard;
     @Inject
@@ -79,8 +79,8 @@ public class CreateBoardActivity extends AppCompatActivity {
     @Inject
     Gson gson;
     private RestApi restApi;
-    public static Bitmap parentViewBitmap = null;
     private String zone = "";
+    private String filePath;
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, CreateBoardActivity.class));
@@ -97,6 +97,8 @@ public class CreateBoardActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         privateBoardColorList.setAdapter(boardColorThemeAdapter);
         privateBoardIconList.setAdapter(boardIconAdapter);
+
+        UIDisplayUtil.checkPermission(CreateBoardActivity.this);
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})
@@ -114,6 +116,43 @@ public class CreateBoardActivity extends AppCompatActivity {
                 boardDescription.getText().toString().trim(),
                 boardColorThemeAdapter.getSelectedColor()
         ));
+    }
+
+    @OnClick(R.id.upload_board_icon)
+    public void onButtonClicked(View view) {
+        if (UIDisplayUtil.checkPermission(CreateBoardActivity.this)) {
+            getImageResourceFromGallery();
+        }else{
+            Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case GALLERY_IMAGE_RESULT:
+                switch (resultCode) {
+                    case RESULT_OK:
+                        filePath = getPathForGalleryImageView(data.getData(), this);
+                        break;
+                    case RESULT_CANCELED:
+                        finish();
+                        break;
+                    default:
+                        Toast.makeText(this, R.string.failed_to_process_image, Toast.LENGTH_LONG).show();
+                        finish();
+                        break;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void getImageResourceFromGallery() {
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType(getString(R.string.image_format));
+        startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 
     private void createBoard(Board board) {
@@ -136,6 +175,6 @@ public class CreateBoardActivity extends AppCompatActivity {
             return;
         }
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-        BoardPreviewActivity.launch(this, gson.toJson(board));
+        BoardPreviewActivity.launch(this, gson.toJson(board), filePath);
     }
 }
