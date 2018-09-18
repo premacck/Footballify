@@ -46,10 +46,8 @@ import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
-import static life.plank.juna.zone.util.AppConstants.SPACE;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
-import static life.plank.juna.zone.util.AppConstants.WIDE_SPACE;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
@@ -114,39 +112,30 @@ public class DataUtil {
             if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(homeWinDrawable);
-                teamNameSeparator = matchFixture.getHomeGoals() + (isBoard ? SPACE : WIDE_SPACE) +
-                        matchFixture.getAwayGoals();
+                teamNameSeparator = ScoreBuilder.getWinScore(matchFixture.getHomeGoals(), matchFixture.getAwayGoals(), isBoard);
             } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
-                teamNameSeparator = matchFixture.getHomeGoals() + (isBoard ? SPACE : WIDE_SPACE) +
-                        matchFixture.getAwayGoals();
+                teamNameSeparator = ScoreBuilder.getWinScore(matchFixture.getHomeGoals(), matchFixture.getAwayGoals(), isBoard);
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) +
-                        matchFixture.getAwayGoals();
+                teamNameSeparator = ScoreBuilder.getTiedScore(matchFixture.getHomeGoals(), matchFixture.getAwayGoals(), isBoard);
             }
         } else {
             if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(homeWinDrawable);
-                teamNameSeparator = matchFixture.getHomeGoals() +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? SPACE : WIDE_SPACE) +
-                        "(" + matchFixture.getAwayTeamPenaltyScore() + ")" +
-                        matchFixture.getAwayGoals();
+                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(matchFixture.getHomeGoals(), matchFixture.getHomeTeamPenaltyScore(),
+                        matchFixture.getAwayGoals(), matchFixture.getAwayTeamPenaltyScore(), isBoard);
             } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
-                teamNameSeparator = matchFixture.getHomeGoals() +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? SPACE : WIDE_SPACE) +
-                        "(" + matchFixture.getAwayTeamPenaltyScore() + ")" +
-                        matchFixture.getAwayGoals();
+                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(matchFixture.getHomeGoals(), matchFixture.getHomeTeamPenaltyScore(),
+                        matchFixture.getAwayGoals(), matchFixture.getAwayTeamPenaltyScore(), isBoard);
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = matchFixture.getHomeGoals() +
-                        "(" + matchFixture.getHomeTeamPenaltyScore() + ")" + (isBoard ? DASH : WIDE_DASH) +
-                        "(" + matchFixture.getAwayTeamPenaltyScore() + ")" +
-                        matchFixture.getAwayGoals();
+                teamNameSeparator = ScoreBuilder.getTiedPenaltyScore(matchFixture.getHomeGoals(), matchFixture.getHomeTeamPenaltyScore(),
+                        matchFixture.getAwayGoals(), matchFixture.getAwayTeamPenaltyScore(), isBoard);
             }
         }
         return teamNameSeparator;
