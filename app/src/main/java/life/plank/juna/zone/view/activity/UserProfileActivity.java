@@ -34,7 +34,6 @@ import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
-import life.plank.juna.zone.view.adapter.MyBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
