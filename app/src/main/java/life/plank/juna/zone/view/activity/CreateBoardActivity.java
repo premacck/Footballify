@@ -115,14 +115,14 @@ public class CreateBoardActivity extends AppCompatActivity {
                 zone.toLowerCase().trim(),
                 boardDescription.getText().toString().trim(),
                 boardColorThemeAdapter.getSelectedColor()
-        ));
+        ), boardIconAdapter.getSelectedPath());
     }
 
     @OnClick(R.id.upload_board_icon)
     public void onButtonClicked(View view) {
         if (UIDisplayUtil.checkPermission(CreateBoardActivity.this)) {
             getImageResourceFromGallery();
-        }else{
+        } else {
             Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
         }
     }
@@ -132,9 +132,13 @@ public class CreateBoardActivity extends AppCompatActivity {
         switch (requestCode) {
             case GALLERY_IMAGE_RESULT:
                 switch (resultCode) {
+
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
+                        boardIconAdapter.boardIconList.add(0, filePath);
+                        boardIconAdapter.notifyDataSetChanged();
                         break;
+
                     case RESULT_CANCELED:
                         finish();
                         break;
@@ -155,7 +159,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 
-    private void createBoard(Board board) {
+    private void createBoard(Board board, String file) {
         if (isNullOrEmpty(board.getZone())) {
             Toast.makeText(this, R.string.select_zone_for_board, Toast.LENGTH_SHORT).show();
             return;
@@ -174,7 +178,11 @@ public class CreateBoardActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
             return;
         }
+        if (isNullOrEmpty(file)) {
+            Toast.makeText(this, "Select an image to upload", Toast.LENGTH_SHORT).show();
+            return;
+        }
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-        BoardPreviewActivity.launch(this, gson.toJson(board), filePath);
+        BoardPreviewActivity.launch(this, gson.toJson(board), file);
     }
 }
