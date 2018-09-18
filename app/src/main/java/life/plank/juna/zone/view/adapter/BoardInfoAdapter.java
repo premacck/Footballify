@@ -303,7 +303,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                         matchHighlightsLayout.setLoading(false);
                         matchHighlightsLayout.setVisibility(View.VISIBLE);
                         int highlightsWidth = getScreenSize(ref.get().activity.getWindowManager().getDefaultDisplay())[0];
-    //                    Setting highlights width to 80 % of screen size
+//                        Setting highlights width to 80 % of screen size
                         highlightsWidth = (int) (highlightsWidth - (highlightsWidth * 0.2));
                         int highlightsHeight = (highlightsWidth * 9) / 16;
                         matchHighlightsLayout.setAdapter(new HighlightsAdapter(highlightsWidth, highlightsHeight));
