@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="container" type="id">fragment_container</item>
-    <item name="group_board" type="id">group_board</item>
-    <item name="action_mark_favourite" type="id">mark_favourite</item>
-    <item name="action_remove_favourite" type="id">remove_favourite</item>
-    <item name="action_show_notifications" type="id">show_notifications</item>
-    <item name="action_hide_notifications" type="id">hide_notifications</item>
-    <item name="action_follow_board" type="id">follow_board</item>
-    <item name="action_unfollow_board" type="id">unfollow_board</item>
-    <item name="action_report_board" type="id">report_board</item>
 </resources>

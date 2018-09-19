@@ -9,7 +9,6 @@
 
     <string name="app_name">Zone</string>
     <string name="facebook_app_id">575013552837571</string>
-    <string name="azure_base_url">https://junadevapp.azurewebsites.net/</string>
 
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
 
@@ -31,7 +30,6 @@
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
 
-    <string name="premier_league">Premier League</string>
     <string name="_1_4m">1.4M</string>
     <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
@@ -40,22 +38,12 @@
 
     <string name="assist">Assist</string>
     <string name="team_losses">L</string>
-    <string name="matchday_36">Matchday_36</string>
     <string name="match_id_string">match_id</string>
 
     //todo change this date with original timestamp
     <string name="simple_date_format">dd-mm-yyyy</string>
-    <string name="camera">Camera</string>
-    <string name="gallery">Gallery</string>
-    <string name="video">Video</string>
     <string name="image_format">image/*</string>
-    <string name="video_and_image_format">video/*, image/*</string>
     <string name="select_audio">Select Audio</string>
-
-    <string name="target_type_board">Board</string>
-    <string name="content_type_image">image</string>
-    <string name="content_type_audio">audio</string>
-    <string name="content_type_video">video</string>
 
     <string name="network_error">Network Error</string>
     <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
@@ -84,8 +72,6 @@
     <string name="timeline_activity">timeline_activity</string>
     <string name="board_pop_up">BoardPopUp</string>
     <string name="home_pop_up">HomePopUp</string>
-    <string name="mime_type_m3u8">application/vnd.apple.mpegurl</string>
-    <string name="utf_8_">utf-8</string>
     <string name="juna_user_topic">JunaUser-</string>
     <string name="media_type_image">image/png</string>
     <string name="media_type_video">video/mp4</string>

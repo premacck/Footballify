@@ -12,8 +12,6 @@
     <string name="pref_match">match_pref</string>
     <string name="pref_home_team_logo">home_team_logo</string>
     <string name="pref_visiting_team_logo">visiting_team_logo</string>
-    <string name="pref_home_team_name">home_team_name</string>
-    <string name="pref_visiting_team_name">visiting_team_name</string>
     <string name="pref_azure_token">AzureToken</string>
     <string name="pref_login_credentails">LoginCredentails</string>
     <string name="pref_is_logged_in">isLoggedIn</string>

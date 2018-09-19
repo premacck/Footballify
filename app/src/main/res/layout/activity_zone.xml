@@ -5,9 +5,7 @@
     android:orientation="vertical"
     android:weightSum="10">
 
-    <include
-        android:id="@+id/include_layout"
-        layout="@layout/zone_tool_bar" />
+    <include layout="@layout/zone_tool_bar" />
 
     <TextView
         android:layout_width="match_parent"
