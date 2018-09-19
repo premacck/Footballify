@@ -149,19 +149,6 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
                 setMatchStats(null, R.string.match_yet_to_start);
                 setLineups(null, R.string.line_ups_not_available);
             }
-//            Update Match Highlights
-            notifyItemChanged(1);
-
-//            Update MatchStats (3) or TeamStats(2)
-            notifyItemChanged(isBoardStarted ? 3 : 2);
-
-            if (isBoardStarted) {
-//                Update Commentaries
-                notifyItemChanged(2);
-
-//                Update Match Events (Substitutions)
-                notifyItemChanged(5);
-            }
         } else {
             if (matchDetails != null) {
                 setStandings(matchDetails.getStandingsList(), false);
