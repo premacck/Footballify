@@ -27,14 +27,14 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 public class RestApiAggregator {
 
     /**
-     * Method for combining the retrieveBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
+     * Method for combining the getBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
      *
      * @return {@link Pair} containing {@link Board} and {@link MatchDetails}
      */
     public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, RestApi footballRestApi, long matchId) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
-                        restApi.retrieveBoard(matchId, AppConstants.BOARD_TYPE, getToken(getContext())),
+                        restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken(getContext())),
                         footballRestApi.getMatchDetails(matchId),
                         ((boardResponse, matchDetailsResponse) -> {
                             if (boardResponse.code() == HTTP_OK && matchDetailsResponse.code() == HTTP_OK) {
@@ -48,7 +48,7 @@ public class RestApiAggregator {
     }
 
     /**
-     * Method for combining the retrieveBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
+     * Method for combining the getBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
      *
      * @return {@link MatchDetails} containing {@link MatchStats} and {@link Lineups}
      */
@@ -71,7 +71,7 @@ public class RestApiAggregator {
     }
 
     /**
-     * Method for combining the retrieveBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
+     * Method for combining the getBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
      *
      * @return {@link MatchDetails} containing {@link List<StandingModel>} and {@link List<TeamStatsModel>}
      */

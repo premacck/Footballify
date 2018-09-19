@@ -29,7 +29,6 @@ import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
-import okhttp3.MediaType;
 import retrofit2.Retrofit;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
