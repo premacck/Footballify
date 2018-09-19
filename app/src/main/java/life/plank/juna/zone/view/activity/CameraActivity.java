@@ -68,10 +68,9 @@ import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
-import static life.plank.juna.zone.util.AppConstants.TYPE_IMAGE;
-import static life.plank.juna.zone.util.AppConstants.TYPE_VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO_CAPTURE;
+import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
@@ -284,14 +283,8 @@ public class CameraActivity extends AppCompatActivity {
                 switch (resultCode) {
                     case RESULT_OK:
                         if (data != null) {
-                            if (data.getType() == null) return;
-
-                            if (data.getType().contains(TYPE_VIDEO)) {
-                                prepareVideoForUpload(data);
-                            } else if (data.getType().contains(TYPE_IMAGE)) {
-                                filePath = getPathForGalleryImageView(data.getData(), this);
-                                prepareImageForUpload();
-                            }
+                            filePath = getPathForGalleryImageView(data.getData(), this);
+                            prepareImageForUpload();
                         }
                         break;
                     case RESULT_CANCELED:
@@ -395,7 +388,13 @@ public class CameraActivity extends AppCompatActivity {
                 switch (openFrom) {
                     case IMAGE:
                     case GALLERY:
-                        postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
+                        if (getMediaType(filePath) == null) {
+                            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        }else {
+                            postMediaContent(filePath, String.valueOf(getMediaType(filePath)), IMAGE, userId, date);
+                        }
                         break;
                     case VIDEO:
                         postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, date);
@@ -412,7 +411,13 @@ public class CameraActivity extends AppCompatActivity {
                 switch (openFrom) {
                     case IMAGE:
                     case GALLERY:
-                        postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
+                        if (getMediaType(filePath) == null){
+                            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
+                            finish();
+                            return;
+                        } else {
+                            postMediaContent(filePath, String.valueOf(getMediaType(filePath)), IMAGE, userId, date);
+                        }
                         break;
                     default:
                         Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
