@@ -130,7 +130,6 @@
                 android:textSize="14sp" />
 
             <View
-                android:id="@+id/separator"
                 android:layout_width="0.4dp"
                 android:layout_height="match_parent"
                 android:layout_toStartOf="@+id/like_image_view"

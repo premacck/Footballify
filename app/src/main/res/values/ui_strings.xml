@@ -12,7 +12,6 @@
     <string name="matches_fixture_results">Matches, Fixture &amp; Results</string>
     <string name="team_stats">Team Stats</string>
     <string name="player_stats">Player Stats</string>
-    <string name="info_i">i</string>
     <string name="info">INFO</string>
     <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
     <string name="see_all">See All</string>
@@ -92,9 +91,6 @@
     <string name="new_">New</string>
     <string name="and_a_board_icon">And a board icon</string>
     <string name="upload">Upload</string>
-    <string name="board_visibility">Board visibility</string>
-    <string name="public_uppercase">Public</string>
-    <string name="private_uppercase">Private</string>
     <string name="public_lowercase">public</string>
     <string name="private_lowercase">private</string>
     <string name="create_board">Create Board</string>
@@ -119,15 +115,7 @@
     <string name="match_yet_to_start">Match yet to start</string>
     <string name="thumbnail">Thumbnail</string>
     <string name="timeline_whistle">Timeline_whistle</string>
-    <string name="emirates_stadium">Emirates Stadium</string>
     <string name="manager">Manager</string>
-    <string name="mark_favourite">Mark favourite</string>
-    <string name="follow_board">Follow board</string>
-    <string name="unfollow_board">Unfollow board</string>
-    <string name="remove_favourite">Remove favourite</string>
-    <string name="report_board">Report board</string>
-    <string name="hide_notifications">Hide notifications</string>
-    <string name="show_notifications">Show notifications</string>
     <string name="_8_8">8 – 8</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="no_match_events_yet">No match events yet</string>

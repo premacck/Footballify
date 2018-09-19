@@ -15,7 +15,6 @@
         android:src="@drawable/selection_marker_ring" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon_background"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_centerInParent="true"
