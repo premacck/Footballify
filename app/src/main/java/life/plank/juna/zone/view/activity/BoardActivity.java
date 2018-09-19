@@ -174,7 +174,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
 
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
-        FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+        if (isBoardActive) {
+            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+        }
+
         getBoardIdAndMatchDetails(currentMatchId);
     }
 
@@ -234,7 +237,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                             setupViewPagerWithFragments();
 
                             String topic = getString(R.string.board_id_prefix) + boardId;
-                            FirebaseMessaging.getInstance().subscribeToTopic(topic);
+                            if (isBoardActive) {
+                                FirebaseMessaging.getInstance().subscribeToTopic(topic);
+                            }
                         } else {
                             Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                         }
@@ -254,13 +259,17 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     @Override
     public void followClicked(TextView followBtn) {
-        String id = getString(R.string.board_id_prefix) + boardId;
-        if (followBtn.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
-            followBtn.setText(R.string.unfollow);
-            FirebaseMessaging.getInstance().subscribeToTopic(id);
+        if (isBoardActive) {
+            String id = getString(R.string.board_id_prefix) + boardId;
+            if (followBtn.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
+                followBtn.setText(R.string.unfollow);
+                FirebaseMessaging.getInstance().subscribeToTopic(id);
+            } else {
+                followBtn.setText(R.string.follow);
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
+            }
         } else {
-            followBtn.setText(R.string.follow);
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
+            Toast.makeText(BoardActivity.this, "This board is not active", Toast.LENGTH_LONG).show();
         }
     }
 
