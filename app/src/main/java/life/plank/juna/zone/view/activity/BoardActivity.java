@@ -46,6 +46,7 @@ import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.DataUtil;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
@@ -227,7 +228,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                                 publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails));
                             }
                             boardId = boardMatchDetailsPair.first.getId();
-                            isBoardActive = boardMatchDetailsPair.first.getIsActive();
+                            isBoardActive = DataUtil.isBoardActive(matchDetails.getMatchStartTime());
                             toggleBoardActivation();
                             saveBoardId();
                             setupViewPagerWithFragments();

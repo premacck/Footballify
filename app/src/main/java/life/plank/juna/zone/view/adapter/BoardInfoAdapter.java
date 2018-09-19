@@ -52,7 +52,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private static final int TYPE_TEAM_STATS_VIEW = 22;
     private final Activity activity;
     private BoardInfoFragment fragment;
-    private boolean isBoardStarted;
+    private boolean isBoardActive;
     private Picasso picasso;
     private List<ScrubberData> scrubberDataList;
     private MatchDetails matchDetails;
@@ -61,9 +61,9 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     private List<TeamStatsModel> teamStatModels;
     private List<StandingModel> standingsList;
 
-    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardStarted, MatchDetails matchDetails) {
+    public BoardInfoAdapter(BoardInfoFragment fragment, Activity activity, Picasso picasso, boolean isBoardActive, MatchDetails matchDetails) {
         this.fragment = fragment;
-        this.isBoardStarted = isBoardStarted;
+        this.isBoardActive = isBoardActive;
         this.picasso = picasso;
         this.activity = activity;
         this.matchDetails = matchDetails;
@@ -82,7 +82,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
 
     @Override
     public int getItemViewType(int position) {
-        if (isBoardStarted) {
+        if (isBoardActive) {
             switch (position) {
                 case 0:
                     return TYPE_SCRUBBER_VIEW;
@@ -131,7 +131,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
      */
     @Override
     public int getItemCount() {
-        return isBoardStarted ? 6 : 3;
+        return isBoardActive ? 6 : 3;
     }
 
     public void setScrubberData(List<ScrubberData> scrubberDataList, boolean isError) {
@@ -166,7 +166,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     public void setCommentaries(List<Commentary> commentaryList, boolean isError) {
         if (matchDetails != null) {
             validateAndUpdateList(matchDetails.getCommentary(), commentaryList, isError);
-            if (isBoardStarted) notifyItemChanged(2);
+            if (isBoardActive) notifyItemChanged(2);
         }
     }
 
@@ -179,7 +179,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
             this.matchStats = matchStats;
         }
         this.matchStats.setErrorMessage(message);
-        if (isBoardStarted) notifyItemChanged(3);
+        if (isBoardActive) notifyItemChanged(3);
     }
 
     public void setLineups(Lineups lineups, int message) {
@@ -187,7 +187,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
             this.lineups = lineups;
         }
         this.lineups.setErrorMessage(message);
-        if (isBoardStarted) notifyItemChanged(4);
+        if (isBoardActive) notifyItemChanged(4);
     }
 
     /**
@@ -196,18 +196,18 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
     public void setMatchEvents(List<MatchEvent> matchEventList, boolean isError) {
         if (matchDetails != null) {
             validateAndUpdateList(matchDetails.getMatchEvents(), matchEventList, isError);
-            if (isBoardStarted) notifyItemChanged(5);
+            if (isBoardActive) notifyItemChanged(5);
         }
     }
 
     public void setStandings(List<StandingModel> standingsList, boolean isError) {
         validateAndUpdateList(this.standingsList, standingsList, isError);
-        if (!isBoardStarted) notifyItemChanged(1);
+        if (!isBoardActive) notifyItemChanged(1);
     }
 
     public void setTeamStats(List<TeamStatsModel> teamStatModels, boolean isError) {
         validateAndUpdateList(this.teamStatModels, teamStatModels, isError);
-        if (!isBoardStarted) notifyItemChanged(2);
+        if (!isBoardActive) notifyItemChanged(2);
     }
 
     private <T> void validateAndUpdateList(List<T> originalList, List<T> newList, boolean isError) {
@@ -241,7 +241,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
 
         @Override
         public void bind() {
-            if (ref.get().isBoardStarted) {
+            if (ref.get().isBoardActive) {
                 switch (getAdapterPosition()) {
                     case 0:
                         prepareScrubber();
@@ -434,7 +434,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         }
 
         private ViewGroup getCustomView(int viewType) {
-            if (ref.get().isBoardStarted) {
+            if (ref.get().isBoardActive) {
                 switch (viewType) {
                     case TYPE_SCRUBBER_VIEW:
                         return new ScrubberLayout(ref.get().activity, null, R.style.BoardInfoLayout);
