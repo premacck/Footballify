@@ -64,6 +64,7 @@ dependencies {
     implementation viewDependencies.archMenu
     implementation viewDependencies.circularImageView
     implementation viewDependencies.mpAndroidChart
+    implementation viewDependencies.overflowPagerIndicator
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     compileOnly viewDependencies.javaxAnnotation

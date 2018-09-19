@@ -24,6 +24,7 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -523,5 +524,15 @@ public class DataUtil {
             lineChartRef.get().setData(lineData);
             lineChartRef.get().invalidate();
         }
+    }
+
+    //    TODO : remove this method when this functionality is properly implemented in the backend
+    public static boolean isBoardActive(Date matchStartTime) {
+//        4 hours before match start time
+        long startTime = matchStartTime.getTime() - 14400000;
+//        6 hours after match start time(including estimated 2 hours of the match)
+        long endTime = matchStartTime.getTime() + 21600000;
+        long currentTime = new Date().getTime();
+        return currentTime >= startTime && currentTime < endTime;
     }
 }

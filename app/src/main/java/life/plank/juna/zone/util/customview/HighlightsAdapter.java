@@ -21,11 +21,9 @@ import life.plank.juna.zone.util.BaseRecyclerView;
 public class HighlightsAdapter extends BaseRecyclerView.Adapter<HighlightsAdapter.MatchHighlightsViewHolder> {
 
     private List<Highlights> highlightsList;
-    private int width;
     private int height;
 
-    public HighlightsAdapter(int width, int height) {
-        this.width = width;
+    public HighlightsAdapter(int height) {
         this.height = height;
         highlightsList = new ArrayList<>();
     }
@@ -68,7 +66,6 @@ public class HighlightsAdapter extends BaseRecyclerView.Adapter<HighlightsAdapte
             webView.getSettings().setJavaScriptEnabled(true);
             webView.loadUrl(highlights.getHighlightsLink());
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) webView.getLayoutParams();
-            params.width = ref.get().width;
             params.height = ref.get().height;
             webView.setLayoutParams(params);
         }
