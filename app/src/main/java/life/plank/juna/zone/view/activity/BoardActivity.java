@@ -269,7 +269,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
             }
         } else {
-            Toast.makeText(BoardActivity.this, "This board is not active", Toast.LENGTH_LONG).show();
+            Toast.makeText(BoardActivity.this, R.string.board_not_active, Toast.LENGTH_LONG).show();
         }
     }
 
