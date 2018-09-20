@@ -128,6 +128,14 @@
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     tools:listitem="@layout/team_stats_row" />
 
+                <ProgressBar
+                    android:id="@+id/team_stats_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginTop="100dp" />
+
                 <TextView
                     android:id="@+id/no_team_stats"
                     android:layout_width="match_parent"
@@ -198,6 +206,14 @@
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     tools:listitem="@layout/player_stats_row" />
+
+                <ProgressBar
+                    android:id="@+id/player_stats_progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="100dp"
+                    android:layout_marginTop="100dp" />
 
                 <TextView
                     android:id="@+id/no_player_stats"

@@ -1,6 +1,8 @@
 package life.plank.juna.zone.data.network.model;
 
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -8,7 +10,6 @@ public class Board {
     private String id;
     private String displayname;
     private String name;
-    private String matchStartTime;
     private String boardType;
     private Boolean isActive;
     private BoardEvent boardEvent;
@@ -17,6 +18,9 @@ public class Board {
     private String color;
     private User owner;
     private BoardIcon boardIcon;
+    private Interaction interactions;
+    private Date startDate;
+    private Date endDate;
 
     public Board(String displayname, String boardType, String zone, String description, String color) {
         this.displayname = displayname;

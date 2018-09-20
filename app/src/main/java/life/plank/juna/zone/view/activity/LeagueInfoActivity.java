@@ -77,6 +77,12 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     CardView matchFixtureResultLayout;
     @BindView(R.id.fixture_progress_bar)
     ProgressBar fixtureProgressBar;
+    @BindView(R.id.team_stats_progress_bar)
+    ProgressBar teamStatsProgressBar;
+    @BindView(R.id.player_stats_progress_bar)
+    ProgressBar playerStatsProgressBar;
+    @BindView(R.id.standings_progress_bar)
+    ProgressBar standingsProgressBar;
     @BindView(R.id.fixture_no_data)
     TextView fixtureNoData;
     @BindView(R.id.fixtures_section_list)
@@ -87,8 +93,6 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     RecyclerView teamStatsRecyclerView;
     @BindView(R.id.player_stats_recycler_view)
     RecyclerView playerStatsRecyclerView;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
     @BindView(R.id.no_standings)
     TextView noStandingsTextView;
     @BindView(R.id.no_team_stats)
@@ -287,7 +291,6 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
     }
 
     private void updateUI(boolean available, RecyclerView recyclerView, TextView seeMoreView, TextView noDataView) {
-        progressBar.setVisibility(View.INVISIBLE);
         recyclerView.setVisibility(available ? View.VISIBLE : View.INVISIBLE);
         seeMoreView.setVisibility(available ? View.VISIBLE : View.GONE);
         noDataView.setVisibility(available ? View.GONE : View.VISIBLE);
@@ -321,8 +324,8 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
         restApi.getFixtures(league.getSeasonName(), league.getName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
-                .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
+                .doOnSubscribe(() -> setProgressBarsVisibility(View.VISIBLE))
+                .doOnTerminate(() -> setProgressBarsVisibility(View.GONE))
                 .subscribe(new Observer<Response<List<FixtureByMatchDay>>>() {
                     @Override
                     public void onCompleted() {
@@ -354,6 +357,13 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
                         }
                     }
                 });
+    }
+
+    private void setProgressBarsVisibility(int visibility) {
+        fixtureProgressBar.setVisibility(visibility);
+        standingsProgressBar.setVisibility(visibility);
+        teamStatsProgressBar.setVisibility(visibility);
+        playerStatsProgressBar.setVisibility(visibility);
     }
 
     private static class UpdateFixtureAdapterTask extends AsyncTask<Void, Void, List<MatchFixture>> {
@@ -401,14 +411,16 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
 
         @Override
         protected void onPostExecute(List<MatchFixture> matchFixtures) {
-            if (!isNullOrEmpty(matchFixtures) && ref.get() != null) {
-                if (ref.get().fixtureLeagueAdapter != null) {
-                    ref.get().fixtureLeagueAdapter.update(matchFixtures);
+            if (ref.get() != null) {
+                if (!isNullOrEmpty(matchFixtures)) {
+                    if (ref.get().fixtureLeagueAdapter != null) {
+                        ref.get().fixtureLeagueAdapter.update(matchFixtures);
+                    }
+                    ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
+                    ref.get().seeAllFixtures.setEnabled(true);
+                    ref.get().seeAllFixtures.setClickable(true);
                 }
-                ref.get().fixtureProgressBar.setVisibility(View.GONE);
-                ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
-                ref.get().seeAllFixtures.setEnabled(true);
-                ref.get().seeAllFixtures.setClickable(true);
+                ref.get().setProgressBarsVisibility(View.GONE);
             }
         }
     }
