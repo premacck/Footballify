@@ -86,7 +86,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private long currentMatchId;
     private boolean isBoardActive;
     private String boardId;
-    private MatchFixture fixture;
     private MatchDetails matchDetails;
 
     private BoardPagerAdapter boardPagerAdapter;
@@ -164,11 +163,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
         Intent intent = getIntent();
         if (intent.hasExtra(getString(R.string.intent_score_data))) {
-            fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_score_data)), MatchFixture.class);
+            MatchFixture fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_score_data)), MatchFixture.class);
             currentMatchId = fixture.getMatchId();
-            if (fixture != null) {
-                publicBoardToolbar.prepare(picasso, fixture);
-            }
+            publicBoardToolbar.prepare(picasso, fixture);
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         }
@@ -227,11 +224,12 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                     public void onNext(Pair<Board, MatchDetails> boardMatchDetailsPair) {
                         if (boardMatchDetailsPair != null) {
                             matchDetails = boardMatchDetailsPair.second;
+                            Board board = boardMatchDetailsPair.first;
                             if (matchDetails != null) {
                                 publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails));
                             }
-                            boardId = boardMatchDetailsPair.first.getId();
-                            isBoardActive = DataUtil.isBoardActive(matchDetails.getMatchStartTime());
+                            boardId = board.getId();
+                            isBoardActive = DataUtil.isBoardActive(board);
                             toggleBoardActivation();
                             saveBoardId();
                             setupViewPagerWithFragments();
