@@ -32,8 +32,8 @@ public class StandingsLayout extends FrameLayout {
     TextView noStandings;
     @BindView(R.id.see_all_standings)
     TextView seeAllStandings;
-    @BindView(R.id.progress_bar)
-    ProgressBar progressBar;
+    @BindView(R.id.standings_progress_bar)
+    ProgressBar standingsProgressBar;
 
     private StandingTableAdapter adapter;
 
@@ -65,10 +65,11 @@ public class StandingsLayout extends FrameLayout {
 
     public void update(List<StandingModel> standingModelList) {
         adapter.update(standingModelList);
+        standingsProgressBar.setVisibility(GONE);
     }
 
     public void setLoading(boolean isLoading) {
-        progressBar.setVisibility(isLoading ? VISIBLE : GONE);
+        standingsProgressBar.setVisibility(isLoading ? VISIBLE : GONE);
         standingsHeader.setVisibility(isLoading ? INVISIBLE : VISIBLE);
         standingRecyclerView.setVisibility(isLoading ? INVISIBLE : VISIBLE);
         seeAllStandings.setVisibility(isLoading ? INVISIBLE : VISIBLE);

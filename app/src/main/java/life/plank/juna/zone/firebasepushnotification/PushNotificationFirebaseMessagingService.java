@@ -167,21 +167,31 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             e.printStackTrace();
         }
 
-        SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
 
-        if (!boardNotification.getActor().equals(sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA"))) {
-            NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                    .setContentTitle("Zone")
-                    .setContentText(messageBody)
-                    .setAutoCancel(true)
-                    .setSound(defaultSoundUri)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentIntent(pendingIntent)
-                    .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bitmap))/*Notification with Image*/;
-            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+        SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
+        String userName = sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA");
+        //TODO: refactor this after the push notification is generalised
+        if (boardNotification.getActor() != null) {
+            if (!boardNotification.getActor().equals(userName)) {
+                sendNotification(messageBody, defaultSoundUri, pendingIntent);
+            }
+        } else if (boardNotification.getInviterName() != null) {
+            sendNotification(messageBody, defaultSoundUri, pendingIntent);
         }
 
+    }
+
+    private void sendNotification(String messageBody, Uri defaultSoundUri, PendingIntent pendingIntent) {
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle("Zone")
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bitmap))/*Notification with Image*/;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 }
