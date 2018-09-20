@@ -61,10 +61,9 @@ public interface RestApi {
                                                             @Query("seasonName") String seasonName,
                                                             @Query("countryName") String countryName);
 
-
     //working
     @GET("/boards")
-    Observable<Response<Board>> retrieveBoard(@Query("foreignId") Long foreignId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
+    Observable<Response<Board>> getBoard(@Query("foreignId") Long matchId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
     //working
     @GET("/boards/createdBy")

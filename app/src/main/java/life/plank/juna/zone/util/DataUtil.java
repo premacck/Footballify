@@ -31,6 +31,7 @@ import java.util.Random;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
@@ -527,12 +528,8 @@ public class DataUtil {
     }
 
     //    TODO : remove this method when this functionality is properly implemented in the backend
-    public static boolean isBoardActive(Date matchStartTime) {
-//        4 hours before match start time
-        long startTime = matchStartTime.getTime() - 14400000;
-//        6 hours after match start time(including estimated 2 hours of the match)
-        long endTime = matchStartTime.getTime() + 21600000;
+    public static boolean isBoardActive(Board matchBoard) {
         long currentTime = new Date().getTime();
-        return currentTime >= startTime && currentTime < endTime;
+        return currentTime >= matchBoard.getStartDate().getTime() && currentTime < matchBoard.getEndDate().getTime();
     }
 }
