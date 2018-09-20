@@ -123,11 +123,11 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     @SuppressWarnings("ConstantConditions")
     @Override
     public void seeAllClicked(View view) {
-        if (!isNullOrEmpty(adapter.getCommentaryList())) {
+        if (matchDetails != null && !isNullOrEmpty(matchDetails.getCommentary())) {
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(getActivity().getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getActivity());
             }
-            CommentaryActivity.launch(getActivity(), view, gson.toJson(adapter.getCommentaryList()));
+            CommentaryActivity.launch(getActivity(), view, gson.toJson(matchDetails.getCommentary()));
         }
     }
 

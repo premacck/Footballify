@@ -143,16 +143,16 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         this.matchDetails = matchDetails;
         if (isMatchStarted) {
             if (matchDetails != null) {
-                setMatchStats(matchDetails.getMatchStats(), 0);
-                setLineups(matchDetails.getLineups(), 0);
+                setMatchStats(matchDetails.getMatchStats(), matchDetails.getMatchStats() == null ? R.string.match_stats_not_available_yet : 0);
+                setLineups(matchDetails.getLineups(), matchDetails.getLineups() == null ? R.string.line_ups_not_available : 0);
             } else {
                 setMatchStats(null, R.string.match_yet_to_start);
                 setLineups(null, R.string.line_ups_not_available);
             }
         } else {
             if (matchDetails != null) {
-                setStandings(matchDetails.getStandingsList(), false);
-                setTeamStats(matchDetails.getTeamStatsList(), false);
+                setStandings(matchDetails.getStandingsList(), isNullOrEmpty(matchDetails.getStandingsList()));
+                setTeamStats(matchDetails.getTeamStatsList(), isNullOrEmpty(matchDetails.getTeamStatsList()));
             } else {
                 setStandings(null, true);
                 setTeamStats(null, true);
@@ -168,10 +168,6 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
             validateAndUpdateList(matchDetails.getCommentary(), commentaryList, isError);
             if (isBoardActive) notifyItemChanged(2);
         }
-    }
-
-    public List<Commentary> getCommentaryList() {
-        return matchDetails.getCommentary();
     }
 
     public void setMatchStats(MatchStats matchStats, int message) {

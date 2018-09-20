@@ -58,15 +58,17 @@ public class RestApiAggregator {
                         restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
                         restApi.getLineUpsData(matchDetails.getMatchId()),
                         (((matchStatsResponse, lineupsResponse) -> {
-                            if (matchStatsResponse.code() == HTTP_OK && lineupsResponse.code() == HTTP_OK) {
+                            if (matchStatsResponse.code() == HTTP_OK) {
                                 matchDetails.setMatchStats(matchStatsResponse.body());
+                            } else {
+                                Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
+                            }
+                            if (lineupsResponse.code() == HTTP_OK) {
                                 matchDetails.setLineups(lineupsResponse.body());
-                                return matchDetails;
                             } else {
                                 Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
-                                Log.e("getPostMatchBoardData", "matchStatsResponse : " + matchStatsResponse.code() + " : " + matchStatsResponse.message());
-                                return null;
                             }
+                            return matchDetails;
                         }))));
     }
 
@@ -81,15 +83,17 @@ public class RestApiAggregator {
                         restApi.getMatchStandingsForMatch(matchDetails.getMatchId()),
                         restApi.getTeamStatsForMatch(matchDetails.getMatchId()),
                         (((standingsResponse, teamStatsResponse) -> {
-                            if (standingsResponse.code() == HTTP_OK && teamStatsResponse.code() == HTTP_OK) {
+                            if (standingsResponse.code() == HTTP_OK) {
                                 matchDetails.setStandingsList(standingsResponse.body());
-                                matchDetails.setTeamStatsList(teamStatsResponse.body());
-                                return matchDetails;
                             } else {
                                 Log.e("getPreMatchBoardData", "standingsResponse : " + standingsResponse.code() + " : " + standingsResponse.message());
-                                Log.e("getPreMatchBoardData", "teamStatsResponse : " + teamStatsResponse.code() + " : " + teamStatsResponse.message());
-                                return null;
                             }
+                            if (teamStatsResponse.code() == HTTP_OK) {
+                                matchDetails.setTeamStatsList(teamStatsResponse.body());
+                            } else {
+                                Log.e("getPreMatchBoardData", "teamStatsResponse : " + teamStatsResponse.code() + " : " + teamStatsResponse.message());
+                            }
+                            return matchDetails;
                         }))));
     }
 
