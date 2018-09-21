@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -50,6 +51,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.board_tiles_list)
     RecyclerView boardTilesRecyclerView;
     @BindView(R.id.no_data)
@@ -97,11 +100,17 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
         ZoneApplication.getApplication().getUiComponent().inject(this);
         initRecyclerView();
-        retrieveBoardByBoardId();
-        if (isBoardActive) {
-            setupBoomMenu(getActivity(), arcMenu, boardId);
-        }
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getBoardFeed(false);
+            setupBoomMenu(getActivity(), arcMenu, boardId);
+        if (isBoardActive) {
+        }
+        swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
     }
 
     private void initRecyclerView() {
@@ -118,11 +127,18 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesRecyclerView.smoothScrollToPosition(0);
     }
 
-    public void retrieveBoardByBoardId() {
-        progressBar.setVisibility(View.VISIBLE);
+    public void getBoardFeed(boolean isRefreshing) {
         restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> {
+                    progressBar.setVisibility(View.VISIBLE);
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(true);
+                })
+                .doOnTerminate(() -> {
+                    progressBar.setVisibility(View.GONE);
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
+                })
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
@@ -158,7 +174,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     public void updateUi(boolean isDataAvailable, @StringRes int message) {
-        progressBar.setVisibility(View.GONE);
         boardTilesRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
         noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
         if (noDataTextView.getText().toString().isEmpty() && message != 0) {
