@@ -107,8 +107,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getBoardFeed(false);
-            setupBoomMenu(getActivity(), arcMenu, boardId);
         if (isBoardActive) {
+            setupBoomMenu(getActivity(), arcMenu, boardId);
         }
         swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
     }
