@@ -5,7 +5,10 @@
     android:orientation="vertical"
     android:weightSum="10">
 
-    <include layout="@layout/zone_tool_bar" />
+    <life.plank.juna.zone.util.customview.ZoneToolBar
+        android:id="@+id/feed_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="match_parent"
