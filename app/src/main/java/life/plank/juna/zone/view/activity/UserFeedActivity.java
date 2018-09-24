@@ -7,6 +7,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -26,6 +27,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.interfaces.ZoneToolbarListener;
+import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
 import life.plank.juna.zone.view.adapter.UserZoneAdapter;
@@ -38,7 +41,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsBoolean;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
-public class UserFeedActivity extends AppCompatActivity {
+public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarListener {
     private static final String TAG = UserFeedActivity.class.getSimpleName();
 
     @Inject
@@ -51,6 +54,8 @@ public class UserFeedActivity extends AppCompatActivity {
     RecyclerView userFeedRecyclerView;
     @BindView(R.id.user_zone_recycler_view)
     RecyclerView userZoneRecyclerView;
+    @BindView(R.id.feed_header)
+    ZoneToolBar toolbar;
     @Inject
     Picasso picasso;
     private RestApi restApi;
@@ -74,11 +79,25 @@ public class UserFeedActivity extends AppCompatActivity {
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
         token = getSharedPrefsBoolean(getString(R.string.pref_login_credentails), getString(R.string.pref_is_logged_in)) ?
                 getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token)) : "";
+
+
+        setUpToolbar();
         initRecyclerView();
         initZoneRecyclerView();
         initBoardsRecyclerView();
         getUserFeed();
         getUserBoards();
+        toolbar.initListeners(this);
+    }
+
+    private void setUpToolbar() {
+        if (token.isEmpty()) {
+            toolbar.setProfilePic(R.drawable.ic_default_profile);
+            toolbar.setCoinCount(getString(R.string.hello_stranger), false);
+        } else {
+            //TODO: set user profile picture and coin count
+            toolbar.setCoinCount(getString(R.string.dummy_32k), true);
+        }
     }
 
     private void initRecyclerView() {
@@ -189,5 +208,14 @@ public class UserFeedActivity extends AppCompatActivity {
         userFeed.clear();
         userFeed.addAll(userFeedList);
         userFeedAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void profilePictureClicked(ImageView profilePicture) {
+        if (token.isEmpty()) {
+            //TODO: Display popup asking the user to signUp/In
+        } else {
+            //TODO: Navigate to user profile view
+        }
     }
 }
