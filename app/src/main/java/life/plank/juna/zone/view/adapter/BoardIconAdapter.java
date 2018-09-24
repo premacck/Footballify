@@ -28,7 +28,7 @@ import static android.view.LayoutInflater.from;
 public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.BoardIconViewHolder> {
 
     private static int selectedIndex = -1;
-    public List<String> boardIconList = new ArrayList<>();;
+    public List<String> boardIconList = new ArrayList<>();
 
     public BoardIconAdapter() {
         this.boardIconList = boardIconList;
