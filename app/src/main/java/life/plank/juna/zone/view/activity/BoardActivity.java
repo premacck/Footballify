@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -55,6 +56,7 @@ import rx.Observer;
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
+import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -64,6 +66,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
 
+    @BindView(R.id.drag_area)
+    TextView dragArea;
     @BindView(R.id.board_parent_layout)
     CoordinatorLayout boardParentLayout;
     @BindView(R.id.board_toolbar)
@@ -101,10 +105,11 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     };
 
-    public static void launch(Context packageContext, String fixtureJson) {
-        Intent intent = new Intent(packageContext, BoardActivity.class);
-        intent.putExtra(packageContext.getString(R.string.intent_score_data), fixtureJson);
-        packageContext.startActivity(intent);
+    public static void launch(Activity from, String fixtureJson) {
+        Intent intent = new Intent(from, BoardActivity.class);
+        intent.putExtra(from.getString(R.string.intent_score_data), fixtureJson);
+        from.startActivity(intent);
+        from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
 
     public void setDataReceivedFromPushNotification(Intent intent) {
@@ -159,6 +164,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
         ButterKnife.bind(this);
+        setupSwipeGesture(this, dragArea);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
@@ -309,5 +315,11 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         Fragment getCurrentFragment() {
             return currentFragment;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
     }
 }
