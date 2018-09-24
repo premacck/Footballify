@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedItem;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
@@ -25,7 +25,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
  */
 
 public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapter.PrivateBoardViewHolder> {
-    private ArrayList<FootballFeed> boardFeed;
+    private ArrayList<FeedItem> boardFeed;
     private Picasso picasso;
 
     public PrivateBoardAdapter(Picasso picasso) {
@@ -99,13 +99,13 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
         }
     }
 
-    public void update(List<FootballFeed> boardFeed) {
+    public void update(List<FeedItem> boardFeed) {
         this.boardFeed.addAll(boardFeed);
         notifyDataSetChanged();
     }
 
-    public void updateNewPost(FootballFeed footballFeed) {
-        boardFeed.add(0, footballFeed);
+    public void updateNewPost(FeedItem feedItem) {
+        boardFeed.add(0, feedItem);
         notifyItemInserted(0);
     }
 }

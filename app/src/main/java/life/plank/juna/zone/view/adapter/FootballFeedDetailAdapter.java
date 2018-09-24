@@ -19,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import retrofit2.Retrofit;
 
 /**
@@ -30,12 +30,12 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
     @Inject
     @Named("default")
     Retrofit retrofit;
-    private List<FootballFeed> footballFeedsList;
+    private List<FeedItem> feedsListItem;
     private Context context;
 
-    public FootballFeedDetailAdapter(Context context, List<FootballFeed> footballFeedsList) {
+    public FootballFeedDetailAdapter(Context context, List<FeedItem> feedsListItem) {
         this.context = context;
-        this.footballFeedsList = footballFeedsList;
+        this.feedsListItem = feedsListItem;
     }
 
     @Override
@@ -49,10 +49,10 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-        holder.feedTitleTextView.setText(footballFeedsList.get(position).getTitle());
+        holder.feedTitleTextView.setText(feedsListItem.get(position).getTitle());
         try {
             Picasso.with(context).
-                    load(footballFeedsList.get(position).getThumbnail().getImageUrl())
+                    load(feedsListItem.get(position).getThumbnail().getImageUrl())
                     .error(R.drawable.ic_place_holder)
                     .placeholder(R.drawable.ic_place_holder)
                     .into(holder.feedImageView);
@@ -63,7 +63,7 @@ public class FootballFeedDetailAdapter extends RecyclerView.Adapter<FootballFeed
 
     @Override
     public int getItemCount() {
-        return footballFeedsList.size();
+        return feedsListItem.size();
     }
 
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {

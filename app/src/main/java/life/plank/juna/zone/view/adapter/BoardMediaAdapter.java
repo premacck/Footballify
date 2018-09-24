@@ -51,16 +51,16 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        switch (boardFeed.get(position).getContentType()) {
+        switch (boardFeed.get(position).getFeedItem().getContentType()) {
             case AUDIO:
                 setVisibility(holder, GONE, VISIBLE, GONE);
                 holder.tileImageView.setImageResource(R.drawable.ic_audio);
                 break;
             case IMAGE:
                 setVisibility(holder, GONE, VISIBLE, GONE);
-                if (boardFeed.get(position).getThumbnail() != null) {
+                if (boardFeed.get(position).getFeedItem().getThumbnail() != null) {
                     fragment.picasso
-                            .load(boardFeed.get(position).getThumbnail().getImageUrl())
+                            .load(boardFeed.get(position).getFeedItem().getThumbnail().getImageUrl())
                             .fit().centerCrop()
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
@@ -69,9 +69,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             case VIDEO:
                 setVisibility(holder, GONE, VISIBLE, VISIBLE);
-                if (boardFeed.get(position).getThumbnail() != null) {
+                if (boardFeed.get(position).getFeedItem().getThumbnail() != null) {
                     fragment.picasso
-                            .load(boardFeed.get(position).getThumbnail().getImageUrl())
+                            .load(boardFeed.get(position).getFeedItem().getThumbnail().getImageUrl())
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
                             .into(holder.tileImageView);
@@ -79,7 +79,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
-                String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
+                String comment = boardFeed.get(position).getFeedItem().getTitle().replaceAll("^\"|\"$", "");
                 holder.commentTextView.setBackgroundColor(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
                 break;
@@ -91,6 +91,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         holder.tileImageView.setVisibility(tileImageViewVisibility);
         holder.playBtn.setVisibility(playBtnVisibility);
     }
+
 
     public void update(List<FootballFeed> boardFeed) {
         if (!this.boardFeed.isEmpty()) {
@@ -106,8 +107,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         notifyItemRangeInserted(previousSize, boardFeed.size());
     }
 
-    public void updateNewPost(FootballFeed footballFeed) {
-        boardFeed.add(0, footballFeed);
+
+    public void updateNewPost(FootballFeed feedItem) {
+        boardFeed.add(0, feedItem);
         notifyItemInserted(0);
     }
 
