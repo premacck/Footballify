@@ -64,19 +64,19 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     ImageView blurBackgroundImageView;
     MediaPlayer mediaPlayer = new MediaPlayer();
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
-    private List<FootballFeed> footballFeedsList;
+    private List<FootballFeed> feedsListItem;
     private RestApi restApi;
     private Activity activity;
     private String date;
     private String boardId;
     private boolean isBoardActive;
 
-    public BoardFeedDetailAdapter(Activity activity, List<FootballFeed> footballFeedsList, String boardId, boolean isBoardActive) {
+    public BoardFeedDetailAdapter(Activity activity, List<FootballFeed> feedsListItem, String boardId, boolean isBoardActive) {
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(activity);
         this.activity = activity;
-        this.footballFeedsList = footballFeedsList;
+        this.feedsListItem = feedsListItem;
     }
 
     @Override
@@ -92,25 +92,25 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         date = new SimpleDateFormat(activity.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
 
-        if (footballFeedsList.get(position).getInteractions() != null) {
-            holder.likeCountTextView.setText(String.valueOf(footballFeedsList.get(position).getInteractions().getLikes()));
-            holder.dislikeCountTextView.setText(String.valueOf(footballFeedsList.get(position).getInteractions().getDislikes()));
+        if (feedsListItem.get(position).getFeedItem().getInteractions() != null) {
+            holder.likeCountTextView.setText(String.valueOf(feedsListItem.get(position).getFeedItem().getInteractions().getLikes()));
+            holder.dislikeCountTextView.setText(String.valueOf(feedsListItem.get(position).getFeedItem().getInteractions().getDislikes()));
         }
 
         SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
         boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
-        String feedId = footballFeedsList.get(position).getId();
-        if (footballFeedsList.get(position).getActor() != null) {
-            holder.userNameTextView.setText(footballFeedsList.get(position).getActor().getDisplayName());
+        String feedId = feedsListItem.get(position).getFeedItem().getId();
+        if (feedsListItem.get(position).getFeedItem().getActor() != null) {
+            holder.userNameTextView.setText(feedsListItem.get(position).getFeedItem().getActor().getDisplayName());
         } else {
             SharedPreferences userPref = activity.getSharedPreferences(activity.getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");
             holder.userNameTextView.setText(userEmailId);
         }
-        holder.feedTitleTextView.setText(footballFeedsList.get(position).getDescription());
+        holder.feedTitleTextView.setText(feedsListItem.get(position).getFeedItem().getDescription());
         setupSwipeGesture(activity, holder.dragHandleImageView);
 
-        switch (footballFeedsList.get(position).getContentType()) {
+        switch (feedsListItem.get(position).getFeedItem().getContentType()) {
             case "Image": {
                 mediaPlayer.stop();
                 holder.feedImageView.setVisibility(View.VISIBLE);
@@ -118,7 +118,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
                 try {
                     Picasso.with(activity).
-                            load(footballFeedsList.get(position).getThumbnail().getImageUrl())
+                            load(feedsListItem.get(position).getFeedItem().getThumbnail().getImageUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
                             .into(holder.feedImageView);
@@ -133,7 +133,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedImageView.setVisibility(View.VISIBLE);
                 holder.feedImageView.setImageResource(R.drawable.ic_audio);
 
-                String uri = footballFeedsList.get(position).getUrl();
+                String uri = feedsListItem.get(position).getFeedItem().getUrl();
                 Uri videoUri = Uri.parse(uri);
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -148,7 +148,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
                 try {
                     Picasso.with(activity).
-                            load(footballFeedsList.get(position).getUrl())
+                            load(feedsListItem.get(position).getFeedItem().getUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
                             .into(holder.feedImageView);
@@ -164,7 +164,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.capturedVideoView.setVisibility(View.VISIBLE);
                 MediaController mediaController = new MediaController(activity);
                 holder.capturedVideoView.setMediaController(mediaController);
-                String uri = footballFeedsList.get(position).getUrl();
+                String uri = feedsListItem.get(position).getFeedItem().getUrl();
                 Uri videoUri = Uri.parse(uri);
                 holder.capturedVideoView.setVideoURI(videoUri);
                 holder.capturedVideoView.start();
@@ -179,7 +179,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.feedTextView.setVisibility(View.VISIBLE);
                 holder.feedImageView.setVisibility(View.INVISIBLE);
                 holder.capturedVideoView.setVisibility(View.INVISIBLE);
-                String comment = footballFeedsList.get(position).getTitle().replaceAll("^\"|\"$", "");
+                String comment = feedsListItem.get(position).getFeedItem().getTitle().replaceAll("^\"|\"$", "");
 
                 holder.commentBg.setBackgroundColor(getCommentColor(comment));
                 holder.feedTextView.setText(getCommentText(comment));
@@ -203,7 +203,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemDisLikeApiCall(feedId, date, holder, position);
+                boardFeedItemDisLikeApiCall(feedId, date, holder);
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -212,17 +212,18 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.feedTitleTextView.setOnClickListener(view -> {
             holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-            holder.feedDescription.setText(footballFeedsList.get(position).getDescription());
+            holder.feedDescription.setText(feedsListItem.get(position).getFeedItem().getDescription());
         });
     }
 
     @Override
     public int getItemCount() {
-        return footballFeedsList.size();
+        return feedsListItem.size();
     }
 
-    private void boardFeedItemLikeApiCall(String feedItemId, String dateCreated, FootballFeedDetailViewHolder holder, int position) {
-        restApi.postLike(feedItemId, boardId, "Boards", dateCreated, getToken(activity))
+    private void boardFeedItemLikeApiCall(String feedItemId, String
+            dateCreated, FootballFeedDetailViewHolder holder, int position) {
+        restApi.postLike(feedItemId, boardId, "Board", dateCreated, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -246,8 +247,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 holder.dislikeImageView.setVisibility(View.INVISIBLE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.INVISIBLE);
-                                retrieveBoardById(holder, position);
+                                retrieveBoardById();
                                 break;
+                            case HttpURLConnection.HTTP_INTERNAL_ERROR:
+                                Toast.makeText(activity, "You have already liked the item", Toast.LENGTH_SHORT).show();
                             default:
                                 Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
@@ -256,7 +259,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    public void retrieveBoardById(FootballFeedDetailViewHolder holder, int position) {
+    private void retrieveBoardById() {
 
         restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
@@ -277,7 +280,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<List<FootballFeed>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                footballFeedsList = response.body();
+                                feedsListItem = response.body();
                                 notifyDataSetChanged();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -311,7 +314,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                //TODO: Add logic to toggle the visibility of like count
+                                holder.likeImageView.setImageTintList(null);
+                                holder.likeCountTextView.setVisibility(View.INVISIBLE);
+                                holder.dislikeImageView.setVisibility(View.VISIBLE);
+                                holder.likeSeparator.setVisibility(View.VISIBLE);
                                 break;
                             default:
                                 Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
@@ -321,7 +327,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    private void boardFeedItemDisLikeApiCall(String feedItemId, String dateCreated, FootballFeedDetailViewHolder holder, int position) {
+    private void boardFeedItemDisLikeApiCall(String feedItemId, String
+            dateCreated, FootballFeedDetailViewHolder holder) {
         restApi.postDisLike(feedItemId, boardId, "Boards", dateCreated, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -346,7 +353,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 holder.likeImageView.setVisibility(View.INVISIBLE);
                                 holder.dislikeCountTextView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.INVISIBLE);
-                                retrieveBoardById(holder, position);
+                                retrieveBoardById();
                                 break;
                             default:
                                 Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();

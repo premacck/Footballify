@@ -21,7 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.util.CustomLinearLayoutManager;
 import life.plank.juna.zone.util.NetworkStateReceiver;
 import life.plank.juna.zone.view.adapter.FootballFeedDetailAdapter;
@@ -51,7 +51,7 @@ public class FootballFeedDetailActivity extends AppCompatActivity implements Net
 
     public void populateRecyclerView() {
         FootballFeedDetailAdapter mAdapter = new FootballFeedDetailAdapter(FootballFeedDetailActivity.this,
-                new Gson().fromJson(getIntent().getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FootballFeed>>() {
+                new Gson().fromJson(getIntent().getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FeedItem>>() {
                 }.getType())
         );
         customLinearLayoutManager = new CustomLinearLayoutManager(this, LinearLayoutManager.HORIZONTAL);

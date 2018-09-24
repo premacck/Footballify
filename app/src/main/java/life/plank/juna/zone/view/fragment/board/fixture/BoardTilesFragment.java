@@ -119,11 +119,11 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesRecyclerView.setAdapter(adapter);
     }
 
-    public void updateNewPost(FootballFeed footballFeed) {
+    public void updateNewPost(FootballFeed feedItem) {
         if (adapter.getBoardFeed().isEmpty()) {
             updateUi(true, 0);
         }
-        adapter.updateNewPost(footballFeed);
+        adapter.updateNewPost(feedItem);
         boardTilesRecyclerView.smoothScrollToPosition(0);
     }
 
@@ -155,10 +155,10 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                     public void onNext(Response<List<FootballFeed>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                List<FootballFeed> footballFeedList = response.body();
-                                if (!isNullOrEmpty(footballFeedList)) {
+                                List<FootballFeed> feedItemList = response.body();
+                                if (!isNullOrEmpty(feedItemList)) {
                                     updateUi(true, 0);
-                                    adapter.update(footballFeedList);
+                                    adapter.update(feedItemList);
                                 } else
                                     updateUi(false, R.string.board_yet_to_be_populated);
                                 break;
