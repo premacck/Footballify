@@ -7,13 +7,10 @@ import java.util.List;
 import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.FootballFeed;
-import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.ScrubberData;
@@ -140,6 +137,7 @@ public interface RestApi {
                                               @Query("time") String dateCreated,
                                               @Header("Authorization") String authHeader);
 
+    //working
     @DELETE("activities/{id}/likes")
     Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
                                                 @Header("Authorization") String authHeader);
@@ -152,6 +150,7 @@ public interface RestApi {
                                                  @Query("time") String dateCreated,
                                                  @Header("Authorization") String authHeader);
 
+    //working
     @DELETE("activities/{id}/disLikes")
     Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
                                                    @Header("Authorization") String authHeader);
@@ -168,20 +167,14 @@ public interface RestApi {
     @POST("/boards/{boardId}/activities/follow")
     Observable<Response<JsonObject>> followBoard(@Header("Authorization") String authHeader, @Path("boardId") String boardId);
 
+    @GET("/boards/following")
+    Observable<Response<List<Board>>> getFollowingBoards(@Header("Authorization") String authHeader);
+
     @GET("matches/{matchId}/lineups")
     Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
 
     @POST("/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
-
-    @GET("matches/{matchId}/events")
-    Observable<Response<List<MatchEvent>>> getMatchEvents(@Path("matchId") long matchId);
-
-    @GET("highlights/{matchId}")
-    Observable<Response<List<Highlights>>> getMatchHighlights(@Path("matchId") long matchId);
-
-    @GET("commentaries/{matchId}")
-    Observable<Response<List<Commentary>>> getCommentaries(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/stats")
     Observable<Response<MatchStats>> getMatchStatsForMatch(@Path("matchId") long matchId);
