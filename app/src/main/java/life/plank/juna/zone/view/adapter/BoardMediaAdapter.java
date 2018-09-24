@@ -93,8 +93,17 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     }
 
     public void update(List<FootballFeed> boardFeed) {
+        if (!this.boardFeed.isEmpty()) {
+            this.boardFeed.clear();
+        }
         this.boardFeed.addAll(boardFeed);
         notifyDataSetChanged();
+    }
+
+    public void updateNew(List<FootballFeed> boardFeed) {
+        int previousSize = this.boardFeed.size();
+        this.boardFeed.addAll(boardFeed);
+        notifyItemRangeInserted(previousSize, boardFeed.size());
     }
 
     public void updateNewPost(FootballFeed footballFeed) {
