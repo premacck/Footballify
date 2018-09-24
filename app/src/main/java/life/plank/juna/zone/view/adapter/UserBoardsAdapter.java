@@ -1,12 +1,12 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +21,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
@@ -62,12 +63,8 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
         holder.boardTitle.setText(boardList.get(position).getName());
         picasso.load(boardList.get(position).getBoardIcon().getUrl()).into(holder.boardIcon);
-        holder.boardIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                navigateToBoard(boardList.get(position).getId());
-            }
-        });
+        holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
+        holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId()));
     }
 
     @Override
@@ -83,7 +80,7 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
 
     public class UserBoardsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
-        ImageView boardIcon;
+        CircleImageView boardIcon;
         @BindView(R.id.title)
         TextView boardTitle;
 
