@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +54,8 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_board_info)
     RecyclerView boardInfoRecyclerView;
 
@@ -102,10 +105,15 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getBoardInfoData(false);
+        swipeRefreshLayout.setOnRefreshListener(() -> getBoardInfoData(true));
+    }
+
+    private void getBoardInfoData(boolean isRefreshing) {
         if (timeDiffOfMatchFromNow >= 0) {
-            getPreMatchData();
+            getPreMatchData(isRefreshing);
         } else {
-            getPostMatchData();
+            getPostMatchData(isRefreshing);
         }
     }
 
@@ -147,8 +155,14 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         }
     }
 
-    private void getPreMatchData() {
+    private void getPreMatchData(boolean isRefreshing) {
         RestApiAggregator.getPreMatchBoardData(matchDetails, restApi)
+                .doOnSubscribe(() -> {
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(true);
+                })
+                .doOnTerminate(() -> {
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
+                })
                 .subscribe(new Observer<MatchDetails>() {
                     @Override
                     public void onCompleted() {
@@ -168,8 +182,14 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 });
     }
 
-    private void getPostMatchData() {
+    private void getPostMatchData(boolean isRefreshing) {
         RestApiAggregator.getPostMatchBoardData(matchDetails, restApi)
+                .doOnSubscribe(() -> {
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(true);
+                })
+                .doOnTerminate(() -> {
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
+                })
                 .subscribe(new Observer<MatchDetails>() {
                     @Override
                     public void onCompleted() {
