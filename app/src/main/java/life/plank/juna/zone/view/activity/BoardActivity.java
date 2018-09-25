@@ -16,11 +16,17 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,12 +35,14 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
@@ -49,6 +57,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.DataUtil;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
+import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import rx.Observer;
@@ -57,6 +66,7 @@ import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 /**
@@ -67,6 +77,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private static final String TAG = BoardActivity.class.getSimpleName();
     public static Bitmap boardParentViewBitmap = null;
 
+    @BindView(R.id.root_layout)
+    RelativeLayout rootLayout;
     @BindView(R.id.drag_area)
     TextView dragArea;
     @BindView(R.id.board_parent_layout)
@@ -77,6 +89,10 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     ViewPager viewPager;
     @BindView(R.id.board_progress_bar)
     ProgressBar progressBar;
+    @BindView(R.id.board_blur_background_image_view)
+    ImageView boardBlurBackgroundImageView;
+    @BindView(R.id.board_tiles_list_full)
+    RecyclerView boardTilesFullRecyclerView;
 
     @Inject
     @Named("default")
@@ -88,12 +104,16 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     Picasso picasso;
     @Inject
     Gson gson;
+    @Inject
+    PagerSnapHelper pagerSnapHelper;
     private long currentMatchId;
     private boolean isBoardActive;
     private String boardId;
     private MatchDetails matchDetails;
 
+    private boolean isTileFullScreenActive;
     private BoardPagerAdapter boardPagerAdapter;
+    private BoardFeedDetailAdapter boardFeedDetailAdapter;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -185,7 +205,14 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
         }
 
+        prepareFullScreenRecyclerView();
         getBoardIdAndMatchDetails(currentMatchId);
+    }
+
+    private void prepareFullScreenRecyclerView() {
+        pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive);
+        boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 
     private void setupViewPagerWithFragments() {
@@ -212,6 +239,11 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     protected void onDestroy() {
         super.onDestroy();
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+    }
+
+    @OnClick(R.id.board_blur_background_image_view)
+    public void dismissFullScreenRecyclerView() {
+        setBlurBackgroundAndShowFullScreenTiles(false, 0);
     }
 
     public void getBoardIdAndMatchDetails(Long currentMatchId) {
@@ -281,6 +313,46 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     }
 
+    public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
+        boardFeedDetailAdapter.update(footballFeedList);
+    }
+
+    public void setBlurBackgroundAndShowFullScreenTiles(boolean setFlag, int position) {
+        isTileFullScreenActive = setFlag;
+        boardParentViewBitmap = setFlag ? loadBitmap(rootLayout, rootLayout, this) : null;
+        boardBlurBackgroundImageView.setImageBitmap(boardParentViewBitmap);
+
+        Animation.AnimationListener listener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                boardTilesFullRecyclerView.setVisibility(View.INVISIBLE);
+                boardBlurBackgroundImageView.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+        Animation recyclerViewAnimation = AnimationUtils.loadAnimation(this, setFlag ? R.anim.zoom_in : R.anim.zoom_out);
+        Animation blurBackgroundAnimation = AnimationUtils.loadAnimation(this, setFlag ? android.R.anim.fade_in : android.R.anim.fade_out);
+        if (!setFlag) {
+            recyclerViewAnimation.setAnimationListener(listener);
+            blurBackgroundAnimation.setAnimationListener(listener);
+        }
+        boardTilesFullRecyclerView.startAnimation(recyclerViewAnimation);
+        boardBlurBackgroundImageView.startAnimation(blurBackgroundAnimation);
+
+        if (setFlag) {
+            boardTilesFullRecyclerView.scrollToPosition(position);
+            boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
+            boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
     static class BoardPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment currentFragment;
@@ -323,7 +395,13 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
+        if (isTileFullScreenActive) {
+            setBlurBackgroundAndShowFullScreenTiles(false, 0);
+        } else {
+            boardFeedDetailAdapter = null;
+            boardPagerAdapter = null;
+            super.onBackPressed();
+            overridePendingTransition(R.anim.float_down, R.anim.sink_down);
+        }
     }
 }

@@ -1,12 +1,12 @@
 package life.plank.juna.zone.view.fragment.board.fixture;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,7 +35,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.view.activity.BoardFeedDetailActivity;
+import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import rx.Observer;
@@ -45,9 +45,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.getSpannedString;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupBoomMenu;
-import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
@@ -70,6 +68,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Inject
     @Named("default")
     RestApi restApi;
+    @Inject
+    PagerSnapHelper pagerSnapHelper;
     private BoardMediaAdapter adapter;
 
     private String boardId;
@@ -103,7 +103,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         ButterKnife.bind(this, rootView);
 
         ZoneApplication.getApplication().getUiComponent().inject(this);
-        initRecyclerView();
+        initRecyclerViews();
         return rootView;
     }
 
@@ -117,7 +117,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
     }
 
-    private void initRecyclerView() {
+    private void initRecyclerViews() {
         FlexboxLayoutManager manager = new FlexboxLayoutManager(getContext());
         manager.setFlexDirection(FlexDirection.ROW);
         manager.setFlexWrap(FlexWrap.WRAP);
@@ -151,12 +151,12 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                 .subscribe(new Observer<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
+                        Log.i(TAG, "onCompleted: getBoardFeed()");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "On Error()" + e);
+                        Log.e(TAG, "On Error() : getBoardFeed() " + e);
                         updateUi(false, R.string.something_went_wrong);
                     }
 
@@ -168,6 +168,9 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                                 if (!isNullOrEmpty(feedItemList)) {
                                     updateUi(true, 0);
                                     adapter.update(feedItemList);
+                                    if (getActivity() instanceof BoardActivity) {
+                                        ((BoardActivity) getActivity()).updateFullScreenAdapter(feedItemList);
+                                    }
                                 } else
                                     updateUi(false, R.string.board_yet_to_be_populated);
                                 break;
@@ -192,10 +195,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemClick(int position, View fromView) {
-        Activity boardActivity = getActivity();
-        if (boardActivity != null) {
-            boardParentViewBitmap = loadBitmap(boardActivity.getWindow().getDecorView(), boardActivity.getWindow().getDecorView(), boardActivity);
+        if (getActivity() instanceof BoardActivity) {
+            ((BoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
-        BoardFeedDetailActivity.launch(getActivity(), position, adapter.getBoardFeed(), boardId, fromView, isBoardActive);
     }
 }

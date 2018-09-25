@@ -71,10 +71,6 @@
             android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.FootballFeedDetailActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".view.activity.CameraActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
             android:screenOrientation="portrait" />
@@ -124,10 +120,6 @@
             android:name=".view.activity.LeagueInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".view.activity.BoardFeedDetailActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activity.PostCommentActivity"
             android:label="@string/title_activity_post_comment"
