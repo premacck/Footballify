@@ -100,7 +100,6 @@
                 android:textOff="@string/other"
                 android:textOn="@string/other" />
 
-
         </RelativeLayout>
 
         <RelativeLayout

@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -82,8 +81,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     BoardIconAdapter boardIconAdapter;
     @Inject
     Gson gson;
-    @BindView(R.id.toggleGroup)
-    RadioGroup toggleGroup;
     private RestApi restApi;
     private String zone = "";
     private String filePath;
@@ -103,7 +100,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable editable) {
             // check Fields For Empty Values
-            validateFields();
+            validateCreateBoardContent();
         }
     };
 
@@ -129,15 +126,16 @@ public class CreateBoardActivity extends AppCompatActivity {
         boardName.addTextChangedListener(textWatcher);
         boardDescription.addTextChangedListener(textWatcher);
 
-        validateFields();
+        validateCreateBoardContent();
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})
     public void toggleView(ToggleButton view) {
+        //TODO: Fix validation issue when user selects multiple toggle buttons
         toggleZone(this, view);
         zone = view.getText().toString();
         isZoneSelected = !view.isChecked();
-        validateFields();
+        validateCreateBoardContent();
     }
 
     @OnClick(R.id.create_board_button)
@@ -172,7 +170,7 @@ public class CreateBoardActivity extends AppCompatActivity {
                             boardIconAdapter.boardIconList.add(0, filePath);
                             boardIconAdapter.notifyItemInserted(0);
                             isIconSelected = true;
-                            validateFields();
+                            validateCreateBoardContent();
                         } else {
                             Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
                         }
@@ -198,7 +196,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 
-    private void validateFields() {
+    private void validateCreateBoardContent() {
 
         if (isNullOrEmpty(zone.toLowerCase().trim())
                 || isNullOrEmpty(boardName.getText().toString().trim())
@@ -214,24 +212,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     }
 
     private void createBoard(Board board, String file) {
-        if (isNullOrEmpty(board.getZone())) {
-            Toast.makeText(this, R.string.select_zone_for_board, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (isNullOrEmpty(board.getDisplayname())) {
-            boardName.setError("Please enter a board name", getDrawable(R.drawable.ic_error));
-            boardName.requestFocus();
-            return;
-        }
-        if (isNullOrEmpty(board.getDescription())) {
-            boardDescription.setError("Please enter the board's description", getDrawable(R.drawable.ic_error));
-            boardDescription.requestFocus();
-            return;
-        }
-        if (isNullOrEmpty(board.getColor())) {
-            Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (isNullOrEmpty(file)) {
             Toast.makeText(this, R.string.select_image_to_upload, Toast.LENGTH_SHORT).show();
             return;
