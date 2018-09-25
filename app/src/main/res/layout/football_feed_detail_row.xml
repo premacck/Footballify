@@ -7,15 +7,17 @@
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
+        android:id="@+id/feed_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/drag_handle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/drag_handle_dark" />
 
         <RelativeLayout
@@ -78,7 +80,8 @@
             android:id="@+id/feed_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/feed_top_bar">
+            android:layout_below="@+id/feed_top_bar"
+            android:transitionName="board_tile_transition">
 
             <TextView
                 android:id="@+id/comment_bg"

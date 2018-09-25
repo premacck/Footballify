@@ -1,6 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.media.AudioManager;
@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,6 +40,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.ColorHashMap;
+import life.plank.juna.zone.util.OnSwipeTouchListener;
+import life.plank.juna.zone.view.activity.BoardActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observer;
@@ -50,7 +54,6 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
-import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -66,17 +69,17 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     private List<FootballFeed> feedsListItem;
     private RestApi restApi;
-    private Activity activity;
+    private BoardActivity activity;
     private String date;
     private String boardId;
     private boolean isBoardActive;
 
-    public BoardFeedDetailAdapter(Activity activity, List<FootballFeed> feedsListItem, String boardId, boolean isBoardActive) {
+    public BoardFeedDetailAdapter(BoardActivity activity, String boardId, boolean isBoardActive) {
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(activity);
         this.activity = activity;
-        this.feedsListItem = feedsListItem;
+        this.feedsListItem = new ArrayList<>();
     }
 
     @Override
@@ -87,6 +90,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         return new FootballFeedDetailViewHolder(view);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
 
@@ -108,7 +112,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.userNameTextView.setText(userEmailId);
         }
         holder.feedTitleTextView.setText(feedsListItem.get(position).getFeedItem().getDescription());
-        setupSwipeGesture(activity, holder.dragHandleImageView);
+
+        holder.feedTopLayout.setOnTouchListener(new OnSwipeTouchListener(activity) {
+            @Override
+            public void onSwipeDown() {
+                activity.setBlurBackgroundAndShowFullScreenTiles(false, 0);
+            }
+        });
 
         switch (feedsListItem.get(position).getFeedItem().getContentType()) {
             case "Image": {
@@ -221,6 +231,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         return feedsListItem.size();
     }
 
+    public void update(List<FootballFeed> footballFeedList) {
+        this.feedsListItem = footballFeedList;
+        notifyDataSetChanged();
+    }
+
     private void boardFeedItemLikeApiCall(String feedItemId, String
             dateCreated, FootballFeedDetailViewHolder holder, int position) {
         restApi.postLike(feedItemId, boardId, "Board", dateCreated, getToken(activity))
@@ -280,8 +295,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<List<FootballFeed>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                feedsListItem = response.body();
-                                notifyDataSetChanged();
+                                update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 Toast.makeText(activity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
@@ -398,9 +412,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
+        @BindView(R.id.feed_top_layout)
+        RelativeLayout feedTopLayout;
         @BindView(R.id.comment_bg)
         TextView commentBg;
-
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
         @BindView(R.id.share_image_view)
