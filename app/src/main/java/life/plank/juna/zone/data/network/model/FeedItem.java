@@ -22,6 +22,8 @@ public class FeedItem {
     private String countryName;
     private String description;
     private User actor;
+    /** Field to store the tile width of the feed item */
+    private int tileWidth;
 
     public FeedItem() {
     }
