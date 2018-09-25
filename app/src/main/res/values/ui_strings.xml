@@ -173,5 +173,7 @@
     <string name="settings_board_popup">&#160;&#160;Settings</string>
     <string name="hello_stranger">Hello, Stranger!</string>
     <string name="blur_background">blur background</string>
-
+    <string name="signup_dialogue">We see you’re having fun with JUNA. Need a lot more?</string>
+    <string name="sign_up_now">Sign Up Now</string>
+    <string name="already_have_an_account">Already have an account? Login here</string>
 </resources>
