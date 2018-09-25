@@ -239,5 +239,9 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         signUpDialog.show();
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        authService.dispose();
+    }
 }
