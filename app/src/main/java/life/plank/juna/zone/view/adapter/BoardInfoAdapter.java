@@ -207,7 +207,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
 
     public void setHighlights(List<Highlights> highlightsList, boolean isError) {
         validateAndUpdateList(this.matchDetails.getHighlights(), highlightsList, isError);
-        if (!isBoardActive) notifyItemChanged(1);
+        if (isBoardActive) notifyItemChanged(1);
     }
     //endregion
 
