@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -38,10 +40,26 @@ import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
 import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
-import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 
 public class CreateBoardActivity extends AppCompatActivity {
 
+    static final RadioGroup.OnCheckedChangeListener ToggleListener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(final RadioGroup radioGroup, final int i) {
+            for (int j = 0; j < radioGroup.getChildCount(); j++) {
+                final ToggleButton view = (ToggleButton) radioGroup.getChildAt(j);
+                view.setChecked(view.getId() == i);
+                if (view.getId() == i) {
+                    view.setChecked(true);
+                    view.setBackgroundColor(Color.GREEN);
+                } else {
+                    view.setChecked(false);
+                    view.setBackgroundColor(Color.TRANSPARENT);
+                }
+
+            }
+        }
+    };
     private static final String TAG = CreateBoardActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
     @BindView(R.id.parent_layout)
@@ -87,6 +105,8 @@ public class CreateBoardActivity extends AppCompatActivity {
     private Boolean isColorSelected;
     private Boolean isIconSelected = false;
     private Boolean isZoneSelected = false;
+    @BindView(R.id.toggleGroup)
+    RadioGroup toggleGroup;
 
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -129,14 +149,19 @@ public class CreateBoardActivity extends AppCompatActivity {
         boardDescription.addTextChangedListener(textWatcher);
 
         validateFields();
+
+        ((RadioGroup) findViewById(R.id.toggleGroup)).setOnCheckedChangeListener(ToggleListener);
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})
     public void toggleView(ToggleButton view) {
-        toggleZone(this, view);
-        zone = view.getText().toString();
-        isZoneSelected = !view.isChecked();
-        validateFields();
+//        toggleZone(this, view);
+//        zone = view.getText().toString();
+//        isZoneSelected = !view.isChecked();
+//        validateFields();
+
+
+        ((RadioGroup)view.getParent()).check(view.getId());
     }
 
     @OnClick(R.id.create_board_button)
