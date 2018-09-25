@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment.board.user;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static android.content.Context.MODE_PRIVATE;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class PrivateBoardInfoFragment extends Fragment {
@@ -39,7 +41,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     private static final String TAG = PrivateBoardInfoFragment.class.getSimpleName();
     private static final String DESCRIPTION = "description";
     private static final String BOARD_ID = "board_id";
-
+    private static final String DISPLAY_NAME = "display_name";
     @Inject
     @Named("default")
     RestApi restApi;
@@ -51,16 +53,19 @@ public class PrivateBoardInfoFragment extends Fragment {
     ArrayList<User> userList = new ArrayList<>();
     private String description;
     private String boardId;
+    private String displayName;
     private Context context;
 
     public PrivateBoardInfoFragment() {
     }
 
-    public static PrivateBoardInfoFragment newInstance(String description, String boardId) {
+    public static PrivateBoardInfoFragment newInstance(String description, String boardId, String displayName) {
+
         PrivateBoardInfoFragment fragment = new PrivateBoardInfoFragment();
         Bundle args = new Bundle();
         args.putString(DESCRIPTION, description);
         args.putString(BOARD_ID, boardId);
+        args.putString(DISPLAY_NAME, displayName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,6 +77,7 @@ public class PrivateBoardInfoFragment extends Fragment {
         if (args != null) {
             description = args.getString(DESCRIPTION);
             boardId = args.getString(BOARD_ID);
+            displayName = args.getString(DISPLAY_NAME);
         }
     }
 
@@ -112,10 +118,13 @@ public class PrivateBoardInfoFragment extends Fragment {
                     public void onNext(Response<List<User>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
+                                SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(ZoneApplication.getContext().getString(R.string.pref_user_details), MODE_PRIVATE);
                                 List<User> users = response.body();
-                                User inviteUser = new User();
-                                inviteUser.setDisplayName(getString(R.string.invite_string));
-                                users.add(inviteUser);
+                                if (sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA").equals(displayName)) {
+                                    User inviteUser = new User();
+                                    inviteUser.setDisplayName(getString(R.string.invite_string));
+                                    users.add(inviteUser);
+                                }
                                 boardMembersViewAdapter.update(users);
                                 break;
                             default:

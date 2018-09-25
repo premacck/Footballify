@@ -21,8 +21,6 @@
             android:clipToPadding="false"
             android:paddingBottom="0.5dp"
             android:paddingTop="0.5dp"
-            app:layoutManager="android.support.v7.widget.GridLayoutManager"
-            app:spanCount="3"
             tools:listitem="@layout/item_board_tile" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
