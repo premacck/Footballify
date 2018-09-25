@@ -65,6 +65,7 @@ dependencies {
     implementation viewDependencies.circularImageView
     implementation viewDependencies.mpAndroidChart
     implementation viewDependencies.overflowPagerIndicator
+    implementation viewDependencies.flexbox
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     compileOnly viewDependencies.javaxAnnotation

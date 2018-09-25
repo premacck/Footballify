@@ -180,22 +180,22 @@ public class PrivateBoardActivity extends AppCompatActivity {
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
-        FootballFeed footballFeed = new FootballFeed();
+        FootballFeed feed = new FootballFeed();
 
-        footballFeed.setContentType(contentType);
+        feed.getFeedItem().setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
-            footballFeed.setTitle(title);
+            feed.getFeedItem().setTitle(title);
         } else {
             Thumbnail thumbnail = new Thumbnail();
             thumbnail.setImageWidth(thumbnailWidth);
             thumbnail.setImageHeight(thumbnailHeight);
             thumbnail.setImageUrl(thumbnailUrl);
-            footballFeed.setThumbnail(thumbnail);
-            footballFeed.setUrl(imageUrl);
+            feed.getFeedItem().setThumbnail(thumbnail);
+            feed.getFeedItem().setUrl(imageUrl);
         }
         try {
             if (pagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
-                ((BoardTilesFragment) pagerAdapter.getCurrentFragment()).updateNewPost(footballFeed);
+                ((BoardTilesFragment) pagerAdapter.getCurrentFragment()).updateNewPost(feed);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
@@ -224,7 +224,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId());
+                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName());
                 case 1:
                     return BoardTilesFragment.newInstance(board.getId(), board.getIsActive());
                 default:

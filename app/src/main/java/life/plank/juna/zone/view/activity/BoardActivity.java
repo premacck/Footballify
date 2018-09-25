@@ -119,22 +119,22 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
-        FootballFeed footballFeed = new FootballFeed();
+        FootballFeed feed = new FootballFeed();
         Log.d(TAG, "content_type: " + contentType);
-        footballFeed.setContentType(contentType);
+        feed.getFeedItem().setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
-            footballFeed.setTitle(title);
+            feed.getFeedItem().setTitle(title);
         } else {
             Thumbnail thumbnail = new Thumbnail();
             thumbnail.setImageWidth(thumbnailWidth);
             thumbnail.setImageHeight(thumbnailHeight);
             thumbnail.setImageUrl(thumbnailUrl);
-            footballFeed.setThumbnail(thumbnail);
-            footballFeed.setUrl(imageUrl);
+            feed.getFeedItem().setThumbnail(thumbnail);
+            feed.getFeedItem().setUrl(imageUrl);
         }
         try {
             if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
-                ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).updateNewPost(footballFeed);
+                ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).updateNewPost(feed);
             }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());

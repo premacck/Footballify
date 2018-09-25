@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -82,6 +84,23 @@ public class CreateBoardActivity extends AppCompatActivity {
     private RestApi restApi;
     private String zone = "";
     private String filePath;
+    private Boolean isIconSelected = false;
+    private Boolean isZoneSelected = false;
+
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+            validateCreateBoardContent();
+        }
+    };
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, CreateBoardActivity.class));
@@ -100,12 +119,21 @@ public class CreateBoardActivity extends AppCompatActivity {
         privateBoardIconList.setAdapter(boardIconAdapter);
 
         UIDisplayUtil.checkPermission(CreateBoardActivity.this);
+        boardIconAdapter.boardIconList.clear();
+
+        boardName.addTextChangedListener(textWatcher);
+        boardDescription.addTextChangedListener(textWatcher);
+
+        validateCreateBoardContent();
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})
     public void toggleView(ToggleButton view) {
-        zone = view.getText().toString();
+        //TODO: Fix validation issue when user selects multiple toggle buttons
         toggleZone(this, view);
+        zone = view.getText().toString();
+        isZoneSelected = !view.isChecked();
+        validateCreateBoardContent();
     }
 
     @OnClick(R.id.create_board_button)
@@ -136,8 +164,14 @@ public class CreateBoardActivity extends AppCompatActivity {
 
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
-                        boardIconAdapter.boardIconList.add(0, filePath);
-                        boardIconAdapter.notifyItemInserted(0);
+                        if (getMediaType(filePath) != null) {
+                            boardIconAdapter.boardIconList.add(0, filePath);
+                            boardIconAdapter.notifyItemInserted(0);
+                            isIconSelected = true;
+                            validateCreateBoardContent();
+                        } else {
+                            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
+                        }
                         break;
 
                     case RESULT_CANCELED:
@@ -160,31 +194,24 @@ public class CreateBoardActivity extends AppCompatActivity {
         startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 
+    private void validateCreateBoardContent() {
+
+        if (isNullOrEmpty(zone.toLowerCase().trim())
+                || isNullOrEmpty(boardName.getText().toString().trim())
+                || isNullOrEmpty(boardDescription.getText().toString().trim())
+                || isNullOrEmpty(boardColorThemeAdapter.getSelectedColor())
+                || !isIconSelected || !isZoneSelected) {
+            createPrivateBoard.setClickable(false);
+            createPrivateBoard.setAlpha(.5f);
+        } else {
+            createPrivateBoard.setAlpha(1f);
+            createPrivateBoard.setClickable(true);
+        }
+    }
+
     private void createBoard(Board board, String file) {
-        if (isNullOrEmpty(board.getZone())) {
-            Toast.makeText(this, R.string.select_zone_for_board, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (isNullOrEmpty(board.getDisplayname())) {
-            boardName.setError("Please enter a board name", getDrawable(R.drawable.ic_error));
-            boardName.requestFocus();
-            return;
-        }
-        if (isNullOrEmpty(board.getDescription())) {
-            boardDescription.setError("Please enter the board's description", getDrawable(R.drawable.ic_error));
-            boardDescription.requestFocus();
-            return;
-        }
-        if (isNullOrEmpty(board.getColor())) {
-            Toast.makeText(this, R.string.select_board_color, Toast.LENGTH_SHORT).show();
-            return;
-        }
         if (isNullOrEmpty(file)) {
             Toast.makeText(this, R.string.select_image_to_upload, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (getMediaType(filePath) == null){
-            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
             return;
         }
 
