@@ -45,6 +45,8 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
 import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
+import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
@@ -149,6 +151,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 break;
             case LINEUPS_DATA:
                 getLineupFormation();
+                break;
+            case MATCH_STATS_DATA:
+                adapter.setMatchStats(zoneLiveData.getMatchStats(), zoneLiveData.getMatchStats() == null ? R.string.match_stats_not_available_yet : 0);
+                break;
+            case HIGHLIGHTS_DATA:
+                adapter.setHighlights(zoneLiveData.getHighlightsList(), false);
                 break;
             default:
                 break;

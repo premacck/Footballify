@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Commentary;
+import life.plank.juna.zone.data.network.model.Highlights;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchEvent;
@@ -186,9 +187,7 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         if (isBoardActive) notifyItemChanged(4);
     }
 
-    /**
-     * Method to update live match events only.
-     */
+    //region Methods to update live match events only
     public void setMatchEvents(List<MatchEvent> matchEventList, boolean isError) {
         if (matchDetails != null) {
             validateAndUpdateList(matchDetails.getMatchEvents(), matchEventList, isError);
@@ -205,6 +204,12 @@ public class BoardInfoAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.
         validateAndUpdateList(this.teamStatModels, teamStatModels, isError);
         if (!isBoardActive) notifyItemChanged(2);
     }
+
+    public void setHighlights(List<Highlights> highlightsList, boolean isError) {
+        validateAndUpdateList(this.matchDetails.getHighlights(), highlightsList, isError);
+        if (!isBoardActive) notifyItemChanged(1);
+    }
+    //endregion
 
     private <T> void validateAndUpdateList(List<T> originalList, List<T> newList, boolean isError) {
         if (!isError) {
