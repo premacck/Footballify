@@ -55,6 +55,7 @@ import rx.Observer;
 
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -107,7 +108,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
 
     public static void launch(Activity from, String fixtureJson) {
         Intent intent = new Intent(from, BoardActivity.class);
-        intent.putExtra(from.getString(R.string.intent_score_data), fixtureJson);
+        intent.putExtra(from.getString(R.string.intent_fixture_data), fixtureJson);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
@@ -147,6 +148,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             case SCORE_DATA:
                 publicBoardToolbar.setScore(zoneLiveData.getScoreData().getHomeGoals() + DASH + zoneLiveData.getScoreData().getAwayGoals());
                 break;
+            case TIME_STATUS_DATA:
+//                TODO : update live time status
+                break;
             default:
                 break;
         }
@@ -168,8 +172,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
-        if (intent.hasExtra(getString(R.string.intent_score_data))) {
-            MatchFixture fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_score_data)), MatchFixture.class);
+        if (intent.hasExtra(getString(R.string.intent_fixture_data))) {
+            MatchFixture fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_fixture_data)), MatchFixture.class);
             currentMatchId = fixture.getMatchId();
             publicBoardToolbar.prepare(picasso, fixture);
         } else {

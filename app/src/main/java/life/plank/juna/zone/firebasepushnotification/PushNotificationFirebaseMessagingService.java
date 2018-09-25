@@ -8,18 +8,23 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -29,13 +34,27 @@ import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.network.model.MatchStats;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
+
+import static life.plank.juna.zone.util.AppConstants.BOARD_TOPIC;
+import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
+import static life.plank.juna.zone.util.AppConstants.FOREIGN_ID;
+import static life.plank.juna.zone.util.AppConstants.LIVE_DATA_TYPE;
+import static life.plank.juna.zone.util.AppConstants.LIVE_EVENT_TYPE;
+import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
+import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
+import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.AppConstants.SCRUBBER_DATA;
+import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
@@ -76,7 +95,11 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Message data payload: " + remoteMessage.getData());
 
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new ISO8601DateSerializer())
+                    .setDateFormat(DateFormat.FULL, DateFormat.FULL)
+                    .setLenient()
+                    .create();
 
             Map<String, String> dataPayload = remoteMessage.getData();
             if (dataPayload.containsKey(getApplicationContext().getString(R.string.intent_content_type))) {
@@ -87,28 +110,11 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 updateBoardActivity(getApplicationContext(), boardNotification);
 
                 sendNotification(boardNotification);
-            } else if (dataPayload.containsKey(getApplicationContext().getString(R.string.intent_live_event_type))) {
-                updateZoneLiveData(
-                        getApplicationContext(),
-                        gson.toJson(
-                                new ZoneLiveData(
-                                        dataPayload.get(getApplicationContext().getString(R.string.intent_live_event_type)),
-                                        Long.parseLong(dataPayload.get(getApplicationContext().getString(R.string.intent_foreign_id))),
-                                        dataPayload.get(getApplicationContext().getString(R.string.intent_board_topic)),
-                                        dataPayload.get(getApplicationContext().getString(R.string.intent_live_data_type)),
-                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_score_data)), LiveScoreData.class),
-                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_match_event_list)), new TypeToken<List<MatchEvent>>() {
-                                        }.getType()),
-                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_commentary_list)), new TypeToken<List<Commentary>>() {
-                                        }.getType()),
-                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_scrubber_data)), new TypeToken<List<ScrubberData>>() {
-                                        }.getType()),
-                                        gson.fromJson(dataPayload.get(getApplicationContext().getString(R.string.intent_live_time_status)), LiveTimeStatus.class)
-                                )
-                        ));
-                }
-                //TODO: Move to strings.xml and change to camel case once done on backend
-                else if (dataPayload.containsKey("InvitationLink")) {
+            } else if (dataPayload.containsKey(LIVE_EVENT_TYPE)) {
+                LiveFootballMatchNotifier.notify(getApplicationContext(), gson, dataPayload);
+            }
+            //TODO: Move to strings.xml and change to camel case once done on backend
+            else if (dataPayload.containsKey("InvitationLink")) {
                 JSONObject jsonObject = new JSONObject(dataPayload);
                 String notificationString = jsonObject.toString();
                 BoardNotification boardNotification = gson.fromJson(notificationString, BoardNotification.class);
@@ -116,12 +122,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             }
         }
 
-    }
-
-    public void updateZoneLiveData(Context context, String zoneLiveDataString) {
-        Intent intent = new Intent(context.getString(R.string.intent_board));
-        intent.putExtra(context.getString(R.string.intent_zone_live_data), zoneLiveDataString);
-        context.sendBroadcast(intent);
     }
 
     public void sendNotification(BoardNotification boardNotification) {
@@ -193,5 +193,55 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                         .bigPicture(bitmap))/*Notification with Image*/;
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+    }
+
+    /**
+     * Async Class for handling Live data in Match boards.
+     */
+    private static class LiveFootballMatchNotifier extends AsyncTask<Void, Void, String> {
+
+        private final WeakReference<Context> ref;
+        private final Gson gson;
+        private final Map<String, String> dataPayload;
+
+        static void notify(Context context, Gson gson, Map<String, String> dataPayload) {
+            new LiveFootballMatchNotifier(context, gson, dataPayload).execute();
+        }
+
+        LiveFootballMatchNotifier(Context context, Gson gson, Map<String, String> dataPayload) {
+            this.ref = new WeakReference<>(context);
+            this.gson = gson;
+            this.dataPayload = dataPayload;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return gson.toJson(
+                    new ZoneLiveData(
+                            dataPayload.get(LIVE_EVENT_TYPE),
+                            Long.parseLong(dataPayload.get(FOREIGN_ID)),
+                            dataPayload.get(BOARD_TOPIC),
+                            dataPayload.get(LIVE_DATA_TYPE),
+                            gson.fromJson(dataPayload.get(SCORE_DATA), LiveScoreData.class),
+                            gson.fromJson(dataPayload.get(MATCH_EVENTS), new TypeToken<List<MatchEvent>>() {
+                            }.getType()),
+                            gson.fromJson(dataPayload.get(COMMENTARY_DATA), new TypeToken<List<Commentary>>() {
+                            }.getType()),
+                            gson.fromJson(dataPayload.get(SCRUBBER_DATA), new TypeToken<List<ScrubberData>>() {
+                            }.getType()),
+                            gson.fromJson(dataPayload.get(TIME_STATUS_DATA), LiveTimeStatus.class),
+                            gson.fromJson(dataPayload.get(HIGHLIGHTS_DATA), new TypeToken<List<ScrubberData>>() {
+                            }.getType()),
+                            gson.fromJson(dataPayload.get(MATCH_STATS_DATA), MatchStats.class)
+                    )
+            );
+        }
+
+        @Override
+        protected void onPostExecute(String zoneLiveDataString) {
+            Intent intent = new Intent(ref.get().getString(R.string.intent_board));
+            intent.putExtra(ref.get().getString(R.string.intent_zone_live_data), zoneLiveDataString);
+            ref.get().sendBroadcast(intent);
+        }
     }
 }
