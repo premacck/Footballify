@@ -84,7 +84,6 @@ public class CreateBoardActivity extends AppCompatActivity {
     private RestApi restApi;
     private String zone = "";
     private String filePath;
-    private Boolean isColorSelected;
     private Boolean isIconSelected = false;
     private Boolean isZoneSelected = false;
 
@@ -99,7 +98,6 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            // check Fields For Empty Values
             validateCreateBoardContent();
         }
     };
