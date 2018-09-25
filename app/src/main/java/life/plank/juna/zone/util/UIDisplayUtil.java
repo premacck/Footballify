@@ -69,6 +69,8 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.model.FeedItem;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.CameraActivity;
@@ -82,6 +84,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
@@ -619,5 +622,45 @@ public class UIDisplayUtil {
         Point size = new Point();
         display.getSize(size);
         return new int[]{size.x, size.y};
+    }
+
+    /**
+     * Method for determining the suitable size for Text and Other media types like Audio, Video and Photo in Board feed
+     * @return the appropriate tile size for the feed item tile
+     */
+    public static int getSuitableFeedTileSize(List<FootballFeed> boardFeed, int position, int mediaTileWidth, int textTileWidth) {
+        try {
+            FeedItem feedItemPrevious = boardFeed.get(position - 1).getFeedItem();
+            FeedItem feedItemBeforePrevious = boardFeed.get(position - 2).getFeedItem();
+//        Check if previous tile is small
+            if (feedItemPrevious.getTileWidth() == mediaTileWidth) {
+    //            Check if the tile before the previous tile is small
+                if (feedItemBeforePrevious.getTileWidth() == mediaTileWidth) {
+    //                Check if the previous two tiles are text posts
+                    if (feedItemPrevious.getContentType().equals(ROOT_COMMENT) &&
+                            feedItemBeforePrevious.getContentType().equals(ROOT_COMMENT)) {
+                        return textTileWidth;
+                    } else {
+                        return mediaTileWidth;
+                    }
+                } else {
+    //            Return size of the tile same as the previous one
+                    return feedItemPrevious.getTileWidth();
+                }
+    //            Check if previous tile is wide
+            } else if (feedItemPrevious.getTileWidth() == textTileWidth) {
+    //            Check if the tile before the previous tile is wide
+                if (feedItemBeforePrevious.getTileWidth() == textTileWidth) {
+                    return mediaTileWidth;
+                } else {
+    //            Return size of the tile same as the previous one
+                    return feedItemPrevious.getTileWidth();
+                }
+            } else {
+                return mediaTileWidth;
+            }
+        } catch (Exception e) {
+            return mediaTileWidth;
+        }
     }
 }

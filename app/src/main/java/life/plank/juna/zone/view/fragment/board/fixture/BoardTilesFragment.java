@@ -16,6 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
+import com.google.android.flexbox.FlexDirection;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -114,6 +118,11 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     private void initRecyclerView() {
+        FlexboxLayoutManager manager = new FlexboxLayoutManager(getContext());
+        manager.setFlexDirection(FlexDirection.ROW);
+        manager.setFlexWrap(FlexWrap.WRAP);
+        manager.setJustifyContent(JustifyContent.FLEX_START);
+        boardTilesRecyclerView.setLayoutManager(manager);
         adapter = new BoardMediaAdapter(this);
         adapter.setOnClickFeedItemListener(this);
         boardTilesRecyclerView.setAdapter(adapter);

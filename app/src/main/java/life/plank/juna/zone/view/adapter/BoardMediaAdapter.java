@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
@@ -23,20 +25,30 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.UIDisplayUtil.getSuitableFeedTileSize;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
 
+    private final int MEDIA_TILE_WIDTH;
+    private final int TEXT_TILE_WIDTH;
+
     private List<FootballFeed> boardFeed;
     private OnClickFeedItemListener listener;
     private BoardTilesFragment fragment;
 
     public BoardMediaAdapter(BoardTilesFragment fragment) {
+        int screenWidth = (int) (getScreenSize(Objects.requireNonNull(fragment.getActivity()).getWindowManager().getDefaultDisplay())[0] - getDp(8));
+        MEDIA_TILE_WIDTH = (int) ((screenWidth / 3) - getDp(2));
+        TEXT_TILE_WIDTH = (int) (((screenWidth * 2) / 3) - getDp(1));
         this.fragment = fragment;
         this.boardFeed = new ArrayList<>();
     }
@@ -51,16 +63,19 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        switch (boardFeed.get(position).getFeedItem().getContentType()) {
+        FeedItem footballFeed = boardFeed.get(position).getFeedItem();
+        footballFeed.setTileWidth(Objects.equals(footballFeed.getContentType(), ROOT_COMMENT) ? TEXT_TILE_WIDTH : MEDIA_TILE_WIDTH);
+        setItemWidth(holder.itemView, position, footballFeed);
+        switch (footballFeed.getContentType()) {
             case AUDIO:
                 setVisibility(holder, GONE, VISIBLE, GONE);
                 holder.tileImageView.setImageResource(R.drawable.ic_audio);
                 break;
             case IMAGE:
                 setVisibility(holder, GONE, VISIBLE, GONE);
-                if (boardFeed.get(position).getFeedItem().getThumbnail() != null) {
+                if (footballFeed.getThumbnail() != null) {
                     fragment.picasso
-                            .load(boardFeed.get(position).getFeedItem().getThumbnail().getImageUrl())
+                            .load(footballFeed.getThumbnail().getImageUrl())
                             .fit().centerCrop()
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
@@ -69,9 +84,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             case VIDEO:
                 setVisibility(holder, GONE, VISIBLE, VISIBLE);
-                if (boardFeed.get(position).getFeedItem().getThumbnail() != null) {
+                if (footballFeed.getThumbnail() != null) {
                     fragment.picasso
-                            .load(boardFeed.get(position).getFeedItem().getThumbnail().getImageUrl())
+                            .load(footballFeed.getThumbnail().getImageUrl())
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
                             .into(holder.tileImageView);
@@ -79,11 +94,33 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
-                String comment = boardFeed.get(position).getFeedItem().getTitle().replaceAll("^\"|\"$", "");
+                String comment = footballFeed.getTitle().replaceAll("^\"|\"$", "");
                 holder.commentTextView.setBackgroundColor(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
                 break;
         }
+    }
+
+    private void setItemWidth(View itemView, int position, FeedItem footballFeed) {
+        ViewGroup.LayoutParams params = itemView.getLayoutParams();
+        if (Objects.equals(footballFeed.getContentType(), ROOT_COMMENT)) {
+            switch (position) {
+                case 0:
+                    footballFeed.setTileWidth(TEXT_TILE_WIDTH);
+                    break;
+                case 1:
+                case 2:
+                    footballFeed.setTileWidth(MEDIA_TILE_WIDTH);
+                    break;
+                default:
+                    footballFeed.setTileWidth(getSuitableFeedTileSize(boardFeed, position, MEDIA_TILE_WIDTH, TEXT_TILE_WIDTH));
+                    break;
+            }
+        } else {
+            footballFeed.setTileWidth(MEDIA_TILE_WIDTH);
+        }
+        params.width = footballFeed.getTileWidth();
+        itemView.setLayoutParams(params);
     }
 
     private void setVisibility(BoardMediaViewHolder holder, int commentTextViewVisibility, int tileImageViewVisibility, int playBtnVisibility) {
