@@ -32,6 +32,7 @@ import java.util.Random;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
@@ -531,5 +532,21 @@ public class DataUtil {
     public static boolean isBoardActive(Board matchBoard) {
         long currentTime = new Date().getTime();
         return currentTime >= matchBoard.getStartDate().getTime() && currentTime < matchBoard.getEndDate().getTime();
+    }
+
+    public static void pinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToPin) {
+        int index = footballFeedList.indexOf(footballFeedToPin);
+        if (index >= 0) {
+            footballFeedList.remove(footballFeedToPin);
+            footballFeedList.add(0, footballFeedToPin);
+        }
+    }
+
+    public static void unpinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToUnpin) {
+        int previousPosition = footballFeedToUnpin.getFeedItem().getPreviousPosition();
+        if (previousPosition >= 0) {
+            footballFeedList.remove(footballFeedToUnpin);
+            footballFeedList.add(previousPosition, footballFeedToUnpin);
+        }
     }
 }

@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.model.FeedItem;
 
 /**
  * Created by plank-sobia on 10/4/2017.
@@ -114,4 +115,25 @@ public class PreferenceManager {
         return sharedPreference.getBoolean(preferenceKey, false);
     }
 
+    public static class PinManager {
+
+        private static SharedPreferences getPinSharedPreferences() {
+            return ZoneApplication.getContext().getSharedPreferences("Pin", Context.MODE_PRIVATE);
+        }
+
+        public static void toggleFeedItemPin(FeedItem feedItem, boolean isPinned) {
+            feedItem.setPinned(isPinned);
+            SharedPreferences.Editor editor = getPinSharedPreferences().edit();
+            if (isPinned) {
+                editor.putBoolean(feedItem.getId(), true);
+            } else {
+                editor.remove(feedItem.getId());
+            }
+            editor.apply();
+        }
+
+        public static boolean isFeedItemPinned(FeedItem feedItem) {
+            return getPinSharedPreferences().getBoolean(feedItem.getId(), false);
+        }
+    }
 }
