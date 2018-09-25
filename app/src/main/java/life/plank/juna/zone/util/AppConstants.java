@@ -59,11 +59,21 @@ public class AppConstants {
     public static final String HT = "HT";
     public static final String FT = "FT";
 
+    //region Live Match key Strings
+    public static final String LIVE_EVENT_TYPE = "liveEventType";
+    public static final String FOREIGN_ID = "foreignId";
+    public static final String BOARD_TOPIC = "boardTopic";
+    public static final String LIVE_DATA_TYPE = "liveDataType";
     public static final String MATCH_EVENTS = "matchEventList";
     public static final String SCORE_DATA = "scoreData";
     public static final String TIME_STATUS = "timeStatus";
     public static final String COMMENTARY_DATA = "commentaryList";
     public static final String LINEUPS_DATA = "liveTeamFormations";
+    public static final String SCRUBBER_DATA =  "scrubberData";
+    public static final String TIME_STATUS_DATA =  "liveTimeStatus";
+    public static final String HIGHLIGHTS_DATA =  "liveMatchHighlights";
+    public static final String MATCH_STATS_DATA =  "liveMatchStats";
+    //endregion
 
     public static final String FIRST_HALF_ENDED_ = "First Half ended - ";
     public static final String SECOND_HALF_ENDED_ = "Second Half ended - ";

@@ -15,10 +15,12 @@ public class ZoneLiveData {
     private List<Commentary> commentaryList;
     private LiveTimeStatus liveTimeStatus;
     private List<ScrubberData> scrubberDataList;
+    private List<Highlights> highlightsList;
+    private MatchStats matchStats;
 
     public ZoneLiveData(String liveEventType, long foreignId, String boardTopic, String liveDataType,
                         LiveScoreData scoreData, List<MatchEvent> matchEventList, List<Commentary> commentaryList,
-                        List<ScrubberData> scrubberDataList, LiveTimeStatus liveTimeStatus) {
+                        List<ScrubberData> scrubberDataList, LiveTimeStatus liveTimeStatus, List<Highlights> highlightsList, MatchStats matchStats) {
         this.liveEventType = liveEventType;
         this.foreignId = foreignId;
         this.boardTopic = boardTopic;
@@ -28,5 +30,7 @@ public class ZoneLiveData {
         this.commentaryList = commentaryList;
         this.scrubberDataList = scrubberDataList;
         this.liveTimeStatus = liveTimeStatus;
+        this.highlightsList = highlightsList;
+        this.matchStats = matchStats;
     }
 }
