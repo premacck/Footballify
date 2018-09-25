@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.activity;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,6 +15,8 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
+
+import net.openid.appauth.AuthorizationService;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -28,6 +33,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
+import life.plank.juna.zone.util.AuthUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
@@ -62,6 +68,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     private String token;
     private ArrayList<UserFeed> userFeed = new ArrayList<>();
     ArrayList<Board> userBoards = new ArrayList<>();
+    Dialog signUpDialog;
+    private AuthorizationService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +79,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
-
+        signUpDialog = new Dialog(this);
         SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         String userObjectId = editor.getString(getApplicationContext().getString(R.string.pref_object_id), "NA");
 
@@ -213,9 +221,23 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     @Override
     public void profilePictureClicked(ImageView profilePicture) {
         if (token.isEmpty()) {
-            //TODO: Display popup asking the user to signUp/In
+            ShowPopup();
         } else {
             //TODO: Navigate to user profile view
         }
     }
+
+    public void ShowPopup() {
+        authService = new AuthorizationService(this);
+        signUpDialog.setContentView(R.layout.signup_dialogue);
+
+        signUpDialog.findViewById(R.id.drag_handle).setOnClickListener(v -> signUpDialog.dismiss());
+
+        signUpDialog.findViewById(R.id.signup_button).setOnClickListener(view ->
+                AuthUtil.loginOrRefreshToken(UserFeedActivity.this, authService, null, false));
+        signUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        signUpDialog.show();
+    }
+
+
 }
