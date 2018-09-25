@@ -199,4 +199,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             ((BoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
     }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        adapter.notifyItemMoved(fromPosition, toPosition);
+    }
 }

@@ -1,110 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/feed_card_corner_radius"
     app:cardUseCompatPadding="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/feed_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/drag_handle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/drag_handle_dark" />
-
         <RelativeLayout
             android:id="@+id/feed_top_bar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/drag_handle"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/bullet_image_view"
-                android:layout_width="10dp"
-                android:layout_height="10dp"
+                android:id="@+id/drag_handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/drag_handle_dark"
+                android:contentDescription="@string/thumbnail" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_pic"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
                 android:background="@drawable/circle_background_grey" />
 
             <TextView
                 android:id="@+id/user_name_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/bullet_image_view"
+                android:layout_toEndOf="@+id/profile_pic"
+                android:ellipsize="end"
                 android:fontFamily="@font/rajdhani_semibold"
                 android:lineSpacingExtra="5sp"
-                android:text="CR7_lover"
-                android:textColor="@color/grey"
-                android:textSize="10sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toEndOf="@+id/user_name_text_view"
-                android:fontFamily="@font/rajdhani_regular"
-                android:lineSpacingExtra="5sp"
-                android:text="Created 2 weeks ago"
-                android:textColor="@color/black_50"
-                android:textSize="10sp" />
-
-            <ImageView
-                android:id="@+id/menu_image_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="5dp"
-                android:src="@drawable/ic_options_grey" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/menu_image_view"
-                android:lineSpacingExtra="5sp"
-                android:paddingEnd="15dp"
-                android:text="2.2M shares"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/text_10sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/user_name_text_view"
+                android:ellipsize="end"
+                android:fontFamily="@font/rajdhani_regular"
+                android:lineSpacingExtra="5sp"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/black_50"
+                android:textSize="@dimen/text_10sp" />
+
+            <ImageButton
+                android:id="@+id/menu_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:scaleType="center"
+                android:src="@drawable/ic_options_grey"
+                android:background="@color/transparent"
+                android:contentDescription="@string/pin_post" />
+
+            <ImageButton
+                android:id="@+id/pin_image_view"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/menu_image_view"
+                android:scaleType="center"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:src="@drawable/ic_pin_inactive"
+                android:background="@color/transparent"
+                android:contentDescription="@string/options_menu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/pin_image_view"
+                android:lineSpacingExtra="5sp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/text_10sp"
+                tools:ignore="RelativeOverlap" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/profile_pic"
+                android:background="@color/light_grey"/>
+
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/feed_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/feed_top_bar"
             android:transitionName="board_tile_transition">
-
-            <TextView
-                android:id="@+id/comment_bg"
-                android:layout_width="match_parent"
-                android:layout_height="200dp" />
 
             <ImageView
                 android:id="@+id/feed_image_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop" />
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/thumbnail" />
 
             <VideoView
                 android:id="@+id/captured_video_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:visibility="invisible" />
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/feed_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
                 android:layout_centerInParent="true"
+                android:gravity="center"
+                android:fontFamily="@font/raleway_bold"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:visibility="visible" />
@@ -115,20 +149,18 @@
             android:id="@+id/like_share_layout"
             android:layout_width="match_parent"
             android:layout_height="35dp"
-            android:layout_below="@+id/feed_content">
+            android:animateLayoutChanges="true">
 
             <TextView
                 android:id="@+id/feed_title_text_view"
                 android:layout_width="289dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="30dp"
                 android:layout_toStartOf="@+id/like_image_view"
                 android:ellipsize="end"
                 android:fontFamily="@font/rajdhani_semibold"
                 android:lineSpacingExtra="1sp"
                 android:maxLines="1"
                 android:padding="10dp"
-                android:text="Cristiano Ronaldo Top 10 Unimaginable Goals"
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
@@ -142,12 +174,11 @@
                 android:id="@+id/dislike_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/dislike_image_view"
                 android:lineSpacingExtra="5sp"
-                android:text="1.8 M"
-                android:textSize="10sp"
+                android:textSize="@dimen/text_10sp"
                 android:visibility="invisible" />
 
             <ImageView
@@ -158,7 +189,8 @@
                 android:layout_toStartOf="@+id/dislike_image_view"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:src="@drawable/ic_arrow_up_grey" />
+                android:src="@drawable/ic_arrow_up_grey"
+                android:contentDescription="@string/like" />
 
             <View
                 android:id="@+id/like_separator"
@@ -176,7 +208,7 @@
                 android:layout_toStartOf="@id/share_image_view"
                 android:lineSpacingExtra="5sp"
                 android:text=""
-                android:textSize="10sp"
+                android:textSize="@dimen/text_10sp"
                 android:visibility="invisible" />
 
             <ImageView
@@ -187,7 +219,8 @@
                 android:layout_toStartOf="@+id/share_image_view"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:src="@drawable/ic_arrow_down_grey" />
+                android:src="@drawable/ic_arrow_down_grey"
+                android:contentDescription="@string/like" />
 
             <View
                 android:layout_width="0.4dp"
@@ -203,15 +236,22 @@
                 android:layout_centerVertical="true"
                 android:paddingEnd="8dp"
                 android:paddingStart="8dp"
-                android:src="@drawable/ic_share_grey" />
+                android:src="@drawable/ic_share_grey"
+                android:contentDescription="@string/share" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentTop="true"
+                android:background="@color/light_grey"/>
 
         </RelativeLayout>
 
         <ScrollView
             android:id="@+id/scroll_view"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_below="@+id/like_share_layout">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/feed_description"
@@ -222,5 +262,5 @@
 
         </ScrollView>
 
-    </RelativeLayout>
+    </LinearLayout>
 </android.support.v7.widget.CardView>
