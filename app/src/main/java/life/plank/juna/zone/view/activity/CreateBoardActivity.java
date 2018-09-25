@@ -123,6 +123,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         privateBoardIconList.setAdapter(boardIconAdapter);
 
         UIDisplayUtil.checkPermission(CreateBoardActivity.this);
+        boardIconAdapter.boardIconList.clear();
 
         boardName.addTextChangedListener(textWatcher);
         boardDescription.addTextChangedListener(textWatcher);
@@ -166,10 +167,14 @@ public class CreateBoardActivity extends AppCompatActivity {
 
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
-                        boardIconAdapter.boardIconList.add(0, filePath);
-                        boardIconAdapter.notifyItemInserted(0);
-                        isIconSelected = true;
-                        validateFields();
+                        if (getMediaType(filePath) != null) {
+                            boardIconAdapter.boardIconList.add(0, filePath);
+                            boardIconAdapter.notifyItemInserted(0);
+                            isIconSelected = true;
+                            validateFields();
+                        } else {
+                            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
+                        }
                         break;
 
                     case RESULT_CANCELED:
@@ -228,10 +233,6 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
         if (isNullOrEmpty(file)) {
             Toast.makeText(this, R.string.select_image_to_upload, Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (getMediaType(filePath) == null) {
-            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -28,11 +28,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.model.BoardTemperature;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.DateUtil;
+import life.plank.juna.zone.util.NumberFormatter;
 
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.GMT;
@@ -383,5 +385,11 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout));
         infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
         Objects.requireNonNull(infoTilesTabLayout.getTabAt(0)).select();
+    }
+
+    public void setBoardTemperature(BoardTemperature boardTemperature) {
+        peopleCountView.setText(NumberFormatter.format(boardTemperature.getUserCount()));
+        commentCountView.setText(NumberFormatter.format(boardTemperature.getPostCount()));
+        likesCountView.setText(NumberFormatter.format(boardTemperature.getInteractionCount()));
     }
 }

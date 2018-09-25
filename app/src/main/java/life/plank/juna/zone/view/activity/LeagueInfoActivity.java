@@ -41,7 +41,6 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.view.adapter.FixtureLeagueAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
@@ -61,7 +60,7 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
-public class LeagueInfoActivity extends AppCompatActivity implements PublicBoardHeaderListener {
+public class LeagueInfoActivity extends AppCompatActivity {
     public static Bitmap matchStatsParentViewBitmap = null;
     String TAG = LeagueInfoActivity.class.getSimpleName();
 
@@ -164,15 +163,6 @@ public class LeagueInfoActivity extends AppCompatActivity implements PublicBoard
 
     public void updateBackgroundBitmap() {
         matchStatsParentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-    }
-
-    @Override
-    public void followClicked(TextView followBtn) {
-        if (followBtn.getText().toString().equalsIgnoreCase(getString(R.string.follow))) {
-            followBtn.setText(R.string.follow);
-        } else {
-            followBtn.setText(R.string.unfollow);
-        }
     }
 
     private void prepareRecyclerViews() {

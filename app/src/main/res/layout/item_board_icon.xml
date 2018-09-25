@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/image_root_layout"
     android:layout_width="56dp"
     android:layout_height="56dp"
@@ -23,9 +24,10 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/icon_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_centerInParent="true"
-        android:layout_margin="5dp" />
+        android:layout_margin="5dp"
+        app:civ_border_overlay="true"/>
 
 </RelativeLayout>

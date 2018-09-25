@@ -1,8 +1,10 @@
 package life.plank.juna.zone.util.customview;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.DrawableRes;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -15,8 +17,10 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.interfaces.CustomViewListener;
+import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 
-public class ZoneToolBar extends LinearLayout {
+public class ZoneToolBar extends LinearLayout implements CustomViewListener{
 
     @BindView(R.id.toolbar_title)
     TextView titleView;
@@ -24,6 +28,7 @@ public class ZoneToolBar extends LinearLayout {
     TextView coinCountView;
     @BindView(R.id.toolbar_profile_pic)
     ImageView profilePicView;
+    private ZoneToolbarListener listener;
 
     public ZoneToolBar(Context context) {
         this(context, null);
@@ -50,7 +55,7 @@ public class ZoneToolBar extends LinearLayout {
         try {
             setTitle(array.getString(R.styleable.ZoneToolBar_title));
             String coinCount = array.getString(R.styleable.ZoneToolBar_coinCount);
-            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount);
+            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount, false);
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_profile_dummy));
         } catch (Exception e) {
             Log.e("ZoneToolBar", e.getMessage());
@@ -71,8 +76,12 @@ public class ZoneToolBar extends LinearLayout {
         return coinCountView.getText().toString();
     }
 
-    public void setCoinCount(String coinCount) {
+    public void setCoinCount(String coinCount, Boolean isLoggedIn) {
         coinCountView.setText(coinCount);
+        if (!isLoggedIn)
+            coinCountView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
+        else
+            coinCountView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.img_coin, 0, 0, 0);
     }
 
     public void setProfilePic(String url) {
@@ -82,4 +91,28 @@ public class ZoneToolBar extends LinearLayout {
     public void setProfilePic(@DrawableRes int drawableRes) {
         profilePicView.setImageResource(drawableRes);
     }
+
+    @Override
+    public void initListeners(Fragment fragment) {
+
+    }
+
+    @Override
+    public void initListeners(Activity activity) {
+        if (activity instanceof ZoneToolbarListener) {
+            listener = (ZoneToolbarListener) activity;
+        } else throw new IllegalStateException("Activity must implement ZoneToolbarListener");
+
+        addProfilePictureListener();
+    }
+
+    private void addProfilePictureListener() {
+        profilePicView.setOnClickListener(view -> listener.profilePictureClicked(profilePicView));
+    }
+
+    @Override
+    public void dispose() {
+
+    }
+
 }
