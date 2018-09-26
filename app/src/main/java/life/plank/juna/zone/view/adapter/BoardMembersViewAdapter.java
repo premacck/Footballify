@@ -49,11 +49,13 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
         }
 
         holder.profileImageView.setOnClickListener(view -> {
-            parentViewBitmap = loadBitmap(fragment.getActivity().getWindow().getDecorView(), fragment.getActivity().getWindow().getDecorView(), context);
-            Intent inviteToBoard = new Intent(context, InviteToBoardActivity.class);
-            inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
-            inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(inviteToBoard);
+            if (userList.get(position).getDisplayName().equals(context.getString(R.string.invite_string))) {
+                parentViewBitmap = loadBitmap(fragment.getActivity().getWindow().getDecorView(), fragment.getActivity().getWindow().getDecorView(), context);
+                Intent inviteToBoard = new Intent(context, InviteToBoardActivity.class);
+                inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
+                inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(inviteToBoard);
+            }
         });
 
         holder.profileImageView.setOnLongClickListener(view -> {
