@@ -66,6 +66,7 @@ import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -236,6 +237,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     protected void onDestroy() {
         super.onDestroy();
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+        if (!isNullOrEmpty(boardId) && !isBoardActive) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId);
+        }
     }
 
     @OnClick(R.id.board_blur_background_image_view)
@@ -269,13 +273,14 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                             }
                             boardId = board.getId();
                             isBoardActive = DataUtil.isBoardActive(board);
-                            toggleBoardActivation();
                             saveBoardId();
                             setupViewPagerWithFragments();
 
                             if (isBoardActive) {
                                 FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
                                 FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+                            } else {
+                                applyInactiveBoardColorFilter();
                             }
                         } else {
                             Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -284,7 +289,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 });
     }
 
-    private void toggleBoardActivation() {
+    private void applyInactiveBoardColorFilter() {
         boardParentLayout.getBackground().setColorFilter(getColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER);
     }
 
