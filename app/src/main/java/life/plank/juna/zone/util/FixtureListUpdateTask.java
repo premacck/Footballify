@@ -4,11 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.List;
 import java.util.Objects;
 
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FixtureByDate;
+import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchFixture;
@@ -77,58 +77,14 @@ public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
         if (isNullOrEmpty(fixtureByMatchDayList) || matchFixture == null)
             return null;
 
-        return searchInMatchDayList(0, fixtureByMatchDayList.size(), matchFixture);
-    }
-
-    private MatchFixture searchInMatchDayList(int left, int right, MatchFixture fixture) {
-        if (right >= 1) {
-            int mid = left + (right - 1) / 2;
-
-            if (fixtureByMatchDayList.get(mid).getMatchDay() == fixture.getMatchDay()) {
-                List<FixtureByDate> fixtureByDateList = fixtureByMatchDayList.get(mid).getFixtureByDateList();
-                return searchInDateList(0, fixtureByDateList.size(), fixture, fixtureByDateList);
+        for (FixtureByMatchDay fixtureByMatchDay : fixtureByMatchDayList) {
+            for (FixtureByDate fixtureByDate : fixtureByMatchDay.getFixtureByDateList()) {
+                for (MatchFixture fixture : fixtureByDate.getFixtures()) {
+                    if (Objects.equals(fixture.getMatchId(), matchFixture.getMatchId())) {
+                        return fixture;
+                    }
+                }
             }
-
-            if (fixtureByMatchDayList.get(mid).getMatchDay() > fixture.getMatchDay()) {
-                return searchInMatchDayList(left, mid - 1, fixture);
-            }
-
-            return searchInMatchDayList(mid + 1, right, fixture);
-        }
-        return null;
-    }
-
-    private MatchFixture searchInDateList(int left, int right, MatchFixture fixture, List<FixtureByDate> fixtureByDateList) {
-        if (right >= 1) {
-            int mid = left + (right - 1) / 2;
-
-            if (fixtureByDateList.get(mid).getDate().getTime() == fixture.getMatchStartTime().getTime()) {
-                List<MatchFixture> fixtureList = fixtureByDateList.get(mid).getFixtures();
-                return searchInFixtureList(0, fixtureList.size(), fixture, fixtureList);
-            }
-
-            if (fixtureByDateList.get(mid).getDate().getTime() > fixture.getMatchStartTime().getTime()) {
-                return searchInDateList(left, mid - 1, fixture, fixtureByDateList);
-            }
-
-            return searchInDateList(mid + 1, right, fixture, fixtureByDateList);
-        }
-        return null;
-    }
-
-    private MatchFixture searchInFixtureList(int left, int right, MatchFixture fixture, List<MatchFixture> fixtureList) {
-        if (right >= 1) {
-            int mid = left + (right - 1) / 2;
-
-            if (Objects.equals(fixtureList.get(mid).getMatchId(), fixture.getMatchId())) {
-                return  fixtureList.get(mid);
-            }
-
-            if (fixtureList.get(mid).getMatchId() > fixture.getMatchId()) {
-                return searchInFixtureList(left, mid - 1, fixture, fixtureList);
-            }
-
-            return searchInFixtureList(mid + 1, right, fixture, fixtureList);
         }
         return null;
     }
