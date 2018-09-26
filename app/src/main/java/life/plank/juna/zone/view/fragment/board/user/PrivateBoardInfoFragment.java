@@ -35,6 +35,7 @@ import rx.schedulers.Schedulers;
 
 import static android.content.Context.MODE_PRIVATE;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.customview.CustomPopup.showPrivateBoardOptionPopup;
 
 public class PrivateBoardInfoFragment extends Fragment {
 
@@ -42,6 +43,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     private static final String DESCRIPTION = "description";
     private static final String BOARD_ID = "board_id";
     private static final String DISPLAY_NAME = "display_name";
+    private static View rootView;
     @Inject
     @Named("default")
     RestApi restApi;
@@ -70,6 +72,10 @@ public class PrivateBoardInfoFragment extends Fragment {
         return fragment;
     }
 
+    public static void onClickProfileImage(View view) {
+        showPrivateBoardOptionPopup(view, rootView);
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +89,7 @@ public class PrivateBoardInfoFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_private_board_info, container, false);
+        rootView = inflater.inflate(R.layout.fragment_private_board_info, container, false);
         ButterKnife.bind(this, rootView);
         ZoneApplication.getApplication().getUiComponent().inject(this);
         context = getActivity().getApplicationContext();

@@ -177,4 +177,8 @@
     <string name="sign_up_now">Sign Up Now</string>
     <string name="already_have_an_account">Already have an account? Login here</string>
     <string name="pin_post">Pin this post</string>
+    <string name="view_profile">View profile</string>
+    <string name="kick_from_board">Kick from board</string>
+    <string name="remove_admin">Remove admin</string>
+    <string name="transfer_ownership">Transfer ownership</string>
 </resources>
