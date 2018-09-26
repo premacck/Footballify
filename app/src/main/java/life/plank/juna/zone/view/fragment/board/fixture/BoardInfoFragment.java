@@ -49,7 +49,7 @@ import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
-import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
+import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
 public class BoardInfoFragment extends Fragment implements CommentarySmallListener, ScrubberLayoutListener {
 

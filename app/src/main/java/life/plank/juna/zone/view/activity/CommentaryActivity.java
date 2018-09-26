@@ -37,7 +37,7 @@ import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
-import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
+import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
 public class CommentaryActivity extends AppCompatActivity {
 

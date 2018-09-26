@@ -35,7 +35,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -168,8 +168,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                                 if (!isNullOrEmpty(feedItemList)) {
                                     updateUi(true, 0);
                                     adapter.update(feedItemList);
-                                    if (getActivity() instanceof BoardActivity) {
-                                        ((BoardActivity) getActivity()).updateFullScreenAdapter(feedItemList);
+                                    if (getActivity() instanceof BaseBoardActivity) {
+                                        ((BaseBoardActivity) getActivity()).updateFullScreenAdapter(feedItemList);
                                     }
                                 } else
                                     updateUi(false, R.string.board_yet_to_be_populated);
@@ -195,8 +195,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemClick(int position, View fromView) {
-        if (getActivity() instanceof BoardActivity) {
-            ((BoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
+        if (getActivity() instanceof BaseBoardActivity) {
+            ((BaseBoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
     }
 
