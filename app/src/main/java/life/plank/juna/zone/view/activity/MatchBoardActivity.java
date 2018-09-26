@@ -33,6 +33,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -108,6 +109,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     private long currentMatchId;
     private boolean isBoardActive;
     private String boardId;
+    private MatchFixture fixture;
     private MatchDetails matchDetails;
 
     private BoardPagerAdapter boardPagerAdapter;
@@ -166,7 +168,14 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                 publicBoardToolbar.setScore(zoneLiveData.getScoreData().getHomeGoals() + DASH + zoneLiveData.getScoreData().getAwayGoals());
                 break;
             case TIME_STATUS_DATA:
-//                TODO : update live time status
+                Date matchStartTime = fixture != null ?
+                        fixture.getMatchStartTime() :
+                        matchDetails != null ?
+                                matchDetails.getMatchStartTime() :
+                                null;
+                if (matchStartTime != null) {
+                    publicBoardToolbar.setLiveTimeStatus(matchStartTime, zoneLiveData.getLiveTimeStatus().getTimeStatus());
+                }
                 break;
             default:
                 break;
@@ -190,7 +199,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
         Intent intent = getIntent();
         if (intent.hasExtra(getString(R.string.intent_fixture_data))) {
-            MatchFixture fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_fixture_data)), MatchFixture.class);
+            fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_fixture_data)), MatchFixture.class);
             currentMatchId = fixture.getMatchId();
             publicBoardToolbar.prepare(picasso, fixture);
         } else {

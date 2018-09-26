@@ -54,6 +54,7 @@ public class AppConstants {
 
     public static final String YELLOW = "yellow";
     public static final String RED = "red";
+    public static final String NOT_STARTED = "NS";
     public static final String LIVE = "LIVE";
     public static final String LIVE_TIME = "00.00";
     public static final String HT = "HT";
@@ -106,4 +107,15 @@ public class AppConstants {
     public static final String PAST_MATCHES = "PAST_MATCHES";
     public static final String TODAY_MATCHES = "TODAY_MATCHES";
     public static final String SCHEDULED_MATCHES = "SCHEDULED_MATCHES";
+
+    public static final int ONE_DAY_MILLIS = 86400000;
+    public static final int TWO_HOURS_MILLIS = 7200000;
+
+    public @interface MatchTimeVal {
+        int MATCH_PAST = 0;
+        int MATCH_COMPLETED_TODAY = 1;
+        int MATCH_LIVE = 2;
+        int MATCH_SCHEDULED_TODAY = 3;
+        int MATCH_SCHEDULED_LATER = 4;
+    }
 }

@@ -41,6 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:fontFamily="@font/rajdhani_regular"
+                    android:gravity="center"
                     android:textColor="@color/white"
                     android:textSize="32sp" />
 
@@ -53,7 +54,7 @@
 
             </RelativeLayout>
 
-            <TextView
+            <Chronometer
                 android:id="@+id/time_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

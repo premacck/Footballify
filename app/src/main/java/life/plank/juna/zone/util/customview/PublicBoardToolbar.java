@@ -12,7 +12,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,14 +41,17 @@ import life.plank.juna.zone.util.NumberFormatter;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.GMT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
+import static life.plank.juna.zone.util.AppConstants.NOT_STARTED;
 import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
-import static life.plank.juna.zone.util.DateUtil.getAbsoluteTimeDiffFromNow;
-import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
+import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
 import static life.plank.juna.zone.util.DateUtil.getMinuteSecondFormatDate;
-import static life.plank.juna.zone.util.DateUtil.getMinutesElapsedFrom;
 import static life.plank.juna.zone.util.DateUtil.getScheduledMatchDateString;
-import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
@@ -59,7 +64,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     @BindView(R.id.score)
     TextView scoreView;
     @BindView(R.id.time_status)
-    TextView timeStatusTextView;
+    Chronometer timeStatusView;
     @BindView(R.id.win_pointer)
     ImageView winPointer;
     @BindView(R.id.home_team_logo)
@@ -190,6 +195,10 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     public void setScore(String score) {
+        if (scoreLayout.getPaddingTop() > 0) {
+            scoreLayout.setPadding(0, 0, 0, 0);
+        }
+        scoreView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 32);
         scoreView.setText(score);
     }
 
@@ -198,21 +207,21 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         setVisitingTeamLogo(picasso, fixture.getAwayTeam().getLogoLink());
         setScore(getSeparator(fixture, winPointer, true));
         setBoardTitle(ZoneApplication.getContext().getString(R.string.matchday_) + fixture.getMatchDay());
-        int dateDiff = getDateDiffFromToday(fixture.getMatchStartTime());
-        if (dateDiff <= -1) {
-//                past
-            setFullTimeStatus();
-        } else if (dateDiff >= 1) {
-//                scheduled
-            setScheduledTimeStatus(fixture.getMatchStartTime());
-        } else {
-            if (getTimeDiffFromNow(fixture.getMatchStartTime()) < 0) {
-//                live
-                setTimeStatus(fixture.getMatchStartTime(), fixture.getExtraMinute(), fixture.getTimeStatus());
-            } else {
-//                scheduled today
-                setTodayMatchCountdown(fixture, getAbsoluteTimeDiffFromNow(fixture.getMatchStartTime()));
-            }
+        switch (getMatchTimeValue(fixture.getMatchStartTime())) {
+            case MATCH_PAST:
+            case MATCH_COMPLETED_TODAY:
+                setFullTimeStatus();
+                break;
+            case MATCH_LIVE:
+                setLiveTimeStatus(fixture.getMatchStartTime(), fixture.getTimeStatus());
+                break;
+            case MATCH_SCHEDULED_TODAY:
+                setScheduledTimeStatus(fixture.getMatchStartTime(), true);
+                setTodayMatchCountdown(fixture, Math.abs(fixture.getMatchStartTime().getTime() - new Date().getTime()));
+                break;
+            case MATCH_SCHEDULED_LATER:
+                setScheduledTimeStatus(fixture.getMatchStartTime(), false);
+                break;
         }
     }
 
@@ -220,30 +229,25 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
      * Time status setter for past matches
      */
     public void setFullTimeStatus() {
-        this.timeStatusTextView.setText(FULL_TIME_LOWERCASE);
+        this.timeStatusView.setText(FULL_TIME_LOWERCASE);
     }
 
     /**
      * Time status setter for live matches
      */
-    public void setTimeStatus(Date matchStartTime, int extraMinute, String timeStatus) {
-        if (Objects.equals(timeStatus, LIVE)) {
-            resetCountDownTimer();
-            countDownTimer = new CountDownTimer(5400000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                    String timeStatusText = extraMinute > 0 ? getMinutesElapsedFrom(matchStartTime) + " + " + extraMinute : getMinutesElapsedFrom(matchStartTime);
-                    timeStatusTextView.setText(timeStatusText);
-                }
-
-                @Override
-                public void onFinish() {
-                    timeStatusTextView.setText(FULL_TIME_LOWERCASE);
-                }
-            };
-            countDownTimer.start();
-        } else
-            timeStatusTextView.setText(getDisplayTimeStatus(timeStatus));
+    public void setLiveTimeStatus(Date matchStartTime, String timeStatus) {
+        switch (timeStatus) {
+            case NOT_STARTED:
+            case LIVE:
+                resetCountDownTimer();
+                timeStatusView.setBase(matchStartTime.getTime());
+                timeStatusView.start();
+                break;
+            default:
+                timeStatusView.stop();
+                timeStatusView.setText(getDisplayTimeStatus(timeStatus));
+                break;
+        }
     }
 
     /**
@@ -255,14 +259,14 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         countDownTimer = new CountDownTimer(timeDiffFromNow, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeStatusTextView.setText(getMinuteSecondFormatDate(new Date(millisUntilFinished)));
+                timeStatusView.setText(getMinuteSecondFormatDate(new Date(millisUntilFinished)));
             }
 
             @Override
             public void onFinish() {
-                timeStatusTextView.setText(LIVE);
+                timeStatusView.setText(LIVE);
                 fixture.setTimeStatus(LIVE);
-                setTimeStatus(fixture.getMatchStartTime(), fixture.getExtraMinute(), fixture.getTimeStatus());
+                setLiveTimeStatus(fixture.getMatchStartTime(), fixture.getTimeStatus());
             }
         };
         countDownTimer.start();
@@ -271,11 +275,19 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     /**
      * Time status setter for scheduled matches
      */
-    public void setScheduledTimeStatus(Date matchStartTime) {
-        scoreView.setVisibility(GONE);
+    public void setScheduledTimeStatus(Date matchStartTime, boolean isScheduledToday) {
         winPointer.setVisibility(GONE);
+        scoreView.setVisibility(isScheduledToday ? VISIBLE : GONE);
+        scoreView.setTextSize(TypedValue.COMPLEX_UNIT_SP, isScheduledToday ? 10 : 32);
         scoreLayout.setPadding(0, (int) getDp(9), 0, 0);
-        timeStatusTextView.setText(getScheduledMatchDateString(matchStartTime));
+        String scheduledMatchDateString = getScheduledMatchDateString(matchStartTime);
+        if (isScheduledToday) {
+//            set time of match in score view and set countdown in time status view
+            scoreView.setText(scheduledMatchDateString);
+        } else {
+//            set time of match in time status view
+            timeStatusView.setText(scheduledMatchDateString);
+        }
     }
 
     private void resetCountDownTimer() {
