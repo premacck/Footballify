@@ -9,6 +9,7 @@ public class User {
     private String emailAddress;
     private String country;
     private String city;
+    private String profilePictureUrl;
     private String identityProvider;
     private String givenName;
     private String surname;

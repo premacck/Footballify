@@ -14,10 +14,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
+
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,8 +31,19 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Response;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
+import static life.plank.juna.zone.util.DataUtil.getMediaType;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 
 public class EditProfileActivity extends AppCompatActivity {
 
@@ -39,6 +56,10 @@ public class EditProfileActivity extends AppCompatActivity {
     TextView changePicture;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
+    @Inject
+    @Named("default")
+    RestApi restApi;
+    private String filePath;
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, EditProfileActivity.class));
@@ -93,6 +114,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                         profilePicture.setImageBitmap(bitmap);
+                        filePath = getPathForGalleryImageView(data.getData(), this);
+                        uploadProfilePicture();
                     } catch (IOException e) {
                         Log.d(TAG, e.getMessage());
                     }
@@ -100,4 +123,41 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void uploadProfilePicture() {
+        MediaType mediaType = getMediaType(filePath);
+
+        File fileToUpload = new File(filePath);
+        RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
+        MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
+
+        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
+        restApi.uploadProfilePicture(image, token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                        Toast.makeText(getApplicationContext(), R.string.upload_failed, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<String> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
+                                break;
+                            default:
+                                Toast.makeText(getApplicationContext(), R.string.upload_failed, Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
 }
