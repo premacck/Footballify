@@ -55,7 +55,13 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
             inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(inviteToBoard);
         });
+
+        holder.profileImageView.setOnLongClickListener(view -> {
+            PrivateBoardInfoFragment.onClickProfileImage(view);
+            return true;
+        });
     }
+
 
     @Override
     public int getItemCount() {
