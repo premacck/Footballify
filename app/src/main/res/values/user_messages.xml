@@ -46,5 +46,10 @@
     <string name="image_not_supported">Image format not supported. Please choose png, jpeg, gif or bmp</string>
     <string name="select_image_to_upload">Select an image to upload</string>
     <string name="board_not_active">This board is not active</string>
+    <string name="failed_to_find_feed">Failed to find the feed, please try again later</string>
+    <string name="failed_to_pin_feed">Failed to pin this feed, please try again later</string>
+    <string name="failed_to_unpin_feed">Failed to unpin this feed, please try again later</string>
+    <string name="already_pinned_feed">You have already pinned this feed</string>
+    <string name="already_removed_pin">You have already removed the pin on this feed</string>
 
 </resources>

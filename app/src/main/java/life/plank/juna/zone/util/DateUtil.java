@@ -41,6 +41,10 @@ public class DateUtil {
         return ISO_DATE_FORMAT.parse(dateString);
     }
 
+    public static String getRequestDateStringOfNow() {
+        return ISO_DATE_FORMAT.format(Calendar.getInstance().getTime());
+    }
+
     private static String getIsoFormattedDate(Date date) {
         return ISO_DATE_FORMAT.format(date);
     }

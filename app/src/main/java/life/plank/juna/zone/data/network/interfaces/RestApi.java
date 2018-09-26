@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchStats;
@@ -190,4 +190,14 @@ public interface RestApi {
 
     @GET("matches/{matchId}/scrubber/{hour}")
     Observable<Response<List<ScrubberData>>> getScrubberDetails(@Path("matchId") long matchId, @Path("hour") Date currentMatchTime);
+
+    @POST("/activities/{id}/pins")
+    Observable<Response<String>> pinFeedItem(@Path("id") String feedItemId,
+                                             @Query("target") String target,
+                                             @Query("targetId") String boardId,
+                                             @Query("time") String dateCreated,
+                                             @Header("Authorization") String authHeader);
+
+    @DELETE("/activities/{id}/pins/{pinId}")
+    Observable<Response<JsonObject>> unpinFeedItem(@Path("id") String boardId, @Path("pinId") String pinId, @Header("Authorization") String authHeader);
 }
