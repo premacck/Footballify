@@ -113,7 +113,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activity.BoardActivity"
+            android:name=".view.activity.MatchBoardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
