@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Point;
 import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -240,7 +241,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             case NOT_STARTED:
             case LIVE:
                 resetCountDownTimer();
-                timeStatusView.setBase(matchStartTime.getTime());
+                timeStatusView.setBase(SystemClock.elapsedRealtime() - (new Date().getTime() - matchStartTime.getTime()));
                 timeStatusView.start();
                 break;
             default:
