@@ -58,7 +58,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTarget;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
-import static life.plank.juna.zone.view.activity.BoardActivity.boardParentViewBitmap;
+import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
 public class TimelineActivity extends AppCompatActivity {
 

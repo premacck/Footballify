@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -57,6 +55,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.DataUtil;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
@@ -74,9 +73,8 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
  * Created by plank-hasan on 5/3/2018.
  */
 
-public class BoardActivity extends AppCompatActivity implements PublicBoardHeaderListener {
-    private static final String TAG = BoardActivity.class.getSimpleName();
-    public static Bitmap boardParentViewBitmap = null;
+public class MatchBoardActivity extends BaseBoardActivity implements PublicBoardHeaderListener {
+    private static final String TAG = MatchBoardActivity.class.getSimpleName();
 
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
@@ -112,9 +110,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private String boardId;
     private MatchDetails matchDetails;
 
-    private boolean isTileFullScreenActive;
     private BoardPagerAdapter boardPagerAdapter;
-    private BoardFeedDetailAdapter boardFeedDetailAdapter;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -128,7 +124,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     };
 
     public static void launch(Activity from, String fixtureJson) {
-        Intent intent = new Intent(from, BoardActivity.class);
+        Intent intent = new Intent(from, MatchBoardActivity.class);
         intent.putExtra(from.getString(R.string.intent_fixture_data), fixtureJson);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
@@ -207,7 +203,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         getBoardIdAndMatchDetails(currentMatchId);
     }
 
-    private void prepareFullScreenRecyclerView() {
+    @Override
+    public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
         boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
@@ -260,7 +257,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "In onError() : getBoardIdAndMatchDetails" + e);
-                        Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -283,7 +280,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                                 applyInactiveBoardColorFilter();
                             }
                         } else {
-                            Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -311,14 +308,16 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
             }
         } else {
-            Toast.makeText(BoardActivity.this, R.string.board_not_active, Toast.LENGTH_LONG).show();
+            Toast.makeText(MatchBoardActivity.this, R.string.board_not_active, Toast.LENGTH_LONG).show();
         }
     }
 
+    @Override
     public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
         boardFeedDetailAdapter.update(footballFeedList);
     }
 
+    @Override
     public void setBlurBackgroundAndShowFullScreenTiles(boolean setFlag, int position) {
         isTileFullScreenActive = setFlag;
         boardParentViewBitmap = setFlag ? loadBitmap(rootLayout, rootLayout, this) : null;
@@ -355,6 +354,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     }
 
+    @Override
     public void moveItem(int position, int previousPosition) {
         if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
             ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).moveItem(position, previousPosition);
@@ -364,11 +364,11 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     static class BoardPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment currentFragment;
-        private WeakReference<BoardActivity> ref;
+        private WeakReference<MatchBoardActivity> ref;
 
-        BoardPagerAdapter(FragmentManager supportFragmentManager, BoardActivity boardActivity) {
+        BoardPagerAdapter(FragmentManager supportFragmentManager, MatchBoardActivity matchBoardActivity) {
             super(supportFragmentManager);
-            ref = new WeakReference<>(boardActivity);
+            ref = new WeakReference<>(matchBoardActivity);
         }
 
         @Override
