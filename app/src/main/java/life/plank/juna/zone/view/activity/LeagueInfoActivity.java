@@ -46,7 +46,7 @@ import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
 import retrofit2.Response;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -183,7 +183,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getStandings(league.getName(), league.getSeasonName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<StandingModel>>>() {
+                .subscribe(new Subscriber<Response<List<StandingModel>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getStandings()");
@@ -216,7 +216,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getPlayerStats(league.getName(), league.getSeasonName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<PlayerStatsModel>>>() {
+                .subscribe(new Subscriber<Response<List<PlayerStatsModel>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getPlayerStats()");
@@ -250,7 +250,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getTeamStats(league.getName(), league.getSeasonName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<TeamStatsModel>>>() {
+                .subscribe(new Subscriber<Response<List<TeamStatsModel>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getTeamStats()");
@@ -316,7 +316,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> setProgressBarsVisibility(View.VISIBLE))
                 .doOnTerminate(() -> setProgressBarsVisibility(View.GONE))
-                .subscribe(new Observer<Response<List<FixtureByMatchDay>>>() {
+                .subscribe(new Subscriber<Response<List<FixtureByMatchDay>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -380,16 +380,24 @@ public class LeagueInfoActivity extends AppCompatActivity {
         protected List<MatchFixture> doInBackground(Void... voids) {
             if (!isNullOrEmpty(fixtureByMatchDayList)) {
                 for (FixtureByMatchDay matchDay : fixtureByMatchDayList) {
-                    if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES) || Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {
-                        recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay);
+                    try {
+                        if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES) || Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {
+                            recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay);
+                        }
+                    } catch (Exception e) {
+                        Log.e("FixtureAdapterTask", "doInBackground: recyclerViewScrollIndex ", e);
                     }
                 }
                 List<MatchFixture> matchFixtures = new ArrayList<>();
                 List<FixtureByDate> fixtureByDateList = fixtureByMatchDayList.get(recyclerViewScrollIndex).getFixtureByDateList();
                 for (FixtureByDate fixtureByDate : fixtureByDateList) {
                     for (MatchFixture matchFixture : fixtureByDate.getFixtures()) {
-                        if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
-                            matchFixtures.add(matchFixture);
+                        try {
+                            if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
+                                matchFixtures.add(matchFixture);
+                            }
+                        } catch (Exception e) {
+                            Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e);
                         }
                     }
                 }

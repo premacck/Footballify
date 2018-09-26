@@ -29,7 +29,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter;
 import retrofit2.Response;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -103,7 +103,7 @@ public class PrivateBoardInfoFragment extends Fragment {
         restApi.getBoardMembers(boardId, getToken(context))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<User>>>() {
+                .subscribe(new Subscriber<Response<List<User>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "getBoardMembers : Completed");
