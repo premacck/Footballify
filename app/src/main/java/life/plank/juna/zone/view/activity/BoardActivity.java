@@ -201,9 +201,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
 
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
-        if (isBoardActive) {
-            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
-        }
 
         prepareFullScreenRecyclerView();
         getBoardIdAndMatchDetails(currentMatchId);
@@ -276,9 +273,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                             saveBoardId();
                             setupViewPagerWithFragments();
 
-                            String topic = getString(R.string.board_id_prefix) + boardId;
                             if (isBoardActive) {
-                                FirebaseMessaging.getInstance().subscribeToTopic(topic);
+                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
+                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
                             }
                         } else {
                             Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -350,6 +347,12 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             boardTilesFullRecyclerView.scrollToPosition(position);
             boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
             boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void moveItem(int position, int previousPosition) {
+        if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
+            ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).moveItem(position, previousPosition);
         }
     }
 
