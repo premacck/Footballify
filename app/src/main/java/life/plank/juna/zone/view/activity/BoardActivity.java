@@ -60,12 +60,13 @@ import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
-import rx.Observer;
+import rx.Subscriber;
 
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -201,9 +202,6 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
 
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
-        if (isBoardActive) {
-            FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
-        }
 
         prepareFullScreenRecyclerView();
         getBoardIdAndMatchDetails(currentMatchId);
@@ -239,6 +237,9 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     protected void onDestroy() {
         super.onDestroy();
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+        if (!isNullOrEmpty(boardId) && !isBoardActive) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId);
+        }
     }
 
     @OnClick(R.id.board_blur_background_image_view)
@@ -250,7 +251,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId)
                 .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
                 .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
-                .subscribe(new Observer<Pair<Board, MatchDetails>>() {
+                .subscribe(new Subscriber<Pair<Board, MatchDetails>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getBoardIdAndMatchDetails");
@@ -272,13 +273,14 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                             }
                             boardId = board.getId();
                             isBoardActive = DataUtil.isBoardActive(board);
-                            toggleBoardActivation();
                             saveBoardId();
                             setupViewPagerWithFragments();
 
-                            String topic = getString(R.string.board_id_prefix) + boardId;
                             if (isBoardActive) {
-                                FirebaseMessaging.getInstance().subscribeToTopic(topic);
+                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
+                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+                            } else {
+                                applyInactiveBoardColorFilter();
                             }
                         } else {
                             Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -287,7 +289,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
                 });
     }
 
-    private void toggleBoardActivation() {
+    private void applyInactiveBoardColorFilter() {
         boardParentLayout.getBackground().setColorFilter(getColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER);
     }
 
@@ -350,6 +352,12 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
             boardTilesFullRecyclerView.scrollToPosition(position);
             boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
             boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void moveItem(int position, int previousPosition) {
+        if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
+            ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).moveItem(position, previousPosition);
         }
     }
 

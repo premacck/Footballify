@@ -13,8 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -38,18 +36,29 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.OnSwipeTouchListener;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
+import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
+import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.AppConstants.BOARD;
+import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
+import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
+import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
+import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
+import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
@@ -93,26 +102,25 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+        FeedItem feedItem = feedsListItem.get(position).getFeedItem();
+        feedItem.setPinned(isFeedItemPinned(feedItem));
 
-        date = new SimpleDateFormat(activity.getString(R.string.string_format)).format(Calendar.getInstance().getTime());
-
-        if (feedsListItem.get(position).getFeedItem().getInteractions() != null) {
-            holder.likeCountTextView.setText(String.valueOf(feedsListItem.get(position).getFeedItem().getInteractions().getLikes()));
-            holder.dislikeCountTextView.setText(String.valueOf(feedsListItem.get(position).getFeedItem().getInteractions().getDislikes()));
+        if (feedItem.getInteractions() != null) {
+            holder.likeCountTextView.setText(String.valueOf(feedItem.getInteractions().getLikes()));
+            holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
 
         SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
         boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
-        String feedId = feedsListItem.get(position).getFeedItem().getId();
-        if (feedsListItem.get(position).getFeedItem().getActor() != null) {
-            holder.userNameTextView.setText(feedsListItem.get(position).getFeedItem().getActor().getDisplayName());
+        String feedId = feedItem.getId();
+        if (feedItem.getActor() != null) {
+            holder.userNameTextView.setText(feedItem.getActor().getDisplayName());
         } else {
             SharedPreferences userPref = activity.getSharedPreferences(activity.getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");
             holder.userNameTextView.setText(userEmailId);
         }
-        holder.feedTitleTextView.setText(feedsListItem.get(position).getFeedItem().getDescription());
-
+        holder.feedTitleTextView.setText(feedItem.getDescription());
         holder.feedTopLayout.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
@@ -120,15 +128,19 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         });
 
-        switch (feedsListItem.get(position).getFeedItem().getContentType()) {
+        holder.pinImageView.setImageResource(
+                feedItem.isPinned() ?
+                        R.drawable.ic_pin_active :
+                        R.drawable.ic_pin_inactive
+        );
+
+        switch (feedItem.getContentType()) {
             case "Image": {
                 mediaPlayer.stop();
-                holder.feedImageView.setVisibility(View.VISIBLE);
-                holder.feedTextView.setVisibility(View.INVISIBLE);
-
+                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
                 try {
                     Picasso.with(activity).
-                            load(feedsListItem.get(position).getFeedItem().getThumbnail().getImageUrl())
+                            load(feedItem.getThumbnail().getImageUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
                             .into(holder.feedImageView);
@@ -139,11 +151,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
             case "Audio": {
                 mediaPlayer.stop();
-                holder.feedTextView.setVisibility(View.INVISIBLE);
-                holder.feedImageView.setVisibility(View.VISIBLE);
+                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
                 holder.feedImageView.setImageResource(R.drawable.ic_audio);
 
-                String uri = feedsListItem.get(position).getFeedItem().getUrl();
+                String uri = feedItem.getUrl();
                 Uri videoUri = Uri.parse(uri);
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -158,7 +169,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
                 try {
                     Picasso.with(activity).
-                            load(feedsListItem.get(position).getFeedItem().getUrl())
+                            load(feedItem.getUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
                             .into(holder.feedImageView);
@@ -169,12 +180,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
             case "Video": {
                 mediaPlayer.stop();
-                holder.feedTextView.setVisibility(View.INVISIBLE);
-                holder.feedImageView.setVisibility(View.INVISIBLE);
-                holder.capturedVideoView.setVisibility(View.VISIBLE);
+                holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE);
                 MediaController mediaController = new MediaController(activity);
                 holder.capturedVideoView.setMediaController(mediaController);
-                String uri = feedsListItem.get(position).getFeedItem().getUrl();
+                String uri = feedItem.getUrl();
                 Uri videoUri = Uri.parse(uri);
                 holder.capturedVideoView.setVideoURI(videoUri);
                 holder.capturedVideoView.start();
@@ -186,18 +195,16 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
             case "rootComment": {
                 mediaPlayer.stop();
-                holder.feedTextView.setVisibility(View.VISIBLE);
-                holder.feedImageView.setVisibility(View.INVISIBLE);
-                holder.capturedVideoView.setVisibility(View.INVISIBLE);
-                String comment = feedsListItem.get(position).getFeedItem().getTitle().replaceAll("^\"|\"$", "");
+                holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
+                String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
 
-                holder.commentBg.setBackgroundColor(getCommentColor(comment));
+                holder.feedTextView.setBackgroundColor(getCommentColor(comment));
                 holder.feedTextView.setText(getCommentText(comment));
             }
         }
         holder.likeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemLikeApiCall(feedId, date, holder, position);
+                boardFeedItemLikeApiCall(feedId, holder, position);
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -213,7 +220,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemDisLikeApiCall(feedId, date, holder);
+                boardFeedItemDisLikeApiCall(feedId, holder);
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -222,7 +229,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.feedTitleTextView.setOnClickListener(view -> {
             holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
-            holder.feedDescription.setText(feedsListItem.get(position).getFeedItem().getDescription());
+            holder.feedDescription.setText(feedItem.getDescription());
+        });
+
+        holder.pinImageView.setOnClickListener(view -> {
+            if (feedItem.isPinned()) {
+                unpinItem(feedsListItem.get(position), position);
+            } else {
+                pinItem(feedsListItem.get(position), position);
+            }
         });
     }
 
@@ -236,9 +251,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         notifyDataSetChanged();
     }
 
-    private void boardFeedItemLikeApiCall(String feedItemId, String
-            dateCreated, FootballFeedDetailViewHolder holder, int position) {
-        restApi.postLike(feedItemId, boardId, "Board", dateCreated, getToken(activity))
+    private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder, int position) {
+        restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -259,9 +273,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                             case HttpURLConnection.HTTP_CREATED:
                                 int tint = ContextCompat.getColor(activity, R.color.frog_green);
                                 holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                                holder.dislikeImageView.setVisibility(View.INVISIBLE);
+                                holder.dislikeImageView.setVisibility(View.GONE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.INVISIBLE);
+                                holder.likeSeparator.setVisibility(View.GONE);
                                 retrieveBoardById();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
@@ -279,7 +293,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
+                .subscribe(new Subscriber<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -341,9 +355,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    private void boardFeedItemDisLikeApiCall(String feedItemId, String
-            dateCreated, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, "Boards", dateCreated, getToken(activity))
+    private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
+        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -364,9 +377,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                             case HttpURLConnection.HTTP_CREATED:
                                 int tint = ContextCompat.getColor(activity, R.color.salmon);
                                 holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                                holder.likeImageView.setVisibility(View.INVISIBLE);
+                                holder.likeImageView.setVisibility(View.GONE);
                                 holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.INVISIBLE);
+                                holder.likeSeparator.setVisibility(View.GONE);
                                 retrieveBoardById();
                                 break;
                             default:
@@ -409,15 +422,102 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
+    private void pinItem(FootballFeed footballFeed, int position) {
+        restApi.pinFeedItem(footballFeed.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken(activity))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted : pinItem()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "pinItem() " + e.getMessage());
+                        Toast.makeText(activity, R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<String> response) {
+                        switch (response.code()) {
+                            case HTTP_OK:
+                            case HTTP_CREATED:
+                                footballFeed.getFeedItem().setPinned(true);
+                                footballFeed.getFeedItem().setPinId(response.body());
+                                footballFeed.getFeedItem().setPreviousPosition(position);
+                                toggleFeedItemPin(footballFeed.getFeedItem(), true);
+                                pinFeedEntry(feedsListItem, footballFeed);
+                                notifyItemChanged(position);
+                                notifyItemMoved(position, 0);
+                                activity.moveItem(position, 0);
+                                break;
+                            case HTTP_NOT_FOUND:
+                                Toast.makeText(activity, R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HTTP_INTERNAL_ERROR:
+                                Toast.makeText(activity, R.string.already_pinned_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(activity, R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void unpinItem(FootballFeed footballFeed, int position) {
+        restApi.unpinFeedItem(boardId, footballFeed.getFeedItem().getPinId(), getToken(activity))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted : unpinItem()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "unpinItem() " + e.getMessage());
+                        Toast.makeText(activity, R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HTTP_OK:
+                            case HTTP_NO_CONTENT:
+                                footballFeed.getFeedItem().setPinned(false);
+                                footballFeed.getFeedItem().setPinId(null);
+                                toggleFeedItemPin(footballFeed.getFeedItem(), false);
+                                unpinFeedEntry(feedsListItem, footballFeed);
+                                notifyItemChanged(position);
+                                notifyItemMoved(position, footballFeed.getFeedItem().getPreviousPosition());
+                                activity.moveItem(position, footballFeed.getFeedItem().getPreviousPosition());
+                                break;
+                            case HTTP_NOT_FOUND:
+                                Toast.makeText(activity, R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HTTP_INTERNAL_ERROR:
+                                Toast.makeText(activity, R.string.already_removed_pin, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(activity, R.string.failed_to_unpin_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
     public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
         @BindView(R.id.feed_top_layout)
-        RelativeLayout feedTopLayout;
-        @BindView(R.id.comment_bg)
-        TextView commentBg;
+        LinearLayout feedTopLayout;
         @BindView(R.id.like_image_view)
         ImageView likeImageView;
+        @BindView(R.id.pin_image_view)
+        ImageView pinImageView;
         @BindView(R.id.share_image_view)
         ImageView shareImageView;
         @BindView(R.id.dislike_image_view)
@@ -446,6 +546,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        private void setVisibilities(int imageViewVisibility, int videoViewVisibility, int textViewVisibility) {
+            feedImageView.setVisibility(imageViewVisibility);
+            capturedVideoView.setVisibility(videoViewVisibility);
+            feedTextView.setVisibility(textViewVisibility);
         }
     }
 }

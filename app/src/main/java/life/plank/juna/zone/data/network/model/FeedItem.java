@@ -24,6 +24,13 @@ public class FeedItem {
     private User actor;
     /** Field to store the tile width of the feed item */
     private int tileWidth;
+    /**
+     * Field to check whether the feed item is pinned
+     * TODO: Remove once isPinned is provided in Interactions
+     */
+    private boolean isPinned;
+    private String pinId;
+    private int previousPosition;
 
     public FeedItem() {
     }

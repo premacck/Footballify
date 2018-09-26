@@ -38,7 +38,7 @@ import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.activity.BoardActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -148,7 +148,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                     progressBar.setVisibility(View.GONE);
                     if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
                 })
-                .subscribe(new Observer<Response<List<FootballFeed>>>() {
+                .subscribe(new Subscriber<Response<List<FootballFeed>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getBoardFeed()");
@@ -198,5 +198,9 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         if (getActivity() instanceof BoardActivity) {
             ((BoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        adapter.notifyItemMoved(fromPosition, toPosition);
     }
 }

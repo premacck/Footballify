@@ -347,7 +347,7 @@ public class CameraActivity extends AppCompatActivity {
         MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
 
         restApi.postMediaContentToServer(body, boardId, contentType, userId,
-                dateCreated, AppConstants.SHARE_TO, descriptionEditText.getText().toString(), getToken(this))
+                dateCreated, AppConstants.BOARD, descriptionEditText.getText().toString(), getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

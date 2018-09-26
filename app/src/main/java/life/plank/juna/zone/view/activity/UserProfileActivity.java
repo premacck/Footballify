@@ -37,7 +37,7 @@ import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -115,7 +115,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.edit_profile_button)
-    public void editUserProfile(){
+    public void editUserProfile() {
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
         EditProfileActivity.launch(this);
     }
@@ -134,7 +134,7 @@ public class UserProfileActivity extends AppCompatActivity {
         restApi.getUserBoards(getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<Board>>>() {
+                .subscribe(new Subscriber<Response<List<Board>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
@@ -167,7 +167,7 @@ public class UserProfileActivity extends AppCompatActivity {
         restApi.getUser(getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<User>>() {
+                .subscribe(new Subscriber<Response<User>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
@@ -184,6 +184,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         if (model != null) {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());
+                            picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
                             String location;
                             if (!isNullOrEmpty(model.getCity()) && !equalsNullString(model.getCity())) {
                                 location = model.getCity() + ", " + model.getCountry();
@@ -194,5 +195,11 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDetails();
     }
 }
