@@ -34,6 +34,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.util.AppConstants;
@@ -51,7 +52,8 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class PrivateBoardActivity extends AppCompatActivity {
     private static final String TAG = PrivateBoardActivity.class.getSimpleName();
-
+    static String boardId;
+    private static RestApi staticRestApi;
     @Inject
     @Named("default")
     RestApi restApi;
@@ -59,17 +61,12 @@ public class PrivateBoardActivity extends AppCompatActivity {
     Picasso picasso;
     @Inject
     Gson gson;
-
-    private static RestApi staticRestApi;
-
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
     @BindView(R.id.private_board_toolbar)
     GenericToolbar toolbar;
     @BindView(R.id.private_board_view_pager)
     ViewPager viewPager;
-
-    static String boardId;
     private Board board;
     private PrivateBoardPagerAdapter pagerAdapter;
 
@@ -181,7 +178,9 @@ public class PrivateBoardActivity extends AppCompatActivity {
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
         FootballFeed feed = new FootballFeed();
+        FeedItem feedItem = new FeedItem();
 
+        feed.setFeedItem(feedItem);
         feed.getFeedItem().setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             feed.getFeedItem().setTitle(title);
