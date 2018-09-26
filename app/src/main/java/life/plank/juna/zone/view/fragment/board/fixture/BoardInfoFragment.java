@@ -28,9 +28,12 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
 import life.plank.juna.zone.util.customview.ScrubberLayout.ScrubberLayoutListener;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
@@ -46,7 +49,11 @@ import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
 import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
+import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
+import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
@@ -142,6 +149,16 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
         switch (zoneLiveData.getLiveDataType()) {
+            case SCORE_DATA:
+                LiveScoreData scoreData = zoneLiveData.getScoreData();
+                updateScoreLocally(matchDetails, scoreData);
+                FixtureListUpdateTask.update(MatchFixture.from(matchDetails), scoreData, null, true);
+                break;
+            case TIME_STATUS_DATA:
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus();
+                updateTimeStatusLocally(matchDetails, timeStatus);
+                FixtureListUpdateTask.update(MatchFixture.from(matchDetails), null, timeStatus, false);
+                break;
             case COMMENTARY_DATA:
                 adapter.setCommentaries(zoneLiveData.getCommentaryList(), false);
                 break;

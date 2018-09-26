@@ -48,6 +48,8 @@ import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.Thumbnail;
@@ -55,6 +57,7 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.DataUtil;
+import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
@@ -67,6 +70,8 @@ import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
+import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -165,16 +170,24 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                publicBoardToolbar.setScore(zoneLiveData.getScoreData().getHomeGoals() + DASH + zoneLiveData.getScoreData().getAwayGoals());
+                LiveScoreData scoreData = zoneLiveData.getScoreData();
+                updateScoreLocally(fixture, scoreData);
+                updateScoreLocally(matchDetails, scoreData);
+                publicBoardToolbar.setScore(scoreData.getHomeGoals() + DASH + scoreData.getAwayGoals());
+                FixtureListUpdateTask.update(fixture, scoreData, null, true);
                 break;
             case TIME_STATUS_DATA:
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus();
+                updateTimeStatusLocally(fixture, timeStatus);
+                updateTimeStatusLocally(matchDetails, timeStatus);
+                FixtureListUpdateTask.update(fixture, null, timeStatus, false);
                 Date matchStartTime = fixture != null ?
                         fixture.getMatchStartTime() :
                         matchDetails != null ?
                                 matchDetails.getMatchStartTime() :
                                 null;
                 if (matchStartTime != null) {
-                    publicBoardToolbar.setLiveTimeStatus(matchStartTime, zoneLiveData.getLiveTimeStatus().getTimeStatus());
+                    publicBoardToolbar.setLiveTimeStatus(matchStartTime, timeStatus.getTimeStatus());
                 }
                 break;
             default:
