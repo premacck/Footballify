@@ -73,8 +73,8 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
  * Created by plank-hasan on 5/3/2018.
  */
 
-public class BoardActivity extends BaseBoardActivity implements PublicBoardHeaderListener {
-    private static final String TAG = BoardActivity.class.getSimpleName();
+public class MatchBoardActivity extends BaseBoardActivity implements PublicBoardHeaderListener {
+    private static final String TAG = MatchBoardActivity.class.getSimpleName();
 
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
@@ -124,7 +124,7 @@ public class BoardActivity extends BaseBoardActivity implements PublicBoardHeade
     };
 
     public static void launch(Activity from, String fixtureJson) {
-        Intent intent = new Intent(from, BoardActivity.class);
+        Intent intent = new Intent(from, MatchBoardActivity.class);
         intent.putExtra(from.getString(R.string.intent_fixture_data), fixtureJson);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
@@ -257,7 +257,7 @@ public class BoardActivity extends BaseBoardActivity implements PublicBoardHeade
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "In onError() : getBoardIdAndMatchDetails" + e);
-                        Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -280,7 +280,7 @@ public class BoardActivity extends BaseBoardActivity implements PublicBoardHeade
                                 applyInactiveBoardColorFilter();
                             }
                         } else {
-                            Toast.makeText(BoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                         }
                     }
                 });
@@ -308,7 +308,7 @@ public class BoardActivity extends BaseBoardActivity implements PublicBoardHeade
                 FirebaseMessaging.getInstance().unsubscribeFromTopic(id);
             }
         } else {
-            Toast.makeText(BoardActivity.this, R.string.board_not_active, Toast.LENGTH_LONG).show();
+            Toast.makeText(MatchBoardActivity.this, R.string.board_not_active, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -364,11 +364,11 @@ public class BoardActivity extends BaseBoardActivity implements PublicBoardHeade
     static class BoardPagerAdapter extends FragmentPagerAdapter {
 
         private Fragment currentFragment;
-        private WeakReference<BoardActivity> ref;
+        private WeakReference<MatchBoardActivity> ref;
 
-        BoardPagerAdapter(FragmentManager supportFragmentManager, BoardActivity boardActivity) {
+        BoardPagerAdapter(FragmentManager supportFragmentManager, MatchBoardActivity matchBoardActivity) {
             super(supportFragmentManager);
-            ref = new WeakReference<>(boardActivity);
+            ref = new WeakReference<>(matchBoardActivity);
         }
 
         @Override

@@ -15,7 +15,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
-import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
@@ -96,7 +96,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            BoardActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(scoreFixture));
+            MatchBoardActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(scoreFixture));
         }
     }
 }

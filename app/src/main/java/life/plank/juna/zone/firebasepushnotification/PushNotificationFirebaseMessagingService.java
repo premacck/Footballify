@@ -40,7 +40,7 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
-import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
@@ -152,7 +152,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
             defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         } else {
-            Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : BoardActivity.class);
+            Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : MatchBoardActivity.class);
             msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             msgIntent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
