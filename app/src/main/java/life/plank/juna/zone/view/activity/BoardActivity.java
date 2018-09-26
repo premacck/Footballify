@@ -60,7 +60,7 @@ import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
-import rx.Observer;
+import rx.Subscriber;
 
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
@@ -247,7 +247,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId)
                 .doOnSubscribe(() -> progressBar.setVisibility(View.VISIBLE))
                 .doOnTerminate(() -> progressBar.setVisibility(View.GONE))
-                .subscribe(new Observer<Pair<Board, MatchDetails>>() {
+                .subscribe(new Subscriber<Pair<Board, MatchDetails>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getBoardIdAndMatchDetails");

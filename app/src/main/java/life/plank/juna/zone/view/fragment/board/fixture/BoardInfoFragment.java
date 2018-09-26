@@ -37,15 +37,14 @@ import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.adapter.BoardInfoAdapter;
 import retrofit2.Response;
-import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
+import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
 import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
-import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
@@ -171,7 +170,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 .doOnTerminate(() -> {
                     if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
                 })
-                .subscribe(new Observer<MatchDetails>() {
+                .subscribe(new Subscriber<MatchDetails>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted : getPreMatchData");
@@ -180,12 +179,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "getPreMatchData : " + e.getMessage());
-                        adapter.setMatchDetails(null, false);
+                        if (adapter != null) adapter.setMatchDetails(null, false);
                     }
 
                     @Override
                     public void onNext(MatchDetails matchDetails) {
-                        adapter.setMatchDetails(matchDetails, false);
+                        if (adapter != null) adapter.setMatchDetails(matchDetails, false);
                     }
                 });
     }
@@ -198,7 +197,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 .doOnTerminate(() -> {
                     if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
                 })
-                .subscribe(new Observer<MatchDetails>() {
+                .subscribe(new Subscriber<MatchDetails>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted : getPostMatchData");
@@ -207,12 +206,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "getPostMatchData : " + e.getMessage());
-                        adapter.setMatchDetails(null, true);
+                        if (adapter != null) adapter.setMatchDetails(null, true);
                     }
 
                     @Override
                     public void onNext(MatchDetails matchDetails) {
-                        adapter.setMatchDetails(matchDetails, true);
+                        if (adapter != null) adapter.setMatchDetails(matchDetails, true);
                     }
                 });
     }
@@ -230,7 +229,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e("", "onError: " + e);
-                        adapter.setLineups(null, R.string.something_went_wrong);
+                        if (adapter != null) adapter.setLineups(null, R.string.something_went_wrong);
                     }
 
                     @Override
@@ -239,12 +238,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (lineups != null) {
-                                    adapter.setLineups(lineups, 0);
+                                    if (adapter != null) adapter.setLineups(lineups, 0);
                                 } else
-                                    adapter.setLineups(null, R.string.match_yet_to_start);
+                                    if (adapter != null) adapter.setLineups(null, R.string.match_yet_to_start);
                                 break;
                             default:
-                                adapter.setLineups(null, R.string.line_ups_not_available);
+                                if (adapter != null) adapter.setLineups(null, R.string.line_ups_not_available);
                                 break;
                         }
                     }

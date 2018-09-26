@@ -37,7 +37,7 @@ import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -134,7 +134,7 @@ public class UserProfileActivity extends AppCompatActivity {
         restApi.getUserBoards(getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<List<Board>>>() {
+                .subscribe(new Subscriber<Response<List<Board>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
@@ -167,7 +167,7 @@ public class UserProfileActivity extends AppCompatActivity {
         restApi.getUser(getToken(this))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<User>>() {
+                .subscribe(new Subscriber<Response<User>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");

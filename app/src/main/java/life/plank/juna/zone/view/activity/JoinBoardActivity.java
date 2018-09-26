@@ -22,7 +22,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -66,7 +65,7 @@ public class JoinBoardActivity extends AppCompatActivity {
         restApi.followBoard(getToken(this), getIntent().getStringExtra(getString(R.string.board_id_prefix)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<JsonObject>>() {
+                .subscribe(new Subscriber<Response<JsonObject>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
