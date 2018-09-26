@@ -116,6 +116,7 @@ public class LineupLayout extends FrameLayout {
     }
 
     public void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, int labelColor, boolean isHomeTeam) {
+        lineupLayout.removeAllViews();
         if (!isHomeTeam) {
             Collections.reverse(formationsList);
         }
