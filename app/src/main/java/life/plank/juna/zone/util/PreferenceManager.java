@@ -115,6 +115,7 @@ public class PreferenceManager {
         return sharedPreference.getBoolean(preferenceKey, false);
     }
 
+//    TODO: remove this class when pin functionality is done in backend
     public static class PinManager {
 
         private static SharedPreferences getPinSharedPreferences() {
