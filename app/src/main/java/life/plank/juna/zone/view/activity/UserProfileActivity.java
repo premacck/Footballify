@@ -115,7 +115,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.edit_profile_button)
-    public void editUserProfile(){
+    public void editUserProfile() {
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
         EditProfileActivity.launch(this);
     }
@@ -184,6 +184,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         if (model != null) {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());
+                            picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
                             String location;
                             if (!isNullOrEmpty(model.getCity()) && !equalsNullString(model.getCity())) {
                                 location = model.getCity() + ", " + model.getCountry();
@@ -194,5 +195,11 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDetails();
     }
 }
