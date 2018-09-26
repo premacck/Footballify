@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -42,6 +43,8 @@ public class JoinBoardActivity extends AppCompatActivity {
     Gson gson;
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
+    @BindView(R.id.description)
+    TextView description;
     @BindView(R.id.preview_toolbar)
     GenericToolbar toolbar;
     @Inject
@@ -130,11 +133,8 @@ public class JoinBoardActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 board = response.body();
-                                toolbar.setTitle(board.getName());
-                                toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
-                                toolbar.setLeagueLogo(picasso, board.getBoardIcon().getUrl());
-                                toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
-                                boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
+                                populateBoardDetails(board);
+
                                 break;
                             default:
                                 Toast.makeText(getApplicationContext(), R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
@@ -142,5 +142,14 @@ public class JoinBoardActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void populateBoardDetails(Board board) {
+        toolbar.setTitle(board.getName());
+        toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
+        toolbar.setLeagueLogo(picasso, board.getBoardIcon().getUrl());
+        toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
+        boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
+        description.setText(board.getDescription());
     }
 }
