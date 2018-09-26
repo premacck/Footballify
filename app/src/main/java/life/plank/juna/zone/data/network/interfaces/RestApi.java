@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchStats;
@@ -109,6 +109,12 @@ public interface RestApi {
                                                     @Part("color") RequestBody color,
                                                     @Part MultipartBody.Part file,
                                                     @Header("Authorization") String authHeader);
+
+    //working
+    @Multipart
+    @POST("/users/uploadProfilePicture")
+    Observable<Response<String>> uploadProfilePicture(@Part MultipartBody.Part file,
+                                                      @Header("Authorization") String authHeader);
 
     //working
     @DELETE("/boards/{id}")
