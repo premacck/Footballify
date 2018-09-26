@@ -15,9 +15,17 @@ import java.util.Objects;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.MatchFixture;
+import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static life.plank.juna.zone.util.AppConstants.ONE_DAY_MILLIS;
+import static life.plank.juna.zone.util.AppConstants.TWO_HOURS_MILLIS;
 import static life.plank.juna.zone.util.DataUtil.formatInt;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
 
 public class DateUtil {
 
@@ -167,5 +175,44 @@ public class DateUtil {
 
     public static String getScheduledMatchDateString(Date date) {
         return SCHEDULED_MATCH_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * Method for determining the value the match time is currently in<br/>
+     * It can be one of thw values in {@link MatchTimeVal} annotation, which are:
+     * <br/>-> MATCH_PAST:
+     * <br/>-> MATCH_COMPLETED_TODAY:
+     * <br/>-> MATCH_LIVE:
+     * <br/>-> MATCH_SCHEDULED_TODAY:
+     * <br/>-> MATCH_SCHEDULED_LATER:
+     * @param matchStartTime the match's start time
+     * @return an int value, which is one of {@link MatchTimeVal} annotation
+     */
+    @MatchTimeVal
+    public static int getMatchTimeValue(Date matchStartTime) {
+        int dateDiff = getDateDiffFromToday(matchStartTime);
+        if (dateDiff < 0) {
+//                past
+            return MATCH_PAST;
+        } else {
+            long timeDiff = matchStartTime.getTime() - new Date().getTime();
+//            Checking if 2 hours have elapsed since match start time
+            if (timeDiff < 0) {
+                if (timeDiff > -TWO_HOURS_MILLIS) {
+//                    live
+                    return MATCH_LIVE;
+                } else {
+//                    Completed sometime today
+                    return MATCH_COMPLETED_TODAY;
+                }
+            }
+            else if (timeDiff <= ONE_DAY_MILLIS) {
+//                scheduled today (the match is in the next 24 hours)
+                return MATCH_SCHEDULED_TODAY;
+            } else {
+//                scheduled later
+                return MATCH_SCHEDULED_LATER;
+            }
+        }
     }
 }
