@@ -170,14 +170,14 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                LiveScoreData scoreData = zoneLiveData.getScoreData();
+                LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
                 updateScoreLocally(fixture, scoreData);
                 updateScoreLocally(matchDetails, scoreData);
                 publicBoardToolbar.setScore(scoreData.getHomeGoals() + DASH + scoreData.getAwayGoals());
                 FixtureListUpdateTask.update(fixture, scoreData, null, true);
                 break;
             case TIME_STATUS_DATA:
-                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus();
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
                 updateTimeStatusLocally(fixture, timeStatus);
                 updateTimeStatusLocally(matchDetails, timeStatus);
                 FixtureListUpdateTask.update(fixture, null, timeStatus, false);

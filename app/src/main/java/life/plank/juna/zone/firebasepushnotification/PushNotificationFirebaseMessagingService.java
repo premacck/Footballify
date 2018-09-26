@@ -16,7 +16,6 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -25,36 +24,18 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.Commentary;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchStats;
-import life.plank.juna.zone.data.network.model.ScrubberData;
-import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
+import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 
-import static life.plank.juna.zone.util.AppConstants.BOARD_TOPIC;
-import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
-import static life.plank.juna.zone.util.AppConstants.FOREIGN_ID;
-import static life.plank.juna.zone.util.AppConstants.LIVE_DATA_TYPE;
 import static life.plank.juna.zone.util.AppConstants.LIVE_EVENT_TYPE;
-import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
-import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
-import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
-import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
-import static life.plank.juna.zone.util.AppConstants.SCRUBBER_DATA;
-import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
@@ -201,7 +182,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     private static class LiveFootballMatchNotifier extends AsyncTask<Void, Void, String> {
 
         private final WeakReference<Context> ref;
-        private final Gson gson;
         private final Map<String, String> dataPayload;
 
         static void notify(Context context, Gson gson, Map<String, String> dataPayload) {
@@ -210,31 +190,13 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
         LiveFootballMatchNotifier(Context context, Gson gson, Map<String, String> dataPayload) {
             this.ref = new WeakReference<>(context);
-            this.gson = gson;
             this.dataPayload = dataPayload;
         }
 
         @Override
         protected String doInBackground(Void... voids) {
-            return gson.toJson(
-                    new ZoneLiveData(
-                            dataPayload.get(LIVE_EVENT_TYPE),
-                            Long.parseLong(dataPayload.get(FOREIGN_ID)),
-                            dataPayload.get(BOARD_TOPIC),
-                            dataPayload.get(LIVE_DATA_TYPE),
-                            gson.fromJson(dataPayload.get(SCORE_DATA), LiveScoreData.class),
-                            gson.fromJson(dataPayload.get(MATCH_EVENTS), new TypeToken<List<MatchEvent>>() {
-                            }.getType()),
-                            gson.fromJson(dataPayload.get(COMMENTARY_DATA), new TypeToken<List<Commentary>>() {
-                            }.getType()),
-                            gson.fromJson(dataPayload.get(SCRUBBER_DATA), new TypeToken<List<ScrubberData>>() {
-                            }.getType()),
-                            gson.fromJson(dataPayload.get(TIME_STATUS_DATA), LiveTimeStatus.class),
-                            gson.fromJson(dataPayload.get(HIGHLIGHTS_DATA), new TypeToken<List<ScrubberData>>() {
-                            }.getType()),
-                            gson.fromJson(dataPayload.get(MATCH_STATS_DATA), MatchStats.class)
-                    )
-            );
+            JSONObject zoneLiveDataJsonObject = new JSONObject(dataPayload);
+            return zoneLiveDataJsonObject.toString();
         }
 
         @Override

@@ -182,20 +182,20 @@ public class TimelineActivity extends AppCompatActivity {
         ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                LiveScoreData scoreData = zoneLiveData.getScoreData();
+                LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
                 updateScoreLocally(fixture, scoreData);
                 FixtureListUpdateTask.update(fixture, scoreData, null, true);
                 scoreTextView.setText(getSeparator(fixture, winPointer, false));
                 break;
             case MATCH_EVENTS:
-                List<MatchEvent> matchEventList = zoneLiveData.getMatchEventList();
+                List<MatchEvent> matchEventList = zoneLiveData.getMatchEventList(gson);
                 if (adapter != null && !isNullOrEmpty(matchEventList)) {
                     adapter.updateLiveEvents(matchEventList);
                     timelineRecyclerView.smoothScrollToPosition(0);
                 }
                 break;
             case TIME_STATUS:
-                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus();
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
                 if ((Objects.equals(timeStatus.getTimeStatus(), LIVE) && timeStatus.getMinute() == 0) ||
                         Objects.equals(timeStatus.getTimeStatus(), HT) ||
                         Objects.equals(timeStatus.getTimeStatus(), FT)) {
