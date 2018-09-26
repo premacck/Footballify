@@ -111,6 +111,12 @@ public interface RestApi {
                                                     @Header("Authorization") String authHeader);
 
     //working
+    @Multipart
+    @POST("/users/uploadProfilePicture")
+    Observable<Response<String>> uploadProfilePicture(@Part MultipartBody.Part file,
+                                                      @Header("Authorization") String authHeader);
+
+    //working
     @DELETE("/boards/{id}")
     Observable<Response<JsonObject>> deleteBoard(@Path("id") String boardId,
                                                  @Header("Authorization") String authHeader);
