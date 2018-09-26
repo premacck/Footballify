@@ -27,7 +27,6 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     private List<User> userList;
     private Context context;
     private String boardId;
-    private Context boardContext;
     private PrivateBoardInfoFragment fragment;
 
     public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment) {
@@ -39,7 +38,6 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
 
     @Override
     public BoardMembersViewAdapter.BoardMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        boardContext = parent.getContext();
         return new BoardMembersViewAdapter.BoardMembersViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false));
     }
 

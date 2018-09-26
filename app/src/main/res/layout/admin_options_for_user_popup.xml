@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"
             android:padding="3dp"
-            android:text="View profile"
+            android:text="@string/view_profile"
             android:textColor="@color/grey"
             android:textSize="12sp" />
 
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"
             android:padding="3dp"
-            android:text="Kick from board"
+            android:text="@string/kick_from_board"
             android:textColor="@color/grey"
             android:textSize="12sp" />
 

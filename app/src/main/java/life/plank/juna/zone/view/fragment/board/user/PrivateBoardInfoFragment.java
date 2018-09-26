@@ -74,7 +74,6 @@ public class PrivateBoardInfoFragment extends Fragment {
 
     public static void onClickProfileImage(View view) {
         showPrivateBoardOptionPopup(view, rootView);
-
     }
 
     @Override

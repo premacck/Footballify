@@ -89,6 +89,7 @@ public class CustomPopup {
     }
 
 
+    //TODO: Refactor this entire class after complete functionality.
     public static void showPrivateBoardOptionPopup(View view, View fragmentRootView) {
         LinearLayout viewGroup = fragmentRootView.findViewById(R.id.owner_options_popup);
         LayoutInflater layoutInflater = (LayoutInflater) fragmentRootView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
