@@ -88,13 +88,65 @@ public class CustomPopup {
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
     }
 
-//    public static void showOwnerOptionsPopup(Context context, Point p, String popUpType, int offsetX, int offsetY) {
-//
-//        View rootView = ((Activity)context).getWindow().getDecorView().findViewById(R.id.board_info_id);
-//        View viewGroup = rootView.findViewById(R.id.owner_options_popup);
-//
-//        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
-//    }
+
+    public static void showPrivateBoardOptionPopup(View view, View fragmentRootView) {
+        LinearLayout viewGroup = fragmentRootView.findViewById(R.id.owner_options_popup);
+        LayoutInflater layoutInflater = (LayoutInflater) fragmentRootView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
+
+
+        int[] location = new int[2];
+
+        view.getLocationOnScreen(location);
+
+        //Initialize the Point with x, and y positions
+        Point point = new Point();
+        point.x = location[0];
+        point.y = location[1];
+
+        // Displaying the popup at the specified location, + offsets.
+
+        optionPopUp = new PopupWindow(fragmentRootView.getContext());
+        optionPopUp.setContentView(layout);
+        optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setFocusable(true);
+
+        //Clear the default translucent background
+        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
+
+        // Displaying the popup at the specified location, + offsets.
+        optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, point.x, point.y);
+    }
+
+    public static void showAdminOptionsPopup(View view, View fragmentRootView) {
+        LinearLayout viewGroup = fragmentRootView.findViewById(R.id.admin_options_popup);
+        LayoutInflater layoutInflater = (LayoutInflater) fragmentRootView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View layout = layoutInflater.inflate(R.layout.admin_options_for_user_popup, viewGroup);
+
+
+        int[] location = new int[2];
+
+        view.getLocationOnScreen(location);
+
+        //Initialize the Point with x, and y positions
+        Point point = new Point();
+        point.x = location[0];
+        point.y = location[1];
+
+        // Displaying the popup at the specified location, + offsets.
+
+        optionPopUp = new PopupWindow(fragmentRootView.getContext());
+        optionPopUp.setContentView(layout);
+        optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
+        optionPopUp.setFocusable(true);
+
+        //Clear the default translucent background
+        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
+
+        // Displaying the popup at the specified location, + offsets.
+        optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, point.x, point.y);
+    }
 
 }

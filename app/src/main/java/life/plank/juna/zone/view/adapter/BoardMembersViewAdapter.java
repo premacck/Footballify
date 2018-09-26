@@ -1,18 +1,13 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.List;
@@ -32,6 +27,7 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     private List<User> userList;
     private Context context;
     private String boardId;
+    private Context boardContext;
     private PrivateBoardInfoFragment fragment;
 
     public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment) {
@@ -43,6 +39,7 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
 
     @Override
     public BoardMembersViewAdapter.BoardMembersViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        boardContext = parent.getContext();
         return new BoardMembersViewAdapter.BoardMembersViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false));
     }
 
@@ -62,26 +59,7 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
         });
 
         holder.profileImageView.setOnLongClickListener(view -> {
-
-            View rootView = ((Activity)context).getWindow().getDecorView().findViewById(R.id.board_info_id);
-            LinearLayout v = rootView.findViewById(R.id.owner_options_popup);
-
-            LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, v);
-
-//            optionPopUp = new PopupWindow(context);
-//            optionPopUp.setContentView(layout);
-//            optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
-//            optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
-//            optionPopUp.setFocusable(true);
-//
-//            //Clear the default translucent background
-//            optionPopUp.setBackgroundDrawable(new BitmapDrawable());
-//
-//            // Displaying the popup at the specified location, + offsets.
-//            optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
-
-
+            PrivateBoardInfoFragment.onClickProfileImage(view);
             return true;
         });
     }
