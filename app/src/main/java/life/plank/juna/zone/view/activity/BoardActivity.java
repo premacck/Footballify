@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -57,6 +55,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.DataUtil;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
@@ -74,9 +73,8 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
  * Created by plank-hasan on 5/3/2018.
  */
 
-public class BoardActivity extends AppCompatActivity implements PublicBoardHeaderListener {
+public class BoardActivity extends BaseBoardActivity implements PublicBoardHeaderListener {
     private static final String TAG = BoardActivity.class.getSimpleName();
-    public static Bitmap boardParentViewBitmap = null;
 
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
@@ -112,9 +110,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
     private String boardId;
     private MatchDetails matchDetails;
 
-    private boolean isTileFullScreenActive;
     private BoardPagerAdapter boardPagerAdapter;
-    private BoardFeedDetailAdapter boardFeedDetailAdapter;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -207,7 +203,8 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         getBoardIdAndMatchDetails(currentMatchId);
     }
 
-    private void prepareFullScreenRecyclerView() {
+    @Override
+    public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
         boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
@@ -315,10 +312,12 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     }
 
+    @Override
     public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
         boardFeedDetailAdapter.update(footballFeedList);
     }
 
+    @Override
     public void setBlurBackgroundAndShowFullScreenTiles(boolean setFlag, int position) {
         isTileFullScreenActive = setFlag;
         boardParentViewBitmap = setFlag ? loadBitmap(rootLayout, rootLayout, this) : null;
@@ -355,6 +354,7 @@ public class BoardActivity extends AppCompatActivity implements PublicBoardHeade
         }
     }
 
+    @Override
     public void moveItem(int position, int previousPosition) {
         if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
             ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).moveItem(position, previousPosition);

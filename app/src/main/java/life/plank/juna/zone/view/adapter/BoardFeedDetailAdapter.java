@@ -40,7 +40,7 @@ import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.OnSwipeTouchListener;
-import life.plank.juna.zone.view.activity.BoardActivity;
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -78,12 +78,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     private List<FootballFeed> feedsListItem;
     private RestApi restApi;
-    private BoardActivity activity;
+    private BaseBoardActivity activity;
     private String date;
     private String boardId;
     private boolean isBoardActive;
 
-    public BoardFeedDetailAdapter(BoardActivity activity, String boardId, boolean isBoardActive) {
+    public BoardFeedDetailAdapter(BaseBoardActivity activity, String boardId, boolean isBoardActive) {
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(activity);

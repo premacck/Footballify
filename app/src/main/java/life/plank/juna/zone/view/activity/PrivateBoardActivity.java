@@ -12,10 +12,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PagerSnapHelper;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -24,12 +30,14 @@ import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -39,18 +47,21 @@ import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
+import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 /**
  * Created by plank-dhamini on 25/7/2018.
  */
 
-public class PrivateBoardActivity extends AppCompatActivity {
+public class PrivateBoardActivity extends BaseBoardActivity {
     private static final String TAG = PrivateBoardActivity.class.getSimpleName();
     static String boardId;
     private static RestApi staticRestApi;
@@ -61,12 +72,20 @@ public class PrivateBoardActivity extends AppCompatActivity {
     Picasso picasso;
     @Inject
     Gson gson;
+    @Inject
+    PagerSnapHelper pagerSnapHelper;
+    @BindView(R.id.root_layout)
+    RelativeLayout rootLayout;
     @BindView(R.id.board_parent_layout)
     CardView boardCardView;
     @BindView(R.id.private_board_toolbar)
     GenericToolbar toolbar;
     @BindView(R.id.private_board_view_pager)
     ViewPager viewPager;
+    @BindView(R.id.board_blur_background_image_view)
+    ImageView boardBlurBackgroundImageView;
+    @BindView(R.id.board_tiles_list_full)
+    RecyclerView boardTilesFullRecyclerView;
     private Board board;
     private PrivateBoardPagerAdapter pagerAdapter;
 
@@ -146,6 +165,7 @@ public class PrivateBoardActivity extends AppCompatActivity {
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
 
+        prepareFullScreenRecyclerView();
         setupViewPagerWithFragments();
         String topic = getString(R.string.board_id_prefix) + board.getId();
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
@@ -202,11 +222,79 @@ public class PrivateBoardActivity extends AppCompatActivity {
     }
 
     @Override
+    public void prepareFullScreenRecyclerView() {
+        pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true);
+        boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
+    }
+
+    @Override
+    public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
+        boardFeedDetailAdapter.update(footballFeedList);
+    }
+
+    @Override
+    public void moveItem(int position, int previousPosition) {
+        if (pagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
+            ((BoardTilesFragment) pagerAdapter.getCurrentFragment()).moveItem(position, previousPosition);
+        }
+    }
+
+    @Override
+    public void setBlurBackgroundAndShowFullScreenTiles(boolean setFlag, int position) {
+        isTileFullScreenActive = setFlag;
+        boardParentViewBitmap = setFlag ? loadBitmap(rootLayout, rootLayout, this) : null;
+        boardBlurBackgroundImageView.setImageBitmap(boardParentViewBitmap);
+
+        Animation.AnimationListener listener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                boardTilesFullRecyclerView.setVisibility(View.INVISIBLE);
+                boardBlurBackgroundImageView.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+        Animation recyclerViewAnimation = AnimationUtils.loadAnimation(this, setFlag ? R.anim.zoom_in : R.anim.zoom_out);
+        Animation blurBackgroundAnimation = AnimationUtils.loadAnimation(this, setFlag ? android.R.anim.fade_in : android.R.anim.fade_out);
+        if (!setFlag) {
+            recyclerViewAnimation.setAnimationListener(listener);
+            blurBackgroundAnimation.setAnimationListener(listener);
+        }
+        boardTilesFullRecyclerView.startAnimation(recyclerViewAnimation);
+        boardBlurBackgroundImageView.startAnimation(blurBackgroundAnimation);
+
+        if (setFlag) {
+            boardTilesFullRecyclerView.scrollToPosition(position);
+            boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
+            boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @OnClick(R.id.board_blur_background_image_view)
+    public void dismissFullScreenRecyclerView() {
+        setBlurBackgroundAndShowFullScreenTiles(false, 0);
+    }
+
+    @Override
     public void onBackPressed() {
-        Intent intent = new Intent(PrivateBoardActivity.this, UserProfileActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-        super.onBackPressed();
+        if (isTileFullScreenActive) {
+            setBlurBackgroundAndShowFullScreenTiles(false, 0);
+        } else {
+            boardFeedDetailAdapter = null;
+            pagerAdapter = null;
+            Intent intent = new Intent(PrivateBoardActivity.this, UserProfileActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            super.onBackPressed();
+            overridePendingTransition(R.anim.float_down, R.anim.sink_down);
+        }
     }
 
     static class PrivateBoardPagerAdapter extends FragmentPagerAdapter {
