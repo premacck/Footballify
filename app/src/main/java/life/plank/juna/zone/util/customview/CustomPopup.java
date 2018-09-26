@@ -88,4 +88,13 @@ public class CustomPopup {
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
     }
 
+//    public static void showOwnerOptionsPopup(Context context, Point p, String popUpType, int offsetX, int offsetY) {
+//
+//        View rootView = ((Activity)context).getWindow().getDecorView().findViewById(R.id.board_info_id);
+//        View viewGroup = rootView.findViewById(R.id.owner_options_popup);
+//
+//        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
+//    }
+
 }

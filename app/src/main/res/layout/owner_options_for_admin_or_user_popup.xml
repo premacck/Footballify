@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    app:cardCornerRadius="8dp">
+
+    <LinearLayout
+        android:id="@+id/owner_options_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/view_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rajdhani_medium"
+            android:padding="3dp"
+            android:textSize="12sp"
+            android:text="View profile"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/remove_admin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rajdhani_medium"
+            android:padding="3dp"
+            android:textSize="12sp"
+            android:text="Remove admin"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/transfer_ownership"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rajdhani_medium"
+            android:padding="3dp"
+            android:textSize="12sp"
+            android:text="Transfer ownership"
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/kick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/rajdhani_medium"
+            android:padding="3dp"
+            android:textSize="12sp"
+            android:text="Kick from board"
+            android:textColor="@color/grey" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
