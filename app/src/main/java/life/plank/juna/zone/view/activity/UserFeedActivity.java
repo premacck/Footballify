@@ -242,6 +242,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        authService.dispose();
+        if (authService != null) {
+            authService.dispose();
+        }
     }
 }
