@@ -150,29 +150,29 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
         switch (zoneLiveData.getLiveDataType()) {
             case SCORE_DATA:
-                LiveScoreData scoreData = zoneLiveData.getScoreData();
+                LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
                 updateScoreLocally(matchDetails, scoreData);
                 FixtureListUpdateTask.update(MatchFixture.from(matchDetails), scoreData, null, true);
                 break;
             case TIME_STATUS_DATA:
-                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus();
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
                 updateTimeStatusLocally(matchDetails, timeStatus);
                 FixtureListUpdateTask.update(MatchFixture.from(matchDetails), null, timeStatus, false);
                 break;
             case COMMENTARY_DATA:
-                adapter.setCommentaries(zoneLiveData.getCommentaryList(), false);
+                adapter.setCommentaries(zoneLiveData.getCommentaryList(gson), false);
                 break;
             case MATCH_EVENTS:
-                adapter.setMatchEvents(zoneLiveData.getMatchEventList(), false);
+                adapter.setMatchEvents(zoneLiveData.getMatchEventList(gson), false);
                 break;
             case LINEUPS_DATA:
                 getLineupFormation();
                 break;
             case MATCH_STATS_DATA:
-                adapter.setMatchStats(zoneLiveData.getMatchStats(), zoneLiveData.getMatchStats() == null ? R.string.match_stats_not_available_yet : 0);
+                adapter.setMatchStats(zoneLiveData.getMatchStats(gson), zoneLiveData.getMatchStats(gson) == null ? R.string.match_stats_not_available_yet : 0);
                 break;
             case HIGHLIGHTS_DATA:
-                adapter.setHighlights(zoneLiveData.getHighlightsList(), false);
+                adapter.setHighlights(zoneLiveData.getHighlightsList(gson), false);
                 break;
             default:
                 break;
