@@ -34,6 +34,9 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.League;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
+import life.plank.juna.zone.data.network.model.LiveTimeStatus;
+import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
@@ -548,5 +551,31 @@ public class DataUtil {
             footballFeedList.remove(footballFeedToUnpin);
             footballFeedList.add(previousPosition, footballFeedToUnpin);
         }
+    }
+
+    public static void updateScoreLocally(MatchFixture fixture, LiveScoreData scoreData) {
+        fixture.setHomeGoals(scoreData.getHomeGoals());
+        fixture.setAwayGoals(scoreData.getAwayGoals());
+        fixture.setHomeTeamPenaltyScore(scoreData.getHomeTeamPenaltyScore());
+        fixture.setAwayTeamPenaltyScore(scoreData.getAwayTeamPenaltyScore());
+    }
+
+    public static void updateScoreLocally(MatchDetails matchDetails, LiveScoreData scoreData) {
+        matchDetails.setHomeGoals(scoreData.getHomeGoals());
+        matchDetails.setAwayGoals(scoreData.getAwayGoals());
+        matchDetails.setHomeTeamPenaltyScore(scoreData.getHomeTeamPenaltyScore());
+        matchDetails.setAwayTeamPenaltyScore(scoreData.getAwayTeamPenaltyScore());
+    }
+
+    public static void updateTimeStatusLocally(MatchFixture fixture, LiveTimeStatus timeStatus) {
+        fixture.setTimeStatus(timeStatus.getTimeStatus());
+        fixture.setMinute(timeStatus.getMinute());
+        fixture.setExtraMinute(timeStatus.getExtraMinute());
+    }
+
+    public static void updateTimeStatusLocally(MatchDetails matchDetails, LiveTimeStatus timeStatus) {
+        matchDetails.setTimeStatus(timeStatus.getTimeStatus());
+        matchDetails.setMinute(timeStatus.getMinute());
+        matchDetails.setExtraMinute(timeStatus.getExtraMinute());
     }
 }

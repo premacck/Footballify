@@ -15,8 +15,4 @@ public class FixtureByMatchDay {
         this.matchDay = matchDay;
         this.fixtureByDateList = fixtureByDateList;
     }
-
-    public static FixtureByMatchDay getFrom(String daySection, int matchday, List<FixtureByDate> fixtureByDateList) {
-        return new FixtureByMatchDay(daySection, matchday, fixtureByDateList);
-    }
 }

@@ -36,22 +36,27 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
+import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
 
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS;
 import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
 import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
+import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimelineDateHeader;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTarget;
@@ -176,6 +181,12 @@ public class TimelineActivity extends AppCompatActivity {
     private void setZoneLiveData(Intent intent) {
         ZoneLiveData zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson);
         switch (zoneLiveData.getLiveDataType()) {
+            case SCORE_DATA:
+                LiveScoreData scoreData = zoneLiveData.getScoreData();
+                updateScoreLocally(fixture, scoreData);
+                FixtureListUpdateTask.update(fixture, scoreData, null, true);
+                scoreTextView.setText(getSeparator(fixture, winPointer, false));
+                break;
             case MATCH_EVENTS:
                 List<MatchEvent> matchEventList = zoneLiveData.getMatchEventList();
                 if (adapter != null && !isNullOrEmpty(matchEventList)) {
@@ -192,6 +203,9 @@ public class TimelineActivity extends AppCompatActivity {
                         adapter.updateWhistleEvent(timeStatus);
                     }
                 }
+                updateTimeStatusLocally(fixture, timeStatus);
+                FixtureListUpdateTask.update(fixture, null, timeStatus, false);
+                timeStatusTextView.setText(getDisplayTimeStatus(fixture.getTimeStatus()));
                 break;
             default:
                 break;
