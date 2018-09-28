@@ -6,7 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.CursorLoader;
-import android.content.Intent;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -75,8 +75,6 @@ import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
-import life.plank.juna.zone.view.activity.SignInActivity;
-import life.plank.juna.zone.view.activity.SignUpActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
@@ -608,13 +606,11 @@ public class UIDisplayUtil {
         view.setBackgroundTintList(isEnabled ? null : ColorStateList.valueOf(ZoneApplication.getContext().getColor(R.color.colorDisabled)));
     }
 
-    public static void showConnectDialog(Activity activity) {
+    public static void showBoardExpirationDialog(Activity activity, DialogInterface.OnClickListener listener) {
         new AlertDialog.Builder(activity)
-                .setTitle(R.string.hey_there)
-                .setMessage(R.string.connect_message)
-                .setPositiveButton(R.string.login, (dialog, which) -> activity.startActivity(new Intent(activity, SignInActivity.class)))
-                .setNegativeButton(R.string.sign_up, (dialog, which) -> activity.startActivity(new Intent(activity, SignUpActivity.class)))
-                .setNeutralButton(R.string.cancel, (dialog, which) -> dialog.cancel())
+                .setTitle(R.string.alert)
+                .setMessage(R.string.board_now_expired)
+                .setPositiveButton(R.string.okay, listener)
                 .show();
     }
 

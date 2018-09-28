@@ -181,4 +181,10 @@
     <string name="kick_from_board">Kick from board</string>
     <string name="remove_admin">Remove admin</string>
     <string name="transfer_ownership">Transfer ownership</string>
+    <string name="alert">Alert</string>
+    <string name="board_now_expired">
+        Thanks for being a part of this board!\n\n
+        However, this Board is now expired.\nYou can now only view the events and feeds of this board.
+    </string>
+    <string name="okay">Okay</string>
 </resources>
