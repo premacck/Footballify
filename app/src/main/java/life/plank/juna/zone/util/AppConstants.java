@@ -86,6 +86,8 @@ public class AppConstants {
     public static final String TIME_STATUS_DATA =  "liveTimeStatus";
     public static final String HIGHLIGHTS_DATA =  "liveMatchHighlights";
     public static final String MATCH_STATS_DATA =  "liveMatchStats";
+    public static final String BOARD_ACTIVATED =  "boardActivation";
+    public static final String BOARD_DEACTIVATED =  "boardDeactivation";
     //endregion
 
     public static final String FIRST_HALF_ENDED_ = "First Half ended - ";

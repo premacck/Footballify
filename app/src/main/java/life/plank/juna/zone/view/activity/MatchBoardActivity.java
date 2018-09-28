@@ -65,6 +65,8 @@ import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import rx.Subscriber;
 
+import static life.plank.juna.zone.util.AppConstants.BOARD_ACTIVATED;
+import static life.plank.juna.zone.util.AppConstants.BOARD_DEACTIVATED;
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
@@ -74,6 +76,7 @@ import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
+import static life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog;
 
 /**
  * Created by plank-hasan on 5/3/2018.
@@ -189,6 +192,19 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                 if (matchStartTime != null) {
                     publicBoardToolbar.setLiveTimeStatus(matchStartTime, timeStatus.getTimeStatus());
                 }
+                break;
+            case BOARD_ACTIVATED:
+                isBoardActive = true;
+                clearColorFilter();
+                setupViewPagerWithFragments();
+                break;
+            case BOARD_DEACTIVATED:
+                isBoardActive = false;
+                applyInactiveBoardColorFilter();
+                showBoardExpirationDialog(this, ((dialog, which) -> {
+                    setupViewPagerWithFragments();
+                    dialog.cancel();
+                }));
                 break;
             default:
                 break;
@@ -306,6 +322,10 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                         }
                     }
                 });
+    }
+
+    private void clearColorFilter() {
+        boardParentLayout.getBackground().clearColorFilter();
     }
 
     private void applyInactiveBoardColorFilter() {
