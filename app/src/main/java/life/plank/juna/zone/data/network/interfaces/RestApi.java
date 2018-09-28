@@ -75,6 +75,12 @@ public interface RestApi {
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Query("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
+    @DELETE("/boards/{id}/activities/removeUser")
+    Observable<Response<JsonObject>> deleteUserFromPrivateBoard(@Path("id") String boardId,
+                                                                @Query("boardUserId") String userId,
+                                                                @Header("Authorization") String authHeader);
+
+    //working
     @GET("/users")
     Observable<Response<User>> getUser(@Header("Authorization") String authHeader);
 

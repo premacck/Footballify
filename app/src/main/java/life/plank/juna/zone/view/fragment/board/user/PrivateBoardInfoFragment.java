@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonObject;
+
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,14 @@ public class PrivateBoardInfoFragment extends Fragment {
     private static final String DESCRIPTION = "description";
     private static final String BOARD_ID = "board_id";
     private static final String DISPLAY_NAME = "display_name";
+    static BoardMembersViewAdapter boardMembersViewAdapter;
+    static ArrayList<User> userList = new ArrayList<>();
+    static SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(ZoneApplication.getContext().getString(R.string.pref_user_details), MODE_PRIVATE);
     private static View rootView;
+    private static String boardId;
+    private static RestApi staticRestApi;
+    private static int userPosition;
+    private static String displayName;
     @Inject
     @Named("default")
     RestApi restApi;
@@ -51,11 +60,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     TextView descriptionTextView;
     @BindView(R.id.board_members_recycler_view)
     RecyclerView boardMembersRecyclerView;
-    BoardMembersViewAdapter boardMembersViewAdapter;
-    ArrayList<User> userList = new ArrayList<>();
     private String description;
-    private String boardId;
-    private String displayName;
     private Context context;
 
     public PrivateBoardInfoFragment() {
@@ -72,8 +77,45 @@ public class PrivateBoardInfoFragment extends Fragment {
         return fragment;
     }
 
-    public static void onClickProfileImage(View view) {
-        showPrivateBoardOptionPopup(view, rootView);
+    public static void onClickProfileImage(View view, String userId, int position) {
+
+        if (sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA").equals(displayName)) {
+            showPrivateBoardOptionPopup(view, rootView, userId);
+            userPosition = position;
+        }
+    }
+
+    public static void deletePrivateBoardMember(String userId) {
+
+        staticRestApi.deleteUserFromPrivateBoard(boardId, userId, getToken(ZoneApplication.getContext()))
+                .subscribeOn(rx.schedulers.Schedulers.io())
+                .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
+                                userList.remove(userPosition);
+                                boardMembersViewAdapter.notifyDataSetChanged();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.user_deleted, Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                });
     }
 
     @Override
@@ -92,6 +134,7 @@ public class PrivateBoardInfoFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_private_board_info, container, false);
         ButterKnife.bind(this, rootView);
         ZoneApplication.getApplication().getUiComponent().inject(this);
+        staticRestApi = restApi;
         context = getActivity().getApplicationContext();
         descriptionTextView.setText(description);
         initRecyclerView();
@@ -101,7 +144,7 @@ public class PrivateBoardInfoFragment extends Fragment {
 
     private void initRecyclerView() {
         boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
-        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this);
+        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this, displayName);
         boardMembersRecyclerView.setAdapter(boardMembersViewAdapter);
     }
 
@@ -124,7 +167,6 @@ public class PrivateBoardInfoFragment extends Fragment {
                     public void onNext(Response<List<User>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(ZoneApplication.getContext().getString(R.string.pref_user_details), MODE_PRIVATE);
                                 List<User> users = response.body();
                                 if (sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA").equals(displayName)) {
                                     User inviteUser = new User();

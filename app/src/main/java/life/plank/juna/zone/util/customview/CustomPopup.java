@@ -15,6 +15,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
+import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 
 public class CustomPopup {
 
@@ -90,7 +91,7 @@ public class CustomPopup {
 
 
     //TODO: Refactor this entire class after complete functionality.
-    public static void showPrivateBoardOptionPopup(View view, View fragmentRootView) {
+    public static void showPrivateBoardOptionPopup(View parentview, View fragmentRootView, String userId) {
         LinearLayout viewGroup = fragmentRootView.findViewById(R.id.owner_options_popup);
         LayoutInflater layoutInflater = (LayoutInflater) fragmentRootView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
@@ -98,7 +99,7 @@ public class CustomPopup {
 
         int[] location = new int[2];
 
-        view.getLocationOnScreen(location);
+        parentview.getLocationOnScreen(location);
 
         //Initialize the Point with x, and y positions
         Point point = new Point();
@@ -106,6 +107,13 @@ public class CustomPopup {
         point.y = location[1];
 
         // Displaying the popup at the specified location, + offsets.
+
+        TextView popupItemOne = layout.findViewById(R.id.kick);
+        popupItemOne.setOnClickListener(view -> {
+            PrivateBoardInfoFragment.deletePrivateBoardMember(userId);
+            optionPopUp.dismiss();
+        });
+
 
         optionPopUp = new PopupWindow(fragmentRootView.getContext());
         optionPopUp.setContentView(layout);
