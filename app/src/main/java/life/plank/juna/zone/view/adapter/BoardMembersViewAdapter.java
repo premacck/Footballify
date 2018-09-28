@@ -27,13 +27,16 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     private List<User> userList;
     private Context context;
     private String boardId;
+    private String displayName;
     private PrivateBoardInfoFragment fragment;
 
-    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment) {
+    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment, String displayName) {
         this.context = context;
         this.userList = userList;
         this.boardId = boardId;
         this.fragment = fragment;
+        this.displayName = displayName;
+
     }
 
     @Override
@@ -55,13 +58,14 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
                 inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
                 inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(inviteToBoard);
+            } else {
+                if (!userList.get(position).getDisplayName().equals(displayName)) {
+                    PrivateBoardInfoFragment.onClickProfileImage(view, userList.get(position).getObjectId(), position);
+
+                }
             }
         });
 
-        holder.profileImageView.setOnLongClickListener(view -> {
-            PrivateBoardInfoFragment.onClickProfileImage(view, userList.get(position).getObjectId(), position);
-            return true;
-        });
     }
 
 
