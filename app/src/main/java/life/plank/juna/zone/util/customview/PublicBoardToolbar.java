@@ -42,6 +42,7 @@ import life.plank.juna.zone.util.NumberFormatter;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.GMT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
@@ -208,7 +209,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         setVisitingTeamLogo(picasso, fixture.getAwayTeam().getLogoLink());
         setScore(getSeparator(fixture, winPointer, true));
         setBoardTitle(ZoneApplication.getContext().getString(R.string.matchday_) + fixture.getMatchDay());
-        switch (getMatchTimeValue(fixture.getMatchStartTime())) {
+        switch (getMatchTimeValue(fixture.getMatchStartTime(), false)) {
             case MATCH_PAST:
             case MATCH_COMPLETED_TODAY:
                 setFullTimeStatus();
@@ -220,6 +221,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
                 setScheduledTimeStatus(fixture.getMatchStartTime(), true);
                 setTodayMatchCountdown(fixture, Math.abs(fixture.getMatchStartTime().getTime() - new Date().getTime()));
                 break;
+            case MATCH_ABOUT_TO_START:
             case MATCH_SCHEDULED_LATER:
                 setScheduledTimeStatus(fixture.getMatchStartTime(), false);
                 break;
