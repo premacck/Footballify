@@ -34,11 +34,11 @@ import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
-import life.plank.juna.zone.util.customview.CommentarySmall.CommentarySmallListener;
-import life.plank.juna.zone.util.customview.ScrubberLayout.ScrubberLayoutListener;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
+import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
+import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
-import life.plank.juna.zone.view.adapter.BoardInfoAdapter;
+import life.plank.juna.zone.view.adapter.multiview.BoardAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,6 +50,7 @@ import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
@@ -58,7 +59,7 @@ import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
-public class BoardInfoFragment extends Fragment implements CommentarySmallListener, ScrubberLayoutListener {
+public class BoardInfoFragment extends Fragment implements BoardAdapter.BoardInfoAdapterListener {
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
 
@@ -76,7 +77,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
     Picasso picasso;
 
     private MatchDetails matchDetails;
-    private BoardInfoAdapter adapter;
+    private BoardAdapter adapter;
     private long timeDiffOfMatchFromNow;
 
     public BoardInfoFragment() {
@@ -105,7 +106,7 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
         timeDiffOfMatchFromNow = getTimeDiffFromNow(matchDetails.getMatchStartTime());
-        adapter = new BoardInfoAdapter(this, getActivity(), picasso, timeDiffOfMatchFromNow < 0, matchDetails);
+        adapter = new BoardAdapter(matchDetails, picasso, (MatchBoardActivity) getActivity(), this);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }
@@ -138,13 +139,26 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
 
     @SuppressWarnings("ConstantConditions")
     @Override
-    public void seeAllClicked(View view) {
+    public void onCommentarySeeAllClick(View fromView) {
         if (matchDetails != null && !isNullOrEmpty(matchDetails.getCommentary())) {
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(getActivity().getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getActivity());
             }
-            CommentaryActivity.launch(getActivity(), view, gson.toJson(matchDetails.getCommentary()));
+            CommentaryActivity.launch(getActivity(), fromView, gson.toJson(matchDetails.getCommentary()));
         }
+    }
+
+    @Override
+    public void onSeeAllStandingsClick(View fromView) {
+        LeagueInfoDetailActivity.launch(
+                getActivity(),
+                STANDINGS,
+                matchDetails.getLeague().getName(),
+                matchDetails.getLeague().getSeasonName(),
+                matchDetails.getLeague().getCountryName(),
+                gson.toJson(matchDetails.getStandingsList()),    //TODO : Update complete standings here
+                fromView
+        );
     }
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
@@ -160,19 +174,19 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                 FixtureListUpdateTask.update(MatchFixture.from(matchDetails), null, timeStatus, false);
                 break;
             case COMMENTARY_DATA:
-                adapter.setCommentaries(zoneLiveData.getCommentaryList(gson), false);
+                adapter.updateCommentaries(zoneLiveData.getCommentaryList(gson), false);
                 break;
             case MATCH_EVENTS:
-                adapter.setMatchEvents(zoneLiveData.getMatchEventList(gson), false);
+                adapter.updateMatchEventsAndSubstitutions(zoneLiveData.getMatchEventList(gson), false);
                 break;
             case LINEUPS_DATA:
                 getLineupFormation();
                 break;
             case MATCH_STATS_DATA:
-                adapter.setMatchStats(zoneLiveData.getMatchStats(gson), zoneLiveData.getMatchStats(gson) == null ? R.string.match_stats_not_available_yet : 0);
+                adapter.updateMatchStats(zoneLiveData.getMatchStats(gson), zoneLiveData.getMatchStats(gson) == null ? R.string.match_stats_not_available_yet : 0);
                 break;
             case HIGHLIGHTS_DATA:
-                adapter.setHighlights(zoneLiveData.getHighlightsList(gson), false);
+                adapter.updateHighlights(zoneLiveData.getHighlightsList(gson), false);
                 break;
             default:
                 break;
@@ -196,12 +210,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "getPreMatchData : " + e.getMessage());
-                        if (adapter != null) adapter.setMatchDetails(null, false);
+                        if (adapter != null) adapter.setPreMatchData();
                     }
 
                     @Override
                     public void onNext(MatchDetails matchDetails) {
-                        if (adapter != null) adapter.setMatchDetails(matchDetails, false);
+                        if (adapter != null) adapter.setPreMatchData();
                     }
                 });
     }
@@ -223,16 +237,25 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "getPostMatchData : " + e.getMessage());
-                        if (adapter != null) adapter.setMatchDetails(null, true);
+                        if (adapter != null) {
+                            adapter.setMatchStats();
+                            adapter.setLineups();
+                        }
                     }
 
                     @Override
                     public void onNext(MatchDetails matchDetails) {
-                        if (adapter != null) adapter.setMatchDetails(matchDetails, true);
+                        if (adapter != null) {
+                            adapter.setMatchStats();
+                            adapter.setLineups();
+                        }
                     }
                 });
     }
 
+    /**
+     * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
+     */
     private void getLineupFormation() {
         restApi.getLineUpsData(matchDetails.getMatchId())
                 .subscribeOn(Schedulers.io())
@@ -246,7 +269,6 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                     @Override
                     public void onError(Throwable e) {
                         Log.e("", "onError: " + e);
-                        if (adapter != null) adapter.setLineups(null, R.string.something_went_wrong);
                     }
 
                     @Override
@@ -254,13 +276,12 @@ public class BoardInfoFragment extends Fragment implements CommentarySmallListen
                         Lineups lineups = response.body();
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                if (lineups != null) {
-                                    if (adapter != null) adapter.setLineups(lineups, 0);
-                                } else
-                                    if (adapter != null) adapter.setLineups(null, R.string.match_yet_to_start);
+//                                Updating the adapter only if live lineups fetch is successful
+                                if (lineups != null && adapter != null) {
+                                    adapter.updateLineups(lineups);
+                                }
                                 break;
                             default:
-                                if (adapter != null) adapter.setLineups(null, R.string.line_ups_not_available);
                                 break;
                         }
                     }

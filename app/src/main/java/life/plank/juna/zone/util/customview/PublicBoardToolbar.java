@@ -217,11 +217,11 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             case MATCH_LIVE:
                 setLiveTimeStatus(fixture.getMatchStartTime(), fixture.getTimeStatus());
                 break;
+            case MATCH_ABOUT_TO_START:
             case MATCH_SCHEDULED_TODAY:
                 setScheduledTimeStatus(fixture.getMatchStartTime(), true);
                 setTodayMatchCountdown(fixture, Math.abs(fixture.getMatchStartTime().getTime() - new Date().getTime()));
                 break;
-            case MATCH_ABOUT_TO_START:
             case MATCH_SCHEDULED_LATER:
                 setScheduledTimeStatus(fixture.getMatchStartTime(), false);
                 break;

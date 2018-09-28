@@ -36,26 +36,6 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
 
-        <Button
-            android:id="@+id/see_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="6dp"
-            android:layout_toEndOf="@+id/center_space"
-            android:layout_alignTop="@+id/commentary_text"
-            android:layout_alignBottom="@+id/commentary_text"
-            android:gravity="center_vertical|end"
-            android:background="@color/transparent"
-            android:textAllCaps="false"
-            android:fontFamily="@font/rajdhani_semibold"
-            android:textSize="@dimen/text_10sp"
-            android:textColor="@color/dark_sky_blue"
-            android:text="@string/see_all"
-            style="?android:attr/borderlessButtonStyle" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/commentary_list"
             android:layout_width="match_parent"
@@ -94,6 +74,25 @@
             android:textAllCaps="true"
             android:visibility="gone"
             android:text="@string/match_yet_to_start" />
+
+        <Button
+            android:id="@+id/see_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:paddingTop="6dp"
+            android:paddingStart="9dp"
+            android:paddingEnd="9dp"
+            android:foreground="@drawable/ripple_dark_rect_curved_corners"
+            android:gravity="top|end"
+            android:background="@color/transparent"
+            android:textAllCaps="false"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:textSize="@dimen/text_10sp"
+            android:textColor="@color/dark_sky_blue"
+            android:text="@string/see_all"
+            style="?android:attr/borderlessButtonStyle" />
 
     </RelativeLayout>
 
