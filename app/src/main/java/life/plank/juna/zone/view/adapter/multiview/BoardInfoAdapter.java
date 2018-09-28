@@ -46,10 +46,7 @@ import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULE
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
 
-/**
- * TODO : TO be renamed to BoardInfoAdapter after complete implementation
- */
-public class BoardAdapter extends RecyclerAdapter {
+public class BoardInfoAdapter extends RecyclerAdapter {
 
     private Picasso picasso;
     private MatchDetails matchDetails;
@@ -65,7 +62,7 @@ public class BoardAdapter extends RecyclerAdapter {
     private DataItemManager<StandingsBindingModel> standingsDataManager;
     private DataItemManager<TeamStatsBindingModel> teamStatsDataManager;
 
-    public BoardAdapter(MatchDetails matchDetails, Picasso picasso, MatchBoardActivity activity, BoardInfoAdapterListener listener) {
+    public BoardInfoAdapter(MatchDetails matchDetails, Picasso picasso, MatchBoardActivity activity, BoardInfoAdapterListener listener) {
         this.matchDetails = matchDetails;
         this.picasso = picasso;
         this.activity = activity;

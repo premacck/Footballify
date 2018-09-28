@@ -38,7 +38,7 @@ import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
-import life.plank.juna.zone.view.adapter.multiview.BoardAdapter;
+import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -59,7 +59,7 @@ import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
-public class BoardInfoFragment extends Fragment implements BoardAdapter.BoardInfoAdapterListener {
+public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.BoardInfoAdapterListener {
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
 
@@ -77,7 +77,7 @@ public class BoardInfoFragment extends Fragment implements BoardAdapter.BoardInf
     Picasso picasso;
 
     private MatchDetails matchDetails;
-    private BoardAdapter adapter;
+    private BoardInfoAdapter adapter;
     private long timeDiffOfMatchFromNow;
 
     public BoardInfoFragment() {
@@ -106,7 +106,7 @@ public class BoardInfoFragment extends Fragment implements BoardAdapter.BoardInf
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
         timeDiffOfMatchFromNow = getTimeDiffFromNow(matchDetails.getMatchStartTime());
-        adapter = new BoardAdapter(matchDetails, picasso, (MatchBoardActivity) getActivity(), this);
+        adapter = new BoardInfoAdapter(matchDetails, picasso, (MatchBoardActivity) getActivity(), this);
         boardInfoRecyclerView.setAdapter(adapter);
         return rootView;
     }

@@ -22,16 +22,16 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.view.adapter.CommentaryAdapter;
-import life.plank.juna.zone.view.adapter.multiview.BoardAdapter;
+import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
 import lombok.Data;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 public class CommentaryBinder extends ItemBinder<CommentaryBinder.CommentaryBindingModel, CommentaryBinder.CommentaryViewHolder> {
 
-    private BoardAdapter.BoardInfoAdapterListener listener;
+    private BoardInfoAdapter.BoardInfoAdapterListener listener;
 
-    public CommentaryBinder(BoardAdapter.BoardInfoAdapterListener listener) {
+    public CommentaryBinder(BoardInfoAdapter.BoardInfoAdapterListener listener) {
         this.listener = listener;
     }
 
