@@ -59,7 +59,7 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
         });
 
         holder.profileImageView.setOnLongClickListener(view -> {
-            PrivateBoardInfoFragment.onClickProfileImage(view);
+            PrivateBoardInfoFragment.onClickProfileImage(view, userList.get(position).getObjectId(), position);
             return true;
         });
     }
