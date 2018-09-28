@@ -393,7 +393,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
                 for (FixtureByDate fixtureByDate : fixtureByDateList) {
                     for (MatchFixture matchFixture : fixtureByDate.getFixtures()) {
                         try {
-                            if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
+                            if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 1) {
                                 matchFixtures.add(matchFixture);
                             }
                         } catch (Exception e) {
