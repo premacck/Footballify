@@ -3,6 +3,9 @@ package life.plank.juna.zone;
 import android.app.Application;
 import android.content.Context;
 
+import com.crashlytics.android.Crashlytics;
+
+import io.fabric.sdk.android.Fabric;
 import life.plank.juna.zone.data.network.dagger.component.AppComponent;
 import life.plank.juna.zone.data.network.dagger.component.DaggerAppComponent;
 import life.plank.juna.zone.data.network.dagger.component.NetworkComponent;
@@ -31,6 +34,7 @@ public class ZoneApplication extends Application {
     @Override public void onCreate() {
         super.onCreate();
         zoneApplication = this;
+        Fabric.with(this, new Crashlytics());
 
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))
