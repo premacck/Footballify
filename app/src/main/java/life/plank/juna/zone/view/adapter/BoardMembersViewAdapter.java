@@ -58,15 +58,11 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
                 inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
                 inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(inviteToBoard);
-            } else {
-                if (!userList.get(position).getDisplayName().equals(displayName)) {
-                    PrivateBoardInfoFragment.onClickProfileImage(view, userList.get(position).getObjectId(), position);
-                }
+            } else if (!userList.get(position).getDisplayName().equals(displayName)) {
+                PrivateBoardInfoFragment.onClickProfileImage(view, userList.get(position).getObjectId(), position);
             }
         });
-
     }
-
 
     @Override
     public int getItemCount() {
