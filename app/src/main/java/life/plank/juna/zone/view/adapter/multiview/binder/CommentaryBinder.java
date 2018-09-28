@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
 import android.support.annotation.StringRes;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +54,8 @@ public class CommentaryBinder extends ItemBinder<CommentaryBinder.CommentaryBind
             holder.noDataTextView.setText(item.getErrorMessage());
         }
 
+        ((LinearLayoutManager) holder.commentaryRecyclerView.getLayoutManager()).setReverseLayout(true);
+        holder.commentaryRecyclerView.scrollToPosition(item.getCommentaryList().size() - 1);
         holder.commentaryRecyclerView.setVisibility(View.VISIBLE);
         holder.seeAllBtn.setVisibility(View.VISIBLE);
         holder.noDataTextView.setVisibility(View.GONE);
