@@ -66,6 +66,7 @@ dependencies {
     implementation viewDependencies.mpAndroidChart
     implementation viewDependencies.overflowPagerIndicator
     implementation viewDependencies.flexbox
+    implementation viewDependencies.multiViewAdapter
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     compileOnly viewDependencies.javaxAnnotation
