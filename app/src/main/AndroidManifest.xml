@@ -168,6 +168,9 @@
         <activity
             android:name=".view.activity.JoinBoardActivity"
             android:screenOrientation="portrait" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="${crashlyticsApiKey}" />
     </application>
 
 </manifest>
