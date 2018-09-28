@@ -61,7 +61,6 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
             } else {
                 if (!userList.get(position).getDisplayName().equals(displayName)) {
                     PrivateBoardInfoFragment.onClickProfileImage(view, userList.get(position).getObjectId(), position);
-
                 }
             }
         });
