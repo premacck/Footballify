@@ -82,8 +82,13 @@ public class FixtureActivity extends AppCompatActivity {
         }
         isCup = intent.getBooleanExtra(getString(R.string.intent_is_cup), false);
 
-        UpdateAdapterTask.parse(this);
         prepareRecyclerView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UpdateAdapterTask.parse(this);
     }
 
     public void prepareRecyclerView() {
@@ -102,13 +107,13 @@ public class FixtureActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
-    private static class UpdateAdapterTask extends AsyncTask<Intent, Void, Void> {
+    private static class UpdateAdapterTask extends AsyncTask<Void, Void, Void> {
 
         private WeakReference<FixtureActivity> ref;
         private int recyclerViewScrollIndex = 0;
 
         private static void parse(FixtureActivity activity) {
-            new UpdateAdapterTask(activity).execute(activity.getIntent());
+            new UpdateAdapterTask(activity).execute();
         }
 
         private UpdateAdapterTask(FixtureActivity activity) {
@@ -121,7 +126,7 @@ public class FixtureActivity extends AppCompatActivity {
         }
 
         @Override
-        protected Void doInBackground(Intent... intents) {
+        protected Void doInBackground(Void... voids) {
             if (!isNullOrEmpty(fixtureByMatchDayList)) {
                 for (FixtureByMatchDay matchDay : fixtureByMatchDayList) {
                     if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES) || Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {

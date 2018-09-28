@@ -1,12 +1,9 @@
 package life.plank.juna.zone.util;
 
 import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Objects;
 
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FixtureByDate;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
@@ -29,11 +26,6 @@ public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
     private final LiveTimeStatus timeStatus;
     private boolean isScoreData;
 
-    /** startTime and endTime to log the runtime of the operation
-     * TODO: remove after live testing
-     */
-    private long startTime;
-
     public static void update(MatchFixture fixture, LiveScoreData scoreData, LiveTimeStatus timeStatus, boolean isScoreData) {
         new FixtureListUpdateTask(fixture, scoreData, timeStatus, isScoreData).execute();
     }
@@ -43,12 +35,6 @@ public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
         this.scoreData = scoreData;
         this.timeStatus = timeStatus;
         this.isScoreData = isScoreData;
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        startTime = System.currentTimeMillis();
     }
 
     @Override
@@ -62,15 +48,6 @@ public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
             }
         }
         return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void aVoid) {
-//        TODO: Remove this method after live testing
-        long endTime = System.currentTimeMillis();
-        String timeTaken = (endTime - startTime) + " ms";
-        Log.i("FixtureListUpdateTask", "***************** TIME TAKEN ****************: " + timeTaken);
-        Toast.makeText(ZoneApplication.getContext(), "FixtureListUpdateTask : Time taken = " + timeTaken, Toast.LENGTH_SHORT).show();
     }
 
     private MatchFixture findInFixtureList(MatchFixture matchFixture) {

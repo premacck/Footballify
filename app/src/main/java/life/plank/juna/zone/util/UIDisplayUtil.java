@@ -557,10 +557,10 @@ public class UIDisplayUtil {
         }
     }
 
-    public static CharSequence getSpannedString(Context context, @StringRes int stringRes) {
+    public static CharSequence getSpannedString(@StringRes int stringRes) {
         try {
             if (stringRes == R.string.board_yet_to_be_populated) {
-                SpannableStringBuilder builder = new SpannableStringBuilder(context.getString(stringRes));
+                SpannableStringBuilder builder = new SpannableStringBuilder(ZoneApplication.getContext().getString(stringRes));
                 builder.setSpan(BOLD_STYLE, 31, 56, SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(BOLD_STYLE, 97, 112, SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(
@@ -576,7 +576,7 @@ public class UIDisplayUtil {
         } catch (Exception e) {
             Log.e("getSpannedString()", e.getMessage());
         }
-        return context.getString(stringRes);
+        return ZoneApplication.getContext().getString(stringRes);
     }
 
     public static void displaySnackBar(View currentView, @StringRes int message) {

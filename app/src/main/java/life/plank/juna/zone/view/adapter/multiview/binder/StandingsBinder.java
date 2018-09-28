@@ -46,6 +46,7 @@ public class StandingsBinder extends ItemBinder<StandingsBinder.StandingsBinding
 
     @Override
     public void bind(StandingsViewHolder holder, StandingsBindingModel item) {
+        holder.standingsProgressBar.setVisibility(View.GONE);
         if (item.getErrorMessage() != null || isNullOrEmpty(item.getStandingsList())) {
             holder.noStandings.setVisibility(View.VISIBLE);
             holder.noStandings.setText(item.getErrorMessage());

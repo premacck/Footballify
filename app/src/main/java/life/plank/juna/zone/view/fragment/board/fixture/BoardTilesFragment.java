@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.android.flexbox.FlexDirection;
@@ -113,6 +114,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         getBoardFeed(false);
         if (isBoardActive) {
             setupBoomMenu(getActivity(), arcMenu, boardId);
+        } else {
+            arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }
         swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
     }
@@ -189,7 +192,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
         noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
         if (noDataTextView.getText().toString().isEmpty() && message != 0) {
-            noDataTextView.setText(getSpannedString(getContext(), message));
+            noDataTextView.setText(getSpannedString(message));
         }
     }
 
