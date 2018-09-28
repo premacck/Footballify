@@ -1,6 +1,18 @@
 package life.plank.juna.zone.util;
 
 
+import android.support.annotation.IntDef;
+
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
+
 /**
  * Created by plank-hasan on 2/9/2018.
  */
@@ -110,12 +122,16 @@ public class AppConstants {
 
     public static final int ONE_DAY_MILLIS = 86400000;
     public static final int TWO_HOURS_MILLIS = 7200000;
+    public static final int ONE_HOUR_MILLIS = 3600000;
 
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_LIVE, MATCH_SCHEDULED_TODAY, MATCH_SCHEDULED_LATER, MATCH_ABOUT_TO_START})
     public @interface MatchTimeVal {
         int MATCH_PAST = 0;
         int MATCH_COMPLETED_TODAY = 1;
         int MATCH_LIVE = 2;
         int MATCH_SCHEDULED_TODAY = 3;
         int MATCH_SCHEDULED_LATER = 4;
+        int MATCH_ABOUT_TO_START = 5;
     }
 }

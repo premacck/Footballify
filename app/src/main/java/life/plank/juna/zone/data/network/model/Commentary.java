@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class Commentary {
-    private long matchId;
+    private long id;
     private boolean isImportant;
     private long order;
     private boolean isGoal;

@@ -45,4 +45,5 @@ public class MatchDetails {
     private Lineups lineups;
     private List<StandingModel> standingsList;
     private List<TeamStatsModel> teamStatsList;
+    private List<ScrubberData> scrubberDataList;
 }
