@@ -16,6 +16,7 @@
     <string name="failed_to_process_image">Sorry could not process image</string>
     <string name="upload_successful">Upload successful</string>
     <string name="upload_failed">Upload failed, please try again</string>
+    <string name="commentaries_not_available">Commentaries not available yet</string>
     <string name="line_ups_not_available">Line-ups not available yet</string>
     <string name="failed_to_get_standings">Failed to get standings</string>
     <string name="failed_to_get_player_stats">Failed to get player stats</string>
