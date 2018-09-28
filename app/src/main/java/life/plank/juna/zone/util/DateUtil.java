@@ -18,7 +18,9 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.ONE_DAY_MILLIS;
+import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.TWO_HOURS_MILLIS;
 import static life.plank.juna.zone.util.DataUtil.formatInt;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -186,10 +188,12 @@ public class DateUtil {
      * <br/>-> MATCH_SCHEDULED_TODAY:
      * <br/>-> MATCH_SCHEDULED_LATER:
      * @param matchStartTime the match's start time
+     * @param isForBoard It should be true when calling this method to get time values of a match
+     *                   to update the board info components, false otherwise.
      * @return an int value, which is one of {@link MatchTimeVal} annotation
      */
     @MatchTimeVal
-    public static int getMatchTimeValue(Date matchStartTime) {
+    public static int getMatchTimeValue(Date matchStartTime, boolean isForBoard) {
         int dateDiff = getDateDiffFromToday(matchStartTime);
         if (dateDiff < 0) {
 //                past
@@ -207,6 +211,10 @@ public class DateUtil {
                 }
             }
             else if (timeDiff <= ONE_DAY_MILLIS) {
+                if (timeDiff <= ONE_HOUR_MILLIS && isForBoard) {
+//                    match is about to start in one hour
+                    return MATCH_ABOUT_TO_START;
+                }
 //                scheduled today (the match is in the next 24 hours)
                 return MATCH_SCHEDULED_TODAY;
             } else {
