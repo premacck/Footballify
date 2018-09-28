@@ -145,10 +145,10 @@ public class BoardInfoAdapter extends RecyclerAdapter {
      */
     private void prepareScheduledMatchAdapter() {
         standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(1, standingsDataManager, new StandingsBinder(picasso, listener));
+        addDataManagerAndRegisterBinder(0, standingsDataManager, new StandingsBinder(picasso, listener));
 
         teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(2, teamStatsDataManager, new TeamStatsBinder(picasso));
+        addDataManagerAndRegisterBinder(1, teamStatsDataManager, new TeamStatsBinder(picasso));
     }
 
     private <BM> void addDataManagerAndRegisterBinder(int index, DataItemManager<BM> dataManager, ItemBinder<BM, ? extends ItemViewHolder<BM>> binderToRegister) {
