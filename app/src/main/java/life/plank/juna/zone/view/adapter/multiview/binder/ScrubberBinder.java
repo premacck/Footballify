@@ -21,16 +21,16 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
-import life.plank.juna.zone.view.adapter.multiview.BoardAdapter;
+import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
 import lombok.Data;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingModel, ScrubberBinder.ScrubberViewHolder> {
 
-    private BoardAdapter.BoardInfoAdapterListener listener;
+    private BoardInfoAdapter.BoardInfoAdapterListener listener;
 
-    public ScrubberBinder(BoardAdapter.BoardInfoAdapterListener listener) {
+    public ScrubberBinder(BoardInfoAdapter.BoardInfoAdapterListener listener) {
         this.listener = listener;
     }
 

@@ -23,7 +23,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
-import life.plank.juna.zone.view.adapter.multiview.BoardAdapter;
+import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
 import lombok.Data;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -32,9 +32,9 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 public class StandingsBinder extends ItemBinder<StandingsBinder.StandingsBindingModel, StandingsBinder.StandingsViewHolder> {
 
     private Picasso picasso;
-    private BoardAdapter.BoardInfoAdapterListener listener;
+    private BoardInfoAdapter.BoardInfoAdapterListener listener;
 
-    public StandingsBinder(Picasso picasso, BoardAdapter.BoardInfoAdapterListener listener) {
+    public StandingsBinder(Picasso picasso, BoardInfoAdapter.BoardInfoAdapterListener listener) {
         this.picasso = picasso;
         this.listener = listener;
     }
