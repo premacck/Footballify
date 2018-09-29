@@ -245,7 +245,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
 
-        prepareFullScreenRecyclerView();
         getBoardIdAndMatchDetails(currentMatchId);
     }
 
@@ -318,6 +317,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             isBoardActive = DataUtil.isBoardActive(board);
                             saveBoardId();
                             setupViewPagerWithFragments();
+                            prepareFullScreenRecyclerView();
 
                             if (isBoardActive) {
                                 FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
