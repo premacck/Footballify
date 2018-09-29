@@ -96,7 +96,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<FixtureAdapter.Fixt
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(scoreFixture));
+            MatchBoardActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(scoreFixture), ref.get().activity.gson.toJson(ref.get().activity.getLeague()));
         }
     }
 }

@@ -73,8 +73,10 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
                                 R.color.grey
                 ));
                 String matchdayHeaderText =
-                        ref.get().activity.getString(ref.get().activity.isCup ? R.string.round_ : R.string.matchday_) +
-                                (ref.get().activity.isCup ? fixtureByMatchDay.getMatchDay() : fixtureByMatchDay.getMatchDay());
+                        ref.get().activity.getString(
+                                ref.get().activity.getLeague().getIsCup() ? R.string.round_ : R.string.matchday_) +
+                                (ref.get().activity.getLeague().getIsCup() ? fixtureByMatchDay.getMatchDay() :
+                                        fixtureByMatchDay.getMatchDay());
                 matchdayHeader.setText(matchdayHeaderText);
                 recyclerView.setAdapter(new FixtureDateAdapter(fixtureByMatchDay.getFixtureByDateList(), ref.get().activity));
             }

@@ -49,6 +49,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
 import life.plank.juna.zone.data.network.model.MatchDetails;
@@ -118,6 +119,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     private long currentMatchId;
     private boolean isBoardActive;
     private String boardId;
+    private League league;
     private MatchFixture fixture;
     private MatchDetails matchDetails;
 
@@ -134,9 +136,10 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         }
     };
 
-    public static void launch(Activity from, String fixtureJson) {
+    public static void launch(Activity from, String fixtureJson, String leagueString) {
         Intent intent = new Intent(from, MatchBoardActivity.class);
         intent.putExtra(from.getString(R.string.intent_fixture_data), fixtureJson);
+        intent.putExtra(from.getString(R.string.intent_league), leagueString);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
@@ -233,8 +236,9 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         Intent intent = getIntent();
         if (intent.hasExtra(getString(R.string.intent_fixture_data))) {
             fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_fixture_data)), MatchFixture.class);
+            league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);
             currentMatchId = fixture.getMatchId();
-            publicBoardToolbar.prepare(picasso, fixture);
+            publicBoardToolbar.prepare(picasso, fixture, league.getThumbUrl());
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         }
@@ -308,7 +312,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             matchDetails = boardMatchDetailsPair.second;
                             Board board = boardMatchDetailsPair.first;
                             if (matchDetails != null) {
-                                publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails));
+                                publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails), league.getThumbUrl());
                             }
                             boardId = board.getId();
                             isBoardActive = DataUtil.isBoardActive(board);

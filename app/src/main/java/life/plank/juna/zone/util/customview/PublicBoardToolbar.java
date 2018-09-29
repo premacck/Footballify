@@ -234,8 +234,9 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         scoreView.setText(score);
     }
 
-    public void prepare(Picasso picasso, MatchFixture fixture) {
+    public void prepare(Picasso picasso, MatchFixture fixture, String leagueLogoUrl) {
         this.fixture = fixture;
+        setLeagueLogo(picasso, leagueLogoUrl);
         setHomeTeamLogo(picasso, fixture.getHomeTeam().getLogoLink());
         setVisitingTeamLogo(picasso, fixture.getAwayTeam().getLogoLink());
         setScore(getSeparator(fixture, winPointer, true));
@@ -349,7 +350,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     @Override
     public void setLeagueLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
-                .fit().centerCrop()
+                .centerInside()
+                .resize((int) getDp(30), (int) getDp(30))
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(leagueLogoView);

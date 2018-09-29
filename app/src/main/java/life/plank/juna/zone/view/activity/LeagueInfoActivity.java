@@ -129,9 +129,9 @@ public class LeagueInfoActivity extends AppCompatActivity {
     private FixtureLeagueAdapter fixtureLeagueAdapter;
     public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
-    public static void launch(Activity fromActivity, String footballFeedString) {
+    public static void launch(Activity fromActivity, String leagueString) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
-        intent.putExtra(fromActivity.getString(R.string.intent_league), footballFeedString);
+        intent.putExtra(fromActivity.getString(R.string.intent_league), leagueString);
         fromActivity.startActivity(intent);
     }
 
@@ -292,7 +292,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.see_all_fixtures:
                 if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                    FixtureActivity.launch(this, league.getIsCup());
+                    FixtureActivity.launch(this, gson.toJson(league));
                 }
                 break;
             case R.id.see_all_standings:
