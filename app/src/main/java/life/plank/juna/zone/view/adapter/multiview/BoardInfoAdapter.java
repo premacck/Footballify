@@ -158,29 +158,21 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private void initAndAddHighlightsDataManager() {
         highlightsDataManager = new DataItemManager<>(this, HighlightsBindingModel.from(matchDetails));
         addDataManagerAndRegisterBinder(highlightsDataManager, new MatchHighlightsBinder(activity));
-        if (!isNullOrEmpty(matchDetails.getHighlights())) {
-        }
     }
 
     private void initAndAddCommentaryDataManager() {
         commentaryDataManager = new DataItemManager<>(this, CommentaryBindingModel.from(matchDetails));
         addDataManagerAndRegisterBinder(commentaryDataManager, new CommentaryBinder(listener));
-        if (!isNullOrEmpty(matchDetails.getCommentary())) {
-        }
     }
 
     private void initAndAddMatchStatsDataManager() {
         matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.from(matchDetails));
         addDataManagerAndRegisterBinder(matchStatsDataManager, new MatchStatsBinder(picasso));
-        if (matchDetails.getMatchStats() != null) {
-        }
     }
 
     private void initAndAddLineupsDataManager() {
-        if (matchDetails.getLineups() != null) {
-            lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.from(matchDetails));
-            addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, picasso));
-        }
+        lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, picasso));
     }
 
     private void initAndAddSubstitutionDataManager() {
