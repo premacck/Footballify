@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
 
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
@@ -52,13 +53,13 @@ public class FixtureActivity extends AppCompatActivity {
     public Picasso picasso;
     @Inject
     public Gson gson;
-    public boolean isCup;
+    private League league;
 
     private FixtureMatchdayAdapter fixtureMatchdayAdapter;
 
-    public static void launch(Activity packageContext, boolean isCup) {
+    public static void launch(Activity packageContext, String leagueString) {
         Intent intent = new Intent(packageContext, FixtureActivity.class);
-        intent.putExtra(packageContext.getString(R.string.intent_is_cup), isCup);
+        intent.putExtra(packageContext.getString(R.string.intent_league), leagueString);
         packageContext.startActivity(intent);
         packageContext.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -80,7 +81,7 @@ public class FixtureActivity extends AppCompatActivity {
             onNoMatchesFound();
             return;
         }
-        isCup = intent.getBooleanExtra(getString(R.string.intent_is_cup), false);
+        league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);
 
         prepareRecyclerView();
     }
@@ -144,6 +145,10 @@ public class FixtureActivity extends AppCompatActivity {
                 ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
             }
         }
+    }
+
+    public League getLeague() {
+        return league;
     }
 
     @Override
