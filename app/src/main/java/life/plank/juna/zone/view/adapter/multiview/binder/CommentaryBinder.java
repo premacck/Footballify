@@ -43,15 +43,13 @@ public class CommentaryBinder extends ItemBinder<CommentaryBinder.CommentaryBind
 
     @Override
     public void bind(CommentaryViewHolder holder, CommentaryBindingModel item) {
-        if (isNullOrEmpty(item.getCommentaryList()))
-            return;
-
         holder.progressBar.setVisibility(View.GONE);
-        if (item.getErrorMessage() != null) {
+        if (isNullOrEmpty(item.getCommentaryList()) || item.getErrorMessage() != null) {
             holder.commentaryRecyclerView.setVisibility(View.GONE);
             holder.seeAllBtn.setVisibility(View.GONE);
             holder.noDataTextView.setVisibility(View.VISIBLE);
             holder.noDataTextView.setText(item.getErrorMessage());
+            return;
         }
 
         ((LinearLayoutManager) holder.commentaryRecyclerView.getLayoutManager()).setReverseLayout(true);

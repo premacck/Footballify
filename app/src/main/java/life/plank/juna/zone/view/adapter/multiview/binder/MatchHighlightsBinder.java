@@ -22,7 +22,6 @@ import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.util.customview.HighlightsAdapter;
 import lombok.Data;
 
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
 public class MatchHighlightsBinder extends ItemBinder<MatchHighlightsBinder.HighlightsBindingModel, MatchHighlightsBinder.MatchHighlightsViewHolder> {
@@ -81,7 +80,7 @@ public class MatchHighlightsBinder extends ItemBinder<MatchHighlightsBinder.High
         private final List<Highlights> highlightsList;
 
         public static HighlightsBindingModel from(MatchDetails matchDetails) {
-            return isNullOrEmpty(matchDetails.getHighlights()) ? null : new HighlightsBindingModel(matchDetails.getHighlights());
+            return new HighlightsBindingModel(matchDetails.getHighlights());
         }
     }
 }

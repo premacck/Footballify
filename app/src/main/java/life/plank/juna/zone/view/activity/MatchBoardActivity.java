@@ -47,6 +47,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
@@ -149,6 +150,9 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
         FootballFeed feed = new FootballFeed();
         Log.d(TAG, "content_type: " + contentType);
+        if (feed.getFeedItem() == null) {
+            feed.setFeedItem(new FeedItem());
+        }
         feed.getFeedItem().setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             feed.getFeedItem().setTitle(title);
@@ -352,6 +356,11 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         } else {
             Toast.makeText(MatchBoardActivity.this, R.string.board_not_active, Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void onMatchTimeStateChange() {
+        getBoardIdAndMatchDetails(currentMatchId);
     }
 
     @Override
