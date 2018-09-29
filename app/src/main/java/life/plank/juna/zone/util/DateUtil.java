@@ -18,7 +18,9 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
+import static life.plank.juna.zone.util.AppConstants.FOUR_HOURS_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.ONE_DAY_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.TWO_HOURS_MILLIS;
@@ -185,6 +187,8 @@ public class DateUtil {
      * <br/>-> MATCH_PAST:
      * <br/>-> MATCH_COMPLETED_TODAY:
      * <br/>-> MATCH_LIVE:
+     * <br/>-> MATCH_ABOUT_TO_START:
+     * <br/>-> MATCH_ABOUT_TO_START_BOARD_ACTIVE:
      * <br/>-> MATCH_SCHEDULED_TODAY:
      * <br/>-> MATCH_SCHEDULED_LATER:
      * @param matchStartTime the match's start time
@@ -214,6 +218,10 @@ public class DateUtil {
                 if (timeDiff <= ONE_HOUR_MILLIS && isForBoard) {
 //                    match is about to start in one hour
                     return MATCH_ABOUT_TO_START;
+                }
+                if (timeDiff <= FOUR_HOURS_MILLIS && isForBoard) {
+//                    match is about to start in four hours, and board is active
+                    return MATCH_ABOUT_TO_START_BOARD_ACTIVE;
                 }
 //                scheduled today (the match is in the next 24 hours)
                 return MATCH_SCHEDULED_TODAY;

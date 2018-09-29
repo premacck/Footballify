@@ -106,9 +106,17 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
         timeDiffOfMatchFromNow = getTimeDiffFromNow(matchDetails.getMatchStartTime());
+        prepareRecyclerView();
+        return rootView;
+    }
+
+    private void prepareRecyclerView() {
+        if (adapter != null && boardInfoRecyclerView.getAdapter() != null) {
+            adapter = null;
+            boardInfoRecyclerView.setAdapter(null);
+        }
         adapter = new BoardInfoAdapter(matchDetails, picasso, (MatchBoardActivity) getActivity(), this);
         boardInfoRecyclerView.setAdapter(adapter);
-        return rootView;
     }
 
     @Override
@@ -119,7 +127,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
     }
 
     private void getBoardInfoData(boolean isRefreshing) {
-        if (timeDiffOfMatchFromNow >= 0) {
+        if (timeDiffOfMatchFromNow > 0) {
             getPreMatchData(isRefreshing);
         } else {
             getPostMatchData(isRefreshing);
@@ -278,7 +286,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
                             case HttpURLConnection.HTTP_OK:
 //                                Updating the adapter only if live lineups fetch is successful
                                 if (lineups != null && adapter != null) {
-                                    adapter.updateLineups(lineups);
+                                    prepareRecyclerView();
                                 }
                                 break;
                             default:

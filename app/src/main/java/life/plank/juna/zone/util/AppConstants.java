@@ -7,6 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
@@ -123,11 +124,12 @@ public class AppConstants {
     public static final String SCHEDULED_MATCHES = "SCHEDULED_MATCHES";
 
     public static final int ONE_DAY_MILLIS = 86400000;
+    public static final int FOUR_HOURS_MILLIS = 14400000;
     public static final int TWO_HOURS_MILLIS = 7200000;
     public static final int ONE_HOUR_MILLIS = 3600000;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_LIVE, MATCH_SCHEDULED_TODAY, MATCH_SCHEDULED_LATER, MATCH_ABOUT_TO_START})
+    @IntDef({MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_LIVE, MATCH_SCHEDULED_TODAY, MATCH_SCHEDULED_LATER, MATCH_ABOUT_TO_START, MATCH_ABOUT_TO_START_BOARD_ACTIVE})
     public @interface MatchTimeVal {
         int MATCH_PAST = 0;
         int MATCH_COMPLETED_TODAY = 1;
@@ -135,5 +137,6 @@ public class AppConstants {
         int MATCH_SCHEDULED_TODAY = 3;
         int MATCH_SCHEDULED_LATER = 4;
         int MATCH_ABOUT_TO_START = 5;
+        int MATCH_ABOUT_TO_START_BOARD_ACTIVE = 6;
     }
 }

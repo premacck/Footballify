@@ -111,7 +111,7 @@ public class DataUtil {
             case -1:
                 return getPastMatchSeparator(matchFixture, winPointer, isBoard);
             case 0:
-                if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) < 0) {
+                if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) <= 0) {
                     return matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) + matchFixture.getAwayGoals();
                 } else {
                     return getFutureMatchTime(matchFixture.getMatchStartTime());

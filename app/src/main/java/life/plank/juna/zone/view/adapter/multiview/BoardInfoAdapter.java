@@ -28,6 +28,7 @@ import life.plank.juna.zone.view.adapter.multiview.binder.MatchHighlightsBinder;
 import life.plank.juna.zone.view.adapter.multiview.binder.MatchHighlightsBinder.HighlightsBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.MatchStatsBinder;
 import life.plank.juna.zone.view.adapter.multiview.binder.MatchStatsBinder.MatchStatsBindingModel;
+import life.plank.juna.zone.view.adapter.multiview.binder.ScheduledMatchFooterBinder;
 import life.plank.juna.zone.view.adapter.multiview.binder.ScrubberBinder;
 import life.plank.juna.zone.view.adapter.multiview.binder.ScrubberBinder.ScrubberBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.StandingsBinder;
@@ -38,6 +39,7 @@ import life.plank.juna.zone.view.adapter.multiview.binder.TeamStatsBinder;
 import life.plank.juna.zone.view.adapter.multiview.binder.TeamStatsBinder.TeamStatsBindingModel;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
+import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
@@ -78,6 +80,9 @@ public class BoardInfoAdapter extends RecyclerAdapter {
             case MATCH_ABOUT_TO_START:
                 prepareRecentMatchAdapter();
                 break;
+            case MATCH_ABOUT_TO_START_BOARD_ACTIVE:
+                prepareRecentMatchAdapterWhenBoardIsActive();
+                break;
             case MATCH_SCHEDULED_TODAY:
             case MATCH_SCHEDULED_LATER:
                 prepareScheduledMatchAdapter();
@@ -96,23 +101,12 @@ public class BoardInfoAdapter extends RecyclerAdapter {
      * <br/>Substitutions, from {@link SubstitutionBinder}
      */
     private void preparePastOrLiveMatchAdapter() {
-        scrubberDataManager = new DataItemManager<>(this, ScrubberBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(0, scrubberDataManager, new ScrubberBinder(listener));
-
-        highlightsDataManager = new DataItemManager<>(this, HighlightsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(1, highlightsDataManager, new MatchHighlightsBinder(activity));
-
-        commentaryDataManager = new DataItemManager<>(this, CommentaryBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(2, commentaryDataManager, new CommentaryBinder(listener));
-
-        matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(3, matchStatsDataManager, new MatchStatsBinder(picasso));
-
-        lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(4, lineupsDataManager, new LineupsBinder(activity, picasso));
-
-        substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(5, substitutionDataManager, new SubstitutionBinder(picasso));
+        initAndAddScrubberDataManager();
+        initAndAddHighlightsDataManager();
+        initAndAddCommentaryDataManager();
+        initAndAddMatchStatsDataManager();
+        initAndAddLineupsDataManager();
+        initAndAddSubstitutionDataManager();
     }
 
     /**
@@ -124,17 +118,24 @@ public class BoardInfoAdapter extends RecyclerAdapter {
      * <br/>Lineups, from {@link LineupsBinder}
      */
     private void prepareRecentMatchAdapter() {
-        scrubberDataManager = new DataItemManager<>(this, ScrubberBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(0, scrubberDataManager, new ScrubberBinder(listener));
+        initAndAddScrubberDataManager();
+        initAndAddStandingsDataManager();
+        initAndAddTeamStatsDataManager();
+        initAndAddLineupsDataManager();
+        addScheduledMatchFooter();
+    }
 
-        standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(1, standingsDataManager, new StandingsBinder(picasso, listener));
-
-        teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(2, teamStatsDataManager, new TeamStatsBinder(picasso));
-
-        lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(3, lineupsDataManager, new LineupsBinder(activity, picasso));
+    /**
+     * Method for populating components of a scheduled match when board is active
+     * <br/>Consists of:
+     * <br/>Standings, from {@link StandingsBinder}
+     * <br/>Team stats, from {@link TeamStatsBinder}
+     */
+    private void prepareRecentMatchAdapterWhenBoardIsActive() {
+        initAndAddScrubberDataManager();
+        initAndAddStandingsDataManager();
+        initAndAddTeamStatsDataManager();
+        addScheduledMatchFooter();
     }
 
     /**
@@ -144,21 +145,75 @@ public class BoardInfoAdapter extends RecyclerAdapter {
      * <br/>Team stats, from {@link TeamStatsBinder}
      */
     private void prepareScheduledMatchAdapter() {
-        standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(0, standingsDataManager, new StandingsBinder(picasso, listener));
-
-        teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.from(matchDetails));
-        addDataManagerAndRegisterBinder(1, teamStatsDataManager, new TeamStatsBinder(picasso));
+        initAndAddStandingsDataManager();
+        initAndAddTeamStatsDataManager();
+        addScheduledMatchFooter();
     }
 
-    private <BM> void addDataManagerAndRegisterBinder(int index, DataItemManager<BM> dataManager, ItemBinder<BM, ? extends ItemViewHolder<BM>> binderToRegister) {
-        addDataManager(index, dataManager);
+    private void initAndAddScrubberDataManager() {
+        scrubberDataManager = new DataItemManager<>(this, ScrubberBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(scrubberDataManager, new ScrubberBinder(listener));
+    }
+
+    private void initAndAddHighlightsDataManager() {
+        highlightsDataManager = new DataItemManager<>(this, HighlightsBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(highlightsDataManager, new MatchHighlightsBinder(activity));
+        if (!isNullOrEmpty(matchDetails.getHighlights())) {
+        }
+    }
+
+    private void initAndAddCommentaryDataManager() {
+        commentaryDataManager = new DataItemManager<>(this, CommentaryBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(commentaryDataManager, new CommentaryBinder(listener));
+        if (!isNullOrEmpty(matchDetails.getCommentary())) {
+        }
+    }
+
+    private void initAndAddMatchStatsDataManager() {
+        matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(matchStatsDataManager, new MatchStatsBinder(picasso));
+        if (matchDetails.getMatchStats() != null) {
+        }
+    }
+
+    private void initAndAddLineupsDataManager() {
+        if (matchDetails.getLineups() != null) {
+            lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.from(matchDetails));
+            addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, picasso));
+        }
+    }
+
+    private void initAndAddSubstitutionDataManager() {
+        if (!isNullOrEmpty(matchDetails.getMatchEvents())) {
+            substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.from(matchDetails));
+            addDataManagerAndRegisterBinder(substitutionDataManager, new SubstitutionBinder(picasso));
+        }
+    }
+
+    private void initAndAddStandingsDataManager() {
+        standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(standingsDataManager, new StandingsBinder(picasso, listener));
+    }
+
+    private void initAndAddTeamStatsDataManager() {
+        teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.from(matchDetails));
+        addDataManagerAndRegisterBinder(teamStatsDataManager, new TeamStatsBinder(picasso));
+    }
+
+    private void addScheduledMatchFooter() {
+        addDataManagerAndRegisterBinder(new DataItemManager<>(this, ""), new ScheduledMatchFooterBinder());
+    }
+
+    private <BM> void addDataManagerAndRegisterBinder(DataItemManager<BM> dataManager, ItemBinder<BM, ? extends ItemViewHolder<BM>> binderToRegister) {
+        addDataManager(dataManager);
         registerBinder(binderToRegister);
     }
 
     //region Methods to update live match data
     public void setScrubber() {
-        commentaryDataManager.setItem(CommentaryBindingModel.from(matchDetails));
+        if (scrubberDataManager != null) {
+            scrubberDataManager.setItem(ScrubberBindingModel.from(matchDetails));
+        }
     }
 
     public void updateScrubber(List<ScrubberData> scrubberDataList, boolean isError) {
@@ -172,7 +227,9 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     }
 
     public void setMatchStats() {
-        matchStatsDataManager.setItem(MatchStatsBindingModel.from(matchDetails));
+        if (matchStatsDataManager != null) {
+            matchStatsDataManager.setItem(MatchStatsBindingModel.from(matchDetails));
+        }
     }
 
     public void updateMatchStats(MatchStats matchStats, int message) {
@@ -184,7 +241,9 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     }
 
     public void setLineups() {
-        lineupsDataManager.setItem(LineupsBindingModel.from(matchDetails));
+        if (lineupsDataManager != null) {
+            lineupsDataManager.setItem(LineupsBindingModel.from(matchDetails));
+        }
     }
 
     public void updateLineups(Lineups lineups) {
@@ -197,17 +256,25 @@ public class BoardInfoAdapter extends RecyclerAdapter {
 
     public void updateMatchEventsAndSubstitutions(List<MatchEvent> matchEventList, boolean isError) {
         validateAndUpdateList(matchDetails.getMatchEvents(), matchEventList, isError);
-        substitutionDataManager.setItem(SubstitutionBindingModel.from(matchDetails));
+        if (substitutionDataManager != null) {
+            substitutionDataManager.setItem(SubstitutionBindingModel.from(matchDetails));
+        }
     }
 
     public void updateHighlights(List<Highlights> highlightsList, boolean isError) {
         validateAndUpdateList(this.matchDetails.getHighlights(), highlightsList, isError);
-        highlightsDataManager.setItem(HighlightsBindingModel.from(matchDetails));
+        if (highlightsDataManager != null) {
+            highlightsDataManager.setItem(HighlightsBindingModel.from(matchDetails));
+        }
     }
 
     public void setPreMatchData() {
-        standingsDataManager.setItem(StandingsBindingModel.from(matchDetails));
-        teamStatsDataManager.setItem(TeamStatsBindingModel.from(matchDetails));
+        if (standingsDataManager != null) {
+            standingsDataManager.setItem(StandingsBindingModel.from(matchDetails));
+        }
+        if (teamStatsDataManager != null) {
+            teamStatsDataManager.setItem(TeamStatsBindingModel.from(matchDetails));
+        }
     }
     //endregion
 
