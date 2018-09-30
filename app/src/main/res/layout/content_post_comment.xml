@@ -40,6 +40,7 @@
                         android:layout_centerVertical="true"
                         android:fontFamily="@font/rajdhani_semibold"
                         android:padding="20dp"
+                        android:maxLength="140"
                         android:text="@string/what_s_on_your_mind"
                         android:textColor="@color/white"
                         android:textSize="30sp" />
@@ -130,6 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/text_post"
+                        android:maxLength="140"
                         android:imeOptions="actionDone"
                         android:inputType="text"
                         android:textCursorDrawable="@null" />
