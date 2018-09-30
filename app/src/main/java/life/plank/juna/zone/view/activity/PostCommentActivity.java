@@ -30,6 +30,7 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -55,18 +56,18 @@ public class PostCommentActivity extends AppCompatActivity {
     @BindView(R.id.post_comment)
     TextView postCommentTextView;
     @BindView(R.id.red)
-    ImageView redBg;
-    @BindView(R.id.pink)
-    ImageView pinkBg;
-    @BindView(R.id.yellow)
-    ImageView yellowBg;
-    @BindView(R.id.green)
-    ImageView greenBg;
-    @BindView(R.id.blue)
     ImageView blueBg;
+    @BindView(R.id.pink)
+    ImageView purpleBg;
+    @BindView(R.id.yellow)
+    ImageView greenBg;
+    @BindView(R.id.green)
+    ImageView orangeBg;
+    @BindView(R.id.blue)
+    ImageView brownBg;
     @BindView(R.id.comment_card_view)
     CardView commentCardView;
-    String commentBg = "blue";
+    String commentBg = "blue_bg";
     private RestApi restApi;
     private String boardId;
     private String userId;
@@ -128,17 +129,17 @@ public class PostCommentActivity extends AppCompatActivity {
             }
         });
 
-        redBg.setOnClickListener(v -> setColor(R.color.red, getString(R.string.red)));
-        pinkBg.setOnClickListener(v -> setColor(R.color.material_pink_800, getString(R.string.pink)));
-        yellowBg.setOnClickListener(v -> setColor(R.color.material_yellow_700, getString(R.string.yellow)));
-        greenBg.setOnClickListener(v -> setColor(R.color.material_green_700, getString(R.string.green)));
-        blueBg.setOnClickListener(v -> setColor(R.color.material_blue_600, getString(R.string.blue)));
+        blueBg.setOnClickListener(v -> setColor(R.drawable.blue_gradient, "blue_bg"));
+        purpleBg.setOnClickListener(v -> setColor(R.drawable.purple_gradient, "purple_bg"));
+        greenBg.setOnClickListener(v -> setColor(R.drawable.green_gradient, "green_bg"));
+        orangeBg.setOnClickListener(v -> setColor(R.drawable.orange_gradient, "orange_bg"));
+        brownBg.setOnClickListener(v -> setColor(R.drawable.brown_gradient, "brown_bg"));
 
     }
 
-    private void setColor(int color, String colorText) {
-        commentBg = colorText;
-        commentCardView.setCardBackgroundColor(getResources().getColor(color));
+    private void setColor(int drawable, String drawableText) {
+        commentBg = drawableText;
+        commentCardView.setBackground(getResources().getDrawable(drawable));
     }
 
     private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {

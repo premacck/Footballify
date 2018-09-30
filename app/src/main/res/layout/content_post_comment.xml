@@ -59,7 +59,7 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/custom_circle_red" />
+                            android:src="@drawable/blue_gradient" />
 
                         <ImageView
                             android:id="@+id/pink"
@@ -67,7 +67,7 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/custom_circle_pink" />
+                            android:src="@drawable/purple_gradient" />
 
                         <ImageView
                             android:id="@+id/yellow"
@@ -75,7 +75,7 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/custom_circle_yellow" />
+                            android:src="@drawable/green_gradient" />
 
                         <ImageView
                             android:id="@+id/green"
@@ -83,7 +83,7 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/custom_circle_green" />
+                            android:src="@drawable/orange_gradient" />
 
                         <ImageView
                             android:id="@+id/blue"
@@ -91,7 +91,7 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/custom_circle_blue" />
+                            android:src="@drawable/brown_gradient" />
 
                     </LinearLayout>
                 </RelativeLayout>

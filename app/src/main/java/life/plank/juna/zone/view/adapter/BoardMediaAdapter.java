@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         );
     }
 
+    /*TODO: Check why every gradient comment is taking two tiles to display the content.
+    TODO: Gradients are displayed as squares in the xml. Cant change them to circles. Investigate why they cant be displayed as circles*/
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
         FeedItem footballFeed = boardFeed.get(position).getFeedItem();
@@ -95,8 +98,18 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
                 String comment = footballFeed.getTitle().replaceAll("^\"|\"$", "");
-                holder.commentTextView.setBackgroundColor(getCommentColor(comment));
-                holder.commentTextView.setText(getCommentText(comment));
+
+                if(comment.startsWith("red")|| comment.startsWith("pink")||
+                        comment.startsWith("yellow")||comment.startsWith("green")||comment.startsWith("blue")){
+                    holder.commentTextView.setBackgroundColor(Color.GREEN);
+                    holder.commentTextView.setText(getCommentText(comment));
+
+                }else{
+                    holder.commentTextView.setBackground(getCommentColor(comment));
+                    holder.commentTextView.setText(getCommentText(comment));
+                }
+
+
                 break;
         }
     }

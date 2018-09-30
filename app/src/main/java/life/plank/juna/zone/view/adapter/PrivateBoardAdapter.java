@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,8 +76,15 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                holder.commentTextView.setBackgroundColor(getCommentColor(comment));
-                holder.commentTextView.setText(getCommentText(comment));
+                if(comment.startsWith("red")|| comment.startsWith("pink")||
+                        comment.startsWith("yellow")||comment.startsWith("green")||comment.startsWith("blue")){
+                    holder.commentTextView.setBackgroundColor(Color.GREEN);
+                    holder.commentTextView.setText(getCommentText(comment));
+
+                }else{
+                    holder.commentTextView.setBackground(getCommentColor(comment));
+                    holder.commentTextView.setText(getCommentText(comment));
+                }
 
             }
         }
