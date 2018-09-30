@@ -3,24 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/red"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
+        android:elevation="2dp"
         android:orientation="vertical"
-        android:paddingBottom="6dp"
         android:paddingTop="8dp"
-        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
-        android:elevation="2dp">
+        android:paddingBottom="6dp"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
             android:contentDescription="@string/league_logo" />
 
         <LinearLayout
@@ -58,9 +59,9 @@
                 android:id="@+id/time_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="5sp"
-                android:gravity="center"
                 android:fontFamily="@font/rajdhani_medium"
+                android:gravity="center"
+                android:lineSpacingExtra="5sp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_10sp" />
 
@@ -79,8 +80,8 @@
             android:id="@+id/visiting_team_logo"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginTop="8dp"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="8dp"
             android:layout_toEndOf="@+id/score_layout"
             android:contentDescription="@string/pref_visiting_team_logo" />
 
@@ -90,10 +91,11 @@
             android:layout_height="32dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
-            android:scaleType="center"
+            android:layout_marginEnd="5dp"
             android:background="@null"
-            android:src="@drawable/ic_options"
-            android:contentDescription="@string/options_menu" />
+            android:contentDescription="@string/options_menu"
+            android:scaleType="center"
+            android:src="@drawable/ic_options" />
 
         <ImageButton
             android:id="@+id/share_btn"
@@ -101,10 +103,10 @@
             android:layout_height="32dp"
             android:layout_marginTop="8dp"
             android:layout_toStartOf="@+id/options_menu"
-            android:scaleType="center"
             android:background="@null"
-            android:src="@drawable/ic_share"
-            android:contentDescription="@string/share" />
+            android:contentDescription="@string/share"
+            android:scaleType="center"
+            android:src="@drawable/ic_share" />
     </RelativeLayout>
 
     <include layout="@layout/layout_board_engagement" />
