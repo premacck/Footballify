@@ -41,7 +41,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
-import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 
@@ -125,10 +124,8 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     public void uploadProfilePicture() {
-        MediaType mediaType = getMediaType(filePath);
-
         File fileToUpload = new File(filePath);
-        RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
+        RequestBody requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload);
         MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
 
         String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
@@ -159,5 +156,4 @@ public class EditProfileActivity extends AppCompatActivity {
                     }
                 });
     }
-
 }

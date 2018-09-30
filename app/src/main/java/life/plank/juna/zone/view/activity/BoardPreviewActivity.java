@@ -36,7 +36,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
 public class BoardPreviewActivity extends AppCompatActivity {
@@ -97,10 +96,9 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
     @OnClick({R.id.create_board_button})
     public void createBoard() {
-        MediaType mediaType = getMediaType(filePath);
 
         File fileToUpload = new File(filePath);
-        RequestBody requestBody = RequestBody.create(mediaType, fileToUpload);
+        RequestBody requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload);
         MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
 
         RequestBody displayName = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDisplayname());
