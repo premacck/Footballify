@@ -273,9 +273,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                             case HttpURLConnection.HTTP_CREATED:
                                 int tint = ContextCompat.getColor(activity, R.color.frog_green);
                                 holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                                holder.dislikeImageView.setVisibility(View.GONE);
+                                holder.dislikeImageView.setVisibility(View.INVISIBLE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.GONE);
+                                holder.likeSeparator.setVisibility(View.INVISIBLE);
                                 retrieveBoardById();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
@@ -377,9 +377,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                             case HttpURLConnection.HTTP_CREATED:
                                 int tint = ContextCompat.getColor(activity, R.color.salmon);
                                 holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                                holder.likeImageView.setVisibility(View.GONE);
+                                holder.likeImageView.setVisibility(View.INVISIBLE);
                                 holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.GONE);
+                                holder.likeSeparator.setVisibility(View.INVISIBLE);
                                 retrieveBoardById();
                                 break;
                             default:
