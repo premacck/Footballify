@@ -110,6 +110,20 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
 
+        if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+            int tint = ContextCompat.getColor(activity, R.color.frog_green);
+            holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+            holder.dislikeImageView.setVisibility(View.INVISIBLE);
+            holder.likeCountTextView.setVisibility(View.VISIBLE);
+            holder.likeSeparator.setVisibility(View.INVISIBLE);
+        } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+            int tint = ContextCompat.getColor(activity, R.color.salmon);
+            holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+            holder.likeImageView.setVisibility(View.INVISIBLE);
+            holder.dislikeCountTextView.setVisibility(View.VISIBLE);
+            holder.likeSeparator.setVisibility(View.INVISIBLE);
+        }
+
         SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
         boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
         String feedId = feedItem.getId();
@@ -204,7 +218,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         }
         holder.likeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemLikeApiCall(feedId, holder, position);
+
+                if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+                    boardFeedItemDeleteLike(feedId, holder);
+                } else {
+                    boardFeedItemLikeApiCall(feedId, holder);
+                }
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -220,7 +239,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemDisLikeApiCall(feedId, holder);
+                if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+                    boardFeedItemDeleteDisLike(feedId, holder);
+                } else {
+                    boardFeedItemDisLikeApiCall(feedId, holder);
+                }
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -251,7 +274,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         notifyDataSetChanged();
     }
 
-    private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder, int position) {
+    private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
         restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -391,7 +414,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
-    private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
+    private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder
+            holder) {
         restApi.deleteDisLike(feedItemId, getToken(activity))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -411,7 +435,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                //TODO: update dislike count
+
+                                holder.dislikeImageView.setImageTintList(null);
+                                holder.dislikeCountTextView.setVisibility(View.INVISIBLE);
+                                holder.likeImageView.setVisibility(View.VISIBLE);
+                                holder.likeSeparator.setVisibility(View.VISIBLE);
                                 break;
                             default:
                                 Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
