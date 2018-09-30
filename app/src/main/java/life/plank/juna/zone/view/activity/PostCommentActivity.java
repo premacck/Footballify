@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +10,9 @@ import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -97,6 +100,14 @@ public class PostCommentActivity extends AppCompatActivity {
             postCommentOnBoardFeed(commentBg + "$" + commentEditText.getText().toString(), boardId, AppConstants.ROOT_COMMENT, userId, date);
             finish();
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+                INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        return true;
     }
 
     public void commentReflectOnPostSurface() {
