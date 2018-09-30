@@ -35,7 +35,6 @@ import retrofit2.Retrofit;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
-import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
@@ -164,7 +163,7 @@ public class CreateBoardActivity extends AppCompatActivity {
 
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
-                        if (getMediaType(filePath) != null) {
+                        if (filePath != null) {
                             boardIconAdapter.boardIconList.add(0, filePath);
                             boardIconAdapter.notifyItemInserted(0);
                             isIconSelected = true;

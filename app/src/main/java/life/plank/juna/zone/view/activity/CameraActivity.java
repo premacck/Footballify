@@ -70,7 +70,6 @@ import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO_CAPTURE;
-import static life.plank.juna.zone.util.DataUtil.getMediaType;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
@@ -388,13 +387,7 @@ public class CameraActivity extends AppCompatActivity {
                 switch (openFrom) {
                     case IMAGE:
                     case GALLERY:
-                        if (getMediaType(filePath) == null) {
-                            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        }else {
-                            postMediaContent(filePath, String.valueOf(getMediaType(filePath)), IMAGE, userId, date);
-                        }
+                        postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
                         break;
                     case VIDEO:
                         postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, date);
@@ -411,13 +404,7 @@ public class CameraActivity extends AppCompatActivity {
                 switch (openFrom) {
                     case IMAGE:
                     case GALLERY:
-                        if (getMediaType(filePath) == null){
-                            Toast.makeText(this, R.string.image_not_supported, Toast.LENGTH_SHORT).show();
-                            finish();
-                            return;
-                        } else {
-                            postMediaContent(filePath, String.valueOf(getMediaType(filePath)), IMAGE, userId, date);
-                        }
+                        postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
                         break;
                     default:
                         Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();

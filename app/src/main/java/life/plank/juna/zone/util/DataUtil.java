@@ -41,24 +41,18 @@ import life.plank.juna.zone.data.network.model.MatchEvent;
 import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.ScrubberData;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
-import okhttp3.MediaType;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
-import static life.plank.juna.zone.util.AppConstants.BMP;
 import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
-import static life.plank.juna.zone.util.AppConstants.GIF;
 import static life.plank.juna.zone.util.AppConstants.GOAL;
 import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
-import static life.plank.juna.zone.util.AppConstants.JPEG;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
-import static life.plank.juna.zone.util.AppConstants.PNG;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
-import static life.plank.juna.zone.util.AppConstants.TYPE_IMAGE;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
@@ -455,31 +449,52 @@ public class DataUtil {
         }
     }
 
-    public static MediaType getMediaType(String url) {
-        String extension = url.substring(url.lastIndexOf(".") + 1);
-        MediaType mediaType = null;
+    //    TODO : remove this method when this functionality is properly implemented in the backend
+    public static boolean isBoardActive(Board matchBoard) {
+        long currentTime = new Date().getTime();
+        return currentTime >= matchBoard.getStartDate().getTime() && currentTime < matchBoard.getEndDate().getTime();
+    }
 
-        switch (extension) {
-            case PNG:
-                mediaType = MediaType.parse(TYPE_IMAGE + PNG);
-                break;
-
-            case JPEG:
-                mediaType = MediaType.parse(TYPE_IMAGE + JPEG);
-                break;
-
-            case GIF:
-                mediaType = MediaType.parse(TYPE_IMAGE + GIF);
-                break;
-
-            case BMP:
-                mediaType = MediaType.parse(TYPE_IMAGE + BMP);
-                break;
-
-            default:
-                break;
+    public static void pinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToPin) {
+        int index = footballFeedList.indexOf(footballFeedToPin);
+        if (index >= 0) {
+            footballFeedList.remove(footballFeedToPin);
+            footballFeedList.add(0, footballFeedToPin);
         }
-        return mediaType;
+    }
+
+    public static void unpinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToUnpin) {
+        int previousPosition = footballFeedToUnpin.getFeedItem().getPreviousPosition();
+        if (previousPosition >= 0) {
+            footballFeedList.remove(footballFeedToUnpin);
+            footballFeedList.add(previousPosition, footballFeedToUnpin);
+        }
+    }
+
+    public static void updateScoreLocally(MatchFixture fixture, LiveScoreData scoreData) {
+        fixture.setHomeGoals(scoreData.getHomeGoals());
+        fixture.setAwayGoals(scoreData.getAwayGoals());
+        fixture.setHomeTeamPenaltyScore(scoreData.getHomeTeamPenaltyScore());
+        fixture.setAwayTeamPenaltyScore(scoreData.getAwayTeamPenaltyScore());
+    }
+
+    public static void updateScoreLocally(MatchDetails matchDetails, LiveScoreData scoreData) {
+        matchDetails.setHomeGoals(scoreData.getHomeGoals());
+        matchDetails.setAwayGoals(scoreData.getAwayGoals());
+        matchDetails.setHomeTeamPenaltyScore(scoreData.getHomeTeamPenaltyScore());
+        matchDetails.setAwayTeamPenaltyScore(scoreData.getAwayTeamPenaltyScore());
+    }
+
+    public static void updateTimeStatusLocally(MatchFixture fixture, LiveTimeStatus timeStatus) {
+        fixture.setTimeStatus(timeStatus.getTimeStatus());
+        fixture.setMinute(timeStatus.getMinute());
+        fixture.setExtraMinute(timeStatus.getExtraMinute());
+    }
+
+    public static void updateTimeStatusLocally(MatchDetails matchDetails, LiveTimeStatus timeStatus) {
+        matchDetails.setTimeStatus(timeStatus.getTimeStatus());
+        matchDetails.setMinute(timeStatus.getMinute());
+        matchDetails.setExtraMinute(timeStatus.getExtraMinute());
     }
 
     public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
@@ -529,53 +544,5 @@ public class DataUtil {
             lineChartRef.get().setData(lineData);
             lineChartRef.get().invalidate();
         }
-    }
-
-    //    TODO : remove this method when this functionality is properly implemented in the backend
-    public static boolean isBoardActive(Board matchBoard) {
-        long currentTime = new Date().getTime();
-        return currentTime >= matchBoard.getStartDate().getTime() && currentTime < matchBoard.getEndDate().getTime();
-    }
-
-    public static void pinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToPin) {
-        int index = footballFeedList.indexOf(footballFeedToPin);
-        if (index >= 0) {
-            footballFeedList.remove(footballFeedToPin);
-            footballFeedList.add(0, footballFeedToPin);
-        }
-    }
-
-    public static void unpinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToUnpin) {
-        int previousPosition = footballFeedToUnpin.getFeedItem().getPreviousPosition();
-        if (previousPosition >= 0) {
-            footballFeedList.remove(footballFeedToUnpin);
-            footballFeedList.add(previousPosition, footballFeedToUnpin);
-        }
-    }
-
-    public static void updateScoreLocally(MatchFixture fixture, LiveScoreData scoreData) {
-        fixture.setHomeGoals(scoreData.getHomeGoals());
-        fixture.setAwayGoals(scoreData.getAwayGoals());
-        fixture.setHomeTeamPenaltyScore(scoreData.getHomeTeamPenaltyScore());
-        fixture.setAwayTeamPenaltyScore(scoreData.getAwayTeamPenaltyScore());
-    }
-
-    public static void updateScoreLocally(MatchDetails matchDetails, LiveScoreData scoreData) {
-        matchDetails.setHomeGoals(scoreData.getHomeGoals());
-        matchDetails.setAwayGoals(scoreData.getAwayGoals());
-        matchDetails.setHomeTeamPenaltyScore(scoreData.getHomeTeamPenaltyScore());
-        matchDetails.setAwayTeamPenaltyScore(scoreData.getAwayTeamPenaltyScore());
-    }
-
-    public static void updateTimeStatusLocally(MatchFixture fixture, LiveTimeStatus timeStatus) {
-        fixture.setTimeStatus(timeStatus.getTimeStatus());
-        fixture.setMinute(timeStatus.getMinute());
-        fixture.setExtraMinute(timeStatus.getExtraMinute());
-    }
-
-    public static void updateTimeStatusLocally(MatchDetails matchDetails, LiveTimeStatus timeStatus) {
-        matchDetails.setTimeStatus(timeStatus.getTimeStatus());
-        matchDetails.setMinute(timeStatus.getMinute());
-        matchDetails.setExtraMinute(timeStatus.getExtraMinute());
     }
 }
