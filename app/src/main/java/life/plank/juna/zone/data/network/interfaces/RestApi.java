@@ -19,6 +19,7 @@ import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.data.network.model.Zones;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -73,6 +74,10 @@ public interface RestApi {
     //working
     @GET("/boards/feedItems")
     Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Query("id") String boardId, @Header("Authorization") String authHeader);
+
+    //working
+    @GET("/zones")
+    Observable<Response<List<Zones>>> retrieveZones();
 
     //working
     @DELETE("/boards/{id}/activities/removeUser")
