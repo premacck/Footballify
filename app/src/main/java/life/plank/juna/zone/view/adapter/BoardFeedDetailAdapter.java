@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FeedInteraction;
 import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.ColorHashMap;
@@ -220,9 +219,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         }
         holder.likeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-
-                if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
-                    boardFeedItemDeleteLike(feedId, holder);
+                if (feedsListItem.get(position).getFeedInteractions() != null) {
+                    if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+                        boardFeedItemDeleteLike(feedId, holder);
+                    } else {
+                        boardFeedItemLikeApiCall(feedId, holder);
+                    }
                 } else {
                     boardFeedItemLikeApiCall(feedId, holder);
                 }
@@ -241,8 +243,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
-                    boardFeedItemDeleteDisLike(feedId, holder);
+                if (feedsListItem.get(position).getFeedInteractions() != null) {
+                    if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+                        boardFeedItemDeleteDisLike(feedId, holder);
+                    } else {
+                        boardFeedItemDisLikeApiCall(feedId, holder);
+                    }
                 } else {
                     boardFeedItemDisLikeApiCall(feedId, holder);
                 }
