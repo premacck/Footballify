@@ -36,6 +36,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.FeedInteraction;
 import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.util.ColorHashMap;
@@ -103,27 +104,28 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         FeedItem feedItem = feedsListItem.get(position).getFeedItem();
+
         feedItem.setPinned(isFeedItemPinned(feedItem));
 
         if (feedItem.getInteractions() != null) {
             holder.likeCountTextView.setText(String.valueOf(feedItem.getInteractions().getLikes()));
             holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
-
-        if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
-            int tint = ContextCompat.getColor(activity, R.color.frog_green);
-            holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
-            holder.dislikeImageView.setVisibility(View.INVISIBLE);
-            holder.likeCountTextView.setVisibility(View.VISIBLE);
-            holder.likeSeparator.setVisibility(View.INVISIBLE);
-        } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
-            int tint = ContextCompat.getColor(activity, R.color.salmon);
-            holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
-            holder.likeImageView.setVisibility(View.INVISIBLE);
-            holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-            holder.likeSeparator.setVisibility(View.INVISIBLE);
+        if (feedsListItem.get(position).getFeedInteractions() != null) {
+            if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+                int tint = ContextCompat.getColor(activity, R.color.frog_green);
+                holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                holder.dislikeImageView.setVisibility(View.INVISIBLE);
+                holder.likeCountTextView.setVisibility(View.VISIBLE);
+                holder.likeSeparator.setVisibility(View.INVISIBLE);
+            } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+                int tint = ContextCompat.getColor(activity, R.color.salmon);
+                holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                holder.likeImageView.setVisibility(View.INVISIBLE);
+                holder.dislikeCountTextView.setVisibility(View.VISIBLE);
+                holder.likeSeparator.setVisibility(View.INVISIBLE);
+            }
         }
-
         SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
         boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
         String feedId = feedItem.getId();
