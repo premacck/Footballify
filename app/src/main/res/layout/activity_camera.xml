@@ -47,7 +47,7 @@
                     <ImageView
                         android:id="@+id/captured_image_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="363dp"
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/thumbnail"
                         android:scaleType="centerCrop"
