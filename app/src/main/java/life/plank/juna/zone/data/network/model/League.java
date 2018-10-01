@@ -13,15 +13,18 @@ public class League {
     private String seasonName;
     private String countryName;
     private String thumbUrl;
+    private int leagueLogo;
+
     @ColorRes
     private int dominantColor;
 
-    public League(String name, Boolean isCup, String seasonName, String countryName, String thumbUrl, int dominantColor) {
+    public League(String name, Boolean isCup, String seasonName, String countryName, String thumbUrl, int dominantColor, int leagueLogo) {
         this.name = name;
         this.isCup = isCup;
         this.seasonName = seasonName;
         this.countryName = countryName;
         this.thumbUrl = thumbUrl;
         this.dominantColor = dominantColor;
+        this.leagueLogo = leagueLogo;
     }
 }
