@@ -2,6 +2,8 @@ package life.plank.juna.zone.view.fragment.post;
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -21,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -28,6 +31,7 @@ import android.widget.VideoView;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -71,6 +75,8 @@ import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
 public class PostDetailFragment extends Fragment implements FeedInteractionListener {
@@ -200,11 +206,29 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                 mediaPlayer.stop();
                 setVisibilities(VISIBLE, GONE, GONE);
                 try {
+                    Target target = new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
+                            params.height = width * (bitmap.getHeight() / bitmap.getWidth());
+                            feedImageView.setLayoutParams(params);
+                            feedImageView.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    };
                     Picasso.with(getActivity()).
                             load(feedEntry.getFeedItem().getThumbnail().getImageUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
-                            .into(feedImageView);
+                            .into(target);
                 } catch (Exception e) {
                     feedImageView.setImageResource(R.drawable.ic_place_holder);
                 }
