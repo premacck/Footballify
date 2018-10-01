@@ -74,7 +74,7 @@ public class EditProfileActivity extends AppCompatActivity {
         blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), UserProfileActivity.parentViewBitmap));
     }
 
-    @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view})
+    @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view, R.id.blur_background_image_view})
     public void dobClicked(View view) {
         switch (view.getId()) {
             case R.id.dob_edit_text:
@@ -82,6 +82,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 break;
             case R.id.change_picture_text_view:
                 getImageResourceFromGallery();
+                break;
+            case R.id.blur_background_image_view:
+                finish();
                 break;
         }
     }
