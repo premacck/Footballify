@@ -62,7 +62,7 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     @Override
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
         holder.boardTitle.setText(boardList.get(position).getName());
-        picasso.load(boardList.get(position).getBoardIcon().getUrl()).into(holder.boardIcon);
+        picasso.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
         holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
         holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId()));
     }
