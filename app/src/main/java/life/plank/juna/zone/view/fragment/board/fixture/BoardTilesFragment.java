@@ -21,6 +21,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -67,6 +68,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     public
     Picasso picasso;
     @Inject
+    Gson gson;
+    @Inject
     @Named("default")
     RestApi restApi;
     @Inject
@@ -112,8 +115,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getBoardFeed(false);
-        if (isBoardActive) {
             setupBoomMenu(getActivity(), arcMenu, boardId);
+        if (isBoardActive) {
         } else {
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }
@@ -197,7 +200,11 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     @Override
-    public void onItemClick(int position, View fromView) {
+    public void onItemClick(int position) {
+    }
+
+    @Override
+    public void onItemLongClick(int position) {
         if (getActivity() instanceof BaseBoardActivity) {
             ((BaseBoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
