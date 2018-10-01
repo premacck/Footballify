@@ -9,4 +9,5 @@ public class FeedInteraction {
     private boolean hasShared;
     private boolean hasCommented;
     private boolean hasPinned;
+    private String pinId;
 }

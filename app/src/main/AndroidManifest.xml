@@ -173,6 +173,10 @@
             android:name="io.fabric.ApiKey"
             android:value="${crashlyticsApiKey}" />
 
+        <activity android:name=".view.activity.post.PostDetailActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+
         <activity android:name=".view.activity.web.WebCardActivity"
             android:screenOrientation="portrait" />
     </application>
