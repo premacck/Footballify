@@ -124,7 +124,7 @@ public interface RestApi {
 
     //working
     @Multipart
-    @POST("/users/uploadProfilePicture")
+    @POST("/users/profilePicture")
     Observable<Response<String>> uploadProfilePicture(@Part MultipartBody.Part file,
                                                       @Header("Authorization") String authHeader);
 
