@@ -129,7 +129,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-                    UIDisplayUtil.hideSoftKeyboard(findViewById(android.R.id.content), getApplicationContext());
+                    UIDisplayUtil.hideSoftKeyboard(findViewById(android.R.id.content));
                 }
             }
 

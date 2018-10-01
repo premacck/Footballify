@@ -53,6 +53,15 @@
     <string name="already_pinned_feed">You have already pinned this feed</string>
     <string name="already_removed_pin">You have already removed the pin on this feed</string>
     <string name="user_deleted">User deleted successfully</string>
+    <string name="write_a_reply">Write a reply</string>
+    <string name="write_a_comment">Write a comment</string>
+    <string name="view_4_replies_sample">View 4 replies</string>
+    <string name="show_replies">Show replies</string>
+    <string name="hide_replies">Hide replies</string>
+    <string name="failed_to_get_feed_comments">Failed to get the feed comments.\nTap to retry</string>
+    <string name="failed_to_post_comment">Failed to post comment, please try again</string>
+    <string name="failed_to_post_reply">Failed to post reply, please try again</string>
+    <string name="be_the_first_to_comment_on_this_post">Be the first to comment on this post!</string>
     <string name="failed_to_retrieve_zones">Failed to retrieve zones</string>
 
 </resources>
