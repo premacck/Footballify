@@ -79,5 +79,9 @@
     <string name="private_board_owner_popup">PrivateBoardOwnerPopUp</string>
     <string name="private_board_user_popup">PrivateBoardUserPopUp</string>
     <string name="text_content_type">text/plain</string>
+    <string name="blue_color">blue_bg</string>
+    <string name="purple_color">purple_bg</string>
+    <string name="green_color">green_bg</string>
+    <string name="orange_color">orange_bg</string>
 
 </resources>
