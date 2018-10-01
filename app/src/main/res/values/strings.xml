@@ -34,6 +34,7 @@
     <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
     <string name="like">Like</string>
+    <string name="unlike">Unlike</string>
     <string name="reply">Reply</string>
 
     <string name="assist">Assist</string>

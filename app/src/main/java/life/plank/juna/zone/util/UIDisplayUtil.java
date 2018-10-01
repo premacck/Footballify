@@ -583,9 +583,9 @@ public class UIDisplayUtil {
         Snackbar.make(currentView, message, Snackbar.LENGTH_LONG).show();
     }
 
-    public static void hideSoftKeyboard(View view, Context context) {
+    public static void hideSoftKeyboard(View view) {
         if (view != null) {
-            InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             assert inputMethodManager != null;
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }

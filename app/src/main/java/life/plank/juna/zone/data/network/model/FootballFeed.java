@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public class FootballFeed {
     private FeedItem feedItem;
+    private FeedInteraction feedInteractions;
 }

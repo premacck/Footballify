@@ -145,7 +145,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
         String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
 
-        restApi.postCommentOnBoardFeed(getEditTextValue, boardId, contentType, userId, dateCreated, token)
+        restApi.postFeedItemOnBoard(getEditTextValue, boardId, contentType, userId, dateCreated, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
