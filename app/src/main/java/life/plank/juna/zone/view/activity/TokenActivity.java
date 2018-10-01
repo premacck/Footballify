@@ -204,7 +204,11 @@ public class TokenActivity extends AppCompatActivity {
                                 prefEditor.putBoolean(getString(R.string.pref_is_logged_in), true).apply();
 
                                 UIDisplayUtil.saveSignInUserDetails(TokenActivity.this, response.body());
-                                startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+                                if (response.body().getUserPreferences().isEmpty()) {
+                                    startActivity(new Intent(TokenActivity.this, ZoneActivity.class));
+                                } else {
+                                    startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+                                }
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
