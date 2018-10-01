@@ -42,4 +42,6 @@
             android:visibility="gone" />
 
     </RelativeLayout>
+
+    <include layout="@layout/onboarding_bottom_sheet" />
 </android.support.design.widget.CoordinatorLayout>
