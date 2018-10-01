@@ -17,7 +17,7 @@ public class Board {
     private String description;
     private String color;
     private User owner;
-    private BoardIcon boardIcon;
+    private String boardIconUrl;
     private Interaction interactions;
     private Date startDate;
     private Date endDate;
@@ -28,11 +28,6 @@ public class Board {
         this.zone = zone;
         this.description = description;
         this.color = color;
-    }
-
-    @Data
-    public static class BoardIcon {
-        private String url;
     }
 
     @Data

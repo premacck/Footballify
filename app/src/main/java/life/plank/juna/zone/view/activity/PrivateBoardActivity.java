@@ -161,7 +161,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
         toolbar.setTitle(board.getName());
         toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
-        toolbar.setLeagueLogo(picasso, board.getBoardIcon().getUrl());
+        toolbar.setLeagueLogo(picasso, board.getBoardIconUrl());
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
 
