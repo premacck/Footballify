@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,6 +14,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,7 +30,6 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -65,8 +64,8 @@ public class PostCommentActivity extends AppCompatActivity {
     ImageView orangeBg;
     @BindView(R.id.blue)
     ImageView brownBg;
-    @BindView(R.id.comment_card_view)
-    CardView commentCardView;
+    @BindView(R.id.card_relative_layout)
+    RelativeLayout cardRelativeLayout;
     String commentBg = "blue_bg";
     private RestApi restApi;
     private String boardId;
@@ -105,7 +104,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.
                 INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         return true;
@@ -139,7 +138,7 @@ public class PostCommentActivity extends AppCompatActivity {
 
     private void setColor(int drawable, String drawableText) {
         commentBg = drawableText;
-        commentCardView.setBackground(getResources().getDrawable(drawable));
+        cardRelativeLayout.setBackground(getResources().getDrawable(drawable));
     }
 
     private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {
