@@ -98,10 +98,10 @@ public class UIDisplayUtil {
 
     }
 
-    public static int getCommentColor(String comment) {
-        ColorHashMap.HashMaps(getApplicationContext());
-        int color = ColorHashMap.getColorMapMap().get(comment.substring(0, comment.indexOf("$")));
-        return getApplicationContext().getResources().getColor(color, null);
+    public static Drawable getCommentColor(String comment) {
+        DrawableHashMap.HashMaps(getApplicationContext());
+        int color = DrawableHashMap.getDrawableMap().get(comment.substring(0, comment.indexOf("$")));
+        return getApplicationContext().getResources().getDrawable(color, null);
     }
 
     public static CharSequence getCommentText(String comment) {
@@ -591,15 +591,6 @@ public class UIDisplayUtil {
         }
     }
 
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
     public static void enableOrDisableView(View view, boolean isEnabled) {
         view.setEnabled(isEnabled);
         view.setClickable(isEnabled);
@@ -622,6 +613,7 @@ public class UIDisplayUtil {
 
     /**
      * Method for determining the suitable size for Text and Other media types like Audio, Video and Photo in Board feed
+     *
      * @return the appropriate tile size for the feed item tile
      */
     public static int getSuitableFeedTileSize(List<FootballFeed> boardFeed, int position, int mediaTileWidth, int textTileWidth) {
@@ -630,9 +622,9 @@ public class UIDisplayUtil {
             FeedItem feedItemBeforePrevious = boardFeed.get(position - 2).getFeedItem();
 //        Check if previous tile is small
             if (feedItemPrevious.getTileWidth() == mediaTileWidth) {
-    //            Check if the tile before the previous tile is small
+                //            Check if the tile before the previous tile is small
                 if (feedItemBeforePrevious.getTileWidth() == mediaTileWidth) {
-    //                Check if the previous two tiles are text posts
+                    //                Check if the previous two tiles are text posts
                     if (feedItemPrevious.getContentType().equals(ROOT_COMMENT) &&
                             feedItemBeforePrevious.getContentType().equals(ROOT_COMMENT)) {
                         return textTileWidth;
@@ -640,16 +632,16 @@ public class UIDisplayUtil {
                         return mediaTileWidth;
                     }
                 } else {
-    //            Return size of the tile same as the previous one
+                    //            Return size of the tile same as the previous one
                     return feedItemPrevious.getTileWidth();
                 }
-    //            Check if previous tile is wide
+                //            Check if previous tile is wide
             } else if (feedItemPrevious.getTileWidth() == textTileWidth) {
-    //            Check if the tile before the previous tile is wide
+                //            Check if the tile before the previous tile is wide
                 if (feedItemBeforePrevious.getTileWidth() == textTileWidth) {
                     return mediaTileWidth;
                 } else {
-    //            Return size of the tile same as the previous one
+                    //            Return size of the tile same as the previous one
                     return feedItemPrevious.getTileWidth();
                 }
             } else {
@@ -658,5 +650,14 @@ public class UIDisplayUtil {
         } catch (Exception e) {
             return mediaTileWidth;
         }
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 }
