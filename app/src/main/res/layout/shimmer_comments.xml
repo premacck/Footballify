@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/comments_shimmer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <View
+        android:id="@+id/dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/circle_background_grey" />
+
+    <View
+        android:id="@+id/name"
+        android:layout_width="60dp"
+        android:layout_height="14dp"
+        android:layout_toEndOf="@+id/dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/circle_background_color" />
+
+    <View
+        android:id="@+id/comment"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_toEndOf="@+id/name"
+        android:layout_marginTop="3dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="5dp"
+        android:background="@color/circle_background_color"
+        android:fontFamily="@font/rajdhani_regular"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10sp" />
+
+    <View
+        android:id="@+id/dp1"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/comment"
+        android:background="@drawable/circle_background_grey" />
+
+    <View
+        android:id="@+id/name1"
+        android:layout_width="60dp"
+        android:layout_height="14dp"
+        android:layout_toEndOf="@+id/dp1"
+        android:layout_below="@+id/comment"
+        android:layout_marginTop="13dp"
+        android:background="@color/circle_background_color" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_toEndOf="@+id/name1"
+        android:layout_marginTop="13dp"
+        android:layout_below="@+id/comment"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="28dp"
+        android:background="@color/circle_background_color"
+        android:fontFamily="@font/rajdhani_regular"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/text_10sp" />
+
+</life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
