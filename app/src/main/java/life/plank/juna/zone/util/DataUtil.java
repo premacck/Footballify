@@ -181,6 +181,7 @@ public class DataUtil {
         return newMatchEventList;
     }
 
+    //TODO: Replace the league logo's(Will be done as soon as i get the logo's from design team)
     public static List<League> getStaticLeagues() {
         List<League> footballFeeds = new ArrayList<>();
         footballFeeds.add(new League(
@@ -189,7 +190,8 @@ public class DataUtil {
                 "2018/2019",
                 "England",
                 "https://image.ibb.co/msPsep/img_epl_logo.png",
-                R.color.black_currant
+                R.color.black_currant,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "La Liga",
@@ -197,7 +199,8 @@ public class DataUtil {
                 "2018/2019",
                 "Spain",
                 "https://cdn.bleacherreport.net/images/team_logos/328x328/la_liga.png",
-                R.color.eclipse
+                R.color.eclipse,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Bundesliga",
@@ -205,7 +208,8 @@ public class DataUtil {
                 "2018/2019",
                 "Germany",
                 "http://logok.org/wp-content/uploads/2014/12/Bundesliga-logo-880x655.png",
-                R.color.sangria
+                R.color.sangria,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Champions League",
@@ -213,7 +217,8 @@ public class DataUtil {
                 "2018/2019",
                 "Europe",
                 "https://www.seeklogo.net/wp-content/uploads/2013/06/uefa-champions-league-eps-vector-logo.png",
-                R.color.maire
+                R.color.maire,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Serie A",
@@ -221,7 +226,8 @@ public class DataUtil {
                 "2018/2019",
                 "Italy",
                 "http://www.tvsette.net/wp-content/uploads/2017/06/SERIE-A-LOGO.png",
-                R.color.crusoe
+                R.color.crusoe,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Ligue 1",
@@ -229,7 +235,8 @@ public class DataUtil {
                 "2018/2019",
                 "France",
                 "http://logok.org/wp-content/uploads/2014/11/Ligue-1-logo-france-880x660.png",
-                R.color.shuttle_grey
+                R.color.shuttle_grey,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "FA Cup",
@@ -237,7 +244,8 @@ public class DataUtil {
                 "2018/2019",
                 "England",
                 "https://vignette.wikia.nocookie.net/logopedia/images/3/33/The_Emirates_FA_Cup.png",
-                R.color.sapphire
+                R.color.sapphire,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Copa Del Rey",
@@ -245,7 +253,8 @@ public class DataUtil {
                 "2018/2019",
                 "Spain",
                 "https://www.primeradivision.pl/luba/dane/pliki/bank_zdj/duzy/copadelrey.jpg",
-                R.color.carmine
+                R.color.carmine,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Coppa Italia",
@@ -253,7 +262,8 @@ public class DataUtil {
                 "2018/2019",
                 "Italy",
                 "https://cdn.ghanasoccernet.com/2018/07/5b3f92288827c.jpg",
-                R.color.husk
+                R.color.husk,
+                R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
                 "Europa League",
@@ -261,7 +271,8 @@ public class DataUtil {
                 "2018/2019",
                 "Europe",
                 "https://cdn.foxsports.com.br/sites/foxsports-br/files/img/competition/shields-original/logo-uefa-europa-league.png",
-                R.color.carrot_orange
+                R.color.carrot_orange,
+                R.drawable.img_epl_logo
         ));
         return footballFeeds;
     }

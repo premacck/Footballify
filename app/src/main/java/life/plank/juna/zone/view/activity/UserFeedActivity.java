@@ -5,11 +5,14 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -34,7 +37,9 @@ import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
+import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
 import life.plank.juna.zone.view.adapter.UserZoneAdapter;
@@ -44,6 +49,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsBoolean;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 
@@ -62,6 +68,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     RecyclerView userZoneRecyclerView;
     @BindView(R.id.feed_header)
     ZoneToolBar toolbar;
+    @BindView(R.id.recycler_view)
+    RecyclerView recyclerView;
     @Inject
     Picasso picasso;
     private RestApi restApi;
@@ -70,6 +78,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     ArrayList<Board> userBoards = new ArrayList<>();
     Dialog signUpDialog;
     private AuthorizationService authService;
+    private BottomSheetBehavior onboardingBottomSheetBehavior;
+    OnboardingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +98,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         token = getSharedPrefsBoolean(getString(R.string.pref_login_credentails), getString(R.string.pref_is_logged_in)) ?
                 getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token)) : "";
 
+        setupBottomSheet();
+        initBottomSheetRecyclerView();
+        //TODO: Retrieve leagues from backend
+        getLeagues();
 
         setUpToolbar();
         initRecyclerView();
@@ -96,6 +110,24 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         getUserFeed();
         getUserBoards();
         toolbar.initListeners(this);
+
+    }
+
+    private void initBottomSheetRecyclerView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        adapter = new OnboardingAdapter(this);
+        recyclerView.setAdapter(adapter);
+
+    }
+
+    public void getLeagues() {
+        adapter.setLeagueList(getStaticLeagues());
+    }
+
+    private void setupBottomSheet() {
+        View onboardingBottomSheet = findViewById(R.id.onboarding_bottom_sheet);
+        onboardingBottomSheetBehavior = BottomSheetBehavior.from(onboardingBottomSheet);
+        onboardingBottomSheetBehavior.setPeekHeight(0);
     }
 
     private void setUpToolbar() {
@@ -117,7 +149,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initZoneRecyclerView() {
-        userZoneAdapter = new UserZoneAdapter(this);
+        userZoneAdapter = new UserZoneAdapter(this, onboardingBottomSheetBehavior);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
         userZoneRecyclerView.setLayoutManager(gridLayoutManager);
         userZoneRecyclerView.setAdapter(userZoneAdapter);

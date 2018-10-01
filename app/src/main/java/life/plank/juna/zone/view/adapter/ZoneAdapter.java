@@ -9,9 +9,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.Zones;
 
 /**
  * Created by plank-dhamini on 18/7/2018.
@@ -19,9 +22,12 @@ import life.plank.juna.zone.R;
 public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder> {
     private static final String TAG = ZoneAdapter.class.getSimpleName();
     private Context context;
+    private ArrayList<Zones> zones;
 
-    public ZoneAdapter(Context context) {
+
+    public ZoneAdapter(Context context, ArrayList<Zones> zones) {
         this.context = context;
+        this.zones = zones;
     }
 
     @Override
@@ -32,12 +38,16 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
 
     @Override
     public void onBindViewHolder(ZoneViewHolder holder, int position) {
+
+        holder.zoneTitle.setText(zones.get(position).name);
+
         holder.zoneImageView.setOnClickListener(view -> {
             if (holder.followTick.getVisibility() == View.VISIBLE) {
                 holder.followTick.setVisibility(View.INVISIBLE);
                 holder.zoneImageView.setAlpha(context.getResources().getInteger(R.integer.opaque));
                 holder.zoneTitle.setVisibility(View.VISIBLE);
                 holder.followersCount.setVisibility(View.VISIBLE);
+
 
                 ViewGroup.LayoutParams params = holder.zoneImageView.getLayoutParams();
                 params.width = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
@@ -60,8 +70,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
 
     @Override
     public int getItemCount() {
-        //TODO: Replace with actual number of zones
-        return 15;
+        return zones.size();
     }
 
     public class ZoneViewHolder extends RecyclerView.ViewHolder {
