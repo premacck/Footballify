@@ -211,7 +211,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                             int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
                             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
-                            params.height = width * (bitmap.getHeight() / bitmap.getWidth());
+                            params.height = width * bitmap.getHeight() / bitmap.getWidth();
                             feedImageView.setLayoutParams(params);
                             feedImageView.setImageBitmap(bitmap);
                         }
@@ -225,7 +225,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                         }
                     };
                     Picasso.with(getActivity()).
-                            load(feedEntry.getFeedItem().getThumbnail().getImageUrl())
+                            load(feedEntry.getFeedItem().getUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
                             .into(target);

@@ -183,6 +183,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getStandings(league.getName(), league.getSeasonName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> standingsProgressBar.setVisibility(View.VISIBLE))
+                .doOnTerminate(() -> standingsProgressBar.setVisibility(View.GONE))
                 .subscribe(new Subscriber<Response<List<StandingModel>>>() {
                     @Override
                     public void onCompleted() {
@@ -216,6 +218,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getPlayerStats(league.getName(), league.getSeasonName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> playerStatsProgressBar.setVisibility(View.VISIBLE))
+                .doOnTerminate(() -> playerStatsProgressBar.setVisibility(View.GONE))
                 .subscribe(new Subscriber<Response<List<PlayerStatsModel>>>() {
                     @Override
                     public void onCompleted() {
@@ -250,6 +254,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getTeamStats(league.getName(), league.getSeasonName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> teamStatsProgressBar.setVisibility(View.VISIBLE))
+                .doOnTerminate(() -> teamStatsProgressBar.setVisibility(View.GONE))
                 .subscribe(new Subscriber<Response<List<TeamStatsModel>>>() {
                     @Override
                     public void onCompleted() {
@@ -314,8 +320,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
         restApi.getFixtures(league.getSeasonName(), league.getName(), league.getCountryName())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> setProgressBarsVisibility(View.VISIBLE))
-                .doOnTerminate(() -> setProgressBarsVisibility(View.GONE))
+                .doOnSubscribe(() -> fixtureProgressBar.setVisibility(View.VISIBLE))
+                .doOnTerminate(() -> fixtureProgressBar.setVisibility(View.GONE))
                 .subscribe(new Subscriber<Response<List<FixtureByMatchDay>>>() {
                     @Override
                     public void onCompleted() {
@@ -347,13 +353,6 @@ public class LeagueInfoActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    private void setProgressBarsVisibility(int visibility) {
-        fixtureProgressBar.setVisibility(visibility);
-        standingsProgressBar.setVisibility(visibility);
-        teamStatsProgressBar.setVisibility(visibility);
-        playerStatsProgressBar.setVisibility(visibility);
     }
 
     private static class UpdateFixtureAdapterTask extends AsyncTask<Void, Void, List<MatchFixture>> {
@@ -418,7 +417,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
                     ref.get().seeAllFixtures.setEnabled(true);
                     ref.get().seeAllFixtures.setClickable(true);
                 }
-                ref.get().setProgressBarsVisibility(View.GONE);
+                ref.get().fixtureProgressBar.setVisibility(View.GONE);
             }
         }
     }
