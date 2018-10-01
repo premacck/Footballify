@@ -54,6 +54,7 @@ import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
 import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
@@ -252,6 +253,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         notifyDataSetChanged();
     }
 
+    public void updateNewFeed(FootballFeed footballFeed) {
+        if (isNullOrEmpty(feedsListItem)) {
+            feedsListItem = new ArrayList<>();
+        }
+        feedsListItem.add(0, footballFeed);
+        notifyItemInserted(0);
+    }
+
     private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder, int position) {
         restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken(activity))
                 .subscribeOn(Schedulers.io())
@@ -291,7 +300,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     private void retrieveBoardById() {
 
-        restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<FootballFeed>>>() {
