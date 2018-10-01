@@ -30,8 +30,8 @@ import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-import static life.plank.juna.zone.util.UIDisplayUtil.getSuitableFeedTileSize;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
+import static life.plank.juna.zone.util.UIDisplayUtil.getSuitableFeedTileSize;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -95,8 +95,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
                 String comment = footballFeed.getTitle().replaceAll("^\"|\"$", "");
-                holder.commentTextView.setBackgroundColor(getCommentColor(comment));
+                holder.commentTextView.setBackground(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
+
                 break;
         }
     }

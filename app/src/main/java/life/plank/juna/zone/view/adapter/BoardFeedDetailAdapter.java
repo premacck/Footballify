@@ -198,8 +198,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
                 String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
 
-                holder.feedTextView.setBackgroundColor(getCommentColor(comment));
+                holder.feedTextView.setBackground(getCommentColor(comment));
                 holder.feedTextView.setText(getCommentText(comment));
+
             }
         }
         holder.likeImageView.setOnClickListener(v -> {
