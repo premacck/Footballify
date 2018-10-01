@@ -53,5 +53,6 @@
     <string name="already_pinned_feed">You have already pinned this feed</string>
     <string name="already_removed_pin">You have already removed the pin on this feed</string>
     <string name="user_deleted">User deleted successfully</string>
+    <string name="failed_to_retrieve_zones">Failed to retrieve zones</string>
 
 </resources>
