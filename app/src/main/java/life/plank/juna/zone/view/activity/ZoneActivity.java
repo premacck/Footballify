@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -129,8 +130,8 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
                     @Override
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
-
+                            case HttpURLConnection.HTTP_OK:
+                                startActivity(new Intent(ZoneActivity.this, UserFeedActivity.class));
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
                             default:
