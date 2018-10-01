@@ -720,7 +720,6 @@ public class ShimmerRelativeLayout extends RelativeLayout {
         // Then draw the masked version
         drawMasked(new Canvas(maskBitmap));
         canvas.drawBitmap(maskBitmap, 0, 0, null);
-//    return true;
     }
 
     private Bitmap tryObtainRenderUnmaskBitmap() {
