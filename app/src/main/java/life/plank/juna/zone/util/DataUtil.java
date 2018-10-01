@@ -181,6 +181,7 @@ public class DataUtil {
         return newMatchEventList;
     }
 
+    //TODO: Replace the league logo's(Will be done as soon as i get the logo's from design team)
     public static List<League> getStaticLeagues() {
         List<League> footballFeeds = new ArrayList<>();
         footballFeeds.add(new League(
