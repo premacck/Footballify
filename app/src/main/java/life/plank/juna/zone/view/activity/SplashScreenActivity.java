@@ -14,15 +14,29 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import net.openid.appauth.AuthorizationService;
 
+import java.net.HttpURLConnection;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 import life.plank.juna.zone.util.AuthUtil;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.checkTokenValidity;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
  * Created by plank-dhamini on 18/7/2018.
@@ -34,7 +48,10 @@ public class SplashScreenActivity extends AppCompatActivity {
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
-
+    @Inject
+    @Named("default")
+    Retrofit retrofit;
+    private RestApi restApi;
     private AuthorizationService authService;
 
     @Override
@@ -45,7 +62,8 @@ public class SplashScreenActivity extends AppCompatActivity {
         authService = new AuthorizationService(this);
         NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
         registerWithNotificationHubs();
-
+        ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
+        restApi = retrofit.create(RestApi.class);
         animationView.setSpeed(2.0f);
         animationView.addAnimatorListener(new Animator.AnimatorListener() {
             @Override
@@ -78,8 +96,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     private void proceedToApp() {
         if (checkTokenValidity(R.string.pref_refresh_token_validity)) {
             if (checkTokenValidity(R.string.pref_id_token_validity)) {
-                startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
-                finish();
+                getUserPreference();
             } else {
                 AuthUtil.loginOrRefreshToken(this, authService, null, true);
             }
@@ -88,6 +105,45 @@ public class SplashScreenActivity extends AppCompatActivity {
             finish();
         }
     }
+
+    private void getUserPreference() {
+        restApi.getUser(getToken(this))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<User>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<User> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                if (response.body().getUserPreferences().isEmpty()) {
+                                    startActivity(new Intent(SplashScreenActivity.this, ZoneActivity.class));
+                                } else {
+                                    startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
+                                }
+                                finish();
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Log.e(TAG, response.message());
+                                break;
+                        }
+                    }
+                });
+    }
+
 
     /**
      * Check the device to make sure it has the Google Play Services APK. If
