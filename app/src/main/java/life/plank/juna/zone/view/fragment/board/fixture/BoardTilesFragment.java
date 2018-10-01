@@ -38,7 +38,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
-import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -202,10 +201,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemClick(int position) {
-        List<FootballFeed> feedItemList = adapter.getBoardFeed();
-        if (!isNullOrEmpty(feedItemList)) {
-            PostDetailActivity.launch(getActivity(), gson.toJson(feedItemList), boardId, position);
-        }
     }
 
     @Override
