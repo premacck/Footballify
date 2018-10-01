@@ -26,11 +26,13 @@ import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.activity.ZoneActivity;
+import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
+import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 
 /**
  * This Component is the sub-component of AppComponent.
@@ -93,6 +95,10 @@ public interface UiComponent {
     void inject(JoinBoardActivity joinBoardActivity);
 
     void inject(ZoneActivity zoneActivity);
+
+    void inject(PostDetailActivity postDetailActivity);
+
+    void inject(PostDetailFragment postDetailFragment);
 
     @Subcomponent.Builder
     interface Builder {
