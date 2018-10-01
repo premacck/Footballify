@@ -136,28 +136,28 @@ public class PostCommentActivity extends AppCompatActivity {
             purpleBg.setBackground(null);
             greenBg.setBackground(null);
             orangeBg.setBackground(null);
-            setColor(R.drawable.blue_gradient, "blue_bg");
+            setColor(R.drawable.blue_gradient, getString(R.string.blue_color));
         });
         purpleBg.setOnClickListener(v -> {
             blueBg.setBackground(null);
             purpleBg.setBackground(highlight);
             greenBg.setBackground(null);
             orangeBg.setBackground(null);
-            setColor(R.drawable.purple_gradient, "purple_bg");
+            setColor(R.drawable.purple_gradient, getString(R.string.purple_color));
         });
         greenBg.setOnClickListener(v -> {
             blueBg.setBackground(null);
             purpleBg.setBackground(null);
             greenBg.setBackground(highlight);
             orangeBg.setBackground(null);
-            setColor(R.drawable.green_gradient, "green_bg");
+            setColor(R.drawable.green_gradient, getString(R.string.green_color));
         });
         orangeBg.setOnClickListener(v -> {
             blueBg.setBackground(null);
             purpleBg.setBackground(null);
             greenBg.setBackground(null);
             orangeBg.setBackground(highlight);
-            setColor(R.drawable.orange_gradient, "orange_bg");
+            setColor(R.drawable.orange_gradient, getString(R.string.orange_color));
         });
 
     }

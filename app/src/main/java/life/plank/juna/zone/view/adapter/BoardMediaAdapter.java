@@ -61,8 +61,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         );
     }
 
-    /*TODO: Check why every gradient comment is taking two tiles to display the content.
-    TODO: Gradients are displayed as squares in the xml. Cant change them to circles. Investigate why they cant be displayed as circles*/
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
         FeedItem footballFeed = boardFeed.get(position).getFeedItem();

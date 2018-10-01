@@ -12,10 +12,10 @@ public class DrawableHashMap {
 
     public static void HashMaps(Context context) {
         drawableMap = new HashMap<>();
-        drawableMap.put("blue_bg", R.drawable.blue_gradient);
-        drawableMap.put("purple_bg", R.drawable.purple_gradient);
-        drawableMap.put("green_bg", R.drawable.green_gradient);
-        drawableMap.put("orange_bg", R.drawable.orange_gradient);
+        drawableMap.put(context.getString(R.string.blue_color), R.drawable.blue_gradient);
+        drawableMap.put(context.getString(R.string.purple_color), R.drawable.purple_gradient);
+        drawableMap.put(context.getString(R.string.green_color), R.drawable.green_gradient);
+        drawableMap.put(context.getString(R.string.orange_color), R.drawable.orange_gradient);
     }
 
     public static HashMap<String, Integer> getDrawableMap() {
