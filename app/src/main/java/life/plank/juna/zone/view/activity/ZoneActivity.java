@@ -49,7 +49,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
     @BindView(R.id.follow_button)
     Button followButton;
     ZoneAdapter zoneAdapter;
-    Set<Zones> zoneSet = new HashSet<>();
+    Set<String> zoneIdList = new HashSet<>();
 
     @Inject
     @Named("default")
@@ -57,6 +57,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
 
     private RestApi restApi;
     private ArrayList<Zones> zones = new ArrayList<>();
+    Zones zone = new Zones();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
 
     @OnClick(R.id.follow_button)
     public void onFollowButtonClick() {
-        followZones(zoneSet);
+        followZones(zone);
     }
 
     public void retrieveZones() {
@@ -110,7 +111,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
                 });
     }
 
-    private void followZones(Set<Zones> zones) {
+    private void followZones(Zones zones) {
         restApi.followZones(getToken(this), zones)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -165,15 +166,11 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
 
     @Override
     public void onItemClick(String id, Boolean isSelected) {
-        Log.i(TAG, "Zone name is" + id);
-
-        Zones zones = new Zones();
-        zones.setId(id);
         if (isSelected) {
-            zoneSet.add(zones);
+            zoneIdList.add(id);
         } else {
-            zoneSet.remove(zones);
+            zoneIdList.remove(id);
         }
+        zone.setZoneIds(zoneIdList);
     }
-
 }
