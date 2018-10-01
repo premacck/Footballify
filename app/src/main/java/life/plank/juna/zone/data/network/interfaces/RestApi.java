@@ -185,6 +185,10 @@ public interface RestApi {
     @POST("/boards/{boardId}/activities/follow")
     Observable<Response<JsonObject>> followBoard(@Header("Authorization") String authHeader, @Path("boardId") String boardId);
 
+    //working
+    @POST("/zones/follows")
+    Observable<Response<JsonObject>> followZones(@Header("Authorization") String authHeader, @Body Zones zones);
+
     @GET("/boards/following")
     Observable<Response<List<Board>>> getFollowingBoards(@Header("Authorization") String authHeader);
 
