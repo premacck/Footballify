@@ -16,7 +16,6 @@ public class DrawableHashMap {
         drawableMap.put("purple_bg", R.drawable.purple_gradient);
         drawableMap.put("green_bg", R.drawable.green_gradient);
         drawableMap.put("orange_bg", R.drawable.orange_gradient);
-        drawableMap.put("brown_bg", R.drawable.brown_gradient);
     }
 
     public static HashMap<String, Integer> getDrawableMap() {

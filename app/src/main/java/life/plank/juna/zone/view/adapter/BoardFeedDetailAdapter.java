@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.adapter;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -199,19 +198,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
                 String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
 
+                holder.feedTextView.setBackground(getCommentColor(comment));
+                holder.feedTextView.setText(getCommentText(comment));
 
-                if(comment.startsWith("red")|| comment.startsWith("pink")||
-                        comment.startsWith("yellow")||comment.startsWith("green")||comment.startsWith("blue")){
-                    holder.feedTextView.setBackgroundColor(Color.GREEN);
-                    holder.feedTextView.setText(getCommentText(comment));
-
-                }else{
-                    holder.feedTextView.setBackground(getCommentColor(comment));
-                    holder.feedTextView.setText(getCommentText(comment));
-                }
-
-//                holder.feedTextView.setBackgroundColor(getCommentColor(comment));
-//                holder.feedTextView.setText(getCommentText(comment));
             }
         }
         holder.likeImageView.setOnClickListener(v -> {

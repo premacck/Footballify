@@ -55,28 +55,22 @@
                         android:padding="10dp">
 
                         <ImageView
-                            android:id="@+id/red"
+                            android:id="@+id/blue"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/blue_oval_gradient" />
+                            android:padding="2dp"
+                            android:src="@drawable/ic_blue_gradient" />
 
                         <ImageView
-                            android:id="@+id/pink"
+                            android:id="@+id/purple"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/purple_oval_gradient" />
-
-                        <ImageView
-                            android:id="@+id/yellow"
-                            android:layout_width="35dp"
-                            android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginStart="10dp"
-                            android:src="@drawable/green_oval_content" />
+                            android:padding="2dp"
+                            android:src="@drawable/ic_purple_gradient" />
 
                         <ImageView
                             android:id="@+id/green"
@@ -84,15 +78,17 @@
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/orange_oval_gradient" />
+                            android:padding="2dp"
+                            android:src="@drawable/ic_green_gradient" />
 
                         <ImageView
-                            android:id="@+id/blue"
+                            android:id="@+id/orange"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
-                            android:src="@drawable/brown_oval_gradient" />
+                            android:padding="2dp"
+                            android:src="@drawable/ic_orange_gradient" />
 
                     </LinearLayout>
                 </RelativeLayout>

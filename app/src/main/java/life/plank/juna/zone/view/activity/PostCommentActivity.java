@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -54,16 +55,15 @@ public class PostCommentActivity extends AppCompatActivity {
     TextView commentTextView;
     @BindView(R.id.post_comment)
     TextView postCommentTextView;
-    @BindView(R.id.red)
-    ImageView blueBg;
-    @BindView(R.id.pink)
-    ImageView purpleBg;
-    @BindView(R.id.yellow)
-    ImageView greenBg;
-    @BindView(R.id.green)
-    ImageView orangeBg;
     @BindView(R.id.blue)
-    ImageView brownBg;
+    ImageView blueBg;
+    @BindView(R.id.purple)
+    ImageView purpleBg;
+    @BindView(R.id.green)
+    ImageView greenBg;
+    @BindView(R.id.orange)
+    ImageView orangeBg;
+
     @BindView(R.id.card_relative_layout)
     RelativeLayout cardRelativeLayout;
     String commentBg = "blue_bg";
@@ -71,6 +71,8 @@ public class PostCommentActivity extends AppCompatActivity {
     private String boardId;
     private String userId;
     private String date;
+    Drawable highlight;
+
 
     public static void launch(Activity packageContext, String boardId) {
         Intent intent = new Intent(packageContext, PostCommentActivity.class);
@@ -90,6 +92,7 @@ public class PostCommentActivity extends AppCompatActivity {
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString(getString(R.string.pref_object_id), "NA");
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
+        highlight = getResources().getDrawable(R.drawable.highlight);
     }
 
     @OnClick({R.id.post_comment})
@@ -128,11 +131,34 @@ public class PostCommentActivity extends AppCompatActivity {
             }
         });
 
-        blueBg.setOnClickListener(v -> setColor(R.drawable.blue_gradient, "blue_bg"));
-        purpleBg.setOnClickListener(v -> setColor(R.drawable.purple_gradient, "purple_bg"));
-        greenBg.setOnClickListener(v -> setColor(R.drawable.green_gradient, "green_bg"));
-        orangeBg.setOnClickListener(v -> setColor(R.drawable.orange_gradient, "orange_bg"));
-        brownBg.setOnClickListener(v -> setColor(R.drawable.brown_gradient, "brown_bg"));
+        blueBg.setOnClickListener(v -> {
+            blueBg.setBackground(highlight);
+            purpleBg.setBackground(null);
+            greenBg.setBackground(null);
+            orangeBg.setBackground(null);
+            setColor(R.drawable.blue_gradient, "blue_bg");
+        });
+        purpleBg.setOnClickListener(v -> {
+            blueBg.setBackground(null);
+            purpleBg.setBackground(highlight);
+            greenBg.setBackground(null);
+            orangeBg.setBackground(null);
+            setColor(R.drawable.purple_gradient, "purple_bg");
+        });
+        greenBg.setOnClickListener(v -> {
+            blueBg.setBackground(null);
+            purpleBg.setBackground(null);
+            greenBg.setBackground(highlight);
+            orangeBg.setBackground(null);
+            setColor(R.drawable.green_gradient, "green_bg");
+        });
+        orangeBg.setOnClickListener(v -> {
+            blueBg.setBackground(null);
+            purpleBg.setBackground(null);
+            greenBg.setBackground(null);
+            orangeBg.setBackground(highlight);
+            setColor(R.drawable.orange_gradient, "orange_bg");
+        });
 
     }
 

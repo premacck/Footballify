@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +30,8 @@ import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-import static life.plank.juna.zone.util.UIDisplayUtil.getSuitableFeedTileSize;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
+import static life.plank.juna.zone.util.UIDisplayUtil.getSuitableFeedTileSize;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -98,17 +97,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
                 String comment = footballFeed.getTitle().replaceAll("^\"|\"$", "");
-
-                if(comment.startsWith("red")|| comment.startsWith("pink")||
-                        comment.startsWith("yellow")||comment.startsWith("green")||comment.startsWith("blue")){
-                    holder.commentTextView.setBackgroundColor(Color.GREEN);
-                    holder.commentTextView.setText(getCommentText(comment));
-
-                }else{
-                    holder.commentTextView.setBackground(getCommentColor(comment));
-                    holder.commentTextView.setText(getCommentText(comment));
-                }
-
+                holder.commentTextView.setBackground(getCommentColor(comment));
+                holder.commentTextView.setText(getCommentText(comment));
 
                 break;
         }

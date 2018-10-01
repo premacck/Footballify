@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,15 +75,9 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
             if (boardFeed.get(position).getContentType().equals("rootComment")) {
                 String comment = boardFeed.get(position).getTitle().replaceAll("^\"|\"$", "");
                 holder.tileImageView.setVisibility(View.INVISIBLE);
-                if(comment.startsWith("red")|| comment.startsWith("pink")||
-                        comment.startsWith("yellow")||comment.startsWith("green")||comment.startsWith("blue")){
-                    holder.commentTextView.setBackgroundColor(Color.GREEN);
-                    holder.commentTextView.setText(getCommentText(comment));
 
-                }else{
-                    holder.commentTextView.setBackground(getCommentColor(comment));
-                    holder.commentTextView.setText(getCommentText(comment));
-                }
+                holder.commentTextView.setBackground(getCommentColor(comment));
+                holder.commentTextView.setText(getCommentText(comment));
 
             }
         }
@@ -93,6 +86,16 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
     @Override
     public int getItemCount() {
         return boardFeed.size();
+    }
+
+    public void update(List<FeedItem> boardFeed) {
+        this.boardFeed.addAll(boardFeed);
+        notifyDataSetChanged();
+    }
+
+    public void updateNewPost(FeedItem feedItem) {
+        boardFeed.add(0, feedItem);
+        notifyItemInserted(0);
     }
 
     static class PrivateBoardViewHolder extends RecyclerView.ViewHolder {
@@ -105,15 +108,5 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public void update(List<FeedItem> boardFeed) {
-        this.boardFeed.addAll(boardFeed);
-        notifyDataSetChanged();
-    }
-
-    public void updateNewPost(FeedItem feedItem) {
-        boardFeed.add(0, feedItem);
-        notifyItemInserted(0);
     }
 }
