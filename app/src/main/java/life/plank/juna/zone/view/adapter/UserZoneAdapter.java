@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,11 @@ import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder> {
     private Context context;
+    private BottomSheetBehavior onboardingBottomSheet;
 
-    public UserZoneAdapter(Context context) {
+    public UserZoneAdapter(Context context, BottomSheetBehavior onboardingBottomSheet) {
         this.context = context;
+        this.onboardingBottomSheet = onboardingBottomSheet;
     }
 
     @Override
@@ -49,15 +52,11 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
             ButterKnife.bind(this, itemView);
 
             //TODO: navigate to appropriate zone view
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    context.startActivity(new Intent(context, SwipePageActivity.class));
-                }
+            itemView.setOnClickListener(view -> {
+                context.startActivity(new Intent(context, SwipePageActivity.class));
+                //TODO: uncomment after onboarding is complete
+                //  onboardingBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
             });
         }
-
-
     }
-
 }
