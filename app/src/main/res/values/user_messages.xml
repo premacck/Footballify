@@ -62,5 +62,6 @@
     <string name="failed_to_post_comment">Failed to post comment, please try again</string>
     <string name="failed_to_post_reply">Failed to post reply, please try again</string>
     <string name="be_the_first_to_comment_on_this_post">Be the first to comment on this post!</string>
+    <string name="failed_to_retrieve_zones">Failed to retrieve zones</string>
 
 </resources>
