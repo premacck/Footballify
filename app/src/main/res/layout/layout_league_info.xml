@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="8dp"
             android:transitionName="match_fixture_result"
             app:cardCornerRadius="@dimen/feed_card_corner_radius"
             app:cardUseCompatPadding="true">
@@ -24,16 +23,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
                 android:paddingEnd="2dp"
-                android:paddingStart="2dp">
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/match_fixture_result_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginStart="10dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:lineSpacingExtra="5sp"
                     android:padding="5dp"
@@ -56,8 +53,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="100dp"
-                    android:layout_marginTop="100dp" />
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="100dp" />
 
                 <TextView
                     android:id="@+id/fixture_no_data"
@@ -97,14 +94,16 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
                 android:paddingEnd="2dp"
-                android:paddingStart="2dp">
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/team_stats_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="0dp"
                     android:fontFamily="@font/raleway_semibold"
                     android:lineSpacingExtra="5sp"
                     android:padding="5dp"
@@ -133,8 +132,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="100dp"
-                    android:layout_marginTop="100dp" />
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="100dp" />
 
                 <TextView
                     android:id="@+id/no_team_stats"
@@ -150,8 +149,8 @@
                     android:id="@+id/see_more_team_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_below="@+id/team_stats_recycler_view"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
                     android:fontFamily="@font/rajdhani_semibold"
                     android:foreground="@drawable/ripple_dark_rect"
@@ -176,9 +175,9 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
+                android:paddingStart="2dp"
                 android:paddingEnd="2dp"
-                android:paddingStart="2dp">
+                android:paddingBottom="2dp">
 
                 <TextView
                     android:id="@+id/player_stats_title"
@@ -212,8 +211,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="100dp"
-                    android:layout_marginTop="100dp" />
+                    android:layout_marginTop="100dp"
+                    android:layout_marginBottom="100dp" />
 
                 <TextView
                     android:id="@+id/no_player_stats"
@@ -229,11 +228,11 @@
                     android:id="@+id/see_more_player_stats"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
                     android:layout_below="@+id/player_stats_recycler_view"
+                    android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:fontFamily="@font/rajdhani_semibold"
                     android:foreground="@drawable/ripple_dark_rect"
                     android:gravity="center"
