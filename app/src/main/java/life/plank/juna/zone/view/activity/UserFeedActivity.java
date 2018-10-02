@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -183,7 +184,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
                     public void onNext(Response<User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                setUpUserZoneAdapter(response.body().userPreferences);
+                                User user = response.body();
+                                if (user != null) {
+                                    setUpUserZoneAdapter(user.userPreferences);
+                                }
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
                                 Toast.makeText(getApplicationContext(), R.string.failed_to_retrieve_zones, Toast.LENGTH_LONG).show();
@@ -287,7 +291,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
         signUpDialog.findViewById(R.id.signup_button).setOnClickListener(view ->
                 AuthUtil.loginOrRefreshToken(UserFeedActivity.this, authService, null, false));
-        signUpDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Window window = signUpDialog.getWindow();
+        if (window != null) {
+            window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
         signUpDialog.show();
     }
 

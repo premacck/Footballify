@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserPreference;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 
@@ -36,9 +34,9 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
     public void onBindViewHolder(UserZoneAdapter.UserZoneViewHolder holder, int position) {
         UserPreference userPreference = userPreferenceList.get(position);
         holder.footballTextView.setText(userPreference.getZone().name);
-        holder.followerCount.setText(userPreference.getZone().followerCount.toString());
-        holder.totalPostCount.setText(userPreference.getZone().contributionCount.toString());
-        holder.interaction_count.setText(userPreference.getZone().interactionCount.toString());
+        holder.followerCount.setText(String.valueOf(userPreference.getZone().followerCount));
+        holder.totalPostCount.setText(String.valueOf(userPreference.getZone().contributionCount));
+        holder.interaction_count.setText(String.valueOf(userPreference.getZone().interactionCount));
     }
 
     @Override
