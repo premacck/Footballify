@@ -35,7 +35,8 @@
         android:fontFamily="@font/rajdhani_medium"
         android:gravity="center_vertical"
         android:textColor="@color/grey"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:visibility="invisible" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/toolbar_profile_pic"
@@ -44,6 +45,7 @@
         android:layout_gravity="center"
         android:layout_marginEnd="15dp"
         android:layout_weight="1"
-        android:contentDescription="@string/profile_pic" />
+        android:contentDescription="@string/profile_pic"
+        android:src="@drawable/ic_default_profile" />
 
 </LinearLayout>

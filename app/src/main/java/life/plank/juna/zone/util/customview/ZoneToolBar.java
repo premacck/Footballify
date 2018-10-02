@@ -56,7 +56,7 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
             setTitle(array.getString(R.styleable.ZoneToolBar_title));
             String coinCount = array.getString(R.styleable.ZoneToolBar_coinCount);
             setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount, false);
-            setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_profile_dummy));
+            setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile));
         } catch (Exception e) {
             Log.e("ZoneToolBar", e.getMessage());
         } finally {
