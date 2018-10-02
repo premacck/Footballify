@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
     <RelativeLayout
         android:id="@+id/parent_layout"
@@ -21,8 +22,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/feed_header"
-            tools:listitem="@layout/item_image_and_title"
-            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+            tools:listitem="@layout/item_image_and_title" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_zone_recycler_view"
@@ -30,8 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_boards_recycler_view"
             android:layout_margin="5dp"
-            tools:listitem="@layout/item_zone_user_feed"
-            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager" />
+            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+            tools:listitem="@layout/item_zone_user_feed" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/user_feed_recycler_view"
@@ -39,9 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/user_zone_recycler_view"
             android:layout_margin="5dp"
-            tools:listitem="@layout/item_board_grid_row"
             app:layoutManager="android.support.v7.widget.GridLayoutManager"
-            app:spanCount="3"/>
+            app:spanCount="3"
+            tools:listitem="@layout/item_board_grid_row" />
 
         <ProgressBar
             android:id="@+id/progress_bar"

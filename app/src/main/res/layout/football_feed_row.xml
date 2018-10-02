@@ -26,24 +26,6 @@
             android:layout_height="0dp"
             android:layout_centerInParent="true" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ic_trending" />
-
-        <!--TODO : Add or remove this separate logo after discussion-->
-        <!--
-                <ImageView
-                    android:id="@+id/league_logo"
-                    android:layout_width="28dp"
-                    android:layout_height="20dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_toEndOf="@+id/center_space"
-                    android:src="@drawable/img_epl_logo" />
-        -->
-
         <TextView
             android:id="@+id/kickoff_time"
             android:layout_width="wrap_content"

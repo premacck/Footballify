@@ -217,7 +217,7 @@ public class DataUtil {
                 "2018/2019",
                 "Europe",
                 "https://www.seeklogo.net/wp-content/uploads/2013/06/uefa-champions-league-eps-vector-logo.png",
-                R.color.white,
+                R.color.maire,
                 R.drawable.img_champions_league_logo
         ));
         footballFeeds.add(new League(
