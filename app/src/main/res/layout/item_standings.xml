@@ -61,7 +61,7 @@
             android:fontFamily="@font/rajdhani_semibold"
             android:foreground="@drawable/ripple_dark_rect"
             android:gravity="center"
-            android:padding="2dp"
+            android:padding="5dp"
             android:text="@string/see_complete_standing"
             android:textAllCaps="true"
             android:textColor="@color/dark_sky_blue"
