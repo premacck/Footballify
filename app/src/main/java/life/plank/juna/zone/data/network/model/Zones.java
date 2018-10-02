@@ -12,7 +12,5 @@ public class Zones {
     public String id;
     public Set<String> zoneIds;
     public Integer followerCount;
-    public Integer contributionCount;
-    public Integer interactionCount;
 
 }
