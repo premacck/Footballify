@@ -95,7 +95,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         signUpDialog = new Dialog(this);
         SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
-        String userObjectId = editor.getString(getApplicationContext().getString(R.string.pref_object_id), "NA");
+        String userObjectId = editor.getString(getApplicationContext().getString(R.string.pref_object_id), getString(R.string.na));
 
         String topic = getString(R.string.juna_user_topic) + userObjectId;
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
@@ -113,7 +113,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         getUserFeed();
         getUserBoards();
         toolbar.initListeners(this);
-
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
+        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
+            toolbar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)));
+        }
     }
 
     private void initBottomSheetRecyclerView() {

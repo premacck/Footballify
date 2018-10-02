@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -29,6 +30,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
 import retrofit2.Retrofit;
@@ -69,6 +71,8 @@ public class CreateBoardActivity extends AppCompatActivity {
     Button uploadBoardIcon;
     @BindView(R.id.create_board_button)
     Button createPrivateBoard;
+    @BindView(R.id.tool_bar)
+    ZoneToolBar toolbar;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -124,6 +128,11 @@ public class CreateBoardActivity extends AppCompatActivity {
         boardDescription.addTextChangedListener(textWatcher);
 
         validateCreateBoardContent();
+
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
+        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
+            toolbar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)));
+        }
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})

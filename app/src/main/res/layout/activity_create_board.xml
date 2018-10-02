@@ -15,6 +15,7 @@
         android:orientation="vertical">
 
         <life.plank.juna.zone.util.customview.ZoneToolBar
+            android:id="@+id/tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/board_maker" />
@@ -23,8 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_color"
-            android:paddingBottom="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp">
 
             <TextView
                 android:id="@+id/user_greeting"
@@ -125,9 +126,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/private_board_setup_title"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="17dp"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="17dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/board_name_edit_text"
@@ -148,9 +149,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/board_name_text_input"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginEnd="17dp"
                 android:layout_marginStart="17dp"
-                android:layout_marginTop="15dp">
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="17dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/board_description_edit_text"
@@ -185,8 +186,8 @@
                 android:layout_below="@+id/pick_a_color_title"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="10dp"
-                android:paddingBottom="6dp"
                 android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_board_color_theme" />
 
@@ -207,9 +208,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/board_icon_text_view"
-                android:layout_marginEnd="17dp"
                 android:layout_marginStart="17dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="17dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -218,8 +219,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingBottom="4dp"
                     android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_board_icon" />
 
@@ -240,8 +241,8 @@
             android:id="@+id/create_board_button"
             android:layout_width="222dp"
             android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/button_background"
             android:fontFamily="@font/raleway_bold"
             android:text="@string/preview_and_create"

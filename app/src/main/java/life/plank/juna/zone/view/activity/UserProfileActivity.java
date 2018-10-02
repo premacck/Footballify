@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -120,7 +121,6 @@ public class UserProfileActivity extends AppCompatActivity {
         EditProfileActivity.launch(this);
     }
 
-
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.my_boards_list);
         LinearLayoutManager horizontalLayoutManager
@@ -184,7 +184,10 @@ public class UserProfileActivity extends AppCompatActivity {
                         if (model != null) {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());
-                            picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
+                            if (response.body().getProfilePictureUrl() != null) {
+                                picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
+                                toolbar.setProfilePic(model.getProfilePictureUrl());
+                            }
                             String location;
                             if (!isNullOrEmpty(model.getCity()) && !equalsNullString(model.getCity())) {
                                 location = model.getCity() + ", " + model.getCountry();
@@ -192,6 +195,8 @@ public class UserProfileActivity extends AppCompatActivity {
                                 location = model.getCountry();
                             }
                             locationTextView.setText(location);
+                            SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
+                            editor.putString(getString(R.string.pref_profile_pic_url), response.body().getProfilePictureUrl()).apply();
                         }
                     }
                 });
