@@ -89,7 +89,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
 
-    @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view, R.id.blur_background_image_view})
+    @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view, R.id.blur_background_image_view, R.id.save_button})
     public void dobClicked(View view) {
         switch (view.getId()) {
             case R.id.dob_edit_text:
@@ -103,6 +103,9 @@ public class EditProfileActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.blur_background_image_view:
+                finish();
+                break;
+            case R.id.save_button:
                 finish();
                 break;
         }
