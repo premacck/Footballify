@@ -36,10 +36,11 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
 
     @Override
     public void onBindViewHolder(UserZoneAdapter.UserZoneViewHolder holder, int position) {
-        holder.footballTextView.setText(userPreferenceList.get(position).getZone().name);
-        holder.followerCount.setText(userPreferenceList.get(position).getZone().followerCount.toString());
-        holder.totalPostCount.setText(userPreferenceList.get(position).getZone().contributionCount.toString());
-        holder.interaction_count.setText(userPreferenceList.get(position).getZone().interactionCount.toString());
+        UserPreference userPreference = userPreferenceList.get(position);
+        holder.footballTextView.setText(userPreference.getZone().name);
+        holder.followerCount.setText(userPreference.getZone().followerCount.toString());
+        holder.totalPostCount.setText(userPreference.getZone().contributionCount.toString());
+        holder.interaction_count.setText(userPreference.getZone().interactionCount.toString());
     }
 
     @Override
