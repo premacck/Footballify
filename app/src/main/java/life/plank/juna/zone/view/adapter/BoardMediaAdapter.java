@@ -66,6 +66,13 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         FeedItem footballFeed = boardFeed.get(position).getFeedItem();
         footballFeed.setTileWidth(Objects.equals(footballFeed.getContentType(), ROOT_COMMENT) ? TEXT_TILE_WIDTH : MEDIA_TILE_WIDTH);
         setItemWidth(holder.itemView, position, footballFeed);
+
+        fragment.picasso
+                .load(footballFeed.getActor().getProfilePictureUrl())
+                .placeholder(R.drawable.ic_default_profile)
+                .error(R.drawable.ic_default_profile)
+                .into(holder.profilePictureImageView);
+
         switch (footballFeed.getContentType()) {
             case AUDIO:
                 setVisibility(holder, GONE, VISIBLE, GONE);
@@ -174,6 +181,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         ImageView playBtn;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
+        @BindView(R.id.profile_picture)
+        ImageView profilePictureImageView;
 
         BoardMediaViewHolder(View itemView, OnClickFeedItemListener listener) {
             super(itemView);
