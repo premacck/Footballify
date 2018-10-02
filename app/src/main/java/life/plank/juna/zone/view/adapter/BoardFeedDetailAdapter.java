@@ -112,8 +112,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
         boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
         String feedId = feedItem.getId();
-        if (feedItem.getActor() != null) {
-            holder.userNameTextView.setText(feedItem.getActor().getDisplayName());
+        if (feedItem.getUser() != null) {
+            holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
             SharedPreferences userPref = activity.getSharedPreferences(activity.getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");

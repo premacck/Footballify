@@ -1,5 +1,8 @@
 package life.plank.juna.zone.data.network.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import lombok.Data;
@@ -21,7 +24,9 @@ public class FeedItem {
     private String contentType;
     private Interaction interactions;
     private String description;
-    private User actor;
+    @SerializedName("actor")
+    @Expose
+    private User user;
     List<FeedItemComment> comments;
     /** Field to store the tile width of the feed item */
     private int tileWidth;
