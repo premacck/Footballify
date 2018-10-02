@@ -87,7 +87,7 @@ public class PrivateBoardInfoFragment extends Fragment {
 
     public static void deletePrivateBoardMember(String userId) {
 
-        staticRestApi.deleteUserFromPrivateBoard(boardId, userId, getToken(ZoneApplication.getContext()))
+        staticRestApi.deleteUserFromPrivateBoard(boardId, userId, getToken())
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -149,7 +149,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     }
 
     private void getMembers() {
-        restApi.getBoardMembers(boardId, getToken(context))
+        restApi.getBoardMembers(boardId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {

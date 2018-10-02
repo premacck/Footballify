@@ -180,7 +180,7 @@ public class TokenActivity extends AppCompatActivity {
     }
 
     private void getSignInResponse() {
-        restApi.getUser(getToken(this))
+        restApi.getUser(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<User>>() {

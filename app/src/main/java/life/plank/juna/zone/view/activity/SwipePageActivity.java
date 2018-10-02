@@ -199,7 +199,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
 
     private void getSearchedUsers(String displayName) {
 
-        restApi.getSearchedUsers(getToken(this), displayName)
+        restApi.getSearchedUsers(getToken(), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {

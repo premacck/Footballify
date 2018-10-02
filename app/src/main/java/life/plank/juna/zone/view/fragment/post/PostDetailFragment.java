@@ -301,7 +301,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void likeBoardFeedItem() {
-        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -339,7 +339,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void deleteLikeOfBoardFeedItem() {
-        restApi.deleteLike(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+        restApi.deleteLike(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -375,7 +375,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void dislikeBoardFeedItem() {
-        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, "Boards", getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, "Boards", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -411,7 +411,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void deleteDislikeOfBoardFeedItem() {
-        restApi.deleteDisLike(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+        restApi.deleteDisLike(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -448,7 +448,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void pinItem() {
-        restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
@@ -492,7 +492,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             pinImageView.setImageResource(R.drawable.ic_pin_inactive);
             return;
         }
-        restApi.unpinFeedItem(boardId, feedEntry.getFeedInteractions().getPinId(), getToken(ZoneApplication.getContext()))
+        restApi.unpinFeedItem(boardId, feedEntry.getFeedInteractions().getPinId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -565,7 +565,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void getCommentsOnFeed(boolean isRefreshing) {
-        restApi.getCommentsForFeed(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+        restApi.getCommentsForFeed(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
@@ -628,7 +628,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
         commentEditText.clearFocus();
         hideSoftKeyboard(commentEditText);
-        restApi.postCommentOnFeedItem(commentEditText.getText().toString(), feedEntry.getFeedItem().getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postCommentOnFeedItem(commentEditText.getText().toString(), feedEntry.getFeedItem().getId(), boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<FeedItemComment>>() {
@@ -699,7 +699,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @Override
     public void onPostReplyOnComment(String reply, int position, FeedItemComment comment) {
-        restApi.postReplyOnComment(reply, feedEntry.getFeedItem().getId(), comment.getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postReplyOnComment(reply, feedEntry.getFeedItem().getId(), comment.getId(), boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<FeedItemCommentReply>>() {

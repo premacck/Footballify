@@ -113,7 +113,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
     }
 
     private void followZones(Zones zones) {
-        restApi.followZones(getToken(this), zones)
+        restApi.followZones(getToken(), zones)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

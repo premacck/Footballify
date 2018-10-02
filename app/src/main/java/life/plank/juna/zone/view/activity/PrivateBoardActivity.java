@@ -104,7 +104,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     }
 
     public static void deletePrivateBoard() {
-        staticRestApi.deleteBoard(boardId, getToken(ZoneApplication.getContext()))
+        staticRestApi.deleteBoard(boardId, getToken())
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

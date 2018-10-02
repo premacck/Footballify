@@ -262,7 +262,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder, int position) {
-        restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken(activity))
+        restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -300,7 +300,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     private void retrieveBoardById() {
 
-        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<FootballFeed>>>() {
@@ -333,7 +333,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDeleteLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteLike(feedItemId, getToken(activity))
+        restApi.deleteLike(feedItemId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -366,7 +366,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken(activity))
+        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -402,7 +402,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteDisLike(feedItemId, getToken(activity))
+        restApi.deleteDisLike(feedItemId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -433,7 +433,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void pinItem(FootballFeed footballFeed, int position) {
-        restApi.pinFeedItem(footballFeed.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken(activity))
+        restApi.pinFeedItem(footballFeed.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
@@ -477,7 +477,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void unpinItem(FootballFeed footballFeed, int position) {
-        restApi.unpinFeedItem(boardId, footballFeed.getFeedItem().getPinId(), getToken(activity))
+        restApi.unpinFeedItem(boardId, footballFeed.getFeedItem().getPinId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
