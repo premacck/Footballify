@@ -53,6 +53,7 @@
         android:layout_below="@+id/options_image"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="23dp"
         android:fontFamily="@font/rajdhani_medium"
         android:text="@string/following" />
 </RelativeLayout>
