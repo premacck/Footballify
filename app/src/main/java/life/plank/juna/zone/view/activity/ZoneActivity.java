@@ -135,6 +135,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 startActivity(new Intent(ZoneActivity.this, UserFeedActivity.class));
+                                finish();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
                             default:
