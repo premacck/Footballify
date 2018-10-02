@@ -4,7 +4,6 @@ import dagger.Subcomponent;
 import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.BoardPreviewActivity;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
@@ -15,6 +14,7 @@ import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
+import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
@@ -25,11 +25,14 @@ import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
+import life.plank.juna.zone.view.activity.ZoneActivity;
+import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
+import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 
 /**
  * This Component is the sub-component of AppComponent.
@@ -90,6 +93,12 @@ public interface UiComponent {
     void inject(EditProfileActivity editProfileActivity);
 
     void inject(JoinBoardActivity joinBoardActivity);
+
+    void inject(ZoneActivity zoneActivity);
+
+    void inject(PostDetailActivity postDetailActivity);
+
+    void inject(PostDetailFragment postDetailFragment);
 
     @Subcomponent.Builder
     interface Builder {

@@ -54,6 +54,7 @@ import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
 import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
@@ -111,13 +112,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
         if (feedsListItem.get(position).getFeedInteractions() != null) {
-            if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+            if (feedsListItem.get(position).getFeedInteractions().isHasLiked()) {
                 int tint = ContextCompat.getColor(activity, R.color.frog_green);
                 holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
                 holder.dislikeImageView.setVisibility(View.INVISIBLE);
                 holder.likeCountTextView.setVisibility(View.VISIBLE);
                 holder.likeSeparator.setVisibility(View.INVISIBLE);
-            } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+            } else if (feedsListItem.get(position).getFeedInteractions().isHasDisliked()) {
                 int tint = ContextCompat.getColor(activity, R.color.salmon);
                 holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
                 holder.likeImageView.setVisibility(View.INVISIBLE);
@@ -213,14 +214,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
                 String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
 
-                holder.feedTextView.setBackgroundColor(getCommentColor(comment));
+                holder.feedTextView.setBackground(getCommentColor(comment));
                 holder.feedTextView.setText(getCommentText(comment));
+
             }
         }
         holder.likeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
                 if (feedsListItem.get(position).getFeedInteractions() != null) {
-                    if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+                    if (feedsListItem.get(position).getFeedInteractions().isHasLiked()) {
                         boardFeedItemDeleteLike(feedId, holder);
                     } else {
                         boardFeedItemLikeApiCall(feedId, holder);
@@ -244,7 +246,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
                 if (feedsListItem.get(position).getFeedInteractions() != null) {
-                    if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+                    if (feedsListItem.get(position).getFeedInteractions().isHasDisliked()) {
                         boardFeedItemDeleteDisLike(feedId, holder);
                     } else {
                         boardFeedItemDisLikeApiCall(feedId, holder);
@@ -280,6 +282,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     public void update(List<FootballFeed> footballFeedList) {
         this.feedsListItem = footballFeedList;
         notifyDataSetChanged();
+    }
+
+    public void updateNewFeed(FootballFeed footballFeed) {
+        if (isNullOrEmpty(feedsListItem)) {
+            feedsListItem = new ArrayList<>();
+        }
+        feedsListItem.add(0, footballFeed);
+        notifyItemInserted(0);
     }
 
     private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
@@ -321,7 +331,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     private void retrieveBoardById() {
 
-        restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<FootballFeed>>>() {

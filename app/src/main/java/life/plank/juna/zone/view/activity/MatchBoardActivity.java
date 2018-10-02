@@ -171,6 +171,9 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
             if (boardPagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
                 ((BoardTilesFragment) boardPagerAdapter.getCurrentFragment()).updateNewPost(feed);
             }
+            if (boardFeedDetailAdapter != null) {
+                boardFeedDetailAdapter.updateNewFeed(feed);
+            }
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
         }

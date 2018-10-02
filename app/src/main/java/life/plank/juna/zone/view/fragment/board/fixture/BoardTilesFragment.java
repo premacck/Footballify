@@ -21,6 +21,7 @@ import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexWrap;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -37,6 +38,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
+import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -66,6 +68,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Inject
     public
     Picasso picasso;
+    @Inject
+    Gson gson;
     @Inject
     @Named("default")
     RestApi restApi;
@@ -111,13 +115,18 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBoardFeed(false);
         if (isBoardActive) {
             setupBoomMenu(getActivity(), arcMenu, boardId);
         } else {
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }
         swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getBoardFeed(false);
     }
 
     private void initRecyclerViews() {
@@ -140,7 +149,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     public void getBoardFeed(boolean isRefreshing) {
-        restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
@@ -197,7 +206,15 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     @Override
-    public void onItemClick(int position, View fromView) {
+    public void onItemClick(int position) {
+        List<FootballFeed> feedItemList = adapter.getBoardFeed();
+        if (!isNullOrEmpty(feedItemList)) {
+            PostDetailActivity.launch(getActivity(), gson.toJson(feedItemList), boardId, position);
+        }
+    }
+
+    @Override
+    public void onItemLongClick(int position) {
         if (getActivity() instanceof BaseBoardActivity) {
             ((BaseBoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }

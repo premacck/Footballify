@@ -4,10 +4,10 @@ import lombok.Data;
 
 @Data
 public class FeedInteraction {
-    private Boolean hasLiked;
-    private Boolean hasDisliked;
-    private Boolean hasShared;
-    private Boolean hasCommented;
-    private Boolean hasPinned;
-
+    private boolean hasLiked;
+    private boolean hasDisliked;
+    private boolean hasShared;
+    private boolean hasCommented;
+    private boolean hasPinned;
+    private String pinId;
 }

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.FeedItemComment;
+import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.data.network.model.Lineups;
@@ -19,6 +21,7 @@ import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.data.network.model.Zones;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -72,7 +75,11 @@ public interface RestApi {
 
     //working
     @GET("/boards/feedItems")
-    Observable<Response<List<FootballFeed>>> retrieveByBoardId(@Query("id") String boardId, @Header("Authorization") String authHeader);
+    Observable<Response<List<FootballFeed>>> getBoardFeedItems(@Query("id") String boardId, @Header("Authorization") String authHeader);
+
+    //working
+    @GET("/zones")
+    Observable<Response<List<Zones>>> retrieveZones();
 
     //working
     @DELETE("/boards/{id}/activities/removeUser")
@@ -98,12 +105,12 @@ public interface RestApi {
 
     //working
     @POST("boards/{id}/feedItems")
-    Observable<Response<JsonObject>> postCommentOnBoardFeed(@Body String getEditTextValue,
-                                                            @Path("id") String boardId,
-                                                            @Query("contentType") String contentType,
-                                                            @Query("userId") String userId,
-                                                            @Query("dateCreated") String dateCreated,
-                                                            @Header("Authorization") String authHeader);
+    Observable<Response<JsonObject>> postFeedItemOnBoard(@Body String getEditTextValue,
+                                                         @Path("id") String boardId,
+                                                         @Query("contentType") String contentType,
+                                                         @Query("userId") String userId,
+                                                         @Query("dateCreated") String dateCreated,
+                                                         @Header("Authorization") String authHeader);
 
     //working
     @Multipart
@@ -118,7 +125,7 @@ public interface RestApi {
 
     //working
     @Multipart
-    @POST("/users/uploadProfilePicture")
+    @POST("/users/profilePicture")
     Observable<Response<String>> uploadProfilePicture(@Part MultipartBody.Part file,
                                                       @Header("Authorization") String authHeader);
 
@@ -179,6 +186,10 @@ public interface RestApi {
     @POST("/boards/{boardId}/activities/follow")
     Observable<Response<JsonObject>> followBoard(@Header("Authorization") String authHeader, @Path("boardId") String boardId);
 
+    //working
+    @POST("/zones/follows")
+    Observable<Response<JsonObject>> followZones(@Header("Authorization") String authHeader, @Body Zones zones);
+
     @GET("/boards/following")
     Observable<Response<List<Board>>> getFollowingBoards(@Header("Authorization") String authHeader);
 
@@ -212,4 +223,23 @@ public interface RestApi {
 
     @DELETE("/activities/{id}/pins/{pinId}")
     Observable<Response<JsonObject>> unpinFeedItem(@Path("id") String boardId, @Path("pinId") String pinId, @Header("Authorization") String authHeader);
+
+    @GET("/activities/{feedItemId}/comments")
+    Observable<Response<List<FeedItemComment>>> getCommentsForFeed(@Path("feedItemId") String feedId,
+                                                                   @Header("Authorization") String authHeader);
+
+    @POST("/activities/{feedItemId}/comments")
+    Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
+                                                     @Path("feedItemId") String feedItemId,
+                                                     @Query("boardId") String boardId,
+                                                     @Query("time") String time,
+                                                     @Header("Authorization") String authHeader);
+
+    @POST("/activities/{feedItemId}/comments/{commentId}")
+    Observable<Response<FeedItemCommentReply>> postReplyOnComment(@Body String reply,
+                                                                  @Path("feedItemId") String feedItemId,
+                                                                  @Path("commentId") String commentId,
+                                                                  @Query("boardId") String boardId,
+                                                                  @Query("time") String time,
+                                                                  @Header("Authorization") String authHeader);
 }
