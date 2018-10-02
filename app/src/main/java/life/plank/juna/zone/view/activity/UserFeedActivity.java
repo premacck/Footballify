@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 import net.openid.appauth.AuthorizationService;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -32,6 +33,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FeedEntry;
+import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.data.network.model.UserPreference;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
@@ -79,6 +82,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     private UserZoneAdapter userZoneAdapter;
     private UserBoardsAdapter userBoardsAdapter;
 
+    private ArrayList<UserPreference> userPreferences = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +102,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         initBottomSheetRecyclerView();
         //TODO: Retrieve leagues from backend
         getLeagues();
+        getUserZones();
 
         setUpToolbar();
         initRecyclerView();
@@ -141,7 +147,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initZoneRecyclerView() {
-        userZoneAdapter = new UserZoneAdapter(this, onboardingBottomSheetBehavior);
+        userZoneAdapter = new UserZoneAdapter(this, userPreferences);
         userZoneRecyclerView.setAdapter(userZoneAdapter);
     }
 
@@ -149,6 +155,45 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         RecyclerView recyclerView = findViewById(R.id.user_boards_recycler_view);
         userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
         recyclerView.setAdapter(userBoardsAdapter);
+    }
+
+    private void setUpUserZoneAdapter(List<UserPreference> userPreferenceList) {
+        userPreferences.clear();
+        userPreferences.addAll(userPreferenceList);
+        userZoneAdapter.notifyDataSetChanged();
+    }
+
+    private void getUserZones() {
+        restApi.getUser(getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<User>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<User> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                setUpUserZoneAdapter(response.body().userPreferences);
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), R.string.failed_to_retrieve_zones, Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Log.e(TAG, response.message());
+                                break;
+                        }
+                    }
+                });
     }
 
     public void getUserFeed() {

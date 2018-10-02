@@ -9,18 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.data.network.model.UserPreference;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder> {
     private Context context;
-    private BottomSheetBehavior onboardingBottomSheet;
+    private List<UserPreference> userPreferenceList;
 
-    public UserZoneAdapter(Context context, BottomSheetBehavior onboardingBottomSheet) {
+    public UserZoneAdapter(Context context, List<UserPreference> userPreferenceList) {
         this.context = context;
-        this.onboardingBottomSheet = onboardingBottomSheet;
+        this.userPreferenceList = userPreferenceList;
     }
 
     @Override
@@ -30,13 +34,16 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
 
     @Override
     public void onBindViewHolder(UserZoneAdapter.UserZoneViewHolder holder, int position) {
-        //TODO: Set with data provided by backend
+        UserPreference userPreference = userPreferenceList.get(position);
+        holder.footballTextView.setText(userPreference.getZone().name);
+        holder.followerCount.setText(userPreference.getZone().followerCount.toString());
+        holder.totalPostCount.setText(userPreference.getZone().contributionCount.toString());
+        holder.interaction_count.setText(userPreference.getZone().interactionCount.toString());
     }
 
     @Override
     public int getItemCount() {
-        //TODO: Remove hardcoded value after data is returned from the backend
-        return 4;
+        return userPreferenceList.size();
     }
 
     class UserZoneViewHolder extends RecyclerView.ViewHolder {
@@ -46,6 +53,12 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
         TextView matchStatusTextView;
         @BindView(R.id.match_between)
         TextView matchBetweenTextView;
+        @BindView(R.id.follower_count)
+        TextView followerCount;
+        @BindView(R.id.total_post_count)
+        TextView totalPostCount;
+        @BindView(R.id.interaction_count)
+        TextView interaction_count;
 
         UserZoneViewHolder(View itemView) {
             super(itemView);
