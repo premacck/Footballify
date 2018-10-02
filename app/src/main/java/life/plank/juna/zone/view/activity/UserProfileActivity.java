@@ -121,7 +121,6 @@ public class UserProfileActivity extends AppCompatActivity {
         EditProfileActivity.launch(this);
     }
 
-
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.my_boards_list);
         LinearLayoutManager horizontalLayoutManager
