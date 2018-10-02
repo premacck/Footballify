@@ -131,7 +131,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     public void getUserBoards() {
-        restApi.getUserBoards(getToken(this))
+        restApi.getUserBoards(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<Board>>>() {
@@ -164,7 +164,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void getUserDetails() {
-        restApi.getUser(getToken(this))
+        restApi.getUser(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<User>>() {

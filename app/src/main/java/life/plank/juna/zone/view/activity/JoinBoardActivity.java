@@ -79,7 +79,7 @@ public class JoinBoardActivity extends AppCompatActivity {
 
     public void followBoard() {
 
-        restApi.followBoard(getToken(this), getIntent().getStringExtra(getString(R.string.board_id_prefix)))
+        restApi.followBoard(getToken(), getIntent().getStringExtra(getString(R.string.board_id_prefix)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -113,7 +113,7 @@ public class JoinBoardActivity extends AppCompatActivity {
     }
 
     private void getBoardDetails(String boardId) {
-        restApi.getBoardById(boardId, getToken(this))
+        restApi.getBoardById(boardId, getToken())
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Board>>() {

@@ -91,7 +91,7 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     }
 
     private void navigateToBoard(String boardId) {
-        restApi.getBoardById(boardId, getToken(context))
+        restApi.getBoardById(boardId, getToken())
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Board>>() {

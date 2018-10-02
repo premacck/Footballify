@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,31 +36,22 @@ import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.UserFeed;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
 import life.plank.juna.zone.view.adapter.UserZoneAdapter;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsBoolean;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarListener {
     private static final String TAG = UserFeedActivity.class.getSimpleName();
 
-    @Inject
-    @Named("default")
-    Retrofit retrofit;
-    UserFeedAdapter userFeedAdapter;
-    UserZoneAdapter userZoneAdapter;
-    private UserBoardsAdapter userBoardsAdapter;
     @BindView(R.id.user_feed_recycler_view)
     RecyclerView userFeedRecyclerView;
     @BindView(R.id.user_zone_recycler_view)
@@ -70,16 +60,23 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     ZoneToolBar toolbar;
     @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
+
+    @Inject
+    @Named("default")
+    RestApi restApi;
     @Inject
     Picasso picasso;
-    private RestApi restApi;
-    private String token;
+
     private ArrayList<UserFeed> userFeed = new ArrayList<>();
-    ArrayList<Board> userBoards = new ArrayList<>();
-    Dialog signUpDialog;
+    private ArrayList<Board> userBoards = new ArrayList<>();
+
+    private Dialog signUpDialog;
     private AuthorizationService authService;
     private BottomSheetBehavior onboardingBottomSheetBehavior;
-    OnboardingAdapter adapter;
+    private OnboardingAdapter adapter;
+    private UserFeedAdapter userFeedAdapter;
+    private UserZoneAdapter userZoneAdapter;
+    private UserBoardsAdapter userBoardsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,15 +85,12 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         ButterKnife.bind(this);
 
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
         signUpDialog = new Dialog(this);
         SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         String userObjectId = editor.getString(getApplicationContext().getString(R.string.pref_object_id), "NA");
 
         String topic = getString(R.string.juna_user_topic) + userObjectId;
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
-        token = getSharedPrefsBoolean(getString(R.string.pref_login_credentails), getString(R.string.pref_is_logged_in)) ?
-                getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token)) : "";
 
         setupBottomSheet();
         initBottomSheetRecyclerView();
@@ -131,7 +125,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void setUpToolbar() {
-        if (token.isEmpty()) {
+        if (getToken().isEmpty()) {
             toolbar.setProfilePic(R.drawable.ic_default_profile);
             toolbar.setCoinCount(getString(R.string.hello_stranger), false);
         } else {
@@ -167,7 +161,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     public void getUserFeed() {
-        restApi.getUserFeed(token)
+        restApi.getUserFeed(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<UserFeed>>>() {
@@ -205,7 +199,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     public void getUserBoards() {
-        restApi.getFollowingBoards(token)
+        restApi.getFollowingBoards(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<Board>>>() {
@@ -252,7 +246,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
     @Override
     public void profilePictureClicked(ImageView profilePicture) {
-        if (token.isEmpty()) {
+        if (getToken().isEmpty()) {
             ShowPopup();
         } else {
             //TODO: Navigate to user profile view

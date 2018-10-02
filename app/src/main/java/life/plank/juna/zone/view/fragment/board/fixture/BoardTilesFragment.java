@@ -149,7 +149,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     public void getBoardFeed(boolean isRefreshing) {
-        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {

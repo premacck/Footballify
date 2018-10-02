@@ -80,7 +80,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
     private void getSearchedUsers(String displayName) {
 
-        restApi.getSearchedUsers(getToken(this), displayName)
+        restApi.getSearchedUsers(getToken(), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {
@@ -119,7 +119,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     }
 
     private void inviteUserToJoinBoard(String boardId, Set<User> user) {
-        restApi.inviteUserToJoinBoard(user, boardId, getToken(this))
+        restApi.inviteUserToJoinBoard(user, boardId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

@@ -107,7 +107,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     }
 
     private void getUserPreference() {
-        restApi.getUser(getToken(this))
+        restApi.getUser(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<User>>() {
