@@ -82,19 +82,6 @@
             android:drawableStart="@drawable/ic_people" />
 
         <TextView
-            android:id="@+id/comment_count"
-            style="@style/EngagementLayout"
-            android:layout_toEndOf="@+id/people_count"
-            android:drawableStart="@drawable/ic_card" />
-
-        <TextView
-            android:id="@+id/likes_count"
-            style="@style/EngagementLayout"
-            android:layout_toStartOf="@+id/following_text_view"
-            android:layout_toEndOf="@+id/comment_count"
-            android:drawableStart="@drawable/ic_likes" />
-
-        <TextView
             android:id="@+id/following_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
