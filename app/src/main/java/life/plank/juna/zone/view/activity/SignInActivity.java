@@ -80,8 +80,10 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
-        authService.dispose();
-        super.onStop();
+    protected void onDestroy() {
+        if (authService != null) {
+            authService.dispose();
+        }
+        super.onDestroy();
     }
 }

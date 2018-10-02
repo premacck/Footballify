@@ -68,7 +68,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         setItemWidth(holder.itemView, position, footballFeed);
 
         fragment.picasso
-                .load(footballFeed.getActor().getProfilePictureUrl())
+                .load(footballFeed.getUser().getProfilePictureUrl())
                 .placeholder(R.drawable.ic_default_profile)
                 .error(R.drawable.ic_default_profile)
                 .into(holder.profilePictureImageView);
