@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,6 +61,8 @@ public class EditProfileActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     RestApi restApi;
+    @Inject
+    Picasso picasso;
     private String filePath;
 
     public static void launch(Context packageContext) {
@@ -72,6 +77,13 @@ public class EditProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), UserProfileActivity.parentViewBitmap));
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
+        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
+            picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
+                    .error(R.drawable.ic_default_profile)
+                    .placeholder(R.drawable.ic_profile_dummy)
+                    .into(profilePicture);
+        }
     }
 
     @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view, R.id.blur_background_image_view})
