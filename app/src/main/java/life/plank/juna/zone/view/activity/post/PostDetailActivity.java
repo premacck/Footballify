@@ -88,7 +88,7 @@ public class PostDetailActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             try {
-                return PostDetailFragment.newInstance(ref.get().gson.toJson(ref.get().feedList.get(position).getFeedItem()), ref.get().boardId);
+                return PostDetailFragment.newInstance(ref.get().gson.toJson(ref.get().feedList.get(position)), ref.get().boardId);
             } catch (Exception e) {
                 return null;
             }

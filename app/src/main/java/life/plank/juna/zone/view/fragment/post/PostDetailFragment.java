@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.fragment.post;
 
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -9,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,14 +23,18 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,9 +48,9 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FeedItemComment;
 import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
+import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
@@ -51,16 +60,23 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static java.net.HttpURLConnection.HTTP_CREATED;
+import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
+import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.AppConstants.BOARD;
+import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
 public class PostDetailFragment extends Fragment implements FeedInteractionListener {
@@ -71,6 +87,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     ShimmerRelativeLayout commentsShimmer;
     @BindView(R.id.no_comment_text_view)
     TextView noCommentTextView;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.post_comments_list)
     RecyclerView postCommentsRecyclerView;
 
@@ -116,14 +134,14 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @Named("default")
     RestApi restApi;
 
-    private FeedItem feedItem;
+    private FootballFeed feedEntry;
     private String boardId;
     private PostCommentAdapter adapter;
 
-    public static PostDetailFragment newInstance(@NonNull String feedItemString, String boardId) {
+    public static PostDetailFragment newInstance(@NonNull String feedEntryString, String boardId) {
         PostDetailFragment fragment = new PostDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedItemString);
+        args.putString(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedEntryString);
         args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
         fragment.setArguments(args);
         return fragment;
@@ -135,7 +153,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            feedItem = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FeedItem.class);
+            feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FootballFeed.class);
             boardId = args.getString(getString(R.string.intent_board_id));
         }
     }
@@ -153,41 +171,64 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         bindFeetContent();
-        getCommentsOnFeed();
+        getCommentsOnFeed(false);
+        swipeRefreshLayout.setOnRefreshListener(() -> getCommentsOnFeed(true));
     }
 
     private void bindFeetContent() {
         MediaPlayer mediaPlayer = new MediaPlayer();
-        if (feedItem.getInteractions() != null) {
-            likeCountTextView.setText(String.valueOf(feedItem.getInteractions().getLikes()));
-            dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
+        if (feedEntry.getFeedItem().getInteractions() != null) {
+            likeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getLikes()));
+            dislikeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getDislikes()));
         }
 
-        if (feedItem.getActor() != null) {
-            userNameTextView.setText(feedItem.getActor().getDisplayName());
+        if (feedEntry.getFeedItem().getActor() != null) {
+            userNameTextView.setText(feedEntry.getFeedItem().getActor().getDisplayName());
         } else {
             SharedPreferences userPref = Objects.requireNonNull(getActivity()).getSharedPreferences(getActivity().getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(getActivity().getString(R.string.pref_email_address), "NA");
             userNameTextView.setText(userEmailId);
         }
-        feedTitleTextView.setText(feedItem.getDescription());
+        feedTitleTextView.setText(!feedEntry.getFeedItem().getContentType().equals(ROOT_COMMENT) ? feedEntry.getFeedItem().getTitle() : null);
+        feedDescription.setVisibility(feedEntry.getFeedItem().getDescription() == null ? GONE : VISIBLE);
+        feedDescription.setText(feedEntry.getFeedItem().getDescription());
 
         pinImageView.setImageResource(
-                feedItem.isPinned() ?
-                        R.drawable.ic_pin_active :
+                feedEntry.getFeedInteractions() != null ?
+                        feedEntry.getFeedInteractions().isHasPinned() ?
+                                R.drawable.ic_pin_active :
+                                R.drawable.ic_pin_inactive :
                         R.drawable.ic_pin_inactive
         );
 
-        switch (feedItem.getContentType()) {
+        switch (feedEntry.getFeedItem().getContentType()) {
             case "Image": {
                 mediaPlayer.stop();
-                setVisibilities(View.VISIBLE, View.GONE, View.GONE);
+                setVisibilities(VISIBLE, GONE, GONE);
                 try {
+                    Target target = new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                            int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
+                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
+                            params.height = width * bitmap.getHeight() / bitmap.getWidth();
+                            feedImageView.setLayoutParams(params);
+                            feedImageView.setImageBitmap(bitmap);
+                        }
+
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                        }
+
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        }
+                    };
                     Picasso.with(getActivity()).
-                            load(feedItem.getThumbnail().getImageUrl())
+                            load(feedEntry.getFeedItem().getUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
-                            .into(feedImageView);
+                            .into(target);
                 } catch (Exception e) {
                     feedImageView.setImageResource(R.drawable.ic_place_holder);
                 }
@@ -195,10 +236,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             }
             case "Audio": {
                 mediaPlayer.stop();
-                setVisibilities(View.VISIBLE, View.GONE, View.GONE);
+                setVisibilities(VISIBLE, GONE, GONE);
                 feedImageView.setImageResource(R.drawable.ic_audio);
 
-                String uri = feedItem.getUrl();
+                String uri = feedEntry.getFeedItem().getUrl();
                 Uri videoUri = Uri.parse(uri);
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -213,7 +254,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
                 try {
                     Picasso.with(getActivity()).
-                            load(feedItem.getUrl())
+                            load(feedEntry.getFeedItem().getUrl())
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
                             .into(feedImageView);
@@ -224,10 +265,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             }
             case "Video": {
                 mediaPlayer.stop();
-                setVisibilities(View.GONE, View.VISIBLE, View.GONE);
+                setVisibilities(GONE, VISIBLE, GONE);
                 MediaController mediaController = new MediaController(getActivity());
                 capturedVideoView.setMediaController(mediaController);
-                String uri = feedItem.getUrl();
+                String uri = feedEntry.getFeedItem().getUrl();
                 Uri videoUri = Uri.parse(uri);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
@@ -239,8 +280,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             }
             case "rootComment": {
                 mediaPlayer.stop();
-                setVisibilities(View.GONE, View.GONE, View.VISIBLE);
-                String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
+                setVisibilities(GONE, GONE, VISIBLE);
+                String comment = feedEntry.getFeedItem().getTitle().replaceAll("^\"|\"$", "");
 
                 feedTextView.setBackground(getCommentColor(comment));
                 feedTextView.setText(getCommentText(comment));
@@ -248,21 +289,294 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         }
     }
 
+    //region ClickThrough (Like, dislike, etc.)
+    private void updateClickThroughUi(boolean isLikeAction, boolean hasLiked, boolean hasDisliked) {
+        likeImageView.setVisibility(isLikeAction ? VISIBLE : GONE);
+        likeCountTextView.setVisibility(isLikeAction && hasLiked ? VISIBLE : INVISIBLE);
+        dislikeImageView.setVisibility(isLikeAction ? GONE : VISIBLE);
+        dislikeCountTextView.setVisibility(!isLikeAction && hasDisliked ? VISIBLE : INVISIBLE);
+        likeSeparator.setVisibility((isLikeAction && !hasLiked) || (!isLikeAction && !hasDisliked) ? VISIBLE : GONE);
+        likeImageView.setImageTintList(hasLiked && !hasDisliked ? ColorStateList.valueOf(ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green)) : null);
+        dislikeImageView.setImageTintList(hasDisliked && !hasLiked ? ColorStateList.valueOf(ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon)) : null);
+    }
+
+    private void likeBoardFeedItem() {
+        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+                                updateClickThroughUi(true, true, false);
+                                if (feedEntry.getFeedItem().getInteractions() != null) {
+                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
+                                }
+                                if (feedEntry.getFeedInteractions() != null) {
+                                    feedEntry.getFeedInteractions().setHasLiked(true);
+                                }
+                                break;
+                            case HttpURLConnection.HTTP_INTERNAL_ERROR:
+                                Toast.makeText(ZoneApplication.getContext(), "You have already liked the item", Toast.LENGTH_SHORT).show();
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void deleteLikeOfBoardFeedItem() {
+        restApi.deleteLike(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
+                                updateClickThroughUi(true, false, false);
+                                if (feedEntry.getFeedItem().getInteractions() != null) {
+                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
+                                }
+                                if (feedEntry.getFeedInteractions() != null) {
+                                    feedEntry.getFeedInteractions().setHasLiked(false);
+                                }
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void dislikeBoardFeedItem() {
+        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, "Boards", getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+                                updateClickThroughUi(false, false, true);
+                                if (feedEntry.getFeedItem().getInteractions() != null) {
+                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
+                                }
+                                if (feedEntry.getFeedInteractions() != null) {
+                                    feedEntry.getFeedInteractions().setHasDisliked(true);
+                                }
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void deleteDislikeOfBoardFeedItem() {
+        restApi.deleteDisLike(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_NO_CONTENT:
+                                updateClickThroughUi(false, false, false);
+                                if (feedEntry.getFeedItem().getInteractions() != null) {
+                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
+                                }
+                                if (feedEntry.getFeedInteractions() != null) {
+                                    feedEntry.getFeedInteractions().setHasDisliked(false);
+                                }
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+
+    }
+
+    private void pinItem() {
+        restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<String>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted : pinItem()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "pinItem() " + e.getMessage());
+                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<String> response) {
+                        switch (response.code()) {
+                            case HTTP_OK:
+                            case HTTP_CREATED:
+                                feedEntry.getFeedInteractions().setHasPinned(false);
+                                feedEntry.getFeedInteractions().setPinId(response.body());
+                                pinImageView.setImageResource(R.drawable.ic_pin_active);
+                                break;
+                            case HTTP_NOT_FOUND:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HTTP_INTERNAL_ERROR:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.already_pinned_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void unpinItem() {
+        if (feedEntry.getFeedInteractions().getPinId() == null) {
+            feedEntry.getFeedInteractions().setHasPinned(false);
+            pinImageView.setImageResource(R.drawable.ic_pin_inactive);
+            return;
+        }
+        restApi.unpinFeedItem(boardId, feedEntry.getFeedInteractions().getPinId(), getToken(ZoneApplication.getContext()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted : unpinItem()");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "unpinItem() " + e.getMessage());
+                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HTTP_OK:
+                            case HTTP_NO_CONTENT:
+                                feedEntry.getFeedInteractions().setHasPinned(false);
+                                feedEntry.getFeedInteractions().setPinId(null);
+                                pinImageView.setImageResource(R.drawable.ic_pin_inactive);
+                                break;
+                            case HTTP_NOT_FOUND:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HTTP_INTERNAL_ERROR:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.already_removed_pin, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_unpin_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
+    @OnClick(R.id.like_image_view)
+    public void onLikeClick() {
+        if (feedEntry.getFeedInteractions().isHasLiked()) {
+            deleteLikeOfBoardFeedItem();
+        } else {
+            likeBoardFeedItem();
+        }
+    }
+
+    @OnClick(R.id.dislike_image_view)
+    public void onDislikeClick() {
+        if (feedEntry.getFeedInteractions().isHasDisliked()) {
+            deleteDislikeOfBoardFeedItem();
+        } else {
+            dislikeBoardFeedItem();
+        }
+    }
+
+    @OnClick(R.id.pin_image_view)
+    public void onPinClick() {
+        if (feedEntry.getFeedInteractions().isHasPinned()) {
+            unpinItem();
+        } else {
+            pinItem();
+        }
+    }
+    //endregion
+
     private void setVisibilities(int imageViewVisibility, int videoViewVisibility, int textViewVisibility) {
         feedImageView.setVisibility(imageViewVisibility);
         capturedVideoView.setVisibility(videoViewVisibility);
         feedTextView.setVisibility(textViewVisibility);
     }
 
-    private void getCommentsOnFeed() {
-        restApi.getCommentsForFeed(feedItem.getId(), getToken(ZoneApplication.getContext()))
+    private void getCommentsOnFeed(boolean isRefreshing) {
+        restApi.getCommentsForFeed(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> updateCommentsUi(VISIBLE, GONE, GONE, 0))
+                .doOnSubscribe(() -> {
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(true);
+                    updateCommentsUi(VISIBLE, GONE, GONE, 0);
+                })
+                .doOnTerminate(() -> {if (isRefreshing) swipeRefreshLayout.setRefreshing(false);})
                 .subscribe(new Subscriber<Response<List<FeedItemComment>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i(TAG, "onCompleted : getCommentsForFeed(" + feedItem + ")");
+                        Log.i(TAG, "onCompleted : getCommentsForFeed(" + feedEntry + ")");
                     }
 
                     @Override
@@ -277,7 +591,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                             case HTTP_OK:
                                 updateCommentsUi(GONE, VISIBLE, GONE, 0);
                                 List<FeedItemComment> commentList = response.body();
-                                feedItem.setComments(commentList);
+                                feedEntry.getFeedItem().setComments(commentList);
                                 adapter.setComments(commentList);
                                 break;
                             case HTTP_NOT_FOUND:
@@ -314,10 +628,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
         commentEditText.clearFocus();
         hideSoftKeyboard(commentEditText);
-        restApi.postCommentOnFeedItem(commentEditText.getText().toString(), feedItem.getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postCommentOnFeedItem(commentEditText.getText().toString(), feedEntry.getFeedItem().getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Void>>() {
+                .subscribe(new Subscriber<Response<FeedItemComment>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted : postComment()");
@@ -330,11 +644,12 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     }
 
                     @Override
-                    public void onNext(Response<Void> response) {
+                    public void onNext(Response<FeedItemComment> response) {
                         switch (response.code()) {
+                            case HTTP_OK:
                             case HTTP_CREATED:
                                 commentEditText.setText(null);
-                                getCommentsOnFeed();
+                                adapter.addComment(response.body());
                                 break;
                             case HTTP_NOT_FOUND:
                                 Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
@@ -350,7 +665,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @OnClick(R.id.no_comment_text_view)
     public void retryGettingComments() {
         if (noCommentTextView.getText().toString().equals(getString(R.string.failed_to_get_feed_comments))) {
-            getCommentsOnFeed();
+            getCommentsOnFeed(false);
         }
     }
 
@@ -384,10 +699,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @Override
     public void onPostReplyOnComment(String reply, int position, FeedItemComment comment) {
-        restApi.postReplyOnComment(reply, feedItem.getId(), comment.getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postReplyOnComment(reply, feedEntry.getFeedItem().getId(), comment.getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Void>>() {
+                .subscribe(new Subscriber<Response<FeedItemCommentReply>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted");
@@ -400,15 +715,18 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     }
 
                     @Override
-                    public void onNext(Response<Void> response) {
+                    public void onNext(Response<FeedItemCommentReply> response) {
                         switch (response.code()) {
+                            case HTTP_OK:
                             case HTTP_CREATED:
                                 if (isNullOrEmpty(comment.getReplies())) {
                                     comment.setReplies(new ArrayList<>());
                                 }
-//                                TODO : update with the reply got from backend
-                                comment.getReplies().add(0, new FeedItemCommentReply(reply));
-                                adapter.onReplyPostedOnComment(position, comment);
+                                FeedItemCommentReply commentReply = response.body();
+                                if (commentReply != null) {
+                                    comment.getReplies().add(0, commentReply);
+                                    adapter.onReplyPostedOnComment(position, comment);
+                                }
                                 break;
                             case HTTP_NOT_FOUND:
                                 Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();

@@ -115,13 +115,18 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getBoardFeed(false);
-            setupBoomMenu(getActivity(), arcMenu, boardId);
         if (isBoardActive) {
+            setupBoomMenu(getActivity(), arcMenu, boardId);
         } else {
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }
         swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getBoardFeed(false);
     }
 
     private void initRecyclerViews() {
@@ -144,7 +149,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     public void getBoardFeed(boolean isRefreshing) {
-        restApi.retrieveByBoardId(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {

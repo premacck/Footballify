@@ -25,6 +25,7 @@ import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter;
 
 import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
@@ -53,6 +54,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
                 .into(holder.profilePic);
 
         holder.likeTextView.setText(item.isHasLiked() ? R.string.unlike : R.string.like);
+        holder.viewRepliesTextView.setVisibility(isNullOrEmpty(item.getReplies()) ? View.GONE : View.VISIBLE);
         holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(picasso, item.getReplies()));
         if (holder.isItemExpanded()) {
             holder.viewRepliesTextView.setText(R.string.hide_replies);

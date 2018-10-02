@@ -30,7 +30,7 @@ public class PostCommentAdapter extends RecyclerAdapter {
     }
 
     public void addComment(FeedItemComment comment) {
-        commentDataManager.add(comment);
+        if (comment != null) commentDataManager.add(comment);
     }
 
     public void onReplyPostedOnComment(int position, FeedItemComment feedItemComment) {
