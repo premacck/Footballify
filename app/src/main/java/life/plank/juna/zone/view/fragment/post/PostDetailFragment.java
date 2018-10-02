@@ -175,6 +175,12 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         swipeRefreshLayout.setOnRefreshListener(() -> getCommentsOnFeed(true));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        feedTitleTextView.setSelected(true);
+    }
+
     private void bindFeetContent() {
         MediaPlayer mediaPlayer = new MediaPlayer();
         if (feedEntry.getFeedItem().getInteractions() != null) {
