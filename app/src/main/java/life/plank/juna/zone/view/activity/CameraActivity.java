@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -72,7 +73,9 @@ import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO_CAPTURE;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
 public class CameraActivity extends AppCompatActivity {
 
@@ -222,7 +225,7 @@ public class CameraActivity extends AppCompatActivity {
                             if (imgFile.exists()) {
                                 Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
                                 filePath = imgFile.toString();
-                                capturedImageView.setImageBitmap(bitmap);
+                                setImagePreview(bitmap);
                             }
                         } catch (Exception e) {
                             Log.e("TAG", "CAMERA_IMAGE_RESULT : " + e);
@@ -306,7 +309,7 @@ public class CameraActivity extends AppCompatActivity {
             File imgFile = new File(filePath);
             if (imgFile.exists()) {
                 Bitmap bitmap = new Image().compress(imgFile, filePath);
-                capturedImageView.setImageBitmap(bitmap);
+                setImagePreview(bitmap);
             }
         } catch (Exception e) {
             Log.e("TAG", "CAMERA_IMAGE_RESULT : " + e);
@@ -333,6 +336,14 @@ public class CameraActivity extends AppCompatActivity {
             Log.d(TAG, "Video compression failed");
             finish();
         }
+    }
+
+    private void setImagePreview(Bitmap bitmap) {
+        int width = (int) (getScreenSize(getWindowManager().getDefaultDisplay())[0] - getDp(16));
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) capturedImageView.getLayoutParams();
+        params.height = width * bitmap.getHeight() / bitmap.getWidth();
+        capturedImageView.setLayoutParams(params);
+        capturedImageView.setImageBitmap(bitmap);
     }
 
     private void postMediaContent(String selectedFileUri, String mediaType, String contentType, String userId, String dateCreated) {
