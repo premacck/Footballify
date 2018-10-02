@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawableStart="@drawable/img_coin"
         android:drawablePadding="2dp"
         android:fontFamily="@font/rajdhani_medium"
         android:gravity="center_vertical"
