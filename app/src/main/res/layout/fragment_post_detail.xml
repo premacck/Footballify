@@ -56,7 +56,6 @@
                             android:orientation="vertical">
 
                             <RelativeLayout
-                                android:id="@+id/feed_top_bar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
@@ -190,7 +189,6 @@
                             </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
 
                             <RelativeLayout
-                                android:id="@+id/like_share_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
                                 android:animateLayoutChanges="true">
