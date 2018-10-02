@@ -35,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.util.UIDisplayUtil;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -84,6 +85,8 @@ public class EditProfileActivity extends AppCompatActivity {
                     .placeholder(R.drawable.ic_profile_dummy)
                     .into(profilePicture);
         }
+        UIDisplayUtil.checkPermission(EditProfileActivity.this);
+
     }
 
     @OnClick({R.id.dob_edit_text, R.id.change_picture_text_view, R.id.blur_background_image_view})
@@ -93,7 +96,11 @@ public class EditProfileActivity extends AppCompatActivity {
                 showCalendar();
                 break;
             case R.id.change_picture_text_view:
-                getImageResourceFromGallery();
+                if (UIDisplayUtil.checkPermission(EditProfileActivity.this)) {
+                    getImageResourceFromGallery();
+                } else {
+                    Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.blur_background_image_view:
                 finish();
