@@ -201,7 +201,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_toStartOf="@+id/create_board_button"
                         app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-                        tools:listitem="@layout/item_my_boards" />
+                        tools:listitem="@layout/item_image_and_title" />
 
                     <ImageButton
                         android:id="@+id/create_board_button"
