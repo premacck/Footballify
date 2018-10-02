@@ -48,7 +48,7 @@ import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
@@ -151,7 +151,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
-        FootballFeed feed = new FootballFeed();
+        FeedEntry feed = new FeedEntry();
         Log.d(TAG, "content_type: " + contentType);
         if (feed.getFeedItem() == null) {
             feed.setFeedItem(new FeedItem());
@@ -372,8 +372,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     }
 
     @Override
-    public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
-        boardFeedDetailAdapter.update(footballFeedList);
+    public void updateFullScreenAdapter(List<FeedEntry> feedEntryList) {
+        boardFeedDetailAdapter.update(feedEntryList);
     }
 
     @Override

@@ -22,7 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
@@ -37,7 +37,7 @@ public class PostDetailActivity extends AppCompatActivity {
     @Inject
     Gson gson;
 
-    private List<FootballFeed> feedList;
+    private List<FeedEntry> feedList;
     private String boardId;
     private int position;
 
@@ -59,7 +59,7 @@ public class PostDetailActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
-        feedList = gson.fromJson(intent.getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FootballFeed>>() {}.getType());
+        feedList = gson.fromJson(intent.getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FeedEntry>>() {}.getType());
         boardId = intent.getStringExtra(getString(R.string.intent_board_id));
         position = intent.getIntExtra(getString(R.string.intent_position), 0);
         populateViewPager();
