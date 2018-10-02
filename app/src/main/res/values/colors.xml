@@ -26,7 +26,7 @@
     <color name="purple">#530D1B</color>
     <color name="football_ground_green">#0F9D58</color>
     <color name="teams_background_green">#0B8449</color>
-    <color name="football_feed_background">#66dd5873</color>
+    <color name="football_feed_background">#19ffffff</color>
     <color name="info_text_color">#99ffffff</color>
     <color name="purple_toolbar_background">#37003c</color>
     <color name="black_50">#80000000</color>

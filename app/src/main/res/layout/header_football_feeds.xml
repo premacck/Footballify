@@ -3,15 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
-    android:paddingBottom="8dp"
-    android:paddingEnd="16dp"
-    android:paddingStart="8dp">
+    android:paddingStart="8dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="8dp">
+
+    <ImageView
+        android:id="@+id/drag_handle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/thumbnail"
+        android:src="@drawable/drag_handle_light" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:fontFamily="@font/rajdhani_semibold"
+        android:fontFamily="@font/raleway_semibold"
         android:text="@string/football"
         android:textColor="@color/white"
         android:textSize="32sp" />
@@ -22,9 +32,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:paddingBottom="15dp"
-        android:paddingRight="15dp"
         android:paddingTop="15dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="15dp"
         android:scaleType="center"
         android:src="@drawable/ic_options" />
 
@@ -40,8 +50,9 @@
         style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_below="@+id/options_image"
-        android:layout_marginTop="35dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/rajdhani_medium"
         android:text="@string/following" />
 </RelativeLayout>
