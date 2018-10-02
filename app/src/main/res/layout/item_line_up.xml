@@ -61,7 +61,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="600dp"
+                android:layout_height="800dp"
                 android:background="@color/football_ground_green"
                 android:orientation="vertical"
                 android:weightSum="2">
