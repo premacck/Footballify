@@ -51,6 +51,7 @@ import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
@@ -261,8 +262,11 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
                             break;
                         }
                         case 1: {
-                            Intent intent = new Intent(SwipePageActivity.this, UserProfileActivity.class);
-                            startActivity(intent);
+                            if (isNullOrEmpty(getToken())) {
+                                Toast.makeText(SwipePageActivity.this, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show();
+                            } else {
+                                UserProfileActivity.launch(SwipePageActivity.this);
+                            }
                             break;
                         }
                         case 2: {
