@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -33,7 +34,10 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.data.network.model.UserPreference;
+import life.plank.juna.zone.data.network.model.Zones;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
@@ -47,6 +51,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsBoolean;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarListener {
@@ -78,6 +84,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     private UserZoneAdapter userZoneAdapter;
     private UserBoardsAdapter userBoardsAdapter;
 
+    private ArrayList<UserPreference> userPreferences = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +104,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         initBottomSheetRecyclerView();
         //TODO: Retrieve leagues from backend
         getLeagues();
+        getUserZones();
 
         setUpToolbar();
         initRecyclerView();
@@ -143,7 +152,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initZoneRecyclerView() {
-        userZoneAdapter = new UserZoneAdapter(this, onboardingBottomSheetBehavior);
+        userZoneAdapter = new UserZoneAdapter(this, onboardingBottomSheetBehavior, userPreferences);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
         userZoneRecyclerView.setLayoutManager(gridLayoutManager);
         userZoneRecyclerView.setAdapter(userZoneAdapter);
@@ -158,6 +167,45 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         userBoardsAdapter = new UserBoardsAdapter(userBoards, this, picasso);
         recyclerView.setAdapter(userBoardsAdapter);
 
+    }
+
+    private void setUpUserZoneAdapter(List<UserPreference> userPreferenceList) {
+        userPreferences.clear();
+        userPreferences.addAll(userPreferenceList);
+        userZoneAdapter.notifyDataSetChanged();
+    }
+
+    private void getUserZones() {
+        restApi.getUser(getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<User>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: " + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<User> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                setUpUserZoneAdapter(response.body().userPreferences);
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(getApplicationContext(), R.string.failed_to_retrieve_zones, Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Log.e(TAG, response.message());
+                                break;
+                        }
+                    }
+                });
     }
 
     public void getUserFeed() {
