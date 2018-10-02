@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,12 +24,14 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
 
     private List<User> userList;
     private Context context;
+    private Picasso picasso;
     private OnItemClickListener onItemClickListener;
 
-    public SearchViewAdapter(List<User> userList, Context context, OnItemClickListener onItemClickListener) {
+    public SearchViewAdapter(List<User> userList, Context context, OnItemClickListener onItemClickListener, Picasso picasso) {
         this.context = context;
         this.userList = userList;
         this.onItemClickListener = onItemClickListener;
+        this.picasso = picasso;
     }
 
     @Override
@@ -38,7 +42,10 @@ public class SearchViewAdapter extends RecyclerView.Adapter<SearchViewAdapter.Se
     @Override
     public void onBindViewHolder(SearchViewAdapter.SearchViewHolder holder, int position) {
         holder.usernameTextView.setText(userList.get(position).getDisplayName());
-
+        picasso.load(userList.get(position).getProfilePictureUrl())
+                .placeholder(R.drawable.ic_default_profile)
+                .error(R.drawable.ic_default_profile)
+                .into(holder.profileImageView);
         holder.profileImageView.setOnClickListener(view -> {
             if (holder.followTick.getVisibility() == View.VISIBLE) {
                 holder.followTick.setVisibility(View.INVISIBLE);
