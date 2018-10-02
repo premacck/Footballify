@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -80,6 +81,8 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
     RecyclerView recyclerView;
     @BindView(R.id.options_image)
     ImageView optionsImage;
+    @Inject
+    Picasso picasso;
 
     CoordinatorLayout coordinatorLayout;
     FootballLeagueAdapter adapter;
@@ -175,7 +178,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
 
     private void initBottomSheetRecyclerView() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-        searchViewAdapter = new SearchViewAdapter(userList, this, this);
+        searchViewAdapter = new SearchViewAdapter(userList, this, this, picasso);
         recyclerView.setAdapter(searchViewAdapter);
         search.setOnQueryTextListener(this);
 

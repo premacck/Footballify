@@ -51,11 +51,12 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     @Override
     public void onBindViewHolder(BoardMembersViewAdapter.BoardMembersViewHolder holder, int position) {
         holder.usernameTextView.setText(userList.get(position).getDisplayName());
+
+        picasso.load(userList.get(position).getProfilePictureUrl())
+                .into(holder.profileImageView);
+
         if (userList.get(position).getDisplayName().equals(context.getString(R.string.invite_string))) {
             holder.profileImageView.setBackground(context.getDrawable(R.drawable.new_board_circle));
-        } else {
-            picasso.load(userList.get(position).getProfilePictureUrl())
-                    .into(holder.profileImageView);
         }
 
         holder.profileImageView.setOnClickListener(view -> {
