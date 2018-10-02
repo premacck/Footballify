@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
@@ -14,10 +13,10 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -66,7 +65,7 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView locationTextView;
 
     @BindView(R.id.my_boards_list)
-    RecyclerView myBoardsList;
+    RecyclerView myBoardsRecyclerView;
     @BindView(R.id.create_board_button)
     ImageButton createBoardButton;
     @BindView(R.id.coin_count)
@@ -83,12 +82,13 @@ public class UserProfileActivity extends AppCompatActivity {
     @Named("default")
     Retrofit retrofit;
     @Inject
+    Gson gson;
+    @Inject
     Picasso picasso;
     @Inject
     LastTransactionsAdapter lastTransactionsAdapter;
     @Inject
     GetCoinsAdapter getCoinsAdapter;
-    ArrayList<Board> userList = new ArrayList<>();
     private RestApi restApi;
     private UserBoardsAdapter userBoardsAdapter;
 
@@ -105,9 +105,14 @@ public class UserProfileActivity extends AppCompatActivity {
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         toolbar.setTitle(getString(R.string.settings));
-        getUserDetails();
         initRecyclerView();
         getUserBoards();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getUserDetails();
     }
 
     @OnClick(R.id.create_board_button)
@@ -122,12 +127,10 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.my_boards_list);
-        LinearLayoutManager horizontalLayoutManager
-                = new LinearLayoutManager(UserProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(horizontalLayoutManager);
-        userBoardsAdapter = new UserBoardsAdapter(userList, this, picasso);
-        recyclerView.setAdapter(userBoardsAdapter);
+        userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
+        myBoardsRecyclerView.setAdapter(userBoardsAdapter);
+        getCoinsList.setAdapter(getCoinsAdapter);
+        lastTransactionsList.setAdapter(lastTransactionsAdapter);
     }
 
     public void getUserBoards() {
@@ -149,7 +152,7 @@ public class UserProfileActivity extends AppCompatActivity {
                     public void onNext(Response<List<Board>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                userBoardsAdapter.update(response.body());
+                                userBoardsAdapter.setUserBoards(response.body());
                                 userBoardsAdapter.notifyDataSetChanged();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -200,11 +203,5 @@ public class UserProfileActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        getUserDetails();
     }
 }

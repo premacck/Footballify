@@ -16,6 +16,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FeedItem;
 
 import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
  * Created by plank-sobia on 10/4/2017.
@@ -37,7 +38,8 @@ public class PreferenceManager {
     }
 
     public static String getToken() {
-        return getContext().getString(R.string.bearer) + " " + getSharedPrefsString(getContext().getString(R.string.pref_login_credentails), getContext().getString(R.string.pref_azure_token));
+        String token = getSharedPrefs(getContext().getString(R.string.pref_login_credentails)).getString(getContext().getString(R.string.pref_azure_token), null);
+        return isNullOrEmpty(token) ? null : getContext().getString(R.string.bearer) + " " + token;
     }
 
     public static void saveTokens(String idToken, String refreshToken) {

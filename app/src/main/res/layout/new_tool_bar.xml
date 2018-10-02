@@ -35,8 +35,7 @@
         android:fontFamily="@font/rajdhani_medium"
         android:gravity="center_vertical"
         android:textColor="@color/grey"
-        android:textSize="20sp"
-        android:visibility="invisible" />
+        android:textSize="20sp" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/toolbar_profile_pic"

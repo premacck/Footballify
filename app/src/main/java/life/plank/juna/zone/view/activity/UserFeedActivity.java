@@ -7,21 +7,19 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import net.openid.appauth.AuthorizationService;
 
 import java.net.HttpURLConnection;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -33,7 +31,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
@@ -42,11 +40,13 @@ import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
 import life.plank.juna.zone.view.adapter.UserZoneAdapter;
 import retrofit2.Response;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarListener {
@@ -58,17 +58,18 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     RecyclerView userZoneRecyclerView;
     @BindView(R.id.feed_header)
     ZoneToolBar toolbar;
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+    @BindView(R.id.onboarding_recycler_view)
+    RecyclerView onboardingRecyclerView;
+    @BindView(R.id.onboarding_bottom_sheet)
+    RelativeLayout onboardingBottomSheet;
 
     @Inject
     @Named("default")
     RestApi restApi;
     @Inject
+    Gson gson;
+    @Inject
     Picasso picasso;
-
-    private ArrayList<UserFeed> userFeed = new ArrayList<>();
-    private ArrayList<Board> userBoards = new ArrayList<>();
 
     private Dialog signUpDialog;
     private AuthorizationService authService;
@@ -111,10 +112,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initBottomSheetRecyclerView() {
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new OnboardingAdapter(this);
-        recyclerView.setAdapter(adapter);
-
+        onboardingRecyclerView.setAdapter(adapter);
     }
 
     public void getLeagues() {
@@ -122,52 +121,41 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void setupBottomSheet() {
-        View onboardingBottomSheet = findViewById(R.id.onboarding_bottom_sheet);
         onboardingBottomSheetBehavior = BottomSheetBehavior.from(onboardingBottomSheet);
         onboardingBottomSheetBehavior.setPeekHeight(0);
     }
 
     private void setUpToolbar() {
-        if (getToken().isEmpty()) {
+        if (isNullOrEmpty(getToken())) {
             toolbar.setProfilePic(R.drawable.ic_default_profile);
-            toolbar.setCoinCount(getString(R.string.hello_stranger), false);
+            toolbar.setCoinCount(getString(R.string.hello_stranger));
         } else {
             //TODO: set user profile picture and coin count
-            toolbar.setCoinCount(getString(R.string.dummy_32k), true);
+            toolbar.setCoinCount(null);
         }
     }
 
     private void initRecyclerView() {
-        userFeedAdapter = new UserFeedAdapter(this, userFeed);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 3, GridLayoutManager.VERTICAL, false);
-        userFeedRecyclerView.setLayoutManager(gridLayoutManager);
+        userFeedAdapter = new UserFeedAdapter(picasso);
         userFeedRecyclerView.setAdapter(userFeedAdapter);
-
     }
 
     private void initZoneRecyclerView() {
         userZoneAdapter = new UserZoneAdapter(this, onboardingBottomSheetBehavior);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
-        userZoneRecyclerView.setLayoutManager(gridLayoutManager);
         userZoneRecyclerView.setAdapter(userZoneAdapter);
-
     }
 
     private void initBoardsRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.user_boards_recycler_view);
-        LinearLayoutManager horizontalLayoutManager
-                = new LinearLayoutManager(UserFeedActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(horizontalLayoutManager);
-        userBoardsAdapter = new UserBoardsAdapter(userBoards, this, picasso);
+        userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
         recyclerView.setAdapter(userBoardsAdapter);
-
     }
 
     public void getUserFeed() {
-        restApi.getUserFeed(getToken())
-                .subscribeOn(Schedulers.io())
+        Observable<Response<List<FeedEntry>>> userFeedApiCall = isNullOrEmpty(getToken()) ? restApi.getUserFeed() : restApi.getUserFeed(getToken());
+        userFeedApiCall.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<List<UserFeed>>>() {
+                .subscribe(new Subscriber<Response<List<FeedEntry>>>() {
                     @Override
                     public void onCompleted() {
                         Log.e(TAG, "onCompleted: ");
@@ -180,12 +168,11 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
                     }
 
                     @Override
-                    public void onNext(Response<List<UserFeed>> response) {
-
+                    public void onNext(Response<List<FeedEntry>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (response.body() != null)
-                                    setUpAdapterWithNewData(response.body());
+                                    userFeedAdapter.setUserFeed(response.body());
                                 else
                                     Toast.makeText(UserFeedActivity.this, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
                                 break;
@@ -219,13 +206,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
                     @Override
                     public void onNext(Response<List<Board>> response) {
-
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 if (response.body() != null) {
-                                    userBoards.clear();
-                                    userBoards.addAll(response.body());
-                                    userBoardsAdapter.notifyDataSetChanged();
+                                    userBoardsAdapter.setUserBoards(response.body());
                                 } else
                                     Toast.makeText(UserFeedActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
@@ -241,22 +225,16 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
                 });
     }
 
-    private void setUpAdapterWithNewData(List<UserFeed> userFeedList) {
-        userFeed.clear();
-        userFeed.addAll(userFeedList);
-        userFeedAdapter.notifyDataSetChanged();
-    }
-
     @Override
     public void profilePictureClicked(ImageView profilePicture) {
-        if (getToken().isEmpty()) {
-            ShowPopup();
+        if (isNullOrEmpty(getToken())) {
+            showPopup();
         } else {
-            //TODO: Navigate to user profile view
+            UserProfileActivity.launch(this);
         }
     }
 
-    public void ShowPopup() {
+    public void showPopup() {
         authService = new AuthorizationService(this);
         signUpDialog.setContentView(R.layout.signup_dialogue);
 
@@ -270,9 +248,12 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (authService != null) {
             authService.dispose();
         }
+        userBoardsAdapter = null;
+        userFeedAdapter = null;
+        userZoneAdapter = null;
+        super.onDestroy();
     }
 }

@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,19 +9,20 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.UserFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 
 public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder> {
-    private Context context;
-    private ArrayList<UserFeed> userFeed;
+    private Picasso picasso;
+    private List<FeedEntry> userFeed;
 
-    public UserFeedAdapter(Context context, ArrayList<UserFeed> userFeed) {
-        this.context = context;
-        this.userFeed = userFeed;
+    public UserFeedAdapter(Picasso picasso) {
+        this.picasso = picasso;
+        this.userFeed = new ArrayList<>();
     }
 
     @Override
@@ -32,11 +32,8 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
 
     @Override
     public void onBindViewHolder(UserFeedAdapter.UserFeedViewHolder holder, int position) {
-
         if (userFeed.get(position).getFeedItem() != null) {
-            Picasso.with(context)
-                    .load(userFeed.get(position).getFeedItem().getThumbnail().getImageUrl())
-                    .fit().centerCrop()
+            picasso.load(userFeed.get(position).getFeedItem().getThumbnail().getImageUrl())
                     .placeholder(R.drawable.ic_place_holder)
                     .error(R.drawable.ic_place_holder)
                     .into(holder.tileImageView);
@@ -48,7 +45,13 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
         return userFeed.size();
     }
 
-    class UserFeedViewHolder extends RecyclerView.ViewHolder {
+    public void setUserFeed(List<FeedEntry> userFeed) {
+        this.userFeed.clear();
+        this.userFeed = userFeed;
+        notifyDataSetChanged();
+    }
+
+    static class UserFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.tile_image_view)
         ImageView tileImageView;
 
