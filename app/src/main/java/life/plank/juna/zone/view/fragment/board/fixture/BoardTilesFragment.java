@@ -108,6 +108,15 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         ButterKnife.bind(this, rootView);
 
         ZoneApplication.getApplication().getUiComponent().inject(this);
+
+        if (isNullOrEmpty(boardId)) {
+            noDataTextView.setText(R.string.login_signup_to_view_feed);
+            noDataTextView.setVisibility(View.VISIBLE);
+            boardTilesRecyclerView.setVisibility(View.GONE);
+            arcMenu.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+            return rootView;
+        }
         initRecyclerViews();
         return rootView;
     }
@@ -115,6 +124,9 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (isNullOrEmpty(boardId)) {
+            return;
+        }
         if (isBoardActive) {
             setupBoomMenu(getActivity(), arcMenu, boardId);
         } else {
@@ -126,6 +138,9 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Override
     public void onResume() {
         super.onResume();
+        if (isNullOrEmpty(boardId)) {
+            return;
+        }
         getBoardFeed(false);
     }
 

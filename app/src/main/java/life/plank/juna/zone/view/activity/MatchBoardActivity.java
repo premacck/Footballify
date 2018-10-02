@@ -316,18 +316,19 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             if (matchDetails != null) {
                                 publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails), league.getThumbUrl());
                             }
-                            boardId = board.getId();
-                            isBoardActive = DataUtil.isBoardActive(board);
-                            saveBoardId();
-                            setupViewPagerWithFragments();
-                            prepareFullScreenRecyclerView();
+                            if (board != null) {
+                                boardId = board.getId();
+                                isBoardActive = DataUtil.isBoardActive(board);
+                                saveBoardId();
+                                prepareFullScreenRecyclerView();
 
-                            if (isBoardActive) {
-                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
-                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
-                            } else {
-                                applyInactiveBoardColorFilter();
-                            }
+                                if (isBoardActive) {
+                                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
+                                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+                                } else applyInactiveBoardColorFilter();
+                            } else applyInactiveBoardColorFilter();
+                            
+                            setupViewPagerWithFragments();
                         } else {
                             Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                         }
