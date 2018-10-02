@@ -53,6 +53,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
     public void onBindViewHolder(ZoneViewHolder holder, int position) {
 
         holder.zoneTitle.setText(zones.get(position).name);
+        holder.followerCount.setText(zones.get(position).followerCount.toString());
 
         holder.zoneImageView.setOnClickListener(view -> {
             if (holder.followTick.getVisibility() == View.VISIBLE) {
@@ -98,6 +99,8 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
         LinearLayout followersCount;
         @BindView(R.id.follow_image_view)
         ImageView followTick;
+        @BindView(R.id.followers_count)
+        TextView followerCount;
 
         ZoneViewHolder(View itemView) {
             super(itemView);
