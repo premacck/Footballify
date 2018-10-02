@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.activity;
 
 import android.animation.Animator;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -126,6 +127,8 @@ public class SplashScreenActivity extends AppCompatActivity {
                     public void onNext(Response<User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
+                                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
+                                editor.putString(getString(R.string.pref_profile_pic_url), response.body().getProfilePictureUrl()).apply();
                                 if (response.body().getUserPreferences().isEmpty()) {
                                     startActivity(new Intent(SplashScreenActivity.this, ZoneActivity.class));
                                 } else {

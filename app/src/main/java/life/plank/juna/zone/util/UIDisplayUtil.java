@@ -193,6 +193,7 @@ public class UIDisplayUtil {
         editor.putString(context.getString(R.string.pref_identity_provider), body.getIdentityProvider());
         editor.putString(context.getString(R.string.pref_given_name), body.getGivenName());
         editor.putString(context.getString(R.string.pref_surname), body.getSurname());
+        editor.putString(context.getString(R.string.pref_profile_pic_url), body.getProfilePictureUrl());
         editor.apply();
     }
 
