@@ -70,7 +70,7 @@ import java.util.List;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.CameraActivity;
@@ -616,7 +616,7 @@ public class UIDisplayUtil {
      *
      * @return the appropriate tile size for the feed item tile
      */
-    public static int getSuitableFeedTileSize(List<FootballFeed> boardFeed, int position, int mediaTileWidth, int textTileWidth) {
+    public static int getSuitableFeedTileSize(List<FeedEntry> boardFeed, int position, int mediaTileWidth, int textTileWidth) {
         try {
             FeedItem feedItemPrevious = boardFeed.get(position - 1).getFeedItem();
             FeedItem feedItemBeforePrevious = boardFeed.get(position - 2).getFeedItem();

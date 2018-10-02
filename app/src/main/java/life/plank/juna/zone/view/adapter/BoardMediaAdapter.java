@@ -17,7 +17,7 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
@@ -41,7 +41,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     private final int MEDIA_TILE_WIDTH;
     private final int TEXT_TILE_WIDTH;
 
-    private List<FootballFeed> boardFeed;
+    private List<FeedEntry> boardFeed;
     private OnClickFeedItemListener listener;
     private BoardTilesFragment fragment;
 
@@ -131,7 +131,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     }
 
 
-    public void update(List<FootballFeed> boardFeed) {
+    public void update(List<FeedEntry> boardFeed) {
         if (!this.boardFeed.isEmpty()) {
             this.boardFeed.clear();
         }
@@ -139,19 +139,19 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         notifyDataSetChanged();
     }
 
-    public void updateNew(List<FootballFeed> boardFeed) {
+    public void updateNew(List<FeedEntry> boardFeed) {
         int previousSize = this.boardFeed.size();
         this.boardFeed.addAll(boardFeed);
         notifyItemRangeInserted(previousSize, boardFeed.size());
     }
 
 
-    public void updateNewPost(FootballFeed feedItem) {
+    public void updateNewPost(FeedEntry feedItem) {
         boardFeed.add(0, feedItem);
         notifyItemInserted(0);
     }
 
-    public List<FootballFeed> getBoardFeed() {
+    public List<FeedEntry> getBoardFeed() {
         return boardFeed;
     }
 

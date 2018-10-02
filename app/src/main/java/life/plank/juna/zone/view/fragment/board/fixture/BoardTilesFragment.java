@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
@@ -155,7 +155,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesRecyclerView.setAdapter(adapter);
     }
 
-    public void updateNewPost(FootballFeed feedItem) {
+    public void updateNewPost(FeedEntry feedItem) {
         if (adapter.getBoardFeed().isEmpty()) {
             updateUi(true, 0);
         }
@@ -175,7 +175,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                     progressBar.setVisibility(View.GONE);
                     if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
                 })
-                .subscribe(new Subscriber<Response<List<FootballFeed>>>() {
+                .subscribe(new Subscriber<Response<List<FeedEntry>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getBoardFeed()");
@@ -188,10 +188,10 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                     }
 
                     @Override
-                    public void onNext(Response<List<FootballFeed>> response) {
+                    public void onNext(Response<List<FeedEntry>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                List<FootballFeed> feedItemList = response.body();
+                                List<FeedEntry> feedItemList = response.body();
                                 if (!isNullOrEmpty(feedItemList)) {
                                     updateUi(true, 0);
                                     adapter.update(feedItemList);
@@ -222,7 +222,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemClick(int position) {
-        List<FootballFeed> feedItemList = adapter.getBoardFeed();
+        List<FeedEntry> feedItemList = adapter.getBoardFeed();
         if (!isNullOrEmpty(feedItemList)) {
             PostDetailActivity.launch(getActivity(), gson.toJson(feedItemList), boardId, position);
         }
