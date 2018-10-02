@@ -10,13 +10,18 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.Lineups;
 
 public class LineupPlayer extends FrameLayout {
 
+    @BindView(R.id.lineup_player_pic)
+    CircleImageView lineupPlayerPic;
     @BindView(R.id.lineup_player_number)
     CircularTextView lineupPlayerNumber;
     @BindView(R.id.lineup_player_card)
@@ -76,6 +81,9 @@ public class LineupPlayer extends FrameLayout {
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
                     .setName(formation.getNickname());
+            Picasso.with(getContext())
+                    .load(formation.getImagePath())
+                    .into(lineupPlayerPic);
         }
     }
 
