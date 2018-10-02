@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ public class PrivateBoardInfoFragment extends Fragment {
     @Inject
     @Named("default")
     RestApi restApi;
+    @Inject
+    Picasso picasso;
     @BindView(R.id.description)
     TextView descriptionTextView;
     @BindView(R.id.board_members_recycler_view)
@@ -144,7 +147,7 @@ public class PrivateBoardInfoFragment extends Fragment {
 
     private void initRecyclerView() {
         boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
-        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this, displayName);
+        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this, displayName, picasso);
         boardMembersRecyclerView.setAdapter(boardMembersViewAdapter);
     }
 
@@ -168,7 +171,7 @@ public class PrivateBoardInfoFragment extends Fragment {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 List<User> users = response.body();
-                                if (sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA").equals(displayName)) {
+                                if (sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), getString(R.string.na)).equals(displayName)) {
                                     User inviteUser = new User();
                                     inviteUser.setDisplayName(getString(R.string.invite_string));
                                     users.add(inviteUser);

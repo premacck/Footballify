@@ -127,6 +127,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     public void onNext(Response<User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
+
                                 SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
                                 editor.putString(getString(R.string.pref_profile_pic_url), response.body().getProfilePictureUrl()).apply();
                                 if (response.body().getUserPreferences().isEmpty()) {
@@ -134,6 +135,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 } else {
                                     startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
                                 }
+                                
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:

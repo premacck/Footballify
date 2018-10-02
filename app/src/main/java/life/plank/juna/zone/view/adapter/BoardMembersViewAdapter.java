@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,19 +26,21 @@ import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersViewAdapter.BoardMembersViewHolder> {
 
     public static Bitmap parentViewBitmap = null;
+    private Picasso picasso;
     private List<User> userList;
     private Context context;
     private String boardId;
     private String displayName;
     private PrivateBoardInfoFragment fragment;
 
-    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment, String displayName) {
+    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment, String displayName,
+                                   Picasso picasso) {
         this.context = context;
         this.userList = userList;
         this.boardId = boardId;
         this.fragment = fragment;
         this.displayName = displayName;
-
+        this.picasso = picasso;
     }
 
     @Override
@@ -49,6 +53,9 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
         holder.usernameTextView.setText(userList.get(position).getDisplayName());
         if (userList.get(position).getDisplayName().equals(context.getString(R.string.invite_string))) {
             holder.profileImageView.setBackground(context.getDrawable(R.drawable.new_board_circle));
+        } else {
+            picasso.load(userList.get(position).getProfilePictureUrl())
+                    .into(holder.profileImageView);
         }
 
         holder.profileImageView.setOnClickListener(view -> {
