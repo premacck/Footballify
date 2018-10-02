@@ -55,7 +55,6 @@ import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
-import static life.plank.juna.zone.util.DataUtil.getLeagueBackground;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
@@ -158,7 +157,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(logo);
-        rootLayout.setBackground(getLeagueBackground(league.getDominantColor()));
+        rootLayout.setBackgroundColor(getResources().getColor(league.getDominantColor(), null));
     }
 
     public void updateBackgroundBitmap() {
