@@ -32,7 +32,7 @@ import java.util.Random;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
@@ -466,19 +466,19 @@ public class DataUtil {
         return currentTime >= matchBoard.getStartDate().getTime() && currentTime < matchBoard.getEndDate().getTime();
     }
 
-    public static void pinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToPin) {
-        int index = footballFeedList.indexOf(footballFeedToPin);
+    public static void pinFeedEntry(List<FeedEntry> feedEntryList, FeedEntry feedEntryToPin) {
+        int index = feedEntryList.indexOf(feedEntryToPin);
         if (index >= 0) {
-            footballFeedList.remove(footballFeedToPin);
-            footballFeedList.add(0, footballFeedToPin);
+            feedEntryList.remove(feedEntryToPin);
+            feedEntryList.add(0, feedEntryToPin);
         }
     }
 
-    public static void unpinFeedEntry(List<FootballFeed> footballFeedList, FootballFeed footballFeedToUnpin) {
-        int previousPosition = footballFeedToUnpin.getFeedItem().getPreviousPosition();
+    public static void unpinFeedEntry(List<FeedEntry> feedEntryList, FeedEntry feedEntryToUnpin) {
+        int previousPosition = feedEntryToUnpin.getFeedItem().getPreviousPosition();
         if (previousPosition >= 0) {
-            footballFeedList.remove(footballFeedToUnpin);
-            footballFeedList.add(previousPosition, footballFeedToUnpin);
+            feedEntryList.remove(feedEntryToUnpin);
+            feedEntryList.add(previousPosition, feedEntryToUnpin);
         }
     }
 

@@ -50,7 +50,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FeedItemComment;
 import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
@@ -134,7 +134,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @Named("default")
     RestApi restApi;
 
-    private FootballFeed feedEntry;
+    private FeedEntry feedEntry;
     private String boardId;
     private PostCommentAdapter adapter;
 
@@ -153,7 +153,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FootballFeed.class);
+            feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FeedEntry.class);
             boardId = args.getString(getString(R.string.intent_board_id));
         }
     }

@@ -10,7 +10,7 @@ import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FeedItemComment;
 import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.Lineups;
 import life.plank.juna.zone.data.network.model.MatchDetails;
 import life.plank.juna.zone.data.network.model.MatchStats;
@@ -75,7 +75,7 @@ public interface RestApi {
 
     //working
     @GET("/boards/feedItems")
-    Observable<Response<List<FootballFeed>>> getBoardFeedItems(@Query("id") String boardId, @Header("Authorization") String authHeader);
+    Observable<Response<List<FeedEntry>>> getBoardFeedItems(@Query("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
     @GET("/zones")
@@ -142,7 +142,7 @@ public interface RestApi {
 
     //working
     @GET("/feedEntries")
-    Observable<Response<List<UserFeed>>> getUserFeed(@Header("Authorization") String authHeader);
+    Observable<Response<List<UserFeed>>> getUserFeed(@Header("Authorization") String... authHeader);
 
     //working
     @GET("boards/{id}")

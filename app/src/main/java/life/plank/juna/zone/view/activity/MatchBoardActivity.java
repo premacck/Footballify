@@ -48,7 +48,7 @@ import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
@@ -151,7 +151,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
-        FootballFeed feed = new FootballFeed();
+        FeedEntry feed = new FeedEntry();
         Log.d(TAG, "content_type: " + contentType);
         if (feed.getFeedItem() == null) {
             feed.setFeedItem(new FeedItem());
@@ -316,18 +316,19 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             if (matchDetails != null) {
                                 publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails), league.getThumbUrl());
                             }
-                            boardId = board.getId();
-                            isBoardActive = DataUtil.isBoardActive(board);
-                            saveBoardId();
-                            setupViewPagerWithFragments();
-                            prepareFullScreenRecyclerView();
+                            if (board != null) {
+                                boardId = board.getId();
+                                isBoardActive = DataUtil.isBoardActive(board);
+                                saveBoardId();
+                                prepareFullScreenRecyclerView();
 
-                            if (isBoardActive) {
-                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
-                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
-                            } else {
-                                applyInactiveBoardColorFilter();
-                            }
+                                if (isBoardActive) {
+                                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
+                                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
+                                } else applyInactiveBoardColorFilter();
+                            } else applyInactiveBoardColorFilter();
+                            
+                            setupViewPagerWithFragments();
                         } else {
                             Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                         }
@@ -371,8 +372,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     }
 
     @Override
-    public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
-        boardFeedDetailAdapter.update(footballFeedList);
+    public void updateFullScreenAdapter(List<FeedEntry> feedEntryList) {
+        boardFeedDetailAdapter.update(feedEntryList);
     }
 
     @Override
