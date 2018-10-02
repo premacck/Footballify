@@ -182,8 +182,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             dislikeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getDislikes()));
         }
 
-        if (feedEntry.getFeedItem().getActor() != null) {
-            userNameTextView.setText(feedEntry.getFeedItem().getActor().getDisplayName());
+        if (feedEntry.getFeedItem().getUser() != null) {
+            userNameTextView.setText(feedEntry.getFeedItem().getUser().getDisplayName());
         } else {
             SharedPreferences userPref = Objects.requireNonNull(getActivity()).getSharedPreferences(getActivity().getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(getActivity().getString(R.string.pref_email_address), "NA");
