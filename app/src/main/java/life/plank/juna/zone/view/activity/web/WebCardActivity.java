@@ -28,6 +28,7 @@ public class WebCardActivity extends AppCompatActivity {
         Intent intent = new Intent(from, WebCardActivity.class);
         intent.putExtra(from.getString(R.string.feed_data_base_url), url);
         from.startActivity(intent);
+        from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -42,5 +43,11 @@ public class WebCardActivity extends AppCompatActivity {
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
     }
 }
