@@ -9,6 +9,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -62,6 +63,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     RecyclerView userZoneRecyclerView;
     @BindView(R.id.feed_header)
     ZoneToolBar toolbar;
+    @BindView(R.id.user_boards_recycler_view)
+    RecyclerView userBoardsRecyclerView;
     @BindView(R.id.onboarding_recycler_view)
     RecyclerView onboardingRecyclerView;
     @BindView(R.id.onboarding_bottom_sheet)
@@ -71,6 +74,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     @Named("default")
     RestApi restApi;
     @Inject
+    public
     Gson gson;
     @Inject
     Picasso picasso;
@@ -78,7 +82,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     private Dialog signUpDialog;
     private AuthorizationService authService;
     private BottomSheetBehavior onboardingBottomSheetBehavior;
-    private OnboardingAdapter adapter;
+    private OnboardingAdapter onboardingAdapter;
     private UserFeedAdapter userFeedAdapter;
     private UserZoneAdapter userZoneAdapter;
     private UserBoardsAdapter userBoardsAdapter;
@@ -119,12 +123,12 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initBottomSheetRecyclerView() {
-        adapter = new OnboardingAdapter(this);
-        onboardingRecyclerView.setAdapter(adapter);
+        onboardingAdapter = new OnboardingAdapter(this);
+        onboardingRecyclerView.setAdapter(onboardingAdapter);
     }
 
     public void getLeagues() {
-        adapter.setLeagueList(getStaticLeagues());
+        onboardingAdapter.setLeagueList(getStaticLeagues());
     }
 
     private void setupBottomSheet() {
@@ -143,7 +147,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initRecyclerView() {
-        userFeedAdapter = new UserFeedAdapter(picasso);
+        userFeedAdapter = new UserFeedAdapter(this, picasso);
         userFeedRecyclerView.setAdapter(userFeedAdapter);
     }
 
@@ -153,9 +157,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void initBoardsRecyclerView() {
-        RecyclerView recyclerView = findViewById(R.id.user_boards_recycler_view);
         userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
-        recyclerView.setAdapter(userBoardsAdapter);
+        userBoardsRecyclerView.setAdapter(userBoardsAdapter);
     }
 
     private void setUpUserZoneAdapter(List<UserPreference> userPreferenceList) {
@@ -165,6 +168,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     private void getUserZones() {
+        if (isNullOrEmpty(getToken())) {
+            userZoneRecyclerView.setVisibility(View.GONE);
+            return;
+        }
         restApi.getUser(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -238,6 +245,9 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     public void getUserBoards() {
+        if (isNullOrEmpty(getToken())) {
+            return;
+        }
         restApi.getFollowingBoards(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -260,10 +270,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
                                 if (response.body() != null) {
                                     userBoardsAdapter.setUserBoards(response.body());
                                 } else
-                                    Toast.makeText(UserFeedActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                    userBoardsRecyclerView.setVisibility(View.GONE);
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(UserFeedActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                userBoardsRecyclerView.setVisibility(View.GONE);
                                 break;
                             default:
                                 Toast.makeText(UserFeedActivity.this, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
