@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,37 +9,32 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Zones;
 import life.plank.juna.zone.interfaces.OnClickZoneItemListener;
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
  * Created by plank-dhamini on 18/7/2018.
  */
 public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder> {
+
     private static final String TAG = ZoneAdapter.class.getSimpleName();
     private Context context;
     private ArrayList<Zones> zones;
     private OnClickZoneItemListener onClickZoneItemListener;
+    private Picasso picasso;
 
-    public ZoneAdapter(Context context, ArrayList<Zones> zones, OnClickZoneItemListener onClickZoneItemListener) {
+    public ZoneAdapter(Context context, ArrayList<Zones> zones, OnClickZoneItemListener onClickZoneItemListener, Picasso picasso) {
         this.context = context;
         this.zones = zones;
         this.onClickZoneItemListener = onClickZoneItemListener;
+        this.picasso= picasso;
     }
 
     @Override
@@ -52,9 +46,11 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
     @Override
     public void onBindViewHolder(ZoneViewHolder holder, int position) {
 
-        holder.zoneTitle.setText(zones.get(position).name);
-        holder.followerCount.setText(zones.get(position).followerCount.toString());
-
+        Zones zone = zones.get(position);
+        holder.zoneTitle.setText(zone.name);
+        holder.followerCount.setText(zone.followerCount.toString());
+        picasso.load(zone.getImageUrl())
+                .into(holder.zoneImageView);
         holder.zoneImageView.setOnClickListener(view -> {
             if (holder.followTick.getVisibility() == View.VISIBLE) {
                 holder.followTick.setVisibility(View.INVISIBLE);
@@ -66,7 +62,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 params.width = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 params.height = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 holder.zoneImageView.setLayoutParams(params);
-                onClickZoneItemListener.onItemClick(zones.get(position).id,false);
+                onClickZoneItemListener.onItemClick(zone.id, false);
 
             } else {
                 holder.followTick.setVisibility(View.VISIBLE);
@@ -78,11 +74,10 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 params.width = holder.zoneImageView.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 params.height = holder.zoneImageView.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 holder.zoneImageView.setLayoutParams(params);
-                onClickZoneItemListener.onItemClick(zones.get(position).id,true);
+                onClickZoneItemListener.onItemClick(zone.id, true);
             }
         });
     }
-
 
     @Override
     public int getItemCount() {
