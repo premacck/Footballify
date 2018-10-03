@@ -1,11 +1,12 @@
 package life.plank.juna.zone.data.network.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Data;
 
 @Data
 public class User {
+    public List<UserPreference> userPreferences;
     private String objectId;
     private String displayName;
     private String emailAddress;
@@ -16,5 +17,4 @@ public class User {
     private String givenName;
     private String surname;
     private String id;
-    private ArrayList userPreferences;
 }

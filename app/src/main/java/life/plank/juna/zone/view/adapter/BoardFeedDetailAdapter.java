@@ -34,10 +34,9 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.OnSwipeTouchListener;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
@@ -77,10 +76,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     ImageView blurBackgroundImageView;
     MediaPlayer mediaPlayer = new MediaPlayer();
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
-    private List<FootballFeed> feedsListItem;
+    private List<FeedEntry> feedsListItem;
     private RestApi restApi;
     private BaseBoardActivity activity;
-    private String date;
     private String boardId;
     private boolean isBoardActive;
 
@@ -129,8 +127,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
         boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
         String feedId = feedItem.getId();
-        if (feedItem.getActor() != null) {
-            holder.userNameTextView.setText(feedItem.getActor().getDisplayName());
+        if (feedItem.getUser() != null) {
+            holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
             SharedPreferences userPref = activity.getSharedPreferences(activity.getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");
@@ -279,21 +277,23 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         return feedsListItem.size();
     }
 
-    public void update(List<FootballFeed> footballFeedList) {
-        this.feedsListItem = footballFeedList;
+    public void update(List<FeedEntry> feedEntryList) {
+        this.feedsListItem = feedEntryList;
         notifyDataSetChanged();
     }
 
-    public void updateNewFeed(FootballFeed footballFeed) {
+    public void updateNewFeed(FeedEntry feedEntry) {
         if (isNullOrEmpty(feedsListItem)) {
             feedsListItem = new ArrayList<>();
         }
-        feedsListItem.add(0, footballFeed);
+        feedsListItem.add(0, feedEntry);
         notifyItemInserted(0);
     }
 
+
     private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken(activity))
+        restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -331,10 +331,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     private void retrieveBoardById() {
 
-        restApi.getBoardFeedItems(boardId, getToken(ZoneApplication.getContext()))
+        restApi.getBoardFeedItems(boardId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<List<FootballFeed>>>() {
+                .subscribe(new Subscriber<Response<List<FeedEntry>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: ");
@@ -347,7 +347,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     }
 
                     @Override
-                    public void onNext(Response<List<FootballFeed>> response) {
+                    public void onNext(Response<List<FeedEntry>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 update(response.body());
@@ -364,7 +364,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDeleteLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteLike(feedItemId, getToken(activity))
+        restApi.deleteLike(feedItemId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -397,7 +397,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken(activity))
+        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -432,9 +432,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
-    private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder
-            holder) {
-        restApi.deleteDisLike(feedItemId, getToken(activity))
+
+    private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
+        restApi.deleteDisLike(feedItemId, getToken())
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -468,8 +469,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
-    private void pinItem(FootballFeed footballFeed, int position) {
-        restApi.pinFeedItem(footballFeed.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken(activity))
+    private void pinItem(FeedEntry feedEntry, int position) {
+        restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
@@ -489,11 +490,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                         switch (response.code()) {
                             case HTTP_OK:
                             case HTTP_CREATED:
-                                footballFeed.getFeedItem().setPinned(true);
-                                footballFeed.getFeedItem().setPinId(response.body());
-                                footballFeed.getFeedItem().setPreviousPosition(position);
-                                toggleFeedItemPin(footballFeed.getFeedItem(), true);
-                                pinFeedEntry(feedsListItem, footballFeed);
+                                feedEntry.getFeedItem().setPinned(true);
+                                feedEntry.getFeedItem().setPinId(response.body());
+                                feedEntry.getFeedItem().setPreviousPosition(position);
+                                toggleFeedItemPin(feedEntry.getFeedItem(), true);
+                                pinFeedEntry(feedsListItem, feedEntry);
                                 notifyItemChanged(position);
                                 notifyItemMoved(position, 0);
                                 activity.moveItem(position, 0);
@@ -512,8 +513,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    private void unpinItem(FootballFeed footballFeed, int position) {
-        restApi.unpinFeedItem(boardId, footballFeed.getFeedItem().getPinId(), getToken(activity))
+    private void unpinItem(FeedEntry feedEntry, int position) {
+        restApi.unpinFeedItem(boardId, feedEntry.getFeedItem().getPinId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -533,13 +534,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                         switch (response.code()) {
                             case HTTP_OK:
                             case HTTP_NO_CONTENT:
-                                footballFeed.getFeedItem().setPinned(false);
-                                footballFeed.getFeedItem().setPinId(null);
-                                toggleFeedItemPin(footballFeed.getFeedItem(), false);
-                                unpinFeedEntry(feedsListItem, footballFeed);
+                                feedEntry.getFeedItem().setPinned(false);
+                                feedEntry.getFeedItem().setPinId(null);
+                                toggleFeedItemPin(feedEntry.getFeedItem(), false);
+                                unpinFeedEntry(feedsListItem, feedEntry);
                                 notifyItemChanged(position);
-                                notifyItemMoved(position, footballFeed.getFeedItem().getPreviousPosition());
-                                activity.moveItem(position, footballFeed.getFeedItem().getPreviousPosition());
+                                notifyItemMoved(position, feedEntry.getFeedItem().getPreviousPosition());
+                                activity.moveItem(position, feedEntry.getFeedItem().getPreviousPosition());
                                 break;
                             case HTTP_NOT_FOUND:
                                 Toast.makeText(activity, R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();

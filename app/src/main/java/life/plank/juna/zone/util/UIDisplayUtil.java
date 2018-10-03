@@ -30,6 +30,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -40,7 +41,11 @@ import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -70,11 +75,12 @@ import java.util.List;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.CameraActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
+import life.plank.juna.zone.view.activity.web.WebCardActivity;
 
 import static android.content.Context.MODE_PRIVATE;
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
@@ -193,6 +199,7 @@ public class UIDisplayUtil {
         editor.putString(context.getString(R.string.pref_identity_provider), body.getIdentityProvider());
         editor.putString(context.getString(R.string.pref_given_name), body.getGivenName());
         editor.putString(context.getString(R.string.pref_surname), body.getSurname());
+        editor.putString(context.getString(R.string.pref_profile_pic_url), body.getProfilePictureUrl());
         editor.apply();
     }
 
@@ -616,7 +623,7 @@ public class UIDisplayUtil {
      *
      * @return the appropriate tile size for the feed item tile
      */
-    public static int getSuitableFeedTileSize(List<FootballFeed> boardFeed, int position, int mediaTileWidth, int textTileWidth) {
+    public static int getSuitableFeedTileSize(List<FeedEntry> boardFeed, int position, int mediaTileWidth, int textTileWidth) {
         try {
             FeedItem feedItemPrevious = boardFeed.get(position - 1).getFeedItem();
             FeedItem feedItemBeforePrevious = boardFeed.get(position - 2).getFeedItem();
@@ -659,5 +666,25 @@ public class UIDisplayUtil {
 
     private static class UIDisplayUtilWrapper {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    }
+
+    public static SpannableString getClickableLink(Activity activity, String url) {
+        SpannableString spannableString = new SpannableString(url);
+        spannableString.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(@NonNull View widget) {
+                WebCardActivity.launch(activity, url);
+            }
+
+            @Override
+            public void updateDrawState(@NonNull TextPaint ds) {
+                super.updateDrawState(ds);
+                ds.setUnderlineText(true);
+            }
+        }, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannableString.setSpan(
+                new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.dark_sky_blue, null)),
+                0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 }

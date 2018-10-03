@@ -15,7 +15,6 @@
         android:padding="10dp">
 
         <TextView
-            android:id="@+id/view_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"
@@ -25,7 +24,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/remove_admin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"
@@ -35,7 +33,6 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/transfer_ownership"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/rajdhani_medium"

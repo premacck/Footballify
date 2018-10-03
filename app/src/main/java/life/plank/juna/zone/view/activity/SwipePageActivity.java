@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
@@ -79,6 +81,8 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
     RecyclerView recyclerView;
     @BindView(R.id.options_image)
     ImageView optionsImage;
+    @Inject
+    Picasso picasso;
 
     CoordinatorLayout coordinatorLayout;
     FootballLeagueAdapter adapter;
@@ -174,7 +178,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
 
     private void initBottomSheetRecyclerView() {
         recyclerView.setLayoutManager(new GridLayoutManager(this, 5));
-        searchViewAdapter = new SearchViewAdapter(userList, this, this);
+        searchViewAdapter = new SearchViewAdapter(userList, this, this, picasso);
         recyclerView.setAdapter(searchViewAdapter);
         search.setOnQueryTextListener(this);
 
@@ -199,7 +203,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
 
     private void getSearchedUsers(String displayName) {
 
-        restApi.getSearchedUsers(getToken(this), displayName)
+        restApi.getSearchedUsers(getToken(), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {
@@ -261,8 +265,11 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
                             break;
                         }
                         case 1: {
-                            Intent intent = new Intent(SwipePageActivity.this, UserProfileActivity.class);
-                            startActivity(intent);
+                            if (isNullOrEmpty(getToken())) {
+                                Toast.makeText(SwipePageActivity.this, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show();
+                            } else {
+                                UserProfileActivity.launch(SwipePageActivity.this);
+                            }
                             break;
                         }
                         case 2: {

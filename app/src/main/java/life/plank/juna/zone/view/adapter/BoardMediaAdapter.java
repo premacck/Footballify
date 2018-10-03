@@ -16,8 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
@@ -41,7 +41,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     private final int MEDIA_TILE_WIDTH;
     private final int TEXT_TILE_WIDTH;
 
-    private List<FootballFeed> boardFeed;
+    private List<FeedEntry> boardFeed;
     private OnClickFeedItemListener listener;
     private BoardTilesFragment fragment;
 
@@ -66,6 +66,16 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         FeedItem footballFeed = boardFeed.get(position).getFeedItem();
         footballFeed.setTileWidth(Objects.equals(footballFeed.getContentType(), ROOT_COMMENT) ? TEXT_TILE_WIDTH : MEDIA_TILE_WIDTH);
         setItemWidth(holder.itemView, position, footballFeed);
+
+        //TODO: remove this null check after the backend returns the user profile picture
+        if (footballFeed.getUser() != null) {
+            fragment.picasso
+                    .load(footballFeed.getUser().getProfilePictureUrl())
+                    .placeholder(R.drawable.ic_default_profile)
+                    .error(R.drawable.ic_default_profile)
+                    .into(holder.profilePictureImageView);
+        }
+
         switch (footballFeed.getContentType()) {
             case AUDIO:
                 setVisibility(holder, GONE, VISIBLE, GONE);
@@ -131,7 +141,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     }
 
 
-    public void update(List<FootballFeed> boardFeed) {
+    public void update(List<FeedEntry> boardFeed) {
         if (!this.boardFeed.isEmpty()) {
             this.boardFeed.clear();
         }
@@ -139,19 +149,19 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         notifyDataSetChanged();
     }
 
-    public void updateNew(List<FootballFeed> boardFeed) {
+    public void updateNew(List<FeedEntry> boardFeed) {
         int previousSize = this.boardFeed.size();
         this.boardFeed.addAll(boardFeed);
         notifyItemRangeInserted(previousSize, boardFeed.size());
     }
 
 
-    public void updateNewPost(FootballFeed feedItem) {
+    public void updateNewPost(FeedEntry feedItem) {
         boardFeed.add(0, feedItem);
         notifyItemInserted(0);
     }
 
-    public List<FootballFeed> getBoardFeed() {
+    public List<FeedEntry> getBoardFeed() {
         return boardFeed;
     }
 
@@ -174,6 +184,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         ImageView playBtn;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
+        @BindView(R.id.profile_picture)
+        ImageView profilePictureImageView;
 
         BoardMediaViewHolder(View itemView, OnClickFeedItemListener listener) {
             super(itemView);

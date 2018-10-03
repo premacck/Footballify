@@ -56,7 +56,6 @@
                             android:orientation="vertical">
 
                             <RelativeLayout
-                                android:id="@+id/feed_top_bar"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
@@ -77,6 +76,8 @@
                                     android:layout_marginStart="6dp"
                                     android:layout_marginTop="6dp"
                                     android:layout_marginBottom="6dp"
+                                    app:civ_border_color="@color/grey_10"
+                                    app:civ_border_width="1dp"
                                     android:background="@drawable/circle_background_grey" />
 
                                 <TextView
@@ -154,7 +155,7 @@
 
                             </RelativeLayout>
 
-                            <RelativeLayout
+                            <life.plank.juna.zone.util.customview.ShimmerRelativeLayout
                                 android:id="@+id/feed_content"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -164,6 +165,7 @@
                                     android:id="@+id/feed_image_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:minHeight="200dp"
                                     android:layout_centerInParent="true"
                                     android:contentDescription="@string/thumbnail"
                                     android:scaleType="centerCrop" />
@@ -186,10 +188,9 @@
                                     android:textSize="20sp"
                                     android:visibility="visible" />
 
-                            </RelativeLayout>
+                            </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
 
                             <RelativeLayout
-                                android:id="@+id/like_share_layout"
                                 android:layout_width="match_parent"
                                 android:layout_height="35dp"
                                 android:animateLayoutChanges="true">
@@ -199,11 +200,12 @@
                                     android:layout_width="289dp"
                                     android:layout_height="wrap_content"
                                     android:layout_toStartOf="@+id/like_image_view"
-                                    android:ellipsize="end"
+                                    android:ellipsize="marquee"
                                     android:fontFamily="@font/rajdhani_semibold"
                                     android:lineSpacingExtra="1sp"
-                                    android:maxLines="1"
-                                    android:padding="10dp"
+                                    android:singleLine="true"
+                                    android:paddingTop="10dp"
+                                    android:paddingBottom="10dp"
                                     android:textColor="@color/grey"
                                     android:textSize="14sp" />
 

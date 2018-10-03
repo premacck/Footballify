@@ -9,7 +9,11 @@ public class Zones {
 
     public String name;
     public String category;
+    public String imageUrl;
     public String id;
     public Set<String> zoneIds;
+    public Integer followerCount;
+    public Integer contributionCount;
+    public Integer interactionCount;
 
 }

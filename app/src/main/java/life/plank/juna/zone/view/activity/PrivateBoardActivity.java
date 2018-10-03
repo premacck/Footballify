@@ -43,7 +43,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FootballFeed;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
@@ -104,7 +104,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     }
 
     public static void deletePrivateBoard() {
-        staticRestApi.deleteBoard(boardId, getToken(ZoneApplication.getContext()))
+        staticRestApi.deleteBoard(boardId, getToken())
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(rx.android.schedulers.AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -197,7 +197,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
-        FootballFeed feed = new FootballFeed();
+        FeedEntry feed = new FeedEntry();
         FeedItem feedItem = new FeedItem();
 
         feed.setFeedItem(feedItem);
@@ -229,8 +229,8 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     }
 
     @Override
-    public void updateFullScreenAdapter(List<FootballFeed> footballFeedList) {
-        boardFeedDetailAdapter.update(footballFeedList);
+    public void updateFullScreenAdapter(List<FeedEntry> feedEntryList) {
+        boardFeedDetailAdapter.update(feedEntryList);
     }
 
     @Override

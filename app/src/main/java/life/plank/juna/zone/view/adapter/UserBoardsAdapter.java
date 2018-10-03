@@ -14,10 +14,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +25,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -36,26 +33,23 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder> {
     private static final String TAG = UserBoardsAdapter.class.getSimpleName();
-    @Inject
-    @Named("default")
-    Retrofit retrofit;
-    @Inject
-    Gson gson;
     private List<Board> boardList;
     private Context context;
+    private Gson gson;
     private RestApi restApi;
     private Picasso picasso;
 
-    public UserBoardsAdapter(List<Board> boardList, Context context, Picasso picasso) {
+    public UserBoardsAdapter(Context context, Gson gson, RestApi restApi, Picasso picasso) {
         this.context = context;
-        this.boardList = boardList;
+        this.gson = gson;
+        this.restApi = restApi;
         this.picasso = picasso;
+        this.boardList = new ArrayList<>();
     }
 
     @Override
     public UserBoardsAdapter.UserBoardsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         getApplication().getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
         return new UserBoardsAdapter.UserBoardsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_and_title, parent, false));
     }
 
@@ -72,13 +66,13 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
         return boardList.size();
     }
 
-    public void update(List<Board> users) {
+    public void setUserBoards(List<Board> users) {
         boardList.clear();
         this.boardList.addAll(users);
         notifyDataSetChanged();
     }
 
-    public class UserBoardsViewHolder extends RecyclerView.ViewHolder {
+    static class UserBoardsViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
         CircleImageView boardIcon;
         @BindView(R.id.title)
@@ -91,7 +85,7 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     }
 
     private void navigateToBoard(String boardId) {
-        restApi.getBoardById(boardId, getToken(context))
+        restApi.getBoardById(boardId, getToken())
                 .subscribeOn(rx.schedulers.Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<Board>>() {

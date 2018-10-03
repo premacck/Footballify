@@ -84,5 +84,6 @@
     <string name="purple_color">purple_bg</string>
     <string name="green_color">green_bg</string>
     <string name="orange_color">orange_bg</string>
+    <string name="na">NA</string>
 
 </resources>

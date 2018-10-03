@@ -18,7 +18,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
-import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
@@ -34,16 +33,14 @@ public class RestApiAggregator {
     public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, RestApi footballRestApi, long matchId) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
-                        restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken(getContext())),
+                        restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken()),
                         footballRestApi.getMatchDetails(matchId),
                         ((boardResponse, matchDetailsResponse) -> {
-                            if (boardResponse.code() == HTTP_OK && matchDetailsResponse.code() == HTTP_OK) {
-                                return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
-                            } else {
+                            if (boardResponse.code() != HTTP_OK || matchDetailsResponse.code() != HTTP_OK) {
                                 Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());
                                 Log.e("getBoardAndMatchDetails", "matchDetailsResponse : " + matchDetailsResponse.code() + " : " + matchDetailsResponse.message());
-                                return null;
                             }
+                            return new Pair<>(boardResponse.body(), matchDetailsResponse.body());
                         })));
     }
 

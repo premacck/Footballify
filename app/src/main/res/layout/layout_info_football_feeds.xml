@@ -20,9 +20,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_info_text_view"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="15dp"
         android:drawableStart="@drawable/ic_people"
-        android:drawablePadding="5dp"
+        android:drawablePadding="8dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="3sp"
         android:text="@string/_1_4m"
@@ -34,10 +34,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_info_text_view"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="15dp"
         android:layout_toEndOf="@+id/number_of_people_text_view"
         android:drawableStart="@drawable/ic_card"
-        android:drawablePadding="5dp"
+        android:drawablePadding="8dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="3sp"
         android:text="@string/_3_8m"
@@ -45,28 +45,17 @@
         android:textSize="12sp" />
 
     <TextView
-        android:id="@+id/number_of_likes_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_info_text_view"
         android:layout_marginEnd="10dp"
         android:layout_toEndOf="@+id/number_of_comments_text_view"
         android:drawableStart="@drawable/ic_likes"
-        android:drawablePadding="5dp"
+        android:drawablePadding="8dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="3sp"
         android:text="@string/_16_2m"
         android:textColor="@color/white"
         android:textSize="12sp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/feed_info_text_view"
-        android:gravity="end"
-        android:lineSpacingExtra="5sp"
-        android:text="@string/tap_for_more_info"
-        android:textColor="@color/info_text_color"
-        android:textSize="10sp" />
 </RelativeLayout>

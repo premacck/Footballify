@@ -7,5 +7,5 @@
     android:layout_margin="3dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:civ_border_color="@color/black_76_opaque"
-    app:civ_border_width="2dp"
+    app:civ_border_width="1dp"
     app:civ_border_overlay="true"/>

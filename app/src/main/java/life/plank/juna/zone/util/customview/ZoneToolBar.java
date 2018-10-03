@@ -55,8 +55,8 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
         try {
             setTitle(array.getString(R.styleable.ZoneToolBar_title));
             String coinCount = array.getString(R.styleable.ZoneToolBar_coinCount);
-            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount, false);
-            setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_profile_dummy));
+            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount);
+            setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile));
         } catch (Exception e) {
             Log.e("ZoneToolBar", e.getMessage());
         } finally {
@@ -76,12 +76,8 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
         return coinCountView.getText().toString();
     }
 
-    public void setCoinCount(String coinCount, Boolean isLoggedIn) {
+    public void setCoinCount(String coinCount) {
         coinCountView.setText(coinCount);
-        if (!isLoggedIn)
-            coinCountView.setCompoundDrawablesRelativeWithIntrinsicBounds(0, 0, 0, 0);
-        else
-            coinCountView.setCompoundDrawablesRelativeWithIntrinsicBounds(R.drawable.img_coin, 0, 0, 0);
     }
 
     public void setProfilePic(String url) {

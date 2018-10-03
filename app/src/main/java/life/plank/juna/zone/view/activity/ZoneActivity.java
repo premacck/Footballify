@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
     RecyclerView boardRecyclerView;
     @BindView(R.id.follow_button)
     Button followButton;
+    @Inject
+    Picasso picasso;
     ZoneAdapter zoneAdapter;
     Set<String> zoneIdList = new HashSet<>();
 
@@ -113,7 +116,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
     }
 
     private void followZones(Zones zones) {
-        restApi.followZones(getToken(this), zones)
+        restApi.followZones(getToken(), zones)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -132,6 +135,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 startActivity(new Intent(ZoneActivity.this, UserFeedActivity.class));
+                                finish();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
                             default:
@@ -158,7 +162,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
     }
 
     private void initRecyclerView() {
-        zoneAdapter = new ZoneAdapter(this, zones, this);
+        zoneAdapter = new ZoneAdapter(this, zones, this, picasso);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
         boardRecyclerView.setLayoutManager(gridLayoutManager);
         boardRecyclerView.setAdapter(zoneAdapter);

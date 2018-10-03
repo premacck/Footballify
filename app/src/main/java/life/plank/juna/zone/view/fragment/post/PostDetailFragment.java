@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,9 +49,9 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.FeedItemComment;
 import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
-import life.plank.juna.zone.data.network.model.FootballFeed;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
@@ -68,11 +69,16 @@ import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.NEWS;
 import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.getClickableLink;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -92,6 +98,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @BindView(R.id.post_comments_list)
     RecyclerView postCommentsRecyclerView;
 
+    @BindView(R.id.feed_content)
+    ShimmerRelativeLayout feedContentLayout;
     @BindView(R.id.feed_image_view)
     ImageView feedImageView;
     @BindView(R.id.feed_top_layout)
@@ -134,7 +142,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @Named("default")
     RestApi restApi;
 
-    private FootballFeed feedEntry;
+    private FeedEntry feedEntry;
     private String boardId;
     private PostCommentAdapter adapter;
 
@@ -153,7 +161,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FootballFeed.class);
+            feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FeedEntry.class);
             boardId = args.getString(getString(R.string.intent_board_id));
         }
     }
@@ -175,6 +183,12 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         swipeRefreshLayout.setOnRefreshListener(() -> getCommentsOnFeed(true));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        feedTitleTextView.setSelected(true);
+    }
+
     private void bindFeetContent() {
         MediaPlayer mediaPlayer = new MediaPlayer();
         if (feedEntry.getFeedItem().getInteractions() != null) {
@@ -182,16 +196,22 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             dislikeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getDislikes()));
         }
 
-        if (feedEntry.getFeedItem().getActor() != null) {
-            userNameTextView.setText(feedEntry.getFeedItem().getActor().getDisplayName());
+        if (feedEntry.getFeedItem().getUser() != null) {
+            userNameTextView.setText(feedEntry.getFeedItem().getUser().getDisplayName());
         } else {
             SharedPreferences userPref = Objects.requireNonNull(getActivity()).getSharedPreferences(getActivity().getString(R.string.pref_login_credentails), 0);
             String userEmailId = userPref.getString(getActivity().getString(R.string.pref_email_address), "NA");
             userNameTextView.setText(userEmailId);
         }
         feedTitleTextView.setText(!feedEntry.getFeedItem().getContentType().equals(ROOT_COMMENT) ? feedEntry.getFeedItem().getTitle() : null);
-        feedDescription.setVisibility(feedEntry.getFeedItem().getDescription() == null ? GONE : VISIBLE);
-        feedDescription.setText(feedEntry.getFeedItem().getDescription());
+        if (feedEntry.getFeedItem().getContentType().equals(NEWS)) {
+            feedDescription.setVisibility(VISIBLE);
+            feedDescription.setMovementMethod(LinkMovementMethod.getInstance());
+            feedDescription.setText(getClickableLink(getActivity(), feedEntry.getFeedItem().getUrl()));
+        } else {
+            feedDescription.setVisibility(feedEntry.getFeedItem().getDescription() == null ? GONE : VISIBLE);
+            feedDescription.setText(feedEntry.getFeedItem().getDescription());
+        }
 
         pinImageView.setImageResource(
                 feedEntry.getFeedInteractions() != null ?
@@ -202,49 +222,55 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         );
 
         switch (feedEntry.getFeedItem().getContentType()) {
-            case "Image": {
+            case NEWS:
+            case IMAGE:
                 mediaPlayer.stop();
                 setVisibilities(VISIBLE, GONE, GONE);
                 try {
-                    Target target = new Target() {
-                        @Override
-                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                            int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
-                            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
-                            params.height = width * bitmap.getHeight() / bitmap.getWidth();
-                            feedImageView.setLayoutParams(params);
-                            feedImageView.setImageBitmap(bitmap);
-                        }
-
-                        @Override
-                        public void onBitmapFailed(Drawable errorDrawable) {
-                        }
-
-                        @Override
-                        public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        }
-                    };
-                    Picasso.with(getActivity()).
-                            load(feedEntry.getFeedItem().getUrl())
+                    String urlToLoad = feedEntry.getFeedItem().getContentType().equals(NEWS) ?
+                            feedEntry.getFeedItem().getThumbnail().getImageUrl() :
+                            feedEntry.getFeedItem().getUrl();
+                    picasso.load(urlToLoad)
                             .error(R.drawable.ic_place_holder)
                             .placeholder(R.drawable.ic_place_holder)
-                            .into(target);
+                            .into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
+                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
+                                    params.height = width * bitmap.getHeight() / bitmap.getWidth();
+                                    feedImageView.setLayoutParams(params);
+                                    feedContentLayout.stopShimmerAnimation();
+                                    feedImageView.setImageBitmap(bitmap);
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Drawable errorDrawable) {
+                                    feedContentLayout.stopShimmerAnimation();
+                                    feedImageView.setImageResource(R.drawable.ic_place_holder);
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                    feedContentLayout.startShimmerAnimation();
+                                    feedImageView.setBackgroundColor(getActivity().getResources().getColor(R.color.circle_background_color, null));
+                                }
+                            });
                 } catch (Exception e) {
                     feedImageView.setImageResource(R.drawable.ic_place_holder);
                 }
                 break;
-            }
-            case "Audio": {
+            case AUDIO:
                 mediaPlayer.stop();
                 setVisibilities(VISIBLE, GONE, GONE);
                 feedImageView.setImageResource(R.drawable.ic_audio);
 
-                String uri = feedEntry.getFeedItem().getUrl();
-                Uri videoUri = Uri.parse(uri);
+                String audioUriString = feedEntry.getFeedItem().getUrl();
+                Uri audioUri = Uri.parse(audioUriString);
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
-                    mediaPlayer.setDataSource(getActivity(), videoUri);
+                    mediaPlayer.setDataSource(getActivity(), audioUri);
                     mediaPlayer.prepare();
                 } catch (IOException e) {
                     mediaPlayer.stop();
@@ -262,14 +288,13 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     feedImageView.setImageResource(R.drawable.ic_place_holder);
                 }
                 break;
-            }
-            case "Video": {
+            case VIDEO:
                 mediaPlayer.stop();
                 setVisibilities(GONE, VISIBLE, GONE);
                 MediaController mediaController = new MediaController(getActivity());
                 capturedVideoView.setMediaController(mediaController);
-                String uri = feedEntry.getFeedItem().getUrl();
-                Uri videoUri = Uri.parse(uri);
+                String videoUriString = feedEntry.getFeedItem().getUrl();
+                Uri videoUri = Uri.parse(videoUriString);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
                 mediaController.show(5000);
@@ -277,15 +302,14 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     mediaController.hide();
                 }
                 break;
-            }
-            case "rootComment": {
+            case ROOT_COMMENT:
                 mediaPlayer.stop();
                 setVisibilities(GONE, GONE, VISIBLE);
                 String comment = feedEntry.getFeedItem().getTitle().replaceAll("^\"|\"$", "");
 
                 feedTextView.setBackground(getCommentColor(comment));
                 feedTextView.setText(getCommentText(comment));
-            }
+                break;
         }
     }
 
@@ -301,7 +325,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void likeBoardFeedItem() {
-        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -339,7 +363,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void deleteLikeOfBoardFeedItem() {
-        restApi.deleteLike(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+        restApi.deleteLike(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -375,7 +399,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void dislikeBoardFeedItem() {
-        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, "Boards", getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, "Boards", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -411,7 +435,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void deleteDislikeOfBoardFeedItem() {
-        restApi.deleteDisLike(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+        restApi.deleteDisLike(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -448,7 +472,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void pinItem() {
-        restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
@@ -492,7 +516,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             pinImageView.setImageResource(R.drawable.ic_pin_inactive);
             return;
         }
-        restApi.unpinFeedItem(boardId, feedEntry.getFeedInteractions().getPinId(), getToken(ZoneApplication.getContext()))
+        restApi.unpinFeedItem(boardId, feedEntry.getFeedInteractions().getPinId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -565,7 +589,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void getCommentsOnFeed(boolean isRefreshing) {
-        restApi.getCommentsForFeed(feedEntry.getFeedItem().getId(), getToken(ZoneApplication.getContext()))
+        restApi.getCommentsForFeed(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> {
@@ -628,7 +652,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
         commentEditText.clearFocus();
         hideSoftKeyboard(commentEditText);
-        restApi.postCommentOnFeedItem(commentEditText.getText().toString(), feedEntry.getFeedItem().getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postCommentOnFeedItem(commentEditText.getText().toString(), feedEntry.getFeedItem().getId(), boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<FeedItemComment>>() {
@@ -699,7 +723,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @Override
     public void onPostReplyOnComment(String reply, int position, FeedItemComment comment) {
-        restApi.postReplyOnComment(reply, feedEntry.getFeedItem().getId(), comment.getId(), boardId, getRequestDateStringOfNow(), getToken(ZoneApplication.getContext()))
+        restApi.postReplyOnComment(reply, feedEntry.getFeedItem().getId(), comment.getId(), boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<FeedItemCommentReply>>() {

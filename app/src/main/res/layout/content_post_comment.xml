@@ -49,8 +49,8 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
                         android:orientation="horizontal"
                         android:padding="10dp">
 
@@ -58,8 +58,8 @@
                             android:id="@+id/blue"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
                             android:padding="2dp"
                             android:src="@drawable/ic_blue_gradient" />
 
@@ -67,8 +67,8 @@
                             android:id="@+id/purple"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
                             android:padding="2dp"
                             android:src="@drawable/ic_purple_gradient" />
 
@@ -76,8 +76,8 @@
                             android:id="@+id/green"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
                             android:padding="2dp"
                             android:src="@drawable/ic_green_gradient" />
 
@@ -85,8 +85,8 @@
                             android:id="@+id/orange"
                             android:layout_width="35dp"
                             android:layout_height="35dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
                             android:padding="2dp"
                             android:src="@drawable/ic_orange_gradient" />
 
@@ -111,14 +111,16 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="24dp"
-                    android:src="@drawable/ic_profile_dummy" />
+                    android:src="@drawable/ic_default_profile"
+                    app:civ_border_color="@color/grey_10"
+                    app:civ_border_width="1dp" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/comment_input_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_toEndOf="@+id/profile_image_view"
                     app:hintTextAppearance="@style/post_floating_label_style">
 
@@ -163,10 +165,10 @@
                         android:background="@drawable/grey_background_others"
                         android:fontFamily="@font/rajdhani_medium"
                         android:gravity="center"
-                        android:paddingBottom="2dp"
-                        android:paddingEnd="8dp"
                         android:paddingStart="8dp"
                         android:paddingTop="2dp"
+                        android:paddingEnd="8dp"
+                        android:paddingBottom="2dp"
                         android:text="@string/other"
                         android:textColor="@color/others_color_grey"
                         android:textSize="12sp" />
@@ -175,8 +177,8 @@
                         android:id="@+id/post1"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_marginStart="10dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@+id/post_to_text_view"
                         android:src="@drawable/ic_blackpool_logo" />
 
@@ -184,8 +186,8 @@
                         android:id="@+id/post2"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@+id/post1"
                         android:src="@drawable/ic_blackpool_logo" />
 
@@ -193,16 +195,16 @@
                         android:id="@+id/post3"
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@+id/post2"
                         android:src="@drawable/ic_blackpool_logo" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:layout_width="35dp"
                         android:layout_height="35dp"
-                        android:layout_marginEnd="5dp"
                         android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
                         android:layout_toEndOf="@+id/post3"
                         android:src="@drawable/ic_blackpool_logo" />
 
@@ -214,15 +216,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/post_to_relative_layout"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="25dp"
+                    android:layout_marginBottom="10dp"
                     android:background="@drawable/blue_background_post"
                     android:fontFamily="@font/rajdhani_bold"
                     android:gravity="center"
-                    android:paddingBottom="6dp"
-                    android:paddingEnd="50dp"
                     android:paddingStart="50dp"
                     android:paddingTop="6dp"
+                    android:paddingEnd="50dp"
+                    android:paddingBottom="6dp"
                     android:text="@string/post"
                     android:textColor="@color/text_input_bright_sky_blue"
                     android:textSize="20sp" />

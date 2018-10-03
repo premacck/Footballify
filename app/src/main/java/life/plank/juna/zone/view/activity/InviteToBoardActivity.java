@@ -11,6 +11,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -47,6 +48,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     Retrofit retrofit;
     @BindView(R.id.search_view)
     SearchView search;
+    @Inject
+    Picasso picasso;
     Set<User> userSet = new HashSet<>();
     ArrayList<User> userList = new ArrayList<>();
     @BindView(R.id.blur_background_image_view)
@@ -73,14 +76,14 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         LinearLayoutManager horizontalLayoutManager
                 = new LinearLayoutManager(InviteToBoardActivity.this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(horizontalLayoutManager);
-        adapter = new SearchViewAdapter(userList, this, this);
+        adapter = new SearchViewAdapter(userList, this, this, picasso);
         recyclerView.setAdapter(adapter);
         search.setOnQueryTextListener(this);
     }
 
     private void getSearchedUsers(String displayName) {
 
-        restApi.getSearchedUsers(getToken(this), displayName)
+        restApi.getSearchedUsers(getToken(), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<List<User>>>() {
@@ -119,7 +122,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     }
 
     private void inviteUserToJoinBoard(String boardId, Set<User> user) {
-        restApi.inviteUserToJoinBoard(user, boardId, getToken(this))
+        restApi.inviteUserToJoinBoard(user, boardId, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
