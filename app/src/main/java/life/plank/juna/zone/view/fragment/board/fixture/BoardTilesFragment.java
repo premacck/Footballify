@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -37,6 +38,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
@@ -45,10 +47,10 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_BOARD_TILES_PAGE;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.getSpannedString;
-import static life.plank.juna.zone.util.UIDisplayUtil.setupBoomMenu;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
@@ -62,7 +64,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     RecyclerView boardTilesRecyclerView;
     @BindView(R.id.no_data)
     TextView noDataTextView;
-    @BindView(R.id.board_arc_menu)
+    @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
 
     @Inject
@@ -128,7 +130,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             return;
         }
         if (isBoardActive) {
-            setupBoomMenu(getActivity(), arcMenu, boardId);
+            BoomMenuUtil.setupBoomMenu(BOOM_BOARD_TILES_PAGE, Objects.requireNonNull(getActivity()), boardId, arcMenu);
         } else {
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }

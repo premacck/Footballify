@@ -119,17 +119,6 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="no_match_events_yet">No match events yet</string>
 
-    <array name="boom_menu_titles">
-        <item>Settings</item>
-        <item>Profile</item>
-        <item>Home</item>
-        <item>Gallery</item>
-        <item>Camera</item>
-        <item>Audio</item>
-        <item>Comment</item>
-        <item>Attachment</item>
-        <item>Video</item>
-    </array>
     <string name="lineup_card">Lineup card</string>
     <string name="no_substitutions_yet">No substitutions yet</string>
     <string name="match_status">Kick-off in 2hrs 13 mins</string>

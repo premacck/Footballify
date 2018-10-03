@@ -228,7 +228,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_board);
+        setContentView(R.layout.activity_match_board);
         ButterKnife.bind(this);
         setupSwipeGesture(this, dragArea);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
