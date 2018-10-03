@@ -6,8 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
@@ -48,6 +50,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     Retrofit retrofit;
     @BindView(R.id.search_view)
     SearchView search;
+    @BindView(R.id.title)
+    TextView boardTitle;
     @Inject
     Picasso picasso;
     Set<User> userSet = new HashSet<>();
@@ -68,6 +72,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         initRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
         blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardMembersViewAdapter.parentViewBitmap));
+        boardTitle.setText(getIntent().getStringExtra(getString(R.string.board_title)));
     }
 
     //TODO: Move the card up when the user clicks on the search view
@@ -116,9 +121,16 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                 });
     }
 
-    @OnClick(R.id.invite_user)
-    public void onClickInviteUser() {
-        inviteUserToJoinBoard(getIntent().getStringExtra(getString(R.string.intent_board_id)), userSet);
+    @OnClick({R.id.invite_user, R.id.blur_background_image_view})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.blur_background_image_view:
+                finish();
+                break;
+            case R.id.invite_user:
+                inviteUserToJoinBoard(getIntent().getStringExtra(getString(R.string.intent_board_id)), userSet);
+                break;
+        }
     }
 
     private void inviteUserToJoinBoard(String boardId, Set<User> user) {

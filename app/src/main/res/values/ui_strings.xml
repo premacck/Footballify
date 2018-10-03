@@ -186,4 +186,6 @@
         However, this Board is now expired.\nYou can now only view the events and feeds of this board.
     </string>
     <string name="okay">Okay</string>
+    <string name="invite_people_to">Invite people to</string>
+    <string name="board">board</string>
 </resources>

@@ -31,16 +31,18 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     private Context context;
     private String boardId;
     private String displayName;
+    private String boardName;
     private PrivateBoardInfoFragment fragment;
 
     public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment, String displayName,
-                                   Picasso picasso) {
+                                   Picasso picasso, String boardName) {
         this.context = context;
         this.userList = userList;
         this.boardId = boardId;
         this.fragment = fragment;
         this.displayName = displayName;
         this.picasso = picasso;
+        this.boardName = boardName;
     }
 
     @Override
@@ -64,6 +66,8 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
                 parentViewBitmap = loadBitmap(fragment.getActivity().getWindow().getDecorView(), fragment.getActivity().getWindow().getDecorView(), context);
                 Intent inviteToBoard = new Intent(context, InviteToBoardActivity.class);
                 inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
+                inviteToBoard.putExtra(context.getString(R.string.board_title), context.getString(R.string.invite_people_to) + " " + boardName + " " +
+                        context.getString(R.string.board));
                 inviteToBoard.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(inviteToBoard);
             } else if (!userList.get(position).getDisplayName().equals(displayName)) {
