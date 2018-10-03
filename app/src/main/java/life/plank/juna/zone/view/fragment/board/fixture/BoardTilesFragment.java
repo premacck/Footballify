@@ -46,7 +46,6 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.getSpannedString;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
@@ -209,7 +208,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
         noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
         if (noDataTextView.getText().toString().isEmpty() && message != 0) {
-            noDataTextView.setText(getSpannedString(message));
+            noDataTextView.setText(message);
         }
     }
 

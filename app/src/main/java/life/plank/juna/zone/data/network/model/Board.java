@@ -11,7 +11,7 @@ public class Board {
     private String displayname;
     private String name;
     private String boardType;
-    private Boolean isActive;
+    private boolean isActive;
     private BoardEvent boardEvent;
     private String zone;
     private String description;

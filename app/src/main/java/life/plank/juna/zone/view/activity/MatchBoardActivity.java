@@ -47,8 +47,8 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FeedEntry;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
 import life.plank.juna.zone.data.network.model.LiveTimeStatus;
@@ -58,7 +58,6 @@ import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.DataUtil;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
@@ -315,7 +314,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             }
                             if (board != null) {
                                 boardId = board.getId();
-                                isBoardActive = DataUtil.isBoardActive(board);
+                                isBoardActive = board.isActive();
                                 saveBoardId();
                                 prepareFullScreenRecyclerView();
 

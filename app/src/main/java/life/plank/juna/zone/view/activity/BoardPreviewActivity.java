@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -59,6 +61,8 @@ public class BoardPreviewActivity extends AppCompatActivity {
     RestApi restApi;
     @Inject
     Gson gson;
+    @Inject
+    Picasso picasso;
 
     public static void launch(Context packageContext, String board, String filePath) {
         Intent intent = new Intent(packageContext, BoardPreviewActivity.class);
@@ -87,6 +91,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
         toolbar.setTitle(board.getDisplayname());
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
         description.setText(board.getDescription());
+        toolbar.setLeagueLogo(picasso, Uri.fromFile(new File(filePath)).toString());
 
         toolbar.setupForPreview();
         titleTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);

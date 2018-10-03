@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.fragment.post;
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -28,14 +29,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -250,29 +247,32 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     String urlToLoad = feedEntry.getFeedItem().getContentType().equals(NEWS) ?
                             feedEntry.getFeedItem().getThumbnail().getImageUrl() :
                             feedEntry.getFeedItem().getUrl();
-                    Glide.with(getContext())
-                            .load(urlToLoad)
-                            .listener(new RequestListener<Drawable>() {
+                    picasso.load(urlToLoad)
+                            .error(R.drawable.ic_place_holder)
+                            .placeholder(R.drawable.ic_place_holder)
+                            .into(new Target() {
                                 @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
+                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
+                                    params.height = width * bitmap.getHeight() / bitmap.getWidth();
+                                    feedImageView.setLayoutParams(params);
                                     feedContentLayout.stopShimmerAnimation();
-                                    feedImageView.setImageResource(R.drawable.ic_place_holder);
-                                    return true;
+                                    feedImageView.setImageBitmap(bitmap);
                                 }
 
                                 @Override
-                                public boolean onResourceReady(Drawable resource, Object model, com.bumptech.glide.request.target.Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
-                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
-                                    params.height = width * resource.getIntrinsicHeight() / resource.getIntrinsicWidth();
-                                    feedImageView.setLayoutParams(params);
+                                public void onBitmapFailed(Drawable errorDrawable) {
                                     feedContentLayout.stopShimmerAnimation();
-                                    feedImageView.setImageDrawable(resource);
-                                    return true;
+                                    feedImageView.setImageResource(R.drawable.ic_place_holder);
                                 }
-                            })
-                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
-                            .into(feedImageView);
+
+                                @Override
+                                public void onPrepareLoad(Drawable placeHolderDrawable) {
+                                    feedContentLayout.startShimmerAnimation();
+                                    feedImageView.setBackgroundColor(getActivity().getResources().getColor(R.color.circle_background_color, null));
+                                }
+                            });
                 } catch (Exception e) {
                     feedImageView.setImageResource(R.drawable.ic_place_holder);
                 }
