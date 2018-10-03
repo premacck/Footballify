@@ -47,7 +47,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_BOARD_TILES_PAGE;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.getSpannedString;
@@ -130,7 +130,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             return;
         }
         if (isBoardActive) {
-            BoomMenuUtil.setupBoomMenu(BOOM_BOARD_TILES_PAGE, Objects.requireNonNull(getActivity()), boardId, arcMenu);
+            BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull(getActivity()), boardId, arcMenu);
         } else {
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }

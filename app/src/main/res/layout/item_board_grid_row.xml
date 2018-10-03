@@ -22,13 +22,4 @@
         android:textColor="@color/white"
         android:textSize="16sp" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_pic"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginStart="5dp" />
-
 </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>

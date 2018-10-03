@@ -62,5 +62,5 @@
     <string name="login_signup_to_view_feed">Please login or signup to view the contents of this board</string>
     <string name="login_signup_to_view_profile">Please login or signup to view the your profile</string>
     <string name="please_enter_title">Please enter a title</string>
-
+    <string name="login_signup_to_view_comments">Please login or signup to view and post comments</string>
 </resources>

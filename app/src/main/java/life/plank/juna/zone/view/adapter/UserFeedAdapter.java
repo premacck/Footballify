@@ -17,7 +17,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.FeedItem;
@@ -57,13 +56,6 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
                         .error(R.drawable.ic_place_holder)
                         .into(holder.tileImageView);
             } else holder.tileImageView.setImageResource(R.drawable.ic_place_holder);
-
-            if (feedItem.getUser() != null) {
-                picasso.load(feedItem.getUser().getProfilePictureUrl())
-                        .placeholder(R.drawable.ic_default_profile)
-                        .error(R.drawable.ic_default_profile)
-                        .into(holder.profilePic);
-            } else holder.profilePic.setImageResource(R.drawable.ic_default_profile);
         } else {
             if (!isUpdated) {
                 updateShimmer(holder, R.color.circle_background_color, true);
@@ -99,8 +91,6 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
         ImageView tileImageView;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
-        @BindView(R.id.profile_pic)
-        CircleImageView profilePic;
         @BindView(R.id.root_layout)
         ShimmerRelativeLayout rootLayout;
 

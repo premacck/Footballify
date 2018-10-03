@@ -46,7 +46,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_ZONE_PAGE;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
@@ -114,7 +114,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
 
         initRecyclerView();
         setUpData();
-        BoomMenuUtil.setupBoomMenu(BOOM_ZONE_PAGE, this, null, arcMenu);
+        BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         initBottomSheetRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
 

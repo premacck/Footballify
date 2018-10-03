@@ -42,6 +42,7 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.adapter.FixtureLeagueAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
@@ -52,7 +53,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_LEAGUE_PAGE;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
@@ -146,7 +148,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
 
-        BoomMenuUtil.setupBoomMenu(BOOM_LEAGUE_PAGE, this, null, arcMenu);
+        BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         Intent intent = getIntent();
         if (intent != null) {
             league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);
