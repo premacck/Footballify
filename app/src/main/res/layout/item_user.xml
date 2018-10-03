@@ -15,12 +15,14 @@
 
     <TextView
         android:id="@+id/title"
-        android:layout_width="wrap_content"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/image"
         android:layout_centerHorizontal="true"
+        android:ellipsize="end"
         android:fontFamily="@font/rajdhani_regular"
-        android:lineSpacingExtra="5sp"
+        android:gravity="center_horizontal"
+        android:maxLines="1"
         android:text="Anna Jule"
         android:textColor="@color/grey"
         android:textSize="10sp" />
