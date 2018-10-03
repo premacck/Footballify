@@ -74,8 +74,8 @@
                                     android:layout_height="20dp"
                                     android:layout_centerVertical="true"
                                     android:layout_marginStart="6dp"
-                                    android:layout_marginTop="6dp"
-                                    android:layout_marginBottom="6dp"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
                                     app:civ_border_color="@color/grey_10"
                                     app:civ_border_width="1dp"
                                     android:background="@drawable/circle_background_grey" />
@@ -192,12 +192,12 @@
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="35dp"
+                                android:layout_height="wrap_content"
                                 android:animateLayoutChanges="true">
 
                                 <TextView
                                     android:id="@+id/feed_title_text_view"
-                                    android:layout_width="289dp"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_toStartOf="@+id/like_image_view"
                                     android:ellipsize="marquee"
@@ -213,6 +213,8 @@
                                     android:layout_width="0.4dp"
                                     android:layout_height="match_parent"
                                     android:layout_toStartOf="@+id/like_image_view"
+                                    android:layout_alignTop="@+id/feed_title_text_view"
+                                    android:layout_alignBottom="@+id/feed_title_text_view"
                                     android:background="@color/grey" />
 
                                 <TextView
@@ -242,6 +244,8 @@
                                     android:layout_width="0.4dp"
                                     android:layout_height="match_parent"
                                     android:layout_toStartOf="@+id/dislike_image_view"
+                                    android:layout_alignTop="@+id/feed_title_text_view"
+                                    android:layout_alignBottom="@+id/feed_title_text_view"
                                     android:background="@color/grey" />
 
                                 <TextView
@@ -271,6 +275,8 @@
                                     android:layout_width="0.4dp"
                                     android:layout_height="match_parent"
                                     android:layout_toStartOf="@+id/share_image_view"
+                                    android:layout_alignTop="@+id/feed_title_text_view"
+                                    android:layout_alignBottom="@+id/feed_title_text_view"
                                     android:background="@color/grey" />
 
                                 <ImageView
@@ -361,7 +367,7 @@
                     android:inputType="textMultiLine"
                     android:paddingStart="5dp"
                     android:paddingEnd="5dp"
-                    android:textColor="@color/grey_0_5"
+                    android:textColor="@color/grey"
                     android:textSize="12sp"
                     tools:ignore="Autofill" />
 
