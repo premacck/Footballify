@@ -43,7 +43,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_SETTINGS_PAGE;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
 import static life.plank.juna.zone.util.DataUtil.equalsNullString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
@@ -109,7 +109,7 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         ButterKnife.bind(this);
 
-        BoomMenuUtil.setupBoomMenu(BOOM_SETTINGS_PAGE, this, null, arcMenu);
+        BoomMenuUtil.setupBoomMenu(BOOM_MENU_HOME, this, null, arcMenu);
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         toolbar.setTitle(getString(R.string.settings));

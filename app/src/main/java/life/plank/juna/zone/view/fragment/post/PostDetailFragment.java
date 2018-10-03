@@ -97,6 +97,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.post_comments_list)
     RecyclerView postCommentsRecyclerView;
+    @BindView(R.id.post_comment_layout)
+    RelativeLayout postCommentLayout;
 
     @BindView(R.id.feed_content)
     ShimmerRelativeLayout feedContentLayout;
@@ -589,6 +591,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void getCommentsOnFeed(boolean isRefreshing) {
+        if(isNullOrEmpty(getToken())) {
+            updateCommentsUi(GONE, GONE, VISIBLE, R.string.login_signup_to_view_comments);
+            postCommentLayout.setVisibility(GONE);
+        }
+
         restApi.getCommentsForFeed(feedEntry.getFeedItem().getId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

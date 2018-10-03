@@ -54,7 +54,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_HOME_PAGE;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
@@ -119,14 +119,13 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         String topic = getString(R.string.juna_user_topic) + userObjectId;
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
-        BoomMenuUtil.setupBoomMenu(BOOM_HOME_PAGE, this, null, arcMenu);
         setupBottomSheet();
         initBottomSheetRecyclerView();
         //TODO: Retrieve leagues from backend
         getLeagues();
         getUserZones();
 
-        setUpToolbar();
+        setUpToolbarAndBoomMenu();
         initRecyclerView();
         initZoneRecyclerView();
         initBoardsRecyclerView();
@@ -153,13 +152,15 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         onboardingBottomSheetBehavior.setPeekHeight(0);
     }
 
-    private void setUpToolbar() {
+    private void setUpToolbarAndBoomMenu() {
         if (isNullOrEmpty(getToken())) {
             toolbar.setProfilePic(R.drawable.ic_default_profile);
             toolbar.setCoinCount(getString(R.string.hello_stranger));
+            arcMenu.setVisibility(View.GONE);
         } else {
-            //TODO: set user profile picture and coin count
+            //TODO: set user profile picture and name in coin count
             toolbar.setCoinCount(null);
+            BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, this, null, arcMenu);
         }
     }
 
