@@ -42,7 +42,7 @@ import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserPreference;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
-import life.plank.juna.zone.util.BoomMenuUtils;
+import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
@@ -119,7 +119,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         String topic = getString(R.string.juna_user_topic) + userObjectId;
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
-        BoomMenuUtils.setupBoomMenu(BOOM_HOME_PAGE, this, null, arcMenu);
+        BoomMenuUtil.setupBoomMenu(BOOM_HOME_PAGE, this, null, arcMenu);
         setupBottomSheet();
         initBottomSheetRecyclerView();
         //TODO: Retrieve leagues from backend

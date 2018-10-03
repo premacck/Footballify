@@ -1,4 +1,4 @@
-@file:JvmName("BoomMenuUtils")
+@file:JvmName("BoomMenuUtil")
 
 package life.plank.juna.zone.util
 
