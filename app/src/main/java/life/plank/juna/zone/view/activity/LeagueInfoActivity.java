@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -43,7 +42,8 @@ import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.util.BoomMenuUtil;
-import life.plank.juna.zone.view.adapter.FixtureLeagueAdapter;
+import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
+import life.plank.juna.zone.view.adapter.FixtureAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -63,7 +63,7 @@ import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
-public class LeagueInfoActivity extends AppCompatActivity {
+public class LeagueInfoActivity extends BaseLeagueActivity {
     public static Bitmap matchStatsParentViewBitmap = null;
     String TAG = LeagueInfoActivity.class.getSimpleName();
 
@@ -133,7 +133,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
     private TeamStatsAdapter teamStatsAdapter;
 
     private League league;
-    private FixtureLeagueAdapter fixtureLeagueAdapter;
+    private FixtureAdapter fixtureAdapter;
     public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
     public static void launch(Activity fromActivity, String leagueString) {
@@ -163,10 +163,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         getPlayerStats();
 
         title.setText(league.getName());
-        picasso.load(league.getThumbUrl())
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
-                .into(logo);
+        logo.setImageResource(league.getLeagueLogo());
         rootLayout.setBackgroundColor(getResources().getColor(league.getDominantColor(), null));
     }
 
@@ -175,8 +172,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
     }
 
     private void prepareRecyclerViews() {
-        fixtureLeagueAdapter = new FixtureLeagueAdapter(picasso);
-        fixtureRecyclerView.setAdapter(fixtureLeagueAdapter);
+        fixtureAdapter = new FixtureAdapter(null, this);
+        fixtureRecyclerView.setAdapter(fixtureAdapter);
 
         standingTableAdapter = new StandingTableAdapter(picasso);
         standingRecyclerView.setAdapter(standingTableAdapter);
@@ -364,6 +361,21 @@ public class LeagueInfoActivity extends AppCompatActivity {
                 });
     }
 
+    @Override
+    public Picasso getPicasso() {
+        return picasso;
+    }
+
+    @Override
+    public Gson getGson() {
+        return gson;
+    }
+
+    @Override
+    public League getLeague() {
+        return league;
+    }
+
     private static class UpdateFixtureAdapterTask extends AsyncTask<Void, Void, List<MatchFixture>> {
 
         private WeakReference<LeagueInfoActivity> ref;
@@ -401,7 +413,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
                 for (FixtureByDate fixtureByDate : fixtureByDateList) {
                     for (MatchFixture matchFixture : fixtureByDate.getFixtures()) {
                         try {
-                            if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 1) {
+                            if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
                                 matchFixtures.add(matchFixture);
                             }
                         } catch (Exception e) {
@@ -410,7 +422,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
                     }
                 }
                 Collections.reverse(matchFixtures);
-                return matchFixtures.size() >= 2 ? matchFixtures.subList(0, 2) : matchFixtures;
+                return matchFixtures.size() >= 4 ? matchFixtures.subList(0, 4) : matchFixtures;
             }
             return null;
         }
@@ -419,8 +431,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
         protected void onPostExecute(List<MatchFixture> matchFixtures) {
             if (ref.get() != null) {
                 if (!isNullOrEmpty(matchFixtures)) {
-                    if (ref.get().fixtureLeagueAdapter != null) {
-                        ref.get().fixtureLeagueAdapter.update(matchFixtures);
+                    if (ref.get().fixtureAdapter != null) {
+                        ref.get().fixtureAdapter.update(matchFixtures);
                     }
                     ref.get().fixtureRecyclerView.scrollToPosition(recyclerViewScrollIndex);
                     ref.get().seeAllFixtures.setEnabled(true);
@@ -433,7 +445,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        fixtureLeagueAdapter = null;
+        fixtureAdapter = null;
         standingTableAdapter = null;
         teamStatsAdapter = null;
         playerStatsAdapter = null;

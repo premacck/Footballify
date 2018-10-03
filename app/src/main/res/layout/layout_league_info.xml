@@ -15,7 +15,8 @@
         <android.support.v7.widget.CardView
             android:id="@+id/match_fixture_result"
             android:layout_width="match_parent"
-            android:layout_height="260dp"
+            android:layout_height="wrap_content"
+            android:minHeight="260dp"
             android:layout_marginTop="5dp"
             android:transitionName="match_fixture_result"
             app:cardCornerRadius="@dimen/feed_card_corner_radius"
@@ -23,7 +24,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingStart="2dp"
                 android:paddingEnd="2dp"
@@ -43,9 +44,8 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/fixtures_section_list"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/match_fixture_result_header"
-                    android:layout_marginBottom="18dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_fixture_league" />
@@ -70,9 +70,12 @@
                 <TextView
                     android:id="@+id/see_all_fixtures"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="5dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/fixtures_section_list"
                     android:fontFamily="@font/rajdhani_semibold"
+                    android:layout_alignParentBottom="true"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:foreground="@drawable/ripple_dark_rect_curved_corners"
                     android:gravity="bottom|center_horizontal"
                     android:text="@string/see_all"

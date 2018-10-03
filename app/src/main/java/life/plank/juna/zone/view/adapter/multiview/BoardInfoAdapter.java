@@ -267,6 +267,9 @@ public class BoardInfoAdapter extends RecyclerAdapter {
         if (teamStatsDataManager != null) {
             teamStatsDataManager.setItem(TeamStatsBindingModel.from(matchDetails));
         }
+        if (lineupsDataManager != null) {
+            lineupsDataManager.setItem(LineupsBindingModel.from(matchDetails));
+        }
     }
     //endregion
 
