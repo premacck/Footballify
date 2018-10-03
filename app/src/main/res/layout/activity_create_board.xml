@@ -134,6 +134,7 @@
                     android:id="@+id/board_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:maxLength="25"
                     android:backgroundTint="@color/grey_0_5"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/board_name"
