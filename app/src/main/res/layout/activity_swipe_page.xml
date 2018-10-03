@@ -57,7 +57,7 @@
             android:id="@+id/arc_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            arc:menuChildAnim="false"
+            arc:menuChildAnim="true"
             arc:menuClickAnim="true"
             arc:menuGravity="Bottom_Middle"
             arc:menuImage="@drawable/ic_un"

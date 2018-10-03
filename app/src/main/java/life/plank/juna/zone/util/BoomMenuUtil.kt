@@ -31,7 +31,13 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
         )
         setDuration(200)
         elevation = baseElevation
-        setMinRadius(120)
+        setMinRadius(130)
+        if (page == BOOM_MENU_SETTINGS_AND_HOME) {
+            setArc(240f, 300f)
+        }
+        if (page == BOOM_MENU_HOME) {
+            setArc(270f, 275f)
+        }
     }
     val fabImages: IntArray? = getBoomMenuFabImages(page)
     val backgroundColors: IntArray? = getBoomMenuBackgroundColors(page)
@@ -41,7 +47,7 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
     }
     for (i in fabImages.indices) run {
         val arcMenuChild: View = activity.layoutInflater.inflate(R.layout.layout_floating_action_button, null)
-        val fabRelativeLayout: RelativeLayout = arcMenuChild.findViewById(R.id.fab_relative_layout);
+        val fabRelativeLayout: RelativeLayout = arcMenuChild.findViewById(R.id.fab_relative_layout)
         val childImageView: ImageView = arcMenuChild.findViewById(R.id.fab_image_view)
         fabRelativeLayout.background = ContextCompat.getDrawable(activity, backgroundColors[i])
         childImageView.setImageResource(fabImages[i])
