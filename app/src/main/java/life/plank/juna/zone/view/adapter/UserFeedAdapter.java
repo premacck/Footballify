@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.model.FeedEntry;
@@ -113,8 +114,14 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
         }
 
         @OnClick(R.id.root_layout)
-        public void onFeedClick() {
+        public void onFeedEntryClick() {
             PostDetailActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(ref.get().userFeed), null, getAdapterPosition());
+        }
+
+        @OnLongClick(R.id.root_layout)
+        public boolean onFeedEntryLongClick() {
+            ref.get().activity.setBlurBackgroundAndShowFullScreenTiles(true, getAdapterPosition());
+            return true;
         }
     }
 }

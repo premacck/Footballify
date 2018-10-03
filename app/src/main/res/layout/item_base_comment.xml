@@ -37,7 +37,6 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/profile_name_text_view"
         android:layout_alignTop="@+id/profile_name_text_view"
-        android:paddingTop="1dp"
         android:paddingStart="4dp"
         android:paddingEnd="20dp"
         android:fontFamily="@font/rajdhani_regular"

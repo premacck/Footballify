@@ -99,6 +99,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @BindView(R.id.post_comment_layout)
     RelativeLayout postCommentLayout;
 
+    @BindView(R.id.profile_pic)
+    ImageView profilePic;
     @BindView(R.id.feed_content)
     ShimmerRelativeLayout feedContentLayout;
     @BindView(R.id.feed_image_view)
@@ -211,6 +213,13 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                 dislikeCountTextView.setVisibility(View.VISIBLE);
                 likeSeparator.setVisibility(View.INVISIBLE);
             }
+        }
+
+        if (feedEntry.getFeedItem().getUser() != null) {
+            picasso.load(feedEntry.getFeedItem().getUser().getProfilePictureUrl())
+                    .centerInside()
+                    .resize((int) getDp(20), (int) getDp(20))
+                    .into(profilePic);
         }
 
         if (feedEntry.getFeedItem().getUser() != null) {

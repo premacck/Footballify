@@ -52,7 +52,12 @@ import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.NEWS;
+import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
 import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
@@ -63,6 +68,7 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -125,6 +131,14 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         }
 
+        if (feedItem.getUser() != null) {
+            Picasso.with(activity)
+                    .load(feedItem.getUser().getProfilePictureUrl())
+                    .centerInside()
+                    .resize((int) getDp(20), (int) getDp(20))
+                    .into(holder.profilePic);
+        }
+
         String feedId = feedItem.getId();
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
@@ -133,7 +147,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");
             holder.userNameTextView.setText(userEmailId);
         }
-        holder.feedTitleTextView.setText(feedItem.getDescription());
+        holder.feedTitleTextView.setText(feedItem.getTitle());
         holder.feedTopLayout.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
@@ -148,7 +162,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         );
 
         switch (feedItem.getContentType()) {
-            case "Image": {
+            case NEWS:
+            case IMAGE: {
                 mediaPlayer.stop();
                 holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
                 try {
@@ -162,7 +177,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 }
                 break;
             }
-            case "Audio": {
+            case AUDIO: {
                 mediaPlayer.stop();
                 holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
                 holder.feedImageView.setImageResource(R.drawable.ic_audio);
@@ -191,7 +206,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 }
                 break;
             }
-            case "Video": {
+            case VIDEO: {
                 mediaPlayer.stop();
                 holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE);
                 MediaController mediaController = new MediaController(activity);
@@ -206,7 +221,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 }
                 break;
             }
-            case "rootComment": {
+            case ROOT_COMMENT: {
                 mediaPlayer.stop();
                 holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
                 String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
@@ -555,7 +570,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    public class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
+    static class FootballFeedDetailViewHolder extends RecyclerView.ViewHolder {
+        @BindView(R.id.profile_pic)
+        ImageView profilePic;
         @BindView(R.id.feed_image_view)
         ImageView feedImageView;
         @BindView(R.id.feed_top_layout)

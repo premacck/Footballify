@@ -8,11 +8,14 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -33,6 +36,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -44,6 +48,8 @@ import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
+import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
@@ -58,10 +64,13 @@ import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
-public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarListener {
+public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarListener {
     private static final String TAG = UserFeedActivity.class.getSimpleName();
 
+    @BindView(R.id.coordinator_layout)
+    CoordinatorLayout rootLayout;
     @BindView(R.id.user_feed_recycler_view)
     RecyclerView userFeedRecyclerView;
     @BindView(R.id.user_zone_recycler_view)
@@ -76,6 +85,10 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     RelativeLayout onboardingBottomSheet;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
+    @BindView(R.id.board_blur_background_image_view)
+    ImageView boardBlurBackgroundImageView;
+    @BindView(R.id.board_tiles_list_full)
+    RecyclerView boardTilesFullRecyclerView;
 
     @Inject
     @Named("default")
@@ -85,6 +98,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     Gson gson;
     @Inject
     Picasso picasso;
+    @Inject
+    PagerSnapHelper pagerSnapHelper;
 
     private Dialog signUpDialog;
     private AuthorizationService authService;
@@ -121,6 +136,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
         setupBottomSheet();
         initBottomSheetRecyclerView();
+        prepareFullScreenRecyclerView();
+
         //TODO: Retrieve leagues from backend
         getLeagues();
         getUserZones();
@@ -245,9 +262,11 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
                     public void onNext(Response<List<FeedEntry>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                if (response.body() != null)
-                                    userFeedAdapter.setUserFeed(response.body());
-                                else
+                                List<FeedEntry> feedEntries = response.body();
+                                if (feedEntries != null) {
+                                    userFeedAdapter.setUserFeed(feedEntries);
+                                    updateFullScreenAdapter(feedEntries);
+                                } else
                                     Toast.makeText(UserFeedActivity.this, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -327,6 +346,64 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     }
 
     @Override
+    public void prepareFullScreenRecyclerView() {
+        pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true);
+        boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
+    }
+
+    @Override
+    public void updateFullScreenAdapter(List<FeedEntry> feedEntryList) {
+        boardFeedDetailAdapter.update(feedEntryList);
+    }
+
+    @Override
+    public void moveItem(int position, int previousPosition) {
+    }
+
+    @Override
+    public void setBlurBackgroundAndShowFullScreenTiles(boolean setFlag, int position) {
+        isTileFullScreenActive = setFlag;
+        boardParentViewBitmap = setFlag ? loadBitmap(rootLayout, rootLayout, this) : null;
+        boardBlurBackgroundImageView.setImageBitmap(boardParentViewBitmap);
+
+        Animation.AnimationListener listener = new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                boardTilesFullRecyclerView.setVisibility(View.INVISIBLE);
+                boardBlurBackgroundImageView.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        };
+        Animation recyclerViewAnimation = AnimationUtils.loadAnimation(this, setFlag ? R.anim.zoom_in : R.anim.zoom_out);
+        Animation blurBackgroundAnimation = AnimationUtils.loadAnimation(this, setFlag ? android.R.anim.fade_in : android.R.anim.fade_out);
+        if (!setFlag) {
+            recyclerViewAnimation.setAnimationListener(listener);
+            blurBackgroundAnimation.setAnimationListener(listener);
+        }
+        boardTilesFullRecyclerView.startAnimation(recyclerViewAnimation);
+        boardBlurBackgroundImageView.startAnimation(blurBackgroundAnimation);
+
+        if (setFlag) {
+            boardTilesFullRecyclerView.scrollToPosition(position);
+            boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
+            boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @OnClick(R.id.board_blur_background_image_view)
+    public void dismissFullScreenRecyclerView() {
+        setBlurBackgroundAndShowFullScreenTiles(false, 0);
+    }
+
+    @Override
     protected void onDestroy() {
         if (authService != null) {
             authService.dispose();
@@ -335,5 +412,19 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         userFeedAdapter = null;
         userZoneAdapter = null;
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isTileFullScreenActive) {
+            setBlurBackgroundAndShowFullScreenTiles(false, 0);
+        } else {
+            boardFeedDetailAdapter = null;
+            onboardingAdapter = null;
+            userBoardsAdapter = null;
+            userFeedAdapter = null;
+            userZoneAdapter = null;
+            super.onBackPressed();
+        }
     }
 }

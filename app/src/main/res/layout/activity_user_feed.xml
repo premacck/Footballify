@@ -78,6 +78,25 @@
             app:menuShadowElevation="true"
             app:menuType="large" />
 
+        <ImageView
+            android:id="@+id/board_blur_background_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/blur_background" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/board_tiles_list_full"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="invisible"
+            android:padding="6dp"
+            android:clipToPadding="false"
+            tools:listitem="@layout/football_feed_detail_row"
+            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+
     </RelativeLayout>
 
     <include layout="@layout/onboarding_bottom_sheet" />
