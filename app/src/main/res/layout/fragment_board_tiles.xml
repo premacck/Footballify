@@ -43,7 +43,7 @@
         android:textSize="14sp" />
 
     <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/board_arc_menu"
+        android:id="@+id/arc_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         arc:menuChildAnim="false"
@@ -52,6 +52,6 @@
         arc:menuImage="@drawable/ic_un"
         arc:menuNormalColor="@color/fab_button_pink"
         arc:menuShadowElevation="true"
-        arc:menuType="normal" />
+        arc:menuType="large" />
 
 </RelativeLayout>

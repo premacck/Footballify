@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +32,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
@@ -41,6 +43,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_SETTINGS_PAGE;
 import static life.plank.juna.zone.util.DataUtil.equalsNullString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
@@ -78,6 +81,9 @@ public class UserProfileActivity extends AppCompatActivity {
     ZoneToolBar toolbar;
     @BindView(R.id.logout_button)
     Button logoutButton;
+    @BindView(R.id.arc_menu)
+    ArcMenu arcMenu;
+
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -103,6 +109,7 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
         ButterKnife.bind(this);
 
+        BoomMenuUtil.setupBoomMenu(BOOM_SETTINGS_PAGE, this, null, arcMenu);
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         toolbar.setTitle(getString(R.string.settings));

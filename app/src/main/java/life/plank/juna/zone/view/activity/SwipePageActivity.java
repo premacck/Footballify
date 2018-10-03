@@ -1,13 +1,11 @@
 package life.plank.juna.zone.view.activity;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,6 +36,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
+import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.adapter.FootballLeagueAdapter;
@@ -47,12 +46,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.AUDIO;
-import static life.plank.juna.zone.util.AppConstants.GALLERY;
-import static life.plank.juna.zone.util.AppConstants.IMAGE;
-import static life.plank.juna.zone.util.AppConstants.VIDEO;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_ZONE_PAGE;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
@@ -119,7 +114,7 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
 
         initRecyclerView();
         setUpData();
-        setUpBoomMenu();
+        BoomMenuUtil.setupBoomMenu(BOOM_ZONE_PAGE, this, null, arcMenu);
         initBottomSheetRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
 
@@ -234,83 +229,6 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
                         }
                     }
                 });
-    }
-
-    public void setUpBoomMenu() {
-        //todo: will be add in Utils so we can Reuse the Code
-        arcMenu.setIcon(R.drawable.ic_un, R.drawable.ic_close_white);
-        int[] fabImages = {R.drawable.ic_settings_white,
-                R.drawable.ic_person, R.drawable.ic_home_purple, R.drawable.ic_gallery,
-                R.drawable.ic_camera_white, R.drawable.ic_mic, R.drawable.ic_link, R.drawable.ic_video};
-        int[] backgroundColors = {R.drawable.fab_circle_background_grey,
-                R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white, R.drawable.fab_circle_background_pink,
-                R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink, R.drawable.fab_circle_background_pink};
-        String[] titles = {"Settings", "Profile", "Home", "Gallery", "Camera", "Audio", "Attachment", "Video"};
-        for (int i = 0; i < fabImages.length; i++) {
-            View child = getLayoutInflater().inflate(R.layout.layout_floating_action_button, null);
-            //child.setId(i);
-            RelativeLayout fabRelativeLayout = child.findViewById(R.id.fab_relative_layout);
-            ImageView fabImageVIew = child.findViewById(R.id.fab_image_view);
-            fabRelativeLayout.setBackground(ContextCompat.getDrawable(this, backgroundColors[i]));
-            fabImageVIew.setImageResource(fabImages[i]);
-            final int position = i;
-            arcMenu.addItem(child, titles[i], new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch (position) {
-                        case 0: {
-                            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                            search.setQueryHint(getString(R.string.search_query_hint));
-
-                            break;
-                        }
-                        case 1: {
-                            if (isNullOrEmpty(getToken())) {
-                                Toast.makeText(SwipePageActivity.this, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show();
-                            } else {
-                                UserProfileActivity.launch(SwipePageActivity.this);
-                            }
-                            break;
-                        }
-                        case 2: {
-
-                            break;
-                        }
-                        case 3: {
-                            Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), GALLERY);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 4: {
-                            Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), IMAGE);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 5: {
-                            Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), AUDIO);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                        case 6: {
-
-                        }
-                        case 7: {
-                            Intent intent = new Intent(SwipePageActivity.this, CameraActivity.class);
-                            intent.putExtra(getString(R.string.intent_open_from), VIDEO);
-                            intent.putExtra(getString(R.string.intent_api), getString(R.string.intent_swipe_page_activity));
-                            startActivity(intent);
-                            break;
-                        }
-                    }
-                }
-            });
-        }
     }
 
     @Override

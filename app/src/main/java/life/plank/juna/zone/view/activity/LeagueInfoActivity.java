@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +42,7 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.adapter.FixtureLeagueAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
@@ -50,6 +52,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_LEAGUE_PAGE;
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
@@ -111,6 +114,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
     CardView teamStatsLayout;
     @BindView(R.id.player_stats_layout)
     CardView playerStatsLayout;
+    @BindView(R.id.arc_menu)
+    ArcMenu arcMenu;
 
     @Inject
     @Named("footballData")
@@ -141,6 +146,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
 
+        BoomMenuUtil.setupBoomMenu(BOOM_LEAGUE_PAGE, this, null, arcMenu);
         Intent intent = getIntent();
         if (intent != null) {
             league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);

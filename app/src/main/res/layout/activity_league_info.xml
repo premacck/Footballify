@@ -45,7 +45,7 @@
     </android.support.v7.widget.CardView>
 
     <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/board_arc_menu"
+        android:id="@+id/arc_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:elevation="8dp"
