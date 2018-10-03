@@ -79,7 +79,8 @@ public class RestApiAggregator {
                 Observable.zip(
                         restApi.getMatchStandingsForMatch(matchDetails.getMatchId()),
                         restApi.getTeamStatsForMatch(matchDetails.getMatchId()),
-                        (((standingsResponse, teamStatsResponse) -> {
+                        restApi.getLineUpsData(matchDetails.getMatchId()),
+                        (((standingsResponse, teamStatsResponse, lineupsResponse) -> {
                             if (standingsResponse.code() == HTTP_OK) {
                                 matchDetails.setStandingsList(standingsResponse.body());
                             } else {
@@ -89,6 +90,11 @@ public class RestApiAggregator {
                                 matchDetails.setTeamStatsList(teamStatsResponse.body());
                             } else {
                                 Log.e("getPreMatchBoardData", "teamStatsResponse : " + teamStatsResponse.code() + " : " + teamStatsResponse.message());
+                            }
+                            if (lineupsResponse.code() == HTTP_OK) {
+                                matchDetails.setLineups(lineupsResponse.body());
+                            } else {
+                                Log.e("getPreMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
                             }
                             return matchDetails;
                         }))));

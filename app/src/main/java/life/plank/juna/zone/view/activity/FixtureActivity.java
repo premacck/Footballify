@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,6 +25,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.network.model.League;
+import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
 
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
@@ -36,7 +36,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.LeagueInfoActivity.fixtureByMatchDayList;
 import static life.plank.juna.zone.view.activity.LeagueInfoActivity.matchStatsParentViewBitmap;
 
-public class FixtureActivity extends AppCompatActivity {
+public class FixtureActivity extends BaseLeagueActivity {
 
     @BindView(R.id.root_layout)
     FrameLayout rootLayout;
@@ -147,6 +147,17 @@ public class FixtureActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public Picasso getPicasso() {
+        return picasso;
+    }
+
+    @Override
+    public Gson getGson() {
+        return gson;
+    }
+
+    @Override
     public League getLeague() {
         return league;
     }
