@@ -432,7 +432,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                 case 0:
                     return BoardInfoFragment.newInstance(ref.get().gson.toJson(ref.get().matchDetails));
                 case 1:
-                    return BoardTilesFragment.newInstance(ref.get().boardId, ref.get().isBoardActive);
+                    return BoardTilesFragment.newInstance(ref.get().boardId, true);
                 default:
                     return null;
             }
