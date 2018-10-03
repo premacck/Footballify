@@ -102,7 +102,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 sendNotification(boardNotification);
             }
         }
-
     }
 
     public void sendNotification(BoardNotification boardNotification) {

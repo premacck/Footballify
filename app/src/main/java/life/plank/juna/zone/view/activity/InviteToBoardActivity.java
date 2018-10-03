@@ -3,7 +3,7 @@ package life.plank.juna.zone.view.activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -78,9 +78,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     //TODO: Move the card up when the user clicks on the search view
     private void initRecyclerView() {
         RecyclerView recyclerView = findViewById(R.id.search_result_recycler_view);
-        LinearLayoutManager horizontalLayoutManager
-                = new LinearLayoutManager(InviteToBoardActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(horizontalLayoutManager);
+        recyclerView.setLayoutManager(new GridLayoutManager(InviteToBoardActivity.this, 5));
         adapter = new SearchViewAdapter(userList, this, this, picasso);
         recyclerView.setAdapter(adapter);
         search.setOnQueryTextListener(this);

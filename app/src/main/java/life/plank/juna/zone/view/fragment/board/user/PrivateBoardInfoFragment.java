@@ -150,7 +150,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
+        boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 5));
         boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this, displayName, picasso, boardName);
         boardMembersRecyclerView.setAdapter(boardMembersViewAdapter);
     }
