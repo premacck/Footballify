@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="boom_menu_titles_full">
+        <item>Settings</item>
+        <item>Home</item>
+        <item>Gallery</item>
+        <item>Camera</item>
+        <item>Video</item>
+        <item>Text</item>
+        <item>Audio</item>
+        <item>Attachment</item>
+    </array>
+    <array name="boom_menu_titles_home_settings">
+        <item>Settings</item>
+        <item>Home</item>
+    </array>
+    <array name="boom_menu_titles_home">
+        <item>Home</item>
+    </array>
+</resources>
