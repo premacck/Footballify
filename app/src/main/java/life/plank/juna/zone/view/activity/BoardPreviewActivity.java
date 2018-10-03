@@ -97,6 +97,8 @@ public class BoardPreviewActivity extends AppCompatActivity {
     @OnClick({R.id.create_board_button})
     public void createBoard() {
 
+        createBoard.setEnabled(false);
+
         File fileToUpload = new File(filePath);
         RequestBody requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload);
         MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
@@ -118,6 +120,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        createBoard.setEnabled(true);
                         Log.e(TAG, e.getMessage());
                         Toast.makeText(getApplicationContext(), R.string.could_not_create_board, Toast.LENGTH_LONG).show();
                     }

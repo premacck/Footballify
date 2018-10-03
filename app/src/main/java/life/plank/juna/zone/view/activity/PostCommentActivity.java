@@ -68,7 +68,6 @@ public class PostCommentActivity extends AppCompatActivity {
     ImageView greenBg;
     @BindView(R.id.orange)
     ImageView orangeBg;
-
     @BindView(R.id.card_relative_layout)
     RelativeLayout cardRelativeLayout;
     String commentBg = "blue_bg";
@@ -77,7 +76,6 @@ public class PostCommentActivity extends AppCompatActivity {
     private String userId;
     private String date;
     Drawable highlight;
-
 
     public static void launch(Activity packageContext, String boardId) {
         Intent intent = new Intent(packageContext, PostCommentActivity.class);
@@ -95,14 +93,15 @@ public class PostCommentActivity extends AppCompatActivity {
         commentReflectOnPostSurface();
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString(getString(R.string.pref_object_id), "NA");
+        userId = preference.getString(getString(R.string.pref_object_id), getString(R.string.na));
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         highlight = getResources().getDrawable(R.drawable.highlight);
+
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
             picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
                     .error(R.drawable.ic_default_profile)
-                    .placeholder(R.drawable.ic_profile_dummy)
+                    .placeholder(R.drawable.ic_default_profile)
                     .into(profilePicture);
         }
     }
@@ -113,7 +112,6 @@ public class PostCommentActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.please_enter_comment, Toast.LENGTH_LONG).show();
         } else {
             postCommentOnBoardFeed(commentBg + "$" + commentEditText.getText().toString(), boardId, AppConstants.ROOT_COMMENT, userId, date);
-            finish();
         }
     }
 
@@ -204,6 +202,7 @@ public class PostCommentActivity extends AppCompatActivity {
                         switch (jsonObjectResponse.code()) {
                             case HttpURLConnection.HTTP_CREATED:
                                 Toast.makeText(PostCommentActivity.this, R.string.comment_posted_successfully, Toast.LENGTH_SHORT).show();
+                                finish();
                                 break;
                             case HttpURLConnection.HTTP_BAD_REQUEST:
                                 Toast.makeText(PostCommentActivity.this, R.string.enter_text_to_be_posted, Toast.LENGTH_SHORT).show();
