@@ -200,7 +200,7 @@ public class PostCommentActivity extends AppCompatActivity {
                     public void onNext(Response<JsonObject> jsonObjectResponse) {
 
                         switch (jsonObjectResponse.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
+                            case HttpURLConnection.HTTP_OK:
                                 Toast.makeText(PostCommentActivity.this, R.string.comment_posted_successfully, Toast.LENGTH_SHORT).show();
                                 finish();
                                 break;
