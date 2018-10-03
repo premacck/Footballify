@@ -3,9 +3,6 @@ package life.plank.juna.zone.view.adapter.multiview.binder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
@@ -24,8 +21,6 @@ import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
 import lombok.Data;
 
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-
 public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingModel, ScrubberBinder.ScrubberViewHolder> {
 
     private BoardInfoAdapter.BoardInfoAdapterListener listener;
@@ -41,7 +36,6 @@ public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingMod
 
     @Override
     public void bind(ScrubberViewHolder holder, ScrubberBindingModel item) {
-        holder.progressBar.setVisibility(View.GONE);
         ScrubberLoader.prepare(holder.scrubber, false);
     }
 
@@ -52,15 +46,10 @@ public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingMod
 
     static class ScrubberViewHolder extends ItemViewHolder<ScrubberBindingModel> {
 
-        @BindView(R.id.progress_bar)
-        ProgressBar progressBar;
         @BindView(R.id.scrubber)
         LineChart scrubber;
-        @BindView(R.id.scrubber_expand_collapse)
-        ImageButton scrubberExpandCollapse;
 
         private final WeakReference<ScrubberBinder> ref;
-        private boolean isExpanded;
 
         ScrubberViewHolder(View itemView, ScrubberBinder scrubberBinder) {
             super(itemView);
@@ -72,19 +61,6 @@ public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingMod
         public void onScrubberClick() {
             ref.get().listener.onScrubberClick(scrubber);
         }
-
-        @OnClick(R.id.scrubber_expand_collapse)
-        public void onScrubberExpandCollapseClick() {
-            isExpanded = !isExpanded;
-            scrubberExpandCollapse.setImageResource(isExpanded ?
-                    R.drawable.ic_collapse :
-                    R.drawable.ic_expand
-            );
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) scrubber.getLayoutParams();
-            params.height = (int) getDp(isExpanded ? 250 : 70);
-            scrubber.setLayoutParams(params);
-        }
-
     }
 
     @Data

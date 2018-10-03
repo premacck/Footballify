@@ -61,7 +61,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -198,6 +197,22 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             dislikeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getDislikes()));
         }
 
+        if (feedEntry.getFeedInteractions() != null) {
+            if (feedEntry.getFeedInteractions().isHasLiked()) {
+                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
+                likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                dislikeImageView.setVisibility(View.INVISIBLE);
+                likeCountTextView.setVisibility(View.VISIBLE);
+                likeSeparator.setVisibility(View.INVISIBLE);
+            } else if (feedEntry.getFeedInteractions().isHasDisliked()) {
+                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
+                dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                likeImageView.setVisibility(View.INVISIBLE);
+                dislikeCountTextView.setVisibility(View.VISIBLE);
+                likeSeparator.setVisibility(View.INVISIBLE);
+            }
+        }
+
         if (feedEntry.getFeedItem().getUser() != null) {
             userNameTextView.setText(feedEntry.getFeedItem().getUser().getDisplayName());
         } else {
@@ -272,7 +287,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
-                    mediaPlayer.setDataSource(getActivity(), audioUri);
+                    mediaPlayer.setDataSource(ZoneApplication.getContext(), audioUri);
                     mediaPlayer.prepare();
                 } catch (IOException e) {
                     mediaPlayer.stop();
@@ -316,16 +331,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     //region ClickThrough (Like, dislike, etc.)
-    private void updateClickThroughUi(boolean isLikeAction, boolean hasLiked, boolean hasDisliked) {
-        likeImageView.setVisibility(isLikeAction ? VISIBLE : GONE);
-        likeCountTextView.setVisibility(isLikeAction && hasLiked ? VISIBLE : INVISIBLE);
-        dislikeImageView.setVisibility(isLikeAction ? GONE : VISIBLE);
-        dislikeCountTextView.setVisibility(!isLikeAction && hasDisliked ? VISIBLE : INVISIBLE);
-        likeSeparator.setVisibility((isLikeAction && !hasLiked) || (!isLikeAction && !hasDisliked) ? VISIBLE : GONE);
-        likeImageView.setImageTintList(hasLiked && !hasDisliked ? ColorStateList.valueOf(ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green)) : null);
-        dislikeImageView.setImageTintList(hasDisliked && !hasLiked ? ColorStateList.valueOf(ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon)) : null);
-    }
-
     private void likeBoardFeedItem() {
         restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
@@ -346,7 +351,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                updateClickThroughUi(true, true, false);
+                                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
+                                likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                                dislikeImageView.setVisibility(View.INVISIBLE);
+                                likeCountTextView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.INVISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
                                 }
@@ -384,7 +393,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                updateClickThroughUi(true, false, false);
+                                likeImageView.setImageTintList(null);
+                                likeCountTextView.setVisibility(View.INVISIBLE);
+                                dislikeImageView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.VISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
                                 }
@@ -420,7 +432,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                updateClickThroughUi(false, false, true);
+                                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
+                                dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                                likeImageView.setVisibility(View.INVISIBLE);
+                                dislikeCountTextView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.INVISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
                                 }
@@ -456,7 +472,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                updateClickThroughUi(false, false, false);
+                                dislikeImageView.setImageTintList(null);
+                                dislikeCountTextView.setVisibility(View.INVISIBLE);
+                                likeImageView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.VISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
                                 }

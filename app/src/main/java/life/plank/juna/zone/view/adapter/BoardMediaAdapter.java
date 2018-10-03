@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,30 +24,21 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
-import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
-import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
-import static life.plank.juna.zone.util.UIDisplayUtil.getSuitableFeedTileSize;
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
 
-    private final int MEDIA_TILE_WIDTH;
-    private final int TEXT_TILE_WIDTH;
 
     private List<FeedEntry> boardFeed;
     private OnClickFeedItemListener listener;
     private BoardTilesFragment fragment;
 
     public BoardMediaAdapter(BoardTilesFragment fragment) {
-        int screenWidth = (int) (getScreenSize(Objects.requireNonNull(fragment.getActivity()).getWindowManager().getDefaultDisplay())[0] - getDp(8));
-        MEDIA_TILE_WIDTH = (int) ((screenWidth / 3) - getDp(2));
-        TEXT_TILE_WIDTH = (int) (((screenWidth * 2) / 3) - getDp(1));
         this.fragment = fragment;
         this.boardFeed = new ArrayList<>();
     }
@@ -64,8 +54,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
         FeedItem footballFeed = boardFeed.get(position).getFeedItem();
-        footballFeed.setTileWidth(Objects.equals(footballFeed.getContentType(), ROOT_COMMENT) ? TEXT_TILE_WIDTH : MEDIA_TILE_WIDTH);
-        setItemWidth(holder.itemView, position, footballFeed);
 
         //TODO: remove this null check after the backend returns the user profile picture
         if (footballFeed.getUser() != null) {
@@ -110,28 +98,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
                 break;
         }
-    }
-
-    private void setItemWidth(View itemView, int position, FeedItem footballFeed) {
-        ViewGroup.LayoutParams params = itemView.getLayoutParams();
-        if (Objects.equals(footballFeed.getContentType(), ROOT_COMMENT)) {
-            switch (position) {
-                case 0:
-                    footballFeed.setTileWidth(TEXT_TILE_WIDTH);
-                    break;
-                case 1:
-                case 2:
-                    footballFeed.setTileWidth(MEDIA_TILE_WIDTH);
-                    break;
-                default:
-                    footballFeed.setTileWidth(getSuitableFeedTileSize(boardFeed, position, MEDIA_TILE_WIDTH, TEXT_TILE_WIDTH));
-                    break;
-            }
-        } else {
-            footballFeed.setTileWidth(MEDIA_TILE_WIDTH);
-        }
-        params.width = footballFeed.getTileWidth();
-        itemView.setLayoutParams(params);
     }
 
     private void setVisibility(BoardMediaViewHolder holder, int commentTextViewVisibility, int tileImageViewVisibility, int playBtnVisibility) {

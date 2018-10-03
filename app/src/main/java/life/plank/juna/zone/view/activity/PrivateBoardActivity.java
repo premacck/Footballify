@@ -313,7 +313,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
                 case 0:
                     return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName(), board.getName());
                 case 1:
-                    return BoardTilesFragment.newInstance(board.getId(), board.getIsActive());
+                    return BoardTilesFragment.newInstance(board.getId(), true);
                 default:
                     return null;
             }

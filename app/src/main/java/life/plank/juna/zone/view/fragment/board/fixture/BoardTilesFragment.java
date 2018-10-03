@@ -17,10 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
-import com.google.android.flexbox.FlexDirection;
-import com.google.android.flexbox.FlexWrap;
-import com.google.android.flexbox.FlexboxLayoutManager;
-import com.google.android.flexbox.JustifyContent;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +46,6 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.getSpannedString;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
@@ -147,11 +142,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     private void initRecyclerViews() {
-        FlexboxLayoutManager manager = new FlexboxLayoutManager(getContext());
-        manager.setFlexDirection(FlexDirection.ROW);
-        manager.setFlexWrap(FlexWrap.WRAP);
-        manager.setJustifyContent(JustifyContent.FLEX_START);
-        boardTilesRecyclerView.setLayoutManager(manager);
         adapter = new BoardMediaAdapter(this);
         adapter.setOnClickFeedItemListener(this);
         boardTilesRecyclerView.setAdapter(adapter);
@@ -218,7 +208,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         boardTilesRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.GONE);
         noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
         if (noDataTextView.getText().toString().isEmpty() && message != 0) {
-            noDataTextView.setText(getSpannedString(message));
+            noDataTextView.setText(message);
         }
     }
 

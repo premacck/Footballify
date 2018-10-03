@@ -16,24 +16,25 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.EngagementInfoTilesToolbar;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
 public class GenericToolbar extends FrameLayout implements CustomViewListener, EngagementInfoTilesToolbar {
 
     @BindView(R.id.logo)
-    ImageView logoImageView;
+    CircleImageView logoImageView;
     @BindView(R.id.title)
     TextView titleTextView;
     @BindView(R.id.share_btn)
@@ -150,7 +151,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     @Override
     public void setLeagueLogo(Picasso picasso, String logoUrl) {
         picasso.load(logoUrl)
-                .fit().centerCrop()
+                .centerInside()
+                .resize((int) getDp(30), (int) getDp(30))
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(logoImageView);
