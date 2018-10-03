@@ -1,7 +1,7 @@
 //TODO: Inject version from external file
 //TODO: Move custom scripts to a new build.gradle file
 buildscript {
-    ext.kotlin_version = '1.2.61'
+    ext.kotlin_version = '1.2.71'
     repositories {
         mavenCentral()
         maven { url "${nexusUrl}/repository/public" }

@@ -12,37 +12,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <life.plank.juna.zone.util.customview.ZoneToolBar
-            android:id="@+id/feed_header"
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_boards_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/feed_header"
-            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-            tools:listitem="@layout/item_image_and_title" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_zone_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_boards_recycler_view"
-            android:layout_margin="5dp"
-            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-            tools:listitem="@layout/item_zone_user_feed" />
+                <life.plank.juna.zone.util.customview.ZoneToolBar
+                    android:id="@+id/feed_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/user_feed_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/user_zone_recycler_view"
-            android:layout_margin="5dp"
-            app:layoutManager="android.support.v7.widget.GridLayoutManager"
-            app:spanCount="3"
-            tools:listitem="@layout/item_board_grid_row" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/user_boards_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/feed_header"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                    tools:listitem="@layout/item_image_and_title" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/user_zone_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_boards_recycler_view"
+                    android:layout_margin="5dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                    tools:listitem="@layout/item_zone_user_feed" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/user_feed_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_zone_recycler_view"
+                    android:layout_margin="5dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    app:spanCount="3"
+                    tools:listitem="@layout/item_board_grid_row" />
+
+            </RelativeLayout>
+
+        </android.support.v4.widget.NestedScrollView>
 
         <ProgressBar
             android:id="@+id/progress_bar"
@@ -50,6 +65,18 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="gone" />
+
+        <com.bvapp.arcmenulibrary.ArcMenu
+            android:id="@+id/arc_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:menuChildAnim="false"
+            app:menuClickAnim="true"
+            app:menuGravity="Bottom_Middle"
+            app:menuImage="@drawable/ic_un"
+            app:menuNormalColor="@color/fab_button_pink"
+            app:menuShadowElevation="true"
+            app:menuType="large" />
 
     </RelativeLayout>
 

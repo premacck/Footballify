@@ -1,6 +1,8 @@
 package life.plank.juna.zone.view.activity;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -39,6 +42,7 @@ import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.data.network.model.UserPreference;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
+import life.plank.juna.zone.util.BoomMenuUtils;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
@@ -50,6 +54,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_HOME_PAGE;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
@@ -69,6 +74,8 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
     RecyclerView onboardingRecyclerView;
     @BindView(R.id.onboarding_bottom_sheet)
     RelativeLayout onboardingBottomSheet;
+    @BindView(R.id.arc_menu)
+    ArcMenu arcMenu;
 
     @Inject
     @Named("default")
@@ -89,6 +96,15 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
 
     private ArrayList<UserPreference> userPreferences = new ArrayList<>();
 
+    public static void launch(Context packageContext, boolean isClearTop) {
+        Intent intent = new Intent(packageContext, UserFeedActivity.class);
+        if (isClearTop) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        packageContext.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +119,7 @@ public class UserFeedActivity extends AppCompatActivity implements ZoneToolbarLi
         String topic = getString(R.string.juna_user_topic) + userObjectId;
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
+        BoomMenuUtils.setupBoomMenu(BOOM_HOME_PAGE, this, null, arcMenu);
         setupBottomSheet();
         initBottomSheetRecyclerView();
         //TODO: Retrieve leagues from backend
