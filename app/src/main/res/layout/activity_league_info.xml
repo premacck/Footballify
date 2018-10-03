@@ -1,19 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:context=".view.activity.LeagueInfoActivity">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/others_color_grey"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="0dp" />
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="23dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="6dp"
         app:cardBackgroundColor="@color/purple_toolbar_background"
         app:cardCornerRadius="8dp"
-        tools:context=".view.activity.LeagueInfoActivity">
+        android:elevation="8dp">
 
         <LinearLayout
             android:id="@+id/root_layout"
@@ -31,4 +43,18 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-</LinearLayout>
+
+    <com.bvapp.arcmenulibrary.ArcMenu
+        android:id="@+id/board_arc_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="8dp"
+        app:menuChildAnim="false"
+        app:menuClickAnim="true"
+        app:menuGravity="Bottom_Middle"
+        app:menuImage="@drawable/ic_un"
+        app:menuNormalColor="@color/fab_button_pink"
+        app:menuShadowElevation="true"
+        app:menuType="large" />
+
+</RelativeLayout>
