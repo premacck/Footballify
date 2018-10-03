@@ -6,6 +6,7 @@ import android.support.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.*;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -139,5 +140,16 @@ public class AppConstants {
         int MATCH_SCHEDULED_LATER = 4;
         int MATCH_ABOUT_TO_START = 5;
         int MATCH_ABOUT_TO_START_BOARD_ACTIVE = 6;
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @IntDef({BOOM_HOME_PAGE, BOOM_ZONE_PAGE, BOOM_LEAGUE_PAGE, BOOM_BOARD_TILES_PAGE, BOOM_SETTINGS_PAGE, BOOM_PRIVATE_BOARD_INFO_PAGE})
+    public @interface BoomMenuPage {
+        int BOOM_HOME_PAGE = 0;
+        int BOOM_ZONE_PAGE = 1;
+        int BOOM_LEAGUE_PAGE = 2;
+        int BOOM_BOARD_TILES_PAGE = 3;
+        int BOOM_SETTINGS_PAGE = 4;
+        int BOOM_PRIVATE_BOARD_INFO_PAGE = 5;
     }
 }
