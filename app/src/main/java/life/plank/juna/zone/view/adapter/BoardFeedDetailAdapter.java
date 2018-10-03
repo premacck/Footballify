@@ -102,15 +102,29 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
         FeedItem feedItem = feedsListItem.get(position).getFeedItem();
+
         feedItem.setPinned(isFeedItemPinned(feedItem));
 
         if (feedItem.getInteractions() != null) {
             holder.likeCountTextView.setText(String.valueOf(feedItem.getInteractions().getLikes()));
             holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
+        if (feedsListItem.get(position).getFeedInteractions() != null) {
+            if (feedsListItem.get(position).getFeedInteractions().isHasLiked()) {
+                int tint = ContextCompat.getColor(activity, R.color.frog_green);
+                holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                holder.dislikeImageView.setVisibility(View.INVISIBLE);
+                holder.likeCountTextView.setVisibility(View.VISIBLE);
+                holder.likeSeparator.setVisibility(View.INVISIBLE);
+            } else if (feedsListItem.get(position).getFeedInteractions().isHasDisliked()) {
+                int tint = ContextCompat.getColor(activity, R.color.salmon);
+                holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                holder.likeImageView.setVisibility(View.INVISIBLE);
+                holder.dislikeCountTextView.setVisibility(View.VISIBLE);
+                holder.likeSeparator.setVisibility(View.INVISIBLE);
+            }
+        }
 
-        SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
-        boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
         String feedId = feedItem.getId();
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
@@ -204,7 +218,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         }
         holder.likeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemLikeApiCall(feedId, holder, position);
+                if (feedsListItem.get(position).getFeedInteractions() != null) {
+                    if (feedsListItem.get(position).getFeedInteractions().isHasLiked()) {
+                        boardFeedItemDeleteLike(feedId, holder);
+                    } else {
+                        boardFeedItemLikeApiCall(feedId, holder);
+                    }
+                } else {
+                    boardFeedItemLikeApiCall(feedId, holder);
+                }
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -220,7 +242,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                boardFeedItemDisLikeApiCall(feedId, holder);
+                if (feedsListItem.get(position).getFeedInteractions() != null) {
+                    if (feedsListItem.get(position).getFeedInteractions().isHasDisliked()) {
+                        boardFeedItemDeleteDisLike(feedId, holder);
+                    } else {
+                        boardFeedItemDisLikeApiCall(feedId, holder);
+                    }
+                } else {
+                    boardFeedItemDisLikeApiCall(feedId, holder);
+                }
             } else {
                 displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
             }
@@ -259,8 +289,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         notifyItemInserted(0);
     }
 
-    private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder, int position) {
+
+    private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
         restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -281,9 +313,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                             case HttpURLConnection.HTTP_CREATED:
                                 int tint = ContextCompat.getColor(activity, R.color.frog_green);
                                 holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                                holder.dislikeImageView.setVisibility(View.GONE);
+                                holder.dislikeImageView.setVisibility(View.INVISIBLE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.GONE);
+                                holder.likeSeparator.setVisibility(View.INVISIBLE);
                                 retrieveBoardById();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
@@ -364,7 +396,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken())
+        restApi.postDisLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -385,9 +417,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                             case HttpURLConnection.HTTP_CREATED:
                                 int tint = ContextCompat.getColor(activity, R.color.salmon);
                                 holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                                holder.likeImageView.setVisibility(View.GONE);
+                                holder.likeImageView.setVisibility(View.INVISIBLE);
                                 holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.GONE);
+                                holder.likeSeparator.setVisibility(View.INVISIBLE);
                                 retrieveBoardById();
                                 break;
                             default:
@@ -399,8 +431,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
     }
 
+
     private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
         restApi.deleteDisLike(feedItemId, getToken())
+
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -419,7 +453,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                //TODO: update dislike count
+
+                                holder.dislikeImageView.setImageTintList(null);
+                                holder.dislikeCountTextView.setVisibility(View.INVISIBLE);
+                                holder.likeImageView.setVisibility(View.VISIBLE);
+                                holder.likeSeparator.setVisibility(View.VISIBLE);
                                 break;
                             default:
                                 Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();

@@ -150,10 +150,10 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         }
 
         SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
-        editor.getString(getString(R.string.pref_display_name), "NA");
+        editor.getString(getString(R.string.pref_display_name), getString(R.string.na));
 
         boardId = board.getId();
-        if (board.getOwner().getDisplayName().equals(editor.getString(getString(R.string.pref_display_name), "NA"))) {
+        if (board.getOwner().getDisplayName().equals(editor.getString(getString(R.string.pref_display_name), getString(R.string.na)))) {
             toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_owner_popup));
         } else {
             toolbar.setUpPrivateBoardPopUp(this, getString(R.string.private_board_user_popup));
