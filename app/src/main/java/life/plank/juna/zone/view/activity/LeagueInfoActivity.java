@@ -42,7 +42,6 @@ import life.plank.juna.zone.data.network.model.MatchFixture;
 import life.plank.juna.zone.data.network.model.PlayerStatsModel;
 import life.plank.juna.zone.data.network.model.StandingModel;
 import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.adapter.FixtureLeagueAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
@@ -53,7 +52,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
@@ -63,6 +61,7 @@ import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 public class LeagueInfoActivity extends AppCompatActivity {
     public static Bitmap matchStatsParentViewBitmap = null;
@@ -118,6 +117,8 @@ public class LeagueInfoActivity extends AppCompatActivity {
     CardView playerStatsLayout;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
+    @BindView(R.id.drag_area)
+    TextView dragArea;
 
     @Inject
     @Named("footballData")
@@ -147,6 +148,7 @@ public class LeagueInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_league_info);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
+        setupSwipeGesture(this, dragArea);
 
         BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         Intent intent = getIntent();

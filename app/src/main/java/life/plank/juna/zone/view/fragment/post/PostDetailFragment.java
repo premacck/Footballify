@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.fragment.post;
 
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -29,10 +28,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -61,7 +64,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static android.view.View.GONE;
-import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
@@ -198,6 +200,22 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             dislikeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getDislikes()));
         }
 
+        if (feedEntry.getFeedInteractions() != null) {
+            if (feedEntry.getFeedInteractions().isHasLiked()) {
+                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
+                likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                dislikeImageView.setVisibility(View.INVISIBLE);
+                likeCountTextView.setVisibility(View.VISIBLE);
+                likeSeparator.setVisibility(View.INVISIBLE);
+            } else if (feedEntry.getFeedInteractions().isHasDisliked()) {
+                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
+                dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                likeImageView.setVisibility(View.INVISIBLE);
+                dislikeCountTextView.setVisibility(View.VISIBLE);
+                likeSeparator.setVisibility(View.INVISIBLE);
+            }
+        }
+
         if (feedEntry.getFeedItem().getUser() != null) {
             userNameTextView.setText(feedEntry.getFeedItem().getUser().getDisplayName());
         } else {
@@ -232,32 +250,29 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     String urlToLoad = feedEntry.getFeedItem().getContentType().equals(NEWS) ?
                             feedEntry.getFeedItem().getThumbnail().getImageUrl() :
                             feedEntry.getFeedItem().getUrl();
-                    picasso.load(urlToLoad)
-                            .error(R.drawable.ic_place_holder)
-                            .placeholder(R.drawable.ic_place_holder)
-                            .into(new Target() {
+                    Glide.with(getContext())
+                            .load(urlToLoad)
+                            .listener(new RequestListener<Drawable>() {
                                 @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                    int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
-                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
-                                    params.height = width * bitmap.getHeight() / bitmap.getWidth();
-                                    feedImageView.setLayoutParams(params);
-                                    feedContentLayout.stopShimmerAnimation();
-                                    feedImageView.setImageBitmap(bitmap);
-                                }
-
-                                @Override
-                                public void onBitmapFailed(Drawable errorDrawable) {
+                                public boolean onLoadFailed(@Nullable GlideException e, Object model, com.bumptech.glide.request.target.Target<Drawable> target, boolean isFirstResource) {
                                     feedContentLayout.stopShimmerAnimation();
                                     feedImageView.setImageResource(R.drawable.ic_place_holder);
+                                    return true;
                                 }
 
                                 @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                    feedContentLayout.startShimmerAnimation();
-                                    feedImageView.setBackgroundColor(getActivity().getResources().getColor(R.color.circle_background_color, null));
+                                public boolean onResourceReady(Drawable resource, Object model, com.bumptech.glide.request.target.Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                    int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
+                                    RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
+                                    params.height = width * resource.getIntrinsicHeight() / resource.getIntrinsicWidth();
+                                    feedImageView.setLayoutParams(params);
+                                    feedContentLayout.stopShimmerAnimation();
+                                    feedImageView.setImageDrawable(resource);
+                                    return true;
                                 }
-                            });
+                            })
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                            .into(feedImageView);
                 } catch (Exception e) {
                     feedImageView.setImageResource(R.drawable.ic_place_holder);
                 }
@@ -272,7 +287,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
                 mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
-                    mediaPlayer.setDataSource(getActivity(), audioUri);
+                    mediaPlayer.setDataSource(ZoneApplication.getContext(), audioUri);
                     mediaPlayer.prepare();
                 } catch (IOException e) {
                     mediaPlayer.stop();
@@ -316,16 +331,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     //region ClickThrough (Like, dislike, etc.)
-    private void updateClickThroughUi(boolean isLikeAction, boolean hasLiked, boolean hasDisliked) {
-        likeImageView.setVisibility(isLikeAction ? VISIBLE : GONE);
-        likeCountTextView.setVisibility(isLikeAction && hasLiked ? VISIBLE : INVISIBLE);
-        dislikeImageView.setVisibility(isLikeAction ? GONE : VISIBLE);
-        dislikeCountTextView.setVisibility(!isLikeAction && hasDisliked ? VISIBLE : INVISIBLE);
-        likeSeparator.setVisibility((isLikeAction && !hasLiked) || (!isLikeAction && !hasDisliked) ? VISIBLE : GONE);
-        likeImageView.setImageTintList(hasLiked && !hasDisliked ? ColorStateList.valueOf(ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green)) : null);
-        dislikeImageView.setImageTintList(hasDisliked && !hasLiked ? ColorStateList.valueOf(ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon)) : null);
-    }
-
     private void likeBoardFeedItem() {
         restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
@@ -346,7 +351,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                updateClickThroughUi(true, true, false);
+                                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
+                                likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                                dislikeImageView.setVisibility(View.INVISIBLE);
+                                likeCountTextView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.INVISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
                                 }
@@ -384,7 +393,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                updateClickThroughUi(true, false, false);
+                                likeImageView.setImageTintList(null);
+                                likeCountTextView.setVisibility(View.INVISIBLE);
+                                dislikeImageView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.VISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
                                 }
@@ -420,7 +432,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                updateClickThroughUi(false, false, true);
+                                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
+                                dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                                likeImageView.setVisibility(View.INVISIBLE);
+                                dislikeCountTextView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.INVISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
                                 }
@@ -456,7 +472,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                updateClickThroughUi(false, false, false);
+                                dislikeImageView.setImageTintList(null);
+                                dislikeCountTextView.setVisibility(View.INVISIBLE);
+                                likeImageView.setVisibility(View.VISIBLE);
+                                likeSeparator.setVisibility(View.VISIBLE);
                                 if (feedEntry.getFeedItem().getInteractions() != null) {
                                     feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
                                 }
