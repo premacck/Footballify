@@ -13,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -73,6 +74,8 @@ public class CreateBoardActivity extends AppCompatActivity {
     Button createPrivateBoard;
     @BindView(R.id.tool_bar)
     ZoneToolBar toolbar;
+    @BindView(R.id.user_greeting)
+    TextView userGreeting;
     @Inject
     @Named("default")
     Retrofit retrofit;
@@ -105,8 +108,10 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
     };
 
-    public static void launch(Context packageContext) {
-        packageContext.startActivity(new Intent(packageContext, CreateBoardActivity.class));
+    public static void launch(Context packageContext, String username) {
+        Intent intent = new Intent(packageContext, CreateBoardActivity.class);
+        intent.putExtra(ZoneApplication.getContext().getString(R.string.username), username);
+        packageContext.startActivity(intent);
     }
 
     @Override
@@ -133,6 +138,7 @@ public class CreateBoardActivity extends AppCompatActivity {
         if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
             toolbar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)));
         }
+        userGreeting.setText(getString(R.string.hi) + " " + getIntent().getStringExtra(ZoneApplication.getContext().getString(R.string.username)));
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})
