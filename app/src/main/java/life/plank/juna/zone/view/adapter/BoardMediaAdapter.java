@@ -16,8 +16,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.data.network.model.FeedEntry;
+import life.plank.juna.zone.data.network.model.FeedItem;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
@@ -67,11 +67,14 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         footballFeed.setTileWidth(Objects.equals(footballFeed.getContentType(), ROOT_COMMENT) ? TEXT_TILE_WIDTH : MEDIA_TILE_WIDTH);
         setItemWidth(holder.itemView, position, footballFeed);
 
-        fragment.picasso
-                .load(footballFeed.getUser().getProfilePictureUrl())
-                .placeholder(R.drawable.ic_default_profile)
-                .error(R.drawable.ic_default_profile)
-                .into(holder.profilePictureImageView);
+        //TODO: remove this null check after the backend returns the user profile picture
+        if (footballFeed.getUser() != null) {
+            fragment.picasso
+                    .load(footballFeed.getUser().getProfilePictureUrl())
+                    .placeholder(R.drawable.ic_default_profile)
+                    .error(R.drawable.ic_default_profile)
+                    .into(holder.profilePictureImageView);
+        }
 
         switch (footballFeed.getContentType()) {
             case AUDIO:

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.JsonObject;
+import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
@@ -49,8 +50,12 @@ public class PostCommentActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     Retrofit retrofit;
+    @Inject
+    Picasso picasso;
     @BindView(R.id.comment_edit_text)
     EditText commentEditText;
+    @BindView(R.id.profile_image_view)
+    ImageView profilePicture;
     @BindView(R.id.comment_text_view)
     TextView commentTextView;
     @BindView(R.id.post_comment)
@@ -93,6 +98,13 @@ public class PostCommentActivity extends AppCompatActivity {
         userId = preference.getString(getString(R.string.pref_object_id), "NA");
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         highlight = getResources().getDrawable(R.drawable.highlight);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
+        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
+            picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
+                    .error(R.drawable.ic_default_profile)
+                    .placeholder(R.drawable.ic_profile_dummy)
+                    .into(profilePicture);
+        }
     }
 
     @OnClick({R.id.post_comment})

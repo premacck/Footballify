@@ -100,6 +100,7 @@ public interface RestApi {
                                                               @Query("dateCreated") String dateCreated,
                                                               @Query("feedType") String feedType,
                                                               @Query("description") String description,
+                                                              @Query("title") String title,
                                                               @Header("Authorization") String authHeader);
 
     //working

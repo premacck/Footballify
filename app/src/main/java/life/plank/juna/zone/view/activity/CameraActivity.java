@@ -31,6 +31,7 @@ import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
 import com.iceteck.silicompressorr.SiliCompressor;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
@@ -84,8 +85,12 @@ public class CameraActivity extends AppCompatActivity {
     @Inject
     @Named("default")
     RestApi restApi;
+    @Inject
+    Picasso picasso;
     @BindView(R.id.captured_image_view)
     ImageView capturedImageView;
+    @BindView(R.id.profile_image_view)
+    ImageView profilePicture;
     @BindView(R.id.title_text)
     TextInputEditText titleEditText;
     @BindView(R.id.description_edit_text)
@@ -130,7 +135,7 @@ public class CameraActivity extends AppCompatActivity {
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         openMediaContent();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString(getString(R.string.pref_object_id), "NA");
+        userId = preference.getString(getString(R.string.pref_object_id), getString(R.string.na));
         date = new SimpleDateFormat(getString(R.string.string_format), Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
@@ -162,6 +167,13 @@ public class CameraActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         capturedVideoView.setVisibility(type.equals(VIDEO) ? View.VISIBLE : View.GONE);
         capturedImageView.setVisibility(type.equals(VIDEO) ? View.GONE : View.VISIBLE);
+        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
+        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
+            picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
+                    .error(R.drawable.ic_default_profile)
+                    .placeholder(R.drawable.ic_default_profile)
+                    .into(profilePicture);
+        }
     }
 
     private void takePicture() {
@@ -357,7 +369,7 @@ public class CameraActivity extends AppCompatActivity {
         MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
 
         restApi.postMediaContentToServer(body, boardId, contentType, userId,
-                dateCreated, AppConstants.BOARD, descriptionEditText.getText().toString(), getToken())
+                dateCreated, AppConstants.BOARD, descriptionEditText.getText().toString(), titleEditText.getText().toString(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -393,35 +405,39 @@ public class CameraActivity extends AppCompatActivity {
 
     @OnClick(R.id.post_btn)
     public void onPostBtnClick() {
-        switch (apiCallFromActivity) {
-            case "BoardActivity":
-                switch (openFrom) {
-                    case IMAGE:
-                    case GALLERY:
-                        postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
-                        break;
-                    case VIDEO:
-                        postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, date);
-                        break;
-                    case AUDIO:
-                        postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, date);
-                        break;
-                    default:
-                        Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                break;
-            default:
-                switch (openFrom) {
-                    case IMAGE:
-                    case GALLERY:
-                        postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
-                        break;
-                    default:
-                        Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                        break;
-                }
-                break;
+        if (titleEditText.getText().toString().trim().isEmpty()) {
+            titleEditText.setError(getString(R.string.please_enter_title));
+        } else {
+            switch (apiCallFromActivity) {
+                case "BoardActivity":
+                    switch (openFrom) {
+                        case IMAGE:
+                        case GALLERY:
+                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
+                            break;
+                        case VIDEO:
+                            postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, date);
+                            break;
+                        case AUDIO:
+                            postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, date);
+                            break;
+                        default:
+                            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    break;
+                default:
+                    switch (openFrom) {
+                        case IMAGE:
+                        case GALLERY:
+                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
+                            break;
+                        default:
+                            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                    break;
+            }
         }
     }
 
