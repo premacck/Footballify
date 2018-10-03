@@ -124,8 +124,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 holder.likeSeparator.setVisibility(View.INVISIBLE);
             }
         }
-        SharedPreferences matchPref = activity.getSharedPreferences(activity.getString(R.string.pref_enter_board_id), 0);
-        boardId = matchPref.getString(activity.getString(R.string.pref_enter_board_id), "NA");
+
         String feedId = feedItem.getId();
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
@@ -397,7 +396,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, "Boards", getRequestDateStringOfNow(), getToken())
+        restApi.postDisLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
