@@ -311,7 +311,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName());
+                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName(), board.getName());
                 case 1:
                     return BoardTilesFragment.newInstance(board.getId(), board.getIsActive());
                 default:

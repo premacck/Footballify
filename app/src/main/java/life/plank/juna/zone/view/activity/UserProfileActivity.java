@@ -91,6 +91,7 @@ public class UserProfileActivity extends AppCompatActivity {
     GetCoinsAdapter getCoinsAdapter;
     private RestApi restApi;
     private UserBoardsAdapter userBoardsAdapter;
+    private String username;
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
@@ -117,7 +118,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.create_board_button)
     public void launchBoardMaker() {
-        CreateBoardActivity.launch(this);
+        CreateBoardActivity.launch(this, username);
     }
 
     @OnClick(R.id.edit_profile_button)
@@ -187,6 +188,7 @@ public class UserProfileActivity extends AppCompatActivity {
                         if (model != null) {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());
+                            username = model.getDisplayName();
                             if (response.body().getProfilePictureUrl() != null) {
                                 picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
                                 toolbar.setProfilePic(model.getProfilePictureUrl());

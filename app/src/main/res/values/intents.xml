@@ -24,4 +24,5 @@
     <string name="intent_match_fixture">match_fixture</string>
     <string name="intent_league">intent_league</string>
     <string name="intent_file_path">filePath</string>
+    <string name="board_title">board_title</string>
 </resources>

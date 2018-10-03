@@ -46,6 +46,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     private static final String DESCRIPTION = "description";
     private static final String BOARD_ID = "board_id";
     private static final String DISPLAY_NAME = "display_name";
+    private static final String BOARD_NAME = "board_name";
     static BoardMembersViewAdapter boardMembersViewAdapter;
     static ArrayList<User> userList = new ArrayList<>();
     static SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(ZoneApplication.getContext().getString(R.string.pref_user_details), MODE_PRIVATE);
@@ -53,6 +54,7 @@ public class PrivateBoardInfoFragment extends Fragment {
     private static String boardId;
     private static RestApi staticRestApi;
     private static int userPosition;
+    private static String boardName;
     private static String displayName;
     @Inject
     @Named("default")
@@ -69,13 +71,14 @@ public class PrivateBoardInfoFragment extends Fragment {
     public PrivateBoardInfoFragment() {
     }
 
-    public static PrivateBoardInfoFragment newInstance(String description, String boardId, String displayName) {
+    public static PrivateBoardInfoFragment newInstance(String description, String boardId, String displayName, String boardName) {
 
         PrivateBoardInfoFragment fragment = new PrivateBoardInfoFragment();
         Bundle args = new Bundle();
         args.putString(DESCRIPTION, description);
         args.putString(BOARD_ID, boardId);
         args.putString(DISPLAY_NAME, displayName);
+        args.putString(BOARD_NAME, boardName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -129,6 +132,7 @@ public class PrivateBoardInfoFragment extends Fragment {
             description = args.getString(DESCRIPTION);
             boardId = args.getString(BOARD_ID);
             displayName = args.getString(DISPLAY_NAME);
+            boardName = args.getString(BOARD_NAME);
         }
     }
 
@@ -146,8 +150,8 @@ public class PrivateBoardInfoFragment extends Fragment {
     }
 
     private void initRecyclerView() {
-        boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 4));
-        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this, displayName, picasso);
+        boardMembersRecyclerView.setLayoutManager(new GridLayoutManager(context, 5));
+        boardMembersViewAdapter = new BoardMembersViewAdapter(userList, context, boardId, this, displayName, picasso, boardName);
         boardMembersRecyclerView.setAdapter(boardMembersViewAdapter);
     }
 
