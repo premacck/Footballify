@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,12 +24,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder> {
@@ -55,10 +58,17 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
 
     @Override
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
-        holder.boardTitle.setText(boardList.get(position).getName());
-        picasso.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
-        holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
-        holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId()));
+        if (boardList.get(position).getName().equals(context.getString(R.string.new_))) {
+            holder.boardTitle.setText(boardList.get(position).getName());
+            holder.boardIcon.setImageDrawable(context.getDrawable(R.drawable.new_board_circle));
+            holder.boardIcon.setBorderColor(context.getColor(R.color.white));
+            holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
+        } else {
+            holder.boardTitle.setText(boardList.get(position).getName());
+            picasso.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
+            holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
+            holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
+        }
     }
 
     @Override
@@ -66,9 +76,9 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
         return boardList.size();
     }
 
-    public void setUserBoards(List<Board> users) {
+    public void setUserBoards(List<Board> boards) {
         boardList.clear();
-        this.boardList.addAll(users);
+        this.boardList.addAll(boards);
         notifyDataSetChanged();
     }
 
@@ -84,34 +94,45 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
         }
     }
 
-    private void navigateToBoard(String boardId) {
-        restApi.getBoardById(boardId, getToken())
-                .subscribeOn(rx.schedulers.Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Board>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
+    private void launchBoardMaker() {
 
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, e.getMessage());
-                        Toast.makeText(context, R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
-                    }
+        SharedPreferences editor = getSharedPrefs(context.getString(R.string.pref_user_details));
+        String username = editor.getString(context.getString(R.string.pref_display_name), context.getString(R.string.na));
+        CreateBoardActivity.launch(context, username);
+    }
 
-                    @Override
-                    public void onNext(Response<Board> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                PrivateBoardActivity.launch(context, gson.toJson(response.body()));
-                                break;
-                            default:
-                                Toast.makeText(context, R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
-                                break;
+    private void navigateToBoard(String boardId, String boardName) {
+        if (boardName.equals(context.getString(R.string.new_))) {
+            launchBoardMaker();
+        } else {
+            restApi.getBoardById(boardId, getToken())
+                    .subscribeOn(rx.schedulers.Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<Response<Board>>() {
+                        @Override
+                        public void onCompleted() {
+                            Log.i(TAG, "onCompleted: ");
                         }
-                    }
-                });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Log.e(TAG, e.getMessage());
+                            Toast.makeText(context, R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
+                        }
+
+                        @Override
+                        public void onNext(Response<Board> response) {
+                            switch (response.code()) {
+                                case HttpURLConnection.HTTP_OK:
+                                    PrivateBoardActivity.launch(context, gson.toJson(response.body()));
+                                    break;
+                                default:
+                                    Toast.makeText(context, R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        }
+                    });
+        }
     }
 }
 

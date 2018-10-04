@@ -196,43 +196,15 @@
                         android:textColor="@color/grey"
                         android:textSize="12sp" />
 
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/my_boards_list"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/my_boards_title_text_view">
+                        android:layout_below="@+id/my_boards_title_text_view"
+                        android:layout_toStartOf="@+id/create_board_button"
+                        app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                        tools:listitem="@layout/item_image_and_title" />
 
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/my_boards_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="10dp"
-                            android:layout_toStartOf="@+id/create_board_button"
-                            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-                            tools:listitem="@layout/item_image_and_title" />
-
-                        <ImageButton
-                            android:id="@+id/create_board_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginTop="10dp"
-                            android:background="@android:color/transparent"
-                            android:contentDescription="@string/add_board"
-                            android:src="@drawable/new_board_circle" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/create_board_button"
-                            android:layout_alignStart="@+id/create_board_button"
-                            android:layout_alignEnd="@+id/create_board_button"
-                            android:fontFamily="@font/rajdhani_medium"
-                            android:gravity="center"
-                            android:text="@string/new_"
-                            android:textColor="@color/grey"
-                            android:textSize="12sp" />
-
-                    </RelativeLayout>
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
