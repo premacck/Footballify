@@ -140,7 +140,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
             }
-            TimelineActivity.launch(getActivity(), view, matchDetails.getMatchId(), gson.toJson(matchDetails.getMatchEvents()), gson.toJson(MatchFixture.from(matchDetails)));
+            TimelineActivity.launch(getActivity(), view, matchDetails.getMatchId(), gson.toJson(matchDetails.getMatchEvents()), gson.toJson(matchDetails));
         } else
             Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
