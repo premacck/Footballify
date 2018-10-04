@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FeedItemComment;
+import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter;
 
@@ -53,7 +53,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
                 .resize((int) getDp(20), (int) getDp(20))
                 .into(holder.profilePic);
 
-        holder.likeTextView.setText(item.isHasLiked() ? R.string.unlike : R.string.like);
+        holder.likeTextView.setText(item.getHasLiked() ? R.string.unlike : R.string.like);
         holder.viewRepliesTextView.setVisibility(isNullOrEmpty(item.getReplies()) ? View.GONE : View.VISIBLE);
         holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(picasso, item.getReplies()));
         if (holder.isItemExpanded()) {

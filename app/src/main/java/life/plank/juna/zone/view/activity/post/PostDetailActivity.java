@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity.post;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -11,9 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -22,7 +23,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
@@ -41,9 +42,9 @@ public class PostDetailActivity extends AppCompatActivity {
     private String boardId;
     private int position;
 
-    public static void launch(Activity from, String feedListString, String boardId, int position) {
+    public static void launch(Activity from, List<FeedEntry> feedEntryList, String boardId, int position) {
         Intent intent = new Intent(from, PostDetailActivity.class);
-        intent.putExtra(from.getString(R.string.intent_feed_items), feedListString);
+        intent.putParcelableArrayListExtra(from.getString(R.string.intent_feed_items), (ArrayList<? extends Parcelable>) feedEntryList);
         intent.putExtra(from.getString(R.string.intent_board_id), boardId);
         intent.putExtra(from.getString(R.string.intent_position), position);
         from.startActivity(intent);
@@ -59,7 +60,7 @@ public class PostDetailActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
-        feedList = gson.fromJson(intent.getStringExtra(getString(R.string.intent_feed_items)), new TypeToken<List<FeedEntry>>() {}.getType());
+        feedList = intent.getParcelableArrayListExtra(getString(R.string.intent_feed_items));
         boardId = intent.getStringExtra(getString(R.string.intent_board_id));
         position = intent.getIntExtra(getString(R.string.intent_position), 0);
         populateViewPager();

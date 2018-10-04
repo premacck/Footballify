@@ -8,12 +8,12 @@ import java.util.*
 @Parcelize
 data class User(
         var userPreferences: List<UserPreference>? = null,
-        var objectId: String = "",
+        var objectId: String? = "",
         var displayName: String = "",
         var emailAddress: String = "",
-        var country: String = "",
-        var city: String = "",
+        var country: String? = "",
+        var city: String? = "",
         var profilePictureUrl: String? = null,
         var id: String = "",
-        var dob: @RawValue Date = Date()
+        var dob: @RawValue Date? = Date()
 ) : Parcelable

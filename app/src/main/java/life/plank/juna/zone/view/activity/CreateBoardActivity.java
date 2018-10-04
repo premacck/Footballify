@@ -28,8 +28,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
@@ -152,13 +152,13 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     @OnClick(R.id.create_board_button)
     public void onViewClicked(View view) {
-        Board board = Board.builder()
-                .displayname(boardName.getText().toString().trim())
-                .boardType(getString(R.string.private_lowercase))
-                .zone(zone.toLowerCase().trim())
-                .description(boardDescription.getText().toString().trim())
-                .color(boardColorThemeAdapter.getSelectedColor())
-                .build();
+        Board board = new Board(
+                boardName.getText().toString().trim(),
+                getString(R.string.private_lowercase),
+                zone.toLowerCase().trim(),
+                boardDescription.getText().toString().trim(),
+                boardColorThemeAdapter.getSelectedColor()
+        );
 
         createBoard(board, boardIconAdapter.getSelectedPath());
     }
@@ -232,6 +232,6 @@ public class CreateBoardActivity extends AppCompatActivity {
         }
 
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-        BoardPreviewActivity.launch(this, gson.toJson(board), file);
+        BoardPreviewActivity.launch(this, board, file);
     }
 }

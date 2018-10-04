@@ -1,6 +1,6 @@
 package life.plank.juna.zone.interfaces;
 
-import life.plank.juna.zone.data.network.model.FeedItemComment;
+import life.plank.juna.zone.data.model.FeedItemComment;
 
 public interface FeedInteractionListener {
 

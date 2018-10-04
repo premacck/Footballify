@@ -15,14 +15,14 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.PlayerStatsModel;
+import life.plank.juna.zone.data.model.PlayerStats;
 
 public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.MatchLeagueViewHolder> {
 
-    private List<PlayerStatsModel> playerStatsModels;
+    private List<PlayerStats> playerStatsList;
 
     public PlayerStatsAdapter() {
-        this.playerStatsModels = new ArrayList<>();
+        this.playerStatsList = new ArrayList<>();
     }
 
     @Override
@@ -33,13 +33,13 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
     @Override
     public void onBindViewHolder(MatchLeagueViewHolder holder, int position) {
         holder.playerStatsSerialNumberText.setText(String.valueOf(position + 1));
-        holder.playerStatsPlayerNameText.setText(String.valueOf(playerStatsModels.get(position).getPlayerName()));
-        holder.playerStatsGoalsText.setText(String.valueOf(playerStatsModels.get(position).getGoal()));
-        holder.playerStatsAssistTextView.setText(String.valueOf(playerStatsModels.get(position).getAssist()));
-        holder.playerStatsYellowTextView.setText(String.valueOf(playerStatsModels.get(position).getYellowCard()));
-        holder.playerStatsRedCardTextView.setText(String.valueOf(playerStatsModels.get(position).getRedCard()));
+        holder.playerStatsPlayerNameText.setText(String.valueOf(playerStatsList.get(position).getPlayerName()));
+        holder.playerStatsGoalsText.setText(String.valueOf(playerStatsList.get(position).getGoal()));
+        holder.playerStatsAssistTextView.setText(String.valueOf(playerStatsList.get(position).getAssist()));
+        holder.playerStatsYellowTextView.setText(String.valueOf(playerStatsList.get(position).getYellowCard()));
+        holder.playerStatsRedCardTextView.setText(String.valueOf(playerStatsList.get(position).getRedCard()));
         Picasso.with(holder.playerStatsTeamLogoImage.getContext())
-                .load(playerStatsModels.get(position).getFootballTeamLogo())
+                .load(playerStatsList.get(position).getFootballTeamLogo())
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(holder.playerStatsTeamLogoImage);
@@ -47,16 +47,16 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
 
     @Override
     public int getItemCount() {
-        return playerStatsModels.size();
+        return playerStatsList.size();
     }
 
-    public void update(List<PlayerStatsModel> playerStatsModelList) {
-        this.playerStatsModels.addAll(playerStatsModelList);
+    public void update(List<PlayerStats> playerStatsList) {
+        this.playerStatsList.addAll(playerStatsList);
         notifyDataSetChanged();
     }
 
-    public List<PlayerStatsModel> getPlayerStats() {
-        return playerStatsModels;
+    public List<PlayerStats> getPlayerStats() {
+        return playerStatsList;
     }
 
     public class MatchLeagueViewHolder extends RecyclerView.ViewHolder {

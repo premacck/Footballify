@@ -20,8 +20,8 @@ import butterknife.OnClick;
 import butterknife.OnLongClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.FeedItem;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
 import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
@@ -115,7 +115,7 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
 
         @OnClick(R.id.root_layout)
         public void onFeedEntryClick() {
-            PostDetailActivity.launch(ref.get().activity, ref.get().activity.gson.toJson(ref.get().userFeed), null, getAdapterPosition());
+            PostDetailActivity.launch(ref.get().activity, ref.get().userFeed, null, getAdapterPosition());
         }
 
         @OnLongClick(R.id.root_layout)

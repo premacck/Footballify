@@ -19,10 +19,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballTeam;
-import life.plank.juna.zone.data.network.model.League;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.data.model.FootballTeam;
+import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.TeamStats;
 import lombok.Data;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -56,8 +56,8 @@ public class TeamStatsBinder extends ItemBinder<TeamStatsBinder.TeamStatsBinding
             return;
         }
 
-        TeamStatsModel homeTeamStats = item.getTeamStatsList().get(0);
-        TeamStatsModel visitingTeamStats = item.getTeamStatsList().get(1);
+        TeamStats homeTeamStats = item.getTeamStatsList().get(0);
+        TeamStats visitingTeamStats = item.getTeamStatsList().get(1);
 
         holder.noDataTextView.setVisibility(View.GONE);
         holder.teamsLogoLayout.setVisibility(View.VISIBLE);
@@ -152,7 +152,7 @@ public class TeamStatsBinder extends ItemBinder<TeamStatsBinder.TeamStatsBinding
 
     @Data
     public static class TeamStatsBindingModel {
-        private final List<TeamStatsModel> teamStatsList;
+        private final List<TeamStats> teamStatsList;
         private final League league;
         private final FootballTeam homeTeam;
         private final FootballTeam awayTeam;

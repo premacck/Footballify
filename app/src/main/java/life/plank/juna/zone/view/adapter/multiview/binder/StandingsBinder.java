@@ -20,8 +20,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.StandingModel;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
 import lombok.Data;
@@ -102,7 +102,7 @@ public class StandingsBinder extends ItemBinder<StandingsBinder.StandingsBinding
 
     @Data
     public static class StandingsBindingModel {
-        private final List<StandingModel> standingsList;
+        private final List<Standings> standingsList;
         @StringRes
         private final Integer errorMessage;
 

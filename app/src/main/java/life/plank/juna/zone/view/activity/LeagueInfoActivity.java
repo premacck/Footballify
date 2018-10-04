@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,14 +34,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.FixtureByDate;
+import life.plank.juna.zone.data.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.PlayerStats;
+import life.plank.juna.zone.data.model.Standings;
+import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FixtureByDate;
-import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
-import life.plank.juna.zone.data.network.model.League;
-import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.StandingModel;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureAdapter;
@@ -76,7 +77,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.match_fixture_result)
-    CardView matchFixtureResultLayout;
+    CardView MatchFixtureResultLayout;
     @BindView(R.id.fixture_progress_bar)
     ProgressBar fixtureProgressBar;
     @BindView(R.id.team_stats_progress_bar)
@@ -136,9 +137,9 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     private FixtureAdapter fixtureAdapter;
     public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
-    public static void launch(Activity fromActivity, String leagueString) {
+    public static void launch(Activity fromActivity, League league) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
-        intent.putExtra(fromActivity.getString(R.string.intent_league), leagueString);
+        intent.putExtra(fromActivity.getString(R.string.intent_league), league);
         fromActivity.startActivity(intent);
     }
 
@@ -153,7 +154,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         Intent intent = getIntent();
         if (intent != null) {
-            league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);
+            league = intent.getParcelableExtra(getString(R.string.intent_league));
         }
 
         prepareRecyclerViews();
@@ -191,7 +192,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> standingsProgressBar.setVisibility(View.VISIBLE))
                 .doOnTerminate(() -> standingsProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<StandingModel>>>() {
+                .subscribe(new Subscriber<Response<List<Standings>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getStandings()");
@@ -204,7 +205,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                     }
 
                     @Override
-                    public void onNext(Response<List<StandingModel>> response) {
+                    public void onNext(Response<List<Standings>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
@@ -226,7 +227,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> playerStatsProgressBar.setVisibility(View.VISIBLE))
                 .doOnTerminate(() -> playerStatsProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<PlayerStatsModel>>>() {
+                .subscribe(new Subscriber<Response<List<PlayerStats>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getPlayerStats()");
@@ -239,7 +240,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                     }
 
                     @Override
-                    public void onNext(Response<List<PlayerStatsModel>> response) {
+                    public void onNext(Response<List<PlayerStats>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
@@ -262,7 +263,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(() -> teamStatsProgressBar.setVisibility(View.VISIBLE))
                 .doOnTerminate(() -> teamStatsProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<TeamStatsModel>>>() {
+                .subscribe(new Subscriber<Response<List<TeamStats>>>() {
                     @Override
                     public void onCompleted() {
                         Log.i(TAG, "onCompleted: getTeamStats()");
@@ -275,7 +276,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                     }
 
                     @Override
-                    public void onNext(Response<List<TeamStatsModel>> response) {
+                    public void onNext(Response<List<TeamStats>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
@@ -304,20 +305,17 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         switch (view.getId()) {
             case R.id.see_all_fixtures:
                 if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                    FixtureActivity.launch(this, gson.toJson(league));
+                    FixtureActivity.launch(this, league);
                 }
                 break;
             case R.id.see_all_standings:
-                LeagueInfoDetailActivity.launch(this, STANDINGS, league.getName(), league.getSeasonName(), league.getCountryName(),
-                        gson.toJson(standingTableAdapter.getStandings()), standingsLayout);
+                LeagueInfoDetailActivity.launch(this, STANDINGS, (ArrayList<? extends Parcelable>) standingTableAdapter.getStandings(), standingsLayout);
                 break;
             case R.id.see_more_team_stats:
-                LeagueInfoDetailActivity.launch(this, TEAM_STATS, league.getName(), league.getSeasonName(), league.getCountryName(),
-                        gson.toJson(teamStatsAdapter.getTeamStats()), teamStatsLayout);
+                LeagueInfoDetailActivity.launch(this, TEAM_STATS, (ArrayList<? extends Parcelable>) teamStatsAdapter.getTeamStats(), teamStatsLayout);
                 break;
             case R.id.see_more_player_stats:
-                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, league.getName(), league.getSeasonName(), league.getCountryName(),
-                        gson.toJson(playerStatsAdapter.getPlayerStats()), playerStatsLayout);
+                LeagueInfoDetailActivity.launch(this, PLAYER_STATS, (ArrayList<? extends Parcelable>) playerStatsAdapter.getPlayerStats(), playerStatsLayout);
                 break;
         }
     }

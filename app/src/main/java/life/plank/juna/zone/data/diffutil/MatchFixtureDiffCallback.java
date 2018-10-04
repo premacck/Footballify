@@ -12,8 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.Stadium;
+import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.Stadium;
 
 public class MatchFixtureDiffCallback extends DiffUtil.Callback{
 

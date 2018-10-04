@@ -71,7 +71,7 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.User;
+import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.web.WebCardActivity;
 
@@ -184,9 +184,6 @@ public class UIDisplayUtil {
         editor.putString(context.getString(R.string.pref_email_address), body.getEmailAddress());
         editor.putString(context.getString(R.string.pref_country), body.getCountry());
         editor.putString(context.getString(R.string.pref_city), body.getCity());
-        editor.putString(context.getString(R.string.pref_identity_provider), body.getIdentityProvider());
-        editor.putString(context.getString(R.string.pref_given_name), body.getGivenName());
-        editor.putString(context.getString(R.string.pref_surname), body.getSurname());
         editor.putString(context.getString(R.string.pref_profile_pic_url), body.getProfilePictureUrl());
         editor.apply();
     }
@@ -527,6 +524,12 @@ public class UIDisplayUtil {
 
     private static class UIDisplayUtilWrapper {
         private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    }
+
+    public static SpannableString getBoldText(String text) {
+        SpannableString spannableString = new SpannableString(text);
+        spannableString.setSpan(BOLD_STYLE, 0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
     }
 
     public static SpannableString getClickableLink(Activity activity, String url) {

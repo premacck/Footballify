@@ -34,9 +34,9 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.OnSwipeTouchListener;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
@@ -107,28 +107,27 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
-        FeedItem feedItem = feedsListItem.get(position).getFeedItem();
+        FeedEntry feedEntry = feedsListItem.get(position);
+        FeedItem feedItem = feedEntry.getFeedItem();
 
-        feedItem.setPinned(isFeedItemPinned(feedItem));
+        feedEntry.getFeedInteractions().setHasPinned(isFeedItemPinned(feedItem));
 
         if (feedItem.getInteractions() != null) {
             holder.likeCountTextView.setText(String.valueOf(feedItem.getInteractions().getLikes()));
             holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
-        if (feedsListItem.get(position).getFeedInteractions() != null) {
-            if (feedsListItem.get(position).getFeedInteractions().isHasLiked()) {
-                int tint = ContextCompat.getColor(activity, R.color.frog_green);
-                holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                holder.dislikeImageView.setVisibility(View.INVISIBLE);
-                holder.likeCountTextView.setVisibility(View.VISIBLE);
-                holder.likeSeparator.setVisibility(View.INVISIBLE);
-            } else if (feedsListItem.get(position).getFeedInteractions().isHasDisliked()) {
-                int tint = ContextCompat.getColor(activity, R.color.salmon);
-                holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
-                holder.likeImageView.setVisibility(View.INVISIBLE);
-                holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-                holder.likeSeparator.setVisibility(View.INVISIBLE);
-            }
+        if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+            int tint = ContextCompat.getColor(activity, R.color.frog_green);
+            holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+            holder.dislikeImageView.setVisibility(View.INVISIBLE);
+            holder.likeCountTextView.setVisibility(View.VISIBLE);
+            holder.likeSeparator.setVisibility(View.INVISIBLE);
+        } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+            int tint = ContextCompat.getColor(activity, R.color.salmon);
+            holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+            holder.likeImageView.setVisibility(View.INVISIBLE);
+            holder.dislikeCountTextView.setVisibility(View.VISIBLE);
+            holder.likeSeparator.setVisibility(View.INVISIBLE);
         }
 
         if (feedItem.getUser() != null) {
@@ -156,7 +155,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         });
 
         holder.pinImageView.setImageResource(
-                feedItem.isPinned() ?
+                feedEntry.getFeedInteractions().getHasPinned() ?
                         R.drawable.ic_pin_active :
                         R.drawable.ic_pin_inactive
         );
@@ -233,12 +232,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         }
         holder.likeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                if (feedsListItem.get(position).getFeedInteractions() != null) {
-                    if (feedsListItem.get(position).getFeedInteractions().isHasLiked()) {
-                        boardFeedItemDeleteLike(feedId, holder);
-                    } else {
-                        boardFeedItemLikeApiCall(feedId, holder);
-                    }
+                if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
+                    boardFeedItemDeleteLike(feedId, holder);
                 } else {
                     boardFeedItemLikeApiCall(feedId, holder);
                 }
@@ -257,12 +252,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         holder.dislikeImageView.setOnClickListener(v -> {
             if (isBoardActive) {
-                if (feedsListItem.get(position).getFeedInteractions() != null) {
-                    if (feedsListItem.get(position).getFeedInteractions().isHasDisliked()) {
-                        boardFeedItemDeleteDisLike(feedId, holder);
-                    } else {
-                        boardFeedItemDisLikeApiCall(feedId, holder);
-                    }
+                if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
+                    boardFeedItemDeleteDisLike(feedId, holder);
                 } else {
                     boardFeedItemDisLikeApiCall(feedId, holder);
                 }
@@ -278,7 +269,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         });
 
         holder.pinImageView.setOnClickListener(view -> {
-            if (feedItem.isPinned()) {
+            if (feedEntry.getFeedInteractions().getHasPinned()) {
                 unpinItem(feedsListItem.get(position), position);
             } else {
                 pinItem(feedsListItem.get(position), position);
@@ -504,10 +495,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                         switch (response.code()) {
                             case HTTP_OK:
                             case HTTP_CREATED:
-                                feedEntry.getFeedItem().setPinned(true);
-                                feedEntry.getFeedItem().setPinId(response.body());
-                                feedEntry.getFeedItem().setPreviousPosition(position);
-                                toggleFeedItemPin(feedEntry.getFeedItem(), true);
+                                feedEntry.getFeedInteractions().setHasPinned(true);
+                                feedEntry.getFeedInteractions().setPinId(response.body());
+                                feedEntry.getFeedInteractions().setPreviousPosition(position);
+                                toggleFeedItemPin(feedEntry, true);
                                 pinFeedEntry(feedsListItem, feedEntry);
                                 notifyItemChanged(position);
                                 notifyItemMoved(position, 0);
@@ -528,7 +519,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void unpinItem(FeedEntry feedEntry, int position) {
-        restApi.unpinFeedItem(boardId, feedEntry.getFeedItem().getPinId(), getToken())
+        restApi.unpinFeedItem(boardId, feedEntry.getFeedInteractions().getPinId(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -548,13 +539,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                         switch (response.code()) {
                             case HTTP_OK:
                             case HTTP_NO_CONTENT:
-                                feedEntry.getFeedItem().setPinned(false);
-                                feedEntry.getFeedItem().setPinId(null);
-                                toggleFeedItemPin(feedEntry.getFeedItem(), false);
+                                feedEntry.getFeedInteractions().setHasPinned(false);
+                                feedEntry.getFeedInteractions().setPinId(null);
+                                toggleFeedItemPin(feedEntry, false);
                                 unpinFeedEntry(feedsListItem, feedEntry);
                                 notifyItemChanged(position);
-                                notifyItemMoved(position, feedEntry.getFeedItem().getPreviousPosition());
-                                activity.moveItem(position, feedEntry.getFeedItem().getPreviousPosition());
+                                notifyItemMoved(position, feedEntry.getFeedInteractions().getPreviousPosition());
+                                activity.moveItem(position, feedEntry.getFeedInteractions().getPreviousPosition());
                                 break;
                             case HTTP_NOT_FOUND:
                                 Toast.makeText(activity, R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();

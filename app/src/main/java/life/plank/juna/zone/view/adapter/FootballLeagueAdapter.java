@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.League;
+import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.LeagueInfoActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
@@ -54,7 +54,7 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            LeagueInfoActivity.launch(activity, activity.gson.toJson(league));
+            LeagueInfoActivity.launch(activity, league);
         });
     }
 

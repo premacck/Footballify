@@ -18,8 +18,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME;
@@ -166,18 +166,18 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         private void placeTimelineLayout() {
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) timelineLayout.getLayoutParams();
             params.addRule(
-                    event.getIsHomeTeam() ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END,
+                    event.isHomeTeam() ? RelativeLayout.ALIGN_PARENT_START : RelativeLayout.ALIGN_PARENT_END,
                     RelativeLayout.TRUE
             );
-            params.removeRule(event.getIsHomeTeam() ? RelativeLayout.ALIGN_PARENT_END : RelativeLayout.ALIGN_PARENT_START);
-            params.addRule(event.getIsHomeTeam() ? RelativeLayout.START_OF : RelativeLayout.END_OF, R.id.center_space);
-            params.removeRule(event.getIsHomeTeam() ? RelativeLayout.END_OF : RelativeLayout.START_OF);
-            params.rightMargin = (int) getDp(event.getIsHomeTeam() ? 22 : 0);
-            params.leftMargin = (int) getDp(event.getIsHomeTeam() ? 0 : 22);
-            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
-            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START));
+            params.removeRule(event.isHomeTeam() ? RelativeLayout.ALIGN_PARENT_END : RelativeLayout.ALIGN_PARENT_START);
+            params.addRule(event.isHomeTeam() ? RelativeLayout.START_OF : RelativeLayout.END_OF, R.id.center_space);
+            params.removeRule(event.isHomeTeam() ? RelativeLayout.END_OF : RelativeLayout.START_OF);
+            params.rightMargin = (int) getDp(event.isHomeTeam() ? 22 : 0);
+            params.leftMargin = (int) getDp(event.isHomeTeam() ? 0 : 22);
+            timelineEventUp.setGravity(Gravity.CENTER_VERTICAL | (event.isHomeTeam() ? Gravity.END : Gravity.START));
+            timelineEventDown.setGravity(Gravity.CENTER_VERTICAL | (event.isHomeTeam() ? Gravity.END : Gravity.START));
             LinearLayout.LayoutParams eventParams = (LinearLayout.LayoutParams) timelineEventUp.getLayoutParams();
-            eventParams.gravity = Gravity.CENTER_VERTICAL | (event.getIsHomeTeam() ? Gravity.END : Gravity.START);
+            eventParams.gravity = Gravity.CENTER_VERTICAL | (event.isHomeTeam() ? Gravity.END : Gravity.START);
             timelineEventUp.setLayoutParams(eventParams);
             timelineEventDown.setLayoutParams(eventParams);
             timelineLayout.setLayoutParams(params);
@@ -197,13 +197,13 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             setCenterLayout();
             timelineEventDown.setCompoundDrawablePadding((int) getDp(10));
             int suitableCardDrawable = event.getEventType().contains(ref.get().context.getString(R.string.red)) ?
-                    event.getIsHomeTeam() ?
+                    event.isHomeTeam() ?
                             R.drawable.red_left :
                             R.drawable.red_right :
-                    event.getIsHomeTeam() ?
+                    event.isHomeTeam() ?
                             R.drawable.yellow_left :
                             R.drawable.yellow_right;
-            if (event.getIsHomeTeam()) {
+            if (event.isHomeTeam()) {
                 timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, suitableCardDrawable, 0);
             } else {
                 timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(suitableCardDrawable, 0, 0, 0);
@@ -215,7 +215,7 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
         private void onSubstitutionEvent() {
             setCenterLayout();
             timelineEventDown.setCompoundDrawablePadding((int) getDp(10));
-            if (event.getIsHomeTeam()) {
+            if (event.isHomeTeam()) {
                 timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_in, 0);
                 timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_substitute_out, 0);
             } else {
@@ -232,9 +232,9 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             setCenterLayout();
             timelineEventDown.setCompoundDrawablePadding((int) getDp(4));
             timelineEventUp.setCompoundDrawablesWithIntrinsicBounds(
-                    event.getIsHomeTeam() ? 0 : R.drawable.ic_goal_right,
+                    event.isHomeTeam() ? 0 : R.drawable.ic_goal_right,
                     0,
-                    event.getIsHomeTeam() ? R.drawable.ic_goal_left : 0,
+                    event.isHomeTeam() ? R.drawable.ic_goal_left : 0,
                     0
             );
             timelineEventUp.setText(event.getPlayerName());
@@ -243,12 +243,12 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             String timelineEventDownText;
             if (event.getRelatedPlayerName() != null) {
                 timelineEventDown.setCompoundDrawablesWithIntrinsicBounds(
-                        event.getIsHomeTeam() ? R.drawable.ic_assist : 0,
+                        event.isHomeTeam() ? R.drawable.ic_assist : 0,
                         0,
-                        event.getIsHomeTeam() ? 0 : R.drawable.ic_assist,
+                        event.isHomeTeam() ? 0 : R.drawable.ic_assist,
                         0
                 );
-                timelineEventDownText = event.getIsHomeTeam() ?
+                timelineEventDownText = event.isHomeTeam() ?
                         event.getRelatedPlayerName() + "    " + event.getResult() :
                         event.getResult() + "    " + event.getRelatedPlayerName();
             } else {

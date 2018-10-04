@@ -39,11 +39,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.User;
+import life.plank.juna.zone.data.model.UserPreference;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.User;
-import life.plank.juna.zone.data.network.model.UserPreference;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 import life.plank.juna.zone.util.AuthUtil;
 import life.plank.juna.zone.util.BoomMenuUtil;
@@ -192,7 +192,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     }
 
     private void initBoardsRecyclerView() {
-        userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
+        userBoardsAdapter = new UserBoardsAdapter(this, restApi, picasso);
         userBoardsRecyclerView.setAdapter(userBoardsAdapter);
     }
 
@@ -228,7 +228,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
                             case HttpURLConnection.HTTP_OK:
                                 User user = response.body();
                                 if (user != null) {
-                                    setUpUserZoneAdapter(user.userPreferences);
+                                    setUpUserZoneAdapter(user.getUserPreferences());
                                 }
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:

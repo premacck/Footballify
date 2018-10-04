@@ -31,8 +31,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
@@ -214,9 +214,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemClick(int position) {
-        List<FeedEntry> feedItemList = adapter.getBoardFeed();
-        if (!isNullOrEmpty(feedItemList)) {
-            PostDetailActivity.launch(getActivity(), gson.toJson(feedItemList), boardId, position);
+        if (!isNullOrEmpty(adapter.getBoardFeed())) {
+            PostDetailActivity.launch(getActivity(), adapter.getBoardFeed(), boardId, position);
         }
     }
 

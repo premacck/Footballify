@@ -4,11 +4,11 @@ import android.os.AsyncTask;
 
 import java.util.Objects;
 
-import life.plank.juna.zone.data.network.model.FixtureByDate;
-import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchFixture;
+import life.plank.juna.zone.data.model.FixtureByDate;
+import life.plank.juna.zone.data.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.LiveScoreData;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchFixture;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;

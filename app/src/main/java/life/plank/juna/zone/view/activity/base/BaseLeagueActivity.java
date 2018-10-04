@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import life.plank.juna.zone.data.network.model.League;
+import life.plank.juna.zone.data.model.League;
 
 public abstract class BaseLeagueActivity extends AppCompatActivity {
 

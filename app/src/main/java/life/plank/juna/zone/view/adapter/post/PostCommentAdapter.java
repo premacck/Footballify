@@ -6,7 +6,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import life.plank.juna.zone.data.network.model.FeedItemComment;
+import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.binder.PostCommentBinder;
 

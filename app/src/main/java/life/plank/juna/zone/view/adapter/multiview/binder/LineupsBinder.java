@@ -21,9 +21,10 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballTeam;
-import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchDetails;
+import life.plank.juna.zone.data.model.FootballTeam;
+import life.plank.juna.zone.data.model.Formation;
+import life.plank.juna.zone.data.model.Lineups;
+import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.util.customview.LineupPlayer;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import lombok.Data;
@@ -91,24 +92,24 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
                 .into(target);
     }
 
-    private void prepareLineup(LinearLayout lineupLayout, List<List<Lineups.Formation>> formationsList, int labelColor, boolean isHomeTeam) {
+    private void prepareLineup(LinearLayout lineupLayout, List<List<Formation>> formationsList, int labelColor, boolean isHomeTeam) {
         lineupLayout.removeAllViews();
         if (!isHomeTeam) {
             Collections.reverse(formationsList);
         }
-        for (List<Lineups.Formation> formations : formationsList) {
+        for (List<Formation> formations : formationsList) {
             lineupLayout.addView(getLineupLayoutLine(formations, labelColor));
         }
     }
 
-    private LinearLayout getLineupLayoutLine(List<Lineups.Formation> formations, int labelColor) {
+    private LinearLayout getLineupLayoutLine(List<Formation> formations, int labelColor) {
         LinearLayout linearLayout = new LinearLayout(activity);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setGravity(Gravity.CENTER);
         linearLayout.setWeightSum(formations.size());
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1);
         linearLayout.setLayoutParams(params);
-        for (Lineups.Formation formation : formations) {
+        for (Formation formation : formations) {
             LineupPlayer lineupPlayer = new LineupPlayer(activity, formation, labelColor);
             linearLayout.addView(lineupPlayer);
             ((LinearLayout.LayoutParams) lineupPlayer.getLayoutParams()).weight = 1;
@@ -116,9 +117,9 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
         return linearLayout;
     }
 
-    private String getLineupText(List<List<Lineups.Formation>> formationsList) {
+    private String getLineupText(List<List<Formation>> formationsList) {
         StringBuilder text = new StringBuilder();
-        for (List<Lineups.Formation> formations : formationsList.subList(1, formationsList.size())) {
+        for (List<Formation> formations : formationsList.subList(1, formationsList.size())) {
             text.append(formations.size());
             if (formationsList.indexOf(formations) < formationsList.size() - 1) {
                 text.append(DASH);

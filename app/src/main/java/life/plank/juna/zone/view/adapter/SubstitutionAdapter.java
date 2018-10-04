@@ -12,7 +12,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAdapter.SubstitutionViewHolder> {
@@ -68,7 +68,7 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
         @Override
         public void bind() {
             MatchEvent event = ref.get().matchEventList.get(getAdapterPosition());
-            if (event.getIsHomeTeam()) {
+            if (event.isHomeTeam()) {
                 homePlayerName.setText(event.getPlayerName());
                 homeRelatedPlayerName.setText(event.getRelatedPlayerName());
                 visitingPlayerName.setVisibility(View.GONE);
@@ -79,10 +79,10 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
                 homePlayerName.setVisibility(View.GONE);
                 homeRelatedPlayerName.setVisibility(View.GONE);
             }
-            homePlayerName.setCompoundDrawablesWithIntrinsicBounds(event.getIsHomeTeam() ? R.drawable.ic_substitute_in : 0, 0, 0, 0);
-            homeRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(event.getIsHomeTeam() ? R.drawable.ic_substitute_out : 0, 0, 0, 0);
-            visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.getIsHomeTeam() ? 0 : R.drawable.ic_substitute_in, 0);
-            visitingRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.getIsHomeTeam() ? 0 : R.drawable.ic_substitute_out, 0);
+            homePlayerName.setCompoundDrawablesWithIntrinsicBounds(event.isHomeTeam() ? R.drawable.ic_substitute_in : 0, 0, 0, 0);
+            homeRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(event.isHomeTeam() ? R.drawable.ic_substitute_out : 0, 0, 0, 0);
+            visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.isHomeTeam() ? 0 : R.drawable.ic_substitute_in, 0);
+            visitingRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.isHomeTeam() ? 0 : R.drawable.ic_substitute_out, 0);
             String timeText;
             timeText = (event.getExtraMinute() > 0 ?
                     event.getMinute() + " + " + event.getExtraMinute() :

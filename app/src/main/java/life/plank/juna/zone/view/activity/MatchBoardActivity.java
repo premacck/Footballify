@@ -45,17 +45,17 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
+import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.data.model.LiveScoreData;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.Thumbnail;
+import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.League;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.Thumbnail;
-import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
@@ -135,10 +135,10 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         }
     };
 
-    public static void launch(Activity from, String fixtureJson, String leagueString) {
+    public static void launch(Activity from, MatchFixture fixture, League league) {
         Intent intent = new Intent(from, MatchBoardActivity.class);
-        intent.putExtra(from.getString(R.string.intent_fixture_data), fixtureJson);
-        intent.putExtra(from.getString(R.string.intent_league), leagueString);
+        intent.putExtra(from.getString(R.string.intent_fixture_data), fixture);
+        intent.putExtra(from.getString(R.string.intent_league), league);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
@@ -234,8 +234,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
         Intent intent = getIntent();
         if (intent.hasExtra(getString(R.string.intent_fixture_data))) {
-            fixture = gson.fromJson(intent.getStringExtra(getString(R.string.intent_fixture_data)), MatchFixture.class);
-            league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);
+            fixture = intent.getParcelableExtra(getString(R.string.intent_fixture_data));
+            league = intent.getParcelableExtra(getString(R.string.intent_league));
             currentMatchId = fixture.getMatchId();
             publicBoardToolbar.prepare(picasso, fixture, league.getThumbUrl());
         } else {
@@ -310,7 +310,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             matchDetails = boardMatchDetailsPair.second;
                             Board board = boardMatchDetailsPair.first;
                             if (matchDetails != null) {
-                                publicBoardToolbar.prepare(picasso, MatchFixture.from(matchDetails), league.getThumbUrl());
+                                publicBoardToolbar.prepare(picasso, MatchFixture.Companion.from(matchDetails), league.getThumbUrl());
                             }
                             if (board != null) {
                                 boardId = board.getId();

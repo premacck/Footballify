@@ -14,7 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
+import life.plank.juna.zone.data.model.FeedItemCommentReply;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 

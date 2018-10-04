@@ -33,17 +33,17 @@ import java.util.Random;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.Commentary;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.League;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.ScrubberData;
-import life.plank.juna.zone.data.network.model.ZoneLiveData;
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.Commentary;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.data.model.LiveScoreData;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchEvent;
+import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.ScrubberData;
+import life.plank.juna.zone.data.model.ZoneLiveData;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
 import static life.plank.juna.zone.util.AppConstants.DASH;
@@ -126,7 +126,7 @@ public class DataUtil {
         }
     }
 
-    private static String getPastMatchSeparator(MatchFixture matchFixture, ImageView winPointer, boolean isBoard) {
+    private static String getPastMatchSeparator(MatchFixture MatchFixture, ImageView winPointer, boolean isBoard) {
         String teamNameSeparator;
         int homeWinDrawable = isBoard ?
                 R.drawable.ic_win_home_light :
@@ -134,34 +134,34 @@ public class DataUtil {
         int visitingWinDrawable = isBoard ?
                 R.drawable.ic_win_away_light :
                 R.drawable.ic_win_away_dark;
-        if (matchFixture.getAwayTeamPenaltyScore() == 0 && matchFixture.getHomeTeamPenaltyScore() == 0) {
-            if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
+        if (MatchFixture.getAwayTeamPenaltyScore() == 0 && MatchFixture.getHomeTeamPenaltyScore() == 0) {
+            if (MatchFixture.getHomeGoals() > MatchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(homeWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinScore(matchFixture.getHomeGoals(), matchFixture.getAwayGoals(), isBoard);
-            } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
+                teamNameSeparator = ScoreBuilder.getWinScore(MatchFixture.getHomeGoals(), MatchFixture.getAwayGoals(), isBoard);
+            } else if (MatchFixture.getAwayGoals() > MatchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinScore(matchFixture.getHomeGoals(), matchFixture.getAwayGoals(), isBoard);
+                teamNameSeparator = ScoreBuilder.getWinScore(MatchFixture.getHomeGoals(), MatchFixture.getAwayGoals(), isBoard);
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = ScoreBuilder.getTiedScore(matchFixture.getHomeGoals(), matchFixture.getAwayGoals(), isBoard);
+                teamNameSeparator = ScoreBuilder.getTiedScore(MatchFixture.getHomeGoals(), MatchFixture.getAwayGoals(), isBoard);
             }
         } else {
-            if (matchFixture.getHomeGoals() > matchFixture.getAwayGoals()) {
+            if (MatchFixture.getHomeGoals() > MatchFixture.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(homeWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(matchFixture.getHomeGoals(), matchFixture.getHomeTeamPenaltyScore(),
-                        matchFixture.getAwayGoals(), matchFixture.getAwayTeamPenaltyScore(), isBoard);
-            } else if (matchFixture.getAwayGoals() > matchFixture.getHomeGoals()) {
+                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(MatchFixture.getHomeGoals(), MatchFixture.getHomeTeamPenaltyScore(),
+                        MatchFixture.getAwayGoals(), MatchFixture.getAwayTeamPenaltyScore(), isBoard);
+            } else if (MatchFixture.getAwayGoals() > MatchFixture.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(matchFixture.getHomeGoals(), matchFixture.getHomeTeamPenaltyScore(),
-                        matchFixture.getAwayGoals(), matchFixture.getAwayTeamPenaltyScore(), isBoard);
+                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(MatchFixture.getHomeGoals(), MatchFixture.getHomeTeamPenaltyScore(),
+                        MatchFixture.getAwayGoals(), MatchFixture.getAwayTeamPenaltyScore(), isBoard);
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = ScoreBuilder.getTiedPenaltyScore(matchFixture.getHomeGoals(), matchFixture.getHomeTeamPenaltyScore(),
-                        matchFixture.getAwayGoals(), matchFixture.getAwayTeamPenaltyScore(), isBoard);
+                teamNameSeparator = ScoreBuilder.getTiedPenaltyScore(MatchFixture.getHomeGoals(), MatchFixture.getHomeTeamPenaltyScore(),
+                        MatchFixture.getAwayGoals(), MatchFixture.getAwayTeamPenaltyScore(), isBoard);
             }
         }
         return teamNameSeparator;
@@ -294,7 +294,7 @@ public class DataUtil {
     }
 
     //region Dummy Data for Scrubber. TODO : remove this region after getting the data from backend.
-    static List<ScrubberData> getDefinedDummyScrubberData() {
+    private static List<ScrubberData> getDefinedDummyScrubberData() {
         List<ScrubberData> scrubberDataList = new ArrayList<>();
         scrubberDataList.add(new ScrubberData(0, 18, LIVE, false));
         scrubberDataList.add(new ScrubberData(2, 48, FOUL, true));
@@ -379,7 +379,7 @@ public class DataUtil {
             entries.add(new Entry(
                     scrubberData.getMillisecondsX(),
                     scrubberData.getInteractionY(),
-                    getSuitableScrubberIcon(scrubberData.getEvent().getEventType(), scrubberData.getEvent().getIsHomeTeam())
+                    getSuitableScrubberIcon(scrubberData.getEvent().getEventType(), scrubberData.getEvent().isHomeTeam())
             ));
         }
         LineDataSet dataSet = new LineDataSet(entries, ZoneApplication.getContext().getString(R.string.scrubber));
@@ -443,7 +443,7 @@ public class DataUtil {
      *
      * @param lineChart the {@link LineChart} instance to customize.
      */
-    static void prepareScrubber(LineChart lineChart) {
+    private static void prepareScrubber(LineChart lineChart) {
         lineChart.setPinchZoom(true);
         lineChart.getAxisLeft().setEnabled(false);
         lineChart.getAxisRight().setEnabled(false);
@@ -480,7 +480,7 @@ public class DataUtil {
     }
 
     public static void unpinFeedEntry(List<FeedEntry> feedEntryList, FeedEntry feedEntryToUnpin) {
-        int previousPosition = feedEntryToUnpin.getFeedItem().getPreviousPosition();
+        int previousPosition = feedEntryToUnpin.getFeedInteractions().getPreviousPosition();
         if (previousPosition >= 0) {
             feedEntryList.remove(feedEntryToUnpin);
             feedEntryList.add(previousPosition, feedEntryToUnpin);
@@ -536,9 +536,9 @@ public class DataUtil {
         @Override
         public int compare(MatchEvent o1, MatchEvent o2) {
             if (Objects.equals(o1.getMinute(), o2.getMinute())) {
-                return o1.getExtraMinute().compareTo(o2.getExtraMinute());
+                return Integer.compare(o1.getExtraMinute(), o2.getExtraMinute());
             }
-            return o1.getMinute().compareTo(o2.getMinute());
+            return Integer.compare(o1.getMinute(), o2.getMinute());
         }
     }
 

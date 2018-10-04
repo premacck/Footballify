@@ -11,7 +11,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.CoinPack;
+import life.plank.juna.zone.data.model.CoinPack;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.util.ObliqueStrikeTextView;
 

@@ -15,8 +15,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.FeedItem;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
@@ -53,27 +53,27 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     @Override
     public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
-        FeedItem footballFeed = boardFeed.get(position).getFeedItem();
+        FeedItem feedItem = boardFeed.get(position).getFeedItem();
 
         //TODO: remove this null check after the backend returns the user profile picture
-        if (footballFeed.getUser() != null) {
+        if (feedItem.getUser() != null) {
             fragment.picasso
-                    .load(footballFeed.getUser().getProfilePictureUrl())
+                    .load(feedItem.getUser().getProfilePictureUrl())
                     .placeholder(R.drawable.ic_default_profile)
                     .error(R.drawable.ic_default_profile)
                     .into(holder.profilePictureImageView);
         }
 
-        switch (footballFeed.getContentType()) {
+        switch (feedItem.getContentType()) {
             case AUDIO:
                 setVisibility(holder, GONE, VISIBLE, GONE);
                 holder.tileImageView.setImageResource(R.drawable.ic_audio);
                 break;
             case IMAGE:
                 setVisibility(holder, GONE, VISIBLE, GONE);
-                if (footballFeed.getThumbnail() != null) {
+                if (feedItem.getThumbnail() != null) {
                     fragment.picasso
-                            .load(footballFeed.getThumbnail().getImageUrl())
+                            .load(feedItem.getThumbnail().getImageUrl())
                             .fit().centerCrop()
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
@@ -82,9 +82,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             case VIDEO:
                 setVisibility(holder, GONE, VISIBLE, VISIBLE);
-                if (footballFeed.getThumbnail() != null) {
+                if (feedItem.getThumbnail() != null) {
                     fragment.picasso
-                            .load(footballFeed.getThumbnail().getImageUrl())
+                            .load(feedItem.getThumbnail().getImageUrl())
                             .placeholder(R.drawable.ic_place_holder)
                             .error(R.drawable.ic_place_holder)
                             .into(holder.tileImageView);
@@ -92,7 +92,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
-                String comment = footballFeed.getTitle().replaceAll("^\"|\"$", "");
+                String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
                 holder.commentTextView.setBackground(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
 

@@ -13,7 +13,8 @@ import java.util.Map;
 import java.util.Objects;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FeedItem;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
 
 import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -123,13 +124,13 @@ public class PreferenceManager {
             return getContext().getSharedPreferences("Pin", Context.MODE_PRIVATE);
         }
 
-        public static void toggleFeedItemPin(FeedItem feedItem, boolean isPinned) {
-            feedItem.setPinned(isPinned);
+    public static void toggleFeedItemPin(FeedEntry feedEntry, boolean isPinned) {
+        feedEntry.getFeedInteractions().setHasPinned(isPinned);
             SharedPreferences.Editor editor = getPinSharedPreferences().edit();
             if (isPinned) {
-                editor.putBoolean(feedItem.getId(), true);
+                editor.putBoolean(feedEntry.getFeedItem().getId(), true);
             } else {
-                editor.remove(feedItem.getId());
+                editor.remove(feedEntry.getFeedItem().getId());
             }
             editor.apply();
         }

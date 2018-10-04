@@ -29,9 +29,9 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
@@ -128,7 +128,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         myBoardsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
-        userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
+        userBoardsAdapter = new UserBoardsAdapter(this, restApi, picasso);
         myBoardsRecyclerView.setAdapter(userBoardsAdapter);
         getCoinsList.setAdapter(getCoinsAdapter);
         lastTransactionsList.setAdapter(lastTransactionsAdapter);
@@ -155,8 +155,10 @@ public class UserProfileActivity extends AppCompatActivity {
                             case HttpURLConnection.HTTP_OK:
 
                                 List<Board> boards = response.body();
-                                Board board = Board.builder().name(getString(R.string.new_)).build();
-                                boards.add(board);
+                                Board board = new Board(getString(R.string.new_));
+                                if (boards != null) {
+                                    boards.add(board);
+                                }
                                 userBoardsAdapter.setUserBoards(boards);
                                 userBoardsAdapter.notifyDataSetChanged();
                                 break;

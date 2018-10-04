@@ -23,8 +23,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
-import life.plank.juna.zone.data.network.model.League;
+import life.plank.juna.zone.data.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
 
@@ -57,9 +57,9 @@ public class FixtureActivity extends BaseLeagueActivity {
 
     private FixtureMatchdayAdapter fixtureMatchdayAdapter;
 
-    public static void launch(Activity packageContext, String leagueString) {
+    public static void launch(Activity packageContext, League league) {
         Intent intent = new Intent(packageContext, FixtureActivity.class);
-        intent.putExtra(packageContext.getString(R.string.intent_league), leagueString);
+        intent.putExtra(packageContext.getString(R.string.intent_league), league);
         packageContext.startActivity(intent);
         packageContext.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
@@ -81,7 +81,7 @@ public class FixtureActivity extends BaseLeagueActivity {
             onNoMatchesFound();
             return;
         }
-        league = gson.fromJson(intent.getStringExtra(getString(R.string.intent_league)), League.class);
+        league = intent.getParcelableExtra(getString(R.string.intent_league));
 
         prepareRecyclerView();
     }

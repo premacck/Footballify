@@ -6,21 +6,21 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.FeedItemComment;
-import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
-import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
-import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchStats;
-import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.ScrubberData;
-import life.plank.juna.zone.data.network.model.SignUpModel;
-import life.plank.juna.zone.data.network.model.StandingModel;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
-import life.plank.juna.zone.data.network.model.User;
-import life.plank.juna.zone.data.network.model.Zones;
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItemComment;
+import life.plank.juna.zone.data.model.FeedItemCommentReply;
+import life.plank.juna.zone.data.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.Lineups;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchStats;
+import life.plank.juna.zone.data.model.PlayerStats;
+import life.plank.juna.zone.data.model.ScrubberData;
+import life.plank.juna.zone.data.model.SignUpModel;
+import life.plank.juna.zone.data.model.Standings;
+import life.plank.juna.zone.data.model.TeamStats;
+import life.plank.juna.zone.data.model.User;
+import life.plank.juna.zone.data.model.Zones;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -44,21 +44,21 @@ public interface RestApi {
 
     //working
     @GET("seasons/standings")
-    Observable<Response<List<StandingModel>>> getStandings(@Query("leagueName") String leagueName,
+    Observable<Response<List<Standings>>> getStandings(@Query("leagueName") String leagueName,
+                                                       @Query("seasonName") String seasonName,
+                                                       @Query("countryName") String countryName);
+
+    //working
+    @GET("seasons/playerstats")
+    Observable<Response<List<PlayerStats>>> getPlayerStats(@Query("leagueName") String leagueName,
                                                            @Query("seasonName") String seasonName,
                                                            @Query("countryName") String countryName);
 
     //working
-    @GET("seasons/playerstats")
-    Observable<Response<List<PlayerStatsModel>>> getPlayerStats(@Query("leagueName") String leagueName,
-                                                                @Query("seasonName") String seasonName,
-                                                                @Query("countryName") String countryName);
-
-    //working
     @GET("teams/stats")
-    Observable<Response<List<TeamStatsModel>>> getTeamStats(@Query("leagueName") String leagueName,
-                                                            @Query("seasonName") String seasonName,
-                                                            @Query("countryName") String countryName);
+    Observable<Response<List<TeamStats>>> getTeamStats(@Query("leagueName") String leagueName,
+                                                       @Query("seasonName") String seasonName,
+                                                       @Query("countryName") String countryName);
 
     //working
     @GET("/boards")
@@ -206,10 +206,10 @@ public interface RestApi {
     Observable<Response<MatchDetails>> getMatchDetails(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/standings")
-    Observable<Response<List<StandingModel>>> getMatchStandingsForMatch(@Path("matchId") long matchId);
+    Observable<Response<List<Standings>>> getMatchStandingsForMatch(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/teamStats")
-    Observable<Response<List<TeamStatsModel>>> getTeamStatsForMatch(@Path("matchId") long matchId);
+    Observable<Response<List<TeamStats>>> getTeamStatsForMatch(@Path("matchId") long matchId);
 
     @GET("matches/{matchId}/scrubber/{hour}")
     Observable<Response<List<ScrubberData>>> getScrubberDetails(@Path("matchId") long matchId, @Path("hour") Date currentMatchTime);

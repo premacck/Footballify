@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.StandingModel;
+import life.plank.juna.zone.data.model.Standings;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -24,11 +24,11 @@ import life.plank.juna.zone.data.network.model.StandingModel;
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
 
     private Picasso picasso;
-    private List<StandingModel> standingModelList;
+    private List<Standings> standingsList;
 
     public StandingTableAdapter(Picasso picasso) {
         this.picasso = picasso;
-        this.standingModelList = new ArrayList<>();
+        this.standingsList = new ArrayList<>();
     }
 
     @Override
@@ -40,34 +40,34 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
     @Override
     public void onBindViewHolder(StandingScoreTableViewHolder holder, int position) {
         holder.serialNumberTextView.setText(String.valueOf(position + 1));
-        holder.teamNameTextView.setText(standingModelList.get(position).getTeamName());
-        holder.playedTextView.setText(String.valueOf(standingModelList.get(position).getMatchesPlayed()));
-        holder.winTextView.setText(String.valueOf(standingModelList.get(position).getWins()));
-        holder.drawTextView.setText(String.valueOf(standingModelList.get(position).getDraws()));
-        holder.lossTextView.setText(String.valueOf(standingModelList.get(position).getLosses()));
-        holder.goalForTextView.setText(String.valueOf(standingModelList.get(position).getGoalsFor()));
-        holder.goalAgainstTextView.setText(String.valueOf(standingModelList.get(position).getGoalsAgainst()));
-        holder.goalDifferenceTextView.setText(String.valueOf(standingModelList.get(position).getGoalDifference()));
-        holder.pointTableTextView.setText(String.valueOf(standingModelList.get(position).getPoints()));
-        picasso.load(standingModelList.get(position).getFootballTeamLogo())
+        holder.teamNameTextView.setText(standingsList.get(position).getTeamName());
+        holder.playedTextView.setText(String.valueOf(standingsList.get(position).getMatchesPlayed()));
+        holder.winTextView.setText(String.valueOf(standingsList.get(position).getWins()));
+        holder.drawTextView.setText(String.valueOf(standingsList.get(position).getDraws()));
+        holder.lossTextView.setText(String.valueOf(standingsList.get(position).getLosses()));
+        holder.goalForTextView.setText(String.valueOf(standingsList.get(position).getGoalsFor()));
+        holder.goalAgainstTextView.setText(String.valueOf(standingsList.get(position).getGoalsAgainst()));
+        holder.goalDifferenceTextView.setText(String.valueOf(standingsList.get(position).getGoalDifference()));
+        holder.pointTableTextView.setText(String.valueOf(standingsList.get(position).getPoints()));
+        picasso.load(standingsList.get(position).getFootballTeamLogo())
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
                 .into(holder.teamLogoImageView);
     }
 
-    public void update(List<StandingModel> standingModelList) {
-        this.standingModelList.addAll(standingModelList);
+    public void update(List<Standings> standingsList) {
+        this.standingsList.addAll(standingsList);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return standingModelList.size();
+        return standingsList.size();
     }
 
-    public List<StandingModel> getStandings() {
-        return standingModelList;
+    public List<Standings> getStandings() {
+        return standingsList;
     }
 
     public class StandingScoreTableViewHolder extends RecyclerView.ViewHolder {

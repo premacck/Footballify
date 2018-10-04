@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Lineups;
+import life.plank.juna.zone.data.model.Formation;
 
 public class LineupPlayer extends FrameLayout {
 
@@ -35,28 +35,28 @@ public class LineupPlayer extends FrameLayout {
     @BindView(R.id.lineup_player_name)
     TextView lineupPlayerName;
 
-    private Lineups.Formation formation;
+    private Formation formation;
 
     public LineupPlayer(@NonNull Context context) {
         this(context, null, R.color.purple);
     }
 
-    public LineupPlayer(@NonNull Context context, Lineups.Formation formation, @ColorRes int labelColor) {
+    public LineupPlayer(@NonNull Context context, Formation formation, @ColorRes int labelColor) {
         this(context, null, formation, labelColor);
         this.formation = formation;
     }
 
-    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, Lineups.Formation formation, @ColorRes int labelColor) {
+    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, Formation formation, @ColorRes int labelColor) {
         this(context, attrs, 0, formation, labelColor);
         this.formation = formation;
     }
 
-    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, Lineups.Formation formation, @ColorRes int labelColor) {
+    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, Formation formation, @ColorRes int labelColor) {
         this(context, attrs, defStyleAttr, 0, formation, labelColor);
         this.formation = formation;
     }
 
-    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes, Lineups.Formation formation, @ColorRes int labelColor) {
+    public LineupPlayer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes, Formation formation, @ColorRes int labelColor) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.formation = formation;
         init(context, labelColor);

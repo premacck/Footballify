@@ -15,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -48,10 +49,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItemComment;
+import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.FeedItemComment;
-import life.plank.juna.zone.data.network.model.FeedItemCommentReply;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
@@ -77,6 +78,7 @@ import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.getBoldText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getClickableLink;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
@@ -200,13 +202,13 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         }
 
         if (feedEntry.getFeedInteractions() != null) {
-            if (feedEntry.getFeedInteractions().isHasLiked()) {
+            if (feedEntry.getFeedInteractions().getHasLiked()) {
                 int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
                 likeImageView.setImageTintList(ColorStateList.valueOf(tint));
                 dislikeImageView.setVisibility(View.INVISIBLE);
                 likeCountTextView.setVisibility(View.VISIBLE);
                 likeSeparator.setVisibility(View.INVISIBLE);
-            } else if (feedEntry.getFeedInteractions().isHasDisliked()) {
+            } else if (feedEntry.getFeedInteractions().getHasDisliked()) {
                 int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
                 dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
                 likeImageView.setVisibility(View.INVISIBLE);
@@ -233,17 +235,22 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         if (feedEntry.getFeedItem().getContentType().equals(NEWS)) {
             feedDescription.setVisibility(VISIBLE);
             feedDescription.setMovementMethod(LinkMovementMethod.getInstance());
-            feedDescription.setText(getClickableLink(getActivity(), feedEntry.getFeedItem().getUrl()));
+            SpannableStringBuilder stringBuilder = new SpannableStringBuilder()
+                    .append(getBoldText(feedEntry.getFeedItem().getSource()))
+                    .append("\n\n")
+                    .append(feedEntry.getFeedItem().getSummary())
+                    .append("\n\n")
+                    .append(getClickableLink(getActivity(), feedEntry.getFeedItem().getUrl()));
+            feedDescription.setText(stringBuilder);
         } else {
             feedDescription.setVisibility(feedEntry.getFeedItem().getDescription() == null ? GONE : VISIBLE);
             feedDescription.setText(feedEntry.getFeedItem().getDescription());
         }
 
+        feedEntry.getFeedInteractions();
         pinImageView.setImageResource(
-                feedEntry.getFeedInteractions() != null ?
-                        feedEntry.getFeedInteractions().isHasPinned() ?
-                                R.drawable.ic_pin_active :
-                                R.drawable.ic_pin_inactive :
+                feedEntry.getFeedInteractions().getHasPinned() ?
+                        R.drawable.ic_pin_active :
                         R.drawable.ic_pin_inactive
         );
 
@@ -586,7 +593,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @OnClick(R.id.like_image_view)
     public void onLikeClick() {
-        if (feedEntry.getFeedInteractions().isHasLiked()) {
+        if (feedEntry.getFeedInteractions().getHasLiked()) {
             deleteLikeOfBoardFeedItem();
         } else {
             likeBoardFeedItem();
@@ -595,7 +602,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @OnClick(R.id.dislike_image_view)
     public void onDislikeClick() {
-        if (feedEntry.getFeedInteractions().isHasDisliked()) {
+        if (feedEntry.getFeedInteractions().getHasDisliked()) {
             deleteDislikeOfBoardFeedItem();
         } else {
             dislikeBoardFeedItem();
@@ -604,7 +611,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @OnClick(R.id.pin_image_view)
     public void onPinClick() {
-        if (feedEntry.getFeedInteractions().isHasPinned()) {
+        if (feedEntry.getFeedInteractions().getHasPinned()) {
             unpinItem();
         } else {
             pinItem();

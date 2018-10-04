@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Highlights;
+import life.plank.juna.zone.data.model.Highlights;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 public class HighlightsAdapter extends BaseRecyclerView.Adapter<HighlightsAdapter.MatchHighlightsViewHolder> {

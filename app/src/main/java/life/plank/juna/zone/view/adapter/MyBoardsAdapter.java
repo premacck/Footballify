@@ -13,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 public class MyBoardsAdapter extends BaseRecyclerView.Adapter<MyBoardsAdapter.MyBoardsViewHolder> {
