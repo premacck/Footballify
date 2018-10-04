@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -39,6 +40,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class BoardPreviewActivity extends AppCompatActivity {
 
@@ -147,6 +149,38 @@ public class BoardPreviewActivity extends AppCompatActivity {
                 });
     }
 
+    public void followBoard(String boardId) {
+        restApi.followBoard(getToken(), boardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(Response<JsonObject> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_CREATED:
+
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(BoardPreviewActivity.this, R.string.failed_to_follow_board, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(BoardPreviewActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+    }
+
     private void navigateToBoard(String boardId, String token) {
         restApi.getBoardById(boardId, token)
                 .subscribeOn(rx.schedulers.Schedulers.io())
@@ -168,6 +202,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 PrivateBoardActivity.launch(BoardPreviewActivity.this, gson.toJson(response.body()));
+                                followBoard(boardId);
                                 finish();
                                 break;
                             default:
