@@ -6,10 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,11 +66,8 @@ public class UserProfileActivity extends AppCompatActivity {
     TextView dobTextView;
     @BindView(R.id.location_text_view)
     TextView locationTextView;
-
     @BindView(R.id.my_boards_list)
     RecyclerView myBoardsRecyclerView;
-    @BindView(R.id.create_board_button)
-    ImageButton createBoardButton;
     @BindView(R.id.coin_count)
     TextView coinCount;
     @BindView(R.id.last_transactions_list)
@@ -123,11 +120,6 @@ public class UserProfileActivity extends AppCompatActivity {
         getUserDetails();
     }
 
-    @OnClick(R.id.create_board_button)
-    public void launchBoardMaker() {
-        CreateBoardActivity.launch(this, username);
-    }
-
     @OnClick(R.id.edit_profile_button)
     public void editUserProfile() {
         parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
@@ -135,6 +127,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
+        myBoardsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
         userBoardsAdapter = new UserBoardsAdapter(this, gson, restApi, picasso);
         myBoardsRecyclerView.setAdapter(userBoardsAdapter);
         getCoinsList.setAdapter(getCoinsAdapter);
@@ -160,7 +153,11 @@ public class UserProfileActivity extends AppCompatActivity {
                     public void onNext(Response<List<Board>> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                userBoardsAdapter.setUserBoards(response.body());
+
+                                List<Board> boards = response.body();
+                                Board board = Board.builder().name(getString(R.string.new_)).build();
+                                boards.add(board);
+                                userBoardsAdapter.setUserBoards(boards);
                                 userBoardsAdapter.notifyDataSetChanged();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -209,6 +206,7 @@ public class UserProfileActivity extends AppCompatActivity {
                             locationTextView.setText(location);
                             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
                             editor.putString(getString(R.string.pref_profile_pic_url), response.body().getProfilePictureUrl()).apply();
+                            editor.putString(getString(R.string.pref_display_name), response.body().getDisplayName());
                         }
                     }
                 });

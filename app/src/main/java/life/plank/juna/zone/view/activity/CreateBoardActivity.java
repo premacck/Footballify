@@ -152,13 +152,15 @@ public class CreateBoardActivity extends AppCompatActivity {
 
     @OnClick(R.id.create_board_button)
     public void onViewClicked(View view) {
-        createBoard(new Board(
-                boardName.getText().toString().trim(),
-                getString(R.string.private_lowercase),
-                zone.toLowerCase().trim(),
-                boardDescription.getText().toString().trim(),
-                boardColorThemeAdapter.getSelectedColor()
-        ), boardIconAdapter.getSelectedPath());
+        Board board = Board.builder()
+                .displayname(boardName.getText().toString().trim())
+                .boardType(getString(R.string.private_lowercase))
+                .zone(zone.toLowerCase().trim())
+                .description(boardDescription.getText().toString().trim())
+                .color(boardColorThemeAdapter.getSelectedColor())
+                .build();
+
+        createBoard(board, boardIconAdapter.getSelectedPath());
     }
 
     @OnClick(R.id.upload_board_icon)

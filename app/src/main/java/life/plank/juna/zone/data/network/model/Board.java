@@ -3,9 +3,11 @@ package life.plank.juna.zone.data.network.model;
 
 import java.util.Date;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class Board {
     private String id;
     private String displayname;
@@ -21,14 +23,6 @@ public class Board {
     private Interaction interactions;
     private Date startDate;
     private Date endDate;
-
-    public Board(String displayname, String boardType, String zone, String description, String color) {
-        this.displayname = displayname;
-        this.boardType = boardType;
-        this.zone = zone;
-        this.description = description;
-        this.color = color;
-    }
 
     @Data
     public static class BoardEvent {
