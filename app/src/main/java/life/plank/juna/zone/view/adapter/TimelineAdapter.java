@@ -61,10 +61,6 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
     }
 
     public void updateEvents(List<MatchEvent> matchEventList) {
-        if (this.matchEventList.isEmpty()) {
-//            adding kickoff time statically. TODO : change to dynamic population after backend sends it.
-            matchEventList.add(new MatchEvent(new LiveTimeStatus(LIVE, 0, 0)));
-        }
         this.matchEventList.addAll(matchEventList);
         notifyDataSetChanged();
     }
@@ -193,7 +189,8 @@ public class TimelineAdapter extends BaseRecyclerView.Adapter<TimelineAdapter.Ti
             minuteView.setVisibility(View.GONE);
             whistleEventUp.setText(getTimedEventString());
             whistleEventDown.setVisibility(View.VISIBLE);
-            whistleEventDown.setText(getTimedEventExtraString());
+            String whistleEventString = "+" + getTimedEventExtraString();
+            whistleEventDown.setText(whistleEventString);
         }
 
         private void onCardEvent() {

@@ -25,5 +25,7 @@ public class MatchEvent {
      */
     public MatchEvent(LiveTimeStatus liveTimeStatus) {
         this.liveTimeStatus = liveTimeStatus;
+        this.minute = liveTimeStatus.getMinute();
+        this.extraMinute = liveTimeStatus.getExtraMinute();
     }
 }

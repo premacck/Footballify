@@ -24,6 +24,8 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +34,7 @@ import java.util.Random;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.model.Board;
+import life.plank.juna.zone.data.network.model.Commentary;
 import life.plank.juna.zone.data.network.model.FeedEntry;
 import life.plank.juna.zone.data.network.model.League;
 import life.plank.juna.zone.data.network.model.LiveScoreData;
@@ -44,6 +47,7 @@ import life.plank.juna.zone.data.network.model.ZoneLiveData;
 
 import static android.graphics.drawable.GradientDrawable.Orientation.TOP_BOTTOM;
 import static life.plank.juna.zone.util.AppConstants.DASH;
+import static life.plank.juna.zone.util.AppConstants.FIRST_HALF_ENDED_;
 import static life.plank.juna.zone.util.AppConstants.FOUL;
 import static life.plank.juna.zone.util.AppConstants.FT;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
@@ -52,6 +56,7 @@ import static life.plank.juna.zone.util.AppConstants.HALF_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.HT;
 import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
+import static life.plank.juna.zone.util.AppConstants.SECOND_HALF_ENDED_;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
@@ -506,6 +511,35 @@ public class DataUtil {
         matchDetails.setTimeStatus(timeStatus.getTimeStatus());
         matchDetails.setMinute(timeStatus.getMinute());
         matchDetails.setExtraMinute(timeStatus.getExtraMinute());
+    }
+
+    public static List<MatchEvent> getAllTimelineEvents(List<Commentary> commentaries, List<MatchEvent> matchEventList) {
+        if (isNullOrEmpty(commentaries) || isNullOrEmpty(matchEventList)) {
+            return null;
+        }
+
+        matchEventList.add(new MatchEvent(new LiveTimeStatus(LIVE, 0, 0)));
+        for (Commentary commentary : commentaries) {
+            if (commentary.getComment().startsWith(FIRST_HALF_ENDED_)) {
+                matchEventList.add(new MatchEvent(new LiveTimeStatus(HT, (int) commentary.getMinute(), (int) commentary.getExtraMinute())));
+            }
+            else if (commentary.getComment().startsWith(SECOND_HALF_ENDED_)) {
+                matchEventList.add(new MatchEvent(new LiveTimeStatus(FT, (int) commentary.getMinute(), (int) commentary.getExtraMinute())));
+            }
+        }
+        Collections.sort(matchEventList, new MatchEventComparator());
+        Collections.reverse(matchEventList);
+        return matchEventList;
+    }
+
+    static class MatchEventComparator implements Comparator<MatchEvent> {
+        @Override
+        public int compare(MatchEvent o1, MatchEvent o2) {
+            if (Objects.equals(o1.getMinute(), o2.getMinute())) {
+                return o1.getExtraMinute().compareTo(o2.getExtraMinute());
+            }
+            return o1.getMinute().compareTo(o2.getMinute());
+        }
     }
 
     public static class ScrubberLoader extends AsyncTask<Void, Void, LineData> {
