@@ -38,7 +38,6 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.ColorHashMap;
-import life.plank.juna.zone.util.OnSwipeTouchListener;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -147,12 +146,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.userNameTextView.setText(userEmailId);
         }
         holder.feedTitleTextView.setText(feedItem.getTitle());
-        holder.feedTopLayout.setOnTouchListener(new OnSwipeTouchListener(activity) {
-            @Override
-            public void onSwipeDown() {
-                activity.setBlurBackgroundAndShowFullScreenTiles(false, 0);
-            }
-        });
+//        TODO: un-comment after swipe down functionality accounts for the pseudo-views
+//        holder.feedTopLayout.setOnTouchListener(new OnSwipeTouchListener(activity, holder.feedTopLayout, holder.itemView) {
+//            @Override
+//            public void onSwipeDown() {
+//                activity.setBlurBackgroundAndShowFullScreenTiles(false, 0);
+//            }
+//        });
 
         holder.pinImageView.setImageResource(
                 feedEntry.getFeedInteractions().getHasPinned() ?
