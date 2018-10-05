@@ -47,6 +47,8 @@ import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME
 import static life.plank.juna.zone.util.DataUtil.equalsNullString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
+import static life.plank.juna.zone.util.UIDisplayUtil.getEmojiByUnicode;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class UserProfileActivity extends AppCompatActivity {
@@ -96,6 +98,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private UserBoardsAdapter userBoardsAdapter;
     private String username;
 
+
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
     }
@@ -112,6 +115,11 @@ public class UserProfileActivity extends AppCompatActivity {
         toolbar.setTitle(getString(R.string.settings));
         initRecyclerView();
         getUserBoards();
+
+        //TODO: Remove after implemention in bottomsheet
+
+        String c = getEmojiByUnicode(emoji[0]);
+        dobTextView.setText(c);
     }
 
     @Override

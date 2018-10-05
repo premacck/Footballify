@@ -88,6 +88,8 @@ public class UIDisplayUtil {
 
     private static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
 
+    public static int[] emoji = new int[]{0x1F60D, 0x1F917, 0x1F618, 0x1F62E, 0x1F910, 0x1F62F, 0x1F924, 0x1F612, 0x1F922, 0x1F601, 0x1F602, 0x1F609};
+
     public UIDisplayUtil() {
 
     }
@@ -517,15 +519,6 @@ public class UIDisplayUtil {
         return new int[]{size.x, size.y};
     }
 
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
     public static SpannableString getBoldText(String text) {
         SpannableString spannableString = new SpannableString(text);
         spannableString.setSpan(BOLD_STYLE, 0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -550,5 +543,18 @@ public class UIDisplayUtil {
                 new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.dark_sky_blue, null)),
                 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         return spannableString;
+    }
+
+    public static String getEmojiByUnicode(int unicode) {
+        return new String(Character.toChars(unicode));
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 }
