@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -86,6 +87,8 @@ import static life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog;
 public class MatchBoardActivity extends BaseBoardActivity implements PublicBoardHeaderListener {
     private static final String TAG = MatchBoardActivity.class.getSimpleName();
 
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
     @BindView(R.id.drag_area)
@@ -229,7 +232,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_board);
         ButterKnife.bind(this);
-        setupSwipeGesture(this, dragArea);
+        setupSwipeGesture(this, dragArea, rootCard);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();

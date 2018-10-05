@@ -6,7 +6,9 @@ public abstract class BaseCardActivity extends BaseActivity {
 
     protected int cardStackCount;
 
-    public abstract void pushCard(BaseCard card);
+    public void pushCard(BaseCard card) {
+    }
 
-    public abstract void popCard(BaseCard card);
+    public void popCard(BaseCard card) {
+    }
 }

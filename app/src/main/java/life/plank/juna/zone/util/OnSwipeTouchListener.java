@@ -1,7 +1,6 @@
 package life.plank.juna.zone.util;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -19,7 +18,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private static final String TAG = OnSwipeTouchListener.class.getSimpleName();
     private static final float SWIPE_THRESHOLD_PERCENT = 0.4f;
     private final GestureDetector gestureDetector;
-    private int screenHeight;
+    private final int screenHeight;
     private View dragView;
     private View rootView;
     private float motionOriginX;
@@ -28,10 +27,6 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private float viewOriginX;
     private float viewOriginY;
     private List<SwipeDirection> directions = SwipeDirection.FREEDOM_NO_TOP;
-
-    public OnSwipeTouchListener(Context ctx) {
-        gestureDetector = new GestureDetector(ctx, new GestureListener(this));
-    }
 
     public OnSwipeTouchListener(Activity activity, View dragView, View rootView) {
         gestureDetector = new GestureDetector(activity, new GestureListener(this)) {
