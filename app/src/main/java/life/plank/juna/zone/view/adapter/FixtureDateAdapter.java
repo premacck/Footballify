@@ -14,16 +14,16 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FixtureByDate;
 import life.plank.juna.zone.util.BaseRecyclerView;
-import life.plank.juna.zone.view.activity.FixtureActivity;
+import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 
 import static life.plank.juna.zone.util.DateUtil.getDateHeader;
 
 public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdapter.FixtureDateViewHolder> {
 
     private List<FixtureByDate> fixtureByDateList;
-    private FixtureActivity activity;
+    private BaseLeagueActivity activity;
 
-    FixtureDateAdapter(List<FixtureByDate> fixtureByDateList, FixtureActivity activity) {
+    FixtureDateAdapter(List<FixtureByDate> fixtureByDateList, BaseLeagueActivity activity) {
         this.fixtureByDateList = fixtureByDateList;
         this.activity = activity;
     }

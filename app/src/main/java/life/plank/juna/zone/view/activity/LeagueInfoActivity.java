@@ -141,6 +141,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
         intent.putExtra(fromActivity.getString(R.string.intent_league), league);
         fromActivity.startActivity(intent);
+        fromActivity.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
 
     @Override
@@ -396,10 +397,15 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
 
         @Override
         protected List<MatchFixture> doInBackground(Void... voids) {
+            boolean isPastMatches = true;
             if (!isNullOrEmpty(fixtureByMatchDayList)) {
                 for (FixtureByMatchDay matchDay : fixtureByMatchDayList) {
                     try {
-                        if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES) || Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {
+                        if (Objects.equals(matchDay.getDaySection(), PAST_MATCHES)) {
+                            isPastMatches = true;
+                            recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay);
+                        } else if (Objects.equals(matchDay.getDaySection(), TODAY_MATCHES)) {
+                            isPastMatches = false;
                             recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay);
                         }
                     } catch (Exception e) {
@@ -407,22 +413,30 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                     }
                 }
                 List<MatchFixture> matchFixtures = new ArrayList<>();
-                List<FixtureByDate> fixtureByDateList = fixtureByMatchDayList.get(recyclerViewScrollIndex).getFixtureByDateList();
-                for (FixtureByDate fixtureByDate : fixtureByDateList) {
-                    for (MatchFixture matchFixture : fixtureByDate.getFixtures()) {
-                        try {
-                            if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
-                                matchFixtures.add(matchFixture);
-                            }
-                        } catch (Exception e) {
-                            Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e);
-                        }
-                    }
-                }
-                Collections.reverse(matchFixtures);
+                getMatchesToShow(matchFixtures, isPastMatches);
                 return matchFixtures.size() >= 4 ? matchFixtures.subList(0, 4) : matchFixtures;
             }
             return null;
+        }
+
+        private void getMatchesToShow(List<MatchFixture> matchFixtures, boolean isPastMatches) {
+            List<FixtureByDate> fixtureByDateList = fixtureByMatchDayList.get(recyclerViewScrollIndex).getFixtureByDateList();
+            for (FixtureByDate fixtureByDate : fixtureByDateList) {
+                for (MatchFixture matchFixture : fixtureByDate.getFixtures()) {
+                    try {
+                        if (isPastMatches && getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
+                            matchFixtures.add(matchFixture);
+                        } else if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 1) {
+                                matchFixtures.add(matchFixture);
+                        }
+                    } catch (Exception e) {
+                        Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e);
+                    }
+                }
+            }
+            if (isPastMatches) {
+                Collections.reverse(matchFixtures);
+            }
         }
 
         @Override
@@ -452,5 +466,11 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
             fixtureByMatchDayList = null;
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
     }
 }
