@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -55,6 +56,7 @@ import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
+import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -135,10 +137,14 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     TextView dislikeCountTextView;
     @BindView(R.id.like_separator)
     View likeSeparator;
-
+    @BindView(R.id.emoji_bottom_sheet)
+    RelativeLayout emojiBottomSheet;
     @BindView(R.id.comment_edit_text)
     EditText commentEditText;
-
+    @BindView(R.id.emoji_recycler_view)
+    RecyclerView emojiRecyclerView;
+    @BindView(R.id.reaction_view)
+    TextView reactionView;
     @Inject
     Gson gson;
     @Inject
@@ -150,6 +156,8 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     private FeedEntry feedEntry;
     private String boardId;
     private PostCommentAdapter adapter;
+    private BottomSheetBehavior emojiBottomSheetBehavior;
+    private EmojiAdapter emojiAdapter;
 
     public static PostDetailFragment newInstance(@NonNull String feedEntryString, String boardId) {
         PostDetailFragment fragment = new PostDetailFragment();
@@ -178,7 +186,20 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         ButterKnife.bind(this, rootView);
         adapter = new PostCommentAdapter(picasso, this);
         postCommentsRecyclerView.setAdapter(adapter);
+        setupBottomSheet();
+        initBottomSheetRecyclerView();
         return rootView;
+    }
+
+    private void initBottomSheetRecyclerView() {
+        emojiAdapter = new EmojiAdapter(getActivity());
+        emojiRecyclerView.setAdapter(emojiAdapter);
+    }
+
+    private void setupBottomSheet() {
+        emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setHideable(true);
     }
 
     @Override
@@ -617,6 +638,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             pinItem();
         }
     }
+
+    @OnClick(R.id.reaction_view)
+    public void onReact() {
+        emojiBottomSheetBehavior.setPeekHeight(340);
+    }
     //endregion
 
     private void setVisibilities(int imageViewVisibility, int videoViewVisibility, int textViewVisibility) {
@@ -626,7 +652,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void getCommentsOnFeed(boolean isRefreshing) {
-        if(isNullOrEmpty(getToken())) {
+        if (isNullOrEmpty(getToken())) {
             updateCommentsUi(GONE, GONE, VISIBLE, R.string.login_signup_to_view_comments);
             postCommentLayout.setVisibility(GONE);
         }
@@ -638,7 +664,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     if (isRefreshing) swipeRefreshLayout.setRefreshing(true);
                     updateCommentsUi(VISIBLE, GONE, GONE, 0);
                 })
-                .doOnTerminate(() -> {if (isRefreshing) swipeRefreshLayout.setRefreshing(false);})
+                .doOnTerminate(() -> {
+                    if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
+                })
                 .subscribe(new Subscriber<Response<List<FeedItemComment>>>() {
                     @Override
                     public void onCompleted() {
