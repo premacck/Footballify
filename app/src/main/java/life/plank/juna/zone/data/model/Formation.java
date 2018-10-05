@@ -8,10 +8,9 @@ public class Formation implements Parcelable {
     private String imagePath;
     private int number;
     private int formationNumber;
-    //        TODO : change yellowcard, redcard and yellowred fields to camelCase when they are updated in backend
-    private int yellowcard;
-    private int redcard;
-    private int yellowred;
+    private int yellowCard;
+    private int redCard;
+    private int yellowRed;
     private int goals;
     private int substituteIn;
     private int substituteOut;
@@ -21,9 +20,9 @@ public class Formation implements Parcelable {
         imagePath = in.readString();
         number = in.readInt();
         formationNumber = in.readInt();
-        yellowcard = in.readInt();
-        redcard = in.readInt();
-        yellowred = in.readInt();
+        yellowCard = in.readInt();
+        redCard = in.readInt();
+        yellowRed = in.readInt();
         goals = in.readInt();
         substituteIn = in.readInt();
         substituteOut = in.readInt();
@@ -35,9 +34,9 @@ public class Formation implements Parcelable {
         dest.writeString(imagePath);
         dest.writeInt(number);
         dest.writeInt(formationNumber);
-        dest.writeInt(yellowcard);
-        dest.writeInt(redcard);
-        dest.writeInt(yellowred);
+        dest.writeInt(yellowCard);
+        dest.writeInt(redCard);
+        dest.writeInt(yellowRed);
         dest.writeInt(goals);
         dest.writeInt(substituteIn);
         dest.writeInt(substituteOut);
@@ -92,28 +91,28 @@ public class Formation implements Parcelable {
         this.formationNumber = formationNumber;
     }
 
-    public int getYellowcard() {
-        return yellowcard;
+    public int getYellowCard() {
+        return yellowCard;
     }
 
-    public void setYellowcard(int yellowcard) {
-        this.yellowcard = yellowcard;
+    public void setYellowCard(int yellowCard) {
+        this.yellowCard = yellowCard;
     }
 
-    public int getRedcard() {
-        return redcard;
+    public int getRedCard() {
+        return redCard;
     }
 
-    public void setRedcard(int redcard) {
-        this.redcard = redcard;
+    public void setRedCard(int redCard) {
+        this.redCard = redCard;
     }
 
-    public int getYellowred() {
-        return yellowred;
+    public int getYellowRed() {
+        return yellowRed;
     }
 
-    public void setYellowred(int yellowred) {
-        this.yellowred = yellowred;
+    public void setYellowRed(int yellowRed) {
+        this.yellowRed = yellowRed;
     }
 
     public int getGoals() {

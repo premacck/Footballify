@@ -15,10 +15,9 @@ data class BoardNotification(
         var title: String = "",
         var foreignId: Long = 0,
 
-//        TODO: Change this to camelcase once done on backend
-        var UserId: String = "",
-        var InviteeUserId: String = "",
-        var InvitationLink: String = "",
-        var InviterName: String = "",
-        var BoardId: String = ""
+        var userId: String = "",
+        var inviteeUserId: String = "",
+        var invitationLink: String = "",
+        var inviterName: String = "",
+        var boardId: String = ""
 ) : Parcelable
