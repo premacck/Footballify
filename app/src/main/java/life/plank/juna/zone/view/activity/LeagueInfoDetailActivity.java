@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
@@ -16,11 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,9 +28,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.model.PlayerStats;
-import life.plank.juna.zone.data.model.Standings;
-import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
@@ -54,6 +50,9 @@ public class LeagueInfoDetailActivity extends AppCompatActivity {
     Picasso picasso;
     @Inject
     Gson gson;
+
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.standing_recycler_view)
     RecyclerView standingRecyclerView;
     @BindView(R.id.progress_bar)
@@ -89,7 +88,7 @@ public class LeagueInfoDetailActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));
         setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
-        setupSwipeGesture(this, headerTextView);
+        setupSwipeGesture(this, headerTextView, rootCard);
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -99,22 +98,19 @@ public class LeagueInfoDetailActivity extends AppCompatActivity {
                 case STANDINGS:
                     standingTableAdapter = new StandingTableAdapter(picasso);
                     prepareRecyclerView(standingTableAdapter);
-                    standingTableAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<Standings>>() {
-                    }.getType()));
+                    standingTableAdapter.update(intent.getParcelableArrayListExtra(getString(R.string.intent_list)));
                     toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE);
                     break;
                 case TEAM_STATS:
                     teamStatsAdapter = new TeamStatsAdapter(picasso);
                     prepareRecyclerView(teamStatsAdapter);
-                    teamStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<TeamStats>>() {
-                    }.getType()));
+                    teamStatsAdapter.update(intent.getParcelableArrayListExtra(getString(R.string.intent_list)));
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE);
                     break;
                 case PLAYER_STATS:
                     playerStatsAdapter = new PlayerStatsAdapter();
                     prepareRecyclerView(playerStatsAdapter);
-                    playerStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<PlayerStats>>() {
-                    }.getType()));
+                    playerStatsAdapter.update(intent.getParcelableArrayListExtra(getString(R.string.intent_list)));
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.GONE, LinearLayout.VISIBLE);
                     break;
             }

@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
@@ -71,6 +72,8 @@ import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardPar
 
 public class TimelineActivity extends AppCompatActivity {
 
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.timeline_header_layout)
@@ -129,7 +132,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         ZoneApplication.getApplication().getUiComponent().inject(this);
         setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
-        setupSwipeGesture(this, headerLayout);
+        setupSwipeGesture(this, headerLayout, rootCard);
 
         getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), boardParentViewBitmap));
 

@@ -48,6 +48,7 @@ import life.plank.juna.zone.view.adapter.FixtureAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
+import life.plank.juna.zone.view.fragment.base.BaseCard;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -68,6 +69,8 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     public static Bitmap matchStatsParentViewBitmap = null;
     String TAG = LeagueInfoActivity.class.getSimpleName();
 
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.root_layout)
     LinearLayout rootLayout;
     @BindView(R.id.league_toolbar)
@@ -150,7 +153,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         setContentView(R.layout.activity_league_info);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
-        setupSwipeGesture(this, dragArea);
+        setupSwipeGesture(this, dragArea, rootCard);
 
         BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         Intent intent = getIntent();
@@ -373,6 +376,21 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     @Override
     public League getLeague() {
         return league;
+    }
+
+    @Override
+    public void pushCard(BaseCard card) {
+
+    }
+
+    @Override
+    public void popCard(BaseCard card) {
+
+    }
+
+    @Override
+    public void setBlurBg(Bitmap blurBg) {
+
     }
 
     private static class UpdateFixtureAdapterTask extends AsyncTask<Void, Void, List<MatchFixture>> {

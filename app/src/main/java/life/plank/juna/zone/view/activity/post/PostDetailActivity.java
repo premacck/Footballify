@@ -56,7 +56,7 @@ public class PostDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_detail);
         ButterKnife.bind(this);
-        setupSwipeGesture(this, dragArea);
+        setupSwipeGesture(this, dragArea, postDetailViewPager);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -17,6 +18,8 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 public class WebCardActivity extends AppCompatActivity {
 
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
     @BindView(R.id.web_view)
@@ -37,7 +40,7 @@ public class WebCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_card);
         ButterKnife.bind(this);
-        setupSwipeGesture(this, dragArea);
+        setupSwipeGesture(this, dragArea, rootCard);
 
         String url = getIntent().getStringExtra(getString(R.string.feed_data_base_url));
         webView.setWebChromeClient(new WebChromeClient());

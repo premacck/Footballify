@@ -2,9 +2,11 @@ package life.plank.juna.zone.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -27,6 +29,7 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
+import life.plank.juna.zone.view.fragment.base.BaseCard;
 
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
@@ -38,6 +41,8 @@ import static life.plank.juna.zone.view.activity.LeagueInfoActivity.matchStatsPa
 
 public class FixtureActivity extends BaseLeagueActivity {
 
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.root_layout)
     FrameLayout rootLayout;
     @BindView(R.id.fixtures_section_list)
@@ -70,7 +75,7 @@ public class FixtureActivity extends BaseLeagueActivity {
         setContentView(R.layout.activity_fixture_and_result);
         ButterKnife.bind(this);
         setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
-        setupSwipeGesture(this, headerView);
+        setupSwipeGesture(this, headerView, rootCard);
 
         rootLayout.setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));
 
@@ -106,6 +111,18 @@ public class FixtureActivity extends BaseLeagueActivity {
     protected void onDestroy() {
         fixtureMatchdayAdapter = null;
         super.onDestroy();
+    }
+
+    @Override
+    public void pushCard(BaseCard card) {
+    }
+
+    @Override
+    public void popCard(BaseCard card) {
+    }
+
+    @Override
+    public void setBlurBg(Bitmap blurBg) {
     }
 
     private static class UpdateAdapterTask extends AsyncTask<Void, Void, Void> {
