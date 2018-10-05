@@ -13,7 +13,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.util.BaseRecyclerView;
-import life.plank.juna.zone.view.activity.FixtureActivity;
+import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -24,9 +24,9 @@ import static life.plank.juna.zone.view.activity.LeagueInfoActivity.fixtureByMat
  */
 public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatchdayAdapter.FixtureMatchDayViewHolder> {
 
-    private FixtureActivity activity;
+    private BaseLeagueActivity activity;
 
-    public FixtureMatchdayAdapter(FixtureActivity activity) {
+    public FixtureMatchdayAdapter(BaseLeagueActivity activity) {
         this.activity = activity;
     }
 

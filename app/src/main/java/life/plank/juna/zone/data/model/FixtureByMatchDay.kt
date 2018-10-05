@@ -6,7 +6,7 @@ import kotlinx.android.parcel.RawValue
 
 @Parcelize
 data class FixtureByMatchDay(
-        var daySection: String,
         var matchDay: Int,
+        var daySection: String,
         var fixtureByDateList: @RawValue List<FixtureByDate>
 ) : Parcelable

@@ -76,7 +76,7 @@ public class LineupPlayer extends FrameLayout {
                             formation.getYellowCard(),
                             formation.getRedCard(),
                             formation.getYellowRed())
-                    .setSubstituted(formation.getSubstituteIn())
+                    .setSubstituted(formation.getSubstituteOut())
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
                     .setGoal(formation.getGoals())
@@ -90,10 +90,6 @@ public class LineupPlayer extends FrameLayout {
     public LineupPlayer setSolidColor(@ColorRes int labelColor) {
         lineupPlayerNumber.setSolidColor(labelColor);
         return this;
-    }
-
-    public int getPlayerNumber() {
-        return Integer.parseInt(lineupPlayerNumber.getText().toString());
     }
 
     public LineupPlayer setPlayerNumber(int number) {
@@ -111,36 +107,21 @@ public class LineupPlayer extends FrameLayout {
             lineupPlayerCard.setImageResource(R.drawable.yellow_red);
         } else if (redCard == 1) {
             lineupPlayerCard.setImageResource(R.drawable.red_right);
-        } else {
+        } else if (yellowCard == 1) {
             lineupPlayerCard.setImageResource(R.drawable.yellow_right);
         }
         return this;
     }
 
-    public boolean hasScoredGoal() {
-        return lineupPlayerGoal.getVisibility() == VISIBLE;
-    }
-
     public LineupPlayer setGoal(int goalCount) {
         this.lineupPlayerGoal.setVisibility(goalCount > 0 ? VISIBLE : GONE);
-        if (goalCount > 1) {
-            setGoalCount(goalCount);
-        } else {
-            lineupPlayerGoalCount.setVisibility(GONE);
-        }
+        setGoalCount(goalCount);
+        this.lineupPlayerGoalCount.setVisibility(goalCount > 1 ? VISIBLE : GONE);
         return this;
-    }
-
-    public String getGoalCount() {
-        return lineupPlayerGoalCount.getText().toString();
     }
 
     public void setGoalCount(int goalCount) {
         this.lineupPlayerGoalCount.setText(String.valueOf(goalCount));
-    }
-
-    public boolean isSubstituted() {
-        return lineupPlayerSubstitution.getVisibility() == VISIBLE;
     }
 
     public LineupPlayer setSubstituted(int isSubstitutedIn) {

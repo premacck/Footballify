@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
+import android.os.AsyncTask;
 import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,13 +27,16 @@ import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Formation;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.util.customview.LineupPlayer;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static life.plank.juna.zone.util.AppConstants.DASH;
+import static life.plank.juna.zone.util.DataUtil.getIntegratedLineups;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
@@ -53,6 +58,10 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
 
     @Override
     public void bind(LineupsViewHolder holder, LineupsBindingModel item) {
+        ExtraIconBinder.bind(this, holder, item);
+    }
+
+    private void bindViews(LineupsViewHolder holder, LineupsBindingModel item) {
         holder.progressBar.setVisibility(View.GONE);
         if (item.getErrorMessage() != null) {
             holder.lineupCenterLines.setVisibility(View.INVISIBLE);
@@ -133,6 +142,36 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
         return item instanceof LineupsBindingModel;
     }
 
+    static class ExtraIconBinder extends AsyncTask<Void, Void, Void> {
+
+        private final WeakReference<LineupsBinder> ref;
+        private final LineupsViewHolder holder;
+        private final LineupsBindingModel lineupsBindingModel;
+
+        static void bind(LineupsBinder lineupsBinder, LineupsViewHolder holder, LineupsBindingModel lineupsBindingModel) {
+            new ExtraIconBinder(lineupsBinder, holder, lineupsBindingModel).execute();
+        }
+
+        private ExtraIconBinder(LineupsBinder lineupsBinder, LineupsViewHolder holder, LineupsBindingModel lineupsBindingModel) {
+            ref = new WeakReference<>(lineupsBinder);
+            this.holder = holder;
+            this.lineupsBindingModel = lineupsBindingModel;
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            lineupsBindingModel.setLineups(getIntegratedLineups(lineupsBindingModel.getLineups(), lineupsBindingModel.getMatchEventList()));
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (ref.get() != null && holder != null && lineupsBindingModel.getLineups() != null) {
+                ref.get().bindViews(holder, lineupsBindingModel);
+            }
+        }
+    }
+
     static class LineupsViewHolder extends ItemViewHolder<LineupsBindingModel> {
 
         @BindView(R.id.home_team_name)
@@ -163,10 +202,12 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
     }
 
     @Data
+    @AllArgsConstructor
     public static class LineupsBindingModel {
-        private final Lineups lineups;
+        private Lineups lineups;
         private final FootballTeam homeTeam;
         private final FootballTeam awayTeam;
+        private final List<MatchEvent> matchEventList;
         @StringRes
         private final Integer errorMessage;
 
@@ -175,6 +216,7 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
                     matchDetails.getLineups(),
                     matchDetails.getHomeTeam(),
                     matchDetails.getAwayTeam(),
+                    matchDetails.getMatchEvents(),
                     matchDetails.getLineups() == null ? R.string.line_ups_not_available : null
             );
         }

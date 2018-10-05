@@ -36,7 +36,9 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.Commentary;
 import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.Formation;
 import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
@@ -522,8 +524,7 @@ public class DataUtil {
         for (Commentary commentary : commentaries) {
             if (commentary.getComment().startsWith(FIRST_HALF_ENDED_)) {
                 matchEventList.add(new MatchEvent(new LiveTimeStatus(HT, (int) commentary.getMinute(), (int) commentary.getExtraMinute())));
-            }
-            else if (commentary.getComment().startsWith(SECOND_HALF_ENDED_)) {
+            } else if (commentary.getComment().startsWith(SECOND_HALF_ENDED_)) {
                 matchEventList.add(new MatchEvent(new LiveTimeStatus(FT, (int) commentary.getMinute(), (int) commentary.getExtraMinute())));
             }
         }
@@ -539,6 +540,43 @@ public class DataUtil {
                 return Integer.compare(o1.getExtraMinute(), o2.getExtraMinute());
             }
             return Integer.compare(o1.getMinute(), o2.getMinute());
+        }
+    }
+
+    public static Lineups getIntegratedLineups(Lineups lineups, List<MatchEvent> matchEvents) {
+        for (MatchEvent matchEvent : matchEvents) {
+            if (matchEvent.isHomeTeam()) {
+                integrateLineupsWithMatchEvents(lineups.getHomeTeamFormation(), matchEvent);
+            } else {
+                integrateLineupsWithMatchEvents(lineups.getAwayTeamFormation(), matchEvent);
+            }
+        }
+        return lineups;
+    }
+
+    private static void integrateLineupsWithMatchEvents(List<List<Formation>> allFormationList, MatchEvent matchEvent) {
+        for (List<Formation> formationList : allFormationList) {
+            for (Formation formation : formationList) {
+                if (Objects.equals(formation.getNickname(), matchEvent.getPlayerName())) {
+                    switch (matchEvent.getEventType()) {
+                        case GOAL:
+                            formation.setGoals(formation.getGoals() + 1);
+                            break;
+                        case YELLOW_CARD:
+                            formation.setYellowCard(1);
+                            break;
+                        case RED_CARD:
+                            formation.setRedCard(1);
+                            break;
+                        case YELLOW_RED:
+                            formation.setYellowRed(1);
+                            break;
+                        case SUBSTITUTION:
+                            formation.setSubstituteOut(1);
+                            break;
+                    }
+                }
+            }
         }
     }
 
