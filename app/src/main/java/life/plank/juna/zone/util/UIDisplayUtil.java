@@ -353,10 +353,11 @@ public class UIDisplayUtil {
      * <b>Also, </b> {@code activity.onBackPressed()} was used because {@code activity.finish()} wasn't giving the desired transition animation.</p>
      *
      * @param activity The current activity.
-     * @param view     The view on which swipe down gesture is required.
+     * @param dragView The view on which swipe down gesture is required.
+     * @param rootView The root view of the layout, which is supposed to move along with the swipe.
      */
-    public static void setupSwipeGesture(Activity activity, View view) {
-        view.setOnTouchListener(new OnSwipeTouchListener(activity) {
+    public static void setupSwipeGesture(Activity activity, View dragView, View rootView) {
+        dragView.setOnTouchListener(new OnSwipeTouchListener(activity, dragView, rootView) {
             @Override
             public void onSwipeDown() {
                 activity.onBackPressed();
@@ -364,11 +365,11 @@ public class UIDisplayUtil {
         });
     }
 
-    public static void setupSwipeGesture(Context context, View view) {
-        view.setOnTouchListener(new OnSwipeTouchListener(context) {
+    public static void setupSwipeGesture(Activity activity, View dragView) {
+        dragView.setOnTouchListener(new OnSwipeTouchListener(activity) {
             @Override
             public void onSwipeDown() {
-                ((Activity) context).onBackPressed();
+                activity.onBackPressed();
             }
         });
     }
