@@ -96,6 +96,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private UserBoardsAdapter userBoardsAdapter;
     private String username;
 
+
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
     }
