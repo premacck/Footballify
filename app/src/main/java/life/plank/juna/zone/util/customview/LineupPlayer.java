@@ -73,9 +73,9 @@ public class LineupPlayer extends FrameLayout {
             setPlayerNumber(formation.getNumber())
 //    TODO : replace with boolean values once backend filters it
                     .setPlayerCard(
-                            formation.getYellowcard(),
-                            formation.getRedcard(),
-                            formation.getYellowred())
+                            formation.getYellowCard(),
+                            formation.getRedCard(),
+                            formation.getYellowRed())
                     .setSubstituted(formation.getSubstituteIn())
                     .setSolidColor(labelColor)
                     .setPlayerNumber(formation.getNumber())
