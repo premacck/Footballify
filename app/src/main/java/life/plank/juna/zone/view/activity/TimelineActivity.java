@@ -9,6 +9,7 @@ import android.content.IntentFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -21,10 +22,10 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.LineChart;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,14 +36,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Commentary;
+import life.plank.juna.zone.data.model.LiveScoreData;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchEvent;
+import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Commentary;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchEvent;
-import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.view.adapter.TimelineAdapter;
@@ -111,11 +112,11 @@ public class TimelineActivity extends AppCompatActivity {
         }
     };
 
-    public static void launch(Activity packageContext, View fromView, long currentMatchId, String matchEvents, String matchDetailsString) {
+    public static void launch(Activity packageContext, View fromView, long currentMatchId, List<MatchEvent> matchEvents, MatchDetails matchDetails) {
         Intent intent = new Intent(packageContext, TimelineActivity.class);
         intent.putExtra(packageContext.getString(R.string.match_id_string), currentMatchId);
-        intent.putExtra(packageContext.getString(R.string.intent_match_event_list), matchEvents);
-        intent.putExtra(packageContext.getString(R.string.intent_match_fixture), matchDetailsString);
+        intent.putParcelableArrayListExtra(packageContext.getString(R.string.intent_match_event_list), (ArrayList<? extends Parcelable>) matchEvents);
+        intent.putExtra(packageContext.getString(R.string.intent_match_fixture), matchDetails);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(packageContext, Pair.create(fromView, packageContext.getString(R.string.timeline_activity)));
         packageContext.startActivity(intent, options.toBundle());
     }
@@ -227,14 +228,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         @Override
         protected List<MatchEvent> doInBackground(Intent... intents) {
-            ref.get().matchDetails = ref.get().gson.fromJson(intents[0].getStringExtra(ref.get().getString(R.string.intent_match_fixture)), MatchDetails.class);
-            ref.get().fixture = MatchFixture.from(ref.get().matchDetails);
+            ref.get().matchDetails = intents[0].getParcelableExtra(ref.get().getString(R.string.intent_match_fixture));
+            ref.get().fixture = MatchFixture.Companion.from(ref.get().matchDetails);
             List<Commentary> commentaries = ref.get().matchDetails.getCommentary();
-            List<MatchEvent> matchEvents = ref.get().gson.fromJson(
-                    intents[0].getStringExtra(ref.get().getString(R.string.intent_match_event_list)),
-                    new TypeToken<List<MatchEvent>>() {
-                    }.getType()
-            );
+            List<MatchEvent> matchEvents = intents[0].getParcelableArrayListExtra(ref.get().getString(R.string.intent_match_event_list));
             return getAllTimelineEvents(commentaries, matchEvents);
         }
 

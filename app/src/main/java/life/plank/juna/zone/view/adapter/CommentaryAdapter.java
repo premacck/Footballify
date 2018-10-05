@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Commentary;
+import life.plank.juna.zone.data.model.Commentary;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
 import static life.plank.juna.zone.util.AppConstants.CORNER_;

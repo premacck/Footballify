@@ -13,7 +13,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.UserPreference;
+import life.plank.juna.zone.data.model.UserPreference;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 
 public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder> {
@@ -33,10 +33,10 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
     @Override
     public void onBindViewHolder(UserZoneAdapter.UserZoneViewHolder holder, int position) {
         UserPreference userPreference = userPreferenceList.get(position);
-        holder.footballTextView.setText(userPreference.getZone().name);
-        holder.followerCount.setText(String.valueOf(userPreference.getZone().followerCount));
-        holder.totalPostCount.setText(String.valueOf(userPreference.getZone().contributionCount));
-        holder.interaction_count.setText(String.valueOf(userPreference.getZone().interactionCount));
+        holder.footballTextView.setText(userPreference.getZone().getName());
+        holder.followerCount.setText(String.valueOf(userPreference.getZone().getFollowerCount()));
+        holder.totalPostCount.setText(String.valueOf(userPreference.getZone().getContributionCount()));
+        holder.interaction_count.setText(String.valueOf(userPreference.getZone().getInteractionCount()));
     }
 
     @Override

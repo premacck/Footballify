@@ -16,7 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.MatchFixture;
+import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.util.DataUtil;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
@@ -122,7 +122,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, ref.get().activity.getGson().toJson(scoreFixture), ref.get().activity.getGson().toJson(ref.get().activity.getLeague()));
+            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague());
         }
     }
 
@@ -180,7 +180,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, ref.get().activity.getGson().toJson(scoreFixture), ref.get().activity.getGson().toJson(ref.get().activity.getLeague()));
+            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague());
         }
     }
 }

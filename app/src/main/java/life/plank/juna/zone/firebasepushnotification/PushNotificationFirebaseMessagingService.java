@@ -28,7 +28,7 @@ import java.util.Map;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.firebaseModel.BoardNotification;
+import life.plank.juna.zone.data.model.firebase.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;

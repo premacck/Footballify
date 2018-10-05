@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Zones;
+import life.plank.juna.zone.data.model.Zones;
 import life.plank.juna.zone.interfaces.OnClickZoneItemListener;
 
 /**
@@ -47,8 +47,8 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
     public void onBindViewHolder(ZoneViewHolder holder, int position) {
 
         Zones zone = zones.get(position);
-        holder.zoneTitle.setText(zone.name);
-        holder.followerCount.setText(zone.followerCount.toString());
+        holder.zoneTitle.setText(zone.getName());
+        holder.followerCount.setText(String.valueOf(zone.getFollowerCount()));
         picasso.load(zone.getImageUrl())
                 .into(holder.zoneImageView);
         holder.zoneImageView.setOnClickListener(view -> {
@@ -62,7 +62,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 params.width = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 params.height = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 holder.zoneImageView.setLayoutParams(params);
-                onClickZoneItemListener.onItemClick(zone.id, false);
+                onClickZoneItemListener.onItemClick(zone.getId(), false);
 
             } else {
                 holder.followTick.setVisibility(View.VISIBLE);
@@ -74,7 +74,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 params.width = holder.zoneImageView.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 params.height = holder.zoneImageView.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 holder.zoneImageView.setLayoutParams(params);
-                onClickZoneItemListener.onItemClick(zone.id, true);
+                onClickZoneItemListener.onItemClick(zone.getId(), true);
             }
         });
     }

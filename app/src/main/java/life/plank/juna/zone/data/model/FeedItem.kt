@@ -13,7 +13,7 @@ data class FeedItem(
         var url: String? = "",
         var source: String? = "",
         var summary: String? = "",
-        var thumbnail: Thumbnail = Thumbnail(),
+        var thumbnail: Thumbnail? = Thumbnail(),
         var dateCreated: String? = "",
         var contentType: String? = "",
         var description: String? = "",

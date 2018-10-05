@@ -33,8 +33,8 @@ import javax.inject.Named;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;

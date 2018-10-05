@@ -5,13 +5,13 @@ import android.util.Pair;
 
 import java.util.List;
 
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.Lineups;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchStats;
+import life.plank.juna.zone.data.model.Standings;
+import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchStats;
-import life.plank.juna.zone.data.network.model.StandingModel;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.util.AppConstants;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -72,7 +72,7 @@ public class RestApiAggregator {
     /**
      * Method for combining the getBoard() and getMatchDetails() methods of restApi and footballRestApi respectively
      *
-     * @return {@link MatchDetails} containing {@link List<StandingModel>} and {@link List<TeamStatsModel>}
+     * @return {@link MatchDetails} containing {@link List<Standings>} and {@link List<TeamStats>}
      */
     public static Observable<MatchDetails> getPreMatchBoardData(MatchDetails matchDetails, RestApi restApi) {
         return afterSubscribingAndObservingOn(

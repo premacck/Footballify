@@ -15,7 +15,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
+import life.plank.juna.zone.data.model.TeamStats;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -23,12 +23,12 @@ import life.plank.juna.zone.data.network.model.TeamStatsModel;
 
 public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.TeamStateViewHolder> {
 
-    private List<TeamStatsModel> teamStatsModelList;
+    private List<TeamStats> teamStatsList;
     private Picasso picasso;
 
     public TeamStatsAdapter(Picasso picasso) {
         this.picasso = picasso;
-        this.teamStatsModelList = new ArrayList<>();
+        this.teamStatsList = new ArrayList<>();
     }
 
     @Override
@@ -41,15 +41,15 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
     @Override
     public void onBindViewHolder(TeamStateViewHolder holder, int position) {
         holder.teamStatsSerialNumber.setText(String.valueOf(position + 1));
-        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsModelList.get(position).getTeamName()));
-        holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsModelList.get(position).getWin()));
-        holder.teamStatsLossesTextView.setText(String.valueOf(teamStatsModelList.get(position).getLoss()));
-        holder.teamsStatsGoalTextView.setText(String.valueOf(teamStatsModelList.get(position).getGoal()));
-        holder.teamStatsPassTextView.setText(String.valueOf(teamStatsModelList.get(position).getPass()));
-        holder.teamsStatsShotTextView.setText(String.valueOf(teamStatsModelList.get(position).getShot()));
-        holder.teamStatsRedCardTextView.setText(String.valueOf(teamStatsModelList.get(position).getRedCard()));
-        holder.teamStatsYellowCardTextView.setText(String.valueOf(teamStatsModelList.get(position).getYellowCard()));
-        picasso.load(teamStatsModelList.get(position).getFootballTeamLogo())
+        holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsList.get(position).getTeamName()));
+        holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsList.get(position).getWin()));
+        holder.teamStatsLossesTextView.setText(String.valueOf(teamStatsList.get(position).getLoss()));
+        holder.teamsStatsGoalTextView.setText(String.valueOf(teamStatsList.get(position).getGoal()));
+        holder.teamStatsPassTextView.setText(String.valueOf(teamStatsList.get(position).getPass()));
+        holder.teamsStatsShotTextView.setText(String.valueOf(teamStatsList.get(position).getShot()));
+        holder.teamStatsRedCardTextView.setText(String.valueOf(teamStatsList.get(position).getRedCard()));
+        holder.teamStatsYellowCardTextView.setText(String.valueOf(teamStatsList.get(position).getYellowCard()));
+        picasso.load(teamStatsList.get(position).getFootballTeamLogo())
                 .fit().centerCrop()
                 .placeholder(R.drawable.ic_place_holder)
                 .error(R.drawable.ic_place_holder)
@@ -58,16 +58,16 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
 
     @Override
     public int getItemCount() {
-        return teamStatsModelList.size();
+        return teamStatsList.size();
     }
 
-    public void update(List<TeamStatsModel> teamStatsModelList) {
-        this.teamStatsModelList.addAll(teamStatsModelList);
+    public void update(List<TeamStats> teamStatsList) {
+        this.teamStatsList.addAll(teamStatsList);
         notifyDataSetChanged();
     }
 
-    public List<TeamStatsModel> getTeamStats() {
-        return teamStatsModelList;
+    public List<TeamStats> getTeamStats() {
+        return teamStatsList;
     }
 
     public class TeamStateViewHolder extends RecyclerView.ViewHolder {

@@ -38,7 +38,6 @@ import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
@@ -72,6 +71,7 @@ import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.AppConstants.VIDEO_CAPTURE;
+import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -109,7 +109,6 @@ public class CameraActivity extends AppCompatActivity {
     private String apiCallFromActivity;
     private String openFrom;
     private String userId, boardId;
-    private String date;
     private String filePath;
     private String absolutePath;
     private Uri fileUri;
@@ -136,7 +135,6 @@ public class CameraActivity extends AppCompatActivity {
         openMediaContent();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString(getString(R.string.pref_object_id), getString(R.string.na));
-        date = new SimpleDateFormat(getString(R.string.string_format), Locale.getDefault()).format(Calendar.getInstance().getTime());
     }
 
     private void openMediaContent() {
@@ -413,13 +411,13 @@ public class CameraActivity extends AppCompatActivity {
                     switch (openFrom) {
                         case IMAGE:
                         case GALLERY:
-                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
+                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
                             break;
                         case VIDEO:
-                            postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, date);
+                            postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
                             break;
                         case AUDIO:
-                            postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, date);
+                            postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
                             break;
                         default:
                             Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
@@ -430,7 +428,7 @@ public class CameraActivity extends AppCompatActivity {
                     switch (openFrom) {
                         case IMAGE:
                         case GALLERY:
-                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, date);
+                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
                             break;
                         default:
                             Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();

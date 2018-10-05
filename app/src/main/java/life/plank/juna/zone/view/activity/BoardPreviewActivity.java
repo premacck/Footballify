@@ -28,8 +28,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.customview.GenericToolbar;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -66,7 +66,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
     @Inject
     Picasso picasso;
 
-    public static void launch(Context packageContext, String board, String filePath) {
+    public static void launch(Context packageContext, Board board, String filePath) {
         Intent intent = new Intent(packageContext, BoardPreviewActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_board), board);
         intent.putExtra(packageContext.getString(R.string.intent_file_path), filePath);
@@ -83,7 +83,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
-            board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
+            board = intent.getParcelableExtra(getString(R.string.intent_board));
         }
 
         if (intent != null && intent.hasExtra(getString(R.string.intent_file_path))) {
@@ -201,7 +201,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
                     public void onNext(Response<Board> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                PrivateBoardActivity.launch(BoardPreviewActivity.this, gson.toJson(response.body()));
+                                PrivateBoardActivity.launch(BoardPreviewActivity.this, response.body());
                                 followBoard(boardId);
                                 finish();
                                 break;

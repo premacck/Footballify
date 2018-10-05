@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment.board.fixture;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -26,13 +28,13 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
+import life.plank.juna.zone.data.model.Lineups;
+import life.plank.juna.zone.data.model.LiveScoreData;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Lineups;
-import life.plank.juna.zone.data.network.model.LiveScoreData;
-import life.plank.juna.zone.data.network.model.LiveTimeStatus;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchFixture;
-import life.plank.juna.zone.data.network.model.ZoneLiveData;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
@@ -140,7 +142,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
             }
-            TimelineActivity.launch(getActivity(), view, matchDetails.getMatchId(), gson.toJson(matchDetails.getMatchEvents()), gson.toJson(matchDetails));
+            TimelineActivity.launch(getActivity(), view, matchDetails.getMatchId(), matchDetails.getMatchEvents(), matchDetails);
         } else
             Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
@@ -152,7 +154,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
             if (boardParentViewBitmap == null) {
                 boardParentViewBitmap = loadBitmap(getActivity().getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getActivity());
             }
-            CommentaryActivity.launch(getActivity(), fromView, gson.toJson(matchDetails.getCommentary()));
+            CommentaryActivity.launch(getActivity(), fromView, matchDetails.getCommentary());
         }
     }
 
@@ -161,10 +163,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
         LeagueInfoDetailActivity.launch(
                 getActivity(),
                 STANDINGS,
-                matchDetails.getLeague().getName(),
-                matchDetails.getLeague().getSeasonName(),
-                matchDetails.getLeague().getCountryName(),
-                gson.toJson(matchDetails.getStandingsList()),    //TODO : Update complete standings here
+                (ArrayList<? extends Parcelable>) matchDetails.getStandingsList(),
                 fromView
         );
     }
@@ -174,12 +173,12 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
             case SCORE_DATA:
                 LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
                 updateScoreLocally(matchDetails, scoreData);
-                FixtureListUpdateTask.update(MatchFixture.from(matchDetails), scoreData, null, true);
+                FixtureListUpdateTask.update(MatchFixture.Companion.from(matchDetails), scoreData, null, true);
                 break;
             case TIME_STATUS_DATA:
                 LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
                 updateTimeStatusLocally(matchDetails, timeStatus);
-                FixtureListUpdateTask.update(MatchFixture.from(matchDetails), null, timeStatus, false);
+                FixtureListUpdateTask.update(MatchFixture.Companion.from(matchDetails), null, timeStatus, false);
                 break;
             case COMMENTARY_DATA:
                 adapter.updateCommentaries(zoneLiveData.getCommentaryList(gson), false);
@@ -191,7 +190,7 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
                 getLineupFormation();
                 break;
             case MATCH_STATS_DATA:
-                adapter.updateMatchStats(zoneLiveData.getMatchStats(gson), zoneLiveData.getMatchStats(gson) == null ? R.string.match_stats_not_available_yet : 0);
+                adapter.updateMatchStats(zoneLiveData.getMatchStats(gson), 0);
                 break;
             case HIGHLIGHTS_DATA:
                 adapter.updateHighlights(zoneLiveData.getHighlightsList(gson), false);

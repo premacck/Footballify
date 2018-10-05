@@ -5,6 +5,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
@@ -18,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -27,10 +29,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.PlayerStats;
+import life.plank.juna.zone.data.model.Standings;
+import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.PlayerStatsModel;
-import life.plank.juna.zone.data.network.model.StandingModel;
-import life.plank.juna.zone.data.network.model.TeamStatsModel;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
@@ -70,16 +72,10 @@ public class LeagueInfoDetailActivity extends AppCompatActivity {
     private StandingTableAdapter standingTableAdapter;
     private TeamStatsAdapter teamStatsAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
-    private String seasonName;
-    private String leagueName;
-    private String countryName;
 
-    public static void launch(Activity fromActivity, String viewToLoad, String seasonName, String leagueName, String countryName, String itemList, View fromView) {
+    public static void launch(Activity fromActivity, String viewToLoad, ArrayList<? extends Parcelable> list, View fromView) {
         Intent intent = new Intent(fromActivity, LeagueInfoDetailActivity.class);
-        intent.putExtra(fromActivity.getString(R.string.season_name), seasonName);
-        intent.putExtra(fromActivity.getString(R.string.league_name), leagueName);
-        intent.putExtra(fromActivity.getString(R.string.country_name), countryName);
-        intent.putExtra(fromActivity.getString(R.string.intent_list), itemList);
+        intent.putParcelableArrayListExtra(fromActivity.getString(R.string.intent_list), list);
         intent.putExtra(fromActivity.getString(R.string.intent_load_view), viewToLoad);
         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(fromActivity, Pair.create(fromView, fromActivity.getString(R.string.pref_match)));
         fromActivity.startActivity(intent, options.toBundle());
@@ -97,30 +93,27 @@ public class LeagueInfoDetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         if (intent != null) {
-            seasonName = intent.getStringExtra(getString(R.string.season_name));
-            leagueName = intent.getStringExtra(getString(R.string.league_name));
-            countryName = intent.getStringExtra(getString(R.string.country_name));
             String viewToLoad = intent.getStringExtra(getString(R.string.intent_load_view));
             headerTextView.setText(viewToLoad);
             switch (viewToLoad) {
                 case STANDINGS:
                     standingTableAdapter = new StandingTableAdapter(picasso);
                     prepareRecyclerView(standingTableAdapter);
-                    standingTableAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<StandingModel>>() {
+                    standingTableAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<Standings>>() {
                     }.getType()));
                     toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE);
                     break;
                 case TEAM_STATS:
                     teamStatsAdapter = new TeamStatsAdapter(picasso);
                     prepareRecyclerView(teamStatsAdapter);
-                    teamStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<TeamStatsModel>>() {
+                    teamStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<TeamStats>>() {
                     }.getType()));
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE);
                     break;
                 case PLAYER_STATS:
                     playerStatsAdapter = new PlayerStatsAdapter();
                     prepareRecyclerView(playerStatsAdapter);
-                    playerStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<PlayerStatsModel>>() {
+                    playerStatsAdapter.update(gson.fromJson(intent.getStringExtra(getString(R.string.intent_list)), new TypeToken<List<PlayerStats>>() {
                     }.getType()));
                     toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.GONE, LinearLayout.VISIBLE);
                     break;

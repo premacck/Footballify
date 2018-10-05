@@ -17,8 +17,8 @@ import butterknife.ButterKnife;
 import cz.intik.overflowindicator.OverflowPagerIndicator;
 import cz.intik.overflowindicator.SimpleSnapHelper;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.Highlights;
-import life.plank.juna.zone.data.network.model.MatchDetails;
+import life.plank.juna.zone.data.model.Highlights;
+import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.util.customview.HighlightsAdapter;
 import lombok.Data;
 

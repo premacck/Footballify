@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
@@ -22,8 +21,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import retrofit2.Response;
@@ -38,13 +37,11 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     private static final String TAG = UserBoardsAdapter.class.getSimpleName();
     private List<Board> boardList;
     private Context context;
-    private Gson gson;
     private RestApi restApi;
     private Picasso picasso;
 
-    public UserBoardsAdapter(Context context, Gson gson, RestApi restApi, Picasso picasso) {
+    public UserBoardsAdapter(Context context, RestApi restApi, Picasso picasso) {
         this.context = context;
-        this.gson = gson;
         this.restApi = restApi;
         this.picasso = picasso;
         this.boardList = new ArrayList<>();
@@ -58,16 +55,20 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
 
     @Override
     public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
-        if (boardList.get(position).getName().equals(context.getString(R.string.new_))) {
-            holder.boardTitle.setText(boardList.get(position).getName());
-            holder.boardIcon.setImageDrawable(context.getDrawable(R.drawable.new_board_circle));
-            holder.boardIcon.setBorderColor(context.getColor(R.color.white));
-            holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
-        } else {
-            holder.boardTitle.setText(boardList.get(position).getName());
-            picasso.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
-            holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
-            holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
+        try {
+            if (boardList.get(position).getName().equals(context.getString(R.string.new_))) {
+                holder.boardTitle.setText(boardList.get(position).getName());
+                holder.boardIcon.setImageDrawable(context.getDrawable(R.drawable.new_board_circle));
+                holder.boardIcon.setBorderColor(context.getColor(R.color.white));
+                holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
+            } else {
+                holder.boardTitle.setText(boardList.get(position).getName());
+                picasso.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
+                holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
+                holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -124,7 +125,7 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
                         public void onNext(Response<Board> response) {
                             switch (response.code()) {
                                 case HttpURLConnection.HTTP_OK:
-                                    PrivateBoardActivity.launch(context, gson.toJson(response.body()));
+                                    PrivateBoardActivity.launch(context, response.body());
                                     break;
                                 default:
                                     Toast.makeText(context, R.string.could_not_navigate_to_board, Toast.LENGTH_LONG).show();

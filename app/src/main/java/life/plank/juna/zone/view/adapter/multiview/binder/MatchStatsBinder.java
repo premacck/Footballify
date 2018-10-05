@@ -17,10 +17,10 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballTeam;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchStats;
-import life.plank.juna.zone.data.network.model.Stadium;
+import life.plank.juna.zone.data.model.FootballTeam;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchStats;
+import life.plank.juna.zone.data.model.Stadium;
 import lombok.Data;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;

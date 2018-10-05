@@ -23,8 +23,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
 import life.plank.juna.zone.util.customview.GenericToolbar;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -98,7 +98,7 @@ public class JoinBoardActivity extends AppCompatActivity {
 
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                PrivateBoardActivity.launch(getApplicationContext(), gson.toJson(board));
+                                PrivateBoardActivity.launch(getApplicationContext(), board);
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:

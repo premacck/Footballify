@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.view.activity.FixtureActivity;
 
@@ -74,8 +74,8 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
                 ));
                 String matchdayHeaderText =
                         ref.get().activity.getString(
-                                ref.get().activity.getLeague().getIsCup() ? R.string.round_ : R.string.matchday_) +
-                                (ref.get().activity.getLeague().getIsCup() ? fixtureByMatchDay.getMatchDay() :
+                                ref.get().activity.getLeague().isCup() ? R.string.round_ : R.string.matchday_) +
+                                (ref.get().activity.getLeague().isCup() ? fixtureByMatchDay.getMatchDay() :
                                         fixtureByMatchDay.getMatchDay());
                 matchdayHeader.setText(matchdayHeaderText);
                 recyclerView.setAdapter(new FixtureDateAdapter(fixtureByMatchDay.getFixtureByDateList(), ref.get().activity));

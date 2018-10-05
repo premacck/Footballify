@@ -17,9 +17,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.network.model.FootballTeam;
-import life.plank.juna.zone.data.network.model.MatchDetails;
-import life.plank.juna.zone.data.network.model.MatchEvent;
+import life.plank.juna.zone.data.model.FootballTeam;
+import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
 import lombok.Data;
 

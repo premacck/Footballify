@@ -11,25 +11,26 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.network.model.MatchFixture;
+import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static life.plank.juna.zone.util.AppConstants.FOUR_HOURS_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
-import static life.plank.juna.zone.util.AppConstants.ONE_DAY_MILLIS;
-import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
-import static life.plank.juna.zone.util.AppConstants.TWO_HOURS_MILLIS;
-import static life.plank.juna.zone.util.DataUtil.formatInt;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
+import static life.plank.juna.zone.util.AppConstants.ONE_DAY_MILLIS;
+import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
+import static life.plank.juna.zone.util.AppConstants.TWO_HOURS_MILLIS;
+import static life.plank.juna.zone.util.DataUtil.formatInt;
 
 public class DateUtil {
 
@@ -54,6 +55,7 @@ public class DateUtil {
     }
 
     public static String getRequestDateStringOfNow() {
+        ISO_DATE_FORMAT.setTimeZone(TimeZone.getTimeZone("UTC"));
         return ISO_DATE_FORMAT.format(Calendar.getInstance().getTime());
     }
 
@@ -101,20 +103,20 @@ public class DateUtil {
         return Math.abs(new Date().getTime() - date.getTime());
     }
 
-    public static String getFormattedDate(Context context, MatchFixture matchFixture) {
-        if (Objects.equals(matchFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
+    public static String getFormattedDate(Context context, MatchFixture MatchFixture) {
+        if (Objects.equals(MatchFixture.getTimeStatus(), context.getString(R.string.full_match_time))) {
             return "FT, " +
-                    (wasMatchYesterday(matchFixture.getMatchStartTime()) ?
+                    (wasMatchYesterday(MatchFixture.getMatchStartTime()) ?
                             context.getString(R.string.yesterday) :
-                            new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault()).format(matchFixture.getMatchStartTime()));
+                            new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault()).format(MatchFixture.getMatchStartTime()));
         } else {
-            switch (getDateDiffFromToday(matchFixture.getMatchStartTime())) {
+            switch (getDateDiffFromToday(MatchFixture.getMatchStartTime())) {
                 case 0:
                     return context.getString(R.string.today);
                 case 1:
                     return context.getString(R.string.tomorrow);
                 default:
-                    return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(matchFixture.getMatchStartTime());
+                    return new SimpleDateFormat(SCHEDULED_DATE_STRING, Locale.getDefault()).format(MatchFixture.getMatchStartTime());
             }
         }
     }

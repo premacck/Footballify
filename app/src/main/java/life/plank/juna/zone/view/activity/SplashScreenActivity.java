@@ -24,8 +24,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.User;
 import life.plank.juna.zone.pushnotification.NotificationSettings;
 import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
 import life.plank.juna.zone.pushnotification.RegistrationIntentService;
@@ -36,6 +36,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.checkTokenValidity;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
@@ -127,10 +128,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                     public void onNext(Response<User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-
+                                User user = response.body();
                                 SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
-                                editor.putString(getString(R.string.pref_profile_pic_url), response.body().getProfilePictureUrl()).apply();
-                                if (response.body().getUserPreferences().isEmpty()) {
+                                editor.putString(getString(R.string.pref_profile_pic_url), user.getProfilePictureUrl()).apply();
+                                if (isNullOrEmpty(user.getUserPreferences())) {
                                     startActivity(new Intent(SplashScreenActivity.this, ZoneActivity.class));
                                 } else {
                                     startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));

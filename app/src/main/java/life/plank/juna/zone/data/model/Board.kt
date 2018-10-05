@@ -8,7 +8,7 @@ import java.util.*
 @Parcelize
 data class Board(
         var id: String,
-        var displayname: String,
+        var displayname: String?,
         var name: String,
         var boardType: String,
         var isActive: Boolean,

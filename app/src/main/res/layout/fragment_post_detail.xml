@@ -201,6 +201,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_toStartOf="@+id/like_image_view"
                                     android:ellipsize="marquee"
+                                    android:paddingStart="10dp"
+                                    android:paddingEnd="10dp"
                                     android:fontFamily="@font/rajdhani_semibold"
                                     android:lineSpacingExtra="1sp"
                                     android:singleLine="true"

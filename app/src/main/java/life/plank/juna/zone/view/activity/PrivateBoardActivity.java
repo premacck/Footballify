@@ -40,11 +40,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedItem;
+import life.plank.juna.zone.data.model.Thumbnail;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.data.network.model.Board;
-import life.plank.juna.zone.data.network.model.FeedItem;
-import life.plank.juna.zone.data.network.model.FeedEntry;
-import life.plank.juna.zone.data.network.model.Thumbnail;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
@@ -96,7 +96,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         }
     };
 
-    public static void launch(Context packageContext, String board) {
+    public static void launch(Context packageContext, Board board) {
         Intent intent = new Intent(packageContext, PrivateBoardActivity.class);
         intent.putExtra(packageContext.getString(R.string.intent_board), board);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -146,7 +146,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         staticRestApi = restApi;
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(getString(R.string.intent_board))) {
-            board = gson.fromJson(intent.getStringExtra(getString(R.string.intent_board)), Board.class);
+            board = intent.getParcelableExtra(getString(R.string.intent_board));
         }
 
         SharedPreferences editor = getApplicationContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);

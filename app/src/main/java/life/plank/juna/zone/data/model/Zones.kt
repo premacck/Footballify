@@ -6,8 +6,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Zones(
         var name: String = "",
-        var category: String = "",
-        var imageUrl: String = "",
+        var category: String? = "",
+        var imageUrl: String? = "",
         var id: String = "",
         var zoneIds: Set<String>? = null,
         var followerCount: Int = 0,

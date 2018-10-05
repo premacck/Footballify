@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
-import life.plank.juna.zone.data.network.model.FeedEntry;
+import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 
 public abstract class BaseBoardActivity extends AppCompatActivity {
