@@ -54,9 +54,10 @@ import static life.plank.juna.zone.util.AppConstants.NOT_STARTED;
 import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.DataUtil.getDisplayTimeStatus;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
+import static life.plank.juna.zone.util.DateUtil.getHourMinuteSecondFormatDate;
 import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
-import static life.plank.juna.zone.util.DateUtil.getMinuteSecondFormatDate;
 import static life.plank.juna.zone.util.DateUtil.getScheduledMatchDateString;
+import static life.plank.juna.zone.util.DateUtil.getTimeInFootballFormat;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 
@@ -281,7 +282,12 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             case LIVE:
                 resetCountDownTimer();
                 baseTime = SystemClock.elapsedRealtime() - (new Date().getTime() - matchStartTime.getTime());
-                timeStatusView.setBase(baseTime);
+                Date baseDate = new Date(baseTime);
+                timeStatusView.setOnChronometerTickListener(chronometer -> {
+                    baseTime += 1000;
+                    baseDate.setTime(baseTime);
+                    timeStatusView.setText(getTimeInFootballFormat(baseDate));
+                });
                 timeStatusView.start();
                 break;
             default:
@@ -301,7 +307,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         countDownTimer = new CountDownTimer(timeDiffFromNow, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                timeStatusView.setText(getMinuteSecondFormatDate(new Date(millisUntilFinished)));
+                timeStatusView.setText(getHourMinuteSecondFormatDate(new Date(millisUntilFinished)));
                 if (millisUntilFinished <= FOUR_HOURS_MILLIS && millisUntilFinished > ONE_HOUR_MILLIS && layoutRefreshState == -1) {
                     layoutRefreshState = MATCH_ABOUT_TO_START_BOARD_ACTIVE;
                     listener.onMatchTimeStateChange();

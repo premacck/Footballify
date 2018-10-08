@@ -171,16 +171,26 @@ public class DateUtil {
         }
     }
 
-    public static String getMinuteSecondFormatDate(Date date) {
+    public static String getHourMinuteSecondFormatDate(Date date) {
         return HOUR_MINUTE_SECOND_DATE_FORMAT.format(date);
     }
 
-    public static String getMinutesElapsedFrom(Date date) {
-        return MINUTE_SECOND_TIME_FORMAT.format(new Date(getTimeDiffFromNow(date)));
+    public static String getMinuteSecondFormatDate(Date date) {
+        return MINUTE_SECOND_TIME_FORMAT.format(date);
     }
 
     public static String getScheduledMatchDateString(Date date) {
         return SCHEDULED_MATCH_DATE_FORMAT.format(date);
+    }
+
+    public static String getTimeInFootballFormat(Date date) {
+        String displayTime = getHourMinuteSecondFormatDate(date);
+        String[] splitDisplayTime = displayTime.split(":");
+        if (Integer.valueOf(splitDisplayTime[0]) <= 0) {
+            return splitDisplayTime[1] + ":" + splitDisplayTime[2];
+        } else {
+            return (Integer.valueOf(splitDisplayTime[0]) * 60) + Integer.valueOf(splitDisplayTime[1]) + ":" + splitDisplayTime[2];
+        }
     }
 
     /**
