@@ -74,10 +74,14 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     Gson gson;
     @Inject
     PagerSnapHelper pagerSnapHelper;
+    @BindView(R.id.faded_card)
+    CardView fadedCard;
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
-    @BindView(R.id.board_parent_layout)
-    CardView boardCardView;
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.private_board_toolbar)
     GenericToolbar toolbar;
     @BindView(R.id.private_board_view_pager)
@@ -163,13 +167,18 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         toolbar.setBoardTitle(board.getBoardType().equals(getString(R.string.public_lowercase)) ? R.string.public_board : R.string.private_board);
         toolbar.setLeagueLogo(picasso, board.getBoardIconUrl());
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
-        boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
+        rootCard.setCardBackgroundColor(Color.parseColor(board.getColor()));
 
         prepareFullScreenRecyclerView();
         setupViewPagerWithFragments();
         String topic = getString(R.string.board_id_prefix) + board.getId();
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
+    }
+
+    @Override
+    public View getScreenshotLayout() {
+        return rootCard;
     }
 
     private void setupViewPagerWithFragments() {
