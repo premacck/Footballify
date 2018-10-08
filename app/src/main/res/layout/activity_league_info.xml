@@ -34,6 +34,20 @@
                 layout="@layout/layout_league_info" />
 
         </LinearLayout>
+
+        <com.bvapp.arcmenulibrary.ArcMenu
+            android:id="@+id/arc_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            app:menuChildAnim="false"
+            app:menuClickAnim="true"
+            app:menuGravity="Bottom_Middle"
+            app:menuImage="@drawable/ic_un"
+            app:menuNormalColor="@color/fab_button_pink"
+            app:menuShadowElevation="true"
+            app:menuType="large" />
+
     </android.support.v7.widget.CardView>
 
     <TextView
@@ -45,18 +59,5 @@
         android:layout_marginStart="80dp"
         android:elevation="10dp"
         android:paddingTop="29dp" />
-
-    <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/arc_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:elevation="8dp"
-        app:menuChildAnim="false"
-        app:menuClickAnim="true"
-        app:menuGravity="Bottom_Middle"
-        app:menuImage="@drawable/ic_un"
-        app:menuNormalColor="@color/fab_button_pink"
-        app:menuShadowElevation="true"
-        app:menuType="large" />
 
 </RelativeLayout>
