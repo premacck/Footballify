@@ -7,11 +7,14 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
+
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class OnSwipeTouchListener implements OnTouchListener {
 
@@ -19,6 +22,9 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private static final float SWIPE_THRESHOLD_PERCENT = 0.4f;
     private final GestureDetector gestureDetector;
     private final int screenHeight;
+    private final float screenWidth;
+    private View backgroundLayout;
+    private View backgroundView;
     private View dragView;
     private View rootView;
     private float motionOriginX;
@@ -29,6 +35,10 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private List<SwipeDirection> directions = SwipeDirection.FREEDOM_NO_TOP;
 
     public OnSwipeTouchListener(Activity activity, View dragView, View rootView) {
+        this(activity, dragView, rootView, null);
+    }
+
+    public OnSwipeTouchListener(Activity activity, View dragView, View rootView, ViewGroup backgroundLayout) {
         gestureDetector = new GestureDetector(activity, new GestureListener(this)) {
             @Override
             public boolean onTouchEvent(MotionEvent event) {
@@ -51,7 +61,15 @@ public class OnSwipeTouchListener implements OnTouchListener {
         this.rootView = rootView;
         viewOriginX = rootView.getTranslationX();
         viewOriginY = rootView.getTranslationY();
-        screenHeight = UIDisplayUtil.getScreenSize(activity.getWindowManager().getDefaultDisplay())[1];
+        int[] screenSize = UIDisplayUtil.getScreenSize(activity.getWindowManager().getDefaultDisplay());
+        screenWidth = (screenSize[0] - getDp(16));
+        screenHeight = screenSize[1];
+        if (backgroundLayout != null) {
+            this.backgroundLayout = backgroundLayout;
+            this.backgroundView = backgroundLayout.getChildAt(0);
+            this.backgroundLayout.setPivotX(screenSize[0] / 2);
+            this.backgroundLayout.setPivotY(0);
+        }
     }
 
     public enum SwipeDirection {
