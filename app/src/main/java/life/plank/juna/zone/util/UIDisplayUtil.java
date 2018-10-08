@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
@@ -54,6 +55,7 @@ import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.InputMethodManager;
@@ -63,6 +65,7 @@ import android.widget.ToggleButton;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -349,6 +352,21 @@ public class UIDisplayUtil {
         bgShape.setColor(color);
     }
 
+    public static Bitmap getScreenshot(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+        byte[] byteArray = stream.toByteArray();
+        try {
+            stream.close();
+        } catch (Exception e) {
+            Log.e("getScreenshot", e.getMessage());
+        }
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+    }
+
     /**
      * Call this method to enable "swipe down to close activity" function on any view (preferably the top one).<br/><br/>
      * <p><b>NOTE:</b> Use this method only when you don't have extra overrides in onBackPressed() method of the source activity.<br/><br/>
@@ -363,6 +381,16 @@ public class UIDisplayUtil {
             @Override
             public void onSwipeDown() {
                 activity.onBackPressed();
+            }
+        });
+    }
+
+    public static void setupSwipeGesture(Activity activity, View dragView, View rootView, ViewGroup backgroundLayout) {
+        dragView.setOnTouchListener(new OnSwipeTouchListener(activity, dragView, rootView, backgroundLayout) {
+            @Override
+            public void onSwipeDown() {
+                activity.finish();
+                activity.overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
     }
