@@ -245,8 +245,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         switch (getMatchTimeValue(fixture.getMatchStartTime(), false)) {
             case MATCH_PAST:
             case MATCH_COMPLETED_TODAY:
-                setLiveTimeStatus(fixture.getMatchStartTime(), fixture.getTimeStatus());
-//                setFullTimeStatus();
+                setFullTimeStatus();
                 matchTimeValue = MATCH_PAST;
                 break;
             case MATCH_LIVE:
