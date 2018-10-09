@@ -155,6 +155,11 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         }
     }
 
+    @Override
+    public View getScreenshotLayout() {
+        return rootLayout;
+    }
+
     private void initBottomSheetRecyclerView() {
         onboardingAdapter = new OnboardingAdapter(this);
         onboardingRecyclerView.setAdapter(onboardingAdapter);
