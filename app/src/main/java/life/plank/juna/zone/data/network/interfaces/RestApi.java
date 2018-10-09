@@ -148,7 +148,7 @@ public interface RestApi {
     @GET("boards/{id}")
     Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
-    //TODO: very this api(currently implemented similar to like and dislike)
+    //TODO: verify this api(currently implemented similar to like and dislike)
     //working
     @POST("activities/{id}/reaction")
     Observable<Response<JsonObject>> postReaction(@Path("id") String feedItemId,
