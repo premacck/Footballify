@@ -37,9 +37,9 @@
                 android:fontFamily="@font/rajdhani_semibold"
                 android:textSize="@dimen/text_10sp"
                 android:textColor="@color/white"
-                app:strokeColor="@color/white"
-                app:solidColor="@color/purple"
-                app:strokeWidth="1.0" />
+                app:ctv_stroke_color="@color/white"
+                app:ctv_solid_color="@color/purple"
+                app:ctv_stroke_width="1.0" />
 
             <ImageView
                 android:id="@+id/lineup_player_card"
@@ -76,9 +76,9 @@
                 android:textSize="@dimen/text_8sp"
                 android:textColor="@color/black"
                 android:visibility="gone"
-                app:solidColor="@color/white"
-                app:strokeColor="@color/black"
-                app:strokeWidth="0.5" />
+                app:ctv_solid_color="@color/white"
+                app:ctv_stroke_color="@color/black"
+                app:ctv_stroke_width="0.5" />
 
             <ImageView
                 android:id="@+id/lineup_player_substitution"

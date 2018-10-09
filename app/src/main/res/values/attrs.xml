@@ -93,9 +93,9 @@
     </declare-styleable>
 
     <declare-styleable name="CircularTextView">
-        <attr name="strokeWidth" format="float" />
-        <attr name="strokeColor" format="color" />
-        <attr name="solidColor" format="color" />
+        <attr name="ctv_stroke_width" format="float" />
+        <attr name="ctv_stroke_color" format="color" />
+        <attr name="ctv_solid_color" format="color" />
     </declare-styleable>
 
     <declare-styleable name="GenericToolbar">

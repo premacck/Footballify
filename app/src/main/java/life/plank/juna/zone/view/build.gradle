@@ -30,6 +30,7 @@ android {
 dependencies {
     def viewDependencies = rootProject.ext.viewDependencies
     def viewTestDependencies = rootProject.ext.viewTestDependencies
+    def dataDependencies = rootProject.ext.dataDependencies
 
     implementation viewDependencies.butterKnife
     implementation viewDependencies.rxAndroid
@@ -67,6 +68,10 @@ dependencies {
     implementation viewDependencies.overflowPagerIndicator
     implementation viewDependencies.flexbox
     implementation viewDependencies.multiViewAdapter
+    implementation dataDependencies.lifecycleExtensions
+    annotationProcessor dataDependencies.lifecycleCompiler
+    implementation dataDependencies.roomRuntime
+    annotationProcessor dataDependencies.roomCompiler
     annotationProcessor viewDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     compileOnly viewDependencies.javaxAnnotation
