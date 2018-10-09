@@ -1,18 +1,19 @@
 package life.plank.juna.zone.data.local.db;
 
+import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.FootballTeam;
 
-//TODO: un-comment this line after adding entities
-//@Database(entities = {/*TODO : enter entity classes here*/}, version = 1, exportSchema = false)
+@Database(entities = {FootballTeam.class}, version = 1, exportSchema = false)
 public abstract class RoomDb extends RoomDatabase {
 
     private static final String ROOM_DB_NAME = "junaDatabase.db";
     private static RoomDb INSTANCE;
 
-    private RoomDb() {
+    RoomDb() {
 //        Reflection safety
         if (INSTANCE != null) {
             throw new RuntimeException("Use getInstance() method to get the single instance of this class");
