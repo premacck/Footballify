@@ -85,5 +85,6 @@
     <string name="green_color">green_bg</string>
     <string name="orange_color">orange_bg</string>
     <string name="na">NA</string>
+    <string name="screenshot_background_suffix">_bg.png</string>
 
 </resources>

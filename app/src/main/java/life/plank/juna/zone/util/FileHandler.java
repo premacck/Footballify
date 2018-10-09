@@ -15,10 +15,13 @@ import life.plank.juna.zone.R;
 import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenshot;
 
+/**
+ * Class for handling file management, i.e., saving and retrieving a file/image from the app's private storage
+ */
 public class FileHandler {
 
     public static void saveScreenshot(String activityTag, View screenshotView, Intent intent) {
-        String fileName = activityTag + "_bg.png";
+        String fileName = activityTag + getContext().getString(R.string.screenshot_background_suffix);
         intent.putExtra(getContext().getString(R.string.intent_activity_name), activityTag);
         try {
             FileOutputStream fileOutputStream = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -32,7 +35,7 @@ public class FileHandler {
     }
 
     public static Bitmap getSavedScreenshot(Intent intent) {
-        String fileName = intent.getStringExtra(getContext().getString(R.string.intent_activity_name)) + "_bg.png";
+        String fileName = intent.getStringExtra(getContext().getString(R.string.intent_activity_name)) + getContext().getString(R.string.screenshot_background_suffix);
         try {
             FileInputStream fileInputStream = getContext().openFileInput(fileName);
             Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
