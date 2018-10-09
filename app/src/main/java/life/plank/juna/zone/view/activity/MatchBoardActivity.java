@@ -156,7 +156,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     public void setDataReceivedFromPushNotification(Intent intent) {
         String title = intent.getStringExtra(getString(R.string.intent_comment_title));
         String contentType = intent.getStringExtra(getString(R.string.intent_content_type));
-        String thumbnailUrl = intent.getStringExtra(getString(R.string.intent_thumbnail_url));
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
         Integer thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0);
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
@@ -172,7 +171,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
             Thumbnail thumbnail = new Thumbnail();
             thumbnail.setImageWidth(thumbnailWidth);
             thumbnail.setImageHeight(thumbnailHeight);
-            thumbnail.setImageUrl(thumbnailUrl);
+            thumbnail.setImageUrl(imageUrl);
             feed.getFeedItem().setThumbnail(thumbnail);
             feed.getFeedItem().setUrl(imageUrl);
         }
