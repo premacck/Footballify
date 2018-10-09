@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.gson.Gson;
 
 import io.fabric.sdk.android.Fabric;
 import life.plank.juna.zone.data.network.dagger.component.AppComponent;
@@ -43,6 +44,10 @@ public class ZoneApplication extends Application {
                 .build();
         uiComponent = networkComponent.viewComponentBuilder()
                 .build();
+    }
+
+    public static Gson getGson() {
+        return zoneApplication.networkComponent.getGson();
     }
 
     public AppComponent getAppComponent() {
