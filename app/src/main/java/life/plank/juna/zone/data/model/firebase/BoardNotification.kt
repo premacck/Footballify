@@ -9,7 +9,7 @@ data class BoardNotification(
         var thumbnailImageUrl: String = "",
         var thumbnailWidth: Int = 0,
         var thumbnailHeight: Int = 0,
-        var imageUrl: String = "",
+        var imageUrl: String?,
         var action: String = "",
         var actor: String = "",
         var title: String = "",
