@@ -4,16 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/faded_card" />
+
     <android.support.v4.view.ViewPager
         android:id="@+id/post_detail_view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".view.fragment.post.PostDetailFragment" />
 
-    <View
+    <TextView
         android:id="@+id/drag_area"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        android:drawableTop="@drawable/drag_handle_dark"
         android:elevation="10dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="60dp"
