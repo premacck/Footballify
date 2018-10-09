@@ -1,6 +1,7 @@
 package life.plank.juna.zone.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -19,8 +20,9 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getScreenshot;
  */
 public class FileHandler {
 
-    public static void saveScreenshot(String activityTag, View screenshotView) {
+    public static void saveScreenshot(String activityTag, View screenshotView, Intent intent) {
         String fileName = activityTag + getContext().getString(R.string.screenshot_background_suffix);
+        intent.putExtra(getContext().getString(R.string.intent_activity_name), activityTag);
         try {
             FileOutputStream fileOutputStream = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
             Bitmap screenshot = getScreenshot(screenshotView);
@@ -32,8 +34,8 @@ public class FileHandler {
         }
     }
 
-    public static Bitmap getSavedScreenshot(String activityTag) {
-        String fileName = activityTag + getContext().getString(R.string.screenshot_background_suffix);
+    public static Bitmap getSavedScreenshot(Intent intent) {
+        String fileName = intent.getStringExtra(getContext().getString(R.string.intent_activity_name)) + getContext().getString(R.string.screenshot_background_suffix);
         try {
             FileInputStream fileInputStream = getContext().openFileInput(fileName);
             Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
