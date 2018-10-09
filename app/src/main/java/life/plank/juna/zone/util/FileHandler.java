@@ -9,13 +9,18 @@ import android.view.View;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
+import life.plank.juna.zone.R;
+
 import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenshot;
 
+/**
+ * Class for handling file management, i.e., saving and retrieving a file/image from the app's private storage
+ */
 public class FileHandler {
 
     public static void saveScreenshot(String activityTag, View screenshotView) {
-        String fileName = activityTag + "_bg.png";
+        String fileName = activityTag + getContext().getString(R.string.screenshot_background_suffix);
         try {
             FileOutputStream fileOutputStream = getContext().openFileOutput(fileName, Context.MODE_PRIVATE);
             Bitmap screenshot = getScreenshot(screenshotView);
@@ -28,7 +33,7 @@ public class FileHandler {
     }
 
     public static Bitmap getSavedScreenshot(String activityTag) {
-        String fileName = activityTag + "_bg.png";
+        String fileName = activityTag + getContext().getString(R.string.screenshot_background_suffix);
         try {
             FileInputStream fileInputStream = getContext().openFileInput(fileName);
             Bitmap bitmap = BitmapFactory.decodeStream(fileInputStream);
