@@ -28,6 +28,8 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
     TextView coinCountView;
     @BindView(R.id.toolbar_profile_pic)
     ImageView profilePicView;
+    @BindView(R.id.notification_icon)
+    ImageView notificationIcon;
     private ZoneToolbarListener listener;
 
     public ZoneToolBar(Context context) {
@@ -100,10 +102,15 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
         } else throw new IllegalStateException("Activity must implement ZoneToolbarListener");
 
         addProfilePictureListener();
+        addNotificationListener();
     }
 
     private void addProfilePictureListener() {
         profilePicView.setOnClickListener(view -> listener.profilePictureClicked(profilePicView));
+    }
+
+    private void addNotificationListener() {
+        notificationIcon.setOnClickListener(view -> listener.notificationIconClicked(notificationIcon));
     }
 
     @Override

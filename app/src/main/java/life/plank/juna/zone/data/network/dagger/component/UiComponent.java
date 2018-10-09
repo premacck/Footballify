@@ -24,6 +24,7 @@ import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserFeedActivity;
+import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.activity.ZoneActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
@@ -99,6 +100,8 @@ public interface UiComponent {
     void inject(PostDetailActivity postDetailActivity);
 
     void inject(PostDetailFragment postDetailFragment);
+
+    void inject(UserNotificationActivity userNotificationActivity);
 
     @Subcomponent.Builder
     interface Builder {

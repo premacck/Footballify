@@ -38,6 +38,13 @@
         android:textSize="20sp"
         android:visibility="invisible" />
 
+    <ImageView
+        android:id="@+id/notification_icon"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:src="@drawable/ic_notification"
+        android:padding="5dp"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/toolbar_profile_pic"
         android:layout_width="36dp"
