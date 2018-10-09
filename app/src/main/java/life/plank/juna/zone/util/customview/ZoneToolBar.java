@@ -20,12 +20,12 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 
-public class ZoneToolBar extends LinearLayout implements CustomViewListener{
+public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     @BindView(R.id.toolbar_title)
     TextView titleView;
-    @BindView(R.id.toolbar_coin_count)
-    TextView coinCountView;
+    @BindView(R.id.toolbar_notification)
+    ImageView notificationView;
     @BindView(R.id.toolbar_profile_pic)
     ImageView profilePicView;
     private ZoneToolbarListener listener;
@@ -48,14 +48,12 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View rootView = inflate(context, R.layout.new_tool_bar, this);
+        View rootView = inflate(context, R.layout.zone_tool_bar, this);
         ButterKnife.bind(this, rootView);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ZoneToolBar);
         try {
             setTitle(array.getString(R.styleable.ZoneToolBar_title));
-            String coinCount = array.getString(R.styleable.ZoneToolBar_coinCount);
-            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount);
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile));
         } catch (Exception e) {
             Log.e("ZoneToolBar", e.getMessage());
@@ -72,12 +70,8 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
         this.titleView.setText(title);
     }
 
-    public String getCoinCount() {
-        return coinCountView.getText().toString();
-    }
-
-    public void setCoinCount(String coinCount) {
-        coinCountView.setText(coinCount);
+    public void isNotificationViewVisible(Integer visibility) {
+        notificationView.setVisibility(visibility);
     }
 
     public void setProfilePic(String url) {

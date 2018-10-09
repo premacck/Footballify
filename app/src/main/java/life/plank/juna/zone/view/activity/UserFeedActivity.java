@@ -172,11 +172,9 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     private void setUpToolbarAndBoomMenu() {
         if (isNullOrEmpty(getToken())) {
             toolbar.setProfilePic(R.drawable.ic_default_profile);
-            toolbar.setCoinCount(getString(R.string.hello_stranger));
             arcMenu.setVisibility(View.GONE);
+            toolbar.isNotificationViewVisible(View.GONE);
         } else {
-            //TODO: set user profile picture and name in coin count
-            toolbar.setCoinCount(null);
             BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, this, null, arcMenu);
         }
     }
