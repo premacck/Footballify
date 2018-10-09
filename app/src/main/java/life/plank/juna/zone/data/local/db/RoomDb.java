@@ -1,12 +1,12 @@
 package life.plank.juna.zone.data.local.db;
 
-import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 
 import life.plank.juna.zone.ZoneApplication;
 
-@Database(entities = {/*TODO : enter entity classes here*/}, version = 1, exportSchema = false)
+//TODO: un-comment this line after adding entities
+//@Database(entities = {/*TODO : enter entity classes here*/}, version = 1, exportSchema = false)
 public abstract class RoomDb extends RoomDatabase {
 
     private static final String ROOM_DB_NAME = "junaDatabase.db";
