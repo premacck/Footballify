@@ -5,14 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
-import static life.plank.juna.zone.util.UIDisplayUtil.getEmojiByUnicode;
 
 public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder> {
 
@@ -30,7 +29,10 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
 
     @Override
     public void onBindViewHolder(EmojiViewHolder holder, int position) {
-        holder.emojiView.setText(getEmojiByUnicode(emoji[position]));
+        holder.emojiView.setImageDrawable(context.getDrawable(emoji[position].getEmojiUrl()));
+        holder.emojiView.setOnClickListener(view -> {
+            //TODO: post emoji
+        });
     }
 
     @Override
@@ -41,7 +43,7 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
     static class EmojiViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.emoji_view)
-        TextView emojiView;
+        ImageView emojiView;
 
         EmojiViewHolder(View itemView) {
             super(itemView);

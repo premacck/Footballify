@@ -74,6 +74,7 @@ import java.util.List;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.model.Emoji;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.web.WebCardActivity;
@@ -91,7 +92,21 @@ public class UIDisplayUtil {
 
     private static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
 
-    public static int[] emoji = new int[]{0x1F60D, 0x1F917, 0x1F618, 0x1F62E, 0x1F910, 0x1F62F, 0x1F924, 0x1F612, 0x1F922, 0x1F601, 0x1F602, 0x1F609};
+    //TODO: Remove once implemented on backend
+    public static Emoji[] emoji = new Emoji[]{
+            new Emoji("winking", R.drawable.ic_emoji_winking, 0),
+            new Emoji("angry", R.drawable.ic_emoji_angry, 0),
+            new Emoji("nauseated", R.drawable.ic_emoji_nauseated, 0),
+            new Emoji("heart", R.drawable.ic_emoji_heart_eyes, 0),
+            new Emoji("exploding", R.drawable.ic_emoji_exploding_head, 0),
+            new Emoji("happy", R.drawable.ic_emoji_happy, 0),
+            new Emoji("neutral", R.drawable.ic_emoji_neutral, 0),
+            new Emoji("zipped", R.drawable.ic_emoji_zipped_mouth, 0),
+            new Emoji("hugging", R.drawable.ic_emoji_hugging, 0),
+            new Emoji("vomiting", R.drawable.ic_emoji_vomiting, 0),
+            new Emoji("drool", R.drawable.ic_emoji_drool, 0),
+            new Emoji("shush", R.drawable.ic_emoji_shush, 0),
+    };
 
     public UIDisplayUtil() {
 
