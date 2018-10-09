@@ -122,7 +122,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague());
+            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague(), ref.get().activity.getScreenshotLayout());
         }
     }
 
@@ -180,7 +180,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
 
         @OnClick(R.id.root_layout)
         public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague());
+            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague(), ref.get().activity.getScreenshotLayout());
         }
     }
 }

@@ -1,12 +1,10 @@
 package life.plank.juna.zone.view.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,6 +37,7 @@ import life.plank.juna.zone.interfaces.OnItemClickListener;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.NetworkStatus;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.base.StackableCardActivity;
 import life.plank.juna.zone.view.adapter.FootballLeagueAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
@@ -56,11 +55,12 @@ import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
  * Created by plank-hasan on 5/01/18.
  */
 
-public class SwipePageActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, OnItemClickListener {
+public class SwipePageActivity extends StackableCardActivity implements SearchView.OnQueryTextListener, OnItemClickListener {
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-    public static Bitmap parentViewBitmap = null;
 
+    @BindView(R.id.root_card)
+    CardView rootCard;
     @BindView(R.id.football_feed_recycler_view)
     RecyclerView feedRecyclerView;
     @BindView(R.id.parent_layout)
@@ -79,7 +79,6 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
     @Inject
     Picasso picasso;
 
-    CoordinatorLayout coordinatorLayout;
     FootballLeagueAdapter adapter;
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
@@ -117,8 +116,6 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
         BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         initBottomSheetRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
-
-        coordinatorLayout = findViewById(R.id.coordinator_layout);
 
         View bottomSheet = findViewById(R.id.bottom_sheet);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
@@ -194,6 +191,11 @@ public class SwipePageActivity extends AppCompatActivity implements SearchView.O
     protected void onPause() {
         super.onPause();
         arcMenu.menuOut();
+    }
+
+    @Override
+    public View getScreenshotLayout() {
+        return rootCard;
     }
 
     private void getSearchedUsers(String displayName) {

@@ -74,6 +74,10 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     Gson gson;
     @Inject
     PagerSnapHelper pagerSnapHelper;
+    @BindView(R.id.faded_card)
+    CardView fadedCard;
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
     @BindView(R.id.root_card)
@@ -170,6 +174,11 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         String topic = getString(R.string.board_id_prefix) + board.getId();
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
+    }
+
+    @Override
+    public View getScreenshotLayout() {
+        return rootCard;
     }
 
     private void setupViewPagerWithFragments() {

@@ -62,6 +62,8 @@ import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
+import static life.plank.juna.zone.util.FileHandler.getSavedScreenshot;
+import static life.plank.juna.zone.util.FileHandler.saveScreenshot;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -71,6 +73,10 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
 
     @BindView(R.id.root_card)
     CardView rootCard;
+    @BindView(R.id.faded_card)
+    CardView fadedCard;
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
     @BindView(R.id.root_layout)
     LinearLayout rootLayout;
     @BindView(R.id.league_toolbar)
@@ -140,11 +146,12 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     private FixtureAdapter fixtureAdapter;
     public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
-    public static void launch(Activity fromActivity, League league) {
+    public static void launch(Activity fromActivity, League league, View screenshotView) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
+        saveScreenshot(fromActivity.getLocalClassName(), screenshotView, intent);
         intent.putExtra(fromActivity.getString(R.string.intent_league), league);
         fromActivity.startActivity(intent);
-        fromActivity.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
+        fromActivity.overridePendingTransition(R.anim.float_up, android.R.anim.fade_out);
     }
 
     @Override
@@ -153,13 +160,16 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         setContentView(R.layout.activity_league_info);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
-        setupSwipeGesture(this, dragArea, rootCard);
 
         BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
         Intent intent = getIntent();
         if (intent != null) {
             league = intent.getParcelableExtra(getString(R.string.intent_league));
+            blurBg = getSavedScreenshot(intent);
         }
+
+        blurBackgroundImageView.setImageBitmap(blurBg);
+        setupSwipeGesture(this, dragArea, rootCard, fadedCard);
 
         prepareRecyclerViews();
         getFixtures();
@@ -170,6 +180,11 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         title.setText(league.getName());
         logo.setImageResource(league.getLeagueLogo());
         rootLayout.setBackgroundColor(getResources().getColor(league.getDominantColor(), null));
+    }
+
+    @Override
+    public View getScreenshotLayout() {
+        return rootCard;
     }
 
     public void updateBackgroundBitmap() {
@@ -305,7 +320,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
 
     @OnClick({R.id.see_all_fixtures, R.id.see_all_standings, R.id.see_more_team_stats, R.id.see_more_player_stats})
     public void onItemClick(View view) {
-        Objects.requireNonNull(this).updateBackgroundBitmap();
+        updateBackgroundBitmap();
         switch (view.getId()) {
             case R.id.see_all_fixtures:
                 if (!isNullOrEmpty(fixtureByMatchDayList)) {
@@ -489,6 +504,6 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

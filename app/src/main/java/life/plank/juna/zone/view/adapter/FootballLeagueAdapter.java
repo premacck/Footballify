@@ -54,7 +54,7 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            LeagueInfoActivity.launch(activity, league);
+            LeagueInfoActivity.launch(activity, league, activity.getScreenshotLayout());
         });
     }
 
