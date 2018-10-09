@@ -148,6 +148,16 @@ public interface RestApi {
     @GET("boards/{id}")
     Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
+    //TODO: verify this api(currently implemented similar to like and dislike)
+    //working
+    @POST("activities/{id}/reaction")
+    Observable<Response<JsonObject>> postReaction(@Path("id") String feedItemId,
+                                                  @Query("targetId") String boardId,
+                                                  @Query("target") String target,
+                                                  @Query("time") String dateCreated,
+                                                  @Query("reaction") Integer reaction,
+                                                  @Header("Authorization") String authHeader);
+
     //working
     @POST("activities/{id}/likes")
     Observable<Response<JsonObject>> postLike(@Path("id") String feedItemId,
@@ -230,10 +240,10 @@ public interface RestApi {
 
     @POST("/activities/{feedItemId}/comments")
     Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
-                                                     @Path("feedItemId") String feedItemId,
-                                                     @Query("boardId") String boardId,
-                                                     @Query("time") String time,
-                                                     @Header("Authorization") String authHeader);
+                                                                @Path("feedItemId") String feedItemId,
+                                                                @Query("boardId") String boardId,
+                                                                @Query("time") String time,
+                                                                @Header("Authorization") String authHeader);
 
     @POST("/activities/{feedItemId}/comments/{commentId}")
     Observable<Response<FeedItemCommentReply>> postReplyOnComment(@Body String reply,

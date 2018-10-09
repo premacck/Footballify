@@ -86,5 +86,7 @@
     <string name="orange_color">orange_bg</string>
     <string name="na">NA</string>
     <string name="screenshot_background_suffix">_bg.png</string>
+    <string name="notification_time">1 min ago</string>
+    <string name="clear_notifications">CLEAR ALL</string>
 
 </resources>
