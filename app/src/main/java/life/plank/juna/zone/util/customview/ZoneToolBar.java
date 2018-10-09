@@ -24,12 +24,12 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     @BindView(R.id.toolbar_title)
     TextView titleView;
-    @BindView(R.id.toolbar_coin_count)
-    TextView coinCountView;
+    @BindView(R.id.toolbar_notification)
+    ImageView notificationView;
     @BindView(R.id.toolbar_profile_pic)
     ImageView profilePicView;
-    @BindView(R.id.notification_icon)
-    ImageView notificationIcon;
+    @BindView(R.id.toolbar_user_greeting)
+    TextView userGreetingView;
     private ZoneToolbarListener listener;
 
     public ZoneToolBar(Context context) {
@@ -50,14 +50,12 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
     }
 
     private void init(Context context, AttributeSet attrs) {
-        View rootView = inflate(context, R.layout.new_tool_bar, this);
+        View rootView = inflate(context, R.layout.zone_tool_bar, this);
         ButterKnife.bind(this, rootView);
 
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ZoneToolBar);
         try {
             setTitle(array.getString(R.styleable.ZoneToolBar_title));
-            String coinCount = array.getString(R.styleable.ZoneToolBar_coinCount);
-            setCoinCount(coinCount == null || coinCount.isEmpty() ? getContext().getString(R.string.dummy_32k) : coinCount);
             setProfilePic(array.getResourceId(R.styleable.ZoneToolBar_profilePic, R.drawable.ic_default_profile));
         } catch (Exception e) {
             Log.e("ZoneToolBar", e.getMessage());
@@ -74,12 +72,16 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
         this.titleView.setText(title);
     }
 
-    public String getCoinCount() {
-        return coinCountView.getText().toString();
+    public String getUserGreeting() {
+        return userGreetingView.getText().toString();
     }
 
-    public void setCoinCount(String coinCount) {
-        coinCountView.setText(coinCount);
+    public void setUserGreeting(String title) {
+        this.userGreetingView.setText(title);
+    }
+
+    public void isNotificationViewVisible(Integer visibility) {
+        notificationView.setVisibility(visibility);
     }
 
     public void setProfilePic(String url) {
@@ -106,7 +108,7 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     private void addToolbarListener() {
         profilePicView.setOnClickListener(view -> listener.profilePictureClicked(profilePicView));
-        notificationIcon.setOnClickListener(view -> listener.notificationIconClicked(notificationIcon));
+        notificationView.setOnClickListener(view -> listener.notificationIconClicked(notificationView));
     }
 
     @Override

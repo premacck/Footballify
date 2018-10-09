@@ -26,31 +26,32 @@
         android:textSize="24sp" />
 
     <TextView
-        android:id="@+id/toolbar_coin_count"
+        android:id="@+id/toolbar_user_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
-        android:drawablePadding="2dp"
-        android:fontFamily="@font/rajdhani_medium"
+        android:fontFamily="@font/rajdhani_regular"
         android:gravity="center_vertical"
-        android:textColor="@color/grey"
-        android:textSize="20sp"
-        android:visibility="invisible" />
+        android:padding="10dp"
+        android:src="@drawable/ic_notification_bell"
+        android:textSize="20sp" />
 
     <ImageView
-        android:id="@+id/notification_icon"
-        android:layout_width="40dp"
-        android:layout_height="35dp"
-        android:src="@drawable/ic_notification"
-        android:padding="5dp"/>
+        android:id="@+id/toolbar_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:src="@drawable/ic_notification_bell" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/toolbar_profile_pic"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_gravity="center"
-        android:layout_marginEnd="15dp"
         android:layout_weight="1"
         android:contentDescription="@string/profile_pic"
         android:src="@drawable/ic_default_profile"
