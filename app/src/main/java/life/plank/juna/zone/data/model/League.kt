@@ -1,9 +1,11 @@
 package life.plank.juna.zone.data.model
 
+import android.arch.persistence.room.Entity
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
 import kotlinx.android.parcel.Parcelize
 
+@Entity
 @Parcelize
 data class League(
         var name: String = "",
