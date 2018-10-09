@@ -3,10 +3,15 @@ package life.plank.juna.zone.data.local.db
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.local.typeconverter.DateConverter
+import life.plank.juna.zone.data.local.typeconverter.LineupsConverter
+import life.plank.juna.zone.data.local.typeconverter.MatchConverter
 import life.plank.juna.zone.data.model.FootballTeam
 
 @Database(entities = [FootballTeam::class], version = 1, exportSchema = false)
+@TypeConverters(DateConverter::class, LineupsConverter::class, MatchConverter::class)
 abstract class RoomDb : RoomDatabase() {
 
     companion object {

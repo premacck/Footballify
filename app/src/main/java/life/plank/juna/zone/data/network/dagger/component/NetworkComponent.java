@@ -1,5 +1,7 @@
 package life.plank.juna.zone.data.network.dagger.component;
 
+import com.google.gson.Gson;
+
 import dagger.Subcomponent;
 import life.plank.juna.zone.data.network.dagger.module.RestServiceModule;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
@@ -12,6 +14,8 @@ import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
 @NetworkScope
 @Subcomponent(modules = RestServiceModule.class)
 public interface NetworkComponent {
+
+    Gson getGson();
 
     UiComponent.Builder viewComponentBuilder();
 
