@@ -154,6 +154,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     }
 
     public void setDataReceivedFromPushNotification(Intent intent) {
+        //TODO: Remove all thumbnail related code once the backend is stable
         String title = intent.getStringExtra(getString(R.string.intent_comment_title));
         String contentType = intent.getStringExtra(getString(R.string.intent_content_type));
         Integer thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0);
