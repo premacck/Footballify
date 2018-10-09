@@ -20,7 +20,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 
-public class ZoneToolBar extends LinearLayout implements CustomViewListener{
+public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     @BindView(R.id.toolbar_title)
     TextView titleView;
@@ -101,15 +101,11 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener{
             listener = (ZoneToolbarListener) activity;
         } else throw new IllegalStateException("Activity must implement ZoneToolbarListener");
 
-        addProfilePictureListener();
-        addNotificationListener();
+        addToolbarListener();
     }
 
-    private void addProfilePictureListener() {
+    private void addToolbarListener() {
         profilePicView.setOnClickListener(view -> listener.profilePictureClicked(profilePicView));
-    }
-
-    private void addNotificationListener() {
         notificationIcon.setOnClickListener(view -> listener.notificationIconClicked(notificationIcon));
     }
 
