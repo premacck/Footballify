@@ -15,6 +15,9 @@ import life.plank.juna.zone.R;
 import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenshot;
 
+/**
+ * Class for handling file management, i.e., saving and retrieving a file/image from the app's private storage
+ */
 public class FileHandler {
 
     public static void saveScreenshot(String activityTag, View screenshotView, Intent intent) {
