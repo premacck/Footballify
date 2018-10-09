@@ -24,7 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -109,8 +108,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     ShimmerRelativeLayout feedContentLayout;
     @BindView(R.id.feed_image_view)
     ImageView feedImageView;
-    @BindView(R.id.feed_top_layout)
-    LinearLayout feedTopLayout;
     @BindView(R.id.like_image_view)
     ImageView likeImageView;
     @BindView(R.id.pin_image_view)
@@ -123,8 +120,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     VideoView capturedVideoView;
     @BindView(R.id.feed_text_view)
     TextView feedTextView;
-    @BindView(R.id.drag_handle)
-    ImageView dragHandleImageView;
     @BindView(R.id.user_name_text_view)
     TextView userNameTextView;
     @BindView(R.id.feed_title_text_view)
