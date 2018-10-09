@@ -16,10 +16,13 @@ import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.network.dagger.scope.NetworkScope;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import okhttp3.Cache;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
@@ -30,12 +33,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class NetworkModule {
 
     /**
-     * Provides 10MB cache
+     * Provides 50MB cache
      */
     @NetworkScope
     @Provides
     Cache provideCache(File directory) {
-        return new Cache(directory, 10 * 1024 * 1024);
+        return new Cache(directory, 50 * 1024 * 1024);
     }
 
     @Named("header")
@@ -48,9 +51,10 @@ public class NetworkModule {
     @NetworkScope
     @Provides
     @Named("header")
-    public OkHttpClient provideDefaultOkHttpClient(@Named("header") HttpLoggingInterceptor httpLoggingInterceptor) {
+    public OkHttpClient provideDefaultOkHttpClient(@Named("header") HttpLoggingInterceptor httpLoggingInterceptor, Interceptor subscriptionInterceptor) {
         return new OkHttpClient().newBuilder()
                 .addInterceptor(httpLoggingInterceptor)
+                .addInterceptor(subscriptionInterceptor)
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(60, TimeUnit.SECONDS)
@@ -84,5 +88,18 @@ public class NetworkModule {
     @Provides
     public AuthorizationService provideAuthorizationService(Context context) {
         return new AuthorizationService(context);
+    }
+
+    @NetworkScope
+    @Provides
+    public Interceptor provideInterceptor(Context context) {
+        return chain -> {
+            Request request = chain.request();
+            return chain.proceed(
+                    request.newBuilder()
+                            .header(context.getString(R.string.subscription_key_key), context.getString(R.string.subscription_key_value))
+                            .build()
+            );
+        };
     }
 }
