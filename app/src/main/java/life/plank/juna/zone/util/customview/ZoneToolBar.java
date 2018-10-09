@@ -28,8 +28,6 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
     ImageView notificationView;
     @BindView(R.id.toolbar_profile_pic)
     ImageView profilePicView;
-    @BindView(R.id.notification_icon)
-    ImageView notificationIcon;
     private ZoneToolbarListener listener;
 
     public ZoneToolBar(Context context) {
@@ -100,7 +98,7 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     private void addToolbarListener() {
         profilePicView.setOnClickListener(view -> listener.profilePictureClicked(profilePicView));
-        notificationIcon.setOnClickListener(view -> listener.notificationIconClicked(notificationIcon));
+        notificationView.setOnClickListener(view -> listener.notificationIconClicked(notificationView));
     }
 
     @Override
