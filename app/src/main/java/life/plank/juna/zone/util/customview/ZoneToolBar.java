@@ -28,6 +28,8 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
     ImageView notificationView;
     @BindView(R.id.toolbar_profile_pic)
     ImageView profilePicView;
+    @BindView(R.id.toolbar_user_greeting)
+    TextView userGreetingView;
     private ZoneToolbarListener listener;
 
     public ZoneToolBar(Context context) {
@@ -68,6 +70,14 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     public void setTitle(String title) {
         this.titleView.setText(title);
+    }
+
+    public String getUserGreeting() {
+        return userGreetingView.getText().toString();
+    }
+
+    public void setUserGreeting(String title) {
+        this.userGreetingView.setText(title);
     }
 
     public void isNotificationViewVisible(Integer visibility) {

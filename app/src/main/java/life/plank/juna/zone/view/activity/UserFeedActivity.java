@@ -179,6 +179,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
             toolbar.setProfilePic(R.drawable.ic_default_profile);
             arcMenu.setVisibility(View.GONE);
             toolbar.isNotificationViewVisible(View.GONE);
+            toolbar.setUserGreeting(getString(R.string.hello_stranger));
         } else {
             BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, this, null, arcMenu);
         }
