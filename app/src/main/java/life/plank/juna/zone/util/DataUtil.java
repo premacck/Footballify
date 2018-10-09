@@ -37,6 +37,7 @@ import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.Commentary;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.Formation;
+import life.plank.juna.zone.data.model.FormationList;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.LiveScoreData;
@@ -554,7 +555,7 @@ public class DataUtil {
         return lineups;
     }
 
-    private static void integrateLineupsWithMatchEvents(List<List<Formation>> allFormationList, MatchEvent matchEvent) {
+    private static void integrateLineupsWithMatchEvents(List<FormationList> allFormationList, MatchEvent matchEvent) {
         for (List<Formation> formationList : allFormationList) {
             for (Formation formation : formationList) {
                 if (Objects.equals(formation.getNickname(), matchEvent.getPlayerName())) {
@@ -563,10 +564,10 @@ public class DataUtil {
                             formation.setGoals(formation.getGoals() + 1);
                             break;
                         case YELLOW_CARD:
-                            formation.setYellowCard(1);
+                            formation.setYellowCards(1);
                             break;
                         case RED_CARD:
-                            formation.setRedCard(1);
+                            formation.setRedCards(1);
                             break;
                         case YELLOW_RED:
                             formation.setYellowRed(1);

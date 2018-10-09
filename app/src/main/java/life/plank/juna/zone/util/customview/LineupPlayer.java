@@ -73,8 +73,8 @@ public class LineupPlayer extends FrameLayout {
             setPlayerNumber(formation.getNumber())
 //    TODO : replace with boolean values once backend filters it
                     .setPlayerCard(
-                            formation.getYellowCard(),
-                            formation.getRedCard(),
+                            formation.getYellowCards(),
+                            formation.getRedCards(),
                             formation.getYellowRed())
                     .setSubstituted(formation.getSubstituteOut())
                     .setSolidColor(labelColor)
@@ -83,6 +83,8 @@ public class LineupPlayer extends FrameLayout {
                     .setName(formation.getNickname());
             Picasso.with(getContext())
                     .load(formation.getImagePath())
+                    .placeholder(R.drawable.ic_default_profile)
+                    .error(R.drawable.ic_default_profile)
                     .into(lineupPlayerPic);
         }
     }

@@ -8,10 +8,18 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.local.typeconverter.DateConverter
 import life.plank.juna.zone.data.local.typeconverter.LineupsConverter
 import life.plank.juna.zone.data.local.typeconverter.MatchConverter
-import life.plank.juna.zone.data.model.FootballTeam
+import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.data.model.MatchFixture
 
-@Database(entities = [FootballTeam::class], version = 1, exportSchema = false)
-@TypeConverters(DateConverter::class, LineupsConverter::class, MatchConverter::class)
+@Database(version = 1, exportSchema = false, entities = [
+    MatchDetails::class,
+    MatchFixture::class
+])
+@TypeConverters(
+        DateConverter::class,
+        LineupsConverter::class,
+        MatchConverter::class
+)
 abstract class RoomDb : RoomDatabase() {
 
     companion object {
