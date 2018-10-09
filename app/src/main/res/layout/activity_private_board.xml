@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/faded_card" />
+
     <android.support.v7.widget.CardView
         android:id="@+id/board_parent_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="7dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="7dp"
         android:orientation="vertical"
         arc:cardBackgroundColor="@color/chocolate_brown"
