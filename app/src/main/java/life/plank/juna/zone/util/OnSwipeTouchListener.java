@@ -7,11 +7,14 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
+
+import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
 public class OnSwipeTouchListener implements OnTouchListener {
 
@@ -19,6 +22,9 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private static final float SWIPE_THRESHOLD_PERCENT = 0.4f;
     private final GestureDetector gestureDetector;
     private final int screenHeight;
+    private final float screenWidth;
+    private View backgroundLayout;
+    private View backgroundView;
     private View dragView;
     private View rootView;
     private float motionOriginX;
@@ -26,9 +32,12 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private boolean isDragging;
     private float viewOriginX;
     private float viewOriginY;
-    private List<SwipeDirection> directions = SwipeDirection.FREEDOM_NO_TOP;
 
     public OnSwipeTouchListener(Activity activity, View dragView, View rootView) {
+        this(activity, dragView, rootView, null);
+    }
+
+    public OnSwipeTouchListener(Activity activity, View dragView, View rootView, ViewGroup backgroundLayout) {
         gestureDetector = new GestureDetector(activity, new GestureListener(this)) {
             @Override
             public boolean onTouchEvent(MotionEvent event) {
@@ -51,7 +60,15 @@ public class OnSwipeTouchListener implements OnTouchListener {
         this.rootView = rootView;
         viewOriginX = rootView.getTranslationX();
         viewOriginY = rootView.getTranslationY();
-        screenHeight = UIDisplayUtil.getScreenSize(activity.getWindowManager().getDefaultDisplay())[1];
+        int[] screenSize = UIDisplayUtil.getScreenSize(activity.getWindowManager().getDefaultDisplay());
+        screenWidth = (screenSize[0] - getDp(16));
+        screenHeight = screenSize[1];
+        if (backgroundLayout != null) {
+            this.backgroundLayout = backgroundLayout;
+            this.backgroundView = backgroundLayout.getChildAt(0);
+            this.backgroundLayout.setPivotX(screenSize[0] / 2);
+            this.backgroundLayout.setPivotY(0);
+        }
     }
 
     public enum SwipeDirection {
@@ -77,7 +94,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
     }
 
     public enum Quadrant {
-        TopLeft, TopRight, BottomLeft, BottomRight
+        TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
     }
 
     @Override
@@ -102,7 +119,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
             double degree;
             SwipeDirection direction = null;
             switch (quadrant) {
-                case TopLeft:
+                case TOP_LEFT:
                     degree = Math.toDegrees(radian);
                     degree = 180 - degree;
                     radian = Math.toRadians(degree);
@@ -112,7 +129,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
                         direction = SwipeDirection.Up;
                     }
                     break;
-                case TopRight:
+                case TOP_RIGHT:
                     degree = Math.toDegrees(radian);
                     radian = Math.toRadians(degree);
                     if (Math.cos(radian) < 0.5) {
@@ -121,7 +138,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
                         direction = SwipeDirection.Right;
                     }
                     break;
-                case BottomLeft:
+                case BOTTOM_LEFT:
                     degree = Math.toDegrees(radian);
                     degree = 180 + degree;
                     radian = Math.toRadians(degree);
@@ -131,7 +148,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
                         direction = SwipeDirection.Down;
                     }
                     break;
-                case BottomRight:
+                case BOTTOM_RIGHT:
                     degree = Math.toDegrees(radian);
                     degree = 360 - degree;
                     radian = Math.toRadians(degree);
@@ -151,17 +168,19 @@ public class OnSwipeTouchListener implements OnTouchListener {
             }
 
             if (Math.abs(percent) > SWIPE_THRESHOLD_PERCENT) {
-                if (directions.contains(direction)) {
+                if (direction == SwipeDirection.Down) {
                     onSwipeDown();
 //                    Container swiped
                 } else {
                     moveToOrigin(rootView);
                     moveToOrigin(dragView);
+                    resetBackgroundView();
 //                    Container moved to origin
                 }
             } else {
                 moveToOrigin(rootView);
                 moveToOrigin(dragView);
+                resetBackgroundView();
 //                    Container moved to origin
             }
         }
@@ -176,19 +195,41 @@ public class OnSwipeTouchListener implements OnTouchListener {
         rootView.setTranslationY(translationY);
         dragView.setTranslationY(translationY);
         float alpha = (translationY / screenHeight);
-        Log.i(TAG, "getPercentY() : " + alpha);
-        rootView.setAlpha(1 - alpha);
-        dragView.setAlpha(1 - alpha);
+
+        if (backgroundLayout != null && backgroundLayout.getScaleX() <= screenWidth) {
+            backgroundLayout.setScaleX(1 + (alpha / 10));
+            backgroundLayout.setScaleY(1 + (alpha / 10));
+        }
+        if (backgroundView != null) {
+            backgroundView.setAlpha(alpha);
+        }
     }
 
     private void moveToOrigin(View view) {
         view.animate().translationX(viewOriginX)
                 .translationY(viewOriginY)
                 .alpha(1)
-                .setDuration(300L)
+                .setDuration(200)
                 .setInterpolator(new OvershootInterpolator(1.0f))
-                .setListener(null)
                 .start();
+    }
+
+    private void resetBackgroundView() {
+        if (backgroundLayout != null) {
+            backgroundLayout.animate()
+                    .scaleX(1)
+                    .scaleY(1)
+                    .setDuration(200)
+                    .setInterpolator(new OvershootInterpolator(1.0f))
+                    .start();
+        }
+        if (backgroundView != null) {
+            backgroundView.animate()
+                    .alpha(0)
+                    .setDuration(200)
+                    .setInterpolator(new OvershootInterpolator(1.0f))
+                    .start();
+        }
     }
 
     private float getPercentX() {
@@ -222,15 +263,15 @@ public class OnSwipeTouchListener implements OnTouchListener {
     private static Quadrant getQuadrant(float x1, float y1, float x2, float y2) {
         if (x2 > x1) { // Right
             if (y2 > y1) { // Bottom
-                return Quadrant.BottomRight;
+                return Quadrant.BOTTOM_RIGHT;
             } else { // Top
-                return Quadrant.TopRight;
+                return Quadrant.TOP_RIGHT;
             }
         } else { // Left
             if (y2 > y1) { // Bottom
-                return Quadrant.BottomLeft;
+                return Quadrant.BOTTOM_LEFT;
             } else { // Top
-                return Quadrant.TopLeft;
+                return Quadrant.TOP_LEFT;
             }
         }
     }

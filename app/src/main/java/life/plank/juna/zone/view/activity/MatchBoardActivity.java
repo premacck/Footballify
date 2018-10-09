@@ -76,6 +76,8 @@ import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
+import static life.plank.juna.zone.util.FileHandler.getSavedScreenshot;
+import static life.plank.juna.zone.util.FileHandler.saveScreenshot;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog;
@@ -89,6 +91,10 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
     @BindView(R.id.root_card)
     CardView rootCard;
+    @BindView(R.id.faded_card)
+    CardView fadedCard;
+    @BindView(R.id.blur_background_image_view)
+    ImageView blurBackgroundImageView;
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
     @BindView(R.id.drag_area)
@@ -138,8 +144,9 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         }
     };
 
-    public static void launch(Activity from, MatchFixture fixture, League league) {
+    public static void launch(Activity from, MatchFixture fixture, League league, View screenshotLayout) {
         Intent intent = new Intent(from, MatchBoardActivity.class);
+        saveScreenshot(from.getLocalClassName(), screenshotLayout, intent);
         intent.putExtra(from.getString(R.string.intent_fixture_data), fixture);
         intent.putExtra(from.getString(R.string.intent_league), league);
         from.startActivity(intent);
@@ -232,7 +239,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_board);
         ButterKnife.bind(this);
-        setupSwipeGesture(this, dragArea, rootCard);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         Intent intent = getIntent();
@@ -241,10 +247,13 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
             league = intent.getParcelableExtra(getString(R.string.intent_league));
             currentMatchId = fixture.getMatchId();
             publicBoardToolbar.prepare(picasso, fixture, league.getThumbUrl());
+            blurBg = getSavedScreenshot(intent);
+            blurBackgroundImageView.setImageBitmap(blurBg);
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         }
 
+        setupSwipeGesture(this, dragArea, rootCard, fadedCard);
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
 
         getBoardIdAndMatchDetails(currentMatchId);
@@ -284,6 +293,11 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         if (!isNullOrEmpty(boardId) && !isBoardActive) {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId);
         }
+    }
+
+    @Override
+    public View getScreenshotLayout() {
+        return rootCard;
     }
 
     @OnClick(R.id.board_blur_background_image_view)

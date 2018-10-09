@@ -155,6 +155,11 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         }
     }
 
+    @Override
+    public View getScreenshotLayout() {
+        return rootLayout;
+    }
+
     private void initBottomSheetRecyclerView() {
         onboardingAdapter = new OnboardingAdapter(this);
         onboardingRecyclerView.setAdapter(onboardingAdapter);
@@ -326,6 +331,16 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         } else {
             UserProfileActivity.launch(this);
         }
+    }
+
+    @Override
+    public void notificationIconClicked(ImageView notificationIcon) {
+        if (isNullOrEmpty(getToken())) {
+            showPopup();
+        } else {
+            UserNotificationActivity.launch(this);
+        }
+
     }
 
     public void showPopup() {

@@ -7,5 +7,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected Bitmap blurBg;
 
-    public abstract void setBlurBg(Bitmap blurBg);
+    public void setBlurBg(Bitmap blurBg) {
+        this.blurBg = blurBg;
+    }
 }

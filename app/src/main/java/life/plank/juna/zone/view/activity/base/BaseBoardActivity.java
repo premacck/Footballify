@@ -1,14 +1,13 @@
 package life.plank.juna.zone.view.activity.base;
 
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 
 import java.util.List;
 
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 
-public abstract class BaseBoardActivity extends AppCompatActivity {
+public abstract class BaseBoardActivity extends StackableCardActivity {
 
     public static Bitmap boardParentViewBitmap = null;
     protected boolean isTileFullScreenActive;
