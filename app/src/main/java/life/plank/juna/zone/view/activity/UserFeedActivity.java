@@ -335,6 +335,16 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         }
     }
 
+    @Override
+    public void notificationIconClicked(ImageView notificationIcon) {
+        if (isNullOrEmpty(getToken())) {
+            showPopup();
+        } else {
+            UserNotificationActivity.launch(this);
+        }
+
+    }
+
     public void showPopup() {
         authService = new AuthorizationService(this);
         signUpDialog.setContentView(R.layout.signup_dialogue);
