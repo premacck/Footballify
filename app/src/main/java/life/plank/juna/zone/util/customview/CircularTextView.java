@@ -35,9 +35,9 @@ public class CircularTextView extends AppCompatTextView {
     private void init(Context context, AttributeSet attrs) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.CircularTextView);
 
-        setStrokeWidth(array.getFloat(R.styleable.CircularTextView_strokeWidth, 0));
-        setStrokeColor(array.getColor(R.styleable.CircularTextView_strokeColor, context.getColor(R.color.white)));
-        setSolidColor(array.getColor(R.styleable.CircularTextView_solidColor, context.getColor(R.color.red)));
+        setStrokeWidth(array.getFloat(R.styleable.CircularTextView_ctv_stroke_width, 0));
+        setStrokeColor(array.getColor(R.styleable.CircularTextView_ctv_stroke_color, context.getColor(R.color.white)));
+        setSolidColor(array.getColor(R.styleable.CircularTextView_ctv_solid_color, context.getColor(R.color.red)));
 
         array.recycle();
     }
