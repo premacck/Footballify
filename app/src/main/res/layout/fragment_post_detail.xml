@@ -265,7 +265,7 @@
                             android:layout_toStartOf="@+id/reaction_view"
                             android:background="@color/grey" />
 
-                        <TextView
+                        <ImageView
                             android:id="@+id/reaction_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -274,8 +274,7 @@
                             android:layout_alignBottom="@+id/feed_title_text_view"
                             android:gravity="center"
                             android:padding="10dp"
-                            android:drawableStart="@drawable/ic_emoji"
-                            android:textIsSelectable="false" />
+                            android:src="@drawable/ic_emoji"/>
 
                         <View
                             android:id="@+id/bottom_layout_separator"

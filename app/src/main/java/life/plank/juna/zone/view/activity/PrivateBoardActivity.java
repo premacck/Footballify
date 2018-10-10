@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -49,6 +50,7 @@ import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
+import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import retrofit2.Response;
@@ -91,9 +93,14 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     ImageView boardBlurBackgroundImageView;
     @BindView(R.id.board_tiles_list_full)
     RecyclerView boardTilesFullRecyclerView;
+    @BindView(R.id.emoji_bottom_sheet)
+    RelativeLayout emojiBottomSheet;
+    @BindView(R.id.emoji_recycler_view)
+    RecyclerView emojiRecyclerView;
     private Board board;
     private PrivateBoardPagerAdapter pagerAdapter;
-
+    private BottomSheetBehavior emojiBottomSheetBehavior;
+    private EmojiAdapter emojiAdapter;
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -177,6 +184,16 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
     }
 
+    private void initBottomSheetRecyclerView() {
+        emojiAdapter = new EmojiAdapter(getApplicationContext(), boardId, emojiBottomSheetBehavior);
+        emojiRecyclerView.setAdapter(emojiAdapter);
+    }
+
+    private void setupBottomSheet() {
+        emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
+        emojiBottomSheetBehavior.setPeekHeight(0);
+    }
+
     @Override
     public View getScreenshotLayout() {
         return rootCard;
@@ -232,8 +249,10 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
     @Override
     public void prepareFullScreenRecyclerView() {
+        setupBottomSheet();
+        initBottomSheetRecyclerView();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, BOARD);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 
@@ -288,11 +307,15 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
     @OnClick(R.id.board_blur_background_image_view)
     public void dismissFullScreenRecyclerView() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         setBlurBackgroundAndShowFullScreenTiles(false, 0);
     }
 
     @Override
     public void onBackPressed() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         if (isTileFullScreenActive) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0);
         } else {
