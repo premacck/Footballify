@@ -362,7 +362,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     @Override
     public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, "");
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, null);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 
