@@ -161,7 +161,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     }
 
     private void initEmojiBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getApplicationContext(), "");
+        emojiAdapter = new EmojiAdapter(getApplicationContext(), "", emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
     }
 
@@ -376,8 +376,9 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
 
     @Override
     public void prepareFullScreenRecyclerView() {
-        initEmojiBottomSheetRecyclerView();
         setupEmojiBottomSheet();
+        initEmojiBottomSheetRecyclerView();
+
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
         boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, emojiBottomSheetBehavior, null);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);

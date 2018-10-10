@@ -135,8 +135,9 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.likeSeparator.setVisibility(View.INVISIBLE);
         }
 
-        if (feedsListItem.get(position).getFeedInteractions().getHasReacted()) {
-            //TODO: Set emoji
+        if (feedsListItem.get(position).getFeedInteractions().getMyReaction() != 0) {
+            EmojiHashMap.HashMaps();
+            holder.reactionView.setImageResource(EmojiHashMap.getEmojiHashMap().get(feedsListItem.get(position).getFeedInteractions().getMyReaction()));
         }
 
         if (feedItem.getUser() != null) {

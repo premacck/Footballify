@@ -157,7 +157,7 @@ public interface RestApi {
     Observable<Response<JsonObject>> postReaction(@Path("id") String feedItemId,
                                                   @Query("boardId") String boardId,
                                                   @Query("time") String dateCreated,
-                                                  @Body Integer emojiUnicode,
+                                                  @Query("reaction") Integer emojiUnicode,
                                                   @Header("Authorization") String authHeader);
 
     //working

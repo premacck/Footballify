@@ -270,7 +270,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     }
 
     private void initBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getApplicationContext(), boardId);
+        emojiAdapter = new EmojiAdapter(getApplicationContext(), boardId, emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
     }
 

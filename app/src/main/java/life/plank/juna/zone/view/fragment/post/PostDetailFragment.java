@@ -190,7 +190,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void initBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getActivity(), boardId);
+        emojiAdapter = new EmojiAdapter(getActivity(), boardId, emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
         EmojiAdapter.feedId = feedEntry.getFeedItem().getId();
     }

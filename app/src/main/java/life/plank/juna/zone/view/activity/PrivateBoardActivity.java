@@ -185,7 +185,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     }
 
     private void initBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getApplicationContext(), boardId);
+        emojiAdapter = new EmojiAdapter(getApplicationContext(), boardId, emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
     }
 
@@ -249,8 +249,8 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
     @Override
     public void prepareFullScreenRecyclerView() {
-        initBottomSheetRecyclerView();
         setupBottomSheet();
+        initBottomSheetRecyclerView();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
         boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
