@@ -44,7 +44,7 @@ public class IdentityProvider {
             R.string.b2c_redirect_uri,
             R.string.b2c_signupin_policy,
             R.string.b2c_scope_string,
-            R.drawable.ic_profile_dummy,
+            R.drawable.ic_default_profile,
             R.string.b2c_name,
             android.R.color.holo_green_dark);
 

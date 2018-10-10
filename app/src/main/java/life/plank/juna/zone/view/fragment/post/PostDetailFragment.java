@@ -316,7 +316,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             case AUDIO:
                 mediaPlayer.stop();
                 setVisibilities(VISIBLE, GONE, GONE);
-                feedImageView.setImageResource(R.drawable.ic_audio);
+                feedImageView.setImageResource(R.drawable.ic_mic_white);
 
                 String audioUriString = feedEntry.getFeedItem().getUrl();
                 Uri audioUri = Uri.parse(audioUriString);

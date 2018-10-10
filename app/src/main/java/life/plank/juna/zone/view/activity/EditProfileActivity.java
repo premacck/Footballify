@@ -82,7 +82,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
             picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
                     .error(R.drawable.ic_default_profile)
-                    .placeholder(R.drawable.ic_profile_dummy)
+                    .placeholder(R.drawable.ic_default_profile)
                     .into(profilePicture);
         }
         UIDisplayUtil.checkPermission(EditProfileActivity.this);

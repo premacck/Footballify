@@ -45,7 +45,7 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
                 case "Audio": {
                     holder.commentTextView.setVisibility(View.INVISIBLE);
                     holder.tileImageView.setVisibility(View.VISIBLE);
-                    holder.tileImageView.setImageResource(R.drawable.ic_audio);
+                    holder.tileImageView.setImageResource(R.drawable.ic_mic_white);
                     break;
                 }
                 case "Image": {
@@ -65,8 +65,8 @@ public class PrivateBoardAdapter extends RecyclerView.Adapter<PrivateBoardAdapte
                     String uri = boardFeed.get(position).getUrl();
                     picasso
                             .load(uri)
-                            .placeholder(R.drawable.ic_video)
-                            .error(R.drawable.ic_video)
+                            .placeholder(R.drawable.ic_video_white)
+                            .error(R.drawable.ic_video_white)
                             .into(holder.tileImageView);
                     break;
                 }

@@ -192,7 +192,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             case AUDIO: {
                 mediaPlayer.stop();
                 holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
-                holder.feedImageView.setImageResource(R.drawable.ic_audio);
+                holder.feedImageView.setImageResource(R.drawable.ic_mic_white);
 
                 String uri = feedItem.getUrl();
                 Uri videoUri = Uri.parse(uri);
