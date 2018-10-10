@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,7 +27,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
-import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
@@ -34,17 +34,18 @@ import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
 public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder> {
 
     private static final String TAG = EmojiAdapter.class.getSimpleName();
+    public static String feedId;
+    public BottomSheetBehavior emojiBottomSheetBehavior;
     @Inject
     @Named("default")
     RestApi restApi;
     private Context context;
-    private String feedId;
     private String boardId;
 
-    public EmojiAdapter(Context activity, String feedId, String boardId) {
+    public EmojiAdapter(Context activity, String boardId, BottomSheetBehavior emojiBottomSheetBehavior) {
         this.context = activity;
-        this.feedId = feedId;
         this.boardId = boardId;
+        this.emojiBottomSheetBehavior = emojiBottomSheetBehavior;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
     }
 
     private void postEmoji(String feedItemId, String boardId, Integer reaction) {
-        restApi.postReaction(feedItemId, boardId, BOARD, getRequestDateStringOfNow(), reaction, getToken())
+        restApi.postReaction(feedItemId, boardId, getRequestDateStringOfNow(), reaction, getToken())
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -83,7 +84,8 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                //Dismiss bottomsheet
+                                emojiBottomSheetBehavior.setPeekHeight(0);
+                                emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                                 break;
                             default:
                                 Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -92,7 +94,6 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
                     }
                 });
     }
-
 
     @Override
     public int getItemCount() {
