@@ -41,10 +41,12 @@ import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
@@ -324,7 +326,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 holder.dislikeImageView.setVisibility(View.INVISIBLE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.INVISIBLE);
-                                retrieveBoardById();
+                                if (target != null) {
+                                    retrieveBoardById();
+                                } else {
+                                    retrieveFeeEntries();
+                                }
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
                                 Toast.makeText(activity, "You have already liked the item", Toast.LENGTH_SHORT).show();
@@ -332,6 +338,44 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
+                    }
+                });
+    }
+
+    private void retrieveFeeEntries() {
+        Observable<Response<List<FeedEntry>>> userFeedApiCall = isNullOrEmpty(getToken()) ? restApi.getUserFeed() : restApi.getUserFeed(getToken());
+        userFeedApiCall.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<List<FeedEntry>>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.e(TAG, "onCompleted: ");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "In onError()" + e);
+                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<List<FeedEntry>> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                List<FeedEntry> feedEntries = response.body();
+                                if (feedEntries != null) {
+                                    update(feedEntries);
+                                } else
+                                    Toast.makeText(activity, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                Toast.makeText(activity, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(activity, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+
                     }
                 });
     }
