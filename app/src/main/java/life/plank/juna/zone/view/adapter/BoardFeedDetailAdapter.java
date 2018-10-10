@@ -39,6 +39,7 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.ColorHashMap;
+import life.plank.juna.zone.util.EmojiHashMap;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -52,7 +53,6 @@ import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
-import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
@@ -94,6 +94,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(activity);
+        EmojiHashMap.HashMaps();
         this.activity = activity;
         this.feedsListItem = new ArrayList<>();
         this.emojiBottomSheetBehavior = emojiBottomSheetBehavior;
@@ -132,6 +133,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.likeImageView.setVisibility(View.INVISIBLE);
             holder.dislikeCountTextView.setVisibility(View.VISIBLE);
             holder.likeSeparator.setVisibility(View.INVISIBLE);
+        }
+
+        if (feedsListItem.get(position).getFeedInteractions().getHasReacted()) {
+            //TODO: Set emoji
         }
 
         if (feedItem.getUser() != null) {

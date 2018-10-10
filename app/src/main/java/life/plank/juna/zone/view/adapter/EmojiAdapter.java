@@ -62,7 +62,7 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
     }
 
     private void postEmoji(String feedItemId, String boardId, Integer reaction) {
-        restApi.postReaction(feedItemId, boardId, BOARD, getRequestDateStringOfNow(), reaction, getToken())
+        restApi.postReaction(feedItemId, boardId, getRequestDateStringOfNow(), reaction, getToken())
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -13,6 +13,7 @@ data class FeedInteraction(
         var hasShared: Boolean = false,
         var hasCommented: Boolean = false,
         var hasPinned: Boolean = false,
+        var hasReacted: Boolean = false,
         var pinId: String? = "",
         var previousPosition: Int = 0
 ) : Parcelable
