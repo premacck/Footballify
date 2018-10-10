@@ -2,10 +2,12 @@
 <resources>
 
     <bool name="b2c_enabled">true</bool>
-    <string name="b2c_tenant">junazone.onmicrosoft.com</string>
-    <string name="b2c_client_id" translatable="false">e4da8a93-8d83-4803-a8ee-156130365cf2</string>
+    <string name="b2c_tenant">planklabs.onmicrosoft.com</string>
+    <string name="b2c_client_id" translatable="false">927aea24-2e66-46d1-ad70-cae1dd260c0e</string>
     <string name="b2c_redirect_uri" translatable="false">life.plank.juna.zone://oauth/redirect</string>
     <string name="b2c_signupin_policy" translatable="false">B2C_1_SignUpIn</string>
+    <string name="subscription_key_key" translatable="false">Ocp-Apim-Subscription-Key</string>
+    <string name="subscription_key_value" translatable="false">c1c7d00eb0954668951a91416c280117</string>
 
     <!--Developer Environment-->
     <!--<bool name="b2c_enabled">true</bool>-->

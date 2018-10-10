@@ -1,8 +1,10 @@
 package life.plank.juna.zone.data.model
 
+import android.arch.persistence.room.Entity
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
+@Entity
 @Parcelize
 data class Stadium(
         var capacity: Int?,

@@ -25,6 +25,7 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Formation;
+import life.plank.juna.zone.data.model.FormationList;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
@@ -35,7 +36,6 @@ import lombok.Data;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-import static life.plank.juna.zone.util.AppConstants.DASH;
 import static life.plank.juna.zone.util.DataUtil.getIntegratedLineups;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -80,8 +80,8 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
         holder.homeTeamName.setText(item.getHomeTeam().getName());
         holder.visitingTeamName.setText(item.getAwayTeam().getName());
         if (!isNullOrEmpty(item.getLineups().getHomeTeamFormation()) && !isNullOrEmpty(item.getLineups().getAwayTeamFormation())) {
-            holder.homeTeamLineup.setText(getLineupText(item.getLineups().getHomeTeamFormation()));
-            holder.visitingTeamLineup.setText(getLineupText(item.getLineups().getAwayTeamFormation()));
+            holder.homeTeamLineup.setText(item.getHomeFormation());
+            holder.visitingTeamLineup.setText(item.getAwayFormation());
 
             prepareLineup(holder.homeTeamLineupLayout, item.getLineups().getHomeTeamFormation(), activity.getColor(R.color.lineup_player_red), true);
             prepareLineup(holder.visitingTeamLineupLayout, item.getLineups().getAwayTeamFormation(), activity.getColor(R.color.purple), false);
@@ -101,7 +101,7 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
                 .into(target);
     }
 
-    private void prepareLineup(LinearLayout lineupLayout, List<List<Formation>> formationsList, int labelColor, boolean isHomeTeam) {
+    private void prepareLineup(LinearLayout lineupLayout, List<FormationList> formationsList, int labelColor, boolean isHomeTeam) {
         lineupLayout.removeAllViews();
         if (!isHomeTeam) {
             Collections.reverse(formationsList);
@@ -124,17 +124,6 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
             ((LinearLayout.LayoutParams) lineupPlayer.getLayoutParams()).weight = 1;
         }
         return linearLayout;
-    }
-
-    private String getLineupText(List<List<Formation>> formationsList) {
-        StringBuilder text = new StringBuilder();
-        for (List<Formation> formations : formationsList.subList(1, formationsList.size())) {
-            text.append(formations.size());
-            if (formationsList.indexOf(formations) < formationsList.size() - 1) {
-                text.append(DASH);
-            }
-        }
-        return text.toString();
     }
 
     @Override
@@ -208,6 +197,8 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
         private final FootballTeam homeTeam;
         private final FootballTeam awayTeam;
         private final List<MatchEvent> matchEventList;
+        private final String homeFormation;
+        private final String awayFormation;
         @StringRes
         private final Integer errorMessage;
 
@@ -217,6 +208,8 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
                     matchDetails.getHomeTeam(),
                     matchDetails.getAwayTeam(),
                     matchDetails.getMatchEvents(),
+                    matchDetails.getHometeamFormation(),
+                    matchDetails.getAwayteamFormation(),
                     matchDetails.getLineups() == null ? R.string.line_ups_not_available : null
             );
         }

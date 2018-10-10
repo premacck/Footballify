@@ -42,57 +42,60 @@ import rx.Observable;
 
 public interface RestApi {
 
+    String FOOTBALL_SUFFIX = "/football-demo";
+    String ZONE_BACKEND_SUFFIX = "/backend-demo";
+
     //working
-    @GET("seasons/standings")
+    @GET(FOOTBALL_SUFFIX + "/seasons/standings")
     Observable<Response<List<Standings>>> getStandings(@Query("leagueName") String leagueName,
                                                        @Query("seasonName") String seasonName,
                                                        @Query("countryName") String countryName);
 
     //working
-    @GET("seasons/playerstats")
+    @GET(FOOTBALL_SUFFIX + "/seasons/playerstats")
     Observable<Response<List<PlayerStats>>> getPlayerStats(@Query("leagueName") String leagueName,
                                                            @Query("seasonName") String seasonName,
                                                            @Query("countryName") String countryName);
 
     //working
-    @GET("teams/stats")
+    @GET(FOOTBALL_SUFFIX + "/teams/stats")
     Observable<Response<List<TeamStats>>> getTeamStats(@Query("leagueName") String leagueName,
                                                        @Query("seasonName") String seasonName,
                                                        @Query("countryName") String countryName);
 
     //working
-    @GET("/boards")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards")
     Observable<Response<Board>> getBoard(@Query("foreignId") Long matchId, @Query("boardType") String boardType, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/boards/createdBy")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/createdBy")
     Observable<Response<List<Board>>> getUserBoards(@Header("Authorization") String authHeader);
 
     //working
-    @POST("/boards/{id}/invite")
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{id}/invite")
     Observable<Response<JsonObject>> inviteUserToJoinBoard(@Body Set<User> user, @Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/boards/feedItems")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/feedItems")
     Observable<Response<List<FeedEntry>>> getBoardFeedItems(@Query("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
-    @GET("/zones")
+    @GET(ZONE_BACKEND_SUFFIX + "/zones")
     Observable<Response<List<Zones>>> retrieveZones();
 
     //working
-    @DELETE("/boards/{id}/activities/removeUser")
+    @DELETE(ZONE_BACKEND_SUFFIX + "/boards/{id}/activities/removeUser")
     Observable<Response<JsonObject>> deleteUserFromPrivateBoard(@Path("id") String boardId,
                                                                 @Query("boardUserId") String userId,
                                                                 @Header("Authorization") String authHeader);
 
     //working
-    @GET("/users")
+    @GET(ZONE_BACKEND_SUFFIX + "/users")
     Observable<Response<User>> getUser(@Header("Authorization") String authHeader);
 
     //working
     @Multipart
-    @POST("/activities/upload")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/upload")
     Observable<Response<JsonObject>> postMediaContentToServer(@Part MultipartBody.Part file,
                                                               @Query("targetId") String targetId,
                                                               @Query("contentType") String contentType,
@@ -104,7 +107,7 @@ public interface RestApi {
                                                               @Header("Authorization") String authHeader);
 
     //working
-    @POST("boards/{id}/feedItems")
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{id}/feedItems")
     Observable<Response<JsonObject>> postFeedItemOnBoard(@Body String getEditTextValue,
                                                          @Path("id") String boardId,
                                                          @Query("contentType") String contentType,
@@ -114,7 +117,7 @@ public interface RestApi {
 
     //working
     @Multipart
-    @POST("/boards")
+    @POST(ZONE_BACKEND_SUFFIX + "/boards")
     Observable<Response<String>> createPrivateBoard(@Query("boardType") String boardType,
                                                     @Part("name") RequestBody name,
                                                     @Part("zone") RequestBody zone,
@@ -125,32 +128,32 @@ public interface RestApi {
 
     //working
     @Multipart
-    @POST("/users/profilePicture")
+    @POST(ZONE_BACKEND_SUFFIX + "/users/profilePicture")
     Observable<Response<String>> uploadProfilePicture(@Part MultipartBody.Part file,
                                                       @Header("Authorization") String authHeader);
 
     //working
-    @DELETE("/boards/{id}")
+    @DELETE(ZONE_BACKEND_SUFFIX + "/boards/{id}")
     Observable<Response<JsonObject>> deleteBoard(@Path("id") String boardId,
                                                  @Header("Authorization") String authHeader);
 
     //working
-    @GET("seasons/matches")
+    @GET(FOOTBALL_SUFFIX + "/seasons/matches")
     Observable<Response<List<FixtureByMatchDay>>> getFixtures(@Query("seasonName") String seasonName,
                                                               @Query("leagueName") String leagueName,
                                                               @Query("countryName") String countryName);
 
     //working
-    @GET("/feedEntries")
+    @GET(ZONE_BACKEND_SUFFIX + "/feedEntries")
     Observable<Response<List<FeedEntry>>> getUserFeed(@Header("Authorization") String... authHeader);
 
     //working
-    @GET("boards/{id}")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/{id}")
     Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //TODO: verify this api(currently implemented similar to like and dislike)
     //working
-    @POST("activities/{id}/reaction")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/reaction")
     Observable<Response<JsonObject>> postReaction(@Path("id") String feedItemId,
                                                   @Query("targetId") String boardId,
                                                   @Query("target") String target,
@@ -159,7 +162,7 @@ public interface RestApi {
                                                   @Header("Authorization") String authHeader);
 
     //working
-    @POST("activities/{id}/likes")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/likes")
     Observable<Response<JsonObject>> postLike(@Path("id") String feedItemId,
                                               @Query("targetId") String boardId,
                                               @Query("target") String target,
@@ -167,12 +170,12 @@ public interface RestApi {
                                               @Header("Authorization") String authHeader);
 
     //working
-    @DELETE("activities/{id}/likes")
+    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/likes")
     Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
                                                 @Header("Authorization") String authHeader);
 
     //working
-    @POST("activities/{id}/disLikes")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/disLikes")
     Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
                                                  @Query("targetId") String boardId,
                                                  @Query("target") String target,
@@ -180,72 +183,72 @@ public interface RestApi {
                                                  @Header("Authorization") String authHeader);
 
     //working
-    @DELETE("activities/{id}/disLikes")
+    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/disLikes")
     Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
                                                    @Header("Authorization") String authHeader);
 
     //working
-    @GET("/users/{displayName}")
+    @GET(ZONE_BACKEND_SUFFIX + "/users/{displayName}")
     Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Path("displayName") String displayName);
 
     //working
-    @GET("/boards/{boardId}/members")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/members")
     Observable<Response<List<User>>> getBoardMembers(@Path("boardId") String boardId, @Header("Authorization") String authHeader);
 
     //working
-    @POST("/boards/{boardId}/activities/follow")
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/activities/follow")
     Observable<Response<JsonObject>> followBoard(@Header("Authorization") String authHeader, @Path("boardId") String boardId);
 
     //working
-    @POST("/zones/follows")
+    @POST(ZONE_BACKEND_SUFFIX + "/zones/follows")
     Observable<Response<JsonObject>> followZones(@Header("Authorization") String authHeader, @Body Zones zones);
 
-    @GET("/boards/following")
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/following")
     Observable<Response<List<Board>>> getFollowingBoards(@Header("Authorization") String authHeader);
 
-    @GET("matches/{matchId}/lineups")
+    @GET(FOOTBALL_SUFFIX + "/matches/{matchId}/lineups")
     Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
 
-    @POST("/ausers")
+    @POST(ZONE_BACKEND_SUFFIX + "/ausers")
     Observable<Response<SignUpModel>> createUser(@Body SignUpModel signUpModel);
 
-    @GET("matches/{matchId}/stats")
+    @GET(FOOTBALL_SUFFIX + "/matches/{matchId}/stats")
     Observable<Response<MatchStats>> getMatchStatsForMatch(@Path("matchId") long matchId);
 
-    @GET("matches/{matchId}")
+    @GET(FOOTBALL_SUFFIX + "/matches/{matchId}")
     Observable<Response<MatchDetails>> getMatchDetails(@Path("matchId") long matchId);
 
-    @GET("matches/{matchId}/standings")
+    @GET(FOOTBALL_SUFFIX + "/matches/{matchId}/standings")
     Observable<Response<List<Standings>>> getMatchStandingsForMatch(@Path("matchId") long matchId);
 
-    @GET("matches/{matchId}/teamStats")
+    @GET(FOOTBALL_SUFFIX + "/matches/{matchId}/teamStats")
     Observable<Response<List<TeamStats>>> getTeamStatsForMatch(@Path("matchId") long matchId);
 
-    @GET("matches/{matchId}/scrubber/{hour}")
+    @GET(FOOTBALL_SUFFIX + "/matches/{matchId}/scrubber/{hour}")
     Observable<Response<List<ScrubberData>>> getScrubberDetails(@Path("matchId") long matchId, @Path("hour") Date currentMatchTime);
 
-    @POST("/activities/{id}/pins")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/pins")
     Observable<Response<String>> pinFeedItem(@Path("id") String feedItemId,
                                              @Query("target") String target,
                                              @Query("targetId") String boardId,
                                              @Query("time") String dateCreated,
                                              @Header("Authorization") String authHeader);
 
-    @DELETE("/activities/{id}/pins/{pinId}")
+    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/pins/{pinId}")
     Observable<Response<JsonObject>> unpinFeedItem(@Path("id") String boardId, @Path("pinId") String pinId, @Header("Authorization") String authHeader);
 
-    @GET("/activities/{feedItemId}/comments")
+    @GET(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<List<FeedItemComment>>> getCommentsForFeed(@Path("feedItemId") String feedId,
                                                                    @Header("Authorization") String authHeader);
 
-    @POST("/activities/{feedItemId}/comments")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
                                                                 @Path("feedItemId") String feedItemId,
                                                                 @Query("boardId") String boardId,
                                                                 @Query("time") String time,
                                                                 @Header("Authorization") String authHeader);
 
-    @POST("/activities/{feedItemId}/comments/{commentId}")
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments/{commentId}")
     Observable<Response<FeedItemCommentReply>> postReplyOnComment(@Body String reply,
                                                                   @Path("feedItemId") String feedItemId,
                                                                   @Path("commentId") String commentId,

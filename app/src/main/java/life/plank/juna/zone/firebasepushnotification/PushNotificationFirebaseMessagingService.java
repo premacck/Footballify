@@ -60,7 +60,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         if (boardNotification.getContentType().equals(AppConstants.ROOT_COMMENT)) {
             intent.putExtra(getString(R.string.intent_comment_title), boardNotification.getTitle());
         } else {
-            intent.putExtra(context.getString(R.string.intent_thumbnail_url), boardNotification.getThumbnailImageUrl());
             intent.putExtra(context.getString(R.string.intent_thumbnail_height), boardNotification.getThumbnailHeight());
             intent.putExtra(context.getString(R.string.intent_thumbnail_width), boardNotification.getThumbnailWidth());
             intent.putExtra(context.getString(R.string.intent_image_url), boardNotification.getImageUrl());
@@ -141,12 +140,13 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
         //TODO: Remove this and make it general, Such that the message is appropriate when the user uploads a video , image or any other content
         //Will be done in the next pull request
-        try {
-            bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getThumbnailImageUrl()).get();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (boardNotification.getImageUrl() != null) {
+            try {
+                bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getImageUrl()).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
 
         SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         String userName = sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA");
@@ -183,13 +183,13 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         private final WeakReference<Context> ref;
         private final Map<String, String> dataPayload;
 
-        static void notify(Context context, Gson gson, Map<String, String> dataPayload) {
-            new LiveFootballMatchNotifier(context, gson, dataPayload).execute();
-        }
-
         LiveFootballMatchNotifier(Context context, Gson gson, Map<String, String> dataPayload) {
             this.ref = new WeakReference<>(context);
             this.dataPayload = dataPayload;
+        }
+
+        static void notify(Context context, Gson gson, Map<String, String> dataPayload) {
+            new LiveFootballMatchNotifier(context, gson, dataPayload).execute();
         }
 
         @Override
