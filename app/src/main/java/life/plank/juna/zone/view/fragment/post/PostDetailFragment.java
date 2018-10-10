@@ -637,6 +637,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @OnClick(R.id.reaction_view)
     public void onReact() {
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        emojiBottomSheetBehavior.setPeekHeight(850);
+        EmojiAdapter.feedId = feedEntry.getFeedItem().getId();
         emojiBottomSheetBehavior.setPeekHeight(850);
     }
     //endregion

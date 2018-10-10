@@ -50,6 +50,7 @@ import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
+import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
@@ -89,7 +90,10 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     ImageView boardBlurBackgroundImageView;
     @BindView(R.id.board_tiles_list_full)
     RecyclerView boardTilesFullRecyclerView;
-
+    @BindView(R.id.emoji_bottom_sheet)
+    RelativeLayout emojiBottomSheet;
+    @BindView(R.id.emoji_recycler_view)
+    RecyclerView emojiRecyclerView;
     @Inject
     @Named("default")
     RestApi restApi;
@@ -108,7 +112,8 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     private UserFeedAdapter userFeedAdapter;
     private UserZoneAdapter userZoneAdapter;
     private UserBoardsAdapter userBoardsAdapter;
-
+    private BottomSheetBehavior emojiBottomSheetBehavior;
+    private EmojiAdapter emojiAdapter;
     private ArrayList<UserPreference> userPreferences = new ArrayList<>();
 
     public static void launch(Context packageContext, boolean isClearTop) {
@@ -153,6 +158,16 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
             toolbar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)));
         }
+    }
+
+    private void initEmojiBottomSheetRecyclerView() {
+        emojiAdapter = new EmojiAdapter(getApplicationContext(), "");
+        emojiRecyclerView.setAdapter(emojiAdapter);
+    }
+
+    private void setupEmojiBottomSheet() {
+        emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
+        emojiBottomSheetBehavior.setPeekHeight(0);
     }
 
     @Override
@@ -361,8 +376,10 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
 
     @Override
     public void prepareFullScreenRecyclerView() {
+        initEmojiBottomSheetRecyclerView();
+        setupEmojiBottomSheet();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, null);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, emojiBottomSheetBehavior);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 
@@ -414,6 +431,8 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
 
     @OnClick(R.id.board_blur_background_image_view)
     public void dismissFullScreenRecyclerView() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         setBlurBackgroundAndShowFullScreenTiles(false, 0);
     }
 
@@ -430,6 +449,8 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
 
     @Override
     public void onBackPressed() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         if (isTileFullScreenActive) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0);
         } else {
