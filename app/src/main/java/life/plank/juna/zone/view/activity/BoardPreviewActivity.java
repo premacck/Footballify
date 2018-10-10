@@ -90,7 +90,7 @@ public class BoardPreviewActivity extends AppCompatActivity {
             filePath = intent.getStringExtra(getString(R.string.intent_file_path));
         }
 
-        toolbar.setTitle(board.getDisplayname());
+        toolbar.setTitle(board.getName());
         boardCardView.setCardBackgroundColor(Color.parseColor(board.getColor()));
         description.setText(board.getDescription());
         toolbar.setLeagueLogo(picasso, Uri.fromFile(new File(filePath)).toString());
@@ -110,13 +110,13 @@ public class BoardPreviewActivity extends AppCompatActivity {
         RequestBody requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload);
         MultipartBody.Part image = MultipartBody.Part.createFormData("", fileToUpload.getName(), requestBody);
 
-        RequestBody displayName = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDisplayname());
+        RequestBody name = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getName());
         RequestBody zone = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getZone());
         RequestBody description = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getDescription());
         RequestBody color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.getColor());
 
         String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-        restApi.createPrivateBoard(board.getBoardType(), displayName, zone, description, color, image, token)
+        restApi.createPrivateBoard(board.getBoardType(), name, zone, description, color, image, token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<String>>() {
