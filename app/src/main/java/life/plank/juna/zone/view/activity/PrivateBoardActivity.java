@@ -54,6 +54,7 @@ import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 
+import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -232,7 +233,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     @Override
     public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

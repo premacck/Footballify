@@ -44,6 +44,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
@@ -216,7 +217,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     @Override
     public void onItemClick(int position) {
         if (!isNullOrEmpty(adapter.getBoardFeed()) && getActivity() instanceof MatchBoardActivity) {
-            PostDetailActivity.launch(getActivity(), adapter.getBoardFeed(), boardId, position, ((MatchBoardActivity) getActivity()).getScreenshotLayout());
+            PostDetailActivity.launch(getActivity(), adapter.getBoardFeed(), boardId, position, ((MatchBoardActivity) getActivity()).getScreenshotLayout(), BOARD);
         }
     }
 

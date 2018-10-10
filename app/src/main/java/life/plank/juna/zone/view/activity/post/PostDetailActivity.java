@@ -49,13 +49,15 @@ public class PostDetailActivity extends StackableCardActivity {
     private List<FeedEntry> feedList;
     private String boardId;
     private int position;
+    private String target;
 
-    public static void launch(Activity from, List<FeedEntry> feedEntryList, String boardId, int position, View screenshotLayout) {
+    public static void launch(Activity from, List<FeedEntry> feedEntryList, String boardId, int position, View screenshotLayout, String target) {
         Intent intent = new Intent(from, PostDetailActivity.class);
         saveScreenshot(from.getLocalClassName(), screenshotLayout, intent);
         intent.putParcelableArrayListExtra(from.getString(R.string.intent_feed_items), (ArrayList<? extends Parcelable>) feedEntryList);
         intent.putExtra(from.getString(R.string.intent_board_id), boardId);
         intent.putExtra(from.getString(R.string.intent_position), position);
+        intent.putExtra(from.getString(R.string.intent_target), target);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
@@ -71,7 +73,7 @@ public class PostDetailActivity extends StackableCardActivity {
         feedList = intent.getParcelableArrayListExtra(getString(R.string.intent_feed_items));
         boardId = intent.getStringExtra(getString(R.string.intent_board_id));
         position = intent.getIntExtra(getString(R.string.intent_position), 0);
-
+        target = intent.getStringExtra(getString(R.string.intent_target));
         blurBg = getSavedScreenshot(intent);
         blurBackgroundImageView.setImageBitmap(blurBg);
         setupSwipeGesture(this, dragArea, postDetailViewPager, fadedCard);
@@ -107,7 +109,7 @@ public class PostDetailActivity extends StackableCardActivity {
         @Override
         public Fragment getItem(int position) {
             try {
-                return PostDetailFragment.newInstance(ref.get().gson.toJson(ref.get().feedList.get(position)), ref.get().boardId);
+                return PostDetailFragment.newInstance(ref.get().gson.toJson(ref.get().feedList.get(position)), ref.get().boardId, ref.get().target);
             } catch (Exception e) {
                 return null;
             }
