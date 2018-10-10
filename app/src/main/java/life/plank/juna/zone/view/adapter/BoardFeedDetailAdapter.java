@@ -329,7 +329,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 if (target != null) {
                                     retrieveBoardById();
                                 } else {
-                                    retrieveFeedItems();
+                                    retrieveFeeEntries();
                                 }
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
@@ -342,7 +342,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    private void retrieveFeedItems() {
+    private void retrieveFeeEntries() {
         Observable<Response<List<FeedEntry>>> userFeedApiCall = isNullOrEmpty(getToken()) ? restApi.getUserFeed() : restApi.getUserFeed(getToken());
         userFeedApiCall.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
