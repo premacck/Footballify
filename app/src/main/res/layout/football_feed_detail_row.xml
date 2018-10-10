@@ -22,10 +22,10 @@
                 android:id="@+id/drag_handle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/drag_handle_dark"
-                android:contentDescription="@string/thumbnail" />
+                android:layout_marginTop="5dp"
+                android:contentDescription="@string/thumbnail"
+                android:src="@drawable/drag_handle_dark" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_pic"
@@ -42,8 +42,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
                 android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
                 android:layout_toEndOf="@+id/profile_pic"
                 android:ellipsize="end"
                 android:fontFamily="@font/rajdhani_semibold"
@@ -67,39 +67,39 @@
                 android:textSize="@dimen/text_10sp" />
 
             <ImageButton
-                android:id="@+id/menu_image_view"
+                android:id="@+id/pin_image_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="5dp"
                 android:layout_marginTop="6dp"
+                android:layout_marginEnd="5dp"
                 android:layout_marginBottom="6dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_options_grey"
                 android:background="@color/transparent"
-                android:contentDescription="@string/pin_post" />
+                android:contentDescription="@string/pin_post"
+                android:scaleType="center"
+                android:src="@drawable/ic_pin_inactive" />
 
             <ImageButton
-                android:id="@+id/pin_image_view"
+                android:id="@+id/share_image_view"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/menu_image_view"
-                android:scaleType="center"
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
-                android:src="@drawable/ic_pin_inactive"
+                android:layout_toStartOf="@+id/pin_image_view"
                 android:background="@color/transparent"
-                android:contentDescription="@string/options_menu" />
+                android:contentDescription="@string/options_menu"
+                android:scaleType="center"
+                android:src="@drawable/ic_share_grey" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
                 android:layout_toStartOf="@+id/pin_image_view"
                 android:lineSpacingExtra="5sp"
-                android:layout_marginEnd="5dp"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/text_10sp"
                 tools:ignore="RelativeOverlap" />
@@ -108,7 +108,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/profile_pic"
-                android:background="@color/light_grey"/>
+                android:background="@color/light_grey" />
 
         </RelativeLayout>
 
@@ -123,8 +123,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_centerInParent="true"
-                android:scaleType="centerCrop"
-                android:contentDescription="@string/thumbnail" />
+                android:contentDescription="@string/thumbnail"
+                android:scaleType="centerCrop" />
 
             <VideoView
                 android:id="@+id/captured_video_view"
@@ -137,8 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_centerInParent="true"
-                android:gravity="center"
                 android:fontFamily="@font/raleway_bold"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="20sp"
                 android:visibility="visible" />
@@ -157,19 +157,19 @@
                 android:layout_toStartOf="@+id/like_image_view"
                 android:ellipsize="marquee"
                 android:fontFamily="@font/rajdhani_semibold"
-                android:lineSpacingExtra="1sp"
                 android:gravity="center_vertical"
+                android:lineSpacingExtra="1sp"
                 android:padding="10dp"
+                android:singleLine="true"
                 android:textColor="@color/grey"
-                android:textSize="14sp"
-                android:singleLine="true" />
+                android:textSize="14sp" />
 
             <View
                 android:layout_width="0.4dp"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/like_image_view"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
+                android:layout_toStartOf="@+id/like_image_view"
                 android:background="@color/grey" />
 
             <TextView
@@ -189,18 +189,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@+id/dislike_image_view"
-                android:paddingEnd="8dp"
+                android:contentDescription="@string/like"
                 android:paddingStart="8dp"
-                android:src="@drawable/ic_arrow_up_grey"
-                android:contentDescription="@string/like" />
+                android:paddingEnd="8dp"
+                android:src="@drawable/ic_arrow_up_grey" />
 
             <View
                 android:id="@+id/like_separator"
                 android:layout_width="0.4dp"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/dislike_image_view"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
+                android:layout_toStartOf="@+id/dislike_image_view"
                 android:background="@color/grey" />
 
             <TextView
@@ -208,8 +208,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_toStartOf="@id/reaction_view"
                 android:layout_toEndOf="@id/like_image_view"
-                android:layout_toStartOf="@id/share_image_view"
                 android:lineSpacingExtra="5sp"
                 android:text=""
                 android:textSize="@dimen/text_10sp"
@@ -220,36 +220,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toStartOf="@+id/share_image_view"
-                android:paddingEnd="8dp"
+                android:layout_toStartOf="@+id/reaction_view"
+                android:contentDescription="@string/like"
                 android:paddingStart="8dp"
-                android:src="@drawable/ic_arrow_down_grey"
-                android:contentDescription="@string/like" />
+                android:paddingEnd="8dp"
+                android:src="@drawable/ic_arrow_down_grey" />
 
             <View
                 android:layout_width="0.4dp"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/share_image_view"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
+                android:layout_toStartOf="@+id/reaction_view"
                 android:background="@color/grey" />
 
             <ImageView
-                android:id="@+id/share_image_view"
+                android:id="@+id/reaction_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/feed_title_text_view"
+                android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:src="@drawable/ic_share_grey"
-                android:contentDescription="@string/share" />
+                android:gravity="center"
+                android:padding="10dp"
+                android:src="@drawable/ic_emoji" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentTop="true"
-                android:background="@color/light_grey"/>
+                android:background="@color/light_grey" />
 
         </RelativeLayout>
 

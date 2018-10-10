@@ -37,12 +37,11 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
     @Named("default")
     RestApi restApi;
     private Context context;
-    private String feedId;
     private String boardId;
+    public static String feedId;
 
-    public EmojiAdapter(Context activity, String feedId, String boardId) {
+    public EmojiAdapter(Context activity, String boardId) {
         this.context = activity;
-        this.feedId = feedId;
         this.boardId = boardId;
     }
 

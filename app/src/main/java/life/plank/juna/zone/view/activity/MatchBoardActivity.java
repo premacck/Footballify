@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -63,6 +64,7 @@ import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
+import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import rx.Subscriber;
@@ -111,7 +113,10 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     ImageView boardBlurBackgroundImageView;
     @BindView(R.id.board_tiles_list_full)
     RecyclerView boardTilesFullRecyclerView;
-
+    @BindView(R.id.emoji_bottom_sheet)
+    RelativeLayout emojiBottomSheet;
+    @BindView(R.id.emoji_recycler_view)
+    RecyclerView emojiRecyclerView;
     @Inject
     @Named("default")
     RestApi restApi;
@@ -132,6 +137,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     private MatchDetails matchDetails;
 
     private BoardPagerAdapter boardPagerAdapter;
+    private BottomSheetBehavior emojiBottomSheetBehavior;
+    private EmojiAdapter emojiAdapter;
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
@@ -257,12 +264,24 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
 
         getBoardIdAndMatchDetails(currentMatchId);
+        setupBottomSheet();
+        initBottomSheetRecyclerView();
+    }
+
+    private void initBottomSheetRecyclerView() {
+        emojiAdapter = new EmojiAdapter(getApplicationContext(), boardId);
+        emojiRecyclerView.setAdapter(emojiAdapter);
+    }
+
+    private void setupBottomSheet() {
+        emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
+        emojiBottomSheetBehavior.setPeekHeight(0);
     }
 
     @Override
     public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive, emojiBottomSheetBehavior);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 
@@ -302,6 +321,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
     @OnClick(R.id.board_blur_background_image_view)
     public void dismissFullScreenRecyclerView() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         setBlurBackgroundAndShowFullScreenTiles(false, 0);
     }
 
@@ -340,7 +361,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId);
                                 } else applyInactiveBoardColorFilter();
                             } else applyInactiveBoardColorFilter();
-                            
+
                             setupViewPagerWithFragments();
                         } else {
                             Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
@@ -475,6 +496,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
     @Override
     public void onBackPressed() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         if (isTileFullScreenActive) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0);
         } else {

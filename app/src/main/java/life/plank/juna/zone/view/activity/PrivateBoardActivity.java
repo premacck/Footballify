@@ -233,7 +233,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     @Override
     public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, null);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

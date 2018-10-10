@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,6 +52,7 @@ import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
@@ -77,8 +79,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     @Inject
     @Named("default")
     Retrofit retrofit;
-    @BindView(R.id.blur_background_image_view)
-    ImageView blurBackgroundImageView;
+
     MediaPlayer mediaPlayer = new MediaPlayer();
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     private List<FeedEntry> feedsListItem;
@@ -86,13 +87,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private BaseBoardActivity activity;
     private String boardId;
     private boolean isBoardActive;
+    private BottomSheetBehavior emojiBottomSheetBehavior;
 
-    public BoardFeedDetailAdapter(BaseBoardActivity activity, String boardId, boolean isBoardActive) {
+    public BoardFeedDetailAdapter(BaseBoardActivity activity, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior) {
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(activity);
         this.activity = activity;
         this.feedsListItem = new ArrayList<>();
+        this.emojiBottomSheetBehavior = emojiBottomSheetBehavior;
     }
 
     @Override
@@ -275,6 +278,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 pinItem(feedsListItem.get(position), position);
             }
         });
+
+        holder.reactionView.setOnClickListener(view -> {
+            emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            emojiBottomSheetBehavior.setPeekHeight(850);
+            EmojiAdapter.feedId = feedsListItem.get(position).getFeedItem().getId();
+        });
     }
 
     @Override
@@ -294,7 +303,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         feedsListItem.add(0, feedEntry);
         notifyItemInserted(0);
     }
-
 
     private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
         restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
@@ -596,6 +604,8 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView dislikeCountTextView;
         @BindView(R.id.like_separator)
         View likeSeparator;
+        @BindView(R.id.reaction_view)
+        ImageView reactionView;
 
         FootballFeedDetailViewHolder(View itemView) {
             super(itemView);

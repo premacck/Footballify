@@ -139,7 +139,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @BindView(R.id.emoji_recycler_view)
     RecyclerView emojiRecyclerView;
     @BindView(R.id.reaction_view)
-    TextView reactionView;
+    ImageView reactionView;
     @Inject
     Gson gson;
     @Inject
@@ -187,8 +187,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void initBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getActivity(), feedEntry.getFeedItem().getId(), boardId);
+        emojiAdapter = new EmojiAdapter(getActivity(), boardId);
         emojiRecyclerView.setAdapter(emojiAdapter);
+        EmojiAdapter.feedId = feedEntry.getFeedItem().getId();
     }
 
     private void setupBottomSheet() {
