@@ -67,7 +67,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         switch (feedItem.getContentType()) {
             case AUDIO:
                 setVisibility(holder, GONE, VISIBLE, GONE);
-                holder.tileImageView.setImageResource(R.drawable.ic_audio);
+                holder.tileImageView.setImageResource(R.drawable.ic_mic_white);
                 break;
             case IMAGE:
                 setVisibility(holder, GONE, VISIBLE, GONE);
