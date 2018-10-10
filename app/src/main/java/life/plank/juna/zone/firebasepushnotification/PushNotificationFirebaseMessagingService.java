@@ -41,7 +41,7 @@ import static life.plank.juna.zone.util.AppConstants.LIVE_EVENT_TYPE;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
-    String CHANNEL_ID = "notification_channel_01";
+    String CHANNEL_ID = "juna_notification_channel";
     private Bitmap bitmap;
 
     @Override
@@ -169,13 +169,13 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, getString(R.string.channel_name), importance);
-            mChannel.setDescription(getString(R.string.channel_description));
-            mChannel.enableLights(true);
-            mChannel.setLightColor(Color.BLUE);
-            mChannel.enableVibration(true);
-            mChannel.setShowBadge(false);
-            notificationManager.createNotificationChannel(mChannel);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, getString(R.string.channel_name), importance);
+            channel.setDescription(getString(R.string.channel_description));
+            channel.enableLights(true);
+            channel.setLightColor(Color.BLUE);
+            channel.enableVibration(true);
+            channel.setShowBadge(false);
+            notificationManager.createNotificationChannel(channel);
         }
 
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
