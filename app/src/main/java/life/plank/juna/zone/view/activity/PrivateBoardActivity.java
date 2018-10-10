@@ -56,6 +56,7 @@ import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 
+import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
@@ -251,7 +252,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         initBottomSheetRecyclerView();
         setupBottomSheet();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, emojiBottomSheetBehavior);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

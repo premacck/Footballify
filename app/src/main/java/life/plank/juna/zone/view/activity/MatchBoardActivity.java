@@ -69,6 +69,7 @@ import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import rx.Subscriber;
 
+import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BOARD_ACTIVATED;
 import static life.plank.juna.zone.util.AppConstants.BOARD_DEACTIVATED;
 import static life.plank.juna.zone.util.AppConstants.DASH;
@@ -281,7 +282,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     @Override
     public void prepareFullScreenRecyclerView() {
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive, emojiBottomSheetBehavior);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

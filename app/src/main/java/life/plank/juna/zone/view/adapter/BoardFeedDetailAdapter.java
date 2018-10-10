@@ -88,14 +88,16 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private String boardId;
     private boolean isBoardActive;
     private BottomSheetBehavior emojiBottomSheetBehavior;
+    private String target;
 
-    public BoardFeedDetailAdapter(BaseBoardActivity activity, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior) {
+    public BoardFeedDetailAdapter(BaseBoardActivity activity, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior, String target) {
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
         ColorHashMap.HashMaps(activity);
         this.activity = activity;
         this.feedsListItem = new ArrayList<>();
         this.emojiBottomSheetBehavior = emojiBottomSheetBehavior;
+        this.target = target;
     }
 
     @Override
@@ -305,7 +307,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
+        restApi.postLike(feedItemId, boardId, target, getRequestDateStringOfNow(), getToken())
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -410,7 +412,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     }
 
     private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, "Board", getRequestDateStringOfNow(), getToken())
+        restApi.postDisLike(feedItemId, boardId, target, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

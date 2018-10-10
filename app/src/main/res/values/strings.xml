@@ -88,5 +88,7 @@
     <string name="screenshot_background_suffix">_bg.png</string>
     <string name="notification_time">1 min ago</string>
     <string name="clear_notifications">CLEAR ALL</string>
+    <string name="channel_name">Notifications</string>
+    <string name="channel_description">All notifications for athena-janus app</string>
 
 </resources>

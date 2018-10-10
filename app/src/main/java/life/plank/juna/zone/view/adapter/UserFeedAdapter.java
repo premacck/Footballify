@@ -115,7 +115,7 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
 
         @OnClick(R.id.root_layout)
         public void onFeedEntryClick() {
-            PostDetailActivity.launch(ref.get().activity, ref.get().userFeed, null, getAdapterPosition(), ref.get().activity.getScreenshotLayout());
+            PostDetailActivity.launch(ref.get().activity, ref.get().userFeed, null, getAdapterPosition(), ref.get().activity.getScreenshotLayout(), null);
         }
 
         @OnLongClick(R.id.root_layout)

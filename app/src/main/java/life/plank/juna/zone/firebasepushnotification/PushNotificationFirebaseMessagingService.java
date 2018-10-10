@@ -1,11 +1,13 @@
 package life.plank.juna.zone.firebasepushnotification;
 
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -39,6 +41,7 @@ import static life.plank.juna.zone.util.AppConstants.LIVE_EVENT_TYPE;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
+    String CHANNEL_ID = "juna_notification_channel";
     private Bitmap bitmap;
 
     @Override
@@ -162,17 +165,30 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
     }
 
     private void sendNotification(String messageBody, Uri defaultSoundUri, PendingIntent pendingIntent) {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("Zone")
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, getString(R.string.channel_name), importance);
+            channel.setDescription(getString(R.string.channel_description));
+            channel.enableLights(true);
+            channel.setLightColor(Color.BLUE);
+            channel.enableVibration(true);
+            channel.setShowBadge(false);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(getString(R.string.app_name))
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentIntent(pendingIntent)
                 .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bitmap))/*Notification with Image*/;
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
+                        .bigPicture(bitmap));
+
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     /**

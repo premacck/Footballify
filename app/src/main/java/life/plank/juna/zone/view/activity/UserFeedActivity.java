@@ -379,7 +379,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         initEmojiBottomSheetRecyclerView();
         setupEmojiBottomSheet();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, emojiBottomSheetBehavior);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, null, true, emojiBottomSheetBehavior, null);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

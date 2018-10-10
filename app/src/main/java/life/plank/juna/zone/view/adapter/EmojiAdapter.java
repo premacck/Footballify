@@ -26,6 +26,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
@@ -61,7 +62,7 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
     }
 
     private void postEmoji(String feedItemId, String boardId, Integer reaction) {
-        restApi.postReaction(feedItemId, boardId, "Board", getRequestDateStringOfNow(), reaction, getToken())
+        restApi.postReaction(feedItemId, boardId, BOARD, getRequestDateStringOfNow(), reaction, getToken())
 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

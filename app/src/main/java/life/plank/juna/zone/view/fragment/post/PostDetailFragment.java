@@ -153,12 +153,14 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     private PostCommentAdapter adapter;
     private BottomSheetBehavior emojiBottomSheetBehavior;
     private EmojiAdapter emojiAdapter;
+    private String target;
 
-    public static PostDetailFragment newInstance(@NonNull String feedEntryString, String boardId) {
+    public static PostDetailFragment newInstance(@NonNull String feedEntryString, String boardId, String target) {
         PostDetailFragment fragment = new PostDetailFragment();
         Bundle args = new Bundle();
         args.putString(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedEntryString);
         args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
+        args.putString(ZoneApplication.getContext().getString(R.string.intent_target), target);
         fragment.setArguments(args);
         return fragment;
     }
@@ -171,6 +173,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         if (args != null) {
             feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FeedEntry.class);
             boardId = args.getString(getString(R.string.intent_board_id));
+            target = args.getString(getString(R.string.intent_target));
         }
     }
 
@@ -365,7 +368,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     //region ClickThrough (Like, dislike, etc.)
     private void likeBoardFeedItem() {
-        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, "Board", getRequestDateStringOfNow(), getToken())
+        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, target, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -446,7 +449,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void dislikeBoardFeedItem() {
-        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, "Boards", getRequestDateStringOfNow(), getToken())
+        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, target, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
