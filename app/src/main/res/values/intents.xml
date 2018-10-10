@@ -26,4 +26,5 @@
     <string name="intent_file_path">filePath</string>
     <string name="board_title">board_title</string>
     <string name="intent_activity_name">activity_name</string>
+    <string name="intent_target">target</string>
 </resources>
