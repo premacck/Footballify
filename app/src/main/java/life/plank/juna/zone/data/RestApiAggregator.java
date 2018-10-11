@@ -54,7 +54,7 @@ public class RestApiAggregator {
                 Observable.zip(
                         restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
                         restApi.getLineUpsData(matchDetails.getMatchId()),
-                        (((matchStatsResponse, lineupsResponse) -> {
+                        ((matchStatsResponse, lineupsResponse) -> {
                             if (matchStatsResponse.code() == HTTP_OK) {
                                 matchDetails.setMatchStats(matchStatsResponse.body());
                             } else {
@@ -66,7 +66,7 @@ public class RestApiAggregator {
                                 Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
                             }
                             return matchDetails;
-                        }))));
+                        })));
     }
 
     /**
@@ -80,7 +80,7 @@ public class RestApiAggregator {
                         restApi.getMatchStandingsForMatch(matchDetails.getMatchId()),
                         restApi.getTeamStatsForMatch(matchDetails.getMatchId()),
                         restApi.getLineUpsData(matchDetails.getMatchId()),
-                        (((standingsResponse, teamStatsResponse, lineupsResponse) -> {
+                        ((standingsResponse, teamStatsResponse, lineupsResponse) -> {
                             if (standingsResponse.code() == HTTP_OK) {
                                 matchDetails.setStandingsList(standingsResponse.body());
                             } else {
@@ -97,7 +97,7 @@ public class RestApiAggregator {
                                 Log.e("getPreMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
                             }
                             return matchDetails;
-                        }))));
+                        })));
     }
 
     /**
