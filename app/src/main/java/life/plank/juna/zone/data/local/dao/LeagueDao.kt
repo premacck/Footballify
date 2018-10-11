@@ -16,18 +16,6 @@ interface LeagueDao {
     @Query("SELECT * FROM LeagueInfo WHERE league_id LIKE :leagueId LIMIT 1")
     fun getLeague(leagueId: Long): LeagueInfo
 
-    @Query("SELECT fixtureByMatchDayList FROM LeagueInfo where league_id = :leagueId")
-    fun getFixtures(leagueId: Long): List<FixtureByMatchDay>
-
-    @Query("SELECT standingsList FROM LeagueInfo where league_id = :leagueId")
-    fun getStandings(leagueId: Long): List<Standings>
-
-    @Query("SELECT teamStatsList FROM LeagueInfo where league_id = :leagueId")
-    fun getTeamStats(leagueId: Long): List<TeamStats>
-
-    @Query("SELECT playerStatsList FROM LeagueInfo where league_id = :leagueId")
-    fun getPlayerStats(leagueId: Long): List<PlayerStats>
-
     @Query("UPDATE LeagueInfo SET fixtureByMatchDayList = :fixtureByMatchDayList where league_id = :leagueId")
     fun updateFixtures(fixtureByMatchDayList: List<FixtureByMatchDay>, leagueId: Long)
 
