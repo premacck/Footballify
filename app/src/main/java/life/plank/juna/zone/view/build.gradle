@@ -46,7 +46,6 @@ dependencies {
     implementation viewDependencies.materialSpinner
     implementation viewDependencies.avLoadingIndicatorView
     implementation viewDependencies.materialStyledDialog
-    implementation viewDependencies.dagger
     implementation viewDependencies.progressButton
     implementation viewDependencies.facebookSdk
     implementation viewDependencies.twitterSdk
@@ -68,11 +67,9 @@ dependencies {
     implementation viewDependencies.overflowPagerIndicator
     implementation viewDependencies.flexbox
     implementation viewDependencies.multiViewAdapter
-    implementation dataDependencies.lifecycleExtensions
-    annotationProcessor dataDependencies.lifecycleCompiler
-    implementation dataDependencies.roomRuntime
-    annotationProcessor dataDependencies.roomCompiler
-    annotationProcessor viewDependencies.daggerCompiler
+    implementation dataDependencies.dagger
+    annotationProcessor dataDependencies.daggerCompiler
+    kapt dataDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
     compileOnly viewDependencies.javaxAnnotation
 

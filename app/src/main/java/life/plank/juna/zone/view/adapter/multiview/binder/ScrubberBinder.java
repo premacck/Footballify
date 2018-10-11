@@ -9,19 +9,16 @@ import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.github.mikephil.charting.charts.LineChart;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.ScrubberData;
+import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
-import lombok.Data;
 
-public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingModel, ScrubberBinder.ScrubberViewHolder> {
+public class ScrubberBinder extends ItemBinder<ScrubberBindingModel, ScrubberBinder.ScrubberViewHolder> {
 
     private BoardInfoAdapter.BoardInfoAdapterListener listener;
 
@@ -60,15 +57,6 @@ public class ScrubberBinder extends ItemBinder<ScrubberBinder.ScrubberBindingMod
         @OnClick(R.id.scrubber)
         public void onScrubberClick() {
             ref.get().listener.onScrubberClick(scrubber);
-        }
-    }
-
-    @Data
-    public static class ScrubberBindingModel {
-        private final List<ScrubberData> scrubberDataList;
-
-        public static ScrubberBindingModel from(MatchDetails matchDetails) {
-            return new ScrubberBindingModel(matchDetails.getScrubberDataList());
         }
     }
 }
