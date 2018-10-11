@@ -77,17 +77,18 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int) : IntArray? {
             intArrayOf(
                     R.drawable.ic_settings_white,
                     R.drawable.ic_home_purple,
-                    R.drawable.ic_gallery,
+                    R.drawable.ic_gallery_white,
                     R.drawable.ic_camera_white,
-                    R.drawable.ic_video,
-                    R.drawable.text_icon,
-                    R.drawable.ic_mic,
-                    R.drawable.ic_link
+                    R.drawable.ic_video_white,
+                    R.drawable.ic_text_white,
+                    R.drawable.ic_mic_white,
+                    R.drawable.ic_link_white
             )
         }
-        BOOM_MENU_SETTINGS_AND_HOME -> {
-            intArrayOf(R.drawable.ic_settings_white, R.drawable.ic_home_purple)
-        }
+        BOOM_MENU_SETTINGS_AND_HOME -> { intArrayOf(
+                R.drawable.ic_settings_white,
+                R.drawable.ic_home_purple
+        ) }
         BOOM_MENU_HOME -> {
             intArrayOf(R.drawable.ic_home_purple)
         }

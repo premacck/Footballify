@@ -139,7 +139,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @BindView(R.id.emoji_recycler_view)
     RecyclerView emojiRecyclerView;
     @BindView(R.id.reaction_view)
-    TextView reactionView;
+    ImageView reactionView;
     @Inject
     Gson gson;
     @Inject
@@ -190,8 +190,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     private void initBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getActivity(), feedEntry.getFeedItem().getId(), boardId);
+        emojiAdapter = new EmojiAdapter(getActivity(), boardId, emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
+        EmojiAdapter.feedId = feedEntry.getFeedItem().getId();
     }
 
     private void setupBottomSheet() {
@@ -315,7 +316,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             case AUDIO:
                 mediaPlayer.stop();
                 setVisibilities(VISIBLE, GONE, GONE);
-                feedImageView.setImageResource(R.drawable.ic_audio);
+                feedImageView.setImageResource(R.drawable.ic_mic_white);
 
                 String audioUriString = feedEntry.getFeedItem().getUrl();
                 Uri audioUri = Uri.parse(audioUriString);
@@ -639,6 +640,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     @OnClick(R.id.reaction_view)
     public void onReact() {
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        emojiBottomSheetBehavior.setPeekHeight(850);
+        EmojiAdapter.feedId = feedEntry.getFeedItem().getId();
         emojiBottomSheetBehavior.setPeekHeight(850);
     }
     //endregion
