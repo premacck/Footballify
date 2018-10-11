@@ -9,9 +9,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
-import com.microsoft.windowsazure.notifications.NotificationsManager;
 
 import net.openid.appauth.AuthorizationService;
 
@@ -26,9 +23,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.pushnotification.NotificationSettings;
-import life.plank.juna.zone.pushnotification.PushNotificationsHandler;
-import life.plank.juna.zone.pushnotification.RegistrationIntentService;
 import life.plank.juna.zone.util.AuthUtil;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -62,8 +56,6 @@ public class SplashScreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash_screen);
         ButterKnife.bind(this);
         authService = new AuthorizationService(this);
-        NotificationsManager.handleNotifications(this, NotificationSettings.senderId, PushNotificationsHandler.class);
-        registerWithNotificationHubs();
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
         restApi = retrofit.create(RestApi.class);
         animationView.setSpeed(2.0f);
@@ -136,7 +128,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 } else {
                                     startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
                                 }
-                                
+
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
@@ -148,37 +140,6 @@ public class SplashScreenActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-
-    /**
-     * Check the device to make sure it has the Google Play Services APK. If
-     * it doesn't, display a dialog that allows users to download the APK from
-     * the Google Play Store or enable it in the device's system settings.
-     */
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported by Google Play Services.");
-                Toast.makeText(this, "This device is not supported by Google Play Services.", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
-
-    public void registerWithNotificationHubs() {
-        if (checkPlayServices()) {
-            // Start IntentService to register this application with FCM.
-            Intent intent = new Intent(this, RegistrationIntentService.class);
-            startService(intent);
-        }
     }
 
     @Override

@@ -97,7 +97,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 LiveFootballMatchNotifier.notify(getApplicationContext(), gson, dataPayload);
             }
             //TODO: Move to strings.xml and change to camel case once done on backend
-            else if (dataPayload.containsKey("InvitationLink")) {
+            else if (dataPayload.containsKey("invitationLink")) {
                 JSONObject jsonObject = new JSONObject(dataPayload);
                 String notificationString = jsonObject.toString();
                 BoardNotification boardNotification = gson.fromJson(notificationString, BoardNotification.class);
@@ -147,7 +147,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             try {
                 bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getImageUrl()).get();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
         }
 
