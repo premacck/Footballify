@@ -114,6 +114,8 @@ public class RestApiAggregator {
                         restApi.getPlayerStats(league.getName(), league.getSeasonName(), league.getCountryName()),
                         ((fixtureResponse, standingsResponse, teamStatsResponse, playerStatsResponse) -> {
                             LeagueInfo leagueInfo = new LeagueInfo();
+                            leagueInfo.setId(league.getId());
+                            leagueInfo.setLeague(league);
                             if (fixtureResponse.code() == HTTP_OK) {
                                 List<FixtureByMatchDay> fixtureByMatchDayList = fixtureResponse.body();
                                 if (!isNullOrEmpty(fixtureByMatchDayList)) {

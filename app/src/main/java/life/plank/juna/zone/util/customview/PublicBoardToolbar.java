@@ -210,8 +210,10 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
                 }
                 break;
             case MATCH_ABOUT_TO_START:
+                setScheduledTimeStatus(true);
+                break;
             case MATCH_SCHEDULED_LATER:
-                setTodayMatchCountdown();
+                setScheduledTimeStatus(false);
                 break;
         }
     }

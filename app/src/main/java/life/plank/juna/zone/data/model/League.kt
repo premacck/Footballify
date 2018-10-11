@@ -1,14 +1,16 @@
 package life.plank.juna.zone.data.model
 
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import android.arch.persistence.room.Ignore
 import android.os.Parcelable
 import android.support.annotation.DrawableRes
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Entity
 @Parcelize
-data class League(
+data class League @Ignore constructor(
         var name: String = "",
         var isCup: Boolean,
         var seasonName: String?,
@@ -16,11 +18,10 @@ data class League(
         var thumbUrl: String?,
         var dominantColor: Int?,
         @DrawableRes var leagueLogo: Int,
-        var foreignId: Long = 0,
-        @PrimaryKey var id: Int = 0
+        @SerializedName("foreignId") @Expose var id: Int = 0
 ) : Parcelable {
     constructor(name: String, isCup: Boolean, seasonName: String?, countryName: String?, thumbUrl: String?, dominantColor: Int?, leagueLogo: Int) :
             this(name, isCup, seasonName, countryName, thumbUrl, dominantColor, leagueLogo, 0, 0)
 
-    constructor() : this("", false, "", "", "", 0, 0, 0, 0)
+    constructor() : this("", false, "", "", "", 0, 0, 0)
 }

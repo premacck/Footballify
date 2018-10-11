@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 @Parcelize
 data class FootballTeam(
-        @PrimaryKey var id: Int?,
+        var id: Int?,
         var foreignId: Int?,
         var name: String?,
         var isNationalTeam: Boolean?,

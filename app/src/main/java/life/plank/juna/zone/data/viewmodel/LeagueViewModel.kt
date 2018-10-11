@@ -23,7 +23,7 @@ import rx.Subscriber
 class LeagueViewModel : ViewModel() {
 
     private val TAG = LeagueViewModel::class.java.simpleName
-    private val leagueRepository: LeagueRepository = LeagueRepository()
+    val leagueRepository: LeagueRepository = LeagueRepository()
     val leagueInfoLiveData: MutableLiveData<LeagueInfo> = MutableLiveData()
 
     /**
