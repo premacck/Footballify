@@ -193,6 +193,7 @@ public class DataUtil {
     public static List<League> getStaticLeagues() {
         List<League> footballFeeds = new ArrayList<>();
         footballFeeds.add(new League(
+                8,
                 "Premier League",
                 false,
                 "2018/2019",
@@ -202,6 +203,7 @@ public class DataUtil {
                 R.drawable.img_epl_logo
         ));
         footballFeeds.add(new League(
+                564,
                 "La Liga",
                 false,
                 "2018/2019",
@@ -211,6 +213,7 @@ public class DataUtil {
                 R.drawable.img_laliga_logo
         ));
         footballFeeds.add(new League(
+                82,
                 "Bundesliga",
                 false,
                 "2018/2019",
@@ -220,6 +223,7 @@ public class DataUtil {
                 R.drawable.img_bundesliga_logo
         ));
         footballFeeds.add(new League(
+                2,
                 "Champions League",
                 false,
                 "2018/2019",
@@ -229,6 +233,7 @@ public class DataUtil {
                 R.drawable.img_champions_league_logo
         ));
         footballFeeds.add(new League(
+                384,
                 "Serie A",
                 false,
                 "2018/2019",
@@ -238,6 +243,7 @@ public class DataUtil {
                 R.drawable.img_serie_a_logo
         ));
         footballFeeds.add(new League(
+                301,
                 "Ligue 1",
                 false,
                 "2018/2019",
@@ -247,6 +253,7 @@ public class DataUtil {
                 R.drawable.img_ligue_1_logo
         ));
         footballFeeds.add(new League(
+                24,
                 "FA Cup",
                 true,
                 "2018/2019",
@@ -256,6 +263,7 @@ public class DataUtil {
                 R.drawable.img_fa_cup_logo
         ));
         footballFeeds.add(new League(
+                570,
                 "Copa Del Rey",
                 true,
                 "2018/2019",
@@ -265,6 +273,7 @@ public class DataUtil {
                 R.drawable.img_delrey_logo
         ));
         footballFeeds.add(new League(
+                390,
                 "Coppa Italia",
                 true,
                 "2018/2019",
@@ -274,6 +283,7 @@ public class DataUtil {
                 R.drawable.img_coppa_italia_logo
         ));
         footballFeeds.add(new League(
+                5,
                 "Europa League",
                 false,
                 "2018/2019",

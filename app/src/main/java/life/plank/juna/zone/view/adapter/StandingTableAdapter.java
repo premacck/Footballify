@@ -57,7 +57,7 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
     }
 
     public void update(List<Standings> standingsList) {
-        this.standingsList.addAll(standingsList);
+        this.standingsList = standingsList;
         notifyDataSetChanged();
     }
 

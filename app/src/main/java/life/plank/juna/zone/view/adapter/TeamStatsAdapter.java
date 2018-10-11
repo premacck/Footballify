@@ -62,7 +62,7 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
     }
 
     public void update(List<TeamStats> teamStatsList) {
-        this.teamStatsList.addAll(teamStatsList);
+        this.teamStatsList = teamStatsList;
         notifyDataSetChanged();
     }
 
