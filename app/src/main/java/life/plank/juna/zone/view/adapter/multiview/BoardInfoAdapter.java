@@ -21,22 +21,22 @@ import life.plank.juna.zone.data.model.ScrubberData;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.adapter.multiview.binder.CommentaryBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.CommentaryBinder.CommentaryBindingModel;
+import life.plank.juna.zone.data.model.binder.CommentaryBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.LineupsBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.LineupsBinder.LineupsBindingModel;
+import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.MatchHighlightsBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.MatchHighlightsBinder.HighlightsBindingModel;
+import life.plank.juna.zone.data.model.binder.HighlightsBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.MatchStatsBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.MatchStatsBinder.MatchStatsBindingModel;
+import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.ScheduledMatchFooterBinder;
 import life.plank.juna.zone.view.adapter.multiview.binder.ScrubberBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.ScrubberBinder.ScrubberBindingModel;
+import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.StandingsBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.StandingsBinder.StandingsBindingModel;
+import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.SubstitutionBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.SubstitutionBinder.SubstitutionBindingModel;
+import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.view.adapter.multiview.binder.TeamStatsBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.TeamStatsBinder.TeamStatsBindingModel;
+import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
@@ -151,44 +151,44 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     }
 
     private void initAndAddScrubberDataManager() {
-        scrubberDataManager = new DataItemManager<>(this, ScrubberBindingModel.from(matchDetails));
+        scrubberDataManager = new DataItemManager<>(this, ScrubberBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(scrubberDataManager, new ScrubberBinder(listener));
     }
 
     private void initAndAddHighlightsDataManager() {
-        highlightsDataManager = new DataItemManager<>(this, HighlightsBindingModel.from(matchDetails));
+        highlightsDataManager = new DataItemManager<>(this, HighlightsBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(highlightsDataManager, new MatchHighlightsBinder(activity));
     }
 
     private void initAndAddCommentaryDataManager() {
-        commentaryDataManager = new DataItemManager<>(this, CommentaryBindingModel.from(matchDetails));
+        commentaryDataManager = new DataItemManager<>(this, CommentaryBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(commentaryDataManager, new CommentaryBinder(listener));
     }
 
     private void initAndAddMatchStatsDataManager() {
-        matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.from(matchDetails));
+        matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(matchStatsDataManager, new MatchStatsBinder(picasso));
     }
 
     private void initAndAddLineupsDataManager() {
-        lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.from(matchDetails));
+        lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, picasso));
     }
 
     private void initAndAddSubstitutionDataManager() {
         if (!isNullOrEmpty(matchDetails.getMatchEvents())) {
-            substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.from(matchDetails));
+            substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.Companion.from(matchDetails));
             addDataManagerAndRegisterBinder(substitutionDataManager, new SubstitutionBinder(picasso));
         }
     }
 
     private void initAndAddStandingsDataManager() {
-        standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.from(matchDetails));
+        standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(standingsDataManager, new StandingsBinder(picasso, listener));
     }
 
     private void initAndAddTeamStatsDataManager() {
-        teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.from(matchDetails));
+        teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.Companion.from(matchDetails));
         addDataManagerAndRegisterBinder(teamStatsDataManager, new TeamStatsBinder(picasso));
     }
 
@@ -204,7 +204,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     //region Methods to update live match data
     public void setScrubber() {
         if (scrubberDataManager != null) {
-            scrubberDataManager.setItem(ScrubberBindingModel.from(matchDetails));
+            scrubberDataManager.setItem(ScrubberBindingModel.Companion.from(matchDetails));
         }
     }
 
@@ -215,12 +215,12 @@ public class BoardInfoAdapter extends RecyclerAdapter {
 
     public void updateCommentaries(List<Commentary> commentaryList, boolean isError) {
         validateAndUpdateList(matchDetails.getCommentary(), commentaryList, isError);
-        commentaryDataManager.setItem(CommentaryBindingModel.from(matchDetails));
+        commentaryDataManager.setItem(CommentaryBindingModel.Companion.from(matchDetails));
     }
 
     public void setMatchStats() {
         if (matchStatsDataManager != null) {
-            matchStatsDataManager.setItem(MatchStatsBindingModel.from(matchDetails));
+            matchStatsDataManager.setItem(MatchStatsBindingModel.Companion.from(matchDetails));
         }
     }
 
@@ -234,7 +234,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
 
     public void setLineups() {
         if (lineupsDataManager != null) {
-            lineupsDataManager.setItem(LineupsBindingModel.from(matchDetails));
+            lineupsDataManager.setItem(LineupsBindingModel.Companion.from(matchDetails));
         }
     }
 
@@ -249,26 +249,26 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     public void updateMatchEventsAndSubstitutions(List<MatchEvent> matchEventList, boolean isError) {
         validateAndUpdateList(matchDetails.getMatchEvents(), matchEventList, isError);
         if (substitutionDataManager != null) {
-            substitutionDataManager.setItem(SubstitutionBindingModel.from(matchDetails));
+            substitutionDataManager.setItem(SubstitutionBindingModel.Companion.from(matchDetails));
         }
     }
 
     public void updateHighlights(List<Highlights> highlightsList, boolean isError) {
         validateAndUpdateList(this.matchDetails.getHighlights(), highlightsList, isError);
         if (highlightsDataManager != null) {
-            highlightsDataManager.setItem(HighlightsBindingModel.from(matchDetails));
+            highlightsDataManager.setItem(HighlightsBindingModel.Companion.from(matchDetails));
         }
     }
 
     public void setPreMatchData() {
         if (standingsDataManager != null) {
-            standingsDataManager.setItem(StandingsBindingModel.from(matchDetails));
+            standingsDataManager.setItem(StandingsBindingModel.Companion.from(matchDetails));
         }
         if (teamStatsDataManager != null) {
-            teamStatsDataManager.setItem(TeamStatsBindingModel.from(matchDetails));
+            teamStatsDataManager.setItem(TeamStatsBindingModel.Companion.from(matchDetails));
         }
         if (lineupsDataManager != null) {
-            lineupsDataManager.setItem(LineupsBindingModel.from(matchDetails));
+            lineupsDataManager.setItem(LineupsBindingModel.Companion.from(matchDetails));
         }
     }
     //endregion

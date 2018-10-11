@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
-import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,22 +11,16 @@ import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.FootballTeam;
-import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.MatchEvent;
+import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.view.adapter.SubstitutionAdapter;
-import lombok.Data;
 
-import static life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
-public class SubstitutionBinder extends ItemBinder<SubstitutionBinder.SubstitutionBindingModel, SubstitutionBinder.SubstitutionViewHolder> {
+public class SubstitutionBinder extends ItemBinder<SubstitutionBindingModel, SubstitutionBinder.SubstitutionViewHolder> {
 
     private Picasso picasso;
 
@@ -97,25 +90,6 @@ public class SubstitutionBinder extends ItemBinder<SubstitutionBinder.Substituti
         SubstitutionViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-    }
-
-    @Data
-    public static class SubstitutionBindingModel {
-        private final List<MatchEvent> substitutionEvents;
-        private final FootballTeam homeTeam;
-        private final FootballTeam awayTeam;
-        @StringRes
-        private final Integer errorMessage;
-
-        public static SubstitutionBindingModel from(MatchDetails matchDetails) {
-            List<MatchEvent> substitutionEvents = extractSubstitutionEvents(matchDetails.getMatchEvents());
-            return new SubstitutionBindingModel(
-                    substitutionEvents,
-                    matchDetails.getHomeTeam(),
-                    matchDetails.getAwayTeam(),
-                    isNullOrEmpty(substitutionEvents) ? R.string.no_substitutions_yet : null
-            );
         }
     }
 }

@@ -22,6 +22,8 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -124,14 +126,12 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
         }
         if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
-            int tint = ContextCompat.getColor(activity, R.color.frog_green);
-            holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+            holder.likeImageView.setLiked(feedsListItem.get(position).getFeedInteractions().getHasLiked());
             holder.dislikeImageView.setVisibility(View.INVISIBLE);
             holder.likeCountTextView.setVisibility(View.VISIBLE);
             holder.likeSeparator.setVisibility(View.INVISIBLE);
         } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
-            int tint = ContextCompat.getColor(activity, R.color.salmon);
-            holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+            holder.dislikeImageView.setLiked(feedsListItem.get(position).getFeedInteractions().getHasDisliked());
             holder.likeImageView.setVisibility(View.INVISIBLE);
             holder.dislikeCountTextView.setVisibility(View.VISIBLE);
             holder.likeSeparator.setVisibility(View.INVISIBLE);
@@ -243,15 +243,23 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
             }
         }
-        holder.likeImageView.setOnClickListener(v -> {
-            if (isBoardActive) {
-                if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
-                    boardFeedItemDeleteLike(feedId, holder);
-                } else {
-                    boardFeedItemLikeApiCall(feedId, holder);
-                }
-            } else {
-                displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
+
+        holder.likeImageView.setEnabled(isBoardActive);
+        holder.dislikeImageView.setEnabled(isBoardActive);
+        if (!isBoardActive) {
+            holder.likeImageView.setAlpha(0.5f);
+            holder.dislikeImageView.setAlpha(0.5f);
+        }
+
+        holder.likeImageView.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                boardFeedItemLikeApiCall(feedId, holder);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                boardFeedItemDeleteLike(feedId, holder);
             }
         });
 
@@ -263,15 +271,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         });
 
-        holder.dislikeImageView.setOnClickListener(v -> {
-            if (isBoardActive) {
-                if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
-                    boardFeedItemDeleteDisLike(feedId, holder);
-                } else {
-                    boardFeedItemDisLikeApiCall(feedId, holder);
-                }
-            } else {
-                displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
+        holder.dislikeImageView.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                boardFeedItemDisLikeApiCall(feedId, holder);
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                boardFeedItemDeleteDisLike(feedId, holder);
             }
         });
 
@@ -335,8 +343,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                int tint = ContextCompat.getColor(activity, R.color.frog_green);
-                                holder.likeImageView.setImageTintList(ColorStateList.valueOf(tint));
                                 holder.dislikeImageView.setVisibility(View.INVISIBLE);
                                 holder.likeCountTextView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.INVISIBLE);
@@ -448,7 +454,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                holder.likeImageView.setImageTintList(null);
                                 holder.likeCountTextView.setVisibility(View.INVISIBLE);
                                 holder.dislikeImageView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.VISIBLE);
@@ -481,8 +486,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                int tint = ContextCompat.getColor(activity, R.color.salmon);
-                                holder.dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
                                 holder.likeImageView.setVisibility(View.INVISIBLE);
                                 holder.dislikeCountTextView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.INVISIBLE);
@@ -519,8 +522,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-
-                                holder.dislikeImageView.setImageTintList(null);
                                 holder.dislikeCountTextView.setVisibility(View.INVISIBLE);
                                 holder.likeImageView.setVisibility(View.VISIBLE);
                                 holder.likeSeparator.setVisibility(View.VISIBLE);
@@ -629,13 +630,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         @BindView(R.id.feed_top_layout)
         LinearLayout feedTopLayout;
         @BindView(R.id.like_image_view)
-        ImageView likeImageView;
+        LikeButton likeImageView;
         @BindView(R.id.pin_image_view)
         ImageView pinImageView;
         @BindView(R.id.share_image_view)
         ImageView shareImageView;
         @BindView(R.id.dislike_image_view)
-        ImageView dislikeImageView;
+        LikeButton dislikeImageView;
         @BindView(R.id.captured_video_view)
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)

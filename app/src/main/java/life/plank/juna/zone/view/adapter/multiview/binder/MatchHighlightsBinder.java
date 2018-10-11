@@ -10,21 +10,17 @@ import android.widget.ProgressBar;
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.intik.overflowindicator.OverflowPagerIndicator;
 import cz.intik.overflowindicator.SimpleSnapHelper;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.Highlights;
-import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.binder.HighlightsBindingModel;
 import life.plank.juna.zone.util.customview.HighlightsAdapter;
-import lombok.Data;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
-public class MatchHighlightsBinder extends ItemBinder<MatchHighlightsBinder.HighlightsBindingModel, MatchHighlightsBinder.MatchHighlightsViewHolder> {
+public class MatchHighlightsBinder extends ItemBinder<HighlightsBindingModel, MatchHighlightsBinder.MatchHighlightsViewHolder> {
 
     private Activity activity;
     private SimpleSnapHelper snapHelper;
@@ -72,15 +68,6 @@ public class MatchHighlightsBinder extends ItemBinder<MatchHighlightsBinder.High
         MatchHighlightsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-    }
-
-    @Data
-    public static class HighlightsBindingModel {
-        private final List<Highlights> highlightsList;
-
-        public static HighlightsBindingModel from(MatchDetails matchDetails) {
-            return new HighlightsBindingModel(matchDetails.getHighlights());
         }
     }
 }

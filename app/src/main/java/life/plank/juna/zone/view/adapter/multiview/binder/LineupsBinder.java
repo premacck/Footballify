@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
 import android.os.AsyncTask;
-import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,16 +22,11 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Formation;
 import life.plank.juna.zone.data.model.FormationList;
-import life.plank.juna.zone.data.model.Lineups;
-import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.MatchEvent;
+import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
 import life.plank.juna.zone.util.customview.LineupPlayer;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -41,7 +35,7 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
 
-public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel, LineupsBinder.LineupsViewHolder> {
+public class LineupsBinder extends ItemBinder<LineupsBindingModel, LineupsBinder.LineupsViewHolder> {
 
     private MatchBoardActivity activity;
     private Picasso picasso;
@@ -187,31 +181,6 @@ public class LineupsBinder extends ItemBinder<LineupsBinder.LineupsBindingModel,
         LineupsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class LineupsBindingModel {
-        private Lineups lineups;
-        private final FootballTeam homeTeam;
-        private final FootballTeam awayTeam;
-        private final List<MatchEvent> matchEventList;
-        private final String homeFormation;
-        private final String awayFormation;
-        @StringRes
-        private final Integer errorMessage;
-
-        public static LineupsBindingModel from(MatchDetails matchDetails) {
-            return new LineupsBindingModel(
-                    matchDetails.getLineups(),
-                    matchDetails.getHomeTeam(),
-                    matchDetails.getAwayTeam(),
-                    matchDetails.getMatchEvents(),
-                    matchDetails.getHometeamFormation(),
-                    matchDetails.getAwayteamFormation(),
-                    matchDetails.getLineups() == null ? R.string.line_ups_not_available : null
-            );
         }
     }
 }

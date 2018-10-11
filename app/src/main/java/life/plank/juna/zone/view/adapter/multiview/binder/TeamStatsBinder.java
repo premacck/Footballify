@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
-import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,21 +13,16 @@ import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.squareup.picasso.Picasso;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.FootballTeam;
-import life.plank.juna.zone.data.model.League;
-import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.TeamStats;
-import lombok.Data;
+import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
-public class TeamStatsBinder extends ItemBinder<TeamStatsBinder.TeamStatsBindingModel, TeamStatsBinder.TeamStatsViewHolder> {
+public class TeamStatsBinder extends ItemBinder<TeamStatsBindingModel, TeamStatsBinder.TeamStatsViewHolder> {
 
     private Picasso picasso;
 
@@ -147,26 +141,6 @@ public class TeamStatsBinder extends ItemBinder<TeamStatsBinder.TeamStatsBinding
         TeamStatsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-    }
-
-    @Data
-    public static class TeamStatsBindingModel {
-        private final List<TeamStats> teamStatsList;
-        private final League league;
-        private final FootballTeam homeTeam;
-        private final FootballTeam awayTeam;
-        @StringRes
-        private final Integer errorMessage;
-
-        public static TeamStatsBindingModel from(MatchDetails matchDetails) {
-            return new TeamStatsBindingModel(
-                    matchDetails.getTeamStatsList(),
-                    matchDetails.getLeague(),
-                    matchDetails.getHomeTeam(),
-                    matchDetails.getAwayTeam(),
-                    isNullOrEmpty(matchDetails.getTeamStatsList()) ? R.string.team_stats_not_available_yet : null
-            );
         }
     }
 }
