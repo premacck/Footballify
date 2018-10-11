@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.persistence.room.RoomDatabase
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.local.repository.LeagueRepository
+import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.PlayerStats
 import life.plank.juna.zone.data.model.Standings
 import life.plank.juna.zone.data.model.TeamStats
@@ -39,6 +40,22 @@ class LeagueViewModel(leagueId: Long) : ViewModel() {
 
     fun insertLeagueInfo(leagueInfo: LeagueInfo) {
         leagueRepository.insertLeagueInfo(leagueInfo)
+    }
+
+    fun updateFixtures(fixtureByMatchDayList: List<FixtureByMatchDay>, leagueId: Long) {
+        leagueRepository.updateFixtures(fixtureByMatchDayList, leagueId)
+    }
+
+    fun updateStandings(standingsList: List<Standings>, leagueId: Long) {
+        leagueRepository.updateStandings(standingsList, leagueId)
+    }
+
+    fun updateTeamStats(teamStatsList: List<TeamStats>, leagueId: Long) {
+        leagueRepository.updateTeamStats(teamStatsList, leagueId)
+    }
+
+    fun updatePlayerStats(playerStatsList: List<PlayerStats>, leagueId: Long) {
+        leagueRepository.updatePlayerStats(playerStatsList, leagueId)
     }
 
     fun deleteLeagueInfo(leagueInfo: LeagueInfo) {
