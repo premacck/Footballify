@@ -100,4 +100,5 @@
     </RelativeLayout>
 
     <include layout="@layout/onboarding_bottom_sheet" />
+    <include layout="@layout/emoji_bottom_sheet" />
 </android.support.design.widget.CoordinatorLayout>
