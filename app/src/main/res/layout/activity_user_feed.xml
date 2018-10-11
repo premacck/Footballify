@@ -39,7 +39,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_boards_recycler_view"
-                    android:layout_margin="5dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_zone_user_feed" />
@@ -82,20 +83,20 @@
             android:id="@+id/board_blur_background_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"
+            android:contentDescription="@string/blur_background"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/blur_background" />
+            android:visibility="invisible" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/board_tiles_list_full"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="invisible"
-            android:padding="6dp"
             android:clipToPadding="false"
-            tools:listitem="@layout/football_feed_detail_row"
-            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"/>
+            android:padding="6dp"
+            android:visibility="invisible"
+            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+            tools:listitem="@layout/football_feed_detail_row" />
 
     </RelativeLayout>
 
