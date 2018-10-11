@@ -2,9 +2,11 @@ package life.plank.juna.zone.data.network.dagger.component;
 
 import dagger.Component;
 import life.plank.juna.zone.data.network.dagger.module.ViewModelModule;
+import life.plank.juna.zone.data.network.dagger.scope.ViewModelScope;
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel;
 import life.plank.juna.zone.data.viewmodel.MatchDetailViewModel;
 
+@ViewModelScope
 @Component(modules = {ViewModelModule.class})
 public interface ViewModelComponent {
 

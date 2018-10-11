@@ -1,15 +1,13 @@
 package life.plank.juna.zone.data.local.dao
 
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.OnConflictStrategy
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.PlayerStats
 import life.plank.juna.zone.data.model.Standings
 import life.plank.juna.zone.data.model.TeamStats
 
+@Dao
 interface LeagueDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -31,7 +31,10 @@ dependencies {
     implementation dataDependencies.dagger
     implementation dataDependencies.lifecycleExtensions
     annotationProcessor dataDependencies.lifecycleCompiler
+    kapt dataDependencies.lifecycleCompiler
     implementation dataDependencies.roomRuntime
     annotationProcessor dataDependencies.roomCompiler
+    kapt dataDependencies.roomCompiler
     annotationProcessor dataDependencies.daggerCompiler
+    kapt dataDependencies.daggerCompiler
 }

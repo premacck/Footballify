@@ -12,7 +12,8 @@ import java.util.Collections.emptyList
 @Entity
 @Parcelize
 data class LeagueInfo(
-        @PrimaryKey @Embedded(prefix = "league_") var league: League = League(),
+        @PrimaryKey(autoGenerate = true) var id: Int = 0,
+        @Embedded(prefix = "league_") var league: League = League(),
         var fixtureByMatchDayList: @RawValue List<FixtureByMatchDay> = emptyList(),
         var standingsList: @RawValue List<Standings> = emptyList(),
         var teamStatsList: @RawValue List<TeamStats> = emptyList(),

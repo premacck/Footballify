@@ -67,4 +67,24 @@ class MatchConverter {
     fun scrubberDataListToString(scrubberDataList: List<ScrubberData>?): String? {
         return scrubberDataList?.let { ZoneApplication.getGson().toJson(it) }
     }
+
+    @TypeConverter
+    fun fixtureByMatchDayListFromString(fixtureByMatchDatList: String?): List<FixtureByMatchDay>? {
+        return fixtureByMatchDatList?.let { ZoneApplication.getGson().fromJson(it, object : TypeToken<List<FixtureByMatchDay>>() {}.type) }
+    }
+
+    @TypeConverter
+    fun fixtureByMatchDayListToString(fixtureByMatchDatList: List<FixtureByMatchDay>?): String? {
+        return fixtureByMatchDatList?.let { ZoneApplication.getGson().toJson(it) }
+    }
+
+    @TypeConverter
+    fun playerStatsListStringFromString(playerStatsListString: String?): List<PlayerStats>? {
+        return playerStatsListString?.let { ZoneApplication.getGson().fromJson(it, object : TypeToken<List<PlayerStats>>() {}.type) }
+    }
+
+    @TypeConverter
+    fun playerStatsListStringToString(playerStatsListString: List<PlayerStats>?): String? {
+        return playerStatsListString?.let { ZoneApplication.getGson().toJson(it) }
+    }
 }
