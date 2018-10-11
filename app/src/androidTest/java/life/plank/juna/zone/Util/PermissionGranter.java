@@ -26,8 +26,8 @@ public class PermissionGranter {
     //TODO: try catch will be removed once a better solution is found
     private static final int PERMISSIONS_DIALOG_DELAY = 300;
     private static final int GRANT_BUTTON_INDEX = 1;
-    private int waitingTime = 10;
     private static IdlingResource idlingResource;
+    private int waitingTime = 10;
 
     public static void allowPermissionsIfNeeded(String permissionNeeded) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !hasNeededPermission(permissionNeeded)) {
@@ -62,10 +62,6 @@ public class PermissionGranter {
         IdlingPolicies.setMasterPolicyTimeout(60, TimeUnit.SECONDS);
         IdlingPolicies.setIdlingResourceTimeout(26, TimeUnit.SECONDS);
         idlingResource = new ElapsedTimeIdlingResource(millis);
-        try {
-            Thread.sleep(millis);
-        } catch (InterruptedException e) {
-            throw new RuntimeException("Cannot execute Thread.sleep()");
-        }
+        //TODO: Don't rely on timing (use mocks) or use libraries such as Awaitility for asynchroneous testing.*/
     }
 }

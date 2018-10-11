@@ -129,6 +129,8 @@ public class MatchFixtureDiffCallback extends DiffUtil.Callback{
                     case DiffConstants.DIFF_VENUE:
                         oldMatchFixture.setVenue(gson.fromJson(diffBundle.getString(DiffConstants.DIFF_VENUE), Stadium.class));
                         break;
+                    default:
+                        break;
                 }
             } catch (JsonSyntaxException e) {
                 Log.e("MatchFixtureDiff", "updateMatchFixtureByDiffBundle: ", e);
