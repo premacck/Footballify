@@ -21,4 +21,6 @@ data class League(
 ) : Parcelable {
     constructor(name: String, isCup: Boolean, seasonName: String?, countryName: String?, thumbUrl: String?, dominantColor: Int?, leagueLogo: Int) :
             this(name, isCup, seasonName, countryName, thumbUrl, dominantColor, leagueLogo, 0, 0)
+
+    constructor() : this("", false, "", "", "", 0, 0, 0, 0)
 }

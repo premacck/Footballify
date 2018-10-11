@@ -1,6 +1,5 @@
 package life.plank.juna.zone.data.local.repository
 
-import android.arch.lifecycle.LiveData
 import android.support.annotation.WorkerThread
 import life.plank.juna.zone.data.local.dao.LeagueDao
 import life.plank.juna.zone.data.local.model.LeagueInfo
@@ -15,32 +14,32 @@ import org.jetbrains.anko.doAsync
  * Repository class for interacting with the [LeagueDao] and updating the [LeagueViewModel]
  * This class also handles inserting, updating and deleting elements in the [LeagueInfo] table
  */
-class LeagueRepository(leagueId: Long) : BaseRepository() {
+class LeagueRepository : BaseRepository() {
 
     var leagueDao: LeagueDao = roomDb.leagueDao()
-    var leagueInfoLiveData: LiveData<LeagueInfo>
-
-    init {
-        leagueInfoLiveData = leagueDao.getLeague(leagueId)
-    }
 
     @WorkerThread
-    fun getLeagueInfo(leagueId: Long) : LiveData<LeagueInfo> {
+    fun getLeagueInfo(leagueId: Long): LeagueInfo {
         return leagueDao.getLeague(leagueId)
     }
 
     @WorkerThread
-    fun getStandings(leagueId: Long) : LiveData<List<Standings>> {
+    fun getFixtures(leagueId: Long): List<FixtureByMatchDay> {
+        return leagueDao.getFixtures(leagueId)
+    }
+
+    @WorkerThread
+    fun getStandings(leagueId: Long): List<Standings> {
         return leagueDao.getStandings(leagueId)
     }
 
     @WorkerThread
-    fun getTeamStats(leagueId: Long) : LiveData<List<TeamStats>> {
+    fun getTeamStats(leagueId: Long): List<TeamStats> {
         return leagueDao.getTeamStats(leagueId)
     }
 
     @WorkerThread
-    fun getPlayerStats(leagueId: Long) : LiveData<List<PlayerStats>> {
+    fun getPlayerStats(leagueId: Long): List<PlayerStats> {
         return leagueDao.getPlayerStats(leagueId)
     }
 
