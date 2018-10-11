@@ -5,10 +5,14 @@ import android.util.Pair;
 
 import java.util.List;
 
+import life.plank.juna.zone.data.local.model.LeagueInfo;
 import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchStats;
+import life.plank.juna.zone.data.model.PlayerStats;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -18,6 +22,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 /**
@@ -80,7 +85,7 @@ public class RestApiAggregator {
                         restApi.getMatchStandingsForMatch(matchDetails.getMatchId()),
                         restApi.getTeamStatsForMatch(matchDetails.getMatchId()),
                         restApi.getLineUpsData(matchDetails.getMatchId()),
-                        (((standingsResponse, teamStatsResponse, lineupsResponse) -> {
+                        ((standingsResponse, teamStatsResponse, lineupsResponse) -> {
                             if (standingsResponse.code() == HTTP_OK) {
                                 matchDetails.setStandingsList(standingsResponse.body());
                             } else {
@@ -97,7 +102,54 @@ public class RestApiAggregator {
                                 Log.e("getPreMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
                             }
                             return matchDetails;
-                        }))));
+                        })));
+    }
+
+    public static Observable<LeagueInfo> getLeagueInfo(League league, RestApi restApi) {
+        return afterSubscribingAndObservingOn(
+                Observable.zip(
+                        restApi.getFixtures(league.getSeasonName(), league.getName(), league.getCountryName()),
+                        restApi.getStandings(league.getName(), league.getSeasonName(), league.getCountryName()),
+                        restApi.getTeamStats(league.getName(), league.getSeasonName(), league.getCountryName()),
+                        restApi.getPlayerStats(league.getName(), league.getSeasonName(), league.getCountryName()),
+                        ((fixtureResponse, standingsResponse, teamStatsResponse, playerStatsResponse) -> {
+                            LeagueInfo leagueInfo = new LeagueInfo();
+                            if (fixtureResponse.code() == HTTP_OK) {
+                                List<FixtureByMatchDay> fixtureByMatchDayList = fixtureResponse.body();
+                                if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                                    leagueInfo.setFixtureByMatchDayList(fixtureByMatchDayList);
+                                }
+                            } else {
+                                Log.e("getLeagueInfo", "fixtureResponse : " + fixtureResponse.code() + " : " + fixtureResponse.message());
+                            }
+                            if (standingsResponse.code() == HTTP_OK) {
+                                List<Standings> standingsList = standingsResponse.body();
+                                if (!isNullOrEmpty(standingsList)) {
+                                    leagueInfo.setStandingsList(standingsList);
+                                }
+                            } else {
+                                Log.e("getLeagueInfo", "standingsResponse : " + standingsResponse.code() + " : " + standingsResponse.message());
+                            }
+                            if (teamStatsResponse.code() == HTTP_OK) {
+                                List<TeamStats> teamStatsList = teamStatsResponse.body();
+                                if (!isNullOrEmpty(teamStatsList)) {
+                                    leagueInfo.setTeamStatsList(teamStatsList);
+                                }
+                            } else {
+                                Log.e("getLeagueInfo", "teamStatsResponse : " + teamStatsResponse.code() + " : " + teamStatsResponse.message());
+                            }
+                            if (playerStatsResponse.code() == HTTP_OK) {
+                                List<PlayerStats> playerStatsList = playerStatsResponse.body();
+                                if (!isNullOrEmpty(playerStatsList)) {
+                                    leagueInfo.setPlayerStatsList(playerStatsList);
+                                }
+                            } else {
+                                Log.e("getLeagueInfo", "playerStatsResponse : " + playerStatsResponse.code() + " : " + playerStatsResponse.message());
+                            }
+                            return leagueInfo;
+                        })
+                )
+        );
     }
 
     /**

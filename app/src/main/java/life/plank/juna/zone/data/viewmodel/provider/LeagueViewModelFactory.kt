@@ -9,6 +9,6 @@ class LeagueViewModelFactory(private val leagueId: Long) : ViewModelProvider.Fac
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return LeagueViewModel(leagueId) as T
+        return LeagueViewModel() as T
     }
 }
