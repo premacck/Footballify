@@ -9,10 +9,10 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="24dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         arc:cardCornerRadius="8dp"
         arc:cardElevation="8dp">
@@ -42,9 +42,9 @@
                             android:layout_height="24dp"
                             android:layout_alignParentStart="true"
                             android:layout_alignParentTop="true"
+                            android:layout_marginBottom="10dp"
                             android:layout_marginStart="6dp"
                             android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"
                             android:background="@drawable/circle_background_grey"
                             app:civ_border_color="@color/grey_10"
                             app:civ_border_width="1dp" />
@@ -53,14 +53,14 @@
                             android:id="@+id/user_name_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_alignBottom="@+id/profile_pic"
-                            android:gravity="center_vertical"
+                            android:layout_alignTop="@+id/profile_pic"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginStart="5dp"
                             android:layout_toEndOf="@+id/profile_pic"
                             android:ellipsize="end"
                             android:fontFamily="@font/rajdhani_semibold"
+                            android:gravity="center_vertical"
                             android:lineSpacingExtra="5sp"
                             android:maxLines="1"
                             android:singleLine="true"
@@ -71,13 +71,13 @@
                             android:id="@+id/creation_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_alignBottom="@+id/profile_pic"
-                            android:gravity="center_vertical"
+                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_toEndOf="@+id/user_name_text_view"
-                            android:ellipsize="end"
                             android:layout_toStartOf="@+id/share_count"
+                            android:ellipsize="end"
                             android:fontFamily="@font/rajdhani_regular"
+                            android:gravity="center_vertical"
                             android:lineSpacingExtra="5sp"
                             android:maxLines="1"
                             android:singleLine="true"
@@ -88,13 +88,13 @@
                             android:id="@+id/pin_image_view"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
+                            android:layout_alignBottom="@+id/profile_pic"
                             android:layout_alignParentEnd="true"
                             android:layout_alignTop="@+id/profile_pic"
-                            android:layout_alignBottom="@+id/profile_pic"
-                            android:gravity="center_vertical"
                             android:layout_marginEnd="5dp"
                             android:background="@color/transparent"
                             android:contentDescription="@string/pin_post"
+                            android:gravity="center_vertical"
                             android:scaleType="center"
                             android:src="@drawable/ic_pin_inactive" />
 
@@ -102,12 +102,12 @@
                             android:id="@+id/share_image_view"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
-                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_alignBottom="@+id/profile_pic"
-                            android:gravity="center_vertical"
+                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_toStartOf="@+id/pin_image_view"
                             android:background="@color/transparent"
                             android:contentDescription="@string/options_menu"
+                            android:gravity="center_vertical"
                             android:scaleType="center"
                             android:src="@drawable/ic_share_grey" />
 
@@ -115,11 +115,11 @@
                             android:id="@+id/share_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_alignBottom="@+id/profile_pic"
-                            android:gravity="center_vertical"
+                            android:layout_alignTop="@+id/profile_pic"
                             android:layout_marginEnd="5dp"
                             android:layout_toStartOf="@+id/share_image_view"
+                            android:gravity="center_vertical"
                             android:lineSpacingExtra="5sp"
                             android:textColor="@color/grey"
                             android:textSize="12sp"
@@ -184,10 +184,10 @@
                             android:ellipsize="marquee"
                             android:fontFamily="@font/rajdhani_semibold"
                             android:lineSpacingExtra="1sp"
+                            android:paddingBottom="10dp"
+                            android:paddingEnd="10dp"
                             android:paddingStart="10dp"
                             android:paddingTop="10dp"
-                            android:paddingEnd="10dp"
-                            android:paddingBottom="10dp"
                             android:singleLine="true"
                             android:textColor="@color/grey"
                             android:textSize="14sp" />
@@ -195,8 +195,8 @@
                         <View
                             android:layout_width="0.4dp"
                             android:layout_height="match_parent"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
+                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_toStartOf="@+id/like_image_view"
                             android:background="@color/grey" />
 
@@ -204,31 +204,36 @@
                             android:id="@+id/dislike_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
-                            android:gravity="center_vertical"
+                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_toStartOf="@id/dislike_image_view"
+                            android:gravity="center_vertical"
                             android:lineSpacingExtra="5sp"
                             android:textSize="12sp"
                             android:visibility="invisible" />
 
-                        <ImageView
+                        <com.like.LikeButton
                             android:id="@+id/like_image_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
+                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_toStartOf="@+id/dislike_image_view"
                             android:contentDescription="@string/like"
-                            android:padding="10dp"
-                            android:src="@drawable/ic_arrow_up_grey" />
+                            app:circle_end_color="@color/white"
+                            app:circle_start_color="@color/white"
+                            app:dots_primary_color="@color/frog_green"
+                            app:dots_secondary_color="@color/frog_green"
+                            app:icon_type="Star"
+                            app:like_drawable="@drawable/ic_arrow_up_green"
+                            app:unlike_drawable="@drawable/ic_arrow_up_grey" />
 
                         <View
                             android:id="@+id/like_separator"
                             android:layout_width="0.4dp"
                             android:layout_height="match_parent"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
+                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_toStartOf="@+id/dislike_image_view"
                             android:background="@color/grey" />
 
@@ -236,32 +241,37 @@
                             android:id="@+id/like_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toStartOf="@id/reaction_view"
-                            android:layout_toEndOf="@id/like_image_view"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
+                            android:layout_alignTop="@+id/feed_title_text_view"
+                            android:layout_toEndOf="@id/like_image_view"
+                            android:layout_toStartOf="@id/reaction_view"
                             android:gravity="center_vertical"
                             android:lineSpacingExtra="5sp"
                             android:text=""
                             android:textSize="12sp"
                             android:visibility="invisible" />
 
-                        <ImageView
+                        <com.like.LikeButton
                             android:id="@+id/dislike_image_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
+                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_toStartOf="@+id/reaction_view"
                             android:contentDescription="@string/like"
-                            android:padding="10dp"
-                            android:src="@drawable/ic_arrow_down_grey" />
+                            app:circle_end_color="@color/white"
+                            app:circle_start_color="@color/white"
+                            app:dots_primary_color="@color/salmon"
+                            app:dots_secondary_color="@color/salmon"
+                            app:icon_type="Star"
+                            app:like_drawable="@drawable/ic_arrow_down_red"
+                            app:unlike_drawable="@drawable/ic_arrow_down_grey" />
 
                         <View
                             android:layout_width="0.4dp"
                             android:layout_height="match_parent"
-                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_alignBottom="@+id/feed_title_text_view"
+                            android:layout_alignTop="@+id/feed_title_text_view"
                             android:layout_toStartOf="@+id/reaction_view"
                             android:background="@color/grey" />
 
@@ -269,12 +279,12 @@
                             android:id="@+id/reaction_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignBottom="@+id/feed_title_text_view"
                             android:layout_alignParentEnd="true"
                             android:layout_alignTop="@+id/feed_title_text_view"
-                            android:layout_alignBottom="@+id/feed_title_text_view"
                             android:gravity="center"
                             android:padding="10dp"
-                            android:src="@drawable/ic_emoji"/>
+                            android:src="@drawable/ic_emoji" />
 
                         <View
                             android:id="@+id/bottom_layout_separator"
@@ -350,8 +360,8 @@
                     android:hint="@string/write_a_comment"
                     android:imeOptions="actionGo"
                     android:inputType="textMultiLine"
-                    android:paddingStart="5dp"
                     android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
                     android:textColor="@color/grey"
                     android:textSize="12sp"
                     tools:ignore="Autofill" />

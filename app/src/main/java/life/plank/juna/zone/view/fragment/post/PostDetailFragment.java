@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.post;
 
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -13,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -32,6 +30,8 @@ import android.widget.VideoView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -109,13 +109,13 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     @BindView(R.id.feed_image_view)
     ImageView feedImageView;
     @BindView(R.id.like_image_view)
-    ImageView likeImageView;
+    LikeButton likeImageView;
     @BindView(R.id.pin_image_view)
     ImageView pinImageView;
     @BindView(R.id.share_image_view)
     ImageView shareImageView;
     @BindView(R.id.dislike_image_view)
-    ImageView dislikeImageView;
+    LikeButton dislikeImageView;
     @BindView(R.id.captured_video_view)
     VideoView capturedVideoView;
     @BindView(R.id.feed_text_view)
@@ -223,19 +223,41 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
         if (feedEntry.getFeedInteractions() != null) {
             if (feedEntry.getFeedInteractions().getHasLiked()) {
-                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
-                likeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                likeImageView.setLiked(feedEntry.getFeedInteractions().getHasLiked());
                 dislikeImageView.setVisibility(View.INVISIBLE);
                 likeCountTextView.setVisibility(View.VISIBLE);
                 likeSeparator.setVisibility(View.INVISIBLE);
             } else if (feedEntry.getFeedInteractions().getHasDisliked()) {
-                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
-                dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
+                dislikeImageView.setLiked(feedEntry.getFeedInteractions().getHasDisliked());
                 likeImageView.setVisibility(View.INVISIBLE);
                 dislikeCountTextView.setVisibility(View.VISIBLE);
                 likeSeparator.setVisibility(View.INVISIBLE);
             }
         }
+
+        likeImageView.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                likeBoardFeedItem();
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                deleteLikeOfBoardFeedItem();
+            }
+        });
+
+        dislikeImageView.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                dislikeBoardFeedItem();
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                deleteDislikeOfBoardFeedItem();
+            }
+        });
 
         if (feedEntry.getFeedItem().getUser() != null) {
             picasso.load(feedEntry.getFeedItem().getUser().getProfilePictureUrl())
@@ -364,6 +386,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                 feedTextView.setText(getCommentText(comment));
                 break;
         }
+
     }
 
     //region ClickThrough (Like, dislike, etc.)
@@ -387,8 +410,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.frog_green);
-                                likeImageView.setImageTintList(ColorStateList.valueOf(tint));
                                 dislikeImageView.setVisibility(View.INVISIBLE);
                                 likeCountTextView.setVisibility(View.VISIBLE);
                                 likeSeparator.setVisibility(View.INVISIBLE);
@@ -429,7 +450,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                likeImageView.setImageTintList(null);
                                 likeCountTextView.setVisibility(View.INVISIBLE);
                                 dislikeImageView.setVisibility(View.VISIBLE);
                                 likeSeparator.setVisibility(View.VISIBLE);
@@ -468,8 +488,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_CREATED:
-                                int tint = ContextCompat.getColor(ZoneApplication.getContext(), R.color.salmon);
-                                dislikeImageView.setImageTintList(ColorStateList.valueOf(tint));
                                 likeImageView.setVisibility(View.INVISIBLE);
                                 dislikeCountTextView.setVisibility(View.VISIBLE);
                                 likeSeparator.setVisibility(View.INVISIBLE);
@@ -508,7 +526,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_NO_CONTENT:
-                                dislikeImageView.setImageTintList(null);
+
                                 dislikeCountTextView.setVisibility(View.INVISIBLE);
                                 likeImageView.setVisibility(View.VISIBLE);
                                 likeSeparator.setVisibility(View.VISIBLE);
@@ -609,24 +627,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                         }
                     }
                 });
-    }
-
-    @OnClick(R.id.like_image_view)
-    public void onLikeClick() {
-        if (feedEntry.getFeedInteractions().getHasLiked()) {
-            deleteLikeOfBoardFeedItem();
-        } else {
-            likeBoardFeedItem();
-        }
-    }
-
-    @OnClick(R.id.dislike_image_view)
-    public void onDislikeClick() {
-        if (feedEntry.getFeedInteractions().getHasDisliked()) {
-            deleteDislikeOfBoardFeedItem();
-        } else {
-            dislikeBoardFeedItem();
-        }
     }
 
     @OnClick(R.id.pin_image_view)
