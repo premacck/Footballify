@@ -9,8 +9,10 @@ import com.google.gson.Gson;
 import io.fabric.sdk.android.Fabric;
 import life.plank.juna.zone.data.network.dagger.component.AppComponent;
 import life.plank.juna.zone.data.network.dagger.component.DaggerAppComponent;
+import life.plank.juna.zone.data.network.dagger.component.DaggerViewModelComponent;
 import life.plank.juna.zone.data.network.dagger.component.NetworkComponent;
 import life.plank.juna.zone.data.network.dagger.component.UiComponent;
+import life.plank.juna.zone.data.network.dagger.component.ViewModelComponent;
 import life.plank.juna.zone.data.network.dagger.module.ContextModule;
 
 /**
@@ -23,6 +25,7 @@ public class ZoneApplication extends Application {
     private AppComponent appComponent;
     private UiComponent uiComponent;
     private NetworkComponent networkComponent;
+    private ViewModelComponent viewModelComponent;
 
     public static ZoneApplication getApplication() {
         return zoneApplication;
@@ -44,6 +47,7 @@ public class ZoneApplication extends Application {
                 .build();
         uiComponent = networkComponent.viewComponentBuilder()
                 .build();
+        viewModelComponent = DaggerViewModelComponent.builder().build();
     }
 
     public static Gson getGson() {
@@ -60,5 +64,9 @@ public class ZoneApplication extends Application {
 
     public UiComponent getUiComponent() {
         return uiComponent;
+    }
+
+    public ViewModelComponent getViewModelComponent() {
+        return viewModelComponent;
     }
 }
