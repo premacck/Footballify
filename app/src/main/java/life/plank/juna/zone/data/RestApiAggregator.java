@@ -59,7 +59,7 @@ public class RestApiAggregator {
                 Observable.zip(
                         restApi.getMatchStatsForMatch(matchDetails.getMatchId()),
                         restApi.getLineUpsData(matchDetails.getMatchId()),
-                        (((matchStatsResponse, lineupsResponse) -> {
+                        ((matchStatsResponse, lineupsResponse) -> {
                             if (matchStatsResponse.code() == HTTP_OK) {
                                 matchDetails.setMatchStats(matchStatsResponse.body());
                             } else {
@@ -71,7 +71,7 @@ public class RestApiAggregator {
                                 Log.e("getPostMatchBoardData", "lineupsResponse : " + lineupsResponse.code() + " : " + lineupsResponse.message());
                             }
                             return matchDetails;
-                        }))));
+                        })));
     }
 
     /**
