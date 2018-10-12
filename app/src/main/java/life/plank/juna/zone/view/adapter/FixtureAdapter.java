@@ -66,7 +66,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
     }
 
     public void update(List<MatchFixture> matchFixtureList) {
-        this.matchFixtureList.addAll(matchFixtureList);
+        this.matchFixtureList = matchFixtureList;
         notifyDataSetChanged();
     }
 

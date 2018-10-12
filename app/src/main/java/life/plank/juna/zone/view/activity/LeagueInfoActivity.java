@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,7 +21,6 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,13 +34,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.data.local.model.LeagueInfo;
 import life.plank.juna.zone.data.model.FixtureByDate;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.MatchFixture;
-import life.plank.juna.zone.data.model.PlayerStats;
-import life.plank.juna.zone.data.model.Standings;
-import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
@@ -49,11 +47,8 @@ import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseCard;
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
+import static java.util.Collections.emptyList;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
@@ -142,6 +137,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
 
+    private boolean isDataLocal;
     private League league;
     private FixtureAdapter fixtureAdapter;
     public static List<FixtureByMatchDay> fixtureByMatchDayList;
@@ -172,10 +168,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
 
         prepareRecyclerViews();
-        getFixtures();
-        getStandings();
-        getTeamStats();
-        getPlayerStats();
+        getLeagueInfoFromRoomDb();
 
         title.setText(league.getName());
         logo.setImageResource(league.getLeagueLogo());
@@ -205,111 +198,62 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         teamStatsRecyclerView.setAdapter(teamStatsAdapter);
     }
 
-    public void getStandings() {
-        restApi.getStandings(league.getName(), league.getSeasonName(), league.getCountryName())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> standingsProgressBar.setVisibility(View.VISIBLE))
-                .doOnTerminate(() -> standingsProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<Standings>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: getStandings()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
-                        Log.e(TAG, "onError: " + e);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<Standings>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
-                                standingTableAdapter.update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
-                            default:
-                                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
-                                break;
-                        }
-                    }
-                });
+    private void getLeagueInfoFromRoomDb() {
+        isDataLocal = true;
+        leagueViewModel.getLeagueInfoLiveData().observe(this, this::handleLeagueInfoData);
+        leagueViewModel.getLeagueInfoFromDb(league.getId());
     }
 
-    public void getPlayerStats() {
-        restApi.getPlayerStats(league.getName(), league.getSeasonName(), league.getCountryName())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> playerStatsProgressBar.setVisibility(View.VISIBLE))
-                .doOnTerminate(() -> playerStatsProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<PlayerStats>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: getPlayerStats()");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
-                        Log.e(TAG, " Error" + e);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<PlayerStats>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
-                                playerStatsAdapter.update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
-                                break;
-                            default:
-                                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
-                                break;
-                        }
-                    }
-                });
+    private void getLeagueInfoFromRestApi() {
+        if (isDataLocal) {
+            isDataLocal = false;
+            leagueViewModel.getLeagueInfoFromRestApi(league, restApi);
+        }
     }
 
-    public void getTeamStats() {
-        restApi.getTeamStats(league.getName(), league.getSeasonName(), league.getCountryName())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> teamStatsProgressBar.setVisibility(View.VISIBLE))
-                .doOnTerminate(() -> teamStatsProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<TeamStats>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: getTeamStats()");
-                    }
+    private void handleLeagueInfoData(LeagueInfo leagueInfo) {
+        if (leagueInfo != null) {
+//            Update new data in DB
+            if (!isDataLocal) {
+                leagueViewModel.getLeagueRepository().insertLeagueInfo(leagueInfo);
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
-                        Log.e(TAG, " Error: " + e);
-                    }
+            fixtureProgressBar.setVisibility(View.GONE);
+            if (Objects.equals(leagueInfo.getFixtureByMatchDayList(), emptyList()) || isNullOrEmpty(leagueInfo.getFixtureByMatchDayList())) {
+                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+            } else {
+                fixtureByMatchDayList = leagueInfo.getFixtureByMatchDayList();
+                UpdateFixtureAdapterTask.parse(LeagueInfoActivity.this);
+                updateUI(true, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
+            }
 
-                    @Override
-                    public void onNext(Response<List<TeamStats>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
-                                teamStatsAdapter.update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
-                                break;
-                            default:
-                                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
-                                break;
-                        }
-                    }
-                });
+            standingsProgressBar.setVisibility(View.GONE);
+            if (Objects.equals(leagueInfo.getStandingsList(), emptyList()) || isNullOrEmpty(leagueInfo.getStandingsList())) {
+                updateUI(false, standingRecyclerView, seeAllStandings, noStandingsTextView);
+            } else {
+                updateUI(true, standingRecyclerView, seeAllStandings, noStandingsTextView);
+                standingTableAdapter.update(leagueInfo.getStandingsList());
+            }
+
+            teamStatsProgressBar.setVisibility(View.GONE);
+            if (Objects.equals(leagueInfo.getTeamStatsList(), emptyList()) || isNullOrEmpty(leagueInfo.getTeamStatsList())) {
+                updateUI(false, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
+            } else {
+                updateUI(true, teamStatsRecyclerView, seeMoreTeamStats, noTeamStatsTextView);
+                teamStatsAdapter.update(leagueInfo.getTeamStatsList());
+            }
+
+            playerStatsProgressBar.setVisibility(View.GONE);
+            if (Objects.equals(leagueInfo.getPlayerStatsList(), emptyList()) || isNullOrEmpty(leagueInfo.getPlayerStatsList())) {
+                updateUI(false, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
+            } else {
+                updateUI(true, playerStatsRecyclerView, seeMorePlayerStats, noPlayerStatsTextView);
+                playerStatsAdapter.update(leagueInfo.getPlayerStatsList());
+            }
+            getLeagueInfoFromRestApi();
+        } else {
+            getLeagueInfoFromRestApi();
+        }
     }
 
     private void updateUI(boolean available, RecyclerView recyclerView, TextView seeMoreView, TextView noDataView) {
@@ -339,55 +283,19 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         }
     }
 
-    public void getFixtures() {
-        restApi.getFixtures(league.getSeasonName(), league.getName(), league.getCountryName())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(() -> fixtureProgressBar.setVisibility(View.VISIBLE))
-                .doOnTerminate(() -> fixtureProgressBar.setVisibility(View.GONE))
-                .subscribe(new Subscriber<Response<List<FixtureByMatchDay>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "Error: " + e);
-                        updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
-                    }
-
-                    @Override
-                    public void onNext(Response<List<FixtureByMatchDay>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                fixtureByMatchDayList = response.body();
-                                if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                                    UpdateFixtureAdapterTask.parse(LeagueInfoActivity.this);
-                                    updateUI(true, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
-                                } else
-                                    updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
-                            default:
-                                updateUI(false, fixtureRecyclerView, seeAllFixtures, fixtureNoData);
-                                break;
-                        }
-                    }
-                });
-    }
-
+    @NonNull
     @Override
     public Picasso getPicasso() {
         return picasso;
     }
 
+    @NonNull
     @Override
     public Gson getGson() {
         return gson;
     }
 
+    @NonNull
     @Override
     public League getLeague() {
         return league;

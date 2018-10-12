@@ -51,7 +51,7 @@ public class PlayerStatsAdapter extends RecyclerView.Adapter<PlayerStatsAdapter.
     }
 
     public void update(List<PlayerStats> playerStatsList) {
-        this.playerStatsList.addAll(playerStatsList);
+        this.playerStatsList = playerStatsList;
         notifyDataSetChanged();
     }
 
