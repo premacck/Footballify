@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -25,6 +25,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
@@ -33,6 +34,8 @@ import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.Standings;
+import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
@@ -41,6 +44,7 @@ import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
+import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -61,7 +65,7 @@ import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
-public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.BoardInfoAdapterListener {
+public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
 
     private static final String TAG = BoardInfoFragment.class.getSimpleName();
 
@@ -130,7 +134,13 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
 
     private void getBoardInfoData(boolean isRefreshing) {
         if (timeDiffOfMatchFromNow > 0) {
-            getPreMatchData(isRefreshing);
+            if (matchDetails.getLeague() != null) {
+                getPreMatchData(
+                        matchDetails.getLeague(),
+                        Objects.requireNonNull(matchDetails.getHomeTeam().getName()),
+                        Objects.requireNonNull(matchDetails.getAwayTeam().getName())
+                );
+            }
         } else {
             getPostMatchData(isRefreshing);
         }
@@ -200,31 +210,13 @@ public class BoardInfoFragment extends Fragment implements BoardInfoAdapter.Boar
         }
     }
 
-    private void getPreMatchData(boolean isRefreshing) {
-        RestApiAggregator.getPreMatchBoardData(matchDetails, restApi)
-                .doOnSubscribe(() -> {
-                    if (isRefreshing) swipeRefreshLayout.setRefreshing(true);
-                })
-                .doOnTerminate(() -> {
-                    if (isRefreshing) swipeRefreshLayout.setRefreshing(false);
-                })
-                .subscribe(new Subscriber<MatchDetails>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted : getPreMatchData");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "getPreMatchData : " + e.getMessage());
-                        if (adapter != null) adapter.setPreMatchData();
-                    }
-
-                    @Override
-                    public void onNext(MatchDetails matchDetails) {
-                        if (adapter != null) adapter.setPreMatchData();
-                    }
-                });
+    @Override
+    public void handlePreMatchData(@org.jetbrains.annotations.Nullable Pair<? extends List<Standings>, ? extends List<TeamStats>> pair) {
+        if (pair != null) {
+            matchDetails.setStandingsList(pair.getFirst());
+            matchDetails.setTeamStatsList(pair.getSecond());
+        }
+        if (adapter != null) adapter.setPreMatchData();
     }
 
     private void getPostMatchData(boolean isRefreshing) {

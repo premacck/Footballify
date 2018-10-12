@@ -18,9 +18,9 @@ data class League @Ignore constructor(
         var thumbUrl: String?,
         var dominantColor: Int?,
         @DrawableRes var leagueLogo: Int,
-        @SerializedName("foreignId") @Expose var id: Int = 0
+        @SerializedName("foreignId") @Expose var id: Long = 0
 ) : Parcelable {
-    @Ignore constructor(id: Int, name: String, isCup: Boolean, seasonName: String?, countryName: String?, thumbUrl: String?, dominantColor: Int?, leagueLogo: Int) :
+    @Ignore constructor(id: Long, name: String, isCup: Boolean, seasonName: String?, countryName: String?, thumbUrl: String?, dominantColor: Int?, leagueLogo: Int) :
             this(name, isCup, seasonName, countryName, thumbUrl, dominantColor, leagueLogo, id)
 
     constructor() : this("", false, "", "", "", 0, 0, 0)
