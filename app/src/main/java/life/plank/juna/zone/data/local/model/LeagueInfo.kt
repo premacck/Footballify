@@ -13,7 +13,7 @@ import java.util.Collections.emptyList
 @Entity
 @Parcelize
 data class LeagueInfo @Ignore constructor(
-        @PrimaryKey(autoGenerate = true) var id: Int = 0,
+        @PrimaryKey(autoGenerate = true) var id: Long = 0,
         @Embedded(prefix = "league_") var league: League = League(),
         var fixtureByMatchDayList: @RawValue List<FixtureByMatchDay> = emptyList(),
         var standingsList: @RawValue List<Standings> = emptyList(),
