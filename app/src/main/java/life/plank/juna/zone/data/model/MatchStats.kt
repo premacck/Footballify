@@ -1,12 +1,13 @@
 package life.plank.juna.zone.data.model
 
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Entity
 @Parcelize
-data class MatchStats(
+data class MatchStats @Ignore constructor(
         var homeShots: Int?,
         var homeShotsOnTarget: Int?,
         var homePossession: Int?,

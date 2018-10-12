@@ -7,6 +7,6 @@ import java.util.*
 
 @Parcelize
 data class FixtureByDate(
-        var date: Date,
-        var fixtures: @RawValue List<MatchFixture>
+        var date: Date = Date(),
+        var fixtures: @RawValue List<MatchFixture> = Collections.emptyList()
 ) : Parcelable
