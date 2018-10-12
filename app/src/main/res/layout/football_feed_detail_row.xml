@@ -150,23 +150,32 @@
             android:layout_height="wrap_content"
             android:animateLayoutChanges="true">
 
+            <View
+                android:id="@+id/mid_layout_separator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_grey" />
+
             <TextView
                 android:id="@+id/feed_title_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/mid_layout_separator"
                 android:layout_toStartOf="@+id/like_image_view"
                 android:ellipsize="marquee"
                 android:fontFamily="@font/rajdhani_semibold"
-                android:gravity="center_vertical"
                 android:lineSpacingExtra="1sp"
-                android:padding="10dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
                 android:singleLine="true"
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
             <View
                 android:layout_width="0.4dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@+id/like_image_view"
@@ -176,20 +185,20 @@
                 android:id="@+id/dislike_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerInParent="true"
+                android:layout_alignTop="@+id/feed_title_text_view"
+                android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@id/dislike_image_view"
+                android:gravity="center_vertical"
                 android:lineSpacingExtra="5sp"
-                android:paddingStart="5dp"
-                android:paddingEnd="5dp"
-                android:textSize="@dimen/text_10sp"
+                android:textSize="12sp"
                 android:visibility="invisible" />
 
             <com.like.LikeButton
                 android:id="@+id/like_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/feed_title_text_view"
+                android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@+id/dislike_image_view"
                 android:contentDescription="@string/like"
                 app:circle_end_color="@color/white"
@@ -203,7 +212,7 @@
             <View
                 android:id="@+id/like_separator"
                 android:layout_width="0.4dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@+id/dislike_image_view"
@@ -213,20 +222,22 @@
                 android:id="@+id/like_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignTop="@+id/feed_title_text_view"
+                android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@id/reaction_view"
                 android:layout_toEndOf="@id/like_image_view"
+                android:gravity="center_vertical"
                 android:lineSpacingExtra="5sp"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:textSize="@dimen/text_10sp"
+                android:text=""
+                android:textSize="12sp"
                 android:visibility="invisible" />
 
             <com.like.LikeButton
                 android:id="@+id/dislike_image_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_alignTop="@+id/feed_title_text_view"
+                android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@+id/reaction_view"
                 android:contentDescription="@string/like"
                 app:circle_end_color="@color/white"
@@ -238,9 +249,8 @@
                 app:unlike_drawable="@drawable/ic_arrow_down_grey" />
 
             <View
-                android:id="@+id/separator"
                 android:layout_width="0.4dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_toStartOf="@+id/reaction_view"
@@ -248,8 +258,8 @@
 
             <ImageView
                 android:id="@+id/reaction_view"
-                android:layout_width="37dp"
-                android:layout_height="37dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/feed_title_text_view"
                 android:layout_alignBottom="@+id/feed_title_text_view"
                 android:layout_alignParentEnd="true"
@@ -258,9 +268,10 @@
                 android:src="@drawable/ic_emoji" />
 
             <View
+                android:id="@+id/bottom_layout_separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_alignParentTop="true"
+                android:layout_below="@+id/feed_title_text_view"
                 android:background="@color/light_grey" />
 
         </RelativeLayout>
