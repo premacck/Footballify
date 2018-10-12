@@ -2,12 +2,10 @@ package life.plank.juna.zone.view.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -221,16 +218,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             case VIDEO: {
                 mediaPlayer.stop();
                 holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE);
-                MediaController mediaController = new MediaController(activity);
-                holder.capturedVideoView.setMediaController(mediaController);
                 String uri = feedItem.getUrl();
                 Uri videoUri = Uri.parse(uri);
                 holder.capturedVideoView.setVideoURI(videoUri);
                 holder.capturedVideoView.start();
-                mediaController.show(5000);
-                if (mediaController.isShowing()) {
-                    mediaController.hide();
-                }
                 break;
             }
             case ROOT_COMMENT: {

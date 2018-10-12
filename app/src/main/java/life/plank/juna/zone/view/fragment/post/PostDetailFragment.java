@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -366,16 +365,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
             case VIDEO:
                 mediaPlayer.stop();
                 setVisibilities(GONE, VISIBLE, GONE);
-                MediaController mediaController = new MediaController(getActivity());
-                capturedVideoView.setMediaController(mediaController);
                 String videoUriString = feedEntry.getFeedItem().getUrl();
                 Uri videoUri = Uri.parse(videoUriString);
                 capturedVideoView.setVideoURI(videoUri);
                 capturedVideoView.start();
-                mediaController.show(5000);
-                if (mediaController.isShowing()) {
-                    mediaController.hide();
-                }
                 break;
             case ROOT_COMMENT:
                 mediaPlayer.stop();
