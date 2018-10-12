@@ -30,4 +30,5 @@ dependencies {
     implementation dataDependencies.retrofit
     implementation dataDependencies.dagger
     annotationProcessor dataDependencies.daggerCompiler
+    kapt dataDependencies.daggerCompiler
 }

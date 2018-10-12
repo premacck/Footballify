@@ -23,26 +23,6 @@ class LeagueRepository : BaseRepository() {
         return leagueDao.getLeague(leagueId)
     }
 
-    @WorkerThread
-    fun getFixtures(leagueId: Long): List<FixtureByMatchDay> {
-        return leagueDao.getFixtures(leagueId)
-    }
-
-    @WorkerThread
-    fun getStandings(leagueId: Long): List<Standings> {
-        return leagueDao.getStandings(leagueId)
-    }
-
-    @WorkerThread
-    fun getTeamStats(leagueId: Long): List<TeamStats> {
-        return leagueDao.getTeamStats(leagueId)
-    }
-
-    @WorkerThread
-    fun getPlayerStats(leagueId: Long): List<PlayerStats> {
-        return leagueDao.getPlayerStats(leagueId)
-    }
-
     fun insertLeagueInfo(leagueInfo: LeagueInfo) {
         doAsync { leagueDao.insertLeagueInfo(leagueInfo) }
     }

@@ -71,6 +71,7 @@ dependencies {
     annotationProcessor dataDependencies.daggerCompiler
     kapt dataDependencies.daggerCompiler
     annotationProcessor viewDependencies.butterKnifeCompiler
+    kapt viewDependencies.butterKnifeCompiler
     compileOnly viewDependencies.javaxAnnotation
 
 }

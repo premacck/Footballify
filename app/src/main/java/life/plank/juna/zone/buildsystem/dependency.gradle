@@ -51,7 +51,6 @@ ext {
     archMenu = '1.1.0.2'
     circularImageView = '2.2.0'
     mpAndroidChart= 'v3.0.3'
-    lombokVersion= '1.16.20'
     overflowPagerIndicatorVersion = '1.2.1'
     flexboxVersion = '1.0.0'
     multiViewAdapterVersion = '1.3.0'
