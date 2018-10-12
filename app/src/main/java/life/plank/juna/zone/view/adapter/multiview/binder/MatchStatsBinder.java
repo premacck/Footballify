@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
-import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,15 +16,11 @@ import com.squareup.picasso.Picasso;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.FootballTeam;
-import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.MatchStats;
-import life.plank.juna.zone.data.model.Stadium;
-import lombok.Data;
+import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
-public class MatchStatsBinder extends ItemBinder<MatchStatsBinder.MatchStatsBindingModel, MatchStatsBinder.MatchStatsViewHolder> {
+public class MatchStatsBinder extends ItemBinder<MatchStatsBindingModel, MatchStatsBinder.MatchStatsViewHolder> {
 
     private Picasso picasso;
 
@@ -145,26 +140,6 @@ public class MatchStatsBinder extends ItemBinder<MatchStatsBinder.MatchStatsBind
         MatchStatsViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-        }
-    }
-
-    @Data
-    public static class MatchStatsBindingModel {
-        private final MatchStats matchStats;
-        private final Stadium venue;
-        private final FootballTeam homeTeam;
-        private final FootballTeam awayTeam;
-        @StringRes
-        private final Integer errorMessage;
-
-        public static MatchStatsBindingModel from(MatchDetails matchDetails) {
-            return new MatchStatsBindingModel(
-                    matchDetails.getMatchStats(),
-                    matchDetails.getVenue(),
-                    matchDetails.getHomeTeam(),
-                    matchDetails.getAwayTeam(),
-                    matchDetails.getMatchStats() == null ? R.string.match_stats_not_available_yet : null
-            );
         }
     }
 }

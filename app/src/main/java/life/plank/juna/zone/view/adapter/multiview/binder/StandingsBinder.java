@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.adapter.multiview.binder;
 
-import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,22 +13,19 @@ import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.Standings;
+import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
-import lombok.Data;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
-public class StandingsBinder extends ItemBinder<StandingsBinder.StandingsBindingModel, StandingsBinder.StandingsViewHolder> {
+public class StandingsBinder extends ItemBinder<StandingsBindingModel, StandingsBinder.StandingsViewHolder> {
 
     private Picasso picasso;
     private BoardInfoAdapter.BoardInfoAdapterListener listener;
@@ -97,20 +93,6 @@ public class StandingsBinder extends ItemBinder<StandingsBinder.StandingsBinding
         @OnClick(R.id.see_all_standings)
         public void onSeeAllStandingsClick() {
             ref.get().listener.onSeeAllStandingsClick(itemView);
-        }
-    }
-
-    @Data
-    public static class StandingsBindingModel {
-        private final List<Standings> standingsList;
-        @StringRes
-        private final Integer errorMessage;
-
-        public static StandingsBindingModel from(MatchDetails matchDetails) {
-            return new StandingsBindingModel(
-                    matchDetails.getStandingsList(),
-                    isNullOrEmpty(matchDetails.getStandingsList()) ? R.string.failed_to_get_standings : null
-            );
         }
     }
 }
