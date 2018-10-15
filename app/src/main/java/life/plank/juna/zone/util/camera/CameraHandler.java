@@ -1,22 +1,16 @@
 package life.plank.juna.zone.util.camera;
 
 import android.hardware.camera2.CameraCharacteristics;
-import android.media.Image;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.lang.ref.WeakReference;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-
-import life.plank.juna.zone.view.fragment.camera.CameraFragment;
 
 import static android.hardware.camera2.CameraCharacteristics.SENSOR_ORIENTATION;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -105,23 +99,25 @@ public class CameraHandler {
 
     public static class ImageSaver implements Runnable {
 
-        private final WeakReference<CameraFragment> ref;
-        private final Image image;
+//        TODO : un-comment in next pull request
+//        private final WeakReference<CameraFragment> ref;
+//        private final Image image;
 
-        public ImageSaver(CameraFragment cameraFragment, Image image) {
-            this.ref = new WeakReference<>(cameraFragment);
-            this.image = image;
-        }
+//        public ImageSaver(CameraFragment cameraFragment, Image image) {
+//            this.ref = new WeakReference<>(cameraFragment);
+//            this.image = image;
+//        }
 
         @Override
         public void run() {
             FileOutputStream stream = null;
-            try {
+//            TODO : un-comment in next pull request
+            /*try {
                 ByteBuffer byteBuffer = image.getPlanes()[0].getBuffer();
                 byte[] imageBytes = new byte[byteBuffer.remaining()];
                 byteBuffer.get(imageBytes);
 
-                stream = new FileOutputStream(ref.get().mediaFileName);
+//                stream = new FileOutputStream(ref.get().mediaFileName);
                 stream.write(imageBytes);
             } catch (Exception e) {
                 Log.e(TAG, "ImageSaver : run(): ", e);
@@ -134,7 +130,7 @@ public class CameraHandler {
                         Log.e(TAG, "ImageSaver : run(): Closing FileOutputStream: ", e);
                     }
                 }
-            }
+            }*/
         }
     }
 }
