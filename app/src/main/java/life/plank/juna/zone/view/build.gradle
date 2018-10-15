@@ -56,7 +56,6 @@ dependencies {
     implementation viewDependencies.slidingUpPanelVersion
     implementation viewDependencies.bubbleLayout
     implementation viewDependencies.glide
-    implementation viewDependencies.supportLibraryv4
     implementation viewDependencies.appCompatLibrary
     implementation viewDependencies.videoPlayer
     implementation viewDependencies.lottie

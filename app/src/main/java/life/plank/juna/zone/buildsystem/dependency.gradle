@@ -43,7 +43,6 @@ ext {
     slidingUpPanelVersion = '3.4.0'
     bubbleLayoutVersion = '1.2.0'
     glideVersion = '4.6.1'
-    supportv4 = '27.1.1'
     supportAppCompat = '27.0.2'
     videoPlayer = 'r2.5.1'
     lottie = '2.2.0'
@@ -92,7 +91,6 @@ ext {
             slidingUpPanelVersion : "com.sothree.slidinguppanel:library:${slidingUpPanelVersion}",
             bubbleLayout          : "com.daasuu:BubbleLayout:${bubbleLayoutVersion}",
             glide                 : "com.github.bumptech.glide:glide:${glideVersion}",
-            supportLibraryv4      : "com.android.support:support-v4:${supportv4}",
             appCompatLibrary      : "com.android.support:appcompat-v7:${supportAppCompat}",
             videoPlayer           : "com.google.android.exoplayer:exoplayer:${videoPlayer}",
             lottie                : "com.airbnb.android:lottie:${lottie}",
