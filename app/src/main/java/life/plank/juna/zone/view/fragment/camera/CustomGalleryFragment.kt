@@ -1,7 +1,5 @@
 package life.plank.juna.zone.view.fragment.camera
 
-import android.Manifest
-import android.content.pm.PackageManager.PERMISSION_GRANTED
 import android.database.Cursor
 import android.os.Bundle
 import android.provider.MediaStore
@@ -19,6 +17,8 @@ import life.plank.juna.zone.util.camera.PermissionHandler.*
 import life.plank.juna.zone.view.adapter.gallery.GalleryAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
 class CustomGalleryFragment : Fragment() {
@@ -59,20 +59,12 @@ class CustomGalleryFragment : Fragment() {
         gallery_recycler_view.adapter = adapter
     }
 
+    @AfterPermissionGranted(STORAGE_PERMISSION_REQUEST_CODE_GALLERY)
     override fun onResume() {
         super.onResume()
-        if (checkStoragePermissions(this, true)) {
+        if (EasyPermissions.hasPermissions(ZoneApplication.getContext(), *STORAGE_PERMISSIONS)) {
             getGalleryItems()
-        } else {
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                showPermissionRationale(
-                        this,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                        R.string.storage_permission_header,
-                        R.string.storage_permission_body
-                ) { _, _ -> checkStoragePermissions(this, true) }
-            }
-        }
+        } else requestStoragePermissionsForGallery(activity)
     }
 
     private fun getGalleryItems() {
@@ -94,7 +86,6 @@ class CustomGalleryFragment : Fragment() {
                         } catch (e: Exception) {
                             Log.e(TAG, "getGalleryItems(): cursor operation", e)
                         }
-
                     }
                     cursor.close()
                     uiThread {
@@ -109,19 +100,7 @@ class CustomGalleryFragment : Fragment() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            STORAGE_PERMISSION_REQUEST_CODE_GALLERY -> {
-                if (grantResults[0] != PERMISSION_GRANTED) {
-                    showPermissionRationale(
-                            this,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            R.string.storage_permission_header,
-                            R.string.storage_permission_body
-                    ) { _, _ -> checkStoragePermissions(this, true) }
-                    return
-                }
-                getGalleryItems()
-            }
-        }
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 }
