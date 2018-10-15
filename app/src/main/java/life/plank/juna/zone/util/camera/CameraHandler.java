@@ -1,18 +1,35 @@
 package life.plank.juna.zone.util.camera;
 
+import android.content.Intent;
 import android.hardware.camera2.CameraCharacteristics;
+import android.media.Image;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 
+import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.lang.ref.WeakReference;
+import java.nio.ByteBuffer;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+
+import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.view.fragment.camera.CameraFragment;
 
 import static android.hardware.camera2.CameraCharacteristics.SENSOR_ORIENTATION;
+import static android.os.Environment.DIRECTORY_MOVIES;
+import static android.os.Environment.DIRECTORY_PICTURES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
@@ -89,6 +106,39 @@ public class CameraHandler {
         return sizesAvailable[sizesAvailable.length - 1];
     }
 
+    /**
+     * Method to create the media folder for this app, if it does not exists
+     */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    public static File createMediaFolderIfNotExists(boolean isForImage) {
+        File mediaFolder = new File(
+                Environment.getExternalStoragePublicDirectory(isForImage ? DIRECTORY_PICTURES : DIRECTORY_MOVIES),
+                ZoneApplication.getContext().getString(R.string.app_name)
+        );
+        if (!mediaFolder.exists()) {
+            mediaFolder.mkdirs();
+        }
+        return mediaFolder;
+    }
+
+    /**
+     * Method to create a new media file (video or image) in the media folder
+     */
+    public static String createMediaFile(boolean isForImage, File mediaFolder) throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyy_MMdd_ss", Locale.getDefault()).format(new Date());
+        String prefix = (isForImage ? "IMAGE_" : "VIDEO") + timeStamp + "_";
+        File mediaFile = File.createTempFile(prefix, isForImage ? ".jpg" : ".mp4", mediaFolder);
+        updateMediaStoreDatabase(mediaFile.getAbsolutePath());
+        return mediaFile.getAbsolutePath();
+    }
+
+    /**
+     * Method for updating the media store database of the device, to make the other apps aware of the new media file
+     */
+    private static void updateMediaStoreDatabase(String videoPath) {
+        ZoneApplication.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).setData(Uri.fromFile(new File(videoPath))));
+    }
+
     public static class CompareResolution implements Comparator<Size> {
 
         @Override
@@ -99,25 +149,23 @@ public class CameraHandler {
 
     public static class ImageSaver implements Runnable {
 
-//        TODO : un-comment in next pull request
-//        private final WeakReference<CameraFragment> ref;
-//        private final Image image;
+        private final WeakReference<CameraFragment> ref;
+        private final Image image;
 
-//        public ImageSaver(CameraFragment cameraFragment, Image image) {
-//            this.ref = new WeakReference<>(cameraFragment);
-//            this.image = image;
-//        }
+        public ImageSaver(CameraFragment cameraFragment, Image image) {
+            this.ref = new WeakReference<>(cameraFragment);
+            this.image = image;
+        }
 
         @Override
         public void run() {
             FileOutputStream stream = null;
-//            TODO : un-comment in next pull request
-            /*try {
+            try {
                 ByteBuffer byteBuffer = image.getPlanes()[0].getBuffer();
                 byte[] imageBytes = new byte[byteBuffer.remaining()];
                 byteBuffer.get(imageBytes);
 
-//                stream = new FileOutputStream(ref.get().mediaFileName);
+                stream = new FileOutputStream(ref.get().mediaFileName);
                 stream.write(imageBytes);
             } catch (Exception e) {
                 Log.e(TAG, "ImageSaver : run(): ", e);
@@ -130,7 +178,7 @@ public class CameraHandler {
                         Log.e(TAG, "ImageSaver : run(): Closing FileOutputStream: ", e);
                     }
                 }
-            }*/
+            }
         }
     }
 }

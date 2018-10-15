@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.activity.camera.CustomCameraActivity">
+
+    <include layout="@layout/faded_card" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/root_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        app:cardUseCompatPadding="true"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="6dp"
+        android:animateLayoutChanges="true">
+
+        <life.plank.juna.zone.util.customview.VerticalViewPager
+            android:id="@+id/camera_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/drag_area"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:drawableTop="@drawable/drag_handle_dark"
+        android:elevation="6dp"
+        android:paddingTop="29dp" />
+
+</RelativeLayout>
