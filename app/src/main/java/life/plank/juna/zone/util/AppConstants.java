@@ -108,6 +108,7 @@ public class AppConstants {
     public static final String WIDE_DASH = "  -  ";
     public static final String WIDE_SPACE = "     ";
     public static final String SPACE = "   ";
+    public static final String UNDERSCORE = "_";
 
     public static final String NEWS = "News";
     public static final String VIDEO = "Video";
@@ -121,7 +122,7 @@ public class AppConstants {
     public static final String JPEG = "jpeg";
     public static final String BMP = "bmp";
     public static final String GIF = "gif";
-    
+
     public static final String PAST_MATCHES = "PAST_MATCHES";
     public static final String TODAY_MATCHES = "TODAY_MATCHES";
     public static final String SCHEDULED_MATCHES = "SCHEDULED_MATCHES";

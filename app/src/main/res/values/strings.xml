@@ -90,5 +90,8 @@
     <string name="clear_notifications">CLEAR ALL</string>
     <string name="channel_name">Notifications</string>
     <string name="channel_description">All notifications for athena-janus app</string>
+    <string name="jpg_extension">.jpg</string>
+    <string name="mp4_extension">.mp4</string>
+    <string name="media_file_prefix_pattern">yyyy_MMdd_ss</string>
 
 </resources>

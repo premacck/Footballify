@@ -24,12 +24,15 @@ import java.util.List;
 import java.util.Locale;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.view.fragment.camera.CameraFragment;
 
 import static android.hardware.camera2.CameraCharacteristics.SENSOR_ORIENTATION;
 import static android.os.Environment.DIRECTORY_MOVIES;
 import static android.os.Environment.DIRECTORY_PICTURES;
+import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.UNDERSCORE;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
@@ -113,7 +116,7 @@ public class CameraHandler {
     public static File createMediaFolderIfNotExists(boolean isForImage) {
         File mediaFolder = new File(
                 Environment.getExternalStoragePublicDirectory(isForImage ? DIRECTORY_PICTURES : DIRECTORY_MOVIES),
-                ZoneApplication.getContext().getString(R.string.app_name)
+                getContext().getString(R.string.app_name)
         );
         if (!mediaFolder.exists()) {
             mediaFolder.mkdirs();
@@ -125,9 +128,9 @@ public class CameraHandler {
      * Method to create a new media file (video or image) in the media folder
      */
     public static String createMediaFile(boolean isForImage, File mediaFolder) throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyy_MMdd_ss", Locale.getDefault()).format(new Date());
-        String prefix = (isForImage ? "IMAGE_" : "VIDEO") + timeStamp + "_";
-        File mediaFile = File.createTempFile(prefix, isForImage ? ".jpg" : ".mp4", mediaFolder);
+        String timeStamp = new SimpleDateFormat(getContext().getString(R.string.media_file_prefix_pattern), Locale.getDefault()).format(new Date());
+        String prefix = (isForImage ? IMAGE : VIDEO) + UNDERSCORE + timeStamp;
+        File mediaFile = File.createTempFile(prefix, getContext().getString(isForImage ? R.string.jpg_extension : R.string.mp4_extension), mediaFolder);
         updateMediaStoreDatabase(mediaFile.getAbsolutePath());
         return mediaFile.getAbsolutePath();
     }
@@ -136,7 +139,7 @@ public class CameraHandler {
      * Method for updating the media store database of the device, to make the other apps aware of the new media file
      */
     private static void updateMediaStoreDatabase(String videoPath) {
-        ZoneApplication.getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).setData(Uri.fromFile(new File(videoPath))));
+        getContext().sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE).setData(Uri.fromFile(new File(videoPath))));
     }
 
     public static class CompareResolution implements Comparator<Size> {
