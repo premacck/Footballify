@@ -58,9 +58,7 @@ public class CustomCameraActivity extends StackableCardActivity {
             return;
         }
         isForImage = intent.getBooleanExtra(getString(R.string.intent_is_camera_for_image), true);
-//        blurBg = getSavedScreenshot(intent);
 
-//        blurBackgroundImageView.setImageBitmap(blurBg);
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
 
         setupViewPager();
