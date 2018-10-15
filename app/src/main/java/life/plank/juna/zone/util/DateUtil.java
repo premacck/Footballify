@@ -1,5 +1,6 @@
 package life.plank.juna.zone.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.content.res.ResourcesCompat;
 import android.text.SpannableStringBuilder;
@@ -32,6 +33,7 @@ import static life.plank.juna.zone.util.AppConstants.ONE_HOUR_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.TWO_HOURS_MILLIS;
 import static life.plank.juna.zone.util.DataUtil.formatInt;
 
+@SuppressLint("ConstantLocale")
 public class DateUtil {
 
     private static final String TIMELINE_HEADER_DATE_STRING = "EEE, dd MMM";

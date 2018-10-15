@@ -179,4 +179,13 @@
     <string name="board">board</string>
     <string name="hi">Hi</string>
     <string name="notification">Notifications</string>
+    <string name="camera_flash">Camera flash</string>
+    <string name="camera_capture_button">Camera capture button</string>
+    <string name="camera_flip_button">Camera flip button</string>
+    <string name="swipe_up_to_choose_from_gallery">Swipe up to choose from gallery</string>
+    <string name="camera_permission_header">Camera permission</string>
+    <string name="camera_permission_body">Please allow the camera permission to continue using the camera</string>
+    <string name="failed_to_setup_camera_preview">Failed to setup  camera preview</string>
+    <string name="storage_permission_header">Storage permissions</string>
+    <string name="storage_permission_body">Please allow the storage permissions to allow us to process the media</string>
 </resources>
