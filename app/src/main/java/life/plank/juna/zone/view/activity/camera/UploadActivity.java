@@ -1,22 +1,17 @@
-package life.plank.juna.zone.view.activity;
+package life.plank.juna.zone.view.activity.camera;
 
-import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
+import android.provider.MediaStore.Images.Media;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -33,13 +28,11 @@ import com.google.gson.JsonObject;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.io.File;
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -55,9 +48,12 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.Image;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.fragment.camera.CameraFragment;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -65,22 +61,24 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.AUDIO_PICKER_RESULT;
-import static life.plank.juna.zone.util.AppConstants.CAMERA_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.GALLERY;
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
-import static life.plank.juna.zone.util.AppConstants.VIDEO_CAPTURE;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
+import static life.plank.juna.zone.util.camera.PermissionHandler.CAMERA_PERMISSIONS;
+import static life.plank.juna.zone.util.camera.PermissionHandler.STORAGE_PERMISSIONS;
+import static life.plank.juna.zone.util.camera.PermissionHandler.requestCameraAndStoragePermissions;
 
 public class UploadActivity extends AppCompatActivity {
 
     private static final String TAG = UploadActivity.class.getCanonicalName();
+    private static final int CAMERA_AND_STORAGE_PERMISSIONS = 15;
 
     @Inject
     @Named("default")
@@ -106,45 +104,59 @@ public class UploadActivity extends AppCompatActivity {
     @BindView(R.id.root_layout)
     ScrollView scrollView;
 
-    private String apiCallFromActivity;
     private String openFrom;
     private String userId, boardId;
     private String filePath;
     private String absolutePath;
-    private Uri fileUri;
-    private String path;
     private Handler mHandler;
 
-    public static void launch(Context packageContext, String openFrom, String boardId, String api) {
+    /**
+     * Method to launch {@link UploadActivity} to upload image or audio which is already saved in gallery or media storage
+     * Provide mediaFilePath param when uploading image or video provided from {@link CameraFragment}
+     */
+    public static void launch(Activity from, String openFrom, String boardId, String... mediaFilePath) {
         if (boardId != null) {
-            Intent intent = new Intent(packageContext, UploadActivity.class);
-            intent.putExtra(packageContext.getString(R.string.intent_open_from), openFrom);
-            intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId);
-            intent.putExtra(packageContext.getString(R.string.intent_api), api);
-            packageContext.startActivity(intent);
+            Intent intent = new Intent(from, UploadActivity.class);
+            intent.putExtra(from.getString(R.string.intent_open_from), openFrom);
+            intent.putExtra(from.getString(R.string.intent_board_id), boardId);
+            if (mediaFilePath != null) {
+                intent.putExtra(from.getString(R.string.intent_file_path), mediaFilePath[0]);
+            }
+            from.startActivity(intent);
+            from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
         }
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        openFrom = getIntent().getStringExtra(getString(R.string.intent_open_from));
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        apiCallFromActivity = getIntent().getStringExtra(getString(R.string.intent_api));
-        boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
-        openMediaContent();
         SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
         userId = preference.getString(getString(R.string.pref_object_id), getString(R.string.na));
+
+        Intent intent = getIntent();
+        if (intent == null) {
+            return;
+        }
+
+        if (intent.hasExtra(getString(R.string.intent_file_path))) {
+            filePath = intent.getStringExtra(getString(R.string.intent_file_path));
+        }
+        boardId = intent.getStringExtra(getString(R.string.intent_board_id));
+        openFrom = intent.getStringExtra(getString(R.string.intent_open_from));
+        handleMediaContent();
     }
 
-    private void openMediaContent() {
-        if (UIDisplayUtil.checkPermission(UploadActivity.this)) {
+    @AfterPermissionGranted(CAMERA_AND_STORAGE_PERMISSIONS)
+    private void handleMediaContent() {
+        if (EasyPermissions.hasPermissions(this, ArrayUtils.addAll(CAMERA_PERMISSIONS, STORAGE_PERMISSIONS))) {
             switch (openFrom) {
                 case IMAGE:
-                    takePicture();
+                    prepareImageForUpload();
                     break;
                 case VIDEO:
-                    openVideo();
+                    updateUI(VIDEO);
+                    new VideoCompressionTask(UploadActivity.this, filePath, getCacheDir().getAbsolutePath()).execute();
                     break;
                 case GALLERY:
                     getImageResourceFromGallery();
@@ -152,11 +164,9 @@ public class UploadActivity extends AppCompatActivity {
                 case AUDIO:
                     openGalleryForAudio();
                     break;
-                default:
-//                    TODO: add proper permission request dialog here
-                    Toast.makeText(this, R.string.add_permission, Toast.LENGTH_SHORT).show();
-                    break;
             }
+        } else {
+            requestCameraAndStoragePermissions(this);
         }
     }
 
@@ -166,7 +176,7 @@ public class UploadActivity extends AppCompatActivity {
         capturedVideoView.setVisibility(type.equals(VIDEO) ? View.VISIBLE : View.GONE);
         capturedImageView.setVisibility(type.equals(VIDEO) ? View.GONE : View.VISIBLE);
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
-        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
+        if (!Objects.equals(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)), getString(R.string.na))) {
             picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
                     .error(R.drawable.ic_default_profile)
                     .placeholder(R.drawable.ic_default_profile)
@@ -174,84 +184,20 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-    private void takePicture() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        takePictureIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        fileUri = getOutputMediaFileUri(UploadActivity.this);
-        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(takePictureIntent, CAMERA_IMAGE_RESULT);
-    }
-
     public void openGalleryForAudio() {
         Intent audioIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(audioIntent, getString(R.string.select_audio)), AUDIO_PICKER_RESULT);
     }
 
-    public void openVideo() {
-        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, VIDEO_CAPTURE);
-        }
-    }
-
     public void getImageResourceFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType(getString(R.string.image_format));
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        galleryIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, getString(R.string.image_format));
         startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
-    }
-
-    public Uri getOutputMediaFileUri(Context mContext) {
-        try {
-            return FileProvider.getUriForFile(mContext, AppConstants.FILE_PROVIDER_TO_CAPTURE_IMAGE, createImageFileName());
-        } catch (IOException e) {
-            Log.e(TAG, e.getMessage());
-        }
-        return null;
-    }
-
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private File createImageFileName() throws IOException {
-        String timeStamp = new SimpleDateFormat(getString(R.string.simple_date_format), Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/juna/" + "Images" + "/");
-        if (!storageDir.exists()) {
-            storageDir.mkdirs();
-        }
-        return File.createTempFile(imageFileName, /* prefix */".png", /* suffix */storageDir /* directory */);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        File imgFile;
         switch (requestCode) {
-            case CAMERA_IMAGE_RESULT:
-                switch (resultCode) {
-                    case RESULT_OK:
-                        filePath = fileUri.getPath();
-                        prepareImageForUpload();
-                        try {
-                            updateUI(IMAGE);
-                            imgFile = new File(filePath);
-                            if (imgFile.exists()) {
-                                Bitmap bitmap = new Image().compress(imgFile, imgFile.toString());
-                                filePath = imgFile.toString();
-                                setImagePreview(bitmap);
-                            }
-                        } catch (Exception e) {
-                            Log.e("TAG", "CAMERA_IMAGE_RESULT : " + e);
-                            Toast.makeText(getApplicationContext(), R.string.could_not_process_image, Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                        break;
-                    case RESULT_CANCELED:
-                        finish();
-                        break;
-                    default:
-                        Toast.makeText(this, R.string.could_not_process_image, Toast.LENGTH_LONG).show();
-                        finish();
-                        break;
-                }
-                break;
             case AUDIO_PICKER_RESULT:
                 if (resultCode == RESULT_OK && data != null) {
                     Uri uri = data.getData();
@@ -272,23 +218,6 @@ public class UploadActivity extends AppCompatActivity {
                             finish();
                         }
                     }
-                }
-                break;
-            case VIDEO_CAPTURE:
-                switch (resultCode) {
-                    case RESULT_OK:
-                        updateUI(VIDEO);
-                        Uri videoUri = data.getData();
-                        path = UIDisplayUtil.getPathForVideo(videoUri, this);
-                        new VideoCompressionTask(UploadActivity.this, videoUri, getCacheDir().getAbsolutePath()).execute();
-                        break;
-                    case RESULT_CANCELED:
-                        finish();
-                        break;
-                    default:
-                        Toast.makeText(this, R.string.video_recording_failed, Toast.LENGTH_LONG).show();
-                        finish();
-                        break;
                 }
                 break;
             case GALLERY_IMAGE_RESULT:
@@ -328,26 +257,6 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-    private void prepareVideoForUpload(Intent data) {
-        try {
-            updateUI(VIDEO);
-            Uri videoUri = data.getData();
-            path = UIDisplayUtil.getPathForVideo(videoUri, this);
-            capturedVideoView.setVideoPath(SiliCompressor.with(getApplicationContext()).compressVideo(videoUri, getCacheDir().getAbsolutePath()));
-            capturedVideoView.setOnPreparedListener(mediaPlayer -> {
-                mediaPlayer.setLooping(true);
-                progressBar.setVisibility(View.GONE);
-                playBtn.setVisibility(View.VISIBLE);
-                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
-                scrollView.smoothScrollTo(0, scrollView.getBottom());
-            });
-        } catch (Exception e) {
-            Log.e("TAG", "VIDEO_CAPTURE : " + e);
-            Log.d(TAG, "Video compression failed");
-            finish();
-        }
-    }
-
     private void setImagePreview(Bitmap bitmap) {
         int width = (int) (getScreenSize(getWindowManager().getDefaultDisplay())[0] - getDp(16));
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) capturedImageView.getLayoutParams();
@@ -357,6 +266,9 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     private void postMediaContent(String selectedFileUri, String mediaType, String contentType, String userId, String dateCreated) {
+        if (titleEditText.getText() == null || titleEditText.getText().toString().trim().isEmpty()) {
+            return;
+        }
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.just_a_moment));
         progressDialog.setCanceledOnTouchOutside(false);
@@ -366,8 +278,10 @@ public class UploadActivity extends AppCompatActivity {
         requestBody = RequestBody.create(MediaType.parse(mediaType), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
 
+        String description = descriptionEditText.getText() != null ? descriptionEditText.getText().toString().trim() : "";
+
         restApi.postMediaContentToServer(body, boardId, contentType, userId,
-                dateCreated, AppConstants.BOARD, descriptionEditText.getText().toString(), titleEditText.getText().toString(), getToken())
+                dateCreated, AppConstants.BOARD, description, titleEditText.getText().toString(), getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {
@@ -403,39 +317,24 @@ public class UploadActivity extends AppCompatActivity {
 
     @OnClick(R.id.post_btn)
     public void onPostBtnClick() {
-        if (titleEditText.getText().toString().trim().isEmpty()) {
+        if (titleEditText.getText() != null && titleEditText.getText().toString().trim().isEmpty()) {
             titleEditText.setError(getString(R.string.please_enter_title));
-        } else {
-            switch (apiCallFromActivity) {
-                case "BoardActivity":
-                    switch (openFrom) {
-                        case IMAGE:
-                        case GALLERY:
-                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
-                            break;
-                        case VIDEO:
-                            postMediaContent(path, getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
-                            break;
-                        case AUDIO:
-                            postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
-                            break;
-                        default:
-                            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                    break;
-                default:
-                    switch (openFrom) {
-                        case IMAGE:
-                        case GALLERY:
-                            postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
-                            break;
-                        default:
-                            Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                    break;
-            }
+            return;
+        }
+        switch (openFrom) {
+            case IMAGE:
+            case GALLERY:
+                postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
+                break;
+            case VIDEO:
+                postMediaContent(filePath, getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
+                break;
+            case AUDIO:
+                postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
+                break;
+            default:
+                Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 
@@ -451,40 +350,11 @@ public class UploadActivity extends AppCompatActivity {
         capturedVideoView.pause();
     }
 
-    //TODO: Refine this method
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case AppConstants.REQUEST_ID_MULTIPLE_PERMISSIONS:
-                if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
-                    finish();
-                } else if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    if (Objects.equals(openFrom, AUDIO)) {
-                        openGalleryForAudio();
-                    } else {
-                        Toast.makeText(getApplicationContext(), R.string.external_storage_excess, Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                } else {
-                    if (Objects.equals(openFrom, IMAGE)) {
-                        takePicture();
-                    } else {
-                        openVideo();
-                    }
-                }
-                break;
-            case AppConstants.REQUEST_ID_STORAGE_PERMISSIONS:
-                if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    finish();
-                } else {
-                    if (Objects.equals(openFrom, AUDIO))
-                        openGalleryForAudio();
-                    else {
-                        getImageResourceFromGallery();
-                    }
-                }
-        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
     @Override
@@ -499,15 +369,21 @@ public class UploadActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
+    }
+
     static class VideoCompressionTask extends AsyncTask<Void, Void, String> {
 
         private WeakReference<UploadActivity> ref;
-        private Uri videoUri;
+        private String videoPath;
         private String destinationPath;
 
-        VideoCompressionTask(UploadActivity uploadActivity, Uri videoUri, String destinationPath) {
+        VideoCompressionTask(UploadActivity uploadActivity, String videoPath, String destinationPath) {
             this.ref = new WeakReference<>(uploadActivity);
-            this.videoUri = videoUri;
+            this.videoPath = videoPath;
             this.destinationPath = destinationPath;
         }
 
@@ -522,7 +398,7 @@ public class UploadActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... voids) {
             try {
-                return SiliCompressor.with(ref.get()).compressVideo(videoUri, destinationPath);
+                return SiliCompressor.with(ref.get()).compressVideo(videoPath, destinationPath);
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground: Compressing video - ", e);
             }
@@ -538,13 +414,13 @@ public class UploadActivity extends AppCompatActivity {
             if (compressedVideoPath != null) {
 //                Deleting original video file and using the compressed one.
                 ref.get().capturedVideoView.setVideoPath(compressedVideoPath);
-                File originalVideo = new File(videoUri.getPath());
+                File originalVideo = new File(videoPath);
                 if (originalVideo.exists()) {
                     originalVideo.delete();
                 }
             } else {
 //                Using the original video in case of compression failure.
-                ref.get().capturedVideoView.setVideoURI(videoUri);
+                ref.get().capturedVideoView.setVideoPath(videoPath);
             }
             ref.get().capturedVideoView.setOnPreparedListener(mediaPlayer -> {
                 mediaPlayer.setLooping(true);
