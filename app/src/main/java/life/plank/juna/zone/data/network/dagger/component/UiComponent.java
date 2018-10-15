@@ -5,7 +5,7 @@ import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.BoardPreviewActivity;
-import life.plank.juna.zone.view.activity.CameraActivity;
+import life.plank.juna.zone.view.activity.UploadActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.EditProfileActivity;
@@ -58,7 +58,7 @@ public interface UiComponent {
 
     void inject(SwipePageActivity swipePageActivity);
 
-    void inject(CameraActivity cameraActivity);
+    void inject(UploadActivity uploadActivity);
 
     void inject(LeagueInfoActivity leagueInfoActivity);
 
