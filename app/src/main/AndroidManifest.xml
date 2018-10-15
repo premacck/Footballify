@@ -64,7 +64,7 @@
             android:name=".view.activity.SignUpActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.CameraActivity"
+            android:name=".view.activity.UploadActivity"
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
             android:screenOrientation="portrait" />
         <activity

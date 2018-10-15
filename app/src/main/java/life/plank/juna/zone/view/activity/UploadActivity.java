@@ -78,9 +78,9 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
-public class CameraActivity extends AppCompatActivity {
+public class UploadActivity extends AppCompatActivity {
 
-    private static final String TAG = CameraActivity.class.getCanonicalName();
+    private static final String TAG = UploadActivity.class.getCanonicalName();
 
     @Inject
     @Named("default")
@@ -117,7 +117,7 @@ public class CameraActivity extends AppCompatActivity {
 
     public static void launch(Context packageContext, String openFrom, String boardId, String api) {
         if (boardId != null) {
-            Intent intent = new Intent(packageContext, CameraActivity.class);
+            Intent intent = new Intent(packageContext, UploadActivity.class);
             intent.putExtra(packageContext.getString(R.string.intent_open_from), openFrom);
             intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId);
             intent.putExtra(packageContext.getString(R.string.intent_api), api);
@@ -138,7 +138,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void openMediaContent() {
-        if (UIDisplayUtil.checkPermission(CameraActivity.this)) {
+        if (UIDisplayUtil.checkPermission(UploadActivity.this)) {
             switch (openFrom) {
                 case IMAGE:
                     takePicture();
@@ -161,7 +161,7 @@ public class CameraActivity extends AppCompatActivity {
     }
 
     private void updateUI(String type) {
-        setContentView(R.layout.activity_camera);
+        setContentView(R.layout.activity_upload);
         ButterKnife.bind(this);
         capturedVideoView.setVisibility(type.equals(VIDEO) ? View.VISIBLE : View.GONE);
         capturedImageView.setVisibility(type.equals(VIDEO) ? View.GONE : View.VISIBLE);
@@ -177,7 +177,7 @@ public class CameraActivity extends AppCompatActivity {
     private void takePicture() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        fileUri = getOutputMediaFileUri(CameraActivity.this);
+        fileUri = getOutputMediaFileUri(UploadActivity.this);
         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
         startActivityForResult(takePictureIntent, CAMERA_IMAGE_RESULT);
     }
@@ -268,7 +268,7 @@ public class CameraActivity extends AppCompatActivity {
                             }
                         } catch (Exception e) {
                             Log.e("TAG", "AUDIO_PICKER_RESULT : " + e);
-                            Toast.makeText(CameraActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(UploadActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
                             finish();
                         }
                     }
@@ -280,7 +280,7 @@ public class CameraActivity extends AppCompatActivity {
                         updateUI(VIDEO);
                         Uri videoUri = data.getData();
                         path = UIDisplayUtil.getPathForVideo(videoUri, this);
-                        new VideoCompressionTask(CameraActivity.this, videoUri, getCacheDir().getAbsolutePath()).execute();
+                        new VideoCompressionTask(UploadActivity.this, videoUri, getCacheDir().getAbsolutePath()).execute();
                         break;
                     case RESULT_CANCELED:
                         finish();
@@ -389,12 +389,12 @@ public class CameraActivity extends AppCompatActivity {
                         progressDialog.cancel();
                         switch (jsonObjectResponse.code()) {
                             case HttpsURLConnection.HTTP_CREATED:
-                                Toast.makeText(CameraActivity.this, R.string.upload_successful, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadActivity.this, R.string.upload_successful, Toast.LENGTH_SHORT).show();
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:
                             case HttpURLConnection.HTTP_BAD_REQUEST:
-                                Toast.makeText(CameraActivity.this, R.string.upload_failed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(UploadActivity.this, R.string.upload_failed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -456,10 +456,10 @@ public class CameraActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
         switch (requestCode) {
             case AppConstants.REQUEST_ID_MULTIPLE_PERMISSIONS:
-                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), R.string.camera_access, Toast.LENGTH_SHORT).show();
                     finish();
-                } else if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                } else if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     if (Objects.equals(openFrom, AUDIO)) {
                         openGalleryForAudio();
                     } else {
@@ -475,7 +475,7 @@ public class CameraActivity extends AppCompatActivity {
                 }
                 break;
             case AppConstants.REQUEST_ID_STORAGE_PERMISSIONS:
-                if (ContextCompat.checkSelfPermission(CameraActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(UploadActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     finish();
                 } else {
                     if (Objects.equals(openFrom, AUDIO))
@@ -501,12 +501,12 @@ public class CameraActivity extends AppCompatActivity {
 
     static class VideoCompressionTask extends AsyncTask<Void, Void, String> {
 
-        private WeakReference<CameraActivity> ref;
+        private WeakReference<UploadActivity> ref;
         private Uri videoUri;
         private String destinationPath;
 
-        VideoCompressionTask(CameraActivity cameraActivity, Uri videoUri, String destinationPath) {
-            this.ref = new WeakReference<>(cameraActivity);
+        VideoCompressionTask(UploadActivity uploadActivity, Uri videoUri, String destinationPath) {
+            this.ref = new WeakReference<>(uploadActivity);
             this.videoUri = videoUri;
             this.destinationPath = destinationPath;
         }
