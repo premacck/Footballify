@@ -17,10 +17,11 @@ import life.plank.juna.zone.util.AppConstants.BoomMenuPage.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.view.activity.CameraActivity
 import life.plank.juna.zone.view.activity.PostCommentActivity
+import life.plank.juna.zone.view.activity.UploadActivity
 import life.plank.juna.zone.view.activity.UserFeedActivity
 import life.plank.juna.zone.view.activity.UserProfileActivity
+import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 
 fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, arcMenu: ArcMenu) {
     val baseElevation: Float = getDp(22f)
@@ -136,17 +137,17 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     2 -> {
                         if (boardId != null) {
-                            CameraActivity.launch(activity, GALLERY, boardId, activity.getString(R.string.intent_board_activity))
+                            UploadActivity.launch(activity, GALLERY, boardId, activity.getString(R.string.intent_board_activity))
                         }
                     }
                     3 -> {
                         if (boardId != null) {
-                            CameraActivity.launch(activity, IMAGE, boardId, activity.getString(R.string.intent_board_activity))
+                            UploadActivity.launch(activity, IMAGE, boardId, activity.getString(R.string.intent_board_activity))
                         }
                     }
                     4 -> {
                         if (boardId != null) {
-                            CameraActivity.launch(activity, VIDEO, boardId, activity.getString(R.string.intent_board_activity))
+                            UploadActivity.launch(activity, VIDEO, boardId, activity.getString(R.string.intent_board_activity))
                         }
                     }
                     5 -> {
@@ -156,7 +157,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     6 -> {
                         if (boardId != null) {
-                            CameraActivity.launch(activity, AUDIO, boardId, activity.getString(R.string.intent_board_activity))
+                            UploadActivity.launch(activity, AUDIO, boardId, activity.getString(R.string.intent_board_activity))
                         }
                     }
                 }
