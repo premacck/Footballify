@@ -349,6 +349,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             matchDetails = boardMatchDetailsPair.second;
                             Board board = boardMatchDetailsPair.first;
                             if (matchDetails != null) {
+                                matchDetails.setLeague(league);
                                 publicBoardToolbar.prepare(picasso, MatchFixture.Companion.from(matchDetails), league.getThumbUrl());
                             }
                             if (board != null) {
