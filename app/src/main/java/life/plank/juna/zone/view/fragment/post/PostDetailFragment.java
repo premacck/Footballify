@@ -310,6 +310,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                             .into(new Target() {
                                 @Override
                                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                    if (getActivity() == null) {
+                                        return;
+                                    }
                                     int width = (int) (getScreenSize(getActivity().getWindowManager().getDefaultDisplay())[0] - getDp(8));
                                     RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) feedImageView.getLayoutParams();
                                     params.height = width * bitmap.getHeight() / bitmap.getWidth();
