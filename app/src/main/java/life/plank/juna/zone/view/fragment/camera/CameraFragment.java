@@ -27,6 +27,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.Arrays;
@@ -47,11 +48,13 @@ import pub.devrel.easypermissions.EasyPermissions;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.hardware.camera2.CameraCharacteristics.LENS_FACING;
 import static android.hardware.camera2.CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP;
+import static android.hardware.camera2.CameraMetadata.LENS_FACING_BACK;
 import static android.hardware.camera2.CameraMetadata.LENS_FACING_FRONT;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
+import static life.plank.juna.zone.util.UIDisplayUtil.flipView;
 import static life.plank.juna.zone.util.camera.CameraHandler.chooseOptimalSize;
 import static life.plank.juna.zone.util.camera.CameraHandler.chooseVideoSize;
 import static life.plank.juna.zone.util.camera.CameraHandler.createMediaFile;
@@ -78,16 +81,16 @@ public class CameraFragment extends Fragment {
     ImageButton cameraCaptureButton;
     @BindView(R.id.camera_flip)
     ImageButton cameraFlipButton;
+    @BindView(R.id.swipe_up_message)
+    TextView swipeUpMessageTextView;
 
     private boolean isForImage;
     private boolean isRecording = false;
     private int totalRotation;
-    private int cameraFacing;
     private int captureState = STATE_PREVIEW;
     private String cameraId;
     private Size previewSize;
     private Size videoSize;
-    private Size imageSize;
     private File mediaFolder;
     public String mediaFileName;
     private String boardId;
@@ -161,7 +164,6 @@ public class CameraFragment extends Fragment {
         @Override
         public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
             setupCamera(width, height);
-            connectCamera();
         }
 
         @Override
@@ -200,7 +202,6 @@ public class CameraFragment extends Fragment {
         isForImage = args.getBoolean(getString(R.string.intent_is_camera_for_image));
         boardId = args.getString(getString(R.string.intent_board_id));
         cameraManager = (CameraManager) ZoneApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
-        cameraFacing = CameraCharacteristics.LENS_FACING_BACK;
         mediaFolder = CameraHandler.createMediaFolderIfNotExists(isForImage);
         mediaRecorder = new MediaRecorder();
     }
@@ -218,7 +219,6 @@ public class CameraFragment extends Fragment {
         startBackgroundThread();
         if (cameraPreview.isAvailable()) {
             setupCamera(cameraPreview.getWidth(), cameraPreview.getHeight());
-            connectCamera();
         } else {
             cameraPreview.setSurfaceTextureListener(surfaceTextureListener);
         }
@@ -235,39 +235,51 @@ public class CameraFragment extends Fragment {
      * Method for setting up the prerequisites for the camera (rotation, size, imageReader, etc.)
      */
     @SuppressWarnings({"ConstantConditions", "SuspiciousNameCombination"})
-    private void setupCamera(int width, int height) {
-        CameraManager cameraManager = (CameraManager) ZoneApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
+    private void setupCamera(int width, int height, int... cameraFacing) {
         try {
-            for (String cameraId : cameraManager.getCameraIdList()) {
+            if (cameraFacing == null || cameraFacing.length == 0) {
+                for (String cameraId : cameraManager.getCameraIdList()) {
+                    CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId);
+                    if (cameraCharacteristics.get(LENS_FACING) == LENS_FACING_FRONT) {
+                        //                    skip the front camera
+                        continue;
+                    }
+                    prepareCamera(width, height, cameraCharacteristics);
+                    this.cameraId = cameraId;
+                    break;
+                }
+            } else {
+                this.cameraId = cameraManager.getCameraIdList()[cameraFacing[0]];
                 CameraCharacteristics cameraCharacteristics = cameraManager.getCameraCharacteristics(cameraId);
-                if (cameraCharacteristics.get(LENS_FACING) == LENS_FACING_FRONT) {
-//                    skip the front camera
-                    continue;
-                }
-                StreamConfigurationMap map = cameraCharacteristics.get(SCALER_STREAM_CONFIGURATION_MAP);
-                int deviceOrientation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-                totalRotation = getSensorToDeviceRotation(cameraCharacteristics, deviceOrientation);
-                boolean isInPortrait = totalRotation == 90 || totalRotation == 270;
-                int rotatedWidth = width;
-                int rotatedHeight = height;
-                if (isInPortrait) {
-//                    Swap height and width if the device is in portrait mode
-                    rotatedWidth = height;
-                    rotatedHeight = width;
-                }
-//                TODO : try to use different classes in argument
-                Size[] availableSizes = map.getOutputSizes(SurfaceTexture.class);
-                videoSize = chooseVideoSize(availableSizes);
-                previewSize = chooseOptimalSize(availableSizes, rotatedWidth, rotatedHeight, videoSize);
-                imageSize = chooseOptimalSize(map.getOutputSizes(ImageFormat.JPEG), rotatedWidth, rotatedHeight, videoSize);
-                imageReader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.JPEG, 1);
-                imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler);
-                this.cameraId = cameraId;
-                return;
+                prepareCamera(width, height, cameraCharacteristics);
             }
+            connectCamera();
         } catch (Exception e) {
             Log.e(TAG, "setupCamera(): ", e);
         }
+    }
+
+    @SuppressWarnings({"ConstantConditions", "SuspiciousNameCombination"})
+    private void prepareCamera(int width, int height, CameraCharacteristics cameraCharacteristics) {
+        StreamConfigurationMap map = cameraCharacteristics.get(SCALER_STREAM_CONFIGURATION_MAP);
+        int deviceOrientation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+        totalRotation = getSensorToDeviceRotation(cameraCharacteristics, deviceOrientation);
+        boolean isInPortrait = totalRotation == 90 || totalRotation == 270;
+        int rotatedWidth = width;
+        int rotatedHeight = height;
+        if (isInPortrait) {
+//        Swap height and width if the device is in portrait mode
+            rotatedWidth = height;
+            rotatedHeight = width;
+        }
+        Size[] availableSizes = map.getOutputSizes(SurfaceTexture.class);
+        videoSize = chooseVideoSize(availableSizes);
+        previewSize = chooseOptimalSize(availableSizes, rotatedWidth, rotatedHeight, videoSize);
+
+        cameraPreview.setSize(previewSize.getHeight(), previewSize.getWidth());
+        Size imageSize = chooseOptimalSize(map.getOutputSizes(ImageFormat.JPEG), rotatedWidth, rotatedHeight, videoSize);
+        imageReader = ImageReader.newInstance(imageSize.getWidth(), imageSize.getHeight(), ImageFormat.JPEG, 1);
+        imageReader.setOnImageAvailableListener(onImageAvailableListener, backgroundHandler);
     }
 
     /**
@@ -276,7 +288,6 @@ public class CameraFragment extends Fragment {
     @AfterPermissionGranted(CAMERA_PERMISSION_REQUEST_CODE)
     private void connectCamera() {
         if (EasyPermissions.hasPermissions(ZoneApplication.getContext(), CAMERA_PERMISSIONS)) {
-            CameraManager cameraManager = (CameraManager) ZoneApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
             try {
                 if (checkSelfPermission(ZoneApplication.getContext(), Manifest.permission.CAMERA) != PERMISSION_GRANTED) {
                     return;
@@ -505,6 +516,14 @@ public class CameraFragment extends Fragment {
 
     @OnClick(R.id.camera_flip)
     public void flipCamera() {
+        flipView(cameraFlipButton, true);
+        try {
+            closeCamera();
+            setupCamera(cameraPreview.getWidth(), cameraPreview.getHeight(), cameraId.equals(String.valueOf(LENS_FACING_FRONT)) ? LENS_FACING_BACK : LENS_FACING_FRONT);
+        } catch (Exception e) {
+            Log.e(TAG, "flipCamera(): ", e);
+        }
+//        TODO: setup flash on the new selected camera
     }
 
     @AfterPermissionGranted(STORAGE_PERMISSION_REQUEST_CODE_CAMERA)
@@ -517,6 +536,7 @@ public class CameraFragment extends Fragment {
             }
             startVideoRecording();
             mediaRecorder.start();
+            setExtraButtonsVisibility(View.INVISIBLE);
         } else {
             requestCameraPermissions(getActivity());
         }
@@ -524,11 +544,18 @@ public class CameraFragment extends Fragment {
 
     private void stopVideoCapture() {
         if (!isForImage) {
+            setExtraButtonsVisibility(View.VISIBLE);
             mediaRecorder.stop();
             mediaRecorder.reset();
             UploadActivity.launch(getActivity(), VIDEO, boardId, mediaFileName);
             Objects.requireNonNull(getActivity()).finish();
         }
+    }
+
+    private void setExtraButtonsVisibility(int visibility) {
+        cameraFlashToggleButton.setVisibility(visibility);
+        cameraFlipButton.setVisibility(visibility);
+        swipeUpMessageTextView.setVisibility(visibility);
     }
 
     @Override

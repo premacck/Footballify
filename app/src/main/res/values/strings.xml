@@ -93,5 +93,7 @@
     <string name="jpg_extension">.jpg</string>
     <string name="mp4_extension">.mp4</string>
     <string name="media_file_prefix_pattern">yyyy_MMdd_ss</string>
+    <string name="rotation_x">rotationX</string>
+    <string name="rotation_y">rotationY</string>
 
 </resources>
