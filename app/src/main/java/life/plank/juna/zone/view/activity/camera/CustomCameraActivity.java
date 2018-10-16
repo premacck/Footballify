@@ -40,12 +40,15 @@ public class CustomCameraActivity extends StackableCardActivity {
     VerticalViewPager cameraViewPager;
 
     private boolean isForImage;
+    private String boardId;
     private CameraPagerAdapter pagerAdapter;
 
-    public static void launch(Activity from, boolean isForImage) {
+    public static void launch(Activity from, boolean isForImage, String boardId) {
         Intent intent = new Intent(from, CustomCameraActivity.class);
         intent.putExtra(ZoneApplication.getContext().getString(R.string.intent_is_camera_for_image), isForImage);
+        intent.putExtra(from.getString(R.string.intent_board_id), boardId);
         from.startActivity(intent);
+        from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
 
     @Override
@@ -58,6 +61,7 @@ public class CustomCameraActivity extends StackableCardActivity {
             return;
         }
         isForImage = intent.getBooleanExtra(getString(R.string.intent_is_camera_for_image), true);
+        boardId = intent.getStringExtra(getString(R.string.intent_board_id));
 
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
 
@@ -83,7 +87,7 @@ public class CustomCameraActivity extends StackableCardActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return CameraFragment.newInstance(ref.get().isForImage);
+                    return CameraFragment.newInstance(ref.get().isForImage, ref.get().boardId);
                 default:
                     return CustomGalleryFragment.Companion.newInstance(ref.get().isForImage);
             }
@@ -113,6 +117,7 @@ public class CustomCameraActivity extends StackableCardActivity {
             cameraViewPager.setCurrentItem(0);
         } else {
             super.onBackPressed();
+            overridePendingTransition(R.anim.float_down, R.anim.sink_down);
         }
     }
 }

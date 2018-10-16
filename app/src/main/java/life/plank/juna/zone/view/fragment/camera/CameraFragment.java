@@ -30,6 +30,7 @@ import android.widget.ImageButton;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +40,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.util.camera.CameraHandler;
 import life.plank.juna.zone.util.camera.CameraHandler.ImageSaver;
 import life.plank.juna.zone.util.customview.AutoFitTextureView;
+import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -47,6 +49,8 @@ import static android.hardware.camera2.CameraCharacteristics.LENS_FACING;
 import static android.hardware.camera2.CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP;
 import static android.hardware.camera2.CameraMetadata.LENS_FACING_FRONT;
 import static android.support.v4.content.ContextCompat.checkSelfPermission;
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
 import static life.plank.juna.zone.util.camera.CameraHandler.chooseOptimalSize;
 import static life.plank.juna.zone.util.camera.CameraHandler.chooseVideoSize;
@@ -84,8 +88,9 @@ public class CameraFragment extends Fragment {
     private Size previewSize;
     private Size videoSize;
     private Size imageSize;
-    public String mediaFileName;
     private File mediaFolder;
+    public String mediaFileName;
+    private String boardId;
 
     private HandlerThread backgroundHandlerThread;
     private Handler backgroundHandler;
@@ -176,10 +181,11 @@ public class CameraFragment extends Fragment {
     public CameraFragment() {
     }
 
-    public static CameraFragment newInstance(boolean isForImage) {
+    public static CameraFragment newInstance(boolean isForImage, String boardId) {
         CameraFragment fragment = new CameraFragment();
         Bundle args = new Bundle();
         args.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_camera_for_image), isForImage);
+        args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -188,9 +194,11 @@ public class CameraFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
-        if (args != null) {
-            isForImage = args.getBoolean(getString(R.string.intent_is_camera_for_image));
+        if (args == null) {
+            return;
         }
+        isForImage = args.getBoolean(getString(R.string.intent_is_camera_for_image));
+        boardId = args.getString(getString(R.string.intent_board_id));
         cameraManager = (CameraManager) ZoneApplication.getContext().getSystemService(Context.CAMERA_SERVICE);
         cameraFacing = CameraCharacteristics.LENS_FACING_BACK;
         mediaFolder = CameraHandler.createMediaFolderIfNotExists(isForImage);
@@ -290,6 +298,7 @@ public class CameraFragment extends Fragment {
         surfaceTexture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
         Surface previewSurface = new Surface(surfaceTexture);
         try {
+            closePreviewSession();
             captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureRequestBuilder.addTarget(previewSurface);
 
@@ -348,6 +357,10 @@ public class CameraFragment extends Fragment {
      * Method to begin the video recording
      */
     private void startVideoRecording() {
+        if (cameraDevice == null || !cameraPreview.isAvailable() || previewSize == null) {
+            return;
+        }
+        closePreviewSession();
         setupMediaRecorder();
         SurfaceTexture surfaceTexture = cameraPreview.getSurfaceTexture();
         surfaceTexture.setDefaultBufferSize(previewSize.getWidth(), previewSize.getHeight());
@@ -362,7 +375,7 @@ public class CameraFragment extends Fragment {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession session) {
                     try {
-                        session.setRepeatingRequest(captureRequestBuilder.build(), null, null);
+                        session.setRepeatingRequest(captureRequestBuilder.build(), null, backgroundHandler);
                     } catch (Exception e) {
                         Log.e(TAG, "createCaptureSession(): ", e);
                     }
@@ -374,9 +387,11 @@ public class CameraFragment extends Fragment {
             }, null);
         } catch (Exception e) {
             Log.e(TAG, "startVideoRecording(): ", e);
-        } finally {
-            previewSurface.release();
         }
+//        TODO: test below line for bugs on multiple devices
+//        finally {
+//            previewSurface.release();
+//        }
     }
 
     @AfterPermissionGranted(STORAGE_PERMISSION_REQUEST_CODE_CAMERA)
@@ -418,7 +433,8 @@ public class CameraFragment extends Fragment {
                     super.onCaptureStarted(session, request, timestamp, frameNumber);
                     try {
                         mediaFileName = createMediaFile(isForImage, mediaFolder);
-//                        TODO: open upload activity to upload image stored at "mediaFileName"
+                        UploadActivity.launch(getActivity(), IMAGE, boardId, mediaFileName);
+                        Objects.requireNonNull(getActivity()).finish();
                     } catch (Exception e) {
                         Log.e(TAG, "stillCaptureCallback : onCaptureStarted(): ", e);
                     }
@@ -431,9 +447,21 @@ public class CameraFragment extends Fragment {
     }
 
     private void closeCamera() {
+        closePreviewSession();
         if (cameraDevice != null) {
             cameraDevice.close();
             cameraDevice = null;
+        }
+        if (mediaRecorder != null) {
+            mediaRecorder.release();
+            mediaRecorder = null;
+        }
+    }
+
+    public void closePreviewSession() {
+        if (previewCaptureSession != null) {
+            previewCaptureSession.close();
+            previewCaptureSession = null;
         }
     }
 
@@ -498,8 +526,8 @@ public class CameraFragment extends Fragment {
         if (!isForImage) {
             mediaRecorder.stop();
             mediaRecorder.reset();
-//            TODO : save video file here and launch upload activity
-            startPreview();
+            UploadActivity.launch(getActivity(), VIDEO, boardId, mediaFileName);
+            Objects.requireNonNull(getActivity()).finish();
         }
     }
 

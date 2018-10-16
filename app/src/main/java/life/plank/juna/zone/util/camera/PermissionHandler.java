@@ -3,6 +3,8 @@ package life.plank.juna.zone.util.camera;
 import android.Manifest;
 import android.app.Activity;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import life.plank.juna.zone.R;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -38,6 +40,15 @@ public class PermissionHandler {
                 activity.getString(R.string.storage_permission_body),
                 STORAGE_PERMISSION_REQUEST_CODE_GALLERY,
                 STORAGE_PERMISSIONS
+        );
+    }
+
+    public static void requestCameraAndStoragePermissions(Activity activity) {
+        EasyPermissions.requestPermissions(
+                activity,
+                "",
+                CAMERA_PERMISSION_REQUEST_CODE,
+                ArrayUtils.addAll(CAMERA_PERMISSIONS, STORAGE_PERMISSIONS)
         );
     }
 }

@@ -18,10 +18,10 @@ import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.PostCommentActivity
-import life.plank.juna.zone.view.activity.UploadActivity
 import life.plank.juna.zone.view.activity.UserFeedActivity
 import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
+import life.plank.juna.zone.view.activity.camera.UploadActivity
 
 fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, arcMenu: ArcMenu) {
     val baseElevation: Float = getDp(22f)
@@ -56,9 +56,9 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
     }
 }
 
-fun getBoomMenuTitles(@BoomMenuPage page: Int) : Array<String>? {
+fun getBoomMenuTitles(@BoomMenuPage page: Int): Array<String>? {
     val resources: Resources = ZoneApplication.getContext().resources
-    return when(page) {
+    return when (page) {
         BOOM_MENU_FULL -> {
             resources.getStringArray(R.array.boom_menu_titles_full)
         }
@@ -72,8 +72,8 @@ fun getBoomMenuTitles(@BoomMenuPage page: Int) : Array<String>? {
     }
 }
 
-fun getBoomMenuFabImages(@BoomMenuPage page: Int) : IntArray? {
-    return when(page) {
+fun getBoomMenuFabImages(@BoomMenuPage page: Int): IntArray? {
+    return when (page) {
         BOOM_MENU_FULL -> {
             intArrayOf(
                     R.drawable.ic_settings_white,
@@ -86,10 +86,12 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int) : IntArray? {
                     R.drawable.ic_link_white
             )
         }
-        BOOM_MENU_SETTINGS_AND_HOME -> { intArrayOf(
-                R.drawable.ic_settings_white,
-                R.drawable.ic_home_purple
-        ) }
+        BOOM_MENU_SETTINGS_AND_HOME -> {
+            intArrayOf(
+                    R.drawable.ic_settings_white,
+                    R.drawable.ic_home_purple
+            )
+        }
         BOOM_MENU_HOME -> {
             intArrayOf(R.drawable.ic_home_purple)
         }
@@ -97,8 +99,8 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int) : IntArray? {
     }
 }
 
-fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int) : IntArray? {
-    return when(page) {
+fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int): IntArray? {
+    return when (page) {
         BOOM_MENU_FULL -> {
             intArrayOf(
                     R.drawable.fab_circle_background_grey,
@@ -123,7 +125,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
     return when(page) {
         BOOM_MENU_FULL -> {
             View.OnClickListener {
-                when(position) {
+                when (position) {
                     0 -> {
                         if (isNullOrEmpty(getToken())) {
                             Toast.makeText(activity, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show()
@@ -137,17 +139,17 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     2 -> {
                         if (boardId != null) {
-                            UploadActivity.launch(activity, GALLERY, boardId, activity.getString(R.string.intent_board_activity))
+                            UploadActivity.launch(activity, GALLERY, boardId)
                         }
                     }
                     3 -> {
                         if (boardId != null) {
-                            UploadActivity.launch(activity, IMAGE, boardId, activity.getString(R.string.intent_board_activity))
+                            CustomCameraActivity.launch(activity, true, boardId)
                         }
                     }
                     4 -> {
                         if (boardId != null) {
-                            UploadActivity.launch(activity, VIDEO, boardId, activity.getString(R.string.intent_board_activity))
+                            CustomCameraActivity.launch(activity, false, boardId)
                         }
                     }
                     5 -> {
@@ -157,7 +159,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     6 -> {
                         if (boardId != null) {
-                            UploadActivity.launch(activity, AUDIO, boardId, activity.getString(R.string.intent_board_activity))
+                            UploadActivity.launch(activity, AUDIO, boardId)
                         }
                     }
                 }
@@ -165,7 +167,7 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
         }
         BOOM_MENU_SETTINGS_AND_HOME -> {
             View.OnClickListener {
-                when(position) {
+                when (position) {
                     0 -> {
                         if (isNullOrEmpty(getToken())) {
                             Toast.makeText(activity, R.string.login_signup_to_view_profile, Toast.LENGTH_SHORT).show()

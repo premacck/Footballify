@@ -43,25 +43,23 @@ public class StandingsBinder extends ItemBinder<StandingsBindingModel, Standings
     @Override
     public void bind(StandingsViewHolder holder, StandingsBindingModel item) {
         holder.standingsProgressBar.setVisibility(View.GONE);
+        holder.seeAllStandings.setVisibility(View.GONE);
         if (item.getErrorMessage() != null || isNullOrEmpty(item.getStandingsList())) {
             holder.noStandings.setVisibility(View.VISIBLE);
             holder.noStandings.setText(item.getErrorMessage());
             holder.standingsHeader.setVisibility(View.INVISIBLE);
-            holder.seeAllStandings.setVisibility(View.INVISIBLE);
             holder.standingRecyclerView.setVisibility(View.INVISIBLE);
             return;
         }
 
         holder.noStandings.setVisibility(View.INVISIBLE);
         holder.standingsHeader.setVisibility(View.VISIBLE);
-        holder.seeAllStandings.setVisibility(View.VISIBLE);
         holder.standingRecyclerView.setVisibility(View.VISIBLE);
         StandingTableAdapter adapter = new StandingTableAdapter(picasso);
         holder.standingRecyclerView.setAdapter(adapter);
         adapter.update(item.getStandingsList());
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.standingRecyclerView.getLayoutParams();
-        params.height = (int) getDp(65);
-        holder.standingRecyclerView.setLayoutParams(params);
+        holder.itemView.getLayoutParams().height = (int) getDp(140);
+        holder.itemView.requestLayout();
     }
 
     @Override
