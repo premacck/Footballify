@@ -387,9 +387,11 @@ public class CameraFragment extends Fragment {
             }, null);
         } catch (Exception e) {
             Log.e(TAG, "startVideoRecording(): ", e);
-        } finally {
-//            previewSurface.release();
         }
+//        TODO: test below line for bugs on multiple devices
+//        finally {
+//            previewSurface.release();
+//        }
     }
 
     @AfterPermissionGranted(STORAGE_PERMISSION_REQUEST_CODE_CAMERA)
