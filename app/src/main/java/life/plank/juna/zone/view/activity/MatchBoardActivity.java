@@ -248,6 +248,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
+
         Intent intent = getIntent();
         if (intent.hasExtra(getString(R.string.intent_fixture_data))) {
             fixture = intent.getParcelableExtra(getString(R.string.intent_fixture_data));
@@ -259,13 +260,10 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);
         }
+        getBoardIdAndMatchDetails(currentMatchId);
 
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
-
-        getBoardIdAndMatchDetails(currentMatchId);
-        setupBottomSheet();
-        initBottomSheetRecyclerView();
     }
 
     private void initBottomSheetRecyclerView() {
@@ -353,6 +351,8 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             }
                             if (board != null) {
                                 boardId = board.getId();
+                                setupBottomSheet();
+                                initBottomSheetRecyclerView();
                                 isBoardActive = board.isActive();
                                 saveBoardId();
                                 prepareFullScreenRecyclerView();

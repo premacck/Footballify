@@ -153,11 +153,11 @@ public interface RestApi {
 
     //TODO: verify this api(currently implemented similar to like and dislike)
     //working
-    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/emojis")
-    Observable<Response<JsonObject>> postReaction(@Path("id") String feedItemId,
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojis")
+    Observable<Response<JsonObject>> postReaction(@Path("feedItemId") String feedItemId,
                                                   @Query("boardId") String boardId,
-                                                  @Query("time") String dateCreated,
                                                   @Query("reaction") Integer emojiUnicode,
+                                                  @Query("time") String dateCreated,
                                                   @Header("Authorization") String authHeader);
 
     //working
