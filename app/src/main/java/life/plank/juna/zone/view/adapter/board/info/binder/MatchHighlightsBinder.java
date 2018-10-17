@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.multiview.binder;
+package life.plank.juna.zone.view.adapter.board.info.binder;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;

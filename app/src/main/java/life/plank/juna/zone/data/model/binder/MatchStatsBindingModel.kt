@@ -9,7 +9,6 @@ import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.MatchStats
 import life.plank.juna.zone.data.model.Stadium
-import life.plank.juna.zone.view.adapter.multiview.binder.MatchStatsBinder
 
 @Parcelize
 data class MatchStatsBindingModel(

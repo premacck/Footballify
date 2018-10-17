@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.multiview;
+package life.plank.juna.zone.view.adapter.board.info;
 
 import android.view.View;
 
@@ -20,22 +20,22 @@ import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.ScrubberData;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
-import life.plank.juna.zone.view.adapter.multiview.binder.CommentaryBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.CommentaryBinder;
 import life.plank.juna.zone.data.model.binder.CommentaryBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.LineupsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.LineupsBinder;
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.MatchHighlightsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchHighlightsBinder;
 import life.plank.juna.zone.data.model.binder.HighlightsBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.MatchStatsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchStatsBinder;
 import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.ScheduledMatchFooterBinder;
-import life.plank.juna.zone.view.adapter.multiview.binder.ScrubberBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.ScheduledMatchFooterBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.ScrubberBinder;
 import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.StandingsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.StandingsBinder;
 import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.SubstitutionBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.SubstitutionBinder;
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
-import life.plank.juna.zone.view.adapter.multiview.binder.TeamStatsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.TeamStatsBinder;
 import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;

@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.multiview.binder;
+package life.plank.juna.zone.view.adapter.board.info.binder;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +21,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.binder.CommentaryBindingModel;
 import life.plank.juna.zone.view.adapter.CommentaryAdapter;
-import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
+import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 

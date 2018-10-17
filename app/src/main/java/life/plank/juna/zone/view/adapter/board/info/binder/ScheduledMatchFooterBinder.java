@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.multiview.binder;
+package life.plank.juna.zone.view.adapter.board.info.binder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +17,8 @@ public class ScheduledMatchFooterBinder extends ItemBinder<String, ScheduledMatc
     }
 
     @Override
-    public void bind(ScheduledMatchFooterViewHolder holder, String item) {}
+    public void bind(ScheduledMatchFooterViewHolder holder, String item) {
+    }
 
     @Override
     public boolean canBindData(Object item) {

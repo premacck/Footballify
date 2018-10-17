@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.multiview.binder;
+package life.plank.juna.zone.view.adapter.board.info.binder;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +16,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
-import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
+import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 
 public class ScrubberBinder extends ItemBinder<ScrubberBindingModel, ScrubberBinder.ScrubberViewHolder> {
 

@@ -8,7 +8,6 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.MatchEvent
-import life.plank.juna.zone.view.adapter.multiview.binder.SubstitutionBinder
 
 import life.plank.juna.zone.util.DataUtil.extractSubstitutionEvents
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
