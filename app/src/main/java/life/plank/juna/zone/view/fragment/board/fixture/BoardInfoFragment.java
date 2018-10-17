@@ -43,7 +43,7 @@ import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
-import life.plank.juna.zone.view.adapter.multiview.BoardInfoAdapter;
+import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 import retrofit2.Response;
 import rx.Subscriber;

@@ -4,7 +4,6 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.ScrubberData
-import life.plank.juna.zone.view.adapter.multiview.binder.ScrubberBinder
 
 @Parcelize
 data class ScrubberBindingModel(var scrubberDataList: List<ScrubberData>? = null) : Parcelable {

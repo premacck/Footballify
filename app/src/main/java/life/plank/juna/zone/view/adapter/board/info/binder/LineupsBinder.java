@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.multiview.binder;
+package life.plank.juna.zone.view.adapter.board.info.binder;
 
 import android.os.AsyncTask;
 import android.view.Gravity;
