@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.RequestManager;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,16 +18,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.view.activity.camera.CustomCameraActivity;
+import life.plank.juna.zone.view.activity.camera.UploadActivity;
+
+import static life.plank.juna.zone.util.AppConstants.IMAGE;
+import static life.plank.juna.zone.util.AppConstants.VIDEO;
 
 public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryViewHolder> {
 
     private static final String TAG = GalleryAdapter.class.getSimpleName();
 
+    private CustomCameraActivity activity;
     private List<String> galleryItems;
     private RequestManager glide;
 
-    public GalleryAdapter(RequestManager glide) {
+    public GalleryAdapter(CustomCameraActivity activity, RequestManager glide) {
+        this.activity = activity;
         this.glide = glide;
         galleryItems = new ArrayList<>();
     }
@@ -35,7 +41,7 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
     @NonNull
     @Override
     public GalleryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int position) {
-        return new GalleryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_gallery, viewGroup, false));
+        return new GalleryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_gallery, viewGroup, false), this);
     }
 
     @Override
@@ -64,16 +70,17 @@ public class GalleryAdapter extends RecyclerView.Adapter<GalleryAdapter.GalleryV
         ImageView galleryItemThumbnail;
 
         private String itemPath;
+        private final WeakReference<GalleryAdapter> ref;
 
-        GalleryViewHolder(@NonNull View itemView) {
+        GalleryViewHolder(@NonNull View itemView, GalleryAdapter galleryAdapter) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            ref = new WeakReference<>(galleryAdapter);
         }
 
         @OnClick(R.id.gallery_item_thumbnail)
         public void onGalleryImageSelected() {
-//            TODO: process the gallery item's path for upload.
-            Toast.makeText(ZoneApplication.getContext(), "Selected position: " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
+            UploadActivity.launch(ref.get().activity, ref.get().activity.isForImage() ? IMAGE : VIDEO, ref.get().activity.boardId, itemPath);
         }
     }
 }

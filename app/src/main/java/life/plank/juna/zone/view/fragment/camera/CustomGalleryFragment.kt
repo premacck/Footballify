@@ -8,12 +8,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import butterknife.ButterKnife
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_custom_gallery.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.camera.PermissionHandler.*
+import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import life.plank.juna.zone.view.adapter.gallery.GalleryAdapter
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
@@ -49,13 +49,11 @@ class CustomGalleryFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_custom_gallery, container, false)
-        ButterKnife.bind(this, rootView)
-        return rootView
+        return inflater.inflate(R.layout.fragment_custom_gallery, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = GalleryAdapter(Glide.with(this))
+        adapter = GalleryAdapter(activity as CustomCameraActivity?, Glide.with(this))
         gallery_recycler_view.adapter = adapter
     }
 

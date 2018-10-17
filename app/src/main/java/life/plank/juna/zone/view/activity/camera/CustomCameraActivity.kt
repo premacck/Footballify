@@ -19,8 +19,8 @@ import life.plank.juna.zone.view.fragment.camera.CustomGalleryFragment
 
 class CustomCameraActivity : StackableCardActivity() {
 
-    private var isForImage: Boolean = false
-    private lateinit var boardId: String
+    var isForImage: Boolean = false
+    lateinit var boardId: String
     private lateinit var pagerAdapter: CameraPagerAdapter
 
     companion object {
