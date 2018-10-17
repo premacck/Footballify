@@ -408,11 +408,11 @@ public class UploadActivity extends AppCompatActivity {
         @SuppressWarnings("ResultOfMethodCallIgnored")
         @Override
         protected void onPostExecute(String compressedVideoPath) {
-            super.onPostExecute(compressedVideoPath);
             enableOrDisableView(ref.get().postBtn, true);
             ref.get().postBtn.setText(R.string.post);
             if (compressedVideoPath != null) {
 //                Deleting original video file and using the compressed one.
+                ref.get().filePath = compressedVideoPath;
                 ref.get().capturedVideoView.setVideoPath(compressedVideoPath);
                 File originalVideo = new File(videoPath);
                 if (originalVideo.exists()) {
