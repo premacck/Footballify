@@ -33,6 +33,7 @@ import android.provider.MediaStore;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -65,6 +66,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -432,6 +435,15 @@ public class UIDisplayUtil {
 
             @Override
             public void onPrepareLoad(Drawable placeHolderDrawable) {
+            }
+        };
+    }
+
+    public static SimpleTarget<Drawable> getDrawableTopTarget(TextView textView) {
+        return new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                textView.setCompoundDrawablesWithIntrinsicBounds(null, resource, null, null);
             }
         };
     }

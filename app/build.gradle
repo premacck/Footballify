@@ -168,3 +168,9 @@ configurations.all {
         }
     }
 }
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
+}

@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.PlayerStats;
+import life.plank.juna.zone.data.model.Poll;
 import life.plank.juna.zone.data.model.ScrubberData;
 import life.plank.juna.zone.data.model.SignUpModel;
 import life.plank.juna.zone.data.model.Standings;
@@ -254,4 +255,12 @@ public interface RestApi {
                                                                   @Query("boardId") String boardId,
                                                                   @Query("time") String time,
                                                                   @Header("Authorization") String authHeader);
+
+    @GET(ZONE_BACKEND_SUFFIX + "/getPoll")
+    Observable<Response<Poll>> getBoardPoll(@Query("boardId") String boardId, @Header("Authorization") String... authHeader);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/postPoll")
+    Observable<Response<JsonObject>> postBoardPoll(@Query("userAnswer") String userAnswer,
+                                                   @Query("boardId") String boardId,
+                                                   @Header("Authorization") String... authHeader);
 }
