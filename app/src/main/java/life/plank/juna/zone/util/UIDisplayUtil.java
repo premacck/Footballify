@@ -59,12 +59,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.ByteArrayOutputStream;
 import java.text.ParseException;
@@ -578,5 +582,25 @@ public class UIDisplayUtil {
         ObjectAnimator flip = ObjectAnimator.ofFloat(viewToFlip, ZoneApplication.getContext().getString(isVertical ? R.string.rotation_y : R.string.rotation_x), 0f, 180f);
         flip.setDuration(500);
         flip.start();
+    }
+
+    public static void rotateAndChangeImageResource(final ImageView imageView, @DrawableRes final int resId) {
+        imageView.setRotation(0);
+        imageView.animate()
+                .rotationBy(360)
+                .setDuration(400)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
+
+        imageView.postDelayed(() -> imageView.setImageResource(resId), 120);
+    }
+
+    public static void touchFeedBackAnimation(@NotNull View view, boolean isDown) {
+        view.animate()
+                .scaleX(isDown ? 0.88f : 1f)
+                .scaleY(isDown ? 0.88f : 1f)
+                .setDuration(300)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
     }
 }

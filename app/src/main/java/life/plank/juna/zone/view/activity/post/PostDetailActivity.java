@@ -25,11 +25,10 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.util.FileHandler;
 import life.plank.juna.zone.view.activity.base.StackableCardActivity;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 
-import static life.plank.juna.zone.util.FileHandler.getSavedScreenshot;
-import static life.plank.juna.zone.util.FileHandler.saveScreenshot;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 public class PostDetailActivity extends StackableCardActivity {
@@ -53,7 +52,7 @@ public class PostDetailActivity extends StackableCardActivity {
 
     public static void launch(Activity from, List<FeedEntry> feedEntryList, String boardId, int position, View screenshotLayout, String target) {
         Intent intent = new Intent(from, PostDetailActivity.class);
-        saveScreenshot(from.getLocalClassName(), screenshotLayout, intent);
+        FileHandler.Companion.saveScreenshot(from.getLocalClassName(), screenshotLayout, intent);
         intent.putParcelableArrayListExtra(from.getString(R.string.intent_feed_items), (ArrayList<? extends Parcelable>) feedEntryList);
         intent.putExtra(from.getString(R.string.intent_board_id), boardId);
         intent.putExtra(from.getString(R.string.intent_position), position);
@@ -74,7 +73,7 @@ public class PostDetailActivity extends StackableCardActivity {
         boardId = intent.getStringExtra(getString(R.string.intent_board_id));
         position = intent.getIntExtra(getString(R.string.intent_position), 0);
         target = intent.getStringExtra(getString(R.string.intent_target));
-        blurBg = getSavedScreenshot(intent);
+        blurBg = FileHandler.Companion.getSavedScreenshot(intent);
         blurBackgroundImageView.setImageBitmap(blurBg);
         setupSwipeGesture(this, dragArea, postDetailViewPager, fadedCard);
         

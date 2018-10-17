@@ -60,6 +60,7 @@ import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.FileHandler;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
@@ -79,8 +80,6 @@ import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
-import static life.plank.juna.zone.util.FileHandler.getSavedScreenshot;
-import static life.plank.juna.zone.util.FileHandler.saveScreenshot;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog;
@@ -154,7 +153,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
     public static void launch(Activity from, MatchFixture fixture, League league, View screenshotLayout) {
         Intent intent = new Intent(from, MatchBoardActivity.class);
-        saveScreenshot(from.getLocalClassName(), screenshotLayout, intent);
+        FileHandler.Companion.saveScreenshot(from.getLocalClassName(), screenshotLayout, intent);
         intent.putExtra(from.getString(R.string.intent_fixture_data), fixture);
         intent.putExtra(from.getString(R.string.intent_league), league);
         from.startActivity(intent);
@@ -255,7 +254,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
             league = intent.getParcelableExtra(getString(R.string.intent_league));
             currentMatchId = fixture.getMatchId();
             publicBoardToolbar.prepare(picasso, fixture, league.getThumbUrl());
-            blurBg = getSavedScreenshot(intent);
+            blurBg = FileHandler.Companion.getSavedScreenshot(intent);
             blurBackgroundImageView.setImageBitmap(blurBg);
         } else {
             currentMatchId = intent.getLongExtra(getString(R.string.match_id_string), 0);

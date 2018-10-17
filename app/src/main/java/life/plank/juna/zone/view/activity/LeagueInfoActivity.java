@@ -41,6 +41,7 @@ import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.BoomMenuUtil;
+import life.plank.juna.zone.util.FileHandler;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
@@ -57,8 +58,6 @@ import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
-import static life.plank.juna.zone.util.FileHandler.getSavedScreenshot;
-import static life.plank.juna.zone.util.FileHandler.saveScreenshot;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -144,7 +143,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
 
     public static void launch(Activity fromActivity, League league, View screenshotView) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
-        saveScreenshot(fromActivity.getLocalClassName(), screenshotView, intent);
+        FileHandler.Companion.saveScreenshot(fromActivity.getLocalClassName(), screenshotView, intent);
         intent.putExtra(fromActivity.getString(R.string.intent_league), league);
         fromActivity.startActivity(intent);
         fromActivity.overridePendingTransition(R.anim.float_up, android.R.anim.fade_out);
@@ -161,7 +160,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         Intent intent = getIntent();
         if (intent != null) {
             league = intent.getParcelableExtra(getString(R.string.intent_league));
-            blurBg = getSavedScreenshot(intent);
+            blurBg = FileHandler.Companion.getSavedScreenshot(intent);
         }
 
         blurBackgroundImageView.setImageBitmap(blurBg);
