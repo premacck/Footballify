@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    android:backgroundTint="@color/transparent_black_bb"
-    android:backgroundTintMode="src_over"
     android:padding="2dp">
+
+    <ImageView
+        android:id="@+id/background_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="151dp"
+        android:contentDescription="@string/blur_background"
+        android:scaleType="centerCrop"
+        android:tint="@color/transparent_black_80"
+        android:tintMode="src_over"
+        app:layout_constraintBottom_toBottomOf="@+id/time_to_kick_off"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.475" />
 
     <TextView
         android:id="@+id/poll_header"
@@ -42,10 +53,10 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+        app:layout_constraintBottom_toBottomOf="@+id/poll_second_answer"
         app:layout_constraintEnd_toStartOf="@+id/poll_second_answer"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/poll_header" />
+        app:layout_constraintTop_toTopOf="@+id/poll_second_answer" />
 
     <Button
         android:id="@+id/poll_second_answer"
@@ -54,7 +65,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:background="@drawable/bg_white_translucent_card"
         android:backgroundTintMode="src_atop"
         android:drawableTop="@drawable/ic_whistle_vertical_white"
@@ -67,7 +78,7 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+        app:layout_constraintBottom_toTopOf="@+id/time_to_kick_off"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/poll_header" />
@@ -90,10 +101,10 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+        app:layout_constraintBottom_toBottomOf="@+id/poll_second_answer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/poll_second_answer"
-        app:layout_constraintTop_toBottomOf="@+id/poll_header" />
+        app:layout_constraintTop_toTopOf="@+id/poll_second_answer" />
 
     <ImageView
         android:id="@+id/league_logo"
@@ -135,8 +146,7 @@
         android:layout_height="4dp"
         android:layout_marginStart="39dp"
         android:layout_marginEnd="39dp"
-        android:layout_marginBottom="9dp"
-        android:visibility="invisible"
+        android:layout_marginBottom="8dp"
         android:progressDrawable="@drawable/bg_multi_progress"
         app:layout_constraintBottom_toTopOf="@+id/time_to_kick_off"
         app:layout_constraintEnd_toEndOf="parent"

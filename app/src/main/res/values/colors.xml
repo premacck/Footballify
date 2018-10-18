@@ -69,7 +69,8 @@
     <color name="grey_10">#19555555</color>
     <color name="grey_97">#f7f7f7</color>
     <color name="white_76_opaque">#4cffffff</color>
-    <color name="transparent_black_bb">#bb000000</color>
+    <color name="transparent_black_b3">#b3000000</color>
+    <color name="transparent_black_80">#80000000</color>
     <color name="red_translucent_4c">#4cff0800</color>
     <color name="blue_translucent_4c">#4c4f75f2</color>
     <color name="candy_apple_red">#ff0800</color>
