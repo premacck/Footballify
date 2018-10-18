@@ -14,6 +14,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Poll
 import life.plank.juna.zone.data.model.binder.PollBindingModel
 import life.plank.juna.zone.util.AppConstants.LIVE
+import life.plank.juna.zone.util.AppConstants.PollValue
 import life.plank.juna.zone.util.AppConstants.PollValue.*
 import life.plank.juna.zone.util.DateUtil
 import life.plank.juna.zone.util.UIDisplayUtil
@@ -82,18 +83,14 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         total_votes.text = voteString
 
 //        Setting on-click listeners
-        poll_first_answer.onClick {
-            pollBindingModel.poll.userAnswer = HOME
-            pollSelected(pollBindingModel.poll)
-        }
-        poll_second_answer.onClick {
-            pollBindingModel.poll.userAnswer = DRAW
-            pollSelected(pollBindingModel.poll)
-        }
-        poll_third_answer.onClick {
-            pollBindingModel.poll.userAnswer = AWAY
-            pollSelected(pollBindingModel.poll)
-        }
+        poll_first_answer.onClick { onPollSelectionPerformed(HOME) }
+        poll_second_answer.onClick { onPollSelectionPerformed(DRAW) }
+        poll_third_answer.onClick { onPollSelectionPerformed(AWAY) }
+    }
+
+    private fun onPollSelectionPerformed(@PollValue pollValue: String) {
+        pollBindingModel.poll.userAnswer = pollValue
+        pollSelected(pollBindingModel.poll)
     }
 
     private fun pollSelected(poll: Poll) {
@@ -117,21 +114,21 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         poll_third_answer.background = context.getDrawable(R.drawable.bg_blue_translucent_card)
         when (poll.userAnswer) {
             HOME -> {
-                poll_first_answer.alpha = 1f
-                poll_second_answer.alpha = 0.5f
-                poll_third_answer.alpha = 0.5f
+                setAlpha(1f, 0.5f, 0.5f)
             }
             AWAY -> {
-                poll_first_answer.alpha = 0.5f
-                poll_second_answer.alpha = 0.5f
-                poll_third_answer.alpha = 1f
+                setAlpha(0.5f, 0.5f, 1f)
             }
             else -> {
-                poll_first_answer.alpha = 0.5f
-                poll_second_answer.alpha = 1f
-                poll_third_answer.alpha = 0.5f
+                setAlpha(0.5f, 1f, 0.5f)
             }
         }
+    }
+
+    private fun setAlpha(firstAnswerAlpha: Float, secondAnswerAlpha: Float, thirdAnswerAlpha: Float) {
+        poll_first_answer.alpha = firstAnswerAlpha
+        poll_second_answer.alpha = secondAnswerAlpha
+        poll_third_answer.alpha = thirdAnswerAlpha
     }
 
     private fun loadImage(logo: String, button: Button, width: Float, height: Float) {
