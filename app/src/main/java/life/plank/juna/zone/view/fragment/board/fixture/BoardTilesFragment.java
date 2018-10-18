@@ -50,9 +50,9 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
+import static life.plank.juna.zone.util.BoomMenuUtil.hideAndShowBoomMenu;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.hideAndShowBoomMenu;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 

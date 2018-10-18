@@ -39,7 +39,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
@@ -69,7 +68,6 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.bvapp.arcmenulibrary.ArcMenu;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -120,16 +118,6 @@ public class UIDisplayUtil {
 
     public UIDisplayUtil() {
 
-    }
-
-    public static void hideAndShowBoomMenu(NestedScrollView nestedScrollView, ArcMenu arcMenu){
-        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            if (scrollY > oldScrollY) {
-                arcMenu.hide();
-            } else {
-                arcMenu.show();
-            }
-        });
     }
 
     public static Drawable getCommentColor(String comment) {
@@ -593,15 +581,6 @@ public class UIDisplayUtil {
         return new String(Character.toChars(unicode));
     }
 
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
     public static void flipView(View viewToFlip, boolean isVertical) {
         ObjectAnimator flip = ObjectAnimator.ofFloat(viewToFlip, ZoneApplication.getContext().getString(isVertical ? R.string.rotation_y : R.string.rotation_x), 0f, 180f);
         flip.setDuration(500);
@@ -626,5 +605,14 @@ public class UIDisplayUtil {
                 .setDuration(300)
                 .setInterpolator(new OvershootInterpolator())
                 .start();
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 }

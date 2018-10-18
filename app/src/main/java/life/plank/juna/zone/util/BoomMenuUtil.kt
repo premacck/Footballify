@@ -5,6 +5,7 @@ package life.plank.juna.zone.util
 import android.app.Activity
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
+import android.support.v4.widget.NestedScrollView
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -56,6 +57,16 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
     }
 }
 
+fun hideAndShowBoomMenu(nestedScrollView: NestedScrollView, arcMenu: ArcMenu) {
+    nestedScrollView.setOnScrollChangeListener { nestedScrollView: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+        if (scrollY > oldScrollY) {
+            arcMenu.hide()
+        } else {
+            arcMenu.show()
+        }
+    }
+}
+
 fun getBoomMenuTitles(@BoomMenuPage page: Int): Array<String>? {
     val resources: Resources = ZoneApplication.getContext().resources
     return when (page) {
@@ -68,7 +79,9 @@ fun getBoomMenuTitles(@BoomMenuPage page: Int): Array<String>? {
         BOOM_MENU_HOME -> {
             resources.getStringArray(R.array.boom_menu_titles_home)
         }
-        else -> { null }
+        else -> {
+            null
+        }
     }
 }
 
@@ -95,7 +108,9 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int): IntArray? {
         BOOM_MENU_HOME -> {
             intArrayOf(R.drawable.ic_home_purple)
         }
-        else -> { null }
+        else -> {
+            null
+        }
     }
 }
 
@@ -116,13 +131,17 @@ fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int): IntArray? {
         BOOM_MENU_SETTINGS_AND_HOME -> {
             intArrayOf(R.drawable.fab_circle_background_grey, R.drawable.fab_circle_background_white)
         }
-        BOOM_MENU_HOME -> { intArrayOf(R.drawable.fab_circle_background_white) }
-        else -> { null }
+        BOOM_MENU_HOME -> {
+            intArrayOf(R.drawable.fab_circle_background_white)
+        }
+        else -> {
+            null
+        }
     }
 }
 
-fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: String?, position: Int) : View.OnClickListener? {
-    return when(page) {
+fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: String?, position: Int): View.OnClickListener? {
+    return when (page) {
         BOOM_MENU_FULL -> {
             View.OnClickListener {
                 when (position) {
@@ -190,4 +209,6 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
         }
         else -> null
     }
+
+
 }
