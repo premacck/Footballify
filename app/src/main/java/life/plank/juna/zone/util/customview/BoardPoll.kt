@@ -158,8 +158,8 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     }
 
     private fun setPollProgress(poll: Poll) {
-        progress_bar.visibility = if (poll.canAnswer) View.INVISIBLE else View.VISIBLE
-        progress_bar.progress = poll.homeTeamPercent
-        progress_bar.secondaryProgress = poll.homeTeamPercent + poll.drawPercent
+        poll_progress_bar.visibility = if (poll.canAnswer) View.INVISIBLE else View.VISIBLE
+        poll_progress_bar.progress = poll.homeTeamPercent
+        poll_progress_bar.secondaryProgress = poll.homeTeamPercent + poll.drawPercent
     }
 }
