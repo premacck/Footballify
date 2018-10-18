@@ -4,7 +4,5 @@ import android.view.View;
 
 public abstract class StackableCardActivity extends BaseCardActivity {
 
-    public View getScreenshotLayout() {
-        return null;
-    }
+    public abstract View getScreenshotLayout();
 }

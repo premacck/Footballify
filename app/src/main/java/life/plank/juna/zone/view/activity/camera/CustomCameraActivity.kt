@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
+import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_custom_camera.*
@@ -71,6 +72,10 @@ class CustomCameraActivity : StackableCardActivity() {
             }
             super.setPrimaryItem(container, position, `object`)
         }
+    }
+
+    override fun getScreenshotLayout(): View {
+        return root_card
     }
 
     override fun onBackPressed() {
