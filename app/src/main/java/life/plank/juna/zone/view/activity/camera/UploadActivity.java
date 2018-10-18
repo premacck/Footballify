@@ -107,7 +107,6 @@ public class UploadActivity extends AppCompatActivity {
     private String openFrom;
     private String userId, boardId;
     private String filePath;
-    private String absolutePath;
     private Handler mHandler;
 
     /**
@@ -119,7 +118,7 @@ public class UploadActivity extends AppCompatActivity {
             Intent intent = new Intent(from, UploadActivity.class);
             intent.putExtra(from.getString(R.string.intent_open_from), openFrom);
             intent.putExtra(from.getString(R.string.intent_board_id), boardId);
-            if (mediaFilePath != null) {
+            if (mediaFilePath != null && mediaFilePath.length > 0) {
                 intent.putExtra(from.getString(R.string.intent_file_path), mediaFilePath[0]);
             }
             from.startActivity(intent);
@@ -199,25 +198,36 @@ public class UploadActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case AUDIO_PICKER_RESULT:
-                if (resultCode == RESULT_OK && data != null) {
-                    Uri uri = data.getData();
-                    if (null != uri) {
-                        try {
-                            updateUI(VIDEO);
-                            absolutePath = UIDisplayUtil.getAudioPath(uri);
-                            File absoluteFile = new File(absolutePath);
-                            long fileSizeInMB = absoluteFile.length() / (1024 * 1024);
-                            if (fileSizeInMB <= 8) {
-//                                TODO: implement audio player using "this.absolutePath"
-                            } else {
-                                Toast.makeText(this, R.string.file_too_large, Toast.LENGTH_SHORT).show();
+                switch (resultCode) {
+                    case RESULT_OK:
+                        if (data != null) {
+                            Uri uri = data.getData();
+                            if (uri != null) {
+                                try {
+                                    updateUI(VIDEO);
+                                    filePath = UIDisplayUtil.getAudioPath(uri);
+                                    File absoluteFile = new File(filePath);
+                                    long fileSizeInMB = absoluteFile.length() / (1024 * 1024);
+                                    if (fileSizeInMB <= 8) {
+//                                    TODO: implement audio player using "this.filePath"
+                                    } else {
+                                        Toast.makeText(this, R.string.file_too_large, Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Log.e("TAG", "AUDIO_PICKER_RESULT : " + e);
+                                    Toast.makeText(UploadActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
                             }
-                        } catch (Exception e) {
-                            Log.e("TAG", "AUDIO_PICKER_RESULT : " + e);
-                            Toast.makeText(UploadActivity.this, R.string.unable_to_process, Toast.LENGTH_SHORT).show();
-                            finish();
                         }
-                    }
+                        break;
+                    case RESULT_CANCELED:
+                        finish();
+                        break;
+                    default:
+                        Toast.makeText(this, R.string.failed_to_get_audio_file, Toast.LENGTH_LONG).show();
+                        finish();
+                        break;
                 }
                 break;
             case GALLERY_IMAGE_RESULT:
@@ -265,7 +275,7 @@ public class UploadActivity extends AppCompatActivity {
         capturedImageView.setImageBitmap(bitmap);
     }
 
-    private void postMediaContent(String selectedFileUri, String mediaType, String contentType, String userId, String dateCreated) {
+    private void postMediaContent(String mediaType, String contentType, String userId, String dateCreated) {
         if (titleEditText.getText() == null || titleEditText.getText().toString().trim().isEmpty()) {
             return;
         }
@@ -273,7 +283,7 @@ public class UploadActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.just_a_moment));
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.show();
-        File file = new File(selectedFileUri);
+        File file = new File(filePath);
         RequestBody requestBody;
         requestBody = RequestBody.create(MediaType.parse(mediaType), file);
         MultipartBody.Part body = MultipartBody.Part.createFormData("", file.getName(), requestBody);
@@ -324,13 +334,13 @@ public class UploadActivity extends AppCompatActivity {
         switch (openFrom) {
             case IMAGE:
             case GALLERY:
-                postMediaContent(filePath, getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
+                postMediaContent(getString(R.string.media_type_image), IMAGE, userId, getRequestDateStringOfNow());
                 break;
             case VIDEO:
-                postMediaContent(filePath, getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
+                postMediaContent(getString(R.string.media_type_video), VIDEO, userId, getRequestDateStringOfNow());
                 break;
             case AUDIO:
-                postMediaContent(absolutePath, getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
+                postMediaContent(getString(R.string.media_type_audio), AUDIO, userId, getRequestDateStringOfNow());
                 break;
             default:
                 Toast.makeText(this, R.string.network_error, Toast.LENGTH_SHORT).show();

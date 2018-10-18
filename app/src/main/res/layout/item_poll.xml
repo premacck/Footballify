@@ -140,7 +140,7 @@
         app:layout_constraintStart_toStartOf="@+id/league_logo" />
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/poll_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="4dp"
