@@ -83,6 +83,7 @@ class CameraFragment : Fragment() {
     internal fun onTouchCapture(view: View, motionEvent: MotionEvent): Boolean {
         when (motionEvent.action) {
             MotionEvent.ACTION_DOWN -> {
+                tap_hold_hint.visibility = View.GONE
                 touchFeedBackAnimation(view, true)
                 pendingVideoCapture = true
                 view.postDelayed({
