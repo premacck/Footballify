@@ -11,10 +11,10 @@
         android:id="@+id/root_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        arc:cardCornerRadius="8dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp">
+        android:layout_marginTop="10dp"
+        arc:cardCornerRadius="8dp">
 
         <RelativeLayout
             android:id="@+id/parent_layout"
@@ -27,8 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="100dp"
-                android:src="@drawable/ic_ball"
-                android:contentDescription="@string/blur_background" />
+                android:contentDescription="@string/blur_background"
+                android:src="@drawable/ic_ball" />
 
             <include
                 android:id="@+id/feed_header"
@@ -43,20 +43,27 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/feed_header" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/football_feed_recycler_view"
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/feed_info"
-                android:layout_marginStart="2dp"
                 android:layout_marginEnd="2dp"
+                android:layout_marginStart="2dp"
                 android:background="@color/background_color"
                 android:clipToPadding="false"
-                android:paddingTop="5dp"
                 android:paddingBottom="50dp"
-                arc:layoutManager="android.support.v7.widget.GridLayoutManager"
-                arc:spanCount="1"
-                tools:listitem="@layout/football_feed_row" />
+                android:paddingTop="5dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/football_feed_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    arc:layoutManager="android.support.v7.widget.GridLayoutManager"
+                    arc:spanCount="1"
+                    tools:listitem="@layout/football_feed_row" />
+
+            </android.support.v4.widget.NestedScrollView>
 
             <ProgressBar
                 android:id="@+id/progress_bar"

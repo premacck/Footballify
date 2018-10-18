@@ -4,6 +4,7 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -46,6 +47,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
+import static life.plank.juna.zone.util.BoomMenuUtil.hideAndShowBoomMenu;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
@@ -58,7 +60,8 @@ import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
 public class SwipePageActivity extends StackableCardActivity implements SearchView.OnQueryTextListener, OnItemClickListener {
 
     private static final String TAG = SwipePageActivity.class.getSimpleName();
-
+    @Inject
+    public Gson gson;
     @BindView(R.id.root_card)
     CardView rootCard;
     @BindView(R.id.football_feed_recycler_view)
@@ -76,33 +79,17 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
     RecyclerView recyclerView;
     @BindView(R.id.options_image)
     ImageView optionsImage;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
     @Inject
     Picasso picasso;
-
     FootballLeagueAdapter adapter;
     SearchViewAdapter searchViewAdapter;
     ArrayList<User> userList = new ArrayList<>();
     Point point;
-
     @Inject
     @Named("default")
     RestApi restApi;
-    @Inject
-    public Gson gson;
-
-    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                arcMenu.show();
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,8 +121,7 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
                 // React to dragging events
             }
         });
-
-
+        hideAndShowBoomMenu(nestedScrollView, arcMenu);
     }
 
     @OnClick(R.id.options_image)
@@ -164,8 +150,6 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
         adapter = new FootballLeagueAdapter(this);
         feedRecyclerView.setAdapter(adapter);
         feedRecyclerView.setHasFixedSize(true);
-        feedRecyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-
     }
 
     private void initBottomSheetRecyclerView() {

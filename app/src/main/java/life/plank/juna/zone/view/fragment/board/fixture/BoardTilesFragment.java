@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -49,13 +50,16 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
+import static life.plank.juna.zone.util.BoomMenuUtil.hideAndShowBoomMenu;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
-
+    @Inject
+    public
+    Picasso picasso;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.swipe_refresh_layout)
@@ -68,10 +72,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     TextView noDataTextView;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
-
-    @Inject
-    public
-    Picasso picasso;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
     @Inject
     Gson gson;
     @Inject
@@ -129,6 +131,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             return rootView;
         }
         initRecyclerViews();
+        hideAndShowBoomMenu(nestedScrollView, arcMenu);
         return rootView;
     }
 

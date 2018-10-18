@@ -585,15 +585,6 @@ public class UIDisplayUtil {
         return new String(Character.toChars(unicode));
     }
 
-    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
-        if (listPopupWindow != null && listPopupWindow.isShowing())
-            listPopupWindow.dismiss();
-    }
-
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
-    }
-
     public static void flipView(View viewToFlip, boolean isVertical) {
         ObjectAnimator flip = ObjectAnimator.ofFloat(viewToFlip, ZoneApplication.getContext().getString(isVertical ? R.string.rotation_y : R.string.rotation_x), 0f, 180f);
         flip.setDuration(500);
@@ -618,5 +609,14 @@ public class UIDisplayUtil {
                 .setDuration(300)
                 .setInterpolator(new OvershootInterpolator())
                 .start();
+    }
+
+    public void dismissPopupListWindow(ListPopupWindow listPopupWindow) {
+        if (listPopupWindow != null && listPopupWindow.isShowing())
+            listPopupWindow.dismiss();
+    }
+
+    private static class UIDisplayUtilWrapper {
+        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
     }
 }

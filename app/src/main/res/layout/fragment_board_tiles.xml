@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:animateLayoutChanges="true"
+    android:orientation="vertical"
     tools:context=".view.fragment.board.fixture.BoardInfoFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -15,6 +15,7 @@
         android:layout_height="match_parent">
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -34,12 +35,12 @@
                     android:layout_height="match_parent"
                     android:layout_below="@+id/poll"
                     android:clipToPadding="false"
+                    android:nestedScrollingEnabled="false"
                     android:paddingBottom="0.5dp"
                     android:paddingTop="0.5dp"
-                    tools:listitem="@layout/item_board_tile"
-                    android:nestedScrollingEnabled="false"
                     app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                    app:spanCount="3" />
+                    app:spanCount="3"
+                    tools:listitem="@layout/item_board_tile" />
 
             </RelativeLayout>
 
@@ -52,8 +53,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/no_data"
