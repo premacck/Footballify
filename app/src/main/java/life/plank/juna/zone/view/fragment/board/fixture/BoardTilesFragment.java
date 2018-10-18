@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -32,9 +33,11 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
+import life.plank.juna.zone.data.model.binder.PollBindingModel;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.util.BoomMenuUtil;
+import life.plank.juna.zone.util.customview.BoardPoll;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
@@ -57,6 +60,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     ProgressBar progressBar;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.poll)
+    BoardPoll boardPoll;
     @BindView(R.id.board_tiles_list)
     RecyclerView boardTilesRecyclerView;
     @BindView(R.id.no_data)
@@ -78,15 +83,19 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     private String boardId;
     private boolean isBoardActive;
+    private PollBindingModel pollBindingModel;
 
     public BoardTilesFragment() {
     }
 
-    public static BoardTilesFragment newInstance(String boardId, boolean isBoardActive) {
+    public static BoardTilesFragment newInstance(String boardId, boolean isBoardActive, PollBindingModel... pollBindingModels) {
         BoardTilesFragment fragment = new BoardTilesFragment();
         Bundle bundle = new Bundle();
         bundle.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
         bundle.putBoolean(ZoneApplication.getContext().getString(R.string.intent_is_board_active), isBoardActive);
+        if (pollBindingModels != null && pollBindingModels.length > 0) {
+            bundle.putParcelable(ZoneApplication.getContext().getString(R.string.intent_poll_binding_model), pollBindingModels[0]);
+        }
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -98,6 +107,9 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         if (bundle != null) {
             boardId = bundle.getString(getString(R.string.intent_board_id));
             isBoardActive = bundle.getBoolean(getString(R.string.intent_is_board_active));
+            if (bundle.containsKey(getString(R.string.intent_poll_binding_model))) {
+                pollBindingModel = bundle.getParcelable(getString(R.string.intent_poll_binding_model));
+            }
         }
     }
 
@@ -144,6 +156,12 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     }
 
     private void initRecyclerViews() {
+        if (pollBindingModel != null) {
+            boardPoll.setVisibility(View.VISIBLE);
+            boardPoll.prepare(Glide.with(this), pollBindingModel);
+        } else {
+            boardPoll.setVisibility(View.GONE);
+        }
         adapter = new BoardMediaAdapter(this);
         adapter.setOnClickFeedItemListener(this);
         boardTilesRecyclerView.setAdapter(adapter);

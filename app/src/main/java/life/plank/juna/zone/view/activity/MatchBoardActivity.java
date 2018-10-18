@@ -8,12 +8,13 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.PagerSnapHelper;
@@ -35,6 +36,7 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
 import java.util.Date;
 import java.util.List;
 
@@ -49,14 +51,15 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
 import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.FeedEntry;
-import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.data.model.Poll;
 import life.plank.juna.zone.data.model.Thumbnail;
 import life.plank.juna.zone.data.model.ZoneLiveData;
+import life.plank.juna.zone.data.model.binder.PollBindingModel;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
@@ -68,7 +71,10 @@ import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
+import retrofit2.Response;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BOARD_ACTIVATED;
@@ -80,6 +86,7 @@ import static life.plank.juna.zone.util.DataUtil.getZoneLiveData;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
+import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog;
@@ -135,6 +142,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     private League league;
     private MatchFixture fixture;
     private MatchDetails matchDetails;
+    private Poll poll;
 
     private BoardPagerAdapter boardPagerAdapter;
     private BottomSheetBehavior emojiBottomSheetBehavior;
@@ -169,9 +177,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         String imageUrl = intent.getStringExtra(getString(R.string.intent_image_url));
         FeedEntry feed = new FeedEntry();
         Log.d(TAG, "content_type: " + contentType);
-        if (feed.getFeedItem() == null) {
-            feed.setFeedItem(new FeedItem());
-        }
+
         feed.getFeedItem().setContentType(contentType);
         if (contentType.equals(AppConstants.ROOT_COMMENT)) {
             feed.getFeedItem().setTitle(title);
@@ -363,9 +369,40 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                                 } else applyInactiveBoardColorFilter();
                             } else applyInactiveBoardColorFilter();
 
-                            setupViewPagerWithFragments();
+                            getBoardPolls();
                         } else {
                             Toast.makeText(MatchBoardActivity.this, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+    }
+
+    private void getBoardPolls() {
+        restApi.getBoardPoll(boardId, getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<Poll>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i(TAG, "getBoardPolls() : onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "getBoardPolls() : ", e);
+                    }
+
+                    @Override
+                    public void onNext(Response<Poll> response) {
+                        switch (response.code()) {
+                            case HttpURLConnection.HTTP_OK:
+                                poll = response.body();
+                                setupViewPagerWithFragments();
+                                break;
+                            case HttpURLConnection.HTTP_NOT_FOUND:
+                                break;
+                            default:
+                                break;
                         }
                     }
                 });
@@ -455,7 +492,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         }
     }
 
-    static class BoardPagerAdapter extends FragmentPagerAdapter {
+    static class BoardPagerAdapter extends FragmentStatePagerAdapter {
 
         private Fragment currentFragment;
         private WeakReference<MatchBoardActivity> ref;
@@ -471,10 +508,32 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                 case 0:
                     return BoardInfoFragment.newInstance(ref.get().gson.toJson(ref.get().matchDetails));
                 case 1:
-                    return BoardTilesFragment.newInstance(ref.get().boardId, true);
+                    try {
+                        return ref.get().poll == null ? getBoardTilesFragmentWithoutPoll() : getBoardTilesFragmentWithPoll();
+                    } catch (Exception e) {
+                        Log.e(TAG, "getItem: ", e);
+                        getBoardTilesFragmentWithoutPoll();
+                    }
                 default:
                     return null;
             }
+        }
+
+        private Fragment getBoardTilesFragmentWithPoll() {
+            return BoardTilesFragment.newInstance(
+                    ref.get().boardId,
+                    ref.get().isBoardActive,
+                    PollBindingModel.Companion.from(ref.get().poll, ref.get().matchDetails)
+            );
+        }
+
+        private Fragment getBoardTilesFragmentWithoutPoll() {
+            return BoardTilesFragment.newInstance(ref.get().boardId, ref.get().isBoardActive);
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return POSITION_NONE;
         }
 
         @Override
