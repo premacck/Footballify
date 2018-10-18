@@ -130,7 +130,6 @@ public class UIDisplayUtil {
                 arcMenu.show();
             }
         });
-
     }
 
     public static Drawable getCommentColor(String comment) {
