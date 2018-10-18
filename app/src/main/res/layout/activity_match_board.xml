@@ -78,6 +78,7 @@
             android:id="@+id/board_blur_background_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/blur_background"
             android:elevation="5dp"
             android:visibility="invisible" />
@@ -95,5 +96,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/emoji_bottom_sheet" />
+    <include
+        layout="@layout/emoji_bottom_sheet"
+        android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>
