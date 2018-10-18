@@ -125,6 +125,11 @@ public class FixtureActivity extends BaseLeagueActivity {
     public void setBlurBg(Bitmap blurBg) {
     }
 
+    @Override
+    public View getScreenshotLayout() {
+        return rootCard;
+    }
+
     private static class UpdateAdapterTask extends AsyncTask<Void, Void, Void> {
 
         private WeakReference<FixtureActivity> ref;

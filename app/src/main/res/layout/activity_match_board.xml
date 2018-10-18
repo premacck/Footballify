@@ -78,22 +78,43 @@
             android:id="@+id/board_blur_background_image_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="centerCrop"
             android:contentDescription="@string/blur_background"
             android:elevation="5dp"
             android:visibility="invisible" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/board_tiles_list_full"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
-            android:clipToPadding="false"
-            android:elevation="6dp"
-            android:padding="14dp"
-            android:visibility="invisible"
-            app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager" />
+            android:elevation="6dp">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/board_tiles_list_full"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:layout_centerInParent="true"
+                android:padding="14dp"
+                android:visibility="invisible"
+                tools:listitem="@layout/football_feed_detail_row"
+                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager" />
+
+            <TextView
+                android:id="@+id/recycler_view_drag_area"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="20dp"
+                android:layout_alignTop="@+id/board_tiles_list_full"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
-    <include layout="@layout/emoji_bottom_sheet" />
+    <include
+        layout="@layout/emoji_bottom_sheet"
+        android:visibility="gone" />
 </android.support.design.widget.CoordinatorLayout>

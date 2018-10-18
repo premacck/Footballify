@@ -63,4 +63,6 @@
     <string name="login_signup_to_view_profile">Please login or signup to view the your profile</string>
     <string name="please_enter_title">Please enter a title</string>
     <string name="login_signup_to_view_comments">Please login or signup to view and post comments</string>
+    <string name="tap_for_photo_hold_for_video">Tap for photo, hold for video</string>
+    <string name="failed_to_get_audio_file">Failed to get audio file</string>
 </resources>

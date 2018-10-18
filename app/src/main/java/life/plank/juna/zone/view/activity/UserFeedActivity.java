@@ -19,6 +19,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bvapp.arcmenulibrary.ArcMenu;
@@ -92,6 +93,8 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     ArcMenu arcMenu;
     @BindView(R.id.board_blur_background_image_view)
     ImageView boardBlurBackgroundImageView;
+    @BindView(R.id.recycler_view_drag_area)
+    TextView recyclerViewDragArea;
     @BindView(R.id.board_tiles_list_full)
     RecyclerView boardTilesFullRecyclerView;
     @BindView(R.id.emoji_bottom_sheet)
@@ -142,6 +145,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         String topic = getString(R.string.juna_user_topic) + userObjectId;
         FirebaseMessaging.getInstance().subscribeToTopic(topic);
 
+        setupFullScreenRecyclerViewSwipeGesture(recyclerViewDragArea, boardTilesFullRecyclerView);
         setupBottomSheet();
         initBottomSheetRecyclerView();
         prepareFullScreenRecyclerView();
@@ -410,7 +414,10 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                recyclerViewDragArea.setVisibility(View.INVISIBLE);
                 boardTilesFullRecyclerView.setVisibility(View.INVISIBLE);
+                recyclerViewDragArea.setTranslationY(0);
+                boardTilesFullRecyclerView.setTranslationY(0);
                 boardBlurBackgroundImageView.setVisibility(View.INVISIBLE);
             }
 
@@ -429,6 +436,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
 
         if (setFlag) {
             boardTilesFullRecyclerView.scrollToPosition(position);
+            recyclerViewDragArea.setVisibility(View.VISIBLE);
             boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
             boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
         }

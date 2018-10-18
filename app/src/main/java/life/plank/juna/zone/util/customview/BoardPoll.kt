@@ -142,23 +142,24 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         val stringBuilder = StringBuilder()
         return when (pollBindingModel.poll.userAnswer) {
             HOME -> stringBuilder.append(pollBindingModel.poll.homeTeamPercent)
-                    .append("%")
-                    .append(" says ")
+                    .appendPercentSays()
                     .append(pollBindingModel.homeTeamName)
             AWAY -> stringBuilder.append(pollBindingModel.poll.awayTeamPercent)
-                    .append("%")
-                    .append(" says ")
+                    .appendPercentSays()
                     .append(pollBindingModel.awayTeamName)
             else -> stringBuilder.append(pollBindingModel.poll.drawPercent)
-                    .append("%")
-                    .append(" says ")
+                    .appendPercentSays()
                     .append(DRAW)
         }.toString()
     }
 
+    private fun StringBuilder.appendPercentSays(): StringBuilder {
+        return this.append("%").append(" says ")
+    }
+
     private fun setPollProgress(poll: Poll) {
-        progress_bar.visibility = if (poll.canAnswer) View.INVISIBLE else View.VISIBLE
-        progress_bar.progress = poll.homeTeamPercent
-        progress_bar.secondaryProgress = poll.homeTeamPercent + poll.drawPercent
+        poll_progress_bar.visibility = if (poll.canAnswer) View.INVISIBLE else View.VISIBLE
+        poll_progress_bar.progress = poll.homeTeamPercent
+        poll_progress_bar.secondaryProgress = poll.homeTeamPercent + poll.drawPercent
     }
 }
