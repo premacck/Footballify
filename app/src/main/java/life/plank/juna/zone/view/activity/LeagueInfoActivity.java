@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -172,6 +173,18 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         title.setText(league.getName());
         logo.setImageResource(league.getLeagueLogo());
         rootLayout.setBackgroundColor(getResources().getColor(league.getDominantColor(), null));
+
+        NestedScrollView nestedScrollView = findViewById(R.id.nestedScrollView);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    arcMenu.hide();
+                } else {
+                    arcMenu.show();
+                }
+            }
+        });
     }
 
     @Override
