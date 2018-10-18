@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -56,6 +57,7 @@ import static life.plank.juna.zone.util.AppConstants.PLAYER_STATS;
 import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
+import static life.plank.juna.zone.util.BoomMenuUtil.hideAndShowBoomMenu;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getDateDiffFromToday;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
@@ -63,8 +65,12 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 public class LeagueInfoActivity extends BaseLeagueActivity {
     public static Bitmap matchStatsParentViewBitmap = null;
+    public static List<FixtureByMatchDay> fixtureByMatchDayList;
+    @Inject
+    public Picasso picasso;
+    @Inject
+    public Gson gson;
     String TAG = LeagueInfoActivity.class.getSimpleName();
-
     @BindView(R.id.root_card)
     CardView rootCard;
     @BindView(R.id.faded_card)
@@ -123,23 +129,17 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     ArcMenu arcMenu;
     @BindView(R.id.drag_area)
     TextView dragArea;
-
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
     @Inject
     @Named("footballData")
     RestApi restApi;
-    @Inject
-    public Picasso picasso;
-    @Inject
-    public Gson gson;
-
     private StandingTableAdapter standingTableAdapter;
     private PlayerStatsAdapter playerStatsAdapter;
     private TeamStatsAdapter teamStatsAdapter;
-
     private boolean isDataLocal;
     private League league;
     private FixtureAdapter fixtureAdapter;
-    public static List<FixtureByMatchDay> fixtureByMatchDayList;
 
     public static void launch(Activity fromActivity, League league, View screenshotView) {
         Intent intent = new Intent(fromActivity, LeagueInfoActivity.class);
@@ -172,6 +172,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         title.setText(league.getName());
         logo.setImageResource(league.getLeagueLogo());
         rootLayout.setBackgroundColor(getResources().getColor(league.getDominantColor(), null));
+        hideAndShowBoomMenu(nestedScrollView, arcMenu);
     }
 
     @Override
@@ -315,17 +316,36 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
 
     }
 
+    @Override
+    public void onDestroy() {
+        fixtureAdapter = null;
+        standingTableAdapter = null;
+        teamStatsAdapter = null;
+        playerStatsAdapter = null;
+        if (!isNullOrEmpty(fixtureByMatchDayList)) {
+            fixtureByMatchDayList.clear();
+            fixtureByMatchDayList = null;
+        }
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+    }
+
     private static class UpdateFixtureAdapterTask extends AsyncTask<Void, Void, List<MatchFixture>> {
 
         private WeakReference<LeagueInfoActivity> ref;
         private int recyclerViewScrollIndex = 0;
 
-        private static void parse(LeagueInfoActivity activity) {
-            new UpdateFixtureAdapterTask(activity).execute();
-        }
-
         private UpdateFixtureAdapterTask(LeagueInfoActivity activity) {
             this.ref = new WeakReference<>(activity);
+        }
+
+        private static void parse(LeagueInfoActivity activity) {
+            new UpdateFixtureAdapterTask(activity).execute();
         }
 
         @Override
@@ -367,7 +387,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                         if (isPastMatches && getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 0) {
                             matchFixtures.add(matchFixture);
                         } else if (getDateDiffFromToday(matchFixture.getMatchStartTime()) <= 1) {
-                                matchFixtures.add(matchFixture);
+                            matchFixtures.add(matchFixture);
                         }
                     } catch (Exception e) {
                         Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e);
@@ -393,24 +413,5 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
                 ref.get().fixtureProgressBar.setVisibility(View.GONE);
             }
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        fixtureAdapter = null;
-        standingTableAdapter = null;
-        teamStatsAdapter = null;
-        playerStatsAdapter = null;
-        if (!isNullOrEmpty(fixtureByMatchDayList)) {
-            fixtureByMatchDayList.clear();
-            fixtureByMatchDayList = null;
-        }
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 }

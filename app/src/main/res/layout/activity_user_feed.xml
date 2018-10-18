@@ -13,6 +13,7 @@
         android:layout_height="match_parent">
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -39,8 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_boards_recycler_view"
-                    android:layout_marginStart="6dp"
                     android:layout_marginEnd="6dp"
+                    android:layout_marginStart="6dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_zone_user_feed" />
@@ -118,5 +119,6 @@
     </RelativeLayout>
 
     <include layout="@layout/onboarding_bottom_sheet" />
+
     <include layout="@layout/emoji_bottom_sheet" />
 </android.support.design.widget.CoordinatorLayout>
