@@ -27,11 +27,11 @@ import static android.view.LayoutInflater.from;
 
 public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.BoardIconViewHolder> {
 
-    private static int selectedIndex = -1;
-    public List<String> boardIconList = new ArrayList<>();
+    private int selectedIndex = -1;
+    public List<String> boardIconList;
 
     public BoardIconAdapter() {
-        this.boardIconList = boardIconList;
+        this.boardIconList = new ArrayList<>();
     }
 
     @Override
@@ -60,6 +60,10 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
         return boardIconList.size();
     }
 
+    public void setSelectedIndex(int index) {
+        selectedIndex = index;
+    }
+
     public String getSelectedPath() {
         if (selectedIndex >= 0)
             return boardIconList.get(selectedIndex);
@@ -82,11 +86,11 @@ public class BoardIconAdapter extends RecyclerView.Adapter<BoardIconAdapter.Boar
 
         @OnClick({R.id.image_root_layout})
         public void onColorThemeSelected() {
-            int previousSelection = selectedIndex;
-            imageSelectionMarker.setVisibility(selectedIndex == getAdapterPosition() ? View.INVISIBLE : View.VISIBLE);
-            selectedIndex = getAdapterPosition();
+            int previousSelection = ref.get().selectedIndex;
+            imageSelectionMarker.setVisibility(ref.get().selectedIndex == getAdapterPosition() ? View.INVISIBLE : View.VISIBLE);
+            ref.get().selectedIndex = getAdapterPosition();
             ref.get().notifyItemChanged(previousSelection);
-            ref.get().notifyItemChanged(selectedIndex);
+            ref.get().notifyItemChanged(ref.get().selectedIndex);
         }
     }
 }

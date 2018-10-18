@@ -178,6 +178,7 @@
     <string name="invite_people_to">Invite people to</string>
     <string name="board">board</string>
     <string name="hi">Hi</string>
+    <string name="hi_user">Hi %1$s</string>
     <string name="notification">Notifications</string>
     <string name="camera_flash">Camera flash</string>
     <string name="camera_capture_button">Camera capture button</string>
