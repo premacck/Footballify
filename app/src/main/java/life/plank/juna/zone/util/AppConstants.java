@@ -2,6 +2,7 @@ package life.plank.juna.zone.util;
 
 
 import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -14,6 +15,9 @@ import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
+import static life.plank.juna.zone.util.AppConstants.PollValue.AWAY;
+import static life.plank.juna.zone.util.AppConstants.PollValue.DRAW;
+import static life.plank.juna.zone.util.AppConstants.PollValue.HOME;
 
 /**
  * Created by plank-hasan on 2/9/2018.
@@ -131,6 +135,14 @@ public class AppConstants {
     public static final int FOUR_HOURS_MILLIS = 14400000;
     public static final int TWO_HOURS_MILLIS = 7200000;
     public static final int ONE_HOUR_MILLIS = 3600000;
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @StringDef({HOME, DRAW, AWAY})
+    public @interface PollValue {
+        String HOME = "Home";
+        String DRAW = "Draw";
+        String AWAY = "Away";
+    }
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_LIVE, MATCH_SCHEDULED_TODAY, MATCH_SCHEDULED_LATER, MATCH_ABOUT_TO_START, MATCH_ABOUT_TO_START_BOARD_ACTIVE})

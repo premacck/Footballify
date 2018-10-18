@@ -188,4 +188,8 @@
     <string name="failed_to_setup_camera_preview">Failed to setup camera preview</string>
     <string name="storage_permission_header">Storage permissions</string>
     <string name="storage_permission_body">Please allow the storage permissions to allow us to process the media</string>
+    <string name="draw">Draw</string>
+    <string name="who_will_win_today">Who will win today?</string>
+    <string name="kick_off_in_">Kick-off in&#160;</string>
+    <string name="_votes">&#160;Votes</string>
 </resources>
