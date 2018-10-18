@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore.Images.Media;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ScrollView;
@@ -17,35 +16,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
+import java.util.Objects;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Board;
-import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter;
 import life.plank.juna.zone.view.adapter.BoardIconAdapter;
-import retrofit2.Retrofit;
 
 import static com.facebook.internal.Utility.isNullOrEmpty;
 import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
+import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.toggleZone;
 
 public class CreateBoardActivity extends AppCompatActivity {
 
-    private static final String TAG = CreateBoardActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
+
     @BindView(R.id.parent_layout)
     ScrollView parentLayout;
     @BindView(R.id.football)
@@ -76,37 +73,16 @@ public class CreateBoardActivity extends AppCompatActivity {
     ZoneToolBar toolbar;
     @BindView(R.id.user_greeting)
     TextView userGreeting;
-    @Inject
-    @Named("default")
-    Retrofit retrofit;
-    @Inject
-    Picasso picasso;
+
     @Inject
     BoardColorThemeAdapter boardColorThemeAdapter;
     @Inject
     BoardIconAdapter boardIconAdapter;
-    @Inject
-    Gson gson;
-    private RestApi restApi;
-    private String zone = "";
+
+    private ToggleButton[] zones;
+    private String zone;
     private String filePath;
     private Boolean isIconSelected = false;
-    private Boolean isZoneSelected = false;
-
-    private TextWatcher textWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-        }
-
-        @Override
-        public void afterTextChanged(Editable editable) {
-            validateCreateBoardContent();
-        }
-    };
 
     public static void launch(Context packageContext, String username) {
         Intent intent = new Intent(packageContext, CreateBoardActivity.class);
@@ -122,15 +98,12 @@ public class CreateBoardActivity extends AppCompatActivity {
 
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
-        restApi = retrofit.create(RestApi.class);
+        zones = new ToggleButton[]{football, music, drama, tune, skill, other};
         privateBoardColorList.setAdapter(boardColorThemeAdapter);
         privateBoardIconList.setAdapter(boardIconAdapter);
 
         UIDisplayUtil.checkPermission(CreateBoardActivity.this);
         boardIconAdapter.boardIconList.clear();
-
-        boardName.addTextChangedListener(textWatcher);
-        boardDescription.addTextChangedListener(textWatcher);
 
         validateCreateBoardContent();
 
@@ -138,16 +111,37 @@ public class CreateBoardActivity extends AppCompatActivity {
         if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
             toolbar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)));
         }
-        userGreeting.setText(getString(R.string.hi) + " " + getIntent().getStringExtra(ZoneApplication.getContext().getString(R.string.username)));
+        userGreeting.setText(getString(R.string.hi_user, getIntent().getStringExtra(ZoneApplication.getContext().getString(R.string.username))));
+    }
+
+    @OnTextChanged({R.id.board_name_edit_text, R.id.board_description_edit_text})
+    public void onTextFieldUpdated() {
+        validateCreateBoardContent();
     }
 
     @OnClick({R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other})
     public void toggleView(ToggleButton view) {
-        //TODO: Fix validation issue when user selects multiple toggle buttons
-        toggleZone(this, view);
-        zone = view.getText().toString();
-        isZoneSelected = !view.isChecked();
+        for (ToggleButton zoneView : zones) {
+            if (zoneView.getId() == view.getId()) {
+                checkAction(zoneView, !zoneView.isChecked());
+                continue;
+            }
+            checkAction(zoneView, false);
+        }
         validateCreateBoardContent();
+    }
+
+    private void checkAction(ToggleButton toggleButton, boolean isChecked) {
+        if (Objects.equals(zone, toggleButton.getText().toString())) {
+            if (!isChecked) {
+                zone = null;
+            }
+        } else {
+            if (isChecked) {
+                zone = toggleButton.getText().toString();
+            }
+        }
+        toggleZone(this, toggleButton, isChecked);
     }
 
     @OnClick(R.id.create_board_button)
@@ -177,11 +171,11 @@ public class CreateBoardActivity extends AppCompatActivity {
         switch (requestCode) {
             case GALLERY_IMAGE_RESULT:
                 switch (resultCode) {
-
                     case RESULT_OK:
                         filePath = getPathForGalleryImageView(data.getData(), this);
                         if (filePath != null) {
                             boardIconAdapter.boardIconList.add(0, filePath);
+                            boardIconAdapter.setSelectedIndex(0);
                             boardIconAdapter.notifyItemInserted(0);
                             isIconSelected = true;
                             validateCreateBoardContent();
@@ -205,24 +199,19 @@ public class CreateBoardActivity extends AppCompatActivity {
     }
 
     public void getImageResourceFromGallery() {
-        Intent galleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        galleryIntent.setType(getString(R.string.image_format));
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK);
+        galleryIntent.setDataAndType(Media.EXTERNAL_CONTENT_URI, getString(R.string.image_format));
         startActivityForResult(galleryIntent, GALLERY_IMAGE_RESULT);
     }
 
     private void validateCreateBoardContent() {
-
-        if (isNullOrEmpty(zone.toLowerCase().trim())
-                || isNullOrEmpty(boardName.getText().toString().trim())
-                || isNullOrEmpty(boardDescription.getText().toString().trim())
-                || isNullOrEmpty(boardColorThemeAdapter.getSelectedColor())
-                || !isIconSelected || !isZoneSelected) {
-            createPrivateBoard.setClickable(false);
-            createPrivateBoard.setAlpha(.5f);
-        } else {
-            createPrivateBoard.setAlpha(1f);
-            createPrivateBoard.setClickable(true);
-        }
+        enableOrDisableView(
+                createPrivateBoard,
+                !(isNullOrEmpty(zone) || isNullOrEmpty(zone.toLowerCase().trim()) ||
+                        boardName.getText() == null || isNullOrEmpty(boardName.getText().toString().trim()) ||
+                        boardDescription.getText() == null || isNullOrEmpty(boardDescription.getText().toString().trim()) ||
+                        isNullOrEmpty(boardColorThemeAdapter.getSelectedColor()) || !isIconSelected)
+        );
     }
 
     private void createBoard(Board board, String file) {

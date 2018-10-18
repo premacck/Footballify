@@ -333,16 +333,17 @@ public class UIDisplayUtil {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, ZoneApplication.getContext().getResources().getDisplayMetrics());
     }
 
-    public static void toggleZone(Context context, ToggleButton view) {
-        if (view.isChecked()) {
+    public static void toggleZone(Context context, ToggleButton view, boolean isChecked) {
+        view.setChecked(!isChecked);
+        if (!isChecked) {
             view.setBackground(context.getDrawable(R.drawable.unselected_text_view_bg));
-            view.setElevation(0);
+            view.setElevation(getDp(2));
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             view.setTextColor(context.getColor(R.color.grey));
             view.setGravity(Gravity.CENTER);
         } else {
             view.setBackground(context.getDrawable(R.drawable.selected_textview_bg));
-            view.setElevation(5);
+            view.setElevation(getDp(5));
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
             view.setGravity(Gravity.START);
@@ -531,10 +532,13 @@ public class UIDisplayUtil {
         }
     }
 
-    public static void enableOrDisableView(View view, boolean isEnabled) {
+    public static void enableOrDisableView(View view, boolean isEnabled, boolean... isTintRequired) {
         view.setEnabled(isEnabled);
         view.setClickable(isEnabled);
-        view.setBackgroundTintList(isEnabled ? null : ColorStateList.valueOf(ZoneApplication.getContext().getColor(R.color.colorDisabled)));
+        view.setAlpha(isEnabled ? 1f : 0.5f);
+        if (isTintRequired.length > 0 && isTintRequired[0]) {
+            view.setBackgroundTintList(isEnabled ? null : ColorStateList.valueOf(ZoneApplication.getContext().getColor(R.color.colorDisabled)));
+        }
     }
 
     public static void showBoardExpirationDialog(Activity activity, DialogInterface.OnClickListener listener) {

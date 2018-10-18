@@ -56,6 +56,7 @@
                 android:id="@+id/football"
                 style="@style/ZoneSelection"
                 android:layout_below="@+id/description"
+                android:elevation="2dp"
                 android:textOff="@string/football"
                 android:textOn="@string/football" />
 
@@ -64,6 +65,7 @@
                 style="@style/ZoneSelection"
                 android:layout_below="@+id/description"
                 android:layout_toEndOf="@+id/football"
+                android:elevation="2dp"
                 android:textOff="@string/music"
                 android:textOn="@string/music" />
 
@@ -72,6 +74,7 @@
                 style="@style/ZoneSelection"
                 android:layout_below="@+id/description"
                 android:layout_toEndOf="@+id/music"
+                android:elevation="2dp"
                 android:textOff="@string/drama"
                 android:textOn="@string/drama" />
 
@@ -80,6 +83,7 @@
                 style="@style/ZoneSelection"
                 android:layout_below="@+id/drama"
                 android:layout_marginBottom="2dp"
+                android:elevation="2dp"
                 android:textOff="@string/tune"
                 android:textOn="@string/tune" />
 
@@ -89,6 +93,7 @@
                 android:layout_below="@+id/music"
                 android:layout_marginBottom="2dp"
                 android:layout_toEndOf="@+id/tune"
+                android:elevation="2dp"
                 android:textOff="@string/skill"
                 android:textOn="@string/skill" />
 
@@ -98,6 +103,7 @@
                 android:layout_below="@+id/drama"
                 android:layout_marginBottom="2dp"
                 android:layout_toEndOf="@+id/skill"
+                android:elevation="2dp"
                 android:textOff="@string/other"
                 android:textOn="@string/other" />
 
