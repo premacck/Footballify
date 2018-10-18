@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -59,6 +60,7 @@ import rx.Subscriber;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 /**
  * Created by plank-dhamini on 25/7/2018.
@@ -83,6 +85,8 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     ImageView blurBackgroundImageView;
     @BindView(R.id.root_layout)
     RelativeLayout rootLayout;
+    @BindView(R.id.drag_area)
+    TextView dragArea;
     @BindView(R.id.root_card)
     CardView rootCard;
     @BindView(R.id.private_board_toolbar)
@@ -91,6 +95,8 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     ViewPager viewPager;
     @BindView(R.id.board_blur_background_image_view)
     ImageView boardBlurBackgroundImageView;
+    @BindView(R.id.recycler_view_drag_area)
+    TextView recyclerViewDragArea;
     @BindView(R.id.board_tiles_list_full)
     RecyclerView boardTilesFullRecyclerView;
     @BindView(R.id.emoji_bottom_sheet)
@@ -176,6 +182,9 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         toolbar.setLeagueLogo(picasso, board.getBoardIconUrl());
         toolbar.setBackgroundColor(Color.parseColor(board.getColor()));
         rootCard.setCardBackgroundColor(Color.parseColor(board.getColor()));
+
+        setupSwipeGesture(this, dragArea, rootCard, fadedCard);
+        setupFullScreenRecyclerViewSwipeGesture(recyclerViewDragArea, boardTilesFullRecyclerView);
 
         prepareFullScreenRecyclerView();
         setupViewPagerWithFragments();
@@ -281,7 +290,10 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                recyclerViewDragArea.setVisibility(View.INVISIBLE);
                 boardTilesFullRecyclerView.setVisibility(View.INVISIBLE);
+                recyclerViewDragArea.setTranslationY(0);
+                boardTilesFullRecyclerView.setTranslationY(0);
                 boardBlurBackgroundImageView.setVisibility(View.INVISIBLE);
             }
 
@@ -300,6 +312,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
         if (setFlag) {
             boardTilesFullRecyclerView.scrollToPosition(position);
+            recyclerViewDragArea.setVisibility(View.VISIBLE);
             boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
             boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
         }
