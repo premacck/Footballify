@@ -280,6 +280,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     private void setupBottomSheet() {
         emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
         emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheet.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -357,11 +358,11 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                             }
                             if (board != null) {
                                 boardId = board.getId();
+                                saveBoardId();
+                                isBoardActive = board.isActive();
+                                prepareFullScreenRecyclerView();
                                 setupBottomSheet();
                                 initBottomSheetRecyclerView();
-                                isBoardActive = board.isActive();
-                                saveBoardId();
-                                prepareFullScreenRecyclerView();
 
                                 if (isBoardActive) {
                                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId);
