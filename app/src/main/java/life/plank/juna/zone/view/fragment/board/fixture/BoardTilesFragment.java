@@ -52,11 +52,14 @@ import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.hideAndShowBoomMenu;
 
 public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
-
+    @Inject
+    public
+    Picasso picasso;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.swipe_refresh_layout)
@@ -69,10 +72,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     TextView noDataTextView;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
-
-    @Inject
-    public
-    Picasso picasso;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
     @Inject
     Gson gson;
     @Inject
@@ -130,19 +131,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             return rootView;
         }
         initRecyclerViews();
-
-        NestedScrollView nestedScrollView = rootView.findViewById(R.id.nestedScrollView);
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    arcMenu.hide();
-                } else {
-                    arcMenu.show();
-                }
-            }
-        });
-
+        hideAndShowBoomMenu(nestedScrollView, arcMenu);
         return rootView;
     }
 

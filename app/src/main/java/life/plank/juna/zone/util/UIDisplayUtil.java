@@ -39,6 +39,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.ListPopupWindow;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
@@ -68,6 +69,7 @@ import android.widget.ToggleButton;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.bvapp.arcmenulibrary.ArcMenu;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
@@ -117,6 +119,17 @@ public class UIDisplayUtil {
     };
 
     public UIDisplayUtil() {
+
+    }
+
+    public static void hideAndShowBoomMenu(NestedScrollView nestedScrollView, ArcMenu arcMenu){
+        nestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            if (scrollY > oldScrollY) {
+                arcMenu.hide();
+            } else {
+                arcMenu.show();
+            }
+        });
 
     }
 

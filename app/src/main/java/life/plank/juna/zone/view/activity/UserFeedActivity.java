@@ -66,11 +66,14 @@ import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.hideAndShowBoomMenu;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
 public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarListener {
     private static final String TAG = UserFeedActivity.class.getSimpleName();
-
+    @Inject
+    public
+    Gson gson;
     @BindView(R.id.coordinator_layout)
     CoordinatorLayout rootLayout;
     @BindView(R.id.user_feed_recycler_view)
@@ -95,12 +98,11 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
     RelativeLayout emojiBottomSheet;
     @BindView(R.id.emoji_recycler_view)
     RecyclerView emojiRecyclerView;
+    @BindView(R.id.nestedScrollView)
+    NestedScrollView nestedScrollView;
     @Inject
     @Named("default")
     RestApi restApi;
-    @Inject
-    public
-    Gson gson;
     @Inject
     Picasso picasso;
     @Inject
@@ -159,19 +161,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
         if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
             toolbar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)));
         }
-
-        NestedScrollView nestedScrollView = findViewById(R.id.nestedScrollView);
-        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    arcMenu.hide();
-                } else {
-                    arcMenu.show();
-                }
-            }
-        });
-
+        hideAndShowBoomMenu(nestedScrollView, arcMenu);
     }
 
     private void initEmojiBottomSheetRecyclerView() {
