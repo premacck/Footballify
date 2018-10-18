@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -66,7 +65,6 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.FileHandler;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
-import life.plank.juna.zone.util.OnSwipeTouchListener;
 import life.plank.juna.zone.util.customview.PublicBoardToolbar;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
@@ -273,7 +271,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         getBoardIdAndMatchDetails(currentMatchId);
 
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
-        setupFullScreenRecyclerViewSwipeGesture();
+        setupFullScreenRecyclerViewSwipeGesture(recyclerViewDragArea, boardTilesFullRecyclerView);
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
     }
 
@@ -286,16 +284,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
         emojiBottomSheetBehavior.setPeekHeight(0);
         emojiBottomSheet.setVisibility(View.VISIBLE);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private void setupFullScreenRecyclerViewSwipeGesture() {
-        recyclerViewDragArea.setOnTouchListener(new OnSwipeTouchListener(this, recyclerViewDragArea, boardTilesFullRecyclerView) {
-            @Override
-            public void onSwipeDown() {
-                dismissFullScreenRecyclerView();
-            }
-        });
     }
 
     @Override
