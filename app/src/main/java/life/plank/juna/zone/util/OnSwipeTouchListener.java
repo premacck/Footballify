@@ -1,7 +1,10 @@
 package life.plank.juna.zone.util;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.util.Log;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
@@ -10,7 +13,6 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.OvershootInterpolator;
 
-import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +40,15 @@ public class OnSwipeTouchListener implements OnTouchListener {
     }
 
     public OnSwipeTouchListener(Activity activity, View dragView, View rootView, ViewGroup backgroundLayout) {
-        gestureDetector = new GestureDetector(activity, new GestureListener(this)) {
+        gestureDetector = new GestureDetector(
+                activity,
+                new SimpleOnGestureListener() {
+                    @Override
+                    public boolean onDown(MotionEvent e) {
+                        return true;
+                    }
+                }
+        ) {
             @Override
             public boolean onTouchEvent(MotionEvent event) {
                 boolean result = super.onTouchEvent(event);
@@ -50,7 +60,7 @@ public class OnSwipeTouchListener implements OnTouchListener {
                         handleActionUp(event);
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        handleActionMove(event);
+                        handleActionMove(viewOriginY + event.getRawY() - motionOriginY);
                         break;
                 }
                 return result;
@@ -169,7 +179,8 @@ public class OnSwipeTouchListener implements OnTouchListener {
 
             if (Math.abs(percent) > SWIPE_THRESHOLD_PERCENT) {
                 if (direction == SwipeDirection.Down) {
-                    onSwipeDown();
+                    discard(event.getRawY());
+//                    discard(dragView, event.getRawY());
 //                    Container swiped
                 } else {
                     moveToOrigin(rootView);
@@ -189,9 +200,8 @@ public class OnSwipeTouchListener implements OnTouchListener {
         motionOriginY = event.getRawY();
     }
 
-    private void handleActionMove(MotionEvent event) {
+    private void handleActionMove(float translationY) {
         isDragging = true;
-        float translationY = viewOriginY + event.getRawY() - motionOriginY;
         rootView.setTranslationY(translationY);
         dragView.setTranslationY(translationY);
         float alpha = (translationY / screenHeight);
@@ -276,50 +286,18 @@ public class OnSwipeTouchListener implements OnTouchListener {
         }
     }
 
-    private static final class GestureListener extends SimpleOnGestureListener {
-
-        private static final int SWIPE_THRESHOLD = 100;
-        private static final int SWIPE_VELOCITY_THRESHOLD = 100;
-
-        private final WeakReference<OnSwipeTouchListener> ref;
-
-        public GestureListener(OnSwipeTouchListener onSwipeTouchListener) {
-            ref = new WeakReference<>(onSwipeTouchListener);
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            boolean result = false;
-            try {
-                float diffY = e2.getY() - e1.getY();
-                float diffX = e2.getX() - e1.getX();
-                if (Math.abs(diffX) > Math.abs(diffY)) {
-                    if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffX > 0) {
-                            ref.get().onSwipeRight();
-                        } else {
-                            ref.get().onSwipeLeft();
-                        }
-                        result = true;
-                    }
-                } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                    if (diffY > 0) {
-                        ref.get().onSwipeDown();
-                    } else {
-                        ref.get().onSwipeTop();
-                    }
-                    result = true;
-                }
-            } catch (Exception exception) {
-                Log.e(TAG, "onFling: " + exception.getMessage());
+    private void discard(float eventUpY) {
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(eventUpY, screenHeight);
+        valueAnimator.setDuration(200);
+        valueAnimator.setInterpolator(new FastOutLinearInInterpolator());
+        valueAnimator.addUpdateListener(animation -> handleActionMove((Float) animation.getAnimatedValue()));
+        valueAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                onSwipeDown();
             }
-            return result;
-        }
+        });
+        valueAnimator.start();
     }
 
     public void onSwipeRight() {
