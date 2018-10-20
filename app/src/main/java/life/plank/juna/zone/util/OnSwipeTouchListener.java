@@ -287,17 +287,17 @@ public class OnSwipeTouchListener implements OnTouchListener {
     }
 
     private void discard(float eventUpY) {
-        ValueAnimator valueAnimator = ValueAnimator.ofFloat(eventUpY, screenHeight);
-        valueAnimator.setDuration(200);
-        valueAnimator.setInterpolator(new FastOutLinearInInterpolator());
-        valueAnimator.addUpdateListener(animation -> handleActionMove((Float) animation.getAnimatedValue()));
-        valueAnimator.addListener(new AnimatorListenerAdapter() {
+        ValueAnimator discardAnimator = ValueAnimator.ofFloat(eventUpY, screenHeight);
+        discardAnimator.setDuration(200);
+        discardAnimator.setInterpolator(new FastOutLinearInInterpolator());
+        discardAnimator.addUpdateListener(animation -> handleActionMove((Float) animation.getAnimatedValue()));
+        discardAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 onSwipeDown();
             }
         });
-        valueAnimator.start();
+        discardAnimator.start();
     }
 
     public void onSwipeRight() {
