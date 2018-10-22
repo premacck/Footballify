@@ -180,7 +180,6 @@ public class OnSwipeTouchListener implements OnTouchListener {
             if (Math.abs(percent) > SWIPE_THRESHOLD_PERCENT) {
                 if (direction == SwipeDirection.Down) {
                     discard(event.getRawY());
-//                    discard(dragView, event.getRawY());
 //                    Container swiped
                 } else {
                     moveToOrigin(rootView);
