@@ -29,7 +29,6 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
-import life.plank.juna.zone.view.fragment.base.BaseCard;
 
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
@@ -111,14 +110,6 @@ public class FixtureActivity extends BaseLeagueActivity {
     protected void onDestroy() {
         fixtureMatchdayAdapter = null;
         super.onDestroy();
-    }
-
-    @Override
-    public void pushCard(BaseCard card) {
-    }
-
-    @Override
-    public void popCard(BaseCard card) {
     }
 
     @Override

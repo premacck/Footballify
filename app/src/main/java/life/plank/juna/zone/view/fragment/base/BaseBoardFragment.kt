@@ -3,14 +3,13 @@ package life.plank.juna.zone.view.fragment.base
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.Standings
 import life.plank.juna.zone.data.model.TeamStats
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 
-abstract class BaseBoardFragment : Fragment() {
+abstract class BaseBoardFragment : BaseFragment() {
 
     private lateinit var leagueViewModel: LeagueViewModel
 //    TODO : Change team names to team ID once the change is done in backend

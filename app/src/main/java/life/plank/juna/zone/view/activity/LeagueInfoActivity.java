@@ -48,7 +48,6 @@ import life.plank.juna.zone.view.adapter.FixtureAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
-import life.plank.juna.zone.view.fragment.base.BaseCard;
 
 import static java.util.Collections.emptyList;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
@@ -302,18 +301,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     }
 
     @Override
-    public void pushCard(BaseCard card) {
-
-    }
-
-    @Override
-    public void popCard(BaseCard card) {
-
-    }
-
-    @Override
     public void setBlurBg(Bitmap blurBg) {
-
     }
 
     @Override
