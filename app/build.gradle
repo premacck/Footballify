@@ -57,7 +57,7 @@ android {
     }
 
     tasks.whenTaskAdded { task ->
-        if (task.name == 'assembleRelease') {
+        if (task.name == 'publishApkRelease') {
             task.dependsOn 'increaseVersionCode'
         }
     }
