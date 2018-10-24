@@ -18,6 +18,9 @@ import java.util.List;
 
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 
+/**
+ * TODO: Delete this class after the implementation of design gesture navigation
+ */
 public class OnSwipeTouchListener implements OnTouchListener {
 
     private static final String TAG = OnSwipeTouchListener.class.getSimpleName();

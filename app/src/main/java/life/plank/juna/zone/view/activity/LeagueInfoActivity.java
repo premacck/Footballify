@@ -43,12 +43,12 @@ import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.FileHandler;
+import life.plank.juna.zone.util.facilis.BaseCard;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter;
-import life.plank.juna.zone.view.fragment.base.BaseCard;
 
 import static java.util.Collections.emptyList;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
