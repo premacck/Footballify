@@ -44,7 +44,7 @@ import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap
 import life.plank.juna.zone.view.adapter.*
-import life.plank.juna.zone.view.fragment.base.BaseTileFragment
+import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import net.openid.appauth.AuthorizationService
 import retrofit2.Response
 import rx.Subscriber
@@ -53,7 +53,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class HomeFragment : BaseTileFragment(), ZoneToolbarListener {
+class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     @Inject
     lateinit var gson: Gson
@@ -95,7 +95,7 @@ class HomeFragment : BaseTileFragment(), ZoneToolbarListener {
         val topic = getString(R.string.juna_user_topic) + userObjectId!!
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
 
-        setupFullScreenRecyclerViewSwipeGesture(recycler_view_drag_area, board_tiles_list_full)
+        setupFullScreenRecyclerViewSwipeGesture(activity!!, recycler_view_drag_area, board_tiles_list_full)
         setupOnBoardingBottomSheet()
         initBottomSheetRecyclerView()
         prepareFullScreenRecyclerView()
