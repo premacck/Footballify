@@ -9,7 +9,7 @@ import life.plank.juna.zone.util.facilis.pushCard
 
 abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
 
-    protected var index: Int = 0
+    var index: Int = 0
 
     protected fun pushCard(fragment: BaseCard, isAddToBackStack: Boolean) {
         if (index < 0) return
