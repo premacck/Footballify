@@ -22,6 +22,7 @@ import life.plank.juna.zone.view.activity.SplashScreenActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
+import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.activity.ZoneActivity;
@@ -73,6 +74,8 @@ public interface UiComponent {
     void inject(UserProfileActivity userProfileActivity);
 
     void inject(LeagueInfoDetailActivity leagueInfoDetailActivity);
+
+    void inject(UserFeedActivity userFeedActivity);
 
     void inject(BoardTilesFragment boardTilesFragment);
 
