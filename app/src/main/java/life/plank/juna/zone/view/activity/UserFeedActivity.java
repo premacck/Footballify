@@ -57,6 +57,7 @@ import life.plank.juna.zone.view.adapter.OnboardingAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.adapter.UserFeedAdapter;
 import life.plank.juna.zone.view.adapter.UserZoneAdapter;
+import life.plank.juna.zone.view.fragment.home.HomeFragment;
 import retrofit2.Response;
 import rx.Observable;
 import rx.Subscriber;
@@ -70,6 +71,9 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
+/**
+ * TODO: Remove this class after implementing {@link HomeFragment}
+ */
 public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarListener {
     private static final String TAG = UserFeedActivity.class.getSimpleName();
     @Inject

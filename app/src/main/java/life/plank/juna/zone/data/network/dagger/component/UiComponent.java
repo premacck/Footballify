@@ -5,7 +5,6 @@ import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.BoardPreviewActivity;
-import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.EditProfileActivity;
@@ -27,6 +26,7 @@ import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.activity.ZoneActivity;
+import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
@@ -34,6 +34,7 @@ import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
+import life.plank.juna.zone.view.fragment.home.HomeFragment;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 
 /**
@@ -105,6 +106,8 @@ public interface UiComponent {
     void inject(UserNotificationActivity userNotificationActivity);
 
     void inject(EmojiAdapter emojiAdapter);
+
+    void inject(HomeFragment homeFragment);
 
     @Subcomponent.Builder
     interface Builder {
