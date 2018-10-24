@@ -43,8 +43,8 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
  * Created by plank-dhamini on 18/7/2018.
  */
 
-public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemListener {
-    private static final String TAG = ZoneActivity.class.getSimpleName();
+public class SelectZoneActivity extends AppCompatActivity implements OnClickZoneItemListener {
+    private static final String TAG = SelectZoneActivity.class.getSimpleName();
 
     @BindView(R.id.board_recycler_view)
     RecyclerView boardRecyclerView;
@@ -67,7 +67,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_zone);
+        setContentView(R.layout.activity_select_zone);
         ButterKnife.bind(this);
 
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
@@ -104,10 +104,10 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
                                 setUpAdapterWithNewData(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneActivity.this, R.string.failed_to_retrieve_zones, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SelectZoneActivity.this, R.string.failed_to_retrieve_zones, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(ZoneActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SelectZoneActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
                                 break;
                         }
 
@@ -134,7 +134,7 @@ public class ZoneActivity extends AppCompatActivity implements OnClickZoneItemLi
                     public void onNext(Response<JsonObject> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                startActivity(new Intent(ZoneActivity.this, UserFeedActivity.class));
+                                startActivity(new Intent(SelectZoneActivity.this, HomeActivity.class));
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_INTERNAL_ERROR:

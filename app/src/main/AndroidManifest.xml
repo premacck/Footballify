@@ -124,7 +124,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".view.activity.ZoneActivity"
+            android:name=".view.activity.SelectZoneActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.SignInActivity"
