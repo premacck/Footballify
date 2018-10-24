@@ -3,15 +3,15 @@ package life.plank.juna.zone.util.facilis
 import android.app.Activity
 import android.os.Bundle
 import android.support.annotation.CallSuper
-import android.support.v4.app.Fragment
 import android.support.v7.widget.CardView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RelativeLayout
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 
-abstract class BaseCard : Fragment() {
+abstract class BaseCard : BaseFragment() {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
