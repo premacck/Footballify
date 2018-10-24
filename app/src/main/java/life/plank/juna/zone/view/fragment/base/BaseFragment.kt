@@ -12,5 +12,7 @@ abstract class BaseFragment : Fragment() {
      * Function for child fragment to notify the activity whether they are ready to exit or not
      * @return false when the fragment needs to do it's own actions when back is pressed, true otherwise
      */
-    abstract fun onBackPressed(): Boolean
+    open fun onBackPressed(): Boolean {
+        return true
+    }
 }
