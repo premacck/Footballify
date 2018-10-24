@@ -214,10 +214,10 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun prepareFullScreenRecyclerView() {
-        pagerSnapHelper.attachToRecyclerView(board_tiles_full_recycler_view)
+        pagerSnapHelper.attachToRecyclerView(board_tiles_list_full)
 //        TODO: un-comment after making changes to BoardFeedDetailAdapter
 //        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD)
-        board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
+        board_tiles_list_full.adapter = boardFeedDetailAdapter
     }
 
     private fun setupViewPagerWithFragments() {
@@ -369,9 +369,9 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
             override fun onAnimationEnd(animation: Animation) {
                 recycler_view_drag_area.visibility = View.INVISIBLE
-                board_tiles_full_recycler_view.visibility = View.INVISIBLE
+                board_tiles_list_full.visibility = View.INVISIBLE
                 recycler_view_drag_area.translationY = 0f
-                board_tiles_full_recycler_view.translationY = 0f
+                board_tiles_list_full.translationY = 0f
                 board_blur_background_image_view.visibility = View.INVISIBLE
             }
 
@@ -383,13 +383,13 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             recyclerViewAnimation.setAnimationListener(listener)
             blurBackgroundAnimation.setAnimationListener(listener)
         }
-        board_tiles_full_recycler_view.startAnimation(recyclerViewAnimation)
+        board_tiles_list_full.startAnimation(recyclerViewAnimation)
         board_blur_background_image_view.startAnimation(blurBackgroundAnimation)
 
         if (setFlag) {
-            board_tiles_full_recycler_view.scrollToPosition(position)
+            board_tiles_list_full.scrollToPosition(position)
             recycler_view_drag_area.visibility = View.VISIBLE
-            board_tiles_full_recycler_view.visibility = View.VISIBLE
+            board_tiles_list_full.visibility = View.VISIBLE
             board_blur_background_image_view.visibility = View.VISIBLE
         }
     }
