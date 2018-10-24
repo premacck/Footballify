@@ -70,10 +70,20 @@ node('docker') {
 
     // Utility Methods invoked by the branch builds
     def build(){
-         stage 'Clean and Build android app'
-         sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
-         sh "./gradlew clean :app:assembleDebug"
-	  echo  '********************************************************************************'
+	
+		try {
+			stage 'Clean and Build android app'
+			sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
+			sh "./gradlew clean :app:assembleDebug"
+			  echo  '********************************************************************************'
+			currentBuild.result = 'SUCCESS'
+			updateJIRA('Build Success')
+
+		} catch (Exception err) {
+
+			currentBuild.result = 'FAILURE'
+			updateJIRA('Build Failure')
+		}	        
     }
 
     def buildRelease(){
@@ -122,3 +132,16 @@ node('docker') {
         sh "./gradlew sonarqube"
         echo  '********************************************************************************'
     }
+	
+	def updateJIRA(buildStatus) {
+
+			def branchName = "${env.BRANCH_NAME}"
+			def jiraticket = branchName.find(/JD-\d+/)
+			echo "----JiraTicket: ${jiraticket}----" + buildStatus
+			stage 'Notify JIRA to transition to Code Complete on build Success'
+
+			step([$class: 'hudson.plugins.jira.JiraIssueUpdateBuilder',
+					jqlSearch: "issue = ${jiraticket}",
+					workflowActionName: buildStatus,
+							comment: "Build Success: BUILD URL is ${env.BUILD_URL}"])
+	}
