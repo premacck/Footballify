@@ -136,7 +136,7 @@ node('docker') {
 	def updateJIRA(buildStatus) {
 
 			def branchName = "${env.BRANCH_NAME}"
-			def jiraticket = branchName.find(/JBR-\d+/)
+			def jiraticket = branchName.find(/JA-\d+/)
 			echo "----JiraTicket: ${jiraticket}----" + buildStatus
 			stage 'Notify JIRA to transition to Code Complete on build Success'
 
