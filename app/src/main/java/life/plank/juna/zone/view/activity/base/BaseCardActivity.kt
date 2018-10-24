@@ -2,21 +2,22 @@ package life.plank.juna.zone.view.activity.base
 
 import android.support.v4.app.FragmentManager
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.movePreviousCardToBackground
+import life.plank.juna.zone.util.facilis.findLastFragment
+import life.plank.juna.zone.util.facilis.moveCurrentCardToBackground
 import life.plank.juna.zone.util.facilis.movePreviousCardToForeground
-import life.plank.juna.zone.util.facilis.pushCard
+import life.plank.juna.zone.util.facilis.pushFragment
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
 
     var index: Int = 0
 
-    protected fun pushCard(fragment: BaseCard, isAddToBackStack: Boolean) {
+    protected fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
         if (index < 0) return
 
-        if (index > 0) supportFragmentManager.movePreviousCardToBackground()
+        if (index > 0) supportFragmentManager.moveCurrentCardToBackground()
 
-        supportFragmentManager.pushCard(R.id.main_fragment_container, fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
+        supportFragmentManager.pushFragment(R.id.main_fragment_container, fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
         index++
     }
 
@@ -39,9 +40,15 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            popBackStack()
-        } else {
+        try {
+            if (supportFragmentManager.findLastFragment()!!.onBackPressed()) {
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    popBackStack()
+                } else {
+                    super.onBackPressed()
+                }
+            } else super.onBackPressed()
+        } catch (e: Exception) {
             super.onBackPressed()
         }
     }

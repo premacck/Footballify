@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
     return this.findFragmentByTag(tag) as? BaseCard
@@ -14,7 +15,11 @@ fun FragmentManager.findLastCard(): BaseCard? {
     return this.fragments[this.backStackEntryCount] as? BaseCard
 }
 
-fun FragmentManager.movePreviousCardToBackground() {
+fun FragmentManager.findLastFragment(): BaseFragment? {
+    return this.fragments[this.backStackEntryCount] as? BaseFragment
+}
+
+fun FragmentManager.moveCurrentCardToBackground() {
     this.findLastCard()?.moveToBackGround()
 }
 
@@ -22,14 +27,14 @@ fun FragmentManager.movePreviousCardToForeground() {
     if (this.backStackEntryCount >= 0) this.findLastCard()?.moveToForeGround()
 }
 
-fun FragmentManager.pushCard(resId: Int, card: BaseCard, tag: String, index: Int, isAddToBackStack: Boolean) {
+fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean) {
     if (index < 0) return
     this.beginTransaction()
             .addCustomAnimations(index, R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down)
             .add(resId, card, tag)
             .addToBackStack(isAddToBackStack, tag)
             .commit()
-    Log.i("pushCard", "Added index: $index")
+    Log.i("pushFragment", "Added index: $index")
 }
 
 fun FragmentTransaction.addCustomAnimations(index: Int, @AnimRes enter: Int, @AnimRes exit: Int, @AnimRes popEnter: Int, @AnimRes popExit: Int): FragmentTransaction {
