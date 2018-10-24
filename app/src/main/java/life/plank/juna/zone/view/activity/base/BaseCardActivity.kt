@@ -11,7 +11,7 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
 
     protected var index: Int = 0
 
-    protected fun pushFragment(fragment: BaseCard, isAddToBackStack: Boolean) {
+    protected fun pushCard(fragment: BaseCard, isAddToBackStack: Boolean) {
         if (index < 0) return
 
         if (index > 0) supportFragmentManager.movePreviousCardToBackground()
