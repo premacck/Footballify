@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
-
 import android.app.Activity
 import android.content.*
 import android.graphics.PorterDuff
@@ -56,15 +55,15 @@ import javax.inject.Named
 class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     @field: [Inject Named("default")]
-    internal var restApi: RestApi? = null
+    lateinit var restApi: RestApi
     @field: [Inject Named("footballData")]
-    internal var footballRestApi: RestApi? = null
+    lateinit var footballRestApi: RestApi
     @Inject
-    internal var picasso: Picasso? = null
+    lateinit var picasso: Picasso
     @Inject
-    internal var gson: Gson? = null
+    lateinit var gson: Gson
     @Inject
-    internal var pagerSnapHelper: PagerSnapHelper? = null
+    lateinit var pagerSnapHelper: PagerSnapHelper
 
     private var currentMatchId: Long = 0
     private var isBoardActive: Boolean = false
@@ -155,17 +154,17 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun setZoneLiveData(intent: Intent) {
-        val zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson!!)
+        val zoneLiveData = getZoneLiveData(intent, getString(R.string.intent_zone_live_data), gson)
         when (zoneLiveData!!.liveDataType) {
             SCORE_DATA -> {
-                val scoreData = zoneLiveData.getScoreData(gson!!)
+                val scoreData = zoneLiveData.getScoreData(gson)
                 updateScoreLocally(fixture!!, scoreData)
                 updateScoreLocally(matchDetails!!, scoreData)
                 board_toolbar.setScore("${scoreData.homeGoals} $DASH ${scoreData.awayGoals}")
                 FixtureListUpdateTask.update(fixture, scoreData, null, true)
             }
             TIME_STATUS_DATA -> {
-                val timeStatus = zoneLiveData.getLiveTimeStatus(gson!!)
+                val timeStatus = zoneLiveData.getLiveTimeStatus(gson)
                 updateTimeStatusLocally(fixture!!, timeStatus)
                 updateTimeStatusLocally(matchDetails!!, timeStatus)
                 FixtureListUpdateTask.update(fixture, null, timeStatus, false)
@@ -215,7 +214,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun prepareFullScreenRecyclerView() {
-        pagerSnapHelper!!.attachToRecyclerView(board_tiles_full_recycler_view)
+        pagerSnapHelper.attachToRecyclerView(board_tiles_full_recycler_view)
 //        TODO: un-comment after making changes to BoardFeedDetailAdapter
 //        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD)
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
@@ -254,7 +253,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun getBoardIdAndMatchDetails(currentMatchId: Long?) {
-        RestApiAggregator.getBoardAndMatchDetails(restApi!!, footballRestApi!!, currentMatchId!!)
+        RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId!!)
                 .doOnSubscribe { board_progress_bar!!.visibility = View.VISIBLE }
                 .doOnTerminate { board_progress_bar!!.visibility = View.GONE }
                 .subscribe(object : Subscriber<Pair<Board, MatchDetails>>() {
@@ -300,7 +299,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun getBoardPolls() {
-        restApi!!.getBoardPoll(boardId, getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<Poll>>() {
+        restApi.getBoardPoll(boardId, getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<Poll>>() {
             override fun onCompleted() {
                 Log.i(TAG, "getBoardPolls() : onCompleted")
             }
@@ -434,7 +433,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
         override fun getItem(position: Int): Fragment? {
             when (position) {
-                0 -> return ref.get()?.run { BoardInfoFragment.newInstance(gson!!.toJson(matchDetails)) }
+                0 -> return ref.get()?.run { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
                 1 -> {
                     try {
                         return if (ref.get()!!.poll == null) boardTilesFragmentWithoutPoll else boardTilesFragmentWithPoll
