@@ -43,7 +43,6 @@ import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.FileHandler;
-import life.plank.juna.zone.util.facilis.BaseCard;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureAdapter;
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter;
@@ -302,18 +301,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     }
 
     @Override
-    public void pushCard(BaseCard card) {
-
-    }
-
-    @Override
-    public void popCard(BaseCard card) {
-
-    }
-
-    @Override
     public void setBlurBg(Bitmap blurBg) {
-
     }
 
     @Override
