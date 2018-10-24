@@ -353,25 +353,27 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         if (authService != null) {
             authService!!.dispose()
         }
+        boardFeedDetailAdapter = null
+        onBoardingAdapter = null
         userBoardsAdapter = null
         userFeedAdapter = null
         userZoneAdapter = null
         super.onDestroy()
     }
 
-    fun onBackPressed(): Boolean {
+    override fun onBackPressed(): Boolean {
         emojiBottomSheetBehavior!!.peekHeight = 0
         emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         return if (isTileFullScreenActive) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            true
+            false
         } else {
             boardFeedDetailAdapter = null
             onBoardingAdapter = null
             userBoardsAdapter = null
             userFeedAdapter = null
             userZoneAdapter = null
-            false
+            true
         }
     }
 }

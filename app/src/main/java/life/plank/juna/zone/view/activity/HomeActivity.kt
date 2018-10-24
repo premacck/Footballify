@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.activity
 import android.os.Bundle
 import life.plank.juna.zone.R
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.home.HomeFragment
 
 class HomeActivity : BaseCardActivity() {
 
@@ -10,6 +11,6 @@ class HomeActivity : BaseCardActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-//        TODO: push home page fragment
+        pushFragment(HomeFragment.newInstance())
     }
 }
