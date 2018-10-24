@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -58,7 +59,17 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
 }
 
 fun hideAndShowBoomMenu(nestedScrollView: NestedScrollView, arcMenu: ArcMenu) {
-    nestedScrollView.setOnScrollChangeListener { nestedScrollView: NestedScrollView?, scrollX: Int, scrollY: Int, oldScrollX: Int, oldScrollY: Int ->
+    nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+        if (scrollY > oldScrollY) {
+            arcMenu.hide()
+        } else {
+            arcMenu.show()
+        }
+    }
+}
+
+fun hideAndShowBoomMenu(recyclerView: RecyclerView, arcMenu: ArcMenu) {
+    recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
         if (scrollY > oldScrollY) {
             arcMenu.hide()
         } else {

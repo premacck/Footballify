@@ -38,6 +38,7 @@ import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.home.HomeFragment;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
+import life.plank.juna.zone.view.fragment.zone.ZoneFragment;
 
 /**
  * This Component is the sub-component of AppComponent.
@@ -114,6 +115,8 @@ public interface UiComponent {
     void inject(MatchBoardFragment matchBoardFragment);
 
     void inject(PrivateBoardFragment privateBoardFragment);
+
+    void inject(ZoneFragment zoneFragment);
 
     @Subcomponent.Builder
     interface Builder {
