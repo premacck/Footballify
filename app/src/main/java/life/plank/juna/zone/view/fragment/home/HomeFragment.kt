@@ -15,7 +15,6 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
-import butterknife.ButterKnife
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
@@ -86,9 +85,7 @@ class HomeFragment : BaseTileFragment(), ZoneToolbarListener {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.activity_user_feed, container, false)
-        ButterKnife.bind(this, rootView)
-        return rootView
+        return inflater.inflate(R.layout.activity_user_feed, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
