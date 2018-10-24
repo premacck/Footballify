@@ -27,9 +27,9 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.util.facilis.BaseCard;
 import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter;
-import life.plank.juna.zone.view.fragment.base.BaseCard;
 
 import static life.plank.juna.zone.util.AppConstants.PAST_MATCHES;
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
