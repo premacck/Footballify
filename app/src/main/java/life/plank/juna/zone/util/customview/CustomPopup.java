@@ -56,6 +56,7 @@ public class CustomPopup {
 
             popupItemThree.setOnClickListener(view -> {
                 optionPopUp.dismiss();
+//                TODO: replace with deletePrivateBoard() function of PrivateBoardFragment
                 PrivateBoardActivity.deletePrivateBoard();
             });
 

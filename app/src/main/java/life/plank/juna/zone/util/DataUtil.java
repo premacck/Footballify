@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.support.v4.graphics.ColorUtils;
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -85,6 +86,10 @@ public class DataUtil {
             FOUL, FOUL, FOUL, FOUL
     };
     private static Random random = new Random();
+
+    public static String getString(@StringRes int stringRes) {
+        return ZoneApplication.getContext().getString(stringRes);
+    }
 
     public static boolean isNullOrEmpty(String s) {
         return s == null || s.isEmpty();
