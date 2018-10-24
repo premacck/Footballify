@@ -19,7 +19,7 @@ fun FragmentManager.findLastFragment(): BaseFragment? {
     return this.fragments[this.backStackEntryCount] as? BaseFragment
 }
 
-fun FragmentManager.movePreviousCardToBackground() {
+fun FragmentManager.moveCurrentCardToBackground() {
     this.findLastCard()?.moveToBackGround()
 }
 
