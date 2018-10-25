@@ -16,6 +16,7 @@ import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
+import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
@@ -25,7 +26,6 @@ import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserFeedActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
-import life.plank.juna.zone.view.activity.ZoneActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
@@ -99,7 +99,7 @@ public interface UiComponent {
 
     void inject(JoinBoardActivity joinBoardActivity);
 
-    void inject(ZoneActivity zoneActivity);
+    void inject(SelectZoneActivity selectZoneActivity);
 
     void inject(PostDetailActivity postDetailActivity);
 

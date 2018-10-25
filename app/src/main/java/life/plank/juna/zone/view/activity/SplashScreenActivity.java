@@ -124,7 +124,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
                                 editor.putString(getString(R.string.pref_profile_pic_url), user.getProfilePictureUrl()).apply();
                                 if (isNullOrEmpty(user.getUserPreferences())) {
-                                    startActivity(new Intent(SplashScreenActivity.this, ZoneActivity.class));
+                                    startActivity(new Intent(SplashScreenActivity.this, SelectZoneActivity.class));
                                 } else {
                                     startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
                                 }

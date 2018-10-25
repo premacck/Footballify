@@ -205,7 +205,7 @@ public class TokenActivity extends AppCompatActivity {
 
                                 UIDisplayUtil.saveSignInUserDetails(TokenActivity.this, response.body());
                                 if (response.body().getUserPreferences().isEmpty()) {
-                                    startActivity(new Intent(TokenActivity.this, ZoneActivity.class));
+                                    startActivity(new Intent(TokenActivity.this, SelectZoneActivity.class));
                                 } else {
                                     startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
                                 }
