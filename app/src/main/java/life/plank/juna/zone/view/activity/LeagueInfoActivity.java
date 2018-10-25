@@ -155,7 +155,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         ButterKnife.bind(this);
 
-        BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
+        BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu, null);
         Intent intent = getIntent();
         if (intent != null) {
             league = intent.getParcelableExtra(getString(R.string.intent_league));
