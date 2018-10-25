@@ -20,7 +20,7 @@
 
     <!--options-->
     <string name="b2c_name">B2C</string>
-    <string name="b2c_discovery_uri" translatable="false">https://login.microsoftonline.com/%1$s/v2.0/.well-known/openid-configuration?p=%2$s</string>
+    <string name="b2c_discovery_uri" translatable="false">https://planklabs.b2clogin.com/planklabs.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_SignUpIn</string>
     <string name="b2c_scope_string" translatable="false">openid profile</string>
     <string name="discovery_endpoint_value_name">discoveryEndpointRes</string>
     <string name="auth_end_point_value_name">authEndpointRes</string>
