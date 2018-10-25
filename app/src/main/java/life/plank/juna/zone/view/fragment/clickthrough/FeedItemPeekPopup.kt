@@ -19,6 +19,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
 import life.plank.juna.zone.util.facilis.listener
+import life.plank.juna.zone.view.activity.base.BaseBoardActivity
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
@@ -104,7 +105,7 @@ class FeedItemPeekPopup : BaseDialogFragment() {
     }
 
     private fun initRecyclerView() {
-        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, null)
+        boardFeedDetailAdapter = BoardFeedDetailAdapter(activity as BaseBoardActivity, boardId, isBoardActive, emojiBottomSheetBehavior, null)
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
         boardFeedDetailAdapter?.update(feedEntries)
         PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
