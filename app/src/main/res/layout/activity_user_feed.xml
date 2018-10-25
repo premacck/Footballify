@@ -70,15 +70,7 @@
 
         <com.bvapp.arcmenulibrary.ArcMenu
             android:id="@+id/arc_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:menuChildAnim="false"
-            app:menuClickAnim="true"
-            app:menuGravity="Bottom_Middle"
-            app:menuImage="@drawable/ic_un"
-            app:menuNormalColor="@color/fab_button_pink"
-            app:menuShadowElevation="true"
-            app:menuType="large" />
+            style="@style/ArcMenuDefault" />
 
         <ImageView
             android:id="@+id/board_blur_background_image_view"

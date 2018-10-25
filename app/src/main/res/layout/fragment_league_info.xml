@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_league_layout"
+    style="@style/MatchParentSize"
+    android:animateLayoutChanges="true">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/faded_card_layout"
+        style="@style/MatchParentSize">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/faded_card"
+            style="@style/CardView.Faded"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/root_card"
+        style="@style/CardView.Root">
+
+        <LinearLayout
+            style="@style/MatchParentSize"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/league_toolbar"
+                layout="@layout/league_toolbar" />
+
+            <include
+                android:id="@+id/feed_header"
+                layout="@layout/layout_league_info" />
+
+        </LinearLayout>
+
+        <com.bvapp.arcmenulibrary.ArcMenu
+            android:id="@+id/arc_menu"
+            style="@style/ArcMenuDefault" />
+
+        <ImageView
+            style="@style/DragHandleImageView"
+            android:contentDescription="@string/thumbnail" />
+
+        <View
+            android:id="@+id/drag_area"
+            style="@style/DragArea"
+            android:layout_marginStart="60dp"
+            android:layout_marginEnd="60dp" />
+
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
