@@ -227,7 +227,7 @@ abstract class SwipeDownToDismissListener constructor(
         }
         if (backgroundView != null) {
             backgroundView!!.animate()
-                    .alpha(0f)
+                    .alpha(1f)
                     .setDuration(200)
                     .setInterpolator(OvershootInterpolator(1.0f))
                     .start()

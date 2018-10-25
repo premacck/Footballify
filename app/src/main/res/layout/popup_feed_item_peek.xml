@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_peek_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blur_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:blk_blurRadius="20"
+        app:blk_downscaleFactor="0.12"
+        app:blk_fps="0" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/board_tiles_full_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clipToPadding="false"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+        tools:listitem="@layout/football_feed_detail_row" />
+
+    <TextView
+        android:id="@+id/recycler_view_drag_area"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:layout_alignTop="@+id/board_tiles_full_recycler_view"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+        app:layout_anchor="@+id/board_tiles_full_recycler_view"
+        app:layout_anchorGravity="top" />
+
+    <include
+        layout="@layout/emoji_bottom_sheet"
+        android:visibility="gone" />
+
+</android.support.design.widget.CoordinatorLayout>
