@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
+import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
@@ -44,18 +45,26 @@ fun FragmentManager.movePreviousCardToForeground() {
 fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean) {
     if (index < 0) return
     this.beginTransaction()
-            .addCustomAnimations(index, R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down)
+            .addCustomAnimations(R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down, index)
             .add(resId, card, tag)
             .addToBackStack(isAddToBackStack, tag)
             .commit()
     Log.i("pushFragment", "Added index: $index")
 }
 
-fun FragmentTransaction.addCustomAnimations(index: Int, @AnimRes enter: Int, @AnimRes exit: Int, @AnimRes popEnter: Int, @AnimRes popExit: Int): FragmentTransaction {
+fun FragmentManager.pushPopup(resId: Int, popup: BaseDialogFragment, tag: String) {
+    this.beginTransaction()
+            .addCustomAnimations(R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down)
+            .add(resId, popup, tag)
+            .addToBackStack(tag)
+            .commit()
+}
+
+fun FragmentTransaction.addCustomAnimations(@AnimRes enter: Int, @AnimRes exit: Int, @AnimRes popEnter: Int, @AnimRes popExit: Int, index: Int = 0): FragmentTransaction {
     if (index > 0) this.setCustomAnimations(enter, exit, popEnter, popExit)
     return this
 }
 
-fun FragmentTransaction.addToBackStack(addFlag: Boolean, tag: String): FragmentTransaction {
+fun FragmentTransaction.addToBackStack(addFlag: Boolean = true, tag: String): FragmentTransaction {
     return if (addFlag) this.addToBackStack(tag) else this
 }
