@@ -70,7 +70,7 @@ class ZoneFragment : BaseCard(), SearchView.OnQueryTextListener, OnItemClickList
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         setUpData()
-        setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu)
+        setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
         initBottomSheetRecyclerView()
         search_view.queryHint = getString(R.string.search_query_hint)
 

@@ -150,7 +150,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
             feed_header.isNotificationViewVisible(View.GONE)
             feed_header.userGreeting = getString(R.string.hello_stranger)
         } else {
-            setupBoomMenu(BOOM_MENU_FULL, activity!!, null, arc_menu)
+            setupBoomMenu(BOOM_MENU_FULL, activity!!, null, arc_menu, null)
         }
     }
 

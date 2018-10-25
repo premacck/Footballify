@@ -77,7 +77,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupBoomMenu(BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu)
+        setupBoomMenu(BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
 
         prepareRecyclerViews()
         getLeagueInfoFromRoomDb()
