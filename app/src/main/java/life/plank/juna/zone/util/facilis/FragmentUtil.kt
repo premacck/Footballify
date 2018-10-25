@@ -7,6 +7,7 @@ import android.util.Log
 import life.plank.juna.zone.R
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
     return this.findFragmentByTag(tag) as? BaseCard
@@ -18,6 +19,10 @@ fun FragmentManager.findLastCard(): BaseCard? {
 
 fun FragmentManager.findLastFragment(): BaseFragment? {
     return this.fragments[this.backStackEntryCount] as? BaseFragment
+}
+
+fun FragmentManager.findPeekDialog(tag: String): FeedItemPeekPopup? {
+    return findFragmentByTag(tag) as? FeedItemPeekPopup
 }
 
 fun FragmentManager.moveCurrentCardToBackground() {
@@ -54,7 +59,7 @@ fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, in
 
 fun FragmentManager.pushPopup(resId: Int, popup: BaseDialogFragment, tag: String) {
     this.beginTransaction()
-            .addCustomAnimations(R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down)
+            .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
             .add(resId, popup, tag)
             .addToBackStack(tag)
             .commit()

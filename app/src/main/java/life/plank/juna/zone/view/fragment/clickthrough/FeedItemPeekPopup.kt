@@ -3,31 +3,38 @@ package life.plank.juna.zone.view.fragment.clickthrough
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v7.widget.PagerSnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.OvershootInterpolator
+import android.view.animation.AnimationUtils
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
+import life.plank.juna.zone.util.facilis.listener
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.runOnUiThread
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
+@Suppress("DeferredResultUnused")
 class FeedItemPeekPopup : BaseDialogFragment() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
 
-    lateinit var feedEntries: List<FeedEntry>
+    private lateinit var feedEntries: List<FeedEntry>
     var boardFeedDetailAdapter: BoardFeedDetailAdapter? = null
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
@@ -37,6 +44,7 @@ class FeedItemPeekPopup : BaseDialogFragment() {
     private var position: Int = 0
 
     companion object {
+        val TAG: String = FeedItemPeekPopup::class.java.simpleName
         fun newInstance(feedEntries: List<FeedEntry>, boardId: String?, isBoardActive: Boolean = true, target: String?, position: Int) =
                 FeedItemPeekPopup().apply {
                     arguments = Bundle().apply {
@@ -64,15 +72,22 @@ class FeedItemPeekPopup : BaseDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.popup_feed_item_peek, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initBottomSheet()
-        initAdapter()
-        setupPeekRecyclerViewSwipeGesture()
-    }
-
     override fun onStart() {
         super.onStart()
-        blur_layout.startBlur()
+        async {
+            delay(10)
+            runOnUiThread {
+                blur_layout.animate()
+                        .alpha(1f)
+                        .setDuration(100)
+                        .listener { blur_layout.startBlur() }
+                        .start()
+                initBottomSheet()
+                initRecyclerView()
+                setupPeekRecyclerViewSwipeGesture()
+            }
+        }
+        blur_layout.onClick { dismiss() }
     }
 
     override fun onStop() {
@@ -85,19 +100,16 @@ class FeedItemPeekPopup : BaseDialogFragment() {
         emoji_recycler_view.adapter = emojiAdapter
         emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
         emojiBottomSheetBehavior?.peekHeight = 0
+        emoji_bottom_sheet.visibility = View.VISIBLE
     }
 
-    private fun initAdapter() {
-//        TODO: un-comment when committing BoardFeedDetailAdapter
-//        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, null)
+    private fun initRecyclerView() {
+        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, null)
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
+        boardFeedDetailAdapter?.update(feedEntries)
+        PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
         board_tiles_full_recycler_view.scrollToPosition(position)
-        board_tiles_full_recycler_view.animate()
-                .scaleX(1f)
-                .scaleY(1f)
-                .setDuration(200)
-                .setInterpolator(OvershootInterpolator(2f))
-                .start()
+        board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
     }
 
     private fun setupPeekRecyclerViewSwipeGesture() {
@@ -106,6 +118,23 @@ class FeedItemPeekPopup : BaseDialogFragment() {
                 dismiss()
             }
         })
+    }
+
+    override fun dismiss() {
+        if (emojiBottomSheetBehavior?.peekHeight!! > 0 || emojiBottomSheetBehavior?.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            emojiBottomSheetBehavior!!.peekHeight = 0
+            emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+        } else {
+            board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
+            blur_layout.startAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_out))
+            async {
+                delay(280)
+                try {
+                    runOnUiThread { super.dismiss() }
+                } catch (e: Exception) {
+                }
+            }
+        }
     }
 
     override fun onBackPressed(): Boolean {
