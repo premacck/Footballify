@@ -13,12 +13,17 @@ import kotlinx.android.synthetic.main.popup_feed_item_peek.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.view.activity.base.BaseBoardActivity
+import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import java.util.*
+import javax.inject.Inject
+import javax.inject.Named
 
 class FeedItemPeekPopup : DialogFragment() {
+
+    @field: [Inject Named("default")]
+    lateinit var restApi: RestApi
 
     lateinit var feedEntries: List<FeedEntry>
     var boardFeedDetailAdapter: BoardFeedDetailAdapter? = null
@@ -47,6 +52,7 @@ class FeedItemPeekPopup : DialogFragment() {
             isBoardActive = getBoolean(getString(R.string.intent_is_board_active))
             target = getString(getString(R.string.intent_target))
         }
+        ZoneApplication.getApplication().uiComponent.inject(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
