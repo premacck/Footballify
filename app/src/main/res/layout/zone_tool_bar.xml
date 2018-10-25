@@ -34,7 +34,6 @@
         android:fontFamily="@font/rajdhani_regular"
         android:gravity="center_vertical"
         android:padding="10dp"
-        android:src="@drawable/ic_notification_bell"
         android:textSize="20sp" />
 
     <ImageView

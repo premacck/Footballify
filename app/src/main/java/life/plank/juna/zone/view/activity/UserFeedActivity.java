@@ -208,7 +208,7 @@ public class UserFeedActivity extends BaseBoardActivity implements ZoneToolbarLi
             toolbar.isNotificationViewVisible(View.GONE);
             toolbar.setUserGreeting(getString(R.string.hello_stranger));
         } else {
-            BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, this, null, arcMenu);
+            BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, this, null, arcMenu, null);
         }
     }
 

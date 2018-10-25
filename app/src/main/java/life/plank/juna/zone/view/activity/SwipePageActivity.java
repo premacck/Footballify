@@ -100,7 +100,7 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
 
         initRecyclerView();
         setUpData();
-        BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu);
+        BoomMenuUtil.setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, this, null, arcMenu, null);
         initBottomSheetRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
 

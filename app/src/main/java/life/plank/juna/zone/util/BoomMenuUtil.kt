@@ -4,6 +4,7 @@ package life.plank.juna.zone.util
 
 import android.app.Activity
 import android.content.res.Resources
+import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.content.ContextCompat
 import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.RecyclerView
@@ -25,8 +26,9 @@ import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import life.plank.juna.zone.view.activity.camera.UploadActivity
 
-fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, arcMenu: ArcMenu) {
+fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?, arcMenu: ArcMenu, bottomSheetBehaviour: BottomSheetBehavior<*>?) {
     val baseElevation: Float = getDp(22f)
+
     arcMenu.run {
         setIcon(
                 R.drawable.ic_un,
@@ -54,7 +56,7 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
         val childImageView: ImageView = arcMenuChild.findViewById(R.id.fab_image_view)
         fabRelativeLayout.background = ContextCompat.getDrawable(activity, backgroundColors[i])
         childImageView.setImageResource(fabImages[i])
-        arcMenu.addItem(arcMenuChild, titles[i], getBoomMenuListener(page, activity, boardId, i))
+        arcMenu.addItem(arcMenuChild, titles[i], getBoomMenuListener(page, activity, boardId, i, bottomSheetBehaviour))
     }
 }
 
@@ -103,8 +105,8 @@ fun getBoomMenuFabImages(@BoomMenuPage page: Int): IntArray? {
                     R.drawable.ic_settings_white,
                     R.drawable.ic_home_purple,
                     R.drawable.ic_gallery_white,
+                    R.drawable.ic_emoji_white,
                     R.drawable.ic_camera_white,
-                    R.drawable.ic_video_white,
                     R.drawable.ic_text_white,
                     R.drawable.ic_mic_white,
                     R.drawable.ic_link_white
@@ -151,7 +153,7 @@ fun getBoomMenuBackgroundColors(@BoomMenuPage page: Int): IntArray? {
     }
 }
 
-fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: String?, position: Int): View.OnClickListener? {
+fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: String?, position: Int, bottomSheetBehaviour: BottomSheetBehavior<*>?): View.OnClickListener? {
     return when (page) {
         BOOM_MENU_FULL -> {
             View.OnClickListener {
@@ -174,7 +176,10 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     }
                     3 -> {
                         if (boardId != null) {
-                            CustomCameraActivity.launch(activity, true, boardId)
+                            if (bottomSheetBehaviour != null) {
+                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                                bottomSheetBehaviour.peekHeight = 850
+                            }
                         }
                     }
                     4 -> {

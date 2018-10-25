@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
+import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -72,6 +75,10 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     TextView noDataTextView;
     @BindView(R.id.arc_menu)
     ArcMenu arcMenu;
+    @BindView(R.id.emoji_bottom_sheet)
+    RelativeLayout emojiBottomSheet;
+    @BindView(R.id.emoji_recycler_view)
+    RecyclerView emojiRecyclerView;
     @BindView(R.id.nestedScrollView)
     NestedScrollView nestedScrollView;
     @Inject
@@ -86,6 +93,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     private String boardId;
     private boolean isBoardActive;
     private PollBindingModel pollBindingModel;
+    private BottomSheetBehavior emojiBottomSheetBehavior;
+    private EmojiAdapter emojiAdapter;
 
     public BoardTilesFragment() {
     }
@@ -141,8 +150,11 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
         if (isNullOrEmpty(boardId)) {
             return;
         }
+        setupEmojiBottomSheet();
+        initEmojiBottomSheetRecyclerView();
+
         if (isBoardActive) {
-            BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull(getActivity()), boardId, arcMenu);
+            BoomMenuUtil.setupBoomMenu(BOOM_MENU_FULL, Objects.requireNonNull(getActivity()), boardId, arcMenu, emojiBottomSheetBehavior);
         } else {
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }
@@ -156,6 +168,16 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             return;
         }
         getBoardFeed(false);
+    }
+
+    private void initEmojiBottomSheetRecyclerView() {
+        emojiAdapter = new EmojiAdapter(getContext(), "", emojiBottomSheetBehavior);
+        emojiRecyclerView.setAdapter(emojiAdapter);
+    }
+
+    private void setupEmojiBottomSheet() {
+        emojiBottomSheetBehavior = BottomSheetBehavior.from(emojiBottomSheet);
+        emojiBottomSheetBehavior.setPeekHeight(0);
     }
 
     private void initRecyclerViews() {
