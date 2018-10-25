@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
 import kotlinx.coroutines.experimental.async
@@ -17,19 +18,16 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
-import life.plank.juna.zone.util.facilis.listener
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
-import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
-import org.jetbrains.anko.sdk27.coroutines.onClick
+import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
 @Suppress("DeferredResultUnused")
-class FeedItemPeekPopup : BaseDialogFragment() {
+class FeedItemPeekPopup : BaseBlurPopup() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
@@ -77,23 +75,19 @@ class FeedItemPeekPopup : BaseDialogFragment() {
         async {
             delay(10)
             runOnUiThread {
-                blur_layout.animate()
-                        .alpha(1f)
-                        .setDuration(100)
-                        .listener { blur_layout.startBlur() }
-                        .start()
                 initBottomSheet()
                 initRecyclerView()
-                setupPeekRecyclerViewSwipeGesture()
             }
         }
-        blur_layout.onClick { dismiss() }
     }
 
-    override fun onStop() {
-        blur_layout.pauseBlur()
-        super.onStop()
-    }
+    override fun getBlurLayout(): BlurLayout = blur_layout
+
+    override fun getDragArea(): View = recycler_view_drag_area
+
+    override fun getRootView(): View = board_tiles_full_recycler_view
+
+    override fun getBackgroundLayout(): ViewGroup = root_peek_layout
 
     private fun initBottomSheet() {
         emojiAdapter = EmojiAdapter(ZoneApplication.getContext(), if (boardId == null) "" else boardId, emojiBottomSheetBehavior)
@@ -113,28 +107,13 @@ class FeedItemPeekPopup : BaseDialogFragment() {
         board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
     }
 
-    private fun setupPeekRecyclerViewSwipeGesture() {
-        recycler_view_drag_area.setOnTouchListener(object : SwipeDownToDismissListener(activity!!, recycler_view_drag_area, board_tiles_full_recycler_view, root_peek_layout) {
-            override fun onSwipeDown() {
-                dismiss()
-            }
-        })
-    }
-
     override fun dismiss() {
         if (emojiBottomSheetBehavior?.peekHeight!! > 0 || emojiBottomSheetBehavior?.state != BottomSheetBehavior.STATE_COLLAPSED) {
             emojiBottomSheetBehavior!!.peekHeight = 0
             emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
             board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
-            blur_layout.startAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_out))
-            async {
-                delay(280)
-                try {
-                    runOnUiThread { super.dismiss() }
-                } catch (e: Exception) {
-                }
-            }
+            super.dismiss()
         }
     }
 
