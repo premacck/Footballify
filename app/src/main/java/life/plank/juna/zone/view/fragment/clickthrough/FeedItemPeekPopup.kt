@@ -14,6 +14,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import java.util.*
@@ -65,6 +66,7 @@ class FeedItemPeekPopup : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initBottomSheet()
         initAdapter()
+        setupPeekRecyclerViewSwipeGesture()
     }
 
     override fun onStart() {
@@ -94,5 +96,13 @@ class FeedItemPeekPopup : DialogFragment() {
                 .setDuration(200)
                 .setInterpolator(OvershootInterpolator(2f))
                 .start()
+    }
+
+    fun setupPeekRecyclerViewSwipeGesture() {
+        recycler_view_drag_area.setOnTouchListener(object : SwipeDownToDismissListener(activity!!, recycler_view_drag_area, board_tiles_full_recycler_view, root_peek_layout) {
+            override fun onSwipeDown() {
+                dismiss()
+            }
+        })
     }
 }
