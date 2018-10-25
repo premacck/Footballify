@@ -32,16 +32,19 @@ class FeedItemPeekPopup : DialogFragment() {
     private var boardId: String? = null
     private var isBoardActive: Boolean = false
     private var target: String? = null
+    private var position: Int = 0
 
     companion object {
-        fun newInstance(feedEntries: List<FeedEntry>, boardId: String?, isBoardActive: Boolean = true, target: String?) = FeedItemPeekPopup().apply {
-            arguments = Bundle().apply {
-                putParcelableArrayList(getString(R.string.intent_feed_items), feedEntries as ArrayList<out Parcelable>)
-                putString(getString(R.string.intent_board_id), boardId)
-                putBoolean(getString(R.string.intent_is_board_active), isBoardActive)
-                putString(getString(R.string.intent_target), target)
-            }
-        }
+        fun newInstance(feedEntries: List<FeedEntry>, boardId: String?, isBoardActive: Boolean = true, target: String?, position: Int) =
+                FeedItemPeekPopup().apply {
+                    arguments = Bundle().apply {
+                        putParcelableArrayList(getString(R.string.intent_feed_items), feedEntries as ArrayList<out Parcelable>)
+                        putString(getString(R.string.intent_board_id), boardId)
+                        putBoolean(getString(R.string.intent_is_board_active), isBoardActive)
+                        putString(getString(R.string.intent_target), target)
+                        putInt(getString(R.string.intent_position), position)
+                    }
+                }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +54,7 @@ class FeedItemPeekPopup : DialogFragment() {
             boardId = getString(getString(R.string.intent_board_id))
             isBoardActive = getBoolean(getString(R.string.intent_is_board_active))
             target = getString(getString(R.string.intent_target))
+            position = getInt(getString(R.string.intent_position))
         }
         ZoneApplication.getApplication().uiComponent.inject(this)
     }
@@ -83,6 +87,7 @@ class FeedItemPeekPopup : DialogFragment() {
     private fun initAdapter() {
         boardFeedDetailAdapter = BoardFeedDetailAdapter(activity as BaseBoardActivity, boardId, isBoardActive, emojiBottomSheetBehavior, null)
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
+        board_tiles_full_recycler_view.scrollToPosition(position)
         board_tiles_full_recycler_view.animate()
                 .scaleX(1f)
                 .scaleY(1f)
