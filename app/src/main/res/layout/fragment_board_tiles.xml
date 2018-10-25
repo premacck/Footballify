@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,65 +8,75 @@
     android:orientation="vertical"
     tools:context=".view.fragment.board.fixture.BoardInfoFragment">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh_layout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nestedScrollView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true">
+                android:layout_height="match_parent">
 
-                <life.plank.juna.zone.util.customview.BoardPoll
-                    android:id="@+id/poll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/board_tiles_list"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/poll"
-                    android:clipToPadding="false"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingBottom="0.5dp"
-                    android:paddingTop="0.5dp"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:listitem="@layout/item_board_tile" />
+                    android:animateLayoutChanges="true">
 
-            </RelativeLayout>
+                    <life.plank.juna.zone.util.customview.BoardPoll
+                        android:id="@+id/poll"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
 
-        </android.support.v4.widget.NestedScrollView>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/board_tiles_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/poll"
+                        android:clipToPadding="false"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingTop="0.5dp"
+                        android:paddingBottom="0.5dp"
+                        app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                        app:spanCount="3"
+                        tools:listitem="@layout/item_board_tile" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+                </RelativeLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="gone" />
+            </android.support.v4.widget.NestedScrollView>
 
-    <TextView
-        android:id="@+id/no_data"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:fontFamily="@font/rajdhani_medium"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="14sp" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-    <com.bvapp.arcmenulibrary.ArcMenu
-        android:id="@+id/arc_menu"
-        style="@style/ArcMenuDefault" />
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:visibility="gone" />
 
-</RelativeLayout>
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <com.bvapp.arcmenulibrary.ArcMenu
+            android:id="@+id/arc_menu"
+            style="@style/ArcMenuDefault" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/emoji_bottom_sheet" />
+
+</android.support.design.widget.CoordinatorLayout>
