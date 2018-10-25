@@ -71,6 +71,8 @@ import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
+import life.plank.juna.zone.view.fragment.forum.ForumFragment;
+import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -514,14 +516,18 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return BoardInfoFragment.newInstance(ref.get().gson.toJson(ref.get().matchDetails));
+                    return ForumFragment.newInstance();
                 case 1:
+                    return BoardInfoFragment.newInstance(ref.get().gson.toJson(ref.get().matchDetails));
+                case 2:
                     try {
                         return ref.get().poll == null ? getBoardTilesFragmentWithoutPoll() : getBoardTilesFragmentWithPoll();
                     } catch (Exception e) {
                         Log.e(TAG, "getItem: ", e);
                         getBoardTilesFragmentWithoutPoll();
                     }
+
+
                 default:
                     return null;
             }
