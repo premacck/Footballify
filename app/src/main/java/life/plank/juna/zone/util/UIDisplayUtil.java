@@ -130,10 +130,6 @@ public class UIDisplayUtil {
         return comment.substring(comment.indexOf("$") + 1);
     }
 
-    public static UIDisplayUtil getInstance() {
-        return UIDisplayUtilWrapper.INSTANCE;
-    }
-
     /**
      * Dp to pixel conversion.
      *
@@ -616,7 +612,7 @@ public class UIDisplayUtil {
             listPopupWindow.dismiss();
     }
 
-    private static class UIDisplayUtilWrapper {
-        private static final UIDisplayUtil INSTANCE = new UIDisplayUtil();
+    public static int getColor(@ColorRes int color) {
+        return ZoneApplication.getContext().getColor(color);
     }
 }

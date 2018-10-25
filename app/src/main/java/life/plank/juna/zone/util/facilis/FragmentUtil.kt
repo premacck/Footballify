@@ -20,11 +20,25 @@ fun FragmentManager.findLastFragment(): BaseFragment? {
 }
 
 fun FragmentManager.moveCurrentCardToBackground() {
-    this.findLastCard()?.moveToBackGround()
+    val lastFragment = findLastFragment()
+    lastFragment?.run {
+        if (lastFragment is BaseCard) {
+            lastFragment.moveToBackGround()
+        }
+        onPause()
+    }
 }
 
 fun FragmentManager.movePreviousCardToForeground() {
-    if (this.backStackEntryCount >= 0) this.findLastCard()?.moveToForeGround()
+    if (this.backStackEntryCount >= 0) {
+        val lastFragment = findLastFragment()
+        lastFragment?.run {
+            if (lastFragment is BaseCard) {
+                lastFragment.moveToForeGround()
+            }
+            onResume()
+        }
+    }
 }
 
 fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean) {
