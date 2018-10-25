@@ -288,6 +288,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
     @Override
     public void prepareFullScreenRecyclerView() {
+        setupBottomSheet();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
         boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
@@ -364,7 +365,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                                 saveBoardId();
                                 isBoardActive = board.isActive();
                                 prepareFullScreenRecyclerView();
-                                setupBottomSheet();
                                 initBottomSheetRecyclerView();
 
                                 if (isBoardActive) {
