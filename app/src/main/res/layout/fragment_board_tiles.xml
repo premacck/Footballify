@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:arc="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -68,14 +67,6 @@
 
     <com.bvapp.arcmenulibrary.ArcMenu
         android:id="@+id/arc_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        arc:menuChildAnim="false"
-        arc:menuClickAnim="true"
-        arc:menuGravity="Bottom_Middle"
-        arc:menuImage="@drawable/ic_un"
-        arc:menuNormalColor="@color/fab_button_pink"
-        arc:menuShadowElevation="true"
-        arc:menuType="large" />
+        style="@style/ArcMenuDefault" />
 
 </RelativeLayout>
