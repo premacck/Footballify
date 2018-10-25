@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.fragment.clickthrough
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +16,12 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
+import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class FeedItemPeekPopup : DialogFragment() {
+class FeedItemPeekPopup : BaseDialogFragment() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
@@ -87,7 +87,8 @@ class FeedItemPeekPopup : DialogFragment() {
     }
 
     private fun initAdapter() {
-        boardFeedDetailAdapter = BoardFeedDetailAdapter(activity as BaseBoardActivity, boardId, isBoardActive, emojiBottomSheetBehavior, null)
+//        TODO: un-comment when committing BoardFeedDetailAdapter
+//        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, null)
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
         board_tiles_full_recycler_view.scrollToPosition(position)
         board_tiles_full_recycler_view.animate()
@@ -98,11 +99,20 @@ class FeedItemPeekPopup : DialogFragment() {
                 .start()
     }
 
-    fun setupPeekRecyclerViewSwipeGesture() {
+    private fun setupPeekRecyclerViewSwipeGesture() {
         recycler_view_drag_area.setOnTouchListener(object : SwipeDownToDismissListener(activity!!, recycler_view_drag_area, board_tiles_full_recycler_view, root_peek_layout) {
             override fun onSwipeDown() {
                 dismiss()
             }
         })
+    }
+
+    override fun onBackPressed(): Boolean {
+        if (emojiBottomSheetBehavior?.peekHeight!! > 0 || emojiBottomSheetBehavior?.state != BottomSheetBehavior.STATE_COLLAPSED) {
+            emojiBottomSheetBehavior!!.peekHeight = 0
+            emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+            return false
+        }
+        return true
     }
 }
