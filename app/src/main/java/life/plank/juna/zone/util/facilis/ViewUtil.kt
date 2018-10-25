@@ -2,6 +2,8 @@
 
 package life.plank.juna.zone.util.facilis
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
@@ -12,6 +14,7 @@ import android.support.v7.widget.CardView
 import android.view.Display
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 import android.view.animation.DecelerateInterpolator
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
@@ -82,5 +85,11 @@ fun View.setSwipeDownListener(activity: Activity, rootView: View, backgroundLayo
         override fun onSwipeDown() {
             activity.onBackPressed()
         }
+    })
+}
+
+fun ViewPropertyAnimator.listener(onAnimationEnd: () -> Unit): ViewPropertyAnimator {
+    return this.setListener(object : AnimatorListenerAdapter() {
+        override fun onAnimationEnd(animation: Animator?) = onAnimationEnd()
     })
 }

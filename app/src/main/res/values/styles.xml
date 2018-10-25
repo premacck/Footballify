@@ -220,5 +220,4 @@
         <item name="menuType">large</item>
     </style>
 
-    <item name="arc_menu" type="id" />
 </resources>
