@@ -97,7 +97,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     ImageView boardBlurBackgroundImageView;
     @BindView(R.id.recycler_view_drag_area)
     TextView recyclerViewDragArea;
-    @BindView(R.id.board_tiles_list_full)
+    @BindView(R.id.board_tiles_full_recycler_view)
     RecyclerView boardTilesFullRecyclerView;
     @BindView(R.id.emoji_bottom_sheet)
     RelativeLayout emojiBottomSheet;
@@ -158,7 +158,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_private_board);
+        setContentView(R.layout.fragment_private_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
         staticRestApi = restApi;
@@ -184,7 +184,6 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         rootCard.setCardBackgroundColor(Color.parseColor(board.getColor()));
 
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
-        setupFullScreenRecyclerViewSwipeGesture(recyclerViewDragArea, boardTilesFullRecyclerView);
 
         prepareFullScreenRecyclerView();
         setupViewPagerWithFragments();
@@ -261,7 +260,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         setupBottomSheet();
         initBottomSheetRecyclerView();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, true, emojiBottomSheetBehavior, BOARD);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(restApi, boardId, true, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

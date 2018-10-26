@@ -41,7 +41,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
@@ -121,7 +120,7 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new BoardInfoAdapter(matchDetails, picasso, (MatchBoardActivity) getActivity(), this);
+        adapter = new BoardInfoAdapter(matchDetails, picasso, getActivity(), this);
         boardInfoRecyclerView.setAdapter(adapter);
     }
 

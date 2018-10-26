@@ -64,8 +64,8 @@ import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimelineDateHeader;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTarget;
-import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
+import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTargetPicasso;
+import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTargetPicasso;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
@@ -152,10 +152,10 @@ public class TimelineActivity extends AppCompatActivity {
 
         picasso.load(matchDetails.getHomeTeam().getLogoLink())
                 .resize((int) getDp(24), (int) getDp(24))
-                .into(getEndDrawableTarget(timeStatusTextView));
+                .into(getEndDrawableTargetPicasso(timeStatusTextView));
         picasso.load(matchDetails.getAwayTeam().getLogoLink())
                 .resize((int) getDp(24), (int) getDp(24))
-                .into(getStartDrawableTarget(dateTextView));
+                .into(getStartDrawableTargetPicasso(dateTextView));
         ScrubberLoader.prepare(scrubber, false);
     }
 

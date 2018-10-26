@@ -207,7 +207,7 @@ public class TokenActivity extends AppCompatActivity {
                                 if (response.body().getUserPreferences().isEmpty()) {
                                     startActivity(new Intent(TokenActivity.this, SelectZoneActivity.class));
                                 } else {
-                                    startActivity(new Intent(TokenActivity.this, UserFeedActivity.class));
+                                    HomeActivity.Companion.launch(TokenActivity.this, false);
                                 }
                                 finish();
                                 break;

@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AuthUtil;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -46,8 +44,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     LottieAnimationView animationView;
     @Inject
     @Named("default")
-    Retrofit retrofit;
-    private RestApi restApi;
+    RestApi restApi;
     private AuthorizationService authService;
 
     @Override
@@ -57,33 +54,20 @@ public class SplashScreenActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         authService = new AuthorizationService(this);
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
-        animationView.setSpeed(2.0f);
-        animationView.addAnimatorListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-            }
+        animationView.setSpeed(3.0f);
+    }
 
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                proceedToApp();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-            }
-        });
+    @Override
+    protected void onStart() {
+        super.onStart();
+        proceedToApp();
     }
 
     /**
      * Flow:
      * * check if the refresh token is valid
      * * if the refresh token is valid, check if ID token is valid
-     * * if Id token is valid, proceed to {@link UserFeedActivity}
+     * * if Id token is valid, proceed to {@link HomeActivity}
      * * if Id token is not valid, try to refresh the token
      * * if the refresh token is not valid, go to {@link SignInActivity}
      */
@@ -126,7 +110,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 if (isNullOrEmpty(user.getUserPreferences())) {
                                     startActivity(new Intent(SplashScreenActivity.this, SelectZoneActivity.class));
                                 } else {
-                                    startActivity(new Intent(SplashScreenActivity.this, UserFeedActivity.class));
+                                    startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                                 }
 
                                 finish();

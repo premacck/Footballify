@@ -32,7 +32,6 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.OnClickZoneItemListener;
 import life.plank.juna.zone.view.adapter.ZoneAdapter;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -57,9 +56,7 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
 
     @Inject
     @Named("default")
-    Retrofit retrofit;
-
-    private RestApi restApi;
+    RestApi restApi;
     private ArrayList<Zones> zones = new ArrayList<>();
     Zones zone = new Zones();
 
@@ -71,7 +68,6 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
         ButterKnife.bind(this);
 
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
         retrieveZones();
         initRecyclerView();
     }
@@ -88,12 +84,12 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
                 .subscribe(new Subscriber<Response<List<Zones>>>() {
                     @Override
                     public void onCompleted() {
-                        Log.e(TAG, "onCompleted: ");
+                        Log.i(TAG, "retrieveZones() : onCompleted: ");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e(TAG, "In onError()" + e);
+                        Log.e(TAG, "retrieveZones() : onError()" + e);
                         Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 

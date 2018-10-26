@@ -1,10 +1,8 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
-import android.app.Activity
 import android.content.*
 import android.graphics.PorterDuff
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
@@ -16,16 +14,13 @@ import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_match_board.*
-import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.faded_card.*
+import kotlinx.android.synthetic.main.fragment_match_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
@@ -37,14 +32,15 @@ import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.FixtureListUpdateTask
-import life.plank.juna.zone.util.OnSwipeTouchListener
 import life.plank.juna.zone.util.PreferenceManager.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
+import life.plank.juna.zone.util.facilis.findPopupDialog
+import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
-import life.plank.juna.zone.view.activity.base.BaseBoardActivity
-import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
-import life.plank.juna.zone.view.fragment.home.HomeFragment
+import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
+import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import retrofit2.Response
 import rx.Subscriber
 import java.lang.ref.WeakReference
@@ -68,14 +64,13 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     private var currentMatchId: Long = 0
     private var isBoardActive: Boolean = false
     private var boardId: String? = null
-    private var league: League? = null
+    private lateinit var league: League
     private var fixture: MatchFixture? = null
     private var matchDetails: MatchDetails? = null
     private var poll: Poll? = null
+    private lateinit var feedEntries: List<FeedEntry>
 
     private var boardPagerAdapter: BoardPagerAdapter? = null
-    private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
-    private var emojiAdapter: EmojiAdapter? = null
 
     private val mMessageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -88,11 +83,11 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     companion object {
-        private val TAG = HomeFragment::class.java.simpleName
-        fun newInstance(fixture: MatchFixture, league: League): HomeFragment = HomeFragment().apply {
+        private val TAG = MatchBoardFragment::class.java.simpleName
+        fun newInstance(fixture: MatchFixture, league: League): MatchBoardFragment = MatchBoardFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(getString(R.string.intent_fixture_data), fixture)
-                putParcelable(getString(R.string.intent_league), league)
+                putParcelable(findString(R.string.intent_fixture_data), fixture)
+                putParcelable(findString(R.string.intent_league), league)
             }
         }
     }
@@ -104,23 +99,21 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         val intent = arguments!!
         if (intent.containsKey(getString(R.string.intent_fixture_data))) {
             fixture = intent.getParcelable(getString(R.string.intent_fixture_data))
-            league = intent.getParcelable(getString(R.string.intent_league))
+            league = intent.getParcelable(getString(R.string.intent_league))!!
             currentMatchId = fixture!!.matchId
-            board_toolbar.prepare(picasso, fixture, league!!.thumbUrl)
         } else {
             currentMatchId = intent.getLong(getString(R.string.match_id_string), 0)
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.activity_match_board, container, false)
+            inflater.inflate(R.layout.fragment_match_board, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        board_toolbar.prepare(picasso, fixture, league.thumbUrl)
         getBoardIdAndMatchDetails(currentMatchId)
-        setupFullScreenRecyclerViewSwipeGesture(activity!!, recycler_view_drag_area, recycler_view_drag_area)
         board_toolbar.setUpPopUp(activity, currentMatchId)
-        board_blur_background_image_view.setOnClickListener { dismissFullScreenRecyclerView() }
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
@@ -190,34 +183,14 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                     dialog.cancel()
                 }
             }
-            else -> {
-            }
         }
         try {
-            if (boardPagerAdapter!!.currentFragment is BoardInfoFragment) {
-                (boardPagerAdapter!!.currentFragment as BoardInfoFragment).updateZoneLiveData(zoneLiveData)
+            if (boardPagerAdapter?.currentFragment is BoardInfoFragment) {
+                (boardPagerAdapter?.currentFragment as? BoardInfoFragment)?.updateZoneLiveData(zoneLiveData)
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    private fun initBottomSheetRecyclerView() {
-        emojiAdapter = EmojiAdapter(ZoneApplication.getContext(), boardId, emojiBottomSheetBehavior)
-        emoji_recycler_view.adapter = emojiAdapter
-    }
-
-    private fun setupBottomSheet() {
-        emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
-        emojiBottomSheetBehavior!!.peekHeight = 0
-        emoji_bottom_sheet.visibility = View.VISIBLE
-    }
-
-    override fun prepareFullScreenRecyclerView() {
-        pagerSnapHelper.attachToRecyclerView(board_tiles_list_full)
-//        TODO: un-comment after making changes to BoardFeedDetailAdapter
-//        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD)
-        board_tiles_list_full.adapter = boardFeedDetailAdapter
     }
 
     private fun setupViewPagerWithFragments() {
@@ -226,11 +199,13 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         board_toolbar.setupWithViewPager(board_view_pager)
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup = faded_card
+    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
 
-    override fun getRootCard(): CardView = root_card
+    override fun getFadedCard(): CardView? = faded_card
 
-    override fun getDragHandle(): View = drag_area
+    override fun getRootCard(): CardView? = root_card
+
+    override fun getDragHandle(): View? = drag_area
 
     override fun onResume() {
         super.onResume()
@@ -272,15 +247,13 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                             val board = boardMatchDetailsPair.first
                             if (matchDetails != null) {
                                 matchDetails!!.league = league
-                                board_toolbar.prepare(picasso, MatchFixture.from(matchDetails!!), league!!.thumbUrl)
+                                board_toolbar.prepare(picasso, MatchFixture.from(matchDetails!!), league.thumbUrl)
                             }
                             if (board != null) {
                                 boardId = board.id
                                 saveBoardId()
                                 isBoardActive = board.isActive!!
                                 prepareFullScreenRecyclerView()
-                                setupBottomSheet()
-                                initBottomSheetRecyclerView()
 
                                 if (isBoardActive) {
                                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId!!)
@@ -328,7 +301,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun applyInactiveBoardColorFilter() {
-        board_parent_layout!!.background.setColorFilter(getColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
+        board_parent_layout!!.background.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
     }
 
     fun saveBoardId() {
@@ -355,62 +328,43 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         getBoardIdAndMatchDetails(currentMatchId)
     }
 
+    override fun prepareFullScreenRecyclerView() {}
+
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
-        boardFeedDetailAdapter?.update(feedEntryList)
+        feedEntries = feedEntryList
     }
 
     override fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int) {
         isTileFullScreenActive = setFlag
-        BaseBoardActivity.boardParentViewBitmap = if (setFlag) loadBitmap(root_layout!!, root_layout!!, context) else null
-        board_blur_background_image_view.setImageBitmap(BaseBoardActivity.boardParentViewBitmap)
-
-        val listener = object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-
-            override fun onAnimationEnd(animation: Animation) {
-                recycler_view_drag_area.visibility = View.INVISIBLE
-                board_tiles_list_full.visibility = View.INVISIBLE
-                recycler_view_drag_area.translationY = 0f
-                board_tiles_list_full.translationY = 0f
-                board_blur_background_image_view.visibility = View.INVISIBLE
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        }
-        val recyclerViewAnimation = AnimationUtils.loadAnimation(context, if (setFlag) R.anim.zoom_in else R.anim.zoom_out)
-        val blurBackgroundAnimation = AnimationUtils.loadAnimation(context, if (setFlag) android.R.anim.fade_in else android.R.anim.fade_out)
-        if (!setFlag) {
-            recyclerViewAnimation.setAnimationListener(listener)
-            blurBackgroundAnimation.setAnimationListener(listener)
-        }
-        board_tiles_list_full.startAnimation(recyclerViewAnimation)
-        board_blur_background_image_view.startAnimation(blurBackgroundAnimation)
-
         if (setFlag) {
-            board_tiles_list_full.scrollToPosition(position)
-            recycler_view_drag_area.visibility = View.VISIBLE
-            board_tiles_list_full.visibility = View.VISIBLE
-            board_blur_background_image_view.visibility = View.VISIBLE
+            childFragmentManager.pushPopup(
+                    R.id.peek_popup_container,
+                    FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
+                    FeedItemPeekPopup.TAG
+            )
+        } else {
+            childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)?.run { dismiss() }
         }
-    }
-
-    override fun setupFullScreenRecyclerViewSwipeGesture(activity: Activity, recyclerViewDragArea: View, boardTilesFullRecyclerView: View) {
-        recyclerViewDragArea.setOnTouchListener(object : OnSwipeTouchListener(activity, recyclerViewDragArea, boardTilesFullRecyclerView) {
-            override fun onSwipeDown() {
-                dismissFullScreenRecyclerView()
-            }
-        })
     }
 
     override fun dismissFullScreenRecyclerView() {
-        emojiBottomSheetBehavior!!.peekHeight = 0
-        emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         setBlurBackgroundAndShowFullScreenTiles(false, 0)
     }
 
     override fun moveItem(position: Int, previousPosition: Int) {
-        if (boardPagerAdapter!!.currentFragment is BoardTilesFragment) {
-            (boardPagerAdapter!!.currentFragment as BoardTilesFragment).moveItem(position, previousPosition)
+        if (boardPagerAdapter?.currentFragment is BoardTilesFragment) {
+            (boardPagerAdapter?.currentFragment as BoardTilesFragment).moveItem(position, previousPosition)
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        return if (isTileFullScreenActive) {
+            setBlurBackgroundAndShowFullScreenTiles(false, 0)
+            false
+        } else {
+            boardFeedDetailAdapter = null
+            boardPagerAdapter = null
+            true
         }
     }
 
@@ -432,19 +386,19 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             get() = ref.get()?.run { BoardTilesFragment.newInstance(boardId, isBoardActive) }
 
         override fun getItem(position: Int): Fragment? {
-            when (position) {
-                0 -> return ref.get()?.run { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
-                1 -> {
+            return when (position) {
+                0 -> ref.get()?.run { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
+                1 -> ForumFragment.newInstance()
+                2 -> {
                     try {
                         return if (ref.get()!!.poll == null) boardTilesFragmentWithoutPoll else boardTilesFragmentWithPoll
                     } catch (e: Exception) {
                         Log.e(TAG, "getItem: ", e)
                         boardTilesFragmentWithoutPoll
                     }
-
-                    return null
+                    null
                 }
-                else -> return null
+                else -> null
             }
         }
 
@@ -452,28 +406,13 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             return PagerAdapter.POSITION_NONE
         }
 
-        override fun getCount(): Int {
-            return 2
-        }
+        override fun getCount(): Int = 3
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {
                 currentFragment = `object` as Fragment
             }
             super.setPrimaryItem(container, position, `object`)
-        }
-    }
-
-    override fun onBackPressed(): Boolean {
-        emojiBottomSheetBehavior!!.peekHeight = 0
-        emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-        return if (isTileFullScreenActive) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            false
-        } else {
-            boardFeedDetailAdapter = null
-            boardPagerAdapter = null
-            true
         }
     }
 }

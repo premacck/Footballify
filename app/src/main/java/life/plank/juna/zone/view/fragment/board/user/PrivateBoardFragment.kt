@@ -1,13 +1,11 @@
 package life.plank.juna.zone.view.fragment.board.user
 
-import android.app.Activity
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
@@ -17,16 +15,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_private_board.*
-import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.faded_card.*
+import kotlinx.android.synthetic.main.fragment_private_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
@@ -35,15 +30,14 @@ import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.data.model.Thumbnail
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants
-import life.plank.juna.zone.util.OnSwipeTouchListener
 import life.plank.juna.zone.util.PreferenceManager.getToken
-import life.plank.juna.zone.util.UIDisplayUtil.loadBitmap
+import life.plank.juna.zone.util.facilis.findPopupDialog
+import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.activity.UserProfileActivity
-import life.plank.juna.zone.view.activity.base.BaseBoardActivity
-import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
+import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import retrofit2.Response
 import rx.Subscriber
 import java.net.HttpURLConnection
@@ -61,11 +55,10 @@ class PrivateBoardFragment : CardTileFragment() {
     @Inject
     lateinit var pagerSnapHelper: PagerSnapHelper
 
+    private lateinit var feedEntries: List<FeedEntry>
     lateinit var boardId: String
     lateinit var board: Board
     private var pagerAdapter: PrivateBoardPagerAdapter? = null
-    private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
-    private var emojiAdapter: EmojiAdapter? = null
 
     private val mMessageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -94,7 +87,7 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.activity_private_board, container, false)
+            inflater.inflate(R.layout.fragment_private_board, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -112,16 +105,12 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
         private_board_toolbar.setLeagueLogo(picasso, board.boardIconUrl)
         private_board_toolbar.setBackgroundColor(Color.parseColor(board.color))
-        root_card!!.setCardBackgroundColor(Color.parseColor(board.color))
-
-        setupFullScreenRecyclerViewSwipeGesture(activity!!, recycler_view_drag_area, board_tiles_list_full)
+        root_card.setCardBackgroundColor(Color.parseColor(board.color))
 
         prepareFullScreenRecyclerView()
         setupViewPagerWithFragments()
         val topic = getString(R.string.board_id_prefix) + board.id
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
-
-        board_blur_background_image_view.setOnClickListener { dismissFullScreenRecyclerView() }
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
@@ -155,36 +144,19 @@ class PrivateBoardFragment : CardTileFragment() {
 
     }
 
-    private fun initBottomSheetRecyclerView() {
-        emojiAdapter = EmojiAdapter(ZoneApplication.getContext(), boardId, emojiBottomSheetBehavior)
-        emoji_recycler_view.adapter = emojiAdapter
-    }
-
-    private fun setupBottomSheet() {
-        emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
-        emojiBottomSheetBehavior!!.peekHeight = 0
-    }
-
-    override fun prepareFullScreenRecyclerView() {
-        setupBottomSheet()
-        initBottomSheetRecyclerView()
-        pagerSnapHelper.attachToRecyclerView(board_tiles_list_full)
-//        TODO: un-comment after making changes to BoardFeedDetailAdapter
-//        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, true, emojiBottomSheetBehavior, BOARD)
-        board_tiles_list_full.adapter = boardFeedDetailAdapter
-    }
-
     private fun setupViewPagerWithFragments() {
         pagerAdapter = PrivateBoardPagerAdapter(childFragmentManager, board)
         private_board_view_pager.adapter = pagerAdapter
         private_board_toolbar.setupWithViewPager(private_board_view_pager)
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup = faded_card
+    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
 
-    override fun getRootCard(): CardView = root_card
+    override fun getFadedCard(): CardView? = faded_card
 
-    override fun getDragHandle(): View = drag_area
+    override fun getRootCard(): CardView? = root_card
+
+    override fun getDragHandle(): View? = drag_area
 
     override fun onResume() {
         super.onResume()
@@ -196,63 +168,33 @@ class PrivateBoardFragment : CardTileFragment() {
         context?.unregisterReceiver(mMessageReceiver)
     }
 
+    override fun prepareFullScreenRecyclerView() {}
+
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
-        boardFeedDetailAdapter?.update(feedEntryList)
+        feedEntries = feedEntryList
+    }
+
+    override fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int) {
+        isTileFullScreenActive = setFlag
+        if (setFlag) {
+            childFragmentManager.pushPopup(
+                    R.id.peek_popup_container,
+                    FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
+                    FeedItemPeekPopup.TAG
+            )
+        } else {
+            childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)?.run { dismiss() }
+        }
+    }
+
+    override fun dismissFullScreenRecyclerView() {
+        setBlurBackgroundAndShowFullScreenTiles(false, 0)
     }
 
     override fun moveItem(position: Int, previousPosition: Int) {
         if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
             (pagerAdapter!!.currentFragment as BoardTilesFragment).moveItem(position, previousPosition)
         }
-    }
-
-    override fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int) {
-        isTileFullScreenActive = setFlag
-        BaseBoardActivity.boardParentViewBitmap = if (setFlag) loadBitmap(root_layout, root_layout, context) else null
-        board_blur_background_image_view.setImageBitmap(BaseBoardActivity.boardParentViewBitmap)
-
-        val listener = object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {}
-
-            override fun onAnimationEnd(animation: Animation) {
-                recycler_view_drag_area.visibility = View.INVISIBLE
-                board_tiles_list_full.visibility = View.INVISIBLE
-                recycler_view_drag_area.translationY = 0f
-                board_tiles_list_full.translationY = 0f
-                board_blur_background_image_view.visibility = View.INVISIBLE
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        }
-        val recyclerViewAnimation = AnimationUtils.loadAnimation(context, if (setFlag) R.anim.zoom_in else R.anim.zoom_out)
-        val blurBackgroundAnimation = AnimationUtils.loadAnimation(context, if (setFlag) android.R.anim.fade_in else android.R.anim.fade_out)
-        if (!setFlag) {
-            recyclerViewAnimation.setAnimationListener(listener)
-            blurBackgroundAnimation.setAnimationListener(listener)
-        }
-        board_tiles_list_full.startAnimation(recyclerViewAnimation)
-        board_blur_background_image_view.startAnimation(blurBackgroundAnimation)
-
-        if (setFlag) {
-            board_tiles_list_full.scrollToPosition(position)
-            recycler_view_drag_area.visibility = View.VISIBLE
-            board_tiles_list_full.visibility = View.VISIBLE
-            board_blur_background_image_view.visibility = View.VISIBLE
-        }
-    }
-
-    override fun setupFullScreenRecyclerViewSwipeGesture(activity: Activity, recyclerViewDragArea: View, boardTilesFullRecyclerView: View) {
-        recyclerViewDragArea.setOnTouchListener(object : OnSwipeTouchListener(activity, recyclerViewDragArea, boardTilesFullRecyclerView) {
-            override fun onSwipeDown() {
-                dismissFullScreenRecyclerView()
-            }
-        })
-    }
-
-    override fun dismissFullScreenRecyclerView() {
-        emojiBottomSheetBehavior!!.peekHeight = 0
-        emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-        setBlurBackgroundAndShowFullScreenTiles(false, 0)
     }
 
     fun deletePrivateBoard() {
@@ -281,15 +223,12 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     override fun onBackPressed(): Boolean {
-        emojiBottomSheetBehavior!!.peekHeight = 0
-        emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         return if (isTileFullScreenActive) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0)
             false
         } else {
             boardFeedDetailAdapter = null
             pagerAdapter = null
-            emojiAdapter = null
             true
         }
     }

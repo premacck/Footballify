@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.fragment
 
 
 import android.arch.lifecycle.Observer
-import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.v7.widget.CardView
@@ -15,6 +14,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.faded_card.*
 import kotlinx.android.synthetic.main.fragment_league_info.*
 import kotlinx.android.synthetic.main.item_standings.*
 import kotlinx.android.synthetic.main.layout_league_info.*
@@ -22,31 +22,34 @@ import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.local.model.LeagueInfo
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.FixtureByMatchDay
+import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants.*
+import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getDateDiffFromToday
+import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.facilis.findPopupDialog
+import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.hideAndShowBoomMenu
 import life.plank.juna.zone.util.setupBoomMenu
-import life.plank.juna.zone.view.activity.FixtureActivity
-import life.plank.juna.zone.view.activity.LeagueInfoActivity
-import life.plank.juna.zone.view.activity.LeagueInfoActivity.fixtureByMatchDayList
 import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity
 import life.plank.juna.zone.view.adapter.FixtureAdapter
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.StandingTableAdapter
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
+import life.plank.juna.zone.view.fragment.football.FixtureFragment
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import java.lang.ref.WeakReference
+import org.jetbrains.anko.uiThread
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
 class LeagueInfoFragment : BaseLeagueFragment() {
-
-    lateinit var fixtureByMatchDayList: MutableList<FixtureByMatchDay>
 
     @Inject
     lateinit var picasso: Picasso
@@ -62,8 +65,8 @@ class LeagueInfoFragment : BaseLeagueFragment() {
     private lateinit var league: League
 
     companion object {
-        private var TAG = LeagueInfoActivity::class.java.simpleName
-        fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(getString(R.string.intent_league), league) } }
+        lateinit var fixtureByMatchDayList: MutableList<FixtureByMatchDay>
+        fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(DataUtil.findString(R.string.intent_league), league) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,7 +87,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
 
         title.text = league.name
         logo.setImageResource(league.leagueLogo)
-        root_layout.setBackgroundColor(resources.getColor(league.dominantColor!!, null))
+        parent_layout.setBackgroundColor(findColor(league.dominantColor!!))
         hideAndShowBoomMenu(nestedScrollView, arc_menu)
 
         setOnClickListeners()
@@ -92,8 +95,8 @@ class LeagueInfoFragment : BaseLeagueFragment() {
 
     private fun setOnClickListeners() {
         see_all_fixtures.onClick {
-            if (!isNullOrEmpty<FixtureByMatchDay>(fixtureByMatchDayList)) {
-                FixtureActivity.launch(activity, league)
+            if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                childFragmentManager.pushPopup(R.id.popup_container, FixtureFragment.newInstance(league), FixtureFragment.TAG)
             }
         }
         see_all_standings.onClick {
@@ -107,20 +110,22 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         }
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup = faded_card_layout
+    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
 
-    override fun getRootCard(): CardView = root_card
+    override fun getFadedCard(): CardView? = faded_card
 
-    override fun getDragHandle(): View = drag_area
+    override fun getRootCard(): CardView? = root_card
 
-    override fun getGlide() = Glide.with(this)
+    override fun getDragHandle(): View? = drag_area
+
+    override fun getGlide() = Glide.with(activity!!)
 
     override fun getTheGson() = gson
 
     override fun getTheLeague() = league
 
     private fun prepareRecyclerViews() {
-//        fixtureAdapter = FixtureAdapter(null, activity)
+        fixtureAdapter = FixtureAdapter(null, this)
         fixtures_section_list.adapter = fixtureAdapter
 
         standingTableAdapter = StandingTableAdapter(picasso)
@@ -154,16 +159,15 @@ class LeagueInfoFragment : BaseLeagueFragment() {
             }
 
             fixture_progress_bar.visibility = View.GONE
-            if (leagueInfo.fixtureByMatchDayList == emptyList<Any>() || isNullOrEmpty<FixtureByMatchDay>(leagueInfo.fixtureByMatchDayList)) {
+            if (isNullOrEmpty(leagueInfo.fixtureByMatchDayList)) {
                 updateUI(false, fixtures_section_list, see_all_fixtures, fixture_no_data)
             } else {
                 fixtureByMatchDayList = leagueInfo.fixtureByMatchDayList.toMutableList()
-                UpdateFixtureAdapterTask.parse(this)
-                updateUI(true, fixtures_section_list, see_all_fixtures, fixture_no_data)
+                updateFixtures()
             }
 
             standings_progress_bar.visibility = View.GONE
-            if (leagueInfo.standingsList == emptyList<Any>() || isNullOrEmpty<Standings>(leagueInfo.standingsList)) {
+            if (leagueInfo.standingsList == emptyList<Any>() || isNullOrEmpty(leagueInfo.standingsList)) {
                 updateUI(false, standing_recycler_view, see_all_standings, no_standings)
             } else {
                 updateUI(true, standing_recycler_view, see_all_standings, no_standings)
@@ -171,7 +175,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
             }
 
             team_stats_progress_bar.visibility = View.GONE
-            if (leagueInfo.teamStatsList == emptyList<Any>() || isNullOrEmpty<TeamStats>(leagueInfo.teamStatsList)) {
+            if (leagueInfo.teamStatsList == emptyList<Any>() || isNullOrEmpty(leagueInfo.teamStatsList)) {
                 updateUI(false, team_stats_recycler_view, see_more_team_stats, no_team_stats)
             } else {
                 updateUI(true, team_stats_recycler_view, see_more_team_stats, no_team_stats)
@@ -179,7 +183,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
             }
 
             player_stats_progress_bar.visibility = View.GONE
-            if (leagueInfo.playerStatsList == emptyList<Any>() || isNullOrEmpty<PlayerStats>(leagueInfo.playerStatsList)) {
+            if (leagueInfo.playerStatsList == emptyList<Any>() || isNullOrEmpty(leagueInfo.playerStatsList)) {
                 updateUI(false, player_stats_recycler_view, see_more_player_stats, no_player_stats)
             } else {
                 updateUI(true, player_stats_recycler_view, see_more_player_stats, no_player_stats)
@@ -197,94 +201,83 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         noDataView.visibility = if (available) View.GONE else View.VISIBLE
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+    }
+
     override fun onDestroy() {
         fixtureAdapter = null
         standingTableAdapter = null
         teamStatsAdapter = null
         playerStatsAdapter = null
-        if (!isNullOrEmpty<FixtureByMatchDay>(fixtureByMatchDayList)) {
+        if (!isNullOrEmpty(fixtureByMatchDayList)) {
             fixtureByMatchDayList.clear()
         }
         super.onDestroy()
     }
 
-    private class UpdateFixtureAdapterTask private constructor(leagueInfoFragment: LeagueInfoFragment) : AsyncTask<Void, Void, List<MatchFixture>>() {
+    override fun onBackPressed(): Boolean {
+        val popupFragment = childFragmentManager.findPopupDialog(FixtureFragment.TAG)
+        return if (popupFragment != null && popupFragment.isAdded) {
+            popupFragment.dismiss()
+            false
+        } else true
+    }
 
-        private val ref: WeakReference<LeagueInfoFragment> = WeakReference(leagueInfoFragment)
-        private var recyclerViewScrollIndex = 0
-
-        companion object {
-            internal fun parse(leagueInfoFragment: LeagueInfoFragment) {
-                UpdateFixtureAdapterTask(leagueInfoFragment).execute()
-            }
-        }
-
-        override fun onPreExecute() {
-            ref.get()?.run {
-                fixture_progress_bar.visibility = View.VISIBLE
-                see_all_fixtures.isEnabled = false
-                see_all_fixtures.isClickable = false
-            }
-        }
-
-        override fun doInBackground(vararg voids: Void): List<MatchFixture>? {
+    private fun updateFixtures() {
+        fixture_progress_bar.visibility = View.VISIBLE
+        see_all_fixtures.isEnabled = false
+        see_all_fixtures.isClickable = false
+        doAsync {
             var isPastMatches = true
-            if (!isNullOrEmpty<FixtureByMatchDay>(fixtureByMatchDayList)) {
-                for (matchDay in fixtureByMatchDayList!!) {
+            var recyclerViewScrollIndex = 0
+            if (!isNullOrEmpty(fixtureByMatchDayList)) {
+                for (matchDay in fixtureByMatchDayList) {
                     try {
                         if (matchDay.daySection == PAST_MATCHES) {
                             isPastMatches = true
-                            recyclerViewScrollIndex = fixtureByMatchDayList!!.indexOf(matchDay)
+                            recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay)
                         } else if (matchDay.daySection == TODAY_MATCHES) {
                             isPastMatches = false
-                            recyclerViewScrollIndex = fixtureByMatchDayList!!.indexOf(matchDay)
+                            recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay)
                         }
                     } catch (e: Exception) {
                         Log.e("FixtureAdapterTask", "doInBackground: recyclerViewScrollIndex ", e)
                     }
 
                 }
-                val matchFixtures = ArrayList<MatchFixture>()
-                getMatchesToShow(matchFixtures, isPastMatches)
-                return if (matchFixtures.size >= 4) matchFixtures.subList(0, 4) else matchFixtures
-            }
-            return null
-        }
-
-        private fun getMatchesToShow(matchFixtures: MutableList<MatchFixture>, isPastMatches: Boolean) {
-            val fixtureByDateList = fixtureByMatchDayList!![recyclerViewScrollIndex].fixtureByDateList
-            for (fixtureByDate in fixtureByDateList) {
-                for (matchFixture in fixtureByDate.fixtures) {
-                    try {
-                        if (isPastMatches && getDateDiffFromToday(matchFixture.matchStartTime) <= 0) {
-                            matchFixtures.add(matchFixture)
-                        } else if (getDateDiffFromToday(matchFixture.matchStartTime) <= 1) {
-                            matchFixtures.add(matchFixture)
+                var matchFixtures: MutableList<MatchFixture> = ArrayList()
+                val fixtureByDateList = fixtureByMatchDayList[recyclerViewScrollIndex].fixtureByDateList
+                for (fixtureByDate in fixtureByDateList) {
+                    for (matchFixture in fixtureByDate.fixtures) {
+                        try {
+                            if (isPastMatches && getDateDiffFromToday(matchFixture.matchStartTime) <= 0) {
+                                matchFixtures.add(matchFixture)
+                            } else if (getDateDiffFromToday(matchFixture.matchStartTime) <= 1) {
+                                matchFixtures.add(matchFixture)
+                            }
+                        } catch (e: Exception) {
+                            Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e)
                         }
-                    } catch (e: Exception) {
-                        Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e)
-                    }
 
-                }
-            }
-            if (isPastMatches) {
-                matchFixtures.reverse()
-            }
-        }
-
-        override fun onPostExecute(matchFixtures: List<MatchFixture>) {
-            ref.get()?.run {
-                if (!isNullOrEmpty<MatchFixture>(matchFixtures)) {
-                    if (fixtureAdapter != null) {
-                        fixtureAdapter!!.update(matchFixtures)
                     }
-                    fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
-                    see_all_fixtures.isEnabled = true
-                    see_all_fixtures.isClickable = true
                 }
-                fixture_progress_bar.visibility = View.GONE
-            }
-            if (ref.get() != null) {
+                if (isPastMatches) {
+                    matchFixtures.reverse()
+                }
+                matchFixtures = if (matchFixtures.size >= 4) ArrayList(matchFixtures.subList(0, 4)) else matchFixtures
+                uiThread {
+                    if (!isNullOrEmpty(matchFixtures)) {
+                        if (fixtureAdapter != null) {
+                            fixtureAdapter!!.update(matchFixtures)
+                        }
+                        fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
+                        see_all_fixtures.isEnabled = true
+                        see_all_fixtures.isClickable = true
+                        updateUI(true, fixtures_section_list, see_all_fixtures, fixture_no_data)
+                    }
+                    fixture_progress_bar.visibility = View.GONE
+                }
             }
         }
     }

@@ -73,7 +73,7 @@ public class SignInActivity extends AppCompatActivity {
             case R.id.skip_login:
                 SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
                 prefEditor.putBoolean(getString(R.string.pref_is_logged_in), false).apply();
-                startActivity(new Intent(SignInActivity.this, UserFeedActivity.class));
+                startActivity(new Intent(SignInActivity.this, HomeActivity.class));
                 break;
 
         }

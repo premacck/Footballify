@@ -149,9 +149,6 @@
             android:name=".view.activity.LeagueInfoDetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.UserFeedActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.TimelineActivity"
             android:screenOrientation="portrait" />
         <activity
@@ -176,7 +173,6 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize|screenLayout|uiMode"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-
         <activity
             android:name=".view.activity.web.WebCardActivity"
             android:screenOrientation="portrait" />

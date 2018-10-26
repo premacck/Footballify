@@ -183,7 +183,7 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
     private void initRecyclerViews() {
         if (pollBindingModel != null) {
             boardPoll.setVisibility(View.VISIBLE);
-            boardPoll.prepare(Glide.with(this), pollBindingModel);
+            boardPoll.prepare(Glide.with(getActivity()), pollBindingModel);
         } else {
             boardPoll.setVisibility(View.GONE);
         }
@@ -232,8 +232,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
                                 if (!isNullOrEmpty(feedItemList)) {
                                     updateUi(true, 0);
                                     adapter.update(feedItemList);
-                                    if (getActivity() instanceof BaseBoardActivity) {
-                                        ((BaseBoardActivity) getActivity()).updateFullScreenAdapter(feedItemList);
+                                    if (getParentFragment() instanceof MatchBoardFragment) {
+                                        ((MatchBoardFragment) getParentFragment()).updateFullScreenAdapter(feedItemList);
                                     }
                                 } else
                                     updateUi(false, R.string.board_yet_to_be_populated);

@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +44,9 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         this.boardFeed = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public BoardMediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BoardMediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new BoardMediaViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_tile, parent, false),
                 listener
@@ -52,7 +54,7 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     }
 
     @Override
-    public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BoardMediaViewHolder holder, int position) {
         FeedItem feedItem = boardFeed.get(position).getFeedItem();
 
         //TODO: remove this null check after the backend returns the user profile picture
@@ -63,6 +65,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                     .error(R.drawable.ic_default_profile)
                     .into(holder.profilePictureImageView);
         }
+
+        if (feedItem.getContentType() == null) return;
 
         switch (feedItem.getContentType()) {
             case AUDIO:
@@ -92,10 +96,10 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
                 break;
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
+                if (feedItem.getTitle() == null) break;
                 String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
                 holder.commentTextView.setBackground(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
-
                 break;
         }
     }
@@ -120,7 +124,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         this.boardFeed.addAll(boardFeed);
         notifyItemRangeInserted(previousSize, boardFeed.size());
     }
-
 
     public void updateNewPost(FeedEntry feedItem) {
         boardFeed.add(0, feedItem);
@@ -160,12 +163,12 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         }
 
         @OnClick(R.id.root_layout)
-        public void onBoardItemClick() {
+        void onBoardItemClick() {
             listener.onItemClick(getAdapterPosition());
         }
 
         @OnLongClick(R.id.root_layout)
-        public boolean onBoardItemLongClick() {
+        boolean onBoardItemLongClick() {
             listener.onItemLongClick(getAdapterPosition());
             return true;
         }

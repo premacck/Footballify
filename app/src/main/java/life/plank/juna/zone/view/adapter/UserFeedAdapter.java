@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,33 +23,34 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
+import life.plank.juna.zone.interfaces.TileContainer;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
-import life.plank.juna.zone.view.activity.UserFeedActivity;
-import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.UIDisplayUtil.findColor;
 
 public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder> {
 
-    private UserFeedActivity activity;
+    private TileContainer tileContainer;
     private Picasso picasso;
     private List<FeedEntry> userFeed;
     private boolean isUpdated;
 
-    public UserFeedAdapter(UserFeedActivity activity, Picasso picasso) {
-        this.activity = activity;
+    public UserFeedAdapter(TileContainer tileContainer, Picasso picasso) {
+        this.tileContainer = tileContainer;
         this.picasso = picasso;
         this.userFeed = new ArrayList<>();
         isUpdated = false;
     }
 
+    @NonNull
     @Override
-    public UserFeedAdapter.UserFeedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserFeedAdapter.UserFeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new UserFeedAdapter.UserFeedViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_grid_row, parent, false), this);
     }
 
     @Override
-    public void onBindViewHolder(UserFeedAdapter.UserFeedViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserFeedAdapter.UserFeedViewHolder holder, int position) {
         if (!isNullOrEmpty(userFeed)) {
             updateShimmer(holder, R.color.transparent, false);
             FeedItem feedItem = userFeed.get(position).getFeedItem();
@@ -75,7 +77,7 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
     }
 
     private void updateShimmer(UserFeedAdapter.UserFeedViewHolder holder, @ColorRes int color, boolean isStarted) {
-        holder.commentTextView.setBackgroundColor(activity.getResources().getColor(color, null));
+        holder.commentTextView.setBackgroundColor(findColor(color));
         if (isStarted) {
             holder.rootLayout.startShimmerAnimation();
         } else {
@@ -114,13 +116,13 @@ public class UserFeedAdapter extends RecyclerView.Adapter<UserFeedAdapter.UserFe
         }
 
         @OnClick(R.id.root_layout)
-        public void onFeedEntryClick() {
-            PostDetailActivity.launch(ref.get().activity, ref.get().userFeed, null, getAdapterPosition(), ref.get().activity.getScreenshotLayout(), null);
+        void onFeedEntryClick() {
+//            PostDetailActivity.launch(ref.get().fragment, ref.get().userFeed, null, getAdapterPosition(), ref.get().fragment.getScreenshotLayout(), null);
         }
 
         @OnLongClick(R.id.root_layout)
-        public boolean onFeedEntryLongClick() {
-            ref.get().activity.setBlurBackgroundAndShowFullScreenTiles(true, getAdapterPosition());
+        boolean onFeedEntryLongClick() {
+            ref.get().tileContainer.setBlurBackgroundAndShowFullScreenTiles(true, getAdapterPosition());
             return true;
         }
     }

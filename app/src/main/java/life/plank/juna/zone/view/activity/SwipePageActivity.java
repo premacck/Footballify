@@ -121,7 +121,7 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
                 // React to dragging events
             }
         });
-        hideAndShowBoomMenu(nestedScrollView, arcMenu);
+        hideAndShowBoomMenu(feedRecyclerView, arcMenu);
     }
 
     @OnClick(R.id.options_image)

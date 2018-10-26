@@ -14,7 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.UserPreference;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
+import life.plank.juna.zone.view.activity.zone.ZoneActivity;
 
 public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder> {
     private Context context;
@@ -64,7 +64,7 @@ public class UserZoneAdapter extends RecyclerView.Adapter<UserZoneAdapter.UserZo
 
             //TODO: navigate to appropriate zone view
             itemView.setOnClickListener(view -> {
-                context.startActivity(new Intent(context, SwipePageActivity.class));
+                context.startActivity(new Intent(context, ZoneActivity.class));
                 //TODO: uncomment after onboarding is complete
                 //  onboardingBottomSheet.setState(BottomSheetBehavior.STATE_EXPANDED);
             });
