@@ -177,8 +177,8 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                     3 -> {
                         if (boardId != null) {
                             if (bottomSheetBehaviour != null) {
-                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
-                                bottomSheetBehaviour.peekHeight = 850
+                                bottomSheetBehaviour.state = BottomSheetBehavior.STATE_HALF_EXPANDED
+                                bottomSheetBehaviour.peekHeight = 350
                             }
                         }
                     }

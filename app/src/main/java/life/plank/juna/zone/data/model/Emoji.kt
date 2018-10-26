@@ -8,5 +8,6 @@ data class Emoji(
         var name: String?,
         //update emojiUrl to string once implemented on backend
         var emojiUrl: Int?,
-        var reaction: Int?
+        var reaction: Int?,
+        var reactionCount: Int?
 ) : Parcelable

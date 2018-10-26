@@ -38,6 +38,7 @@ import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.forum.ForumFragment;
+import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup;
 import life.plank.juna.zone.view.fragment.home.HomeFragment;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 import life.plank.juna.zone.view.fragment.zone.ZoneFragment;
@@ -123,6 +124,8 @@ public interface UiComponent {
     void inject(LeagueInfoFragment leagueInfoFragment);
 
     void inject(ForumFragment forumFragment);
+
+    void inject(FeedItemPeekPopup feedItemPeekPopup);
 
     @Subcomponent.Builder
     interface Builder {

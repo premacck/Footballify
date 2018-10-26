@@ -6,6 +6,7 @@ import android.content.Context;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
 
+import io.alterac.blurkit.BlurKit;
 import io.fabric.sdk.android.Fabric;
 import life.plank.juna.zone.data.network.dagger.component.AppComponent;
 import life.plank.juna.zone.data.network.dagger.component.DaggerAppComponent;
@@ -39,6 +40,7 @@ public class ZoneApplication extends Application {
         super.onCreate();
         zoneApplication = this;
         Fabric.with(this, new Crashlytics());
+        BlurKit.init(this);
 
         appComponent = DaggerAppComponent.builder()
                 .contextModule(new ContextModule(getApplicationContext()))

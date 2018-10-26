@@ -4,4 +4,5 @@
     android:id="@+id/football_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".view.activity.zone.ZoneActivity" />
