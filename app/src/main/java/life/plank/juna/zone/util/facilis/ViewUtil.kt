@@ -32,47 +32,26 @@ fun View.toggleInteraction(isEnabled: Boolean) {
 }
 
 fun CardView.moveToBackGround() {
-    val objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            this,
-            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -getDp(24f)),
-            PropertyValuesHolder.ofFloat(View.SCALE_X, 0.92f),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.92f)
-    ).prepare()
-//    objectAnimator.addUpdateListener {
-//        this.setCardBackgroundColor(
-//                ColorUtils.blendARGB(
-//                        Color.TRANSPARENT,
-//                        this.resources.getColor(R.color.others_color_grey),
-//                        it.animatedFraction
-//                )
-//        )
-//    }
-    objectAnimator.start()
+    translateScaleAnimation(24f, 0.92f).prepare().start()
     elevation = 0f
     toggleInteraction(false)
     toggleInteraction(false)
 }
 
 fun CardView.moveToForeGround() {
-    val objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            this,
-            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f),
-            PropertyValuesHolder.ofFloat(View.SCALE_X, 1f),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f)
-    ).prepare()
-//    objectAnimator.addUpdateListener {
-//        this.setCardBackgroundColor(
-//                ColorUtils.blendARGB(
-//                        this.resources.getColor(R.color.others_color_grey),
-//                        Color.TRANSPARENT,
-//                        it.animatedFraction
-//                )
-//        )
-//    }
-    objectAnimator.start()
+    translateScaleAnimation(0f, 1f).prepare().start()
     elevation = getDp(8f)
     toggleInteraction(true)
     toggleInteraction(true)
+}
+
+fun View.translateScaleAnimation(translateValue: Float, scaleValue: Float): ObjectAnimator {
+    return ObjectAnimator.ofPropertyValuesHolder(
+            this,
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, translateValue),
+            PropertyValuesHolder.ofFloat(View.SCALE_X, scaleValue),
+            PropertyValuesHolder.ofFloat(View.SCALE_Y, scaleValue)
+    )
 }
 
 fun ObjectAnimator.prepare(): ObjectAnimator {
