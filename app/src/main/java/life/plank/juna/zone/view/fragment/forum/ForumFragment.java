@@ -120,8 +120,10 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
                                 adapter.setComments(response.body());
                                 break;
                             case HTTP_NOT_FOUND:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_get_feed_comments, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_get_feed_comments, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
