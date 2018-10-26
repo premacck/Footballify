@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.post.binder;
 
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter;
@@ -53,6 +55,10 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         holder.commentTextView.setText(item.getMessage());
         if (fragment.equals(findString(R.string.forum))) {
             holder.commentTime.setVisibility(View.VISIBLE);
+
+            Typeface typeface = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "fonts/rajdhani_semibold.ttf");
+            holder.likeTextView.setTypeface(typeface);
+            holder.replyTextView.setTypeface(typeface);
         }
 
         holder.profileNameTextView.setText(item.getCommenterDisplayName());

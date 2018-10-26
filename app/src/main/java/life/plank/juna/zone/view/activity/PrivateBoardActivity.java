@@ -54,6 +54,7 @@ import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
+import life.plank.juna.zone.view.fragment.forum.ForumFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 
@@ -355,8 +356,10 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName(), board.getName());
+                    return ForumFragment.newInstance(boardId);
                 case 1:
+                    return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName(), board.getName());
+                case 2:
                     return BoardTilesFragment.newInstance(board.getId(), true);
                 default:
                     return null;
@@ -365,7 +368,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override
