@@ -401,7 +401,25 @@ public class UIDisplayUtil {
         activity.getWindow().getSharedElementReturnTransition().setDuration(duration).setInterpolator(new DecelerateInterpolator());
     }
 
-    public static Target getStartDrawableTarget(TextView textView) {
+    public static SimpleTarget<Drawable> getStartDrawableTarget(TextView textView) {
+        return new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                textView.setCompoundDrawablesWithIntrinsicBounds(resource, null, null, null);
+            }
+        };
+    }
+
+    public static SimpleTarget<Drawable> getEndDrawableTarget(TextView textView) {
+        return new SimpleTarget<Drawable>() {
+            @Override
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                textView.setCompoundDrawablesWithIntrinsicBounds(null, null, resource, null);
+            }
+        };
+    }
+
+    public static Target getStartDrawableTargetPicasso(TextView textView) {
         return new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -414,12 +432,11 @@ public class UIDisplayUtil {
             }
 
             @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-            }
+            public void onPrepareLoad(Drawable placeHolderDrawable) { }
         };
     }
 
-    public static Target getEndDrawableTarget(TextView textView) {
+    public static Target getEndDrawableTargetPicasso(TextView textView) {
         return new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
@@ -613,7 +630,7 @@ public class UIDisplayUtil {
             listPopupWindow.dismiss();
     }
 
-    public static int getColor(@ColorRes int color) {
+    public static int findColor(@ColorRes int color) {
         return ZoneApplication.getContext().getColor(color);
     }
 }

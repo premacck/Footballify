@@ -20,6 +20,8 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.interfaces.CustomViewListener;
 import life.plank.juna.zone.interfaces.ZoneToolbarListener;
 
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+
 public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     @BindView(R.id.toolbar_title)
@@ -85,6 +87,10 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
     }
 
     public void setProfilePic(String url) {
+        if (isNullOrEmpty(url)) {
+            setProfilePic(R.drawable.ic_default_profile);
+            return;
+        }
         Picasso.with(getContext()).load(url).into(profilePicView);
     }
 
@@ -94,7 +100,11 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     @Override
     public void initListeners(Fragment fragment) {
+        if (fragment instanceof ZoneToolbarListener) {
+            listener = (ZoneToolbarListener) fragment;
+        } else throw new IllegalStateException("Fragment must implement ZoneToolbarListener");
 
+        addToolbarListener();
     }
 
     @Override
@@ -113,7 +123,7 @@ public class ZoneToolBar extends LinearLayout implements CustomViewListener {
 
     @Override
     public void dispose() {
-
+        profilePicView.setOnClickListener(null);
+        notificationView.setOnClickListener(null);
     }
-
 }

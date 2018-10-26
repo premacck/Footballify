@@ -5,14 +5,16 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import kotlinx.android.synthetic.main.faded_card.*
 import kotlinx.android.synthetic.main.fragment_zone_container.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.util.facilis.BaseCard
 
-class ZoneContainerFragment : BaseFragment() {
+class ZoneContainerFragment : BaseCard() {
 
     companion object {
         fun newInstance() = ZoneContainerFragment()
@@ -22,6 +24,7 @@ class ZoneContainerFragment : BaseFragment() {
             inflater.inflate(R.layout.fragment_zone_container, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         zone_view_pager.adapter = ZonePagerAdapter(childFragmentManager)
     }
 
@@ -35,4 +38,12 @@ class ZoneContainerFragment : BaseFragment() {
             return zoneCount
         }
     }
+
+    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
+
+    override fun getFadedCard(): CardView? = faded_card
+
+    override fun getRootCard(): CardView? = root_card
+
+    override fun getDragHandle(): View? = drag_area
 }

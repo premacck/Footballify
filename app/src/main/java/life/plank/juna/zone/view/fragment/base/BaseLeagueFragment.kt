@@ -2,13 +2,14 @@ package life.plank.juna.zone.view.fragment.base
 
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import com.bumptech.glide.RequestManager
-import com.google.gson.Gson
 import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel
+import life.plank.juna.zone.interfaces.LeagueContainer
 import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 
-abstract class BaseLeagueFragment : BaseCard() {
+abstract class BaseLeagueFragment : BaseCard(), LeagueContainer {
 
     protected lateinit var leagueViewModel: LeagueViewModel
 
@@ -17,9 +18,7 @@ abstract class BaseLeagueFragment : BaseCard() {
         leagueViewModel = ViewModelProviders.of(this).get(LeagueViewModel::class.java)
     }
 
-    abstract fun getGlide(): RequestManager
-
-    abstract fun getTheGson(): Gson
-
-    abstract fun getTheLeague(): League
+    override fun onFixtureSelected(matchFixture: MatchFixture, league: League) {
+        pushFragment(MatchBoardFragment.newInstance(matchFixture, league), true)
+    }
 }

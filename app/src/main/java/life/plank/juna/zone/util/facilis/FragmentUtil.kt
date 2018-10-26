@@ -5,28 +5,32 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
+import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
     return this.findFragmentByTag(tag) as? BaseCard
 }
 
 fun FragmentManager.findLastCard(): BaseCard? {
-    return this.fragments[this.backStackEntryCount] as? BaseCard
+    return fragments[fragments.size - 1] as? BaseCard
 }
 
 fun FragmentManager.findLastFragment(): BaseFragment? {
     return this.fragments[this.backStackEntryCount] as? BaseFragment
 }
 
-fun FragmentManager.findPeekDialog(tag: String): FeedItemPeekPopup? {
-    return findFragmentByTag(tag) as? FeedItemPeekPopup
+fun FragmentManager.findLastFragment(tag: String?): BaseFragment? {
+    return findFragmentByTag(tag) as? BaseFragment
 }
 
-fun FragmentManager.moveCurrentCardToBackground() {
-    val lastFragment = findLastFragment()
+fun FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
+    return findFragmentByTag(tag) as? BaseBlurPopup
+}
+
+fun FragmentManager.moveCurrentCardToBackground(tag: String?) {
+    val lastFragment = findFragmentByTag(tag)
     lastFragment?.run {
         if (lastFragment is BaseCard) {
             lastFragment.moveToBackGround()
@@ -35,16 +39,16 @@ fun FragmentManager.moveCurrentCardToBackground() {
     }
 }
 
-fun FragmentManager.movePreviousCardToForeground() {
-    if (this.backStackEntryCount >= 0) {
-        val lastFragment = findLastFragment()
-        lastFragment?.run {
-            if (lastFragment is BaseCard) {
-                lastFragment.moveToForeGround()
-            }
-            onResume()
+fun FragmentManager.movePreviousCardToForeground(tag: String?): String? {
+    val lastFragment = findLastFragment(tag)
+    lastFragment?.run {
+        if (lastFragment is BaseCard) {
+            lastFragment.moveToForeGround()
         }
+        onResume()
+        return lastFragment.previousFragmentTag
     }
+    return null
 }
 
 fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean) {

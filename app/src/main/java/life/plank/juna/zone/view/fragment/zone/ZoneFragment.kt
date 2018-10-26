@@ -1,10 +1,8 @@
 package life.plank.juna.zone.view.fragment.zone
 
-
 import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
@@ -26,10 +24,10 @@ import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AN
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
-import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.view.activity.SwipePageActivity
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.adapter.FootballLeagueAdapter
 import life.plank.juna.zone.view.adapter.SearchViewAdapter
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 import org.jetbrains.anko.support.v4.find
 import org.jetbrains.anko.support.v4.toast
 import retrofit2.Response
@@ -39,7 +37,7 @@ import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class ZoneFragment : BaseCard(), SearchView.OnQueryTextListener, OnItemClickListener {
+class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClickListener {
 
     @Inject
     lateinit var gson: Gson
@@ -54,7 +52,7 @@ class ZoneFragment : BaseCard(), SearchView.OnQueryTextListener, OnItemClickList
     internal var userList = ArrayList<User>()
 
     companion object {
-        private val TAG = SwipePageActivity::class.java.simpleName
+        private val TAG = ZoneFragment::class.java.simpleName
         fun newInstance() = ZoneFragment()
     }
 
@@ -67,7 +65,6 @@ class ZoneFragment : BaseCard(), SearchView.OnQueryTextListener, OnItemClickList
             inflater.inflate(R.layout.fragment_zone, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         setUpData()
         setupBoomMenu(BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
@@ -114,7 +111,7 @@ class ZoneFragment : BaseCard(), SearchView.OnQueryTextListener, OnItemClickList
     }
 
     private fun initRecyclerView() {
-//        adapter = FootballLeagueAdapter(activity)
+        adapter = FootballLeagueAdapter(activity as BaseCardActivity?)
         football_feed_recycler_view.adapter = adapter
         football_feed_recycler_view.setHasFixedSize(true)
     }
@@ -165,12 +162,6 @@ class ZoneFragment : BaseCard(), SearchView.OnQueryTextListener, OnItemClickList
             }
         })
     }
-
-    override fun getRootFadedCardLayout(): ViewGroup = faded_card_layout
-
-    override fun getRootCard(): CardView = root_card
-
-    override fun getDragHandle(): View = drag_area
 
     override fun onQueryTextSubmit(s: String): Boolean {
         return true

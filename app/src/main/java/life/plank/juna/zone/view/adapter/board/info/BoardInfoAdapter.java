@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.board.info;
 
+import android.app.Activity;
 import android.view.View;
 
 import com.ahamed.multiviewadapter.DataItemManager;
@@ -18,25 +19,24 @@ import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.ScrubberData;
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
-import life.plank.juna.zone.view.adapter.board.info.binder.CommentaryBinder;
 import life.plank.juna.zone.data.model.binder.CommentaryBindingModel;
-import life.plank.juna.zone.view.adapter.board.info.binder.LineupsBinder;
-import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
-import life.plank.juna.zone.view.adapter.board.info.binder.MatchHighlightsBinder;
 import life.plank.juna.zone.data.model.binder.HighlightsBindingModel;
-import life.plank.juna.zone.view.adapter.board.info.binder.MatchStatsBinder;
+import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
 import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel;
+import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
+import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
+import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
+import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel;
+import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
+import life.plank.juna.zone.view.adapter.board.info.binder.CommentaryBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.LineupsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchHighlightsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchStatsBinder;
 import life.plank.juna.zone.view.adapter.board.info.binder.ScheduledMatchFooterBinder;
 import life.plank.juna.zone.view.adapter.board.info.binder.ScrubberBinder;
-import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
 import life.plank.juna.zone.view.adapter.board.info.binder.StandingsBinder;
-import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
 import life.plank.juna.zone.view.adapter.board.info.binder.SubstitutionBinder;
-import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.view.adapter.board.info.binder.TeamStatsBinder;
-import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
@@ -52,7 +52,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
 
     private Picasso picasso;
     private MatchDetails matchDetails;
-    private MatchBoardActivity activity;
+    private Activity activity;
     private BoardInfoAdapterListener listener;
 
     private DataItemManager<ScrubberBindingModel> scrubberDataManager;
@@ -64,7 +64,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private DataItemManager<StandingsBindingModel> standingsDataManager;
     private DataItemManager<TeamStatsBindingModel> teamStatsDataManager;
 
-    public BoardInfoAdapter(MatchDetails matchDetails, Picasso picasso, MatchBoardActivity activity, BoardInfoAdapterListener listener) {
+    public BoardInfoAdapter(MatchDetails matchDetails, Picasso picasso, Activity activity, BoardInfoAdapterListener listener) {
         this.matchDetails = matchDetails;
         this.picasso = picasso;
         this.activity = activity;

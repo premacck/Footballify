@@ -184,7 +184,7 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     }
 
     private void prepareRecyclerViews() {
-        fixtureAdapter = new FixtureAdapter(null, this);
+//        fixtureAdapter = new FixtureAdapter(null, this);
         fixtureRecyclerView.setAdapter(fixtureAdapter);
 
         standingTableAdapter = new StandingTableAdapter(picasso);

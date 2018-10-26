@@ -20,8 +20,8 @@ import life.plank.juna.zone.util.AppConstants.BoomMenuPage.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.view.activity.HomeActivity
 import life.plank.juna.zone.view.activity.PostCommentActivity
-import life.plank.juna.zone.view.activity.UserFeedActivity
 import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity
 import life.plank.juna.zone.view.activity.camera.UploadActivity
@@ -166,7 +166,8 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                         }
                     }
                     1 -> {
-                        UserFeedActivity.launch(activity, true)
+                        if (activity is HomeActivity) return@OnClickListener
+                        HomeActivity.launch(activity)
                         activity.finish()
                     }
                     2 -> {
@@ -211,7 +212,8 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
                         }
                     }
                     1 -> {
-                        UserFeedActivity.launch(activity, true)
+                        if (activity is HomeActivity) return@OnClickListener
+                        HomeActivity.launch(activity)
                         activity.finish()
                     }
                 }
@@ -219,7 +221,8 @@ fun getBoomMenuListener(@BoomMenuPage page: Int, activity: Activity, boardId: St
         }
         BOOM_MENU_HOME -> {
             View.OnClickListener {
-                UserFeedActivity.launch(activity, true)
+                if (activity is HomeActivity) return@OnClickListener
+                HomeActivity.launch(activity)
                 activity.finish()
             }
         }

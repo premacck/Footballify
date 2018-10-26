@@ -7,16 +7,17 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
-import android.graphics.Color
 import android.graphics.Point
-import android.support.v4.graphics.ColorUtils
+import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.CardView
 import android.view.Display
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewPropertyAnimator
 import android.view.animation.DecelerateInterpolator
-import life.plank.juna.zone.R
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 
 fun Display.getScreenSize(): IntArray {
@@ -31,47 +32,26 @@ fun View.toggleInteraction(isEnabled: Boolean) {
 }
 
 fun CardView.moveToBackGround() {
-    val objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
-            this,
-            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -getDp(24f)),
-            PropertyValuesHolder.ofFloat(View.SCALE_X, 0.92f),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, 0.92f)
-    ).prepare()
-    objectAnimator.addUpdateListener {
-        this.setCardBackgroundColor(
-                ColorUtils.blendARGB(
-                        Color.WHITE,
-                        this.resources.getColor(R.color.others_color_grey),
-                        it.animatedFraction
-                )
-        )
-    }
-    objectAnimator.start()
-    this.elevation = 0f
-    this.toggleInteraction(false)
-    this.toggleInteraction(false)
+    translateScaleAnimation(24f, 0.92f).prepare().start()
+    elevation = 0f
+    toggleInteraction(false)
+    toggleInteraction(false)
 }
 
 fun CardView.moveToForeGround() {
-    val objectAnimator = ObjectAnimator.ofPropertyValuesHolder(
+    translateScaleAnimation(0f, 1f).prepare().start()
+    elevation = getDp(8f)
+    toggleInteraction(true)
+    toggleInteraction(true)
+}
+
+fun View.translateScaleAnimation(translateValue: Float, scaleValue: Float): ObjectAnimator {
+    return ObjectAnimator.ofPropertyValuesHolder(
             this,
-            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f),
-            PropertyValuesHolder.ofFloat(View.SCALE_X, 1f),
-            PropertyValuesHolder.ofFloat(View.SCALE_Y, 1f)
-    ).prepare()
-    objectAnimator.addUpdateListener {
-        this.setCardBackgroundColor(
-                ColorUtils.blendARGB(
-                        this.resources.getColor(R.color.others_color_grey),
-                        Color.WHITE,
-                        it.animatedFraction
-                )
-        )
-    }
-    objectAnimator.start()
-    this.elevation = getDp(8f)
-    this.toggleInteraction(true)
-    this.toggleInteraction(true)
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, translateValue),
+            PropertyValuesHolder.ofFloat(View.SCALE_X, scaleValue),
+            PropertyValuesHolder.ofFloat(View.SCALE_Y, scaleValue)
+    )
 }
 
 fun ObjectAnimator.prepare(): ObjectAnimator {
@@ -92,4 +72,21 @@ fun ViewPropertyAnimator.listener(onAnimationEnd: () -> Unit): ViewPropertyAnima
     return this.setListener(object : AnimatorListenerAdapter() {
         override fun onAnimationEnd(animation: Animator?) = onAnimationEnd()
     })
+}
+
+fun View.fadeOut() {
+    animate().alpha(0f).setDuration(280).start()
+}
+
+fun View.setTopMargin(topMargin: Int) {
+    val params = layoutParams
+    params?.run {
+        when (params) {
+            is RelativeLayout.LayoutParams -> params.topMargin = topMargin
+            is CoordinatorLayout.LayoutParams -> params.topMargin = topMargin
+            is FrameLayout.LayoutParams -> params.topMargin = topMargin
+            is LinearLayout.LayoutParams -> params.topMargin = topMargin
+        }
+        layoutParams = params
+    }
 }

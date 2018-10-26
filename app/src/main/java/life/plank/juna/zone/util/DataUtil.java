@@ -87,7 +87,7 @@ public class DataUtil {
     };
     private static Random random = new Random();
 
-    public static String getString(@StringRes int stringRes) {
+    public static String findString(@StringRes int stringRes) {
         return ZoneApplication.getContext().getString(stringRes);
     }
 

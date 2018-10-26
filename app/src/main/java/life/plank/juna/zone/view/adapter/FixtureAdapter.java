@@ -1,11 +1,13 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.github.mikephil.charting.charts.LineChart;
 
 import java.lang.ref.WeakReference;
@@ -17,10 +19,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.interfaces.LeagueContainer;
 import life.plank.juna.zone.util.BaseRecyclerView;
 import life.plank.juna.zone.util.DataUtil;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
-import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.DataUtil.getSeparator;
@@ -36,16 +37,17 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
     private static final int FIXTURE_NOT_LIVE = 1;
 
     private List<MatchFixture> matchFixtureList;
-    private BaseLeagueActivity activity;
+    private LeagueContainer leagueContainer;
 
-    public FixtureAdapter(List<MatchFixture> matchFixtureList, BaseLeagueActivity activity) {
+    public FixtureAdapter(List<MatchFixture> matchFixtureList, LeagueContainer leagueContainer) {
         this.matchFixtureList = matchFixtureList;
-        this.activity = activity;
+        this.leagueContainer = leagueContainer;
         if (this.matchFixtureList == null) {
             this.matchFixtureList = new ArrayList<>();
         }
     }
 
+    @NonNull
     @Override
     public BaseRecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == FIXTURE_LIVE) {
@@ -98,22 +100,16 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
         public void bind() {
             scoreFixture = ref.get().matchFixtureList.get(getAdapterPosition());
             alternateBackgroundColor(itemView, getAdapterPosition());
-            if (scoreFixture.getHomeTeam().getLogoLink() != null) {
-                ref.get().activity.getPicasso()
-                        .load(scoreFixture.getHomeTeam().getLogoLink())
-                        .fit().centerCrop()
-                        .placeholder(R.drawable.ic_place_holder)
-                        .error(R.drawable.ic_place_holder)
-                        .into(homeTeamLogo);
-            }
-            if (scoreFixture.getHomeTeam().getLogoLink() != null) {
-                ref.get().activity.getPicasso()
-                        .load(scoreFixture.getAwayTeam().getLogoLink())
-                        .fit().centerCrop()
-                        .placeholder(R.drawable.ic_place_holder)
-                        .error(R.drawable.ic_place_holder)
-                        .into(visitingTeamLogo);
-            }
+
+            ref.get().leagueContainer.getGlide()
+                    .load(scoreFixture.getHomeTeam().getLogoLink())
+                    .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                    .into(homeTeamLogo);
+
+            ref.get().leagueContainer.getGlide()
+                    .load(scoreFixture.getAwayTeam().getLogoLink())
+                    .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                    .into(visitingTeamLogo);
 
             homeTeamName.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamName.setText(scoreFixture.getAwayTeam().getName());
@@ -121,8 +117,8 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
         }
 
         @OnClick(R.id.root_layout)
-        public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague(), ref.get().activity.getScreenshotLayout());
+        void onFixtureClicked() {
+            ref.get().leagueContainer.onFixtureSelected(scoreFixture, ref.get().leagueContainer.getTheLeague());
         }
     }
 
@@ -154,22 +150,22 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
         public void bind() {
             scoreFixture = ref.get().matchFixtureList.get(getAdapterPosition());
             alternateBackgroundColor(itemView, getAdapterPosition());
-            if (scoreFixture.getHomeTeam().getLogoLink() != null) {
-                ref.get().activity.getPicasso()
-                        .load(scoreFixture.getHomeTeam().getLogoLink())
-                        .resize((int) getDp(12), (int) getDp(12))
-                        .placeholder(R.drawable.ic_place_holder)
-                        .error(R.drawable.ic_place_holder)
-                        .into(getEndDrawableTarget(homeTeamNameTextView));
-            }
-            if (scoreFixture.getHomeTeam().getLogoLink() != null) {
-                ref.get().activity.getPicasso()
-                        .load(scoreFixture.getAwayTeam().getLogoLink())
-                        .resize((int) getDp(12), (int) getDp(12))
-                        .placeholder(R.drawable.ic_place_holder)
-                        .error(R.drawable.ic_place_holder)
-                        .into(getStartDrawableTarget(visitingTeamNameTextView));
-            }
+
+            ref.get().leagueContainer.getGlide()
+                    .load(scoreFixture.getHomeTeam().getLogoLink())
+                    .apply(RequestOptions.centerCropTransform()
+                            .placeholder(R.drawable.ic_place_holder)
+                            .error(R.drawable.ic_place_holder)
+                            .override((int) getDp(12), (int) getDp(12)))
+                    .into(getEndDrawableTarget(homeTeamNameTextView));
+
+            ref.get().leagueContainer.getGlide()
+                    .load(scoreFixture.getAwayTeam().getLogoLink())
+                    .apply(RequestOptions.centerCropTransform()
+                            .placeholder(R.drawable.ic_place_holder)
+                            .error(R.drawable.ic_place_holder)
+                            .override((int) getDp(12), (int) getDp(12)))
+                    .into(getStartDrawableTarget(visitingTeamNameTextView));
 
             homeTeamNameTextView.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamNameTextView.setText(scoreFixture.getAwayTeam().getName());
@@ -179,8 +175,8 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
         }
 
         @OnClick(R.id.root_layout)
-        public void onFixtureClicked() {
-            MatchBoardActivity.launch(ref.get().activity, scoreFixture, ref.get().activity.getLeague(), ref.get().activity.getScreenshotLayout());
+        void onFixtureClicked() {
+            ref.get().leagueContainer.onFixtureSelected(scoreFixture, ref.get().leagueContainer.getTheLeague());
         }
     }
 }

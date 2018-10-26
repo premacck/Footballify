@@ -29,13 +29,10 @@ import android.widget.VideoView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;

@@ -211,6 +211,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @OnClick(R.id.home_fab)
     public void goHome() {
-        UserFeedActivity.launch(this, true);
+        HomeActivity.Companion.launch(this, true);
     }
 }

@@ -1,55 +1,79 @@
 package life.plank.juna.zone.view.activity.base
 
 import android.support.v4.app.FragmentManager
+import android.util.Log
 import life.plank.juna.zone.R
+import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.findLastFragment
 import life.plank.juna.zone.util.facilis.moveCurrentCardToBackground
 import life.plank.juna.zone.util.facilis.movePreviousCardToForeground
 import life.plank.juna.zone.util.facilis.pushFragment
+import life.plank.juna.zone.view.activity.HomeActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
 
     var index: Int = 0
+    private var previousFragmentTag: String? = null
+    private var currentFragmentTag: String? = null
 
-    protected fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
+    fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
         if (index < 0) return
 
-        if (index > 0) supportFragmentManager.moveCurrentCardToBackground()
+        if (index > 0) {
+            previousFragmentTag = currentFragmentTag
+            fragment.previousFragmentTag = previousFragmentTag
+            supportFragmentManager.moveCurrentCardToBackground(previousFragmentTag)
+        }
 
-        supportFragmentManager.pushFragment(R.id.main_fragment_container, fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
+        currentFragmentTag = fragment.javaClass.simpleName + index
+        supportFragmentManager.pushFragment(R.id.main_fragment_container, fragment, currentFragmentTag!!, index, isAddToBackStack)
         index++
     }
 
-    protected fun popBackStack() {
+    private fun popBackStack() {
         if (index <= 0) return
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            index--
-            supportFragmentManager.popBackStackImmediate()
-            supportFragmentManager.movePreviousCardToForeground()
-        }
+        index--
+        supportFragmentManager.popBackStackImmediate()
+        currentFragmentTag = previousFragmentTag
+        previousFragmentTag = supportFragmentManager.movePreviousCardToForeground(previousFragmentTag)
     }
 
     override fun onBackStackChanged() {
         index = supportFragmentManager.backStackEntryCount
     }
 
-    override fun onDestroy() {
-        index = 0
-        super.onDestroy()
+    private fun startPoppingFragment() {
+        val lastFragment = supportFragmentManager.findLastFragment(currentFragmentTag)
+        if (lastFragment != null) {
+            if (lastFragment.onBackPressed()) {
+                if (index > 0) {
+                    popBackStack()
+                } else super.onBackPressed()
+            } // Do nothing here if the fragment's onBackPressed() returns false
+        } else super.onBackPressed()
     }
 
     override fun onBackPressed() {
         try {
-            if (supportFragmentManager.findLastFragment()!!.onBackPressed()) {
-                if (supportFragmentManager.backStackEntryCount > 0) {
-                    popBackStack()
-                } else {
-                    super.onBackPressed()
+            if (this is HomeActivity) {
+                supportFragmentManager.findLastFragment()?.run {
+                    if (onBackPressed()) {
+                        if (supportFragmentManager.backStackEntryCount > 0) {
+                            popBackStack()
+                        } else {
+                            super.onBackPressed()
+                        }
+                    }
                 }
+                return
+            }
+            if (!isNullOrEmpty(previousFragmentTag)) {
+                startPoppingFragment()
             } else super.onBackPressed()
         } catch (e: Exception) {
-            super.onBackPressed()
+            Log.e("onBackPressed()", "ERROR : ", e)
+            startPoppingFragment()
         }
     }
 }

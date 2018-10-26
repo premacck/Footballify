@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,29 +18,30 @@ import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.util.GlobalVariable;
-import life.plank.juna.zone.view.activity.LeagueInfoActivity;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
+import life.plank.juna.zone.view.activity.base.BaseCardActivity;
+import life.plank.juna.zone.view.fragment.LeagueInfoFragment;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAdapter.FootballFeedViewHolder> {
 
     private List<League> leagueList;
-    private SwipePageActivity activity;
+    private BaseCardActivity activity;
 
-    public FootballLeagueAdapter(SwipePageActivity activity) {
+    public FootballLeagueAdapter(BaseCardActivity activity) {
         this.activity = activity;
         this.leagueList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public FootballFeedViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FootballFeedViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_row, parent, false);
         return new FootballFeedViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FootballFeedViewHolder holder, int position) {
         League league = leagueList.get(position);
         holder.feedTitleTextView.setText(league.getName());
         holder.kickoffTime.setText(R.string.match_status);
@@ -54,7 +56,7 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
         }
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
-            LeagueInfoActivity.launch(activity, league, activity.getScreenshotLayout());
+            activity.pushFragment(LeagueInfoFragment.Companion.newInstance(league), true);
         });
     }
 

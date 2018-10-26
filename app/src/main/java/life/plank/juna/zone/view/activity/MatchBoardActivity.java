@@ -121,7 +121,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     ImageView boardBlurBackgroundImageView;
     @BindView(R.id.recycler_view_drag_area)
     TextView recyclerViewDragArea;
-    @BindView(R.id.board_tiles_list_full)
+    @BindView(R.id.board_tiles_full_recycler_view)
     RecyclerView boardTilesFullRecyclerView;
     @BindView(R.id.emoji_bottom_sheet)
     RelativeLayout emojiBottomSheet;
@@ -253,7 +253,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_board);
+        setContentView(R.layout.fragment_match_board);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
@@ -272,7 +272,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         getBoardIdAndMatchDetails(currentMatchId);
 
         setupSwipeGesture(this, dragArea, rootCard, fadedCard);
-        setupFullScreenRecyclerViewSwipeGesture(recyclerViewDragArea, boardTilesFullRecyclerView);
         publicBoardToolbar.setUpPopUp(this, currentMatchId);
     }
 
@@ -291,7 +290,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
     public void prepareFullScreenRecyclerView() {
         setupBottomSheet();
         pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(this, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD);
+        boardFeedDetailAdapter = new BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, BOARD);
         boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
     }
 

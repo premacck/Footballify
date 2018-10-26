@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +14,22 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FixtureByDate;
+import life.plank.juna.zone.interfaces.LeagueContainer;
 import life.plank.juna.zone.util.BaseRecyclerView;
-import life.plank.juna.zone.view.activity.base.BaseLeagueActivity;
 
 import static life.plank.juna.zone.util.DateUtil.getDateHeader;
 
 public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdapter.FixtureDateViewHolder> {
 
     private List<FixtureByDate> fixtureByDateList;
-    private BaseLeagueActivity activity;
+    private LeagueContainer leagueContainer;
 
-    FixtureDateAdapter(List<FixtureByDate> fixtureByDateList, BaseLeagueActivity activity) {
+    FixtureDateAdapter(List<FixtureByDate> fixtureByDateList, LeagueContainer leagueContainer) {
         this.fixtureByDateList = fixtureByDateList;
-        this.activity = activity;
+        this.leagueContainer = leagueContainer;
     }
 
+    @NonNull
     @Override
     public FixtureDateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new FixtureDateViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fixture_date, parent, false), this);
@@ -57,7 +59,7 @@ public class FixtureDateAdapter extends BaseRecyclerView.Adapter<FixtureDateAdap
         public void bind() {
             FixtureByDate fixtureByDate = ref.get().fixtureByDateList.get(getAdapterPosition());
             dateTime.setText(getDateHeader(fixtureByDate.getDate()));
-            recyclerView.setAdapter(new FixtureAdapter(fixtureByDate.getFixtures(), ref.get().activity));
+            recyclerView.setAdapter(new FixtureAdapter(fixtureByDate.getFixtures(), ref.get().leagueContainer));
         }
     }
 }

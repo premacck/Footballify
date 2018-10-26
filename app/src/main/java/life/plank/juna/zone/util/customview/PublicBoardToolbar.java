@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.Date;
-import java.util.Objects;
 import java.util.TimeZone;
 
 import butterknife.BindView;
@@ -450,7 +449,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void setupWithViewPager(ViewPager viewPager) {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout));
         infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
-        Objects.requireNonNull(infoTilesTabLayout.getTabAt(0)).select();
     }
 
     public void setBoardTemperature(BoardTemperature boardTemperature) {

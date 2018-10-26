@@ -1,11 +1,15 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +22,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
@@ -33,18 +36,19 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
  */
 public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder> {
 
-
+    private final RequestManager glide;
     private List<FeedEntry> boardFeed;
     private OnClickFeedItemListener listener;
-    private BoardTilesFragment fragment;
 
-    public BoardMediaAdapter(BoardTilesFragment fragment) {
-        this.fragment = fragment;
+    public BoardMediaAdapter(RequestManager glide, OnClickFeedItemListener listener) {
+        this.glide = glide;
+        this.listener = listener;
         this.boardFeed = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public BoardMediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BoardMediaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new BoardMediaViewHolder(
                 LayoutInflater.from(parent.getContext()).inflate(R.layout.item_board_tile, parent, false),
                 listener
@@ -52,17 +56,19 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
     }
 
     @Override
-    public void onBindViewHolder(BoardMediaViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BoardMediaViewHolder holder, int position) {
         FeedItem feedItem = boardFeed.get(position).getFeedItem();
 
         //TODO: remove this null check after the backend returns the user profile picture
         if (feedItem.getUser() != null) {
-            fragment.picasso
-                    .load(feedItem.getUser().getProfilePictureUrl())
-                    .placeholder(R.drawable.ic_default_profile)
-                    .error(R.drawable.ic_default_profile)
+            glide.load(feedItem.getUser().getProfilePictureUrl())
+                    .apply(RequestOptions.centerCropTransform()
+                            .placeholder(R.drawable.ic_default_profile)
+                            .error(R.drawable.ic_default_profile))
                     .into(holder.profilePictureImageView);
         }
+
+        if (feedItem.getContentType() == null) return;
 
         switch (feedItem.getContentType()) {
             case AUDIO:
@@ -72,30 +78,25 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
             case IMAGE:
                 setVisibility(holder, GONE, VISIBLE, GONE);
                 if (feedItem.getThumbnail() != null) {
-                    fragment.picasso
-                            .load(feedItem.getThumbnail().getImageUrl())
-                            .fit().centerCrop()
-                            .placeholder(R.drawable.ic_place_holder)
-                            .error(R.drawable.ic_place_holder)
+                    glide.load(feedItem.getThumbnail().getImageUrl())
+                            .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                             .into(holder.tileImageView);
                 }
                 break;
             case VIDEO:
                 setVisibility(holder, GONE, VISIBLE, VISIBLE);
                 if (feedItem.getThumbnail() != null) {
-                    fragment.picasso
-                            .load(feedItem.getThumbnail().getImageUrl())
-                            .placeholder(R.drawable.ic_place_holder)
-                            .error(R.drawable.ic_place_holder)
+                    glide.load(feedItem.getThumbnail().getImageUrl())
+                            .apply(RequestOptions.centerCropTransform().placeholder(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                             .into(holder.tileImageView);
                 }
                 break;
             default:
                 setVisibility(holder, VISIBLE, GONE, GONE);
+                if (feedItem.getTitle() == null) break;
                 String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
                 holder.commentTextView.setBackground(getCommentColor(comment));
                 holder.commentTextView.setText(getCommentText(comment));
-
                 break;
         }
     }
@@ -106,9 +107,8 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         holder.playBtn.setVisibility(playBtnVisibility);
     }
 
-
     public void update(List<FeedEntry> boardFeed) {
-        if (!this.boardFeed.isEmpty()) {
+        if (! this.boardFeed.isEmpty()) {
             this.boardFeed.clear();
         }
         this.boardFeed.addAll(boardFeed);
@@ -121,7 +121,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         notifyItemRangeInserted(previousSize, boardFeed.size());
     }
 
-
     public void updateNewPost(FeedEntry feedItem) {
         boardFeed.add(0, feedItem);
         notifyItemInserted(0);
@@ -129,10 +128,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
 
     public List<FeedEntry> getBoardFeed() {
         return boardFeed;
-    }
-
-    public void setOnClickFeedItemListener(OnClickFeedItemListener onClickFeedItemListener) {
-        this.listener = onClickFeedItemListener;
     }
 
     @Override
@@ -160,12 +155,12 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         }
 
         @OnClick(R.id.root_layout)
-        public void onBoardItemClick() {
+        void onBoardItemClick() {
             listener.onItemClick(getAdapterPosition());
         }
 
         @OnLongClick(R.id.root_layout)
-        public boolean onBoardItemLongClick() {
+        boolean onBoardItemLongClick() {
             listener.onItemLongClick(getAdapterPosition());
             return true;
         }

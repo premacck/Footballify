@@ -6,7 +6,6 @@ import android.support.annotation.CallSuper
 import android.support.v7.widget.CardView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RelativeLayout
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -20,39 +19,38 @@ abstract class BaseCard : BaseFragment() {
     }
 
     private fun adjustWithIndex(index: Int) {
-        getRootFadedCardLayout().visibility = if (index > 1) View.VISIBLE else View.GONE
+        getRootFadedCardLayout()?.visibility = if (index > 1) View.VISIBLE else View.GONE
 
-        getRootCard().run {
-            val params = layoutParams as RelativeLayout.LayoutParams
-            params.topMargin = getDp(if (index > 1) 20f else 0f).toInt()
-            layoutParams = params
-        }
+        getRootCard()?.setTopMargin(getDp(if (index > 1) 20f else 0f).toInt())
     }
 
     private fun setupSwipeDownGesture(activity: Activity) {
-        getDragHandle().setSwipeDownListener(activity, getRootCard(), getRootFadedCardLayout())
+        getDragHandle()?.setSwipeDownListener(activity, getRootCard()!!, getRootFadedCardLayout())
     }
 
     fun moveToBackGround() {
-        getRootCard().moveToBackGround()
+        getRootCard()?.moveToBackGround()
     }
 
     fun moveToForeGround() {
-        getRootCard().moveToForeGround()
+        getRootCard()?.moveToForeGround()
     }
 
     fun dispose() {
-        getDragHandle().setOnTouchListener(null)
+        getDragHandle()?.setOnTouchListener(null)
     }
 
-    abstract fun getRootFadedCardLayout(): ViewGroup
+    fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
+        getParentActivity().pushFragment(baseFragment, isAddToBackStack)
+    }
 
-//    TODO: un-comment if required
-//    abstract fun getFadedCard(): CardView
+    abstract fun getRootFadedCardLayout(): ViewGroup?
 
-    abstract fun getRootCard(): CardView
+    abstract fun getFadedCard(): CardView?
 
-    abstract fun getDragHandle(): View
+    abstract fun getRootCard(): CardView?
+
+    abstract fun getDragHandle(): View?
 
     protected fun getParentActivity(): BaseCardActivity {
         if (activity is BaseCardActivity)

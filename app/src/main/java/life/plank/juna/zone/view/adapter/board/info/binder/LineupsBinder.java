@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.board.info.binder;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,21 +27,21 @@ import life.plank.juna.zone.data.model.Formation;
 import life.plank.juna.zone.data.model.FormationList;
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
 import life.plank.juna.zone.util.customview.LineupPlayer;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static life.plank.juna.zone.util.DataUtil.getIntegratedLineups;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
-import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTarget;
+import static life.plank.juna.zone.util.UIDisplayUtil.getEndDrawableTargetPicasso;
+import static life.plank.juna.zone.util.UIDisplayUtil.getStartDrawableTargetPicasso;
 
 public class LineupsBinder extends ItemBinder<LineupsBindingModel, LineupsBinder.LineupsViewHolder> {
 
-    private MatchBoardActivity activity;
+    private Activity activity;
     private Picasso picasso;
 
-    public LineupsBinder(MatchBoardActivity activity, Picasso picasso) {
+    public LineupsBinder(Activity activity, Picasso picasso) {
         this.activity = activity;
         this.picasso = picasso;
     }
@@ -80,8 +81,8 @@ public class LineupsBinder extends ItemBinder<LineupsBindingModel, LineupsBinder
             prepareLineup(holder.homeTeamLineupLayout, item.getLineups().getHomeTeamFormation(), activity.getColor(R.color.lineup_player_red), true);
             prepareLineup(holder.visitingTeamLineupLayout, item.getLineups().getAwayTeamFormation(), activity.getColor(R.color.purple), false);
         }
-        Target homeTarget = getStartDrawableTarget(holder.homeTeamName);
-        Target visitingTarget = getStartDrawableTarget(holder.visitingTeamName);
+        Target homeTarget = getStartDrawableTargetPicasso(holder.homeTeamName);
+        Target visitingTarget = getEndDrawableTargetPicasso(holder.visitingTeamName);
 
         loadImage(picasso, item.getHomeTeam().getLogoLink(), homeTarget);
         loadImage(picasso, item.getAwayTeam().getLogoLink(), visitingTarget);

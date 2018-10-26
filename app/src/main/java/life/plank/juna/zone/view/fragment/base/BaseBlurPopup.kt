@@ -3,12 +3,13 @@ package life.plank.juna.zone.view.fragment.base
 import android.support.annotation.CallSuper
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
+import life.plank.juna.zone.util.facilis.fadeOut
 import life.plank.juna.zone.util.facilis.listener
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
 
@@ -20,33 +21,45 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
         async {
             delay(10)
             runOnUiThread {
-                getBlurLayout().animate()
-                        .alpha(1f)
-                        .setDuration(100)
-                        .listener { getBlurLayout().startBlur() }
-                        .start()
+                getBlurLayout()?.run {
+                    animate().alpha(1f)
+                            .setDuration(100)
+                            .listener { getBlurLayout()?.startBlur() }
+                            .start()
+                }
                 setupPeekRecyclerViewSwipeGesture()
+                doOnStart()
             }
         }
-        getBlurLayout().onClick { dismiss() }
+        getBlurLayout()?.onClick { dismiss() }
     }
 
     override fun onStop() {
-        getBlurLayout().pauseBlur()
+        getBlurLayout()?.pauseBlur()
+        doOnStop()
         super.onStop()
     }
 
     private fun setupPeekRecyclerViewSwipeGesture() {
-        getDragArea().setOnTouchListener(object : SwipeDownToDismissListener(activity!!, getDragArea(), getRootView(), getBackgroundLayout()) {
+        getDragHandle()?.setOnTouchListener(object : SwipeDownToDismissListener(activity!!, getDragHandle()!!, getRootView()!!, getBlurLayout()) {
             override fun onSwipeDown() {
                 dismiss()
             }
         })
     }
 
+    fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
+        getParentActivity()?.pushFragment(baseFragment, isAddToBackStack)
+    }
+
+    private fun getParentActivity(): BaseCardActivity? {
+        return activity as? BaseCardActivity
+    }
+
     @CallSuper
     override fun dismiss() {
-        getBlurLayout().startAnimation(AnimationUtils.loadAnimation(context, android.R.anim.fade_out))
+        getBlurLayout()?.fadeOut()
+        doOnDismiss()
         async {
             delay(280)
             try {
@@ -56,11 +69,23 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
         }
     }
 
-    abstract fun getBlurLayout(): BlurLayout
+    /**
+     * Method for initializing items of the popup AFTER the onStart() is called and the transitions are finished
+     */
+    open fun doOnStart() {}
 
-    abstract fun getDragArea(): View
+    open fun doOnStop() {}
 
-    abstract fun getRootView(): View
+    /**
+     * Method for performing dismiss actions just before the dismiss() is called
+     */
+    open fun doOnDismiss() {}
 
-    abstract fun getBackgroundLayout(): ViewGroup
+    abstract fun getBlurLayout(): BlurLayout?
+
+    abstract fun getDragHandle(): View?
+
+    abstract fun getRootView(): View?
+
+    abstract fun getBackgroundLayout(): ViewGroup?
 }

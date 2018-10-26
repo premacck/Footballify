@@ -20,10 +20,10 @@ import java.util.Collections;
 import java.util.List;
 
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.view.activity.HomeActivity;
 import life.plank.juna.zone.view.activity.IdentityProvider;
 import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
-import life.plank.juna.zone.view.activity.UserFeedActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getSavedAuthState;
@@ -101,7 +101,7 @@ public class AuthUtil {
                 saveTokensValidity(response.additionalParameters);
             }
             progressDialog.cancel();
-            activity.startActivity(new Intent(activity, UserFeedActivity.class));
+            activity.startActivity(new Intent(activity, HomeActivity.class));
             activity.finish();
         });
     }

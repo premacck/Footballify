@@ -53,7 +53,7 @@ class CustomGalleryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adapter = GalleryAdapter(activity as CustomCameraActivity?, Glide.with(this))
+        adapter = GalleryAdapter(activity as CustomCameraActivity?, Glide.with(activity!!))
         gallery_recycler_view.adapter = adapter
     }
 

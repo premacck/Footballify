@@ -97,7 +97,7 @@ public class FixtureActivity extends BaseLeagueActivity {
     }
 
     public void prepareRecyclerView() {
-        fixtureMatchdayAdapter = new FixtureMatchdayAdapter(this);
+//        fixtureMatchdayAdapter = new FixtureMatchdayAdapter(this);
         fixtureRecyclerView.setAdapter(fixtureMatchdayAdapter);
     }
 

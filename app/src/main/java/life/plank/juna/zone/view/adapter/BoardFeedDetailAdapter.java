@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,20 +27,16 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.EmojiHashMap;
-import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -51,7 +48,6 @@ import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_NO_CONTENT;
 import static java.net.HttpURLConnection.HTTP_OK;
-import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.AppConstants.AUDIO;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
@@ -74,42 +70,37 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
  */
 
 public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetailAdapter.FootballFeedDetailViewHolder> {
-    @Inject
-    @Named("default")
-    Retrofit retrofit;
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    private MediaPlayer mediaPlayer = new MediaPlayer();
     private String TAG = BoardFeedDetailAdapter.class.getCanonicalName();
     private List<FeedEntry> feedsListItem;
     private RestApi restApi;
-    private BaseBoardActivity activity;
     private String boardId;
     private boolean isBoardActive;
     private BottomSheetBehavior emojiBottomSheetBehavior;
     private String target;
 
-    public BoardFeedDetailAdapter(BaseBoardActivity activity, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior, String target) {
+    public BoardFeedDetailAdapter(RestApi restApi, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior, String target) {
+        this.restApi = restApi;
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
-        ColorHashMap.HashMaps(activity);
+        ColorHashMap.HashMaps(ZoneApplication.getContext());
         EmojiHashMap.HashMaps();
-        this.activity = activity;
         this.feedsListItem = new ArrayList<>();
         this.emojiBottomSheetBehavior = emojiBottomSheetBehavior;
         this.target = target;
     }
 
+    @NonNull
     @Override
-    public FootballFeedDetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        getApplication().getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
+    public FootballFeedDetailViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.football_feed_detail_row, parent, false);
         return new FootballFeedDetailViewHolder(view);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
-    public void onBindViewHolder(FootballFeedDetailViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FootballFeedDetailViewHolder holder, int position) {
         FeedEntry feedEntry = feedsListItem.get(position);
         FeedItem feedItem = feedEntry.getFeedItem();
 
@@ -121,7 +112,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         }
 
         if (feedItem.getUser() != null) {
-            Picasso.with(activity)
+            Picasso.with(ZoneApplication.getContext())
                     .load(feedItem.getUser().getProfilePictureUrl())
                     .centerInside()
                     .resize((int) getDp(20), (int) getDp(20))
@@ -131,18 +122,11 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
-            SharedPreferences userPref = activity.getSharedPreferences(activity.getString(R.string.pref_login_credentails), 0);
-            String userEmailId = userPref.getString(activity.getString(R.string.pref_email_address), "NA");
+            SharedPreferences userPref = ZoneApplication.getContext().getSharedPreferences(ZoneApplication.getContext().getString(R.string.pref_login_credentails), 0);
+            String userEmailId = userPref.getString(ZoneApplication.getContext().getString(R.string.pref_email_address), "NA");
             holder.userNameTextView.setText(userEmailId);
         }
         holder.feedTitleTextView.setText(feedItem.getTitle());
-//        TODO: un-comment after swipe down functionality accounts for the pseudo-views
-//        holder.feedTopLayout.setOnTouchListener(new OnSwipeTouchListener(activity, holder.feedTopLayout, holder.itemView) {
-//            @Override
-//            public void onSwipeDown() {
-//                activity.setBlurBackgroundAndShowFullScreenTiles(false, 0);
-//            }
-//        });
 
         holder.pinImageView.setImageResource(
                 feedEntry.getFeedInteractions().getHasPinned() ?
@@ -150,68 +134,70 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                         R.drawable.ic_pin_inactive
         );
 
-        switch (feedItem.getContentType()) {
-            case NEWS:
-            case IMAGE: {
-                mediaPlayer.stop();
-                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
-                try {
-                    Picasso.with(activity).
-                            load(feedItem.getThumbnail().getImageUrl())
-                            .error(R.drawable.ic_place_holder)
-                            .placeholder(R.drawable.ic_place_holder)
-                            .into(holder.feedImageView);
-                } catch (Exception e) {
-                    holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
-                }
-                break;
-            }
-            case AUDIO: {
-                mediaPlayer.stop();
-                holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
-                holder.feedImageView.setImageResource(R.drawable.ic_mic_white);
-
-                String uri = feedItem.getUrl();
-                Uri videoUri = Uri.parse(uri);
-
-                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                try {
-                    mediaPlayer.setDataSource(activity, videoUri);
-                    mediaPlayer.prepare();
-                } catch (IOException e) {
+        if (feedItem.getContentType() != null) {
+            switch (feedItem.getContentType()) {
+                case NEWS:
+                case IMAGE: {
                     mediaPlayer.stop();
+                    holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
+                    try {
+                        Picasso.with(ZoneApplication.getContext()).
+                                load(feedItem.getThumbnail().getImageUrl())
+                                .error(R.drawable.ic_place_holder)
+                                .placeholder(R.drawable.ic_place_holder)
+                                .into(holder.feedImageView);
+                    } catch (Exception e) {
+                        holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+                    }
+                    break;
                 }
+                case AUDIO: {
+                    mediaPlayer.stop();
+                    holder.setVisibilities(View.VISIBLE, View.GONE, View.GONE);
+                    holder.feedImageView.setImageResource(R.drawable.ic_mic_white);
 
-                mediaPlayer.start();
+                    String uri = feedItem.getUrl();
+                    Uri videoUri = Uri.parse(uri);
 
-                try {
-                    Picasso.with(activity).
-                            load(feedItem.getUrl())
-                            .error(R.drawable.ic_place_holder)
-                            .placeholder(R.drawable.ic_place_holder)
-                            .into(holder.feedImageView);
-                } catch (Exception e) {
-                    holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+                    mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                    try {
+                        mediaPlayer.setDataSource(ZoneApplication.getContext(), videoUri);
+                        mediaPlayer.prepare();
+                    } catch (IOException e) {
+                        mediaPlayer.stop();
+                    }
+
+                    mediaPlayer.start();
+
+                    try {
+                        Picasso.with(ZoneApplication.getContext()).
+                                load(feedItem.getUrl())
+                                .error(R.drawable.ic_place_holder)
+                                .placeholder(R.drawable.ic_place_holder)
+                                .into(holder.feedImageView);
+                    } catch (Exception e) {
+                        holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
+                    }
+                    break;
                 }
-                break;
-            }
-            case VIDEO: {
-                mediaPlayer.stop();
-                holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE);
-                String uri = feedItem.getUrl();
-                Uri videoUri = Uri.parse(uri);
-                holder.capturedVideoView.setVideoURI(videoUri);
-                holder.capturedVideoView.start();
-                break;
-            }
-            case ROOT_COMMENT: {
-                mediaPlayer.stop();
-                holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
-                String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
+                case VIDEO: {
+                    mediaPlayer.stop();
+                    holder.setVisibilities(View.GONE, View.VISIBLE, View.GONE);
+                    String uri = feedItem.getUrl();
+                    Uri videoUri = Uri.parse(uri);
+                    holder.capturedVideoView.setVideoURI(videoUri);
+                    holder.capturedVideoView.start();
+                    break;
+                }
+                case ROOT_COMMENT: {
+                    mediaPlayer.stop();
+                    holder.setVisibilities(View.GONE, View.GONE, View.VISIBLE);
+                    String comment = feedItem.getTitle().replaceAll("^\"|\"$", "");
 
-                holder.feedTextView.setBackground(getCommentColor(comment));
-                holder.feedTextView.setText(getCommentText(comment));
+                    holder.feedTextView.setBackground(getCommentColor(comment));
+                    holder.feedTextView.setText(getCommentText(comment));
 
+                }
             }
         }
 
@@ -270,13 +256,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 if (feedEntries != null) {
                                     update(feedEntries);
                                 } else
-                                    Toast.makeText(activity, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(activity, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(activity, R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
 
@@ -298,7 +284,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "On Error()" + e);
-                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
                     @Override
@@ -308,16 +294,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 update(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(activity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(activity, R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
                 });
     }
-
 
     private void pinItem(FeedEntry feedEntry, int position) {
         restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
@@ -332,7 +317,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "pinItem() " + e.getMessage());
-                        Toast.makeText(activity, R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -347,16 +332,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 pinFeedEntry(feedsListItem, feedEntry);
                                 notifyItemChanged(position);
                                 notifyItemMoved(position, 0);
-                                activity.moveItem(position, 0);
                                 break;
                             case HTTP_NOT_FOUND:
-                                Toast.makeText(activity, R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
                                 break;
                             case HTTP_INTERNAL_ERROR:
-                                Toast.makeText(activity, R.string.already_pinned_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.already_pinned_feed, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(activity, R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -376,7 +360,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "unpinItem() " + e.getMessage());
-                        Toast.makeText(activity, R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -390,16 +374,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 unpinFeedEntry(feedsListItem, feedEntry);
                                 notifyItemChanged(position);
                                 notifyItemMoved(position, feedEntry.getFeedInteractions().getPreviousPosition());
-                                activity.moveItem(position, feedEntry.getFeedInteractions().getPreviousPosition());
                                 break;
                             case HTTP_NOT_FOUND:
-                                Toast.makeText(activity, R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
                                 break;
                             case HTTP_INTERNAL_ERROR:
-                                Toast.makeText(activity, R.string.already_removed_pin, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.already_removed_pin, Toast.LENGTH_SHORT).show();
                                 break;
                             default:
-                                Toast.makeText(activity, R.string.failed_to_unpin_feed, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_unpin_feed, Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
