@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.forum;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -81,26 +80,6 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
         commentList.add(firstFeedItemComment1);
         commentList.add(firstFeedItemComment1);
         adapter.setComments(commentList);
-    }
-
-    @Override
-    public void onPostLiked() {
-
-    }
-
-    @Override
-    public void onPostUndoLiked() {
-
-    }
-
-    @Override
-    public void onPostDisliked() {
-
-    }
-
-    @Override
-    public void onPostUndoDisliked() {
-
     }
 
     @Override

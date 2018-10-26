@@ -174,11 +174,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     }
 
     @Override
-    public void setLikesCount(String likesCount) {
-        likesCountView.setText(likesCount);
-    }
-
-    @Override
     public void setBoardTitle(String boardTitle) {
         boardTitleView.setText(boardTitle);
     }
