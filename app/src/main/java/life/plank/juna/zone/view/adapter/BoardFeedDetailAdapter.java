@@ -19,8 +19,6 @@ import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -67,7 +65,6 @@ import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.displaySnackBar;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -118,22 +115,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
 
         feedEntry.getFeedInteractions().setHasPinned(isFeedItemPinned(feedItem));
 
-        if (feedItem.getInteractions() != null) {
-            holder.likeCountTextView.setText(String.valueOf(feedItem.getInteractions().getLikes()));
-            holder.dislikeCountTextView.setText(String.valueOf(feedItem.getInteractions().getDislikes()));
-        }
-        if (feedsListItem.get(position).getFeedInteractions().getHasLiked()) {
-            holder.likeImageView.setLiked(feedsListItem.get(position).getFeedInteractions().getHasLiked());
-            holder.dislikeImageView.setVisibility(View.INVISIBLE);
-            holder.likeCountTextView.setVisibility(View.VISIBLE);
-            holder.likeSeparator.setVisibility(View.INVISIBLE);
-        } else if (feedsListItem.get(position).getFeedInteractions().getHasDisliked()) {
-            holder.dislikeImageView.setLiked(feedsListItem.get(position).getFeedInteractions().getHasDisliked());
-            holder.likeImageView.setVisibility(View.INVISIBLE);
-            holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-            holder.likeSeparator.setVisibility(View.INVISIBLE);
-        }
-
         if (feedsListItem.get(position).getFeedInteractions().getMyReaction() != 0) {
             EmojiHashMap.HashMaps();
             holder.reactionView.setImageResource(EmojiHashMap.getEmojiHashMap().get(feedsListItem.get(position).getFeedInteractions().getMyReaction()));
@@ -147,7 +128,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     .into(holder.profilePic);
         }
 
-        String feedId = feedItem.getId();
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
@@ -235,45 +215,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         }
 
-        holder.likeImageView.setEnabled(isBoardActive);
-        holder.dislikeImageView.setEnabled(isBoardActive);
-        if (!isBoardActive) {
-            holder.likeImageView.setAlpha(0.5f);
-            holder.dislikeImageView.setAlpha(0.5f);
-        }
-
-        holder.likeImageView.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                boardFeedItemLikeApiCall(feedId, holder);
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                boardFeedItemDeleteLike(feedId, holder);
-            }
-        });
-
-        holder.shareImageView.setOnClickListener(v -> {
-            if (isBoardActive) {
-                // TODO: Make api call to share
-            } else {
-                displaySnackBar(holder.likeImageView, R.string.board_not_active_message);
-            }
-        });
-
-        holder.dislikeImageView.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                boardFeedItemDisLikeApiCall(feedId, holder);
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                boardFeedItemDeleteDisLike(feedId, holder);
-            }
-        });
-
         holder.feedTitleTextView.setOnClickListener(view -> {
             holder.scrollView.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
             holder.scrollView.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -303,54 +244,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     public void update(List<FeedEntry> feedEntryList) {
         this.feedsListItem = feedEntryList;
         notifyDataSetChanged();
-    }
-
-    public void updateNewFeed(FeedEntry feedEntry) {
-        if (isNullOrEmpty(feedsListItem)) {
-            feedsListItem = new ArrayList<>();
-        }
-        feedsListItem.add(0, feedEntry);
-        notifyItemInserted(0);
-    }
-
-    private void boardFeedItemLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postLike(feedItemId, boardId, target, getRequestDateStringOfNow(), getToken())
-
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
-                                holder.dislikeImageView.setVisibility(View.INVISIBLE);
-                                holder.likeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.INVISIBLE);
-                                if (target != null) {
-                                    retrieveBoardById();
-                                } else {
-                                    retrieveFeeEntries();
-                                }
-                                break;
-                            case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                                Toast.makeText(activity, "You have already liked the item", Toast.LENGTH_SHORT).show();
-                            default:
-                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
     }
 
     private void retrieveFeeEntries() {
@@ -425,106 +318,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                 });
     }
 
-    private void boardFeedItemDeleteLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteLike(feedItemId, getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_NO_CONTENT:
-                                holder.likeCountTextView.setVisibility(View.INVISIBLE);
-                                holder.dislikeImageView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.VISIBLE);
-                                break;
-                            default:
-                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void boardFeedItemDisLikeApiCall(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.postDisLike(feedItemId, boardId, target, getRequestDateStringOfNow(), getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
-                                holder.likeImageView.setVisibility(View.INVISIBLE);
-                                holder.dislikeCountTextView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.INVISIBLE);
-                                retrieveBoardById();
-                                break;
-                            default:
-                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-
-    }
-
-
-    private void boardFeedItemDeleteDisLike(String feedItemId, FootballFeedDetailViewHolder holder) {
-        restApi.deleteDisLike(feedItemId, getToken())
-
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(activity, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_NO_CONTENT:
-                                holder.dislikeCountTextView.setVisibility(View.INVISIBLE);
-                                holder.likeImageView.setVisibility(View.VISIBLE);
-                                holder.likeSeparator.setVisibility(View.VISIBLE);
-                                break;
-                            default:
-                                Toast.makeText(activity, R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-
-    }
 
     private void pinItem(FeedEntry feedEntry, int position) {
         restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
@@ -620,14 +413,10 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         ImageView feedImageView;
         @BindView(R.id.feed_top_layout)
         LinearLayout feedTopLayout;
-        @BindView(R.id.like_image_view)
-        LikeButton likeImageView;
         @BindView(R.id.pin_image_view)
         ImageView pinImageView;
         @BindView(R.id.share_image_view)
         ImageView shareImageView;
-        @BindView(R.id.dislike_image_view)
-        LikeButton dislikeImageView;
         @BindView(R.id.captured_video_view)
         VideoView capturedVideoView;
         @BindView(R.id.feed_text_view)
@@ -642,12 +431,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         TextView feedDescription;
         @BindView(R.id.scroll_view)
         ScrollView scrollView;
-        @BindView(R.id.like_count)
-        TextView likeCountTextView;
-        @BindView(R.id.dislike_count)
-        TextView dislikeCountTextView;
-        @BindView(R.id.like_separator)
-        View likeSeparator;
         @BindView(R.id.reaction_view)
         ImageView reactionView;
 
