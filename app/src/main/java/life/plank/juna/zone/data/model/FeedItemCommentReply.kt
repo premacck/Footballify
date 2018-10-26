@@ -8,5 +8,5 @@ data class FeedItemCommentReply(
         var id: String = "",
         var message: String,
         var commenterDisplayName: String = "",
-        var commenterProfilePicUrl: String = ""
+        var commenterProfilePicUrl: String?
 ) : Parcelable

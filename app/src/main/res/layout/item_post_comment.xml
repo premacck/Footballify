@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="10dp">
 
-    <include layout="@layout/item_base_comment"
-        android:id="@+id/base_comment"/>
+    <include
+        android:id="@+id/base_comment"
+        layout="@layout/item_base_comment" />
 
     <TextView
         android:id="@+id/like_text_view"
@@ -15,64 +16,78 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/base_comment"
         android:layout_marginStart="40dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:foreground="@drawable/ripple_dark_rect"
         android:fontFamily="@font/rajdhani_medium"
+        android:foreground="@drawable/ripple_dark_rect"
+        android:paddingBottom="4dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="4dp"
+        android:text="@string/like"
         android:textColor="@color/black_50"
-        android:textSize="@dimen/text_10sp"
-        android:text="@string/like"/>
+        android:textSize="@dimen/text_10sp" />
 
     <TextView
         android:id="@+id/reply_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/like_text_view"
         android:layout_below="@+id/base_comment"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:foreground="@drawable/ripple_dark_rect"
+        android:layout_toEndOf="@+id/like_text_view"
         android:fontFamily="@font/rajdhani_medium"
+        android:foreground="@drawable/ripple_dark_rect"
+        android:paddingBottom="4dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="4dp"
+        android:text="@string/reply"
         android:textColor="@color/black_50"
-        android:textSize="@dimen/text_10sp"
-        android:text="@string/reply"/>
+        android:textSize="@dimen/text_10sp" />
 
     <TextView
         android:id="@+id/view_replies_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/reply_text_view"
         android:layout_below="@+id/base_comment"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:foreground="@drawable/ripple_dark_rect"
+        android:layout_toEndOf="@+id/reply_text_view"
         android:fontFamily="@font/rajdhani_medium"
+        android:foreground="@drawable/ripple_dark_rect"
+        android:paddingBottom="4dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="4dp"
+        android:text="@string/view_4_replies_sample"
         android:textColor="@color/black_50"
+        android:textSize="@dimen/text_10sp" />
+
+    <TextView
+        android:id="@+id/comment_time_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/base_comment"
+        android:fontFamily="@font/rajdhani_regular"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        android:text="20 Oct 2018, 15.30pm"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_10sp"
-        android:text="@string/view_4_replies_sample"/>
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="20dp"
         android:layout_below="@+id/like_text_view"
-        android:animateLayoutChanges="true">
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="32dp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/replies_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_base_comment"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_base_comment" />
 
         <RelativeLayout
             android:id="@+id/reply_layout"
@@ -85,14 +100,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:paddingStart="5dp"
-                android:paddingEnd="32dp"
-                android:inputType="textMultiLine"
-                android:hint="@string/write_a_reply"
                 android:fontFamily="@font/rajdhani_medium"
+                android:hint="@string/write_a_reply"
+                android:imeOptions="actionGo"
+                android:inputType="textMultiLine"
+                android:paddingEnd="32dp"
+                android:paddingStart="5dp"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/text_10sp"
-                android:imeOptions="actionGo"
                 tools:ignore="Autofill" />
 
             <ImageButton
@@ -100,10 +115,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:padding="8dp"
-                android:src="@drawable/ic_send"
                 android:background="@color/transparent"
-                android:contentDescription="@string/send" />
+                android:contentDescription="@string/send"
+                android:padding="8dp"
+                android:src="@drawable/ic_send" />
 
         </RelativeLayout>
 

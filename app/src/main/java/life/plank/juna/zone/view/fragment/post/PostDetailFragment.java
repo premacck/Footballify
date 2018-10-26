@@ -181,7 +181,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this);
+        adapter = new PostCommentAdapter(picasso, this, "");
         postCommentsRecyclerView.setAdapter(adapter);
         setupBottomSheet();
         initBottomSheetRecyclerView();

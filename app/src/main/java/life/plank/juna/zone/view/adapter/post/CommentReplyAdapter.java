@@ -41,6 +41,7 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         picasso.load(replies.get(position).getCommenterProfilePicUrl())
                 .resize((int) getDp(20), (int) getDp(20))
                 .into(holder.profilePic);
+        
     }
 
     @Override
