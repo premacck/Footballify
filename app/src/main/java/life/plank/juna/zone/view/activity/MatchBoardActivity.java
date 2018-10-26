@@ -552,7 +552,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
 
         @Override

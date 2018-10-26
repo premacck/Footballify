@@ -38,9 +38,11 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     public void onBindViewHolder(PostCommentReplyViewHolder holder, int position) {
         holder.commentTextView.setText(replies.get(position).getMessage());
         holder.profileNameTextView.setText(replies.get(position).getCommenterDisplayName());
-        picasso.load(replies.get(position).getCommenterProfilePicUrl())
-                .resize((int) getDp(20), (int) getDp(20))
-                .into(holder.profilePic);
+        if (replies.get(position).getCommenterProfilePicUrl() != null) {
+            picasso.load(replies.get(position).getCommenterProfilePicUrl())
+                    .resize((int) getDp(20), (int) getDp(20))
+                    .into(holder.profilePic);
+        }
     }
 
     @Override

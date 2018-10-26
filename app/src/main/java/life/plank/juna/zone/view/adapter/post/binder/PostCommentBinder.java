@@ -31,12 +31,14 @@ import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
 public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBinder.PostCommentViewHolder> {
 
+    private static String fragment = null;
     private final Picasso picasso;
     private final FeedInteractionListener listener;
 
-    public PostCommentBinder(Picasso picasso, FeedInteractionListener listener) {
+    public PostCommentBinder(Picasso picasso, FeedInteractionListener listener, String fragment) {
         this.picasso = picasso;
         this.listener = listener;
+        this.fragment = fragment;
     }
 
     @Override
@@ -48,6 +50,11 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
     public void bind(PostCommentViewHolder holder, FeedItemComment item) {
         holder.comment = item;
         holder.commentTextView.setText(item.getMessage());
+        if (fragment.equals("forumFragment")) {
+            holder.commentTime.setVisibility(View.VISIBLE);
+
+        }
+
         holder.profileNameTextView.setText(item.getCommenterDisplayName());
         picasso.load(item.getCommenterProfilePicUrl())
                 .resize((int) getDp(20), (int) getDp(20))
@@ -72,6 +79,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
 
     static class PostCommentViewHolder extends ItemViewHolder<FeedItemComment> {
 
+        private final WeakReference<PostCommentBinder> ref;
         @BindView(R.id.profile_pic)
         ImageView profilePic;
         @BindView(R.id.profile_name_text_view)
@@ -92,14 +100,23 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         ImageButton postReply;
         @BindView(R.id.replies_list)
         RecyclerView repliesRecyclerView;
-
+        @BindView(R.id.comment_time_text)
+        TextView commentTime;
         private FeedItemComment comment;
-        private final WeakReference<PostCommentBinder> ref;
 
         PostCommentViewHolder(View itemView, PostCommentBinder postCommentBinder) {
             super(itemView);
             this.ref = new WeakReference<>(postCommentBinder);
             ButterKnife.bind(this, itemView);
+
+            if (fragment.equals("forumFragment")) {
+                viewRepliesTextView.setVisibility(View.GONE);
+//                viewRepliesTextView.setText(isItemExpanded() ? R.string.hide_replies : R.string.show_replies);
+//                toggleItemExpansion();
+                repliesRecyclerView.setVisibility(View.VISIBLE);
+
+            }
+
         }
 
         @OnClick(R.id.like_text_view)

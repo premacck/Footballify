@@ -24,8 +24,6 @@ import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 
 public class ForumFragment extends Fragment implements FeedInteractionListener {
@@ -52,26 +50,26 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this);
+        adapter = new PostCommentAdapter(picasso, this, "forum_fragment");
         postCommentsRecyclerView.setAdapter(adapter);
 
-        FeedItemCommentReply feedItemCommentReply1 = new FeedItemCommentReply("1","Bye","Arfaa","");
-        FeedItemCommentReply feedItemCommentReply2 = new FeedItemCommentReply("2","Hi","Snehitha","");
-        FeedItemCommentReply feedItemCommentReply3 = new FeedItemCommentReply("3","ByeForever","Dhamini","");
+        FeedItemCommentReply feedItemCommentReply1 = new FeedItemCommentReply("1", "Bye", "Arfaa", null);
+        FeedItemCommentReply feedItemCommentReply2 = new FeedItemCommentReply("2", "Hi", "Snehitha", null);
+        FeedItemCommentReply feedItemCommentReply3 = new FeedItemCommentReply("3", "ByeForever", "Dhamini", null);
 
-        List<FeedItemCommentReply> feedItemCommentReplies = new ArrayList<>() ;
+        List<FeedItemCommentReply> feedItemCommentReplies = new ArrayList<>();
         feedItemCommentReplies.add(feedItemCommentReply1);
         feedItemCommentReplies.add(feedItemCommentReply2);
         feedItemCommentReplies.add(feedItemCommentReply3);
 
-        FeedItemComment feedItemComment1 = new FeedItemComment("1","xcvzcx","Abczxcxd",
-                "zxczx",3,true,3,feedItemCommentReplies);
+        FeedItemComment feedItemComment1 = new FeedItemComment("1", "xcvzcx", "Abczxcxd",
+                "zxczx", 3, true, 3, feedItemCommentReplies);
 
-        FeedItemComment feedItemComment2 = new FeedItemComment("2","tretgdrf","Abcd",
-                "zxczxcdrt",3,true,3,feedItemCommentReplies);
+        FeedItemComment feedItemComment2 = new FeedItemComment("2", "tretgdrf", "Abcd",
+                "zxczxcdrt", 3, true, 3, feedItemCommentReplies);
 
-        FeedItemComment feedItemComment3 = new FeedItemComment("3","dgerwwe","Abcd",
-                "werweds",3,true,3,feedItemCommentReplies);
+        FeedItemComment feedItemComment3 = new FeedItemComment("3", "dgerwwe", "Abcd",
+                "werweds", 3, true, 3, feedItemCommentReplies);
 
         List<FeedItemComment> commentList = new ArrayList<>();
         commentList.add(feedItemComment1);

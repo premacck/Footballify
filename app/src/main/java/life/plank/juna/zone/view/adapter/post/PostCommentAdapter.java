@@ -1,5 +1,7 @@
 package life.plank.juna.zone.view.adapter.post;
 
+import android.support.v4.app.Fragment;
+
 import com.ahamed.multiviewadapter.DataListManager;
 import com.ahamed.multiviewadapter.RecyclerAdapter;
 import com.squareup.picasso.Picasso;
@@ -14,11 +16,11 @@ public class PostCommentAdapter extends RecyclerAdapter {
 
     private final DataListManager<FeedItemComment> commentDataManager;
 
-    public PostCommentAdapter(Picasso picasso, FeedInteractionListener listener) {
+    public PostCommentAdapter(Picasso picasso, FeedInteractionListener listener, String fragment) {
         setExpandableMode(EXPANDABLE_MODE_MULTIPLE);
         commentDataManager = new DataListManager<>(this);
         addDataManager(commentDataManager);
-        registerBinder(new PostCommentBinder(picasso, listener));
+        registerBinder(new PostCommentBinder(picasso, listener, fragment));
     }
 
     public void setComments(List<FeedItemComment> feedItemComments) {
