@@ -77,7 +77,7 @@ class FeedItemPeekPopup : BaseBlurPopup() {
             emojiBottomSheetBehavior!!.peekHeight = 0
             emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
-            board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
+            board_tiles_full_recycler_view?.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
             super.dismiss()
         }
     }

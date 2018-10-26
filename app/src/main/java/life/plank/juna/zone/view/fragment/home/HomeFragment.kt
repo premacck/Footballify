@@ -312,7 +312,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     override fun onBackPressed(): Boolean {
-        return if (isTileFullScreenActive || childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG) != null) {
+        val popupDialog = childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)
+        return if (isTileFullScreenActive || (popupDialog != null && popupDialog.isAdded)) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0)
             false
         } else true
