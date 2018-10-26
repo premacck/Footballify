@@ -384,7 +384,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         override fun getItem(position: Int): Fragment? {
             return when (position) {
                 0 -> ref.get()?.run { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
-                1 -> ForumFragment.newInstance()
+                1 -> ref.get()?.run { ForumFragment.newInstance(boardId) }
                 2 -> {
                     try {
                         return if (ref.get()!!.poll == null) boardTilesFragmentWithoutPoll else boardTilesFragmentWithPoll
