@@ -25,6 +25,7 @@ import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter;
 
 import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.DataUtil.getString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
@@ -50,7 +51,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
     public void bind(PostCommentViewHolder holder, FeedItemComment item) {
         holder.comment = item;
         holder.commentTextView.setText(item.getMessage());
-        if (fragment.equals("forumFragment")) {
+        if (fragment.equals(getString(R.string.forum))) {
             holder.commentTime.setVisibility(View.VISIBLE);
         }
 

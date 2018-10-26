@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.fragment.forum;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -50,7 +51,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this, "forumFragment");
+        adapter = new PostCommentAdapter(picasso, this, getString(R.string.forum));
         postCommentsRecyclerView.setAdapter(adapter);
         setAdapterData();
 
