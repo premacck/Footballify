@@ -39,6 +39,7 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.binder.PollBindingModel;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
+import life.plank.juna.zone.interfaces.TileContainer;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.BoardPoll;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
@@ -265,6 +266,10 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemLongClick(int position) {
+        if (getParentFragment() instanceof TileContainer) {
+            ((TileContainer) getParentFragment()).setBlurBackgroundAndShowFullScreenTiles(true, position);
+            return;
+        }
         if (getActivity() instanceof BaseBoardActivity) {
             ((BaseBoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
