@@ -72,7 +72,6 @@ import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.forum.ForumFragment;
-import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -502,6 +501,20 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        emojiBottomSheetBehavior.setPeekHeight(0);
+        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+        if (isTileFullScreenActive) {
+            setBlurBackgroundAndShowFullScreenTiles(false, 0);
+        } else {
+            boardFeedDetailAdapter = null;
+            boardPagerAdapter = null;
+            super.onBackPressed();
+            overridePendingTransition(R.anim.float_down, R.anim.sink_down);
+        }
+    }
+
     static class BoardPagerAdapter extends FragmentStatePagerAdapter {
 
         private Fragment currentFragment;
@@ -526,8 +539,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
                         Log.e(TAG, "getItem: ", e);
                         getBoardTilesFragmentWithoutPoll();
                     }
-
-
                 default:
                     return null;
             }
@@ -565,20 +576,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
         Fragment getCurrentFragment() {
             return currentFragment;
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        emojiBottomSheetBehavior.setPeekHeight(0);
-        emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        if (isTileFullScreenActive) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0);
-        } else {
-            boardFeedDetailAdapter = null;
-            boardPagerAdapter = null;
-            super.onBackPressed();
-            overridePendingTransition(R.anim.float_down, R.anim.sink_down);
         }
     }
 }
