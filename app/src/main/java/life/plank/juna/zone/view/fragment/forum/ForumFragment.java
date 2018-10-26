@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.forum;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -69,17 +68,17 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
         feedItemCommentReplies.add(firstFeedItemCommentReply);
         feedItemCommentReplies.add(secondFeedItemCommentReply);
 
-        FeedItemComment firstFeedItemComment1 = new FeedItemComment("1", getString(R.string.first_feed_comment),
+        FeedItemComment firstFeedItemComment = new FeedItemComment("1", getString(R.string.first_feed_comment),
                 "ROFootball",
                 null, 0, false, 3, feedItemCommentReplies);
 
-        FeedItemComment secondFeedItemComment2 = new FeedItemComment("2", getString(R.string.first_feed_comment),
+        FeedItemComment secondFeedItemComment = new FeedItemComment("2", getString(R.string.first_feed_comment),
                 "ROFootball",
                 null, 3, true, 3, feedItemCommentReplies);
 
         List<FeedItemComment> commentList = new ArrayList<>();
-        commentList.add(firstFeedItemComment1);
-        commentList.add(firstFeedItemComment1);
+        commentList.add(firstFeedItemComment);
+        commentList.add(secondFeedItemComment);
         adapter.setComments(commentList);
     }
 
