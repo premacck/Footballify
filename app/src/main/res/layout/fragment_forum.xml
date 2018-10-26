@@ -9,8 +9,46 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/post_comments_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/item_post_comment" />
 
+    <RelativeLayout
+        android:id="@+id/post_comment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <EditText
+            android:id="@+id/comment_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="12dp"
+            android:layout_toStartOf="@+id/post_comment"
+            android:fontFamily="@font/rajdhani_medium"
+            android:hint="@string/write_a_comment"
+            android:imeOptions="actionGo"
+            android:inputType="textMultiLine"
+            android:paddingEnd="5dp"
+            android:paddingStart="5dp"
+            android:textColor="@color/grey"
+            android:textSize="12sp"
+            tools:ignore="Autofill" />
+
+        <TextView
+            android:id="@+id/post_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="@font/rajdhani_semibold"
+            android:foreground="@drawable/ripple_dark_rect"
+            android:padding="11dp"
+            android:text="@string/post"
+            android:textAllCaps="false"
+            android:textColor="@color/dark_sky_blue"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
 </RelativeLayout>

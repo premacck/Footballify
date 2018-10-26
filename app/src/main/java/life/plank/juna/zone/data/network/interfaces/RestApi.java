@@ -162,32 +162,6 @@ public interface RestApi {
                                                   @Header("Authorization") String authHeader);
 
     //working
-    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/likes")
-    Observable<Response<JsonObject>> postLike(@Path("id") String feedItemId,
-                                              @Query("targetId") String boardId,
-                                              @Query("target") String target,
-                                              @Query("time") String dateCreated,
-                                              @Header("Authorization") String authHeader);
-
-    //working
-    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/likes")
-    Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
-                                                @Header("Authorization") String authHeader);
-
-    //working
-    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/disLikes")
-    Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
-                                                 @Query("targetId") String boardId,
-                                                 @Query("target") String target,
-                                                 @Query("time") String dateCreated,
-                                                 @Header("Authorization") String authHeader);
-
-    //working
-    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/disLikes")
-    Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
-                                                   @Header("Authorization") String authHeader);
-
-    //working
     @GET(ZONE_BACKEND_SUFFIX + "/users/displayName")
     Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("displayName") String displayName);
 
