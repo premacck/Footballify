@@ -324,9 +324,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         }
     }
 
-    override fun onMatchTimeStateChange() {
-        getBoardIdAndMatchDetails(currentMatchId)
-    }
+    override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
 
     override fun prepareFullScreenRecyclerView() {}
 
@@ -347,9 +345,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         }
     }
 
-    override fun dismissFullScreenRecyclerView() {
-        setBlurBackgroundAndShowFullScreenTiles(false, 0)
-    }
+    override fun dismissFullScreenRecyclerView() = setBlurBackgroundAndShowFullScreenTiles(false, 0)
 
     override fun moveItem(position: Int, previousPosition: Int) {
         if (boardPagerAdapter?.currentFragment is BoardTilesFragment) {
@@ -402,9 +398,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             }
         }
 
-        override fun getItemPosition(`object`: Any): Int {
-            return PagerAdapter.POSITION_NONE
-        }
+        override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
 
         override fun getCount(): Int = 3
 
