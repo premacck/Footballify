@@ -130,10 +130,6 @@ public class BoardMediaAdapter extends RecyclerView.Adapter<BoardMediaAdapter.Bo
         return boardFeed;
     }
 
-    public void setOnClickFeedItemListener(OnClickFeedItemListener onClickFeedItemListener) {
-        this.listener = onClickFeedItemListener;
-    }
-
     @Override
     public int getItemCount() {
         return boardFeed.size();

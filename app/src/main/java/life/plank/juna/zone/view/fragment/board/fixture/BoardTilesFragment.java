@@ -188,7 +188,6 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
             boardPoll.setVisibility(View.GONE);
         }
         adapter = new BoardMediaAdapter(Glide.with(this), this);
-        adapter.setOnClickFeedItemListener(this);
         boardTilesRecyclerView.setAdapter(adapter);
     }
 
