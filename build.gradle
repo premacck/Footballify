@@ -61,7 +61,7 @@ allprojects {
         androidApplicationId = 'life.plank.juna.zone'
         androidVersionCode = 1
         androidVersionName = "1.0"
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
         testApplicationId = 'life.plank.juna.zone.test'
     }
 }
