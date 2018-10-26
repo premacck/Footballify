@@ -20,7 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedItemComment;
-import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
 
@@ -59,22 +58,14 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
 
     //TODO: Remove hard coded data after backend integration.
     public void setAdapterData() {
-        FeedItemCommentReply firstFeedItemCommentReply = new FeedItemCommentReply("1", getString(R.string.first_feed_comment_reply),
-                "LordNation", null);
-        FeedItemCommentReply secondFeedItemCommentReply = new FeedItemCommentReply("2", getString(R.string.second_feed_comment_reply),
-                "FootLegend", null);
-
-        List<FeedItemCommentReply> feedItemCommentReplies = new ArrayList<>();
-        feedItemCommentReplies.add(firstFeedItemCommentReply);
-        feedItemCommentReplies.add(secondFeedItemCommentReply);
 
         FeedItemComment firstFeedItemComment = new FeedItemComment("1", getString(R.string.first_feed_comment),
                 "ROFootball",
-                null, 0, false, 3, feedItemCommentReplies);
+                null, 0, false, 3, null);
 
         FeedItemComment secondFeedItemComment = new FeedItemComment("2", getString(R.string.first_feed_comment),
                 "ROFootball",
-                null, 3, true, 3, feedItemCommentReplies);
+                null, 3, true, 3, null);
 
         List<FeedItemComment> commentList = new ArrayList<>();
         commentList.add(firstFeedItemComment);
