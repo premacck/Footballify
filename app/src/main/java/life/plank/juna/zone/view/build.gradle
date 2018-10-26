@@ -22,7 +22,7 @@ android {
         applicationId globalConfiguration["androidApplicationId"]
         versionCode globalConfiguration["androidVersionCode"]
         versionName globalConfiguration["androidVersionName"]
-        testInstrumentationRunner globalConfiguration["testInstrumentationRunner"]
+
         testApplicationId globalConfiguration["testApplicationId"]
     }
 }
