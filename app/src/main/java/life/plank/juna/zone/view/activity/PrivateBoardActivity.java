@@ -357,7 +357,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return ForumFragment.newInstance();
+                    return ForumFragment.newInstance(boardId);
                 case 1:
                     return PrivateBoardInfoFragment.newInstance(board.getDescription(), board.getId(), board.getOwner().getDisplayName(), board.getName());
                 case 2:

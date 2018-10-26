@@ -529,7 +529,7 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return ForumFragment.newInstance();
+                    return ForumFragment.newInstance(ref.get().boardId);
                 case 1:
                     return BoardInfoFragment.newInstance(ref.get().gson.toJson(ref.get().matchDetails));
                 case 2:

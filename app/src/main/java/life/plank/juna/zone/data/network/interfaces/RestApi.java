@@ -162,32 +162,6 @@ public interface RestApi {
                                                   @Header("Authorization") String authHeader);
 
     //working
-    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/likes")
-    Observable<Response<JsonObject>> postLike(@Path("id") String feedItemId,
-                                              @Query("targetId") String boardId,
-                                              @Query("target") String target,
-                                              @Query("time") String dateCreated,
-                                              @Header("Authorization") String authHeader);
-
-    //working
-    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/likes")
-    Observable<Response<JsonObject>> deleteLike(@Path("id") String feedItemId,
-                                                @Header("Authorization") String authHeader);
-
-    //working
-    @POST(ZONE_BACKEND_SUFFIX + "/activities/{id}/disLikes")
-    Observable<Response<JsonObject>> postDisLike(@Path("id") String feedItemId,
-                                                 @Query("targetId") String boardId,
-                                                 @Query("target") String target,
-                                                 @Query("time") String dateCreated,
-                                                 @Header("Authorization") String authHeader);
-
-    //working
-    @DELETE(ZONE_BACKEND_SUFFIX + "/activities/{id}/disLikes")
-    Observable<Response<JsonObject>> deleteDisLike(@Path("id") String feedItemId,
-                                                   @Header("Authorization") String authHeader);
-
-    //working
     @GET(ZONE_BACKEND_SUFFIX + "/users/displayName")
     Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("displayName") String displayName);
 
@@ -240,6 +214,16 @@ public interface RestApi {
     @GET(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<List<FeedItemComment>>> getCommentsForFeed(@Path("feedItemId") String feedId,
                                                                    @Header("Authorization") String authHeader);
+
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/comments")
+    Observable<Response<List<FeedItemComment>>> getCommentsForBoard(@Path("boardId") String boardId,
+                                                                    @Header("Authorization") String authHeader);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/comments")
+    Observable<Response<FeedItemComment>> postCommentOnBoard(@Body String comment,
+                                                             @Path("boardId") String boardId,
+                                                             @Query("time") String time,
+                                                             @Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
