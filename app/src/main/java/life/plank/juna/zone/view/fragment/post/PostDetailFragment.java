@@ -107,14 +107,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     ShimmerRelativeLayout feedContentLayout;
     @BindView(R.id.feed_image_view)
     ImageView feedImageView;
-    @BindView(R.id.like_image_view)
-    LikeButton likeImageView;
     @BindView(R.id.pin_image_view)
     ImageView pinImageView;
     @BindView(R.id.share_image_view)
     ImageView shareImageView;
-    @BindView(R.id.dislike_image_view)
-    LikeButton dislikeImageView;
     @BindView(R.id.captured_video_view)
     VideoView capturedVideoView;
     @BindView(R.id.feed_text_view)
@@ -125,12 +121,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     TextView feedTitleTextView;
     @BindView(R.id.description_text_view)
     TextView feedDescription;
-    @BindView(R.id.like_count)
-    TextView likeCountTextView;
-    @BindView(R.id.dislike_count)
-    TextView dislikeCountTextView;
-    @BindView(R.id.like_separator)
-    View likeSeparator;
     @BindView(R.id.emoji_bottom_sheet)
     RelativeLayout emojiBottomSheet;
     @BindView(R.id.comment_edit_text)
@@ -215,48 +205,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
 
     private void bindFeetContent() {
         MediaPlayer mediaPlayer = new MediaPlayer();
-        if (feedEntry.getFeedItem().getInteractions() != null) {
-            likeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getLikes()));
-            dislikeCountTextView.setText(String.valueOf(feedEntry.getFeedItem().getInteractions().getDislikes()));
-        }
-
-        if (feedEntry.getFeedInteractions() != null) {
-            if (feedEntry.getFeedInteractions().getHasLiked()) {
-                likeImageView.setLiked(feedEntry.getFeedInteractions().getHasLiked());
-                dislikeImageView.setVisibility(View.INVISIBLE);
-                likeCountTextView.setVisibility(View.VISIBLE);
-                likeSeparator.setVisibility(View.INVISIBLE);
-            } else if (feedEntry.getFeedInteractions().getHasDisliked()) {
-                dislikeImageView.setLiked(feedEntry.getFeedInteractions().getHasDisliked());
-                likeImageView.setVisibility(View.INVISIBLE);
-                dislikeCountTextView.setVisibility(View.VISIBLE);
-                likeSeparator.setVisibility(View.INVISIBLE);
-            }
-        }
-
-        likeImageView.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                likeBoardFeedItem();
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                deleteLikeOfBoardFeedItem();
-            }
-        });
-
-        dislikeImageView.setOnLikeListener(new OnLikeListener() {
-            @Override
-            public void liked(LikeButton likeButton) {
-                dislikeBoardFeedItem();
-            }
-
-            @Override
-            public void unLiked(LikeButton likeButton) {
-                deleteDislikeOfBoardFeedItem();
-            }
-        });
 
         if (feedEntry.getFeedItem().getUser() != null) {
             picasso.load(feedEntry.getFeedItem().getUser().getProfilePictureUrl())
@@ -382,163 +330,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                 feedTextView.setText(getCommentText(comment));
                 break;
         }
-
-    }
-
-    //region ClickThrough (Like, dislike, etc.)
-    private void likeBoardFeedItem() {
-        restApi.postLike(feedEntry.getFeedItem().getId(), boardId, target, getRequestDateStringOfNow(), getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
-                                dislikeImageView.setVisibility(View.INVISIBLE);
-                                likeCountTextView.setVisibility(View.VISIBLE);
-                                likeSeparator.setVisibility(View.INVISIBLE);
-                                if (feedEntry.getFeedItem().getInteractions() != null) {
-                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
-                                }
-                                if (feedEntry.getFeedInteractions() != null) {
-                                    feedEntry.getFeedInteractions().setHasLiked(true);
-                                }
-                                break;
-                            case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                                Toast.makeText(ZoneApplication.getContext(), "You have already liked the item", Toast.LENGTH_SHORT).show();
-                            default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void deleteLikeOfBoardFeedItem() {
-        restApi.deleteLike(feedEntry.getFeedItem().getId(), getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_NO_CONTENT:
-                                likeCountTextView.setVisibility(View.INVISIBLE);
-                                dislikeImageView.setVisibility(View.VISIBLE);
-                                likeSeparator.setVisibility(View.VISIBLE);
-                                if (feedEntry.getFeedItem().getInteractions() != null) {
-                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
-                                }
-                                if (feedEntry.getFeedInteractions() != null) {
-                                    feedEntry.getFeedInteractions().setHasLiked(false);
-                                }
-                                break;
-                            default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void dislikeBoardFeedItem() {
-        restApi.postDisLike(feedEntry.getFeedItem().getId(), boardId, target, getRequestDateStringOfNow(), getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_CREATED:
-                                likeImageView.setVisibility(View.INVISIBLE);
-                                dislikeCountTextView.setVisibility(View.VISIBLE);
-                                likeSeparator.setVisibility(View.INVISIBLE);
-                                if (feedEntry.getFeedItem().getInteractions() != null) {
-                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() - 1);
-                                }
-                                if (feedEntry.getFeedInteractions() != null) {
-                                    feedEntry.getFeedInteractions().setHasDisliked(true);
-                                }
-                                break;
-                            default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-    }
-
-    private void deleteDislikeOfBoardFeedItem() {
-        restApi.deleteDisLike(feedEntry.getFeedItem().getId(), getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: " + e);
-                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<JsonObject> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_NO_CONTENT:
-
-                                dislikeCountTextView.setVisibility(View.INVISIBLE);
-                                likeImageView.setVisibility(View.VISIBLE);
-                                likeSeparator.setVisibility(View.VISIBLE);
-                                if (feedEntry.getFeedItem().getInteractions() != null) {
-                                    feedEntry.getFeedItem().getInteractions().setLikes(feedEntry.getFeedItem().getInteractions().getLikes() + 1);
-                                }
-                                if (feedEntry.getFeedInteractions() != null) {
-                                    feedEntry.getFeedInteractions().setHasDisliked(false);
-                                }
-                                break;
-                            default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.like_failed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
 
     }
 
@@ -759,22 +550,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         if (noCommentTextView.getText().toString().equals(getString(R.string.failed_to_get_feed_comments))) {
             getCommentsOnFeed(false);
         }
-    }
-
-    @Override
-    public void onPostLiked() {
-    }
-
-    @Override
-    public void onPostUndoLiked() {
-    }
-
-    @Override
-    public void onPostDisliked() {
-    }
-
-    @Override
-    public void onPostUndoDisliked() {
     }
 
     @Override
