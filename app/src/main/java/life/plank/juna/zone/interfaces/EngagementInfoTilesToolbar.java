@@ -16,8 +16,6 @@ public interface EngagementInfoTilesToolbar {
 
     void setCommentCount(String commentsCount);
 
-    void setLikesCount(String likesCount);
-
     void setBoardTitle(String boardTitle);
 
     void showLock(boolean showLock);

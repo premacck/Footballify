@@ -83,26 +83,6 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     }
 
     @Override
-    public void onPostLiked() {
-
-    }
-
-    @Override
-    public void onPostUndoLiked() {
-
-    }
-
-    @Override
-    public void onPostDisliked() {
-
-    }
-
-    @Override
-    public void onPostUndoDisliked() {
-
-    }
-
-    @Override
     public void onCommentLiked() {
 
     }

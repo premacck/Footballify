@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true">
@@ -13,10 +12,9 @@
 
     <TextView
         android:id="@+id/feed_title_text_view"
-        android:layout_width="match_parent"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/mid_layout_separator"
-        android:layout_toStartOf="@+id/like_image_view"
         android:ellipsize="marquee"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="1sp"
@@ -33,83 +31,19 @@
         android:layout_height="match_parent"
         android:layout_alignTop="@+id/feed_title_text_view"
         android:layout_alignBottom="@+id/feed_title_text_view"
-        android:layout_toStartOf="@+id/like_image_view"
+        android:layout_marginEnd="8dp"
+        android:layout_toStartOf="@id/reaction_count"
         android:background="@color/grey" />
 
     <TextView
-        android:id="@+id/dislike_count"
+        android:id="@+id/reaction_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/feed_title_text_view"
-        android:layout_alignBottom="@+id/feed_title_text_view"
-        android:layout_toStartOf="@id/dislike_image_view"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="5sp"
-        android:textSize="12sp"
-        android:visibility="invisible" />
-
-    <com.like.LikeButton
-        android:id="@+id/like_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/feed_title_text_view"
-        android:layout_alignBottom="@+id/feed_title_text_view"
-        android:layout_toStartOf="@+id/dislike_image_view"
-        android:contentDescription="@string/like"
-        app:circle_end_color="@color/white"
-        app:circle_start_color="@color/white"
-        app:dots_primary_color="@color/frog_green"
-        app:dots_secondary_color="@color/frog_green"
-        app:icon_type="Star"
-        app:like_drawable="@drawable/ic_arrow_up_green"
-        app:unlike_drawable="@drawable/ic_arrow_up_grey" />
-
-    <View
-        android:id="@+id/like_separator"
-        android:layout_width="0.4dp"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/feed_title_text_view"
-        android:layout_alignBottom="@+id/feed_title_text_view"
-        android:layout_toStartOf="@+id/dislike_image_view"
-        android:background="@color/grey" />
-
-    <TextView
-        android:id="@+id/like_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/feed_title_text_view"
-        android:layout_alignBottom="@+id/feed_title_text_view"
-        android:layout_toStartOf="@id/reaction_view"
-        android:layout_toEndOf="@id/like_image_view"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="5sp"
-        android:text=""
-        android:textSize="12sp"
-        android:visibility="invisible" />
-
-    <com.like.LikeButton
-        android:id="@+id/dislike_image_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/feed_title_text_view"
-        android:layout_alignBottom="@+id/feed_title_text_view"
+        android:layout_centerVertical="true"
         android:layout_toStartOf="@+id/reaction_view"
-        android:contentDescription="@string/like"
-        app:circle_end_color="@color/white"
-        app:circle_start_color="@color/white"
-        app:dots_primary_color="@color/salmon"
-        app:dots_secondary_color="@color/salmon"
-        app:icon_type="Star"
-        app:like_drawable="@drawable/ic_arrow_down_red"
-        app:unlike_drawable="@drawable/ic_arrow_down_grey" />
-
-    <View
-        android:layout_width="0.4dp"
-        android:layout_height="match_parent"
-        android:layout_alignTop="@+id/feed_title_text_view"
-        android:layout_alignBottom="@+id/feed_title_text_view"
-        android:layout_toStartOf="@+id/reaction_view"
-        android:background="@color/grey" />
+        android:fontFamily="@font/rajdhani_medium"
+        android:text="@string/_1_4m"
+        android:textColor="@color/grey" />
 
     <ImageView
         android:id="@+id/reaction_view"
