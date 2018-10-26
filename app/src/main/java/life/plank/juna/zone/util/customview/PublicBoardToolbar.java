@@ -139,7 +139,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         setVisitingTeamLogo(array.getResourceId(R.styleable.PublicBoardToolbar_leagueLogo, 0));
         setPeopleCount(array.getString(R.styleable.PublicBoardToolbar_peopleCount));
         setCommentCount(array.getString(R.styleable.PublicBoardToolbar_commentsCount));
-        setLikesCount(array.getString(R.styleable.PublicBoardToolbar_likesCount));
         setBoardTitle(array.getString(R.styleable.PublicBoardToolbar_boardTitle));
         showLock(array.getBoolean(R.styleable.PublicBoardToolbar_showLock, false));
 
@@ -404,11 +403,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     @Override
     public void setCommentCount(String commentsCount) {
         commentCountView.setText(commentsCount);
-    }
-
-    @Override
-    public void setLikesCount(String likesCount) {
-        likesCountView.setText(likesCount);
     }
 
     @Override

@@ -553,22 +553,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     }
 
     @Override
-    public void onPostLiked() {
-    }
-
-    @Override
-    public void onPostUndoLiked() {
-    }
-
-    @Override
-    public void onPostDisliked() {
-    }
-
-    @Override
-    public void onPostUndoDisliked() {
-    }
-
-    @Override
     public void onCommentLiked() {
     }
 
