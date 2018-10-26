@@ -215,6 +215,16 @@ public interface RestApi {
     Observable<Response<List<FeedItemComment>>> getCommentsForFeed(@Path("feedItemId") String feedId,
                                                                    @Header("Authorization") String authHeader);
 
+    @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/comments")
+    Observable<Response<List<FeedItemComment>>> getCommentsForBoard(@Path("boardId") String boardId,
+                                                                    @Header("Authorization") String authHeader);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/comments")
+    Observable<Response<FeedItemComment>> postCommentOnBoard(@Body String comment,
+                                                             @Path("boardId") String boardId,
+                                                             @Query("time") String time,
+                                                             @Header("Authorization") String authHeader);
+
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
                                                                 @Path("feedItemId") String feedItemId,
