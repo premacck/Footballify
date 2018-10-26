@@ -50,35 +50,36 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this, "forum_fragment");
+        adapter = new PostCommentAdapter(picasso, this, "forumFragment");
         postCommentsRecyclerView.setAdapter(adapter);
-
-        FeedItemCommentReply feedItemCommentReply1 = new FeedItemCommentReply("1", "Bye", "Arfaa", null);
-        FeedItemCommentReply feedItemCommentReply2 = new FeedItemCommentReply("2", "Hi", "Snehitha", null);
-        FeedItemCommentReply feedItemCommentReply3 = new FeedItemCommentReply("3", "ByeForever", "Dhamini", null);
-
-        List<FeedItemCommentReply> feedItemCommentReplies = new ArrayList<>();
-        feedItemCommentReplies.add(feedItemCommentReply1);
-        feedItemCommentReplies.add(feedItemCommentReply2);
-        feedItemCommentReplies.add(feedItemCommentReply3);
-
-        FeedItemComment feedItemComment1 = new FeedItemComment("1", "xcvzcx", "Abczxcxd",
-                "zxczx", 3, true, 3, feedItemCommentReplies);
-
-        FeedItemComment feedItemComment2 = new FeedItemComment("2", "tretgdrf", "Abcd",
-                "zxczxcdrt", 3, true, 3, feedItemCommentReplies);
-
-        FeedItemComment feedItemComment3 = new FeedItemComment("3", "dgerwwe", "Abcd",
-                "werweds", 3, true, 3, feedItemCommentReplies);
-
-        List<FeedItemComment> commentList = new ArrayList<>();
-        commentList.add(feedItemComment1);
-        commentList.add(feedItemComment2);
-        commentList.add(feedItemComment3);
-        adapter.setComments(commentList);
-
+        setAdapterData();
 
         return rootView;
+    }
+
+    //TODO: Remove hard coded data after backend integration.
+    public void setAdapterData() {
+        FeedItemCommentReply firstFeedItemCommentReply = new FeedItemCommentReply("1", getString(R.string.first_feed_comment_reply),
+                "LordNation", null);
+        FeedItemCommentReply secondFeedItemCommentReply = new FeedItemCommentReply("2", getString(R.string.second_feed_comment_reply),
+                "FootLegend", null);
+
+        List<FeedItemCommentReply> feedItemCommentReplies = new ArrayList<>();
+        feedItemCommentReplies.add(firstFeedItemCommentReply);
+        feedItemCommentReplies.add(secondFeedItemCommentReply);
+
+        FeedItemComment firstFeedItemComment1 = new FeedItemComment("1", getString(R.string.first_feed_comment),
+                "ROFootball",
+                null, 0, false, 3, feedItemCommentReplies);
+
+        FeedItemComment secondFeedItemComment2 = new FeedItemComment("2", getString(R.string.first_feed_comment),
+                "ROFootball",
+                null, 3, true, 3, feedItemCommentReplies);
+
+        List<FeedItemComment> commentList = new ArrayList<>();
+        commentList.add(firstFeedItemComment1);
+        commentList.add(firstFeedItemComment1);
+        adapter.setComments(commentList);
     }
 
     @Override

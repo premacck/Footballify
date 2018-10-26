@@ -52,7 +52,6 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         holder.commentTextView.setText(item.getMessage());
         if (fragment.equals("forumFragment")) {
             holder.commentTime.setVisibility(View.VISIBLE);
-
         }
 
         holder.profileNameTextView.setText(item.getCommenterDisplayName());
@@ -108,15 +107,6 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
             super(itemView);
             this.ref = new WeakReference<>(postCommentBinder);
             ButterKnife.bind(this, itemView);
-
-            if (fragment.equals("forumFragment")) {
-                viewRepliesTextView.setVisibility(View.GONE);
-//                viewRepliesTextView.setText(isItemExpanded() ? R.string.hide_replies : R.string.show_replies);
-//                toggleItemExpansion();
-                repliesRecyclerView.setVisibility(View.VISIBLE);
-
-            }
-
         }
 
         @OnClick(R.id.like_text_view)
