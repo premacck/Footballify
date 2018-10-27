@@ -20,7 +20,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.faded_card.*
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -150,9 +149,7 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_toolbar.setupWithViewPager(private_board_view_pager)
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
-
-    override fun getFadedCard(): CardView? = faded_card
+    override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
 
     override fun getRootCard(): CardView? = root_card
 

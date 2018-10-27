@@ -4,12 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/root_layout"
-        style="@style/MatchParentSize"
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/root_blur_layout"
+        style="@style/BlurLayoutFullScreen"
         android:animateLayoutChanges="true">
-
-        <include layout="@layout/faded_card" />
 
         <android.support.v7.widget.CardView
             android:id="@+id/root_card"
@@ -41,7 +39,7 @@
 
         </android.support.v7.widget.CardView>
 
-    </RelativeLayout>
+    </io.alterac.blurkit.BlurLayout>
 
     <include layout="@layout/emoji_bottom_sheet" />
 

@@ -164,7 +164,6 @@
     <style name="CardView.Root" parent="CardView.Light">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_marginTop">8dp</item>
         <item name="cardCornerRadius">8dp</item>
         <item name="cardElevation">8dp</item>
         <item name="cardUseCompatPadding">true</item>
@@ -224,6 +223,14 @@
         <item name="menuNormalColor">@color/fab_button_pink</item>
         <item name="menuShadowElevation">true</item>
         <item name="menuType">large</item>
+    </style>
+
+    <style name="BlurLayoutFullScreen">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="blk_blurRadius">20</item>
+        <item name="blk_downscaleFactor">0.12</item>
+        <item name="blk_fps">0</item>
     </style>
 
 </resources>

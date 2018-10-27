@@ -6,8 +6,6 @@
     android:layout_height="wrap_content"
     tools:context=".view.activity.LeagueInfoActivity">
 
-    <include layout="@layout/faded_card" />
-
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"
         android:layout_width="match_parent"

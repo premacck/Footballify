@@ -14,7 +14,6 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.faded_card.*
 import kotlinx.android.synthetic.main.fragment_league_info.*
 import kotlinx.android.synthetic.main.item_standings.*
 import kotlinx.android.synthetic.main.layout_league_info.*
@@ -110,9 +109,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         }
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
-
-    override fun getFadedCard(): CardView? = faded_card
+    override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
 
     override fun getRootCard(): CardView? = root_card
 
@@ -199,10 +196,6 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         recyclerView.visibility = if (available) View.VISIBLE else View.INVISIBLE
         seeMoreView.visibility = if (available) View.VISIBLE else View.GONE
         noDataView.visibility = if (available) View.GONE else View.VISIBLE
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
     }
 
     override fun onDestroy() {

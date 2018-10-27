@@ -4,8 +4,6 @@
     style="@style/MatchParentSize"
     android:animateLayoutChanges="true">
 
-    <include layout="@layout/faded_card" />
-
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"
         style="@style/CardView.Root">

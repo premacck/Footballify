@@ -8,11 +8,7 @@
 
     <io.alterac.blurkit.BlurLayout
         android:id="@+id/blur_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:blk_blurRadius="20"
-        app:blk_downscaleFactor="0.12"
-        app:blk_fps="0" />
+        style="@style/BlurLayoutFullScreen" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/board_tiles_full_recycler_view"

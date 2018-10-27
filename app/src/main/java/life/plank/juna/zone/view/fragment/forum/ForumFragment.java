@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,8 +49,6 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
 
     private static String matchBoardId;
     @Inject
-    Picasso picasso;
-    @Inject
     @Named("default")
     Retrofit retrofit;
     @BindView(R.id.post_comments_list)
@@ -81,7 +79,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this, getString(R.string.forum));
+        adapter = new PostCommentAdapter(Glide.with(this), this, getString(R.string.forum));
         postCommentsRecyclerView.setAdapter(adapter);
         setAdapterData();
         restApi = retrofit.create(RestApi.class);
