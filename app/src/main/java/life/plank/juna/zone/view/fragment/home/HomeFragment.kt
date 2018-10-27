@@ -31,6 +31,7 @@ import life.plank.juna.zone.util.AuthUtil
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.facilis.findLastFragment
 import life.plank.juna.zone.util.facilis.findPopupDialog
 import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.hideAndShowBoomMenu
@@ -44,6 +45,7 @@ import life.plank.juna.zone.view.adapter.UserFeedAdapter
 import life.plank.juna.zone.view.adapter.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
+import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
 import net.openid.appauth.AuthorizationService
 import retrofit2.Response
 import rx.Subscriber
@@ -111,6 +113,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         feed_header.setProfilePic(editor.getString(getString(R.string.pref_profile_pic_url), null))
     }
 
+    override fun getSecondaryFragmentResId(): Int = R.id.peek_popup_container
+
     private fun initBottomSheetRecyclerView() {
         onBoardingAdapter = OnboardingAdapter(activity)
         onboarding_recycler_view.adapter = onBoardingAdapter
@@ -142,7 +146,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initZoneRecyclerView() {
-        userZoneAdapter = UserZoneAdapter(context, userPreferences)
+        userZoneAdapter = UserZoneAdapter(context, userPreferences as MutableList<UserPreference>?)
         user_zone_recycler_view?.adapter = userZoneAdapter
     }
 
@@ -311,9 +315,18 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun onBackPressed(): Boolean {
         val popupDialog = childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)
-        return if (isTileFullScreenActive || (popupDialog != null && popupDialog.isAdded)) {
+        val postDetailContainerFragment = childFragmentManager.findLastFragment(PostDetailContainerFragment.TAG)
+        if (!childFragmentManager.fragments.contains(popupDialog) && !childFragmentManager.fragments.contains(postDetailContainerFragment)) {
+            return true
+        }
+        if (postDetailContainerFragment != null && postDetailContainerFragment.isAdded) {
+            childFragmentManager.popBackStack()
+            return false
+        }
+        if (isTileFullScreenActive || (popupDialog != null && popupDialog.isAdded)) {
             setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            false
-        } else true
+            return false
+        }
+        return true
     }
 }

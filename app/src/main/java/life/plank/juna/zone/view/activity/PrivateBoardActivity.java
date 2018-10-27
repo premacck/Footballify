@@ -31,6 +31,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.net.HttpURLConnection;
 import java.util.List;
 
@@ -340,6 +342,10 @@ public class PrivateBoardActivity extends BaseBoardActivity {
             super.onBackPressed();
             overridePendingTransition(R.anim.float_down, R.anim.sink_down);
         }
+    }
+
+    @Override
+    public void openFeedEntry(@NotNull List<FeedEntry> feedEntryList, @NotNull String boardId, int position, @NotNull String target) {
     }
 
     static class PrivateBoardPagerAdapter extends FragmentPagerAdapter {

@@ -29,7 +29,7 @@ abstract class BaseCard : BaseFragment() {
     }
 
     fun moveToBackGround() {
-        getRootCard()?.moveToBackGround()
+        getRootCard()?.moveToBackGround(getParentActivity().index)
     }
 
     fun moveToForeGround() {
@@ -52,7 +52,7 @@ abstract class BaseCard : BaseFragment() {
 
     abstract fun getDragHandle(): View?
 
-    protected fun getParentActivity(): BaseCardActivity {
+    private fun getParentActivity(): BaseCardActivity {
         if (activity is BaseCardActivity)
             return activity as BaseCardActivity
         else throw IllegalStateException("Fragment must be attached to a BaseCardActivity")

@@ -16,7 +16,6 @@ import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentColor
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentText
 import life.plank.juna.zone.util.facilis.onCustomLongClick
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
 /**
@@ -82,7 +81,7 @@ class BoardMediaAdapter(private val glide: RequestManager, private val listener:
             }
         }
 
-        view.onClick { listener.onItemClick(position) }
+        view.setOnClickListener { listener.onItemClick(position) }
         view.onCustomLongClick { listener.onItemLongClick(position) }
     }
 

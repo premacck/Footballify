@@ -13,4 +13,6 @@ interface FeedEntryContainer {
     fun moveItem(position: Int, previousPosition: Int)
 
     fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int)
+
+    fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int, target: String)
 }
