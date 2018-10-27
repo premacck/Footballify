@@ -19,7 +19,7 @@ abstract class FlatTileFragment : BaseFragment(), FeedEntryContainer {
     override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int, target: String) {
         childFragmentManager.pushFragment(
                 getSecondaryFragmentResId(),
-                PostDetailContainerFragment.newInstance(feedEntryList, boardId, position, target),
+                PostDetailContainerFragment.newInstance(feedEntryList, boardId, position),
                 PostDetailContainerFragment.TAG,
                 getParentActivity().index
         )

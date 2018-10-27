@@ -27,10 +27,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.google.gson.Gson;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -126,10 +128,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     RecyclerView emojiRecyclerView;
     @BindView(R.id.reaction_view)
     ImageView reactionView;
-    @Inject
-    Gson gson;
-    @Inject
-    Picasso picasso;
+
     @Inject
     @Named("default")
     RestApi restApi;
@@ -139,14 +138,12 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     private PostCommentAdapter adapter;
     private BottomSheetBehavior emojiBottomSheetBehavior;
     private EmojiAdapter emojiAdapter;
-    private String target;
 
-    public static PostDetailFragment newInstance(@NonNull FeedEntry feedEntry, String boardId, String target) {
+    public static PostDetailFragment newInstance(@NonNull FeedEntry feedEntry, String boardId) {
         PostDetailFragment fragment = new PostDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedEntry);
         args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
-        args.putString(ZoneApplication.getContext().getString(R.string.intent_target), target);
         fragment.setArguments(args);
         return fragment;
     }
@@ -159,7 +156,6 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         if (args != null) {
             feedEntry = args.getParcelable(getString(R.string.intent_feed_items));
             boardId = args.getString(getString(R.string.intent_board_id));
-            target = args.getString(getString(R.string.intent_target));
         }
     }
 
@@ -168,7 +164,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_post_detail, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this, "");
+        adapter = new PostCommentAdapter(Glide.with(this), this, "");
         postCommentsRecyclerView.setAdapter(adapter);
         setupBottomSheet();
         initBottomSheetRecyclerView();
@@ -204,9 +200,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         MediaPlayer mediaPlayer = new MediaPlayer();
 
         if (feedEntry.getFeedItem().getUser() != null) {
-            picasso.load(feedEntry.getFeedItem().getUser().getProfilePictureUrl())
-                    .centerInside()
-                    .resize((int) getDp(20), (int) getDp(20))
+            Glide.with(this)
+                    .load(feedEntry.getFeedItem().getUser().getProfilePictureUrl())
+                    .apply(RequestOptions.centerInsideTransform().override((int) getDp(20), (int) getDp(20)))
                     .into(profilePic);
         }
 
@@ -249,12 +245,11 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     String urlToLoad = feedEntry.getFeedItem().getContentType().equals(NEWS) ?
                             feedEntry.getFeedItem().getThumbnail().getImageUrl() :
                             feedEntry.getFeedItem().getUrl();
-                    picasso.load(urlToLoad)
-                            .error(R.drawable.ic_place_holder)
-                            .placeholder(R.drawable.ic_place_holder)
-                            .into(new Target() {
+                    Glide.with(this).asBitmap().load(urlToLoad)
+                            .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
+                            .into(new SimpleTarget<Bitmap>() {
                                 @Override
-                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                                public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
                                     if (getActivity() == null) {
                                         return;
                                     }
@@ -267,15 +262,9 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                                 }
 
                                 @Override
-                                public void onBitmapFailed(Drawable errorDrawable) {
+                                public void onLoadFailed(@Nullable Drawable errorDrawable) {
                                     feedContentLayout.stopShimmerAnimation();
-                                    feedImageView.setImageResource(R.drawable.ic_place_holder);
-                                }
-
-                                @Override
-                                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                                    feedContentLayout.startShimmerAnimation();
-                                    feedImageView.setBackgroundColor(getActivity().getResources().getColor(R.color.circle_background_color, null));
+                                    feedImageView.setImageDrawable(errorDrawable);
                                 }
                             });
                 } catch (Exception e) {
