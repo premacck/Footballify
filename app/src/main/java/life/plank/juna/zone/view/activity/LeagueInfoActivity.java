@@ -72,7 +72,6 @@ public class LeagueInfoActivity extends BaseLeagueActivity {
     String TAG = LeagueInfoActivity.class.getSimpleName();
     @BindView(R.id.root_card)
     CardView rootCard;
-    @BindView(R.id.faded_card)
     CardView fadedCard;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;
