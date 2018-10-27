@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,11 +12,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.RequestManager;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,32 +40,33 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     private List<Board> boardList;
     private Context context;
     private RestApi restApi;
-    private Picasso picasso;
+    private RequestManager glide;
 
-    public UserBoardsAdapter(Context context, RestApi restApi, Picasso picasso) {
+    public UserBoardsAdapter(Context context, RestApi restApi, RequestManager glide) {
         this.context = context;
         this.restApi = restApi;
-        this.picasso = picasso;
+        this.glide = glide;
         this.boardList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public UserBoardsAdapter.UserBoardsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public UserBoardsAdapter.UserBoardsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         getApplication().getUiComponent().inject(this);
         return new UserBoardsAdapter.UserBoardsViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_and_title, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserBoardsAdapter.UserBoardsViewHolder holder, int position) {
         try {
-            if (boardList.get(position).getName().equals(context.getString(R.string.new_))) {
+            if (Objects.equals(boardList.get(position).getName(), context.getString(R.string.new_))) {
                 holder.boardTitle.setText(boardList.get(position).getName());
                 holder.boardIcon.setImageDrawable(context.getDrawable(R.drawable.new_board_circle));
                 holder.boardIcon.setBorderColor(context.getColor(R.color.white));
                 holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
             } else {
                 holder.boardTitle.setText(boardList.get(position).getName());
-                picasso.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
+                glide.load(boardList.get(position).getBoardIconUrl()).into(holder.boardIcon);
                 holder.boardIcon.setBorderColor(Color.parseColor(boardList.get(position).getColor()));
                 holder.boardIcon.setOnClickListener(view -> navigateToBoard(boardList.get(position).getId(), boardList.get(position).getName()));
             }

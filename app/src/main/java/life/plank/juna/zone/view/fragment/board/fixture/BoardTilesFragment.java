@@ -39,11 +39,10 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.binder.PollBindingModel;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
-import life.plank.juna.zone.interfaces.TileContainer;
+import life.plank.juna.zone.interfaces.PeekPreviewContainer;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.BoardPoll;
 import life.plank.juna.zone.view.activity.MatchBoardActivity;
-import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
 import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
@@ -266,12 +265,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemLongClick(int position) {
-        if (getParentFragment() instanceof TileContainer) {
-            ((TileContainer) getParentFragment()).setBlurBackgroundAndShowFullScreenTiles(true, position);
-            return;
-        }
-        if (getActivity() instanceof BaseBoardActivity) {
-            ((BaseBoardActivity) getActivity()).setBlurBackgroundAndShowFullScreenTiles(true, position);
+        if (getParentFragment() instanceof PeekPreviewContainer) {
+            ((PeekPreviewContainer) getParentFragment()).setBlurBackgroundAndShowFullScreenTiles(true, position);
         }
     }
 

@@ -7,7 +7,7 @@
         android:toYScale="102%"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:duration="300"
+        android:duration="200"
         android:interpolator="@android:anim/decelerate_interpolator"/>
 
     <scale
@@ -18,7 +18,7 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:duration="100"
-        android:startOffset="300"
+        android:startOffset="200"
         android:interpolator="@android:anim/decelerate_interpolator"/>
 
     <scale
@@ -29,12 +29,12 @@
         android:pivotX="50%"
         android:pivotY="50%"
         android:duration="150"
-        android:startOffset="400"
+        android:startOffset="300"
         android:interpolator="@android:anim/decelerate_interpolator"/>
 
     <alpha
         android:fromAlpha="0"
         android:toAlpha="1"
         android:startOffset="100"
-        android:duration="350"/>
+        android:duration="50" />
 </set>

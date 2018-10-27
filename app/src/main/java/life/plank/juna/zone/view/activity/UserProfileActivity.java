@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -123,7 +124,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private void initRecyclerView() {
         myBoardsRecyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 5));
-        userBoardsAdapter = new UserBoardsAdapter(this, restApi, picasso);
+        userBoardsAdapter = new UserBoardsAdapter(this, restApi, Glide.with(this));
         myBoardsRecyclerView.setAdapter(userBoardsAdapter);
         getCoinsList.setAdapter(getCoinsAdapter);
         lastTransactionsList.setAdapter(lastTransactionsAdapter);

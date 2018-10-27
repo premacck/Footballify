@@ -6,18 +6,19 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.graphics.Point
+import android.os.Vibrator
 import android.support.design.widget.CoordinatorLayout
 import android.support.v7.widget.CardView
-import android.view.Display
-import android.view.View
-import android.view.ViewGroup
-import android.view.ViewPropertyAnimator
+import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 
 fun Display.getScreenSize(): IntArray {
@@ -88,5 +89,33 @@ fun View.setTopMargin(topMargin: Int) {
             is LinearLayout.LayoutParams -> params.topMargin = topMargin
         }
         layoutParams = params
+    }
+}
+
+fun View.onCustomLongClick(longClickDelay: Int = 300, action: () -> Unit) {
+    setOnTouchListener(getCustomOnLongClickListener(longClickDelay) { action() })
+}
+
+private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action: () -> Unit): View.OnTouchListener {
+    return object : View.OnTouchListener {
+        private var isLongPress = false
+
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            if (event?.action == MotionEvent.ACTION_DOWN) {
+                isLongPress = true
+                this@getCustomOnLongClickListener.postDelayed({
+                    if (isLongPress) {
+                        val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                        vibrator.vibrate(50)
+                        action()
+                    }
+                }, longClickDelay.toLong())
+            } else if (event?.action == MotionEvent.ACTION_UP) {
+                isLongPress = false
+                return false
+            }
+            return true
+        }
     }
 }
