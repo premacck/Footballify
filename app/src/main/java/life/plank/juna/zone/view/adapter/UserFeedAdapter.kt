@@ -10,14 +10,14 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_board_grid_row.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.interfaces.PeekPreviewContainer
+import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.facilis.onCustomLongClick
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
-class UserFeedAdapter(private val peekPreviewContainer: PeekPreviewContainer, private val glide: RequestManager) : RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
+class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, private val glide: RequestManager) : RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
 
     private var userFeed: MutableList<FeedEntry>? = null
     private var isUpdated: Boolean = false
@@ -58,7 +58,7 @@ class UserFeedAdapter(private val peekPreviewContainer: PeekPreviewContainer, pr
             }
         }
         holder.itemView.onClick { /*PostDetailActivity.launch(ref.get().fragment, ref.get().userFeed, null, getAdapterPosition(), ref.get().fragment.getScreenshotLayout(), null)*/ }
-        holder.itemView.onCustomLongClick { peekPreviewContainer.setBlurBackgroundAndShowFullScreenTiles(true, position) }
+        holder.itemView.onCustomLongClick { feedEntryContainer.setBlurBackgroundAndShowFullScreenTiles(true, position) }
     }
 
     private fun updateShimmer(holder: UserFeedAdapter.UserFeedViewHolder, @ColorRes color: Int, isStarted: Boolean) {
