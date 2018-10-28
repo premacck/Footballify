@@ -30,13 +30,11 @@ import life.plank.juna.zone.data.model.Thumbnail
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.PreferenceManager.getToken
-import life.plank.juna.zone.util.facilis.findPopupDialog
-import life.plank.juna.zone.util.facilis.pushPopup
+import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
-import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import retrofit2.Response
 import rx.Subscriber
 import java.net.HttpURLConnection
@@ -106,7 +104,6 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_toolbar.setBackgroundColor(Color.parseColor(board.color))
         root_card.setCardBackgroundColor(Color.parseColor(board.color))
 
-        prepareFullScreenRecyclerView()
         setupViewPagerWithFragments()
         val topic = getString(R.string.board_id_prefix) + board.id
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
@@ -165,34 +162,11 @@ class PrivateBoardFragment : CardTileFragment() {
         context?.unregisterReceiver(mMessageReceiver)
     }
 
-    override fun prepareFullScreenRecyclerView() {}
-
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
         feedEntries = feedEntryList
     }
 
-    override fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int) {
-        isTileFullScreenActive = setFlag
-        if (setFlag) {
-            childFragmentManager.pushPopup(
-                    R.id.peek_popup_container,
-                    FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
-                    FeedItemPeekPopup.TAG
-            )
-        } else {
-            childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)?.run { dismiss() }
-        }
-    }
-
-    override fun dismissFullScreenRecyclerView() {
-        setBlurBackgroundAndShowFullScreenTiles(false, 0)
-    }
-
-    override fun moveItem(position: Int, previousPosition: Int) {
-        if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
-            (pagerAdapter!!.currentFragment as BoardTilesFragment).moveItem(position, previousPosition)
-        }
-    }
+    override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
     fun deletePrivateBoard() {
         restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<JsonObject>>() {
@@ -219,16 +193,7 @@ class PrivateBoardFragment : CardTileFragment() {
         })
     }
 
-    override fun onBackPressed(): Boolean {
-        return if (isTileFullScreenActive) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            false
-        } else {
-            boardFeedDetailAdapter = null
-            pagerAdapter = null
-            true
-        }
-    }
+    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
 
     internal class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
 

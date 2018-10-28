@@ -19,8 +19,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,7 +60,6 @@ import rx.Subscriber;
 
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
 /**
@@ -257,7 +254,6 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         }
     }
 
-    @Override
     public void prepareFullScreenRecyclerView() {
         setupBottomSheet();
         initBottomSheetRecyclerView();
@@ -272,58 +268,19 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     }
 
     @Override
-    public void moveItem(int position, int previousPosition) {
-        if (pagerAdapter.getCurrentFragment() instanceof BoardTilesFragment) {
-            ((BoardTilesFragment) pagerAdapter.getCurrentFragment()).moveItem(position, previousPosition);
-        }
-    }
-
-    @Override
-    public void setBlurBackgroundAndShowFullScreenTiles(boolean setFlag, int position) {
-        isTileFullScreenActive = setFlag;
-        boardParentViewBitmap = setFlag ? loadBitmap(rootLayout, rootLayout, this) : null;
+    public void showFeedItemPeekPopup(int position) {
         boardBlurBackgroundImageView.setImageBitmap(boardParentViewBitmap);
-
-        Animation.AnimationListener listener = new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                recyclerViewDragArea.setVisibility(View.INVISIBLE);
-                boardTilesFullRecyclerView.setVisibility(View.INVISIBLE);
-                recyclerViewDragArea.setTranslationY(0);
-                boardTilesFullRecyclerView.setTranslationY(0);
-                boardBlurBackgroundImageView.setVisibility(View.INVISIBLE);
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-            }
-        };
-        Animation recyclerViewAnimation = AnimationUtils.loadAnimation(this, setFlag ? R.anim.zoom_in : R.anim.zoom_out);
-        Animation blurBackgroundAnimation = AnimationUtils.loadAnimation(this, setFlag ? android.R.anim.fade_in : android.R.anim.fade_out);
-        if (!setFlag) {
-            recyclerViewAnimation.setAnimationListener(listener);
-            blurBackgroundAnimation.setAnimationListener(listener);
-        }
-        boardTilesFullRecyclerView.startAnimation(recyclerViewAnimation);
-        boardBlurBackgroundImageView.startAnimation(blurBackgroundAnimation);
-
-        if (setFlag) {
-            boardTilesFullRecyclerView.scrollToPosition(position);
-            recyclerViewDragArea.setVisibility(View.VISIBLE);
-            boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
-            boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
-        }
+        boardTilesFullRecyclerView.scrollToPosition(position);
+        recyclerViewDragArea.setVisibility(View.VISIBLE);
+        boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
+        boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
     }
 
     @OnClick(R.id.board_blur_background_image_view)
     public void dismissFullScreenRecyclerView() {
         emojiBottomSheetBehavior.setPeekHeight(0);
         emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        setBlurBackgroundAndShowFullScreenTiles(false, 0);
+        showFeedItemPeekPopup(0);
     }
 
     @Override
@@ -331,7 +288,7 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         emojiBottomSheetBehavior.setPeekHeight(0);
         emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         if (isTileFullScreenActive) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0);
+            showFeedItemPeekPopup(0);
         } else {
             boardFeedDetailAdapter = null;
             pagerAdapter = null;

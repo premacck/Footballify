@@ -264,7 +264,7 @@ public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemL
     @Override
     public void onItemLongClick(int position) {
         if (getParentFragment() instanceof FeedEntryContainer) {
-            ((FeedEntryContainer) getParentFragment()).setBlurBackgroundAndShowFullScreenTiles(true, position);
+            ((FeedEntryContainer) getParentFragment()).showFeedItemPeekPopup(position);
         }
     }
 

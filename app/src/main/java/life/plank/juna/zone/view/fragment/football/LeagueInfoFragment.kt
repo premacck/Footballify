@@ -30,8 +30,8 @@ import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getDateDiffFromToday
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
-import life.plank.juna.zone.util.facilis.findPopupDialog
 import life.plank.juna.zone.util.facilis.pushPopup
+import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.hideAndShowBoomMenu
 import life.plank.juna.zone.util.setupBoomMenu
 import life.plank.juna.zone.view.adapter.FixtureAdapter
@@ -219,13 +219,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         super.onDestroy()
     }
 
-    override fun onBackPressed(): Boolean {
-        val popupFragment = childFragmentManager.findPopupDialog(FixtureFragment.TAG)
-        return if (popupFragment != null && popupFragment.isAdded) {
-            popupFragment.dismiss()
-            false
-        } else true
-    }
+    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
 
     private fun updateFixtures() {
         fixture_progress_bar.visibility = View.VISIBLE

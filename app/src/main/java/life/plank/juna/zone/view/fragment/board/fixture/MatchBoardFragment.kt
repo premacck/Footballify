@@ -34,14 +34,10 @@ import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
-import life.plank.juna.zone.util.facilis.findLastFragment
-import life.plank.juna.zone.util.facilis.findPopupDialog
-import life.plank.juna.zone.util.facilis.pushPopup
+import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
-import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
-import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
 import retrofit2.Response
 import rx.Subscriber
 import java.lang.ref.WeakReference
@@ -244,7 +240,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                                 boardId = board.id
                                 saveBoardId()
                                 isBoardActive = board.isActive!!
-                                prepareFullScreenRecyclerView()
 
                                 if (isBoardActive) {
                                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId!!)
@@ -317,32 +312,11 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
 
-    override fun prepareFullScreenRecyclerView() {}
-
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
         feedEntries = feedEntryList
     }
 
-    override fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int) {
-        isTileFullScreenActive = setFlag
-        if (setFlag) {
-            childFragmentManager.pushPopup(
-                    R.id.peek_popup_container,
-                    FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
-                    FeedItemPeekPopup.TAG
-            )
-        } else {
-            childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)?.run { dismiss() }
-        }
-    }
-
-    override fun dismissFullScreenRecyclerView() = setBlurBackgroundAndShowFullScreenTiles(false, 0)
-
-    override fun moveItem(position: Int, previousPosition: Int) {
-        if (boardPagerAdapter?.currentFragment is BoardTilesFragment) {
-            (boardPagerAdapter?.currentFragment as BoardTilesFragment).moveItem(position, previousPosition)
-        }
-    }
+    override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
     override fun onDestroy() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
@@ -354,18 +328,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         super.onDestroy()
     }
 
-    override fun onBackPressed(): Boolean {
-        val postDetailContainerFragment = childFragmentManager.findLastFragment(PostDetailContainerFragment.TAG)
-        if (postDetailContainerFragment != null && postDetailContainerFragment.isAdded) {
-            childFragmentManager.popBackStack()
-            return false
-        }
-        if (isTileFullScreenActive) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            return false
-        }
-        return true
-    }
+    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
 

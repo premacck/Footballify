@@ -11,7 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableStringBuilder;
@@ -55,6 +54,7 @@ import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
+import life.plank.juna.zone.view.fragment.base.BaseFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -85,7 +85,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
-public class PostDetailFragment extends Fragment implements FeedInteractionListener {
+public class PostDetailFragment extends BaseFragment implements FeedInteractionListener {
 
     private static final String TAG = PostDetailFragment.class.getSimpleName();
 

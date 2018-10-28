@@ -59,7 +59,7 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
 
         holder.itemView.setOnClickListener { feedEntryContainer.openFeedEntry(userFeed, "", position, "") }
 
-        holder.itemView.onCustomLongClick { feedEntryContainer.setBlurBackgroundAndShowFullScreenTiles(true, position) }
+        holder.itemView.onCustomLongClick { feedEntryContainer.showFeedItemPeekPopup(position) }
     }
 
     private fun updateShimmer(holder: UserFeedAdapter.UserFeedViewHolder, @ColorRes color: Int, isStarted: Boolean) {

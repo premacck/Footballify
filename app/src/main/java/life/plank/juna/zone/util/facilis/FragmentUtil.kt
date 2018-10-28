@@ -29,6 +29,28 @@ fun FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
     return findFragmentByTag(tag) as? BaseBlurPopup
 }
 
+fun FragmentManager.removeActivePopupsIfAny(): Boolean {
+    for (popup in fragments.reversed()) {
+        if (popup is BaseBlurPopup && popup.isAdded) {
+            popup.dismiss()
+            return false
+        }
+    }
+    return true
+}
+
+fun FragmentManager.removeActiveCardsIfAny(): Boolean {
+    for (card in fragments.reversed()) {
+        if (card is BaseCard && card.isAdded) {
+            return if (card.onBackPressed()) {
+                beginTransaction().remove(card).commit()
+                false
+            } else true
+        }
+    }
+    return true
+}
+
 fun FragmentManager.moveCurrentCardToBackground(tag: String?) {
     val lastFragment = findFragmentByTag(tag)
     lastFragment?.run {
