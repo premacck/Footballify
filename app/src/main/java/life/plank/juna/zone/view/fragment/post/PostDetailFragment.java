@@ -245,6 +245,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
                     String urlToLoad = feedEntry.getFeedItem().getContentType().equals(NEWS) ?
                             feedEntry.getFeedItem().getThumbnail().getImageUrl() :
                             feedEntry.getFeedItem().getUrl();
+                    feedContentLayout.startShimmerAnimation();
                     Glide.with(this).asBitmap().load(urlToLoad)
                             .apply(RequestOptions.errorOf(R.drawable.ic_place_holder).placeholder(R.drawable.ic_place_holder))
                             .into(new SimpleTarget<Bitmap>() {

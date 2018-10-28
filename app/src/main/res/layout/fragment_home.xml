@@ -40,8 +40,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_boards_recycler_view"
-                    android:layout_marginEnd="6dp"
                     android:layout_marginStart="6dp"
+                    android:layout_marginEnd="6dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_zone_user_feed" />
@@ -85,7 +85,8 @@
     <FrameLayout
         android:id="@+id/peek_popup_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true" />
 
     <include layout="@layout/onboarding_bottom_sheet" />
 

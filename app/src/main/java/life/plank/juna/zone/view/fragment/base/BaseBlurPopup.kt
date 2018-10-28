@@ -7,8 +7,8 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
+import life.plank.juna.zone.util.facilis.beginBlur
 import life.plank.juna.zone.util.facilis.fadeOut
-import life.plank.juna.zone.util.facilis.listener
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
@@ -21,12 +21,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
         async {
             delay(10)
             runOnUiThread {
-                getBlurLayout()?.run {
-                    animate().alpha(1f)
-                            .setDuration(100)
-                            .listener { getBlurLayout()?.startBlur() }
-                            .start()
-                }
+                getBlurLayout()?.beginBlur()
                 setupPeekRecyclerViewSwipeGesture()
                 doOnStart()
             }

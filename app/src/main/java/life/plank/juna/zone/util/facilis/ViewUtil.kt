@@ -9,13 +9,18 @@ import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
+import android.os.SystemClock
 import android.os.Vibrator
 import android.support.design.widget.CoordinatorLayout
 import android.view.*
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import io.alterac.blurkit.BlurLayout
+import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 
@@ -77,6 +82,29 @@ fun View.fadeOut() {
     animate().alpha(0f).setDuration(280).start()
 }
 
+fun View.floatUp() {
+    postDelayed({ startAnimation(AnimationUtils.loadAnimation(context, R.anim.float_up)) }, 20)
+}
+
+fun BlurLayout.beginBlur() {
+    postDelayed({
+        startBlur()
+        visibility = View.VISIBLE
+    }, 10)
+}
+
+fun View.zoomOut() {
+    val zoomOutAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
+    zoomOutAnimation.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) {}
+        override fun onAnimationRepeat(animation: Animation?) {}
+        override fun onAnimationEnd(animation: Animation?) {
+            visibility = View.INVISIBLE
+        }
+    })
+    startAnimation(zoomOutAnimation)
+}
+
 fun View.setTopMargin(topMargin: Int) {
     val params = layoutParams
     params?.run {
@@ -97,24 +125,46 @@ fun View.onCustomLongClick(longClickDelay: Int = 300, action: () -> Unit) {
 private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action: () -> Unit): View.OnTouchListener {
     return object : View.OnTouchListener {
         private var isLongPress = false
+        private lateinit var originPoint: FloatArray
+        private lateinit var latestPoint: FloatArray
+        private var downTime: Long = 0
+
+        private fun arePointsWithinBounds(): Boolean {
+            val deltaX = Math.abs(originPoint[0] - latestPoint[0])
+            val deltaY = Math.abs(originPoint[1] - latestPoint[1])
+            return deltaX <= 15 && deltaY <= 15
+        }
+
+        private fun isTimeWithinBounds(): Boolean {
+            return Math.abs(downTime - SystemClock.elapsedRealtime()) <= longClickDelay
+        }
 
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-            if (event?.action == MotionEvent.ACTION_DOWN) {
-                isLongPress = true
-                this@getCustomOnLongClickListener.postDelayed({
-                    if (isLongPress) {
-                        isLongPress = false
-                        val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                        vibrator.vibrate(50)
-                        action()
-                    }
-                }, longClickDelay.toLong())
-            } else if (event?.action == MotionEvent.ACTION_UP) {
-                if (isLongPress) {
-                    isLongPress = false
-                    performClick()
+            when (event?.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    downTime = SystemClock.elapsedRealtime()
+                    originPoint = floatArrayOf(event.rawX, event.rawY)
+                    latestPoint = originPoint
+                    isLongPress = true
+                    this@getCustomOnLongClickListener.postDelayed({
+                        if (isLongPress && arePointsWithinBounds()) {
+                            isLongPress = false
+                            val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                            vibrator.vibrate(18)
+                            action()
+                        }
+                    }, longClickDelay.toLong())
                 }
-                return false
+                MotionEvent.ACTION_UP -> {
+                    if (isLongPress && arePointsWithinBounds() && isTimeWithinBounds()) {
+                        isLongPress = false
+                        performClick()
+                        return false
+                    }
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    latestPoint = floatArrayOf(event.rawX, event.rawY)
+                }
             }
             return true
         }

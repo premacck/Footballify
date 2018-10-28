@@ -9,7 +9,6 @@
         <item name="colorControlNormal">@color/white</item>
         <item name="colorControlActivated">@color/text_hint_label_color</item>
         <item name="colorControlHighlight">@color/white</item>
-        <item name="android:windowBackground">@null</item>
         <item name="android:windowContentTransitions">true</item>
     </style>
 
@@ -228,6 +227,8 @@
     <style name="BlurLayoutFullScreen">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:visibility">invisible</item>
         <item name="blk_blurRadius">20</item>
         <item name="blk_downscaleFactor">0.12</item>
         <item name="blk_fps">0</item>
