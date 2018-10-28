@@ -5,7 +5,6 @@ import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.BoardPreviewActivity;
-import life.plank.juna.zone.view.activity.CommentaryActivity;
 import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.EditProfileActivity;
 import life.plank.juna.zone.view.activity.InviteToBoardActivity;
@@ -17,7 +16,6 @@ import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
 import life.plank.juna.zone.view.activity.SwipePageActivity;
-import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
@@ -27,7 +25,9 @@ import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
+import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment;
+import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup;
@@ -73,11 +73,11 @@ public interface UiComponent {
 
     void inject(BoardInfoFragment boardInfoFragment);
 
-    void inject(TimelineActivity timelineActivity);
+    void inject(TimelinePopup timelinePopup);
 
     void inject(PrivateBoardActivity privateBoardActivity);
 
-    void inject(CommentaryActivity commentaryActivity);
+    void inject(CommentaryPopup commentaryPopup);
 
     void inject(InviteToBoardActivity inviteToBoardActivity);
 
