@@ -10,8 +10,7 @@
     android:layout_marginEnd="6dp"
     android:layout_marginStart="6dp"
     android:layout_marginTop="24dp"
-    app:cardCornerRadius="8dp"
-    tools:context=".view.activity.FixtureActivity">
+    app:cardCornerRadius="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"

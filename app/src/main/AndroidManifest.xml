@@ -96,9 +96,6 @@
             android:name=".view.activity.AudioRecorderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.FixtureActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.RecordAudioActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -108,14 +105,6 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".view.activity.AuthForgotPasswordActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".view.activity.MatchBoardActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".view.activity.LeagueInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

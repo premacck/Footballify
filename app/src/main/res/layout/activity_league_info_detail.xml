@@ -9,9 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:layout_marginEnd="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
         android:transitionName="@string/pref_match"
         app:cardCornerRadius="@dimen/feed_card_corner_radius"
         app:cardUseCompatPadding="true">
@@ -70,9 +70,9 @@
                 android:id="@+id/no_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:layout_below="@+id/headers_container"
                 android:fontFamily="@font/rajdhani_light"
+                android:gravity="center"
                 android:visibility="gone" />
 
             <ProgressBar

@@ -20,9 +20,9 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.fadeOut
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter
-import life.plank.juna.zone.view.fragment.LeagueInfoFragment.Companion.fixtureByMatchDayList
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
+import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import javax.inject.Inject

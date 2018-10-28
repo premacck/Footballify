@@ -19,7 +19,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.base.BaseCardActivity;
-import life.plank.juna.zone.view.fragment.LeagueInfoFragment;
+import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
