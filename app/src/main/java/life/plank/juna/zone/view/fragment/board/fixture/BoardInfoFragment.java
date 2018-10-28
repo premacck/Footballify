@@ -39,11 +39,12 @@ import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
+import life.plank.juna.zone.util.facilis.BaseCard;
 import life.plank.juna.zone.view.activity.CommentaryActivity;
-import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity;
 import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
+import life.plank.juna.zone.view.fragment.football.LeagueInfoDetailPopup;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -62,6 +63,7 @@ import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.util.facilis.FragmentUtilKt.pushPopup;
 import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
 public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
@@ -169,12 +171,13 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
 
     @Override
     public void onSeeAllStandingsClick(View fromView) {
-        LeagueInfoDetailActivity.launch(
-                getActivity(),
-                STANDINGS,
-                (ArrayList<? extends Parcelable>) matchDetails.getStandingsList(),
-                fromView
-        );
+        if (getParentFragment() instanceof BaseCard && matchDetails.getStandingsList() != null) {
+            pushPopup(getParentFragment().getChildFragmentManager(),
+                    R.id.peek_popup_container,
+                    LeagueInfoDetailPopup.Companion.newInstance(STANDINGS, (ArrayList<? extends Parcelable>) matchDetails.getStandingsList()),
+                    LeagueInfoDetailPopup.Companion.getTAG()
+            );
+        }
     }
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {

@@ -22,7 +22,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
             delay(10)
             runOnUiThread {
                 getBlurLayout()?.beginBlur()
-                setupPeekRecyclerViewSwipeGesture()
+                setupSwipeDownToCloseGesture()
                 doOnStart()
             }
         }
@@ -35,7 +35,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
         super.onStop()
     }
 
-    private fun setupPeekRecyclerViewSwipeGesture() {
+    private fun setupSwipeDownToCloseGesture() {
         getDragHandle()?.setOnTouchListener(object : SwipeDownToDismissListener(activity!!, getDragHandle()!!, getRootView()!!, getBlurLayout()) {
             override fun onSwipeDown() {
                 dismiss()
