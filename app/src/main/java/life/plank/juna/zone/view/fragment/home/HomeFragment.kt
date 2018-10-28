@@ -34,9 +34,9 @@ import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
-import life.plank.juna.zone.util.hideAndShowBoomMenu
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.util.setupBoomMenu
+import life.plank.juna.zone.util.setupWith
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.adapter.OnboardingAdapter
@@ -102,7 +102,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         getUserZones()
 
         setUpToolbarAndBoomMenu()
-        hideAndShowBoomMenu(nestedScrollView, arc_menu)
+        arc_menu.setupWith(nestedScrollView)
 
         getUserFeed()
         getUserBoards()

@@ -85,7 +85,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
                 // React to dragging events
             }
         })
-        hideAndShowBoomMenu(football_feed_recycler_view, arc_menu)
+        arc_menu.setupWith(football_feed_recycler_view)
 
         options_image.setOnClickListener { onOptionClick(it) }
     }

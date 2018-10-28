@@ -60,24 +60,26 @@ fun setupBoomMenu(@BoomMenuPage page: Int, activity: Activity, boardId: String?,
     }
 }
 
-fun hideAndShowBoomMenu(nestedScrollView: NestedScrollView, arcMenu: ArcMenu) {
+fun ArcMenu.setupWith(nestedScrollView: NestedScrollView) {
     nestedScrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
         if (scrollY > oldScrollY) {
-            arcMenu.hide()
+            hide()
         } else {
-            arcMenu.show()
+            show()
         }
     }
 }
 
-fun hideAndShowBoomMenu(recyclerView: RecyclerView, arcMenu: ArcMenu) {
-    recyclerView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
-        if (scrollY > oldScrollY) {
-            arcMenu.hide()
-        } else {
-            arcMenu.show()
+fun ArcMenu.setupWith(recyclerView: RecyclerView) {
+    recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            if (dy > 5) {
+                hide()
+            } else if (dy < -5) {
+                show()
+            }
         }
-    }
+    })
 }
 
 fun getBoomMenuTitles(@BoomMenuPage page: Int): Array<String>? {
