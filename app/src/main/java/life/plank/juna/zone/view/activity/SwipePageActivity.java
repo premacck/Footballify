@@ -47,7 +47,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
-import static life.plank.juna.zone.util.BoomMenuUtil.hideAndShowBoomMenu;
+import static life.plank.juna.zone.util.BoomMenuUtil.setupWith;
 import static life.plank.juna.zone.util.DataUtil.getStaticLeagues;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup;
@@ -121,7 +121,7 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
                 // React to dragging events
             }
         });
-        hideAndShowBoomMenu(feedRecyclerView, arcMenu);
+        setupWith(arcMenu, feedRecyclerView);
     }
 
     @OnClick(R.id.options_image)

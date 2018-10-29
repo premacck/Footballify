@@ -32,8 +32,8 @@ import life.plank.juna.zone.util.DateUtil.getDateDiffFromToday
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
-import life.plank.juna.zone.util.hideAndShowBoomMenu
 import life.plank.juna.zone.util.setupBoomMenu
+import life.plank.juna.zone.util.setupWith
 import life.plank.juna.zone.view.adapter.FixtureAdapter
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.StandingTableAdapter
@@ -85,7 +85,7 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         title.text = league.name
         logo.setImageResource(league.leagueLogo)
         parent_layout.setBackgroundColor(findColor(league.dominantColor!!))
-        hideAndShowBoomMenu(nestedScrollView, arc_menu)
+        arc_menu.setupWith(nestedScrollView)
 
         setOnClickListeners()
     }
