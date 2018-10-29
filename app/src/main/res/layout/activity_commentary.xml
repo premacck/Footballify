@@ -18,8 +18,7 @@
         android:layout_marginTop="24dp"
         android:minHeight="100dp"
         android:transitionName="@string/commentary"
-        app:cardCornerRadius="8dp"
-        tools:context=".view.activity.FixtureActivity">
+        app:cardCornerRadius="8dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

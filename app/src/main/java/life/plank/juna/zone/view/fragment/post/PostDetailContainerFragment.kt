@@ -13,7 +13,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.facilis.BaseCard
-import life.plank.juna.zone.util.facilis.setTopMargin
+import life.plank.juna.zone.util.facilis.floatUp
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -47,15 +47,8 @@ class PostDetailContainerFragment : BaseCard() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        blur_layout.visibility = View.VISIBLE
-        root_card.setTopMargin(0)
         populateViewPager()
-        blur_layout.startBlur()
-    }
-
-    override fun onDestroyView() {
-        blur_layout.pauseBlur()
-        super.onDestroyView()
+        root_card.floatUp()
     }
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout

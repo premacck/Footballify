@@ -13,7 +13,7 @@ import life.plank.juna.zone.data.model.MatchFixture;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
-import static life.plank.juna.zone.view.activity.LeagueInfoActivity.fixtureByMatchDayList;
+import static life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.fixtureByMatchDayList;
 
 /**
  * Class to update live scores and time status in fixtures' list (in the background thread).

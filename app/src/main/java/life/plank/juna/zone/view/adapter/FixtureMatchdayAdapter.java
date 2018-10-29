@@ -20,7 +20,7 @@ import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.findColor;
-import static life.plank.juna.zone.view.fragment.LeagueInfoFragment.fixtureByMatchDayList;
+import static life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.fixtureByMatchDayList;
 
 /**
  * Created by plank-prachi on 4/10/2018.

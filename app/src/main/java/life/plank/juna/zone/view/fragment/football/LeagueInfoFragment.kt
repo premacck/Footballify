@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.fragment
+package life.plank.juna.zone.view.fragment.football
 
 
 import android.arch.lifecycle.Observer
@@ -40,7 +40,6 @@ import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.StandingTableAdapter
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
-import life.plank.juna.zone.view.fragment.football.FixtureFragment
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.uiThread

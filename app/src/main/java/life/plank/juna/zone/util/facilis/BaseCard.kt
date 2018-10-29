@@ -17,7 +17,7 @@ abstract class BaseCard : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adjustWithIndex(getParentActivity().index)
         activity?.let { setupSwipeDownGesture(it) }
-        (getBackgroundBlurLayout() as? BlurLayout)?.startBlur()
+        (getBackgroundBlurLayout() as? BlurLayout)?.beginBlur()
     }
 
     private fun adjustWithIndex(index: Int) {

@@ -16,6 +16,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.facilis.zoomOut
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
@@ -77,7 +78,7 @@ class FeedItemPeekPopup : BaseBlurPopup() {
             emojiBottomSheetBehavior!!.peekHeight = 0
             emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
         } else {
-            board_tiles_full_recycler_view?.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_out))
+            board_tiles_full_recycler_view?.zoomOut()
             super.dismiss()
         }
     }

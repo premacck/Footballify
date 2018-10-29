@@ -4,6 +4,7 @@
     android:id="@+id/blur_layout"
     style="@style/BlurLayoutFullScreen"
     android:animateLayoutChanges="true"
+    android:visibility="invisible"
     tools:context=".view.fragment.post.PostDetailFragment">
 
     <android.support.v7.widget.CardView

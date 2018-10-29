@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
@@ -38,7 +37,6 @@ import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TEAM_STATS;
 import static life.plank.juna.zone.util.UIDisplayUtil.setSharedElementTransitionDuration;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
-import static life.plank.juna.zone.view.activity.LeagueInfoActivity.matchStatsParentViewBitmap;
 
 public class LeagueInfoDetailActivity extends AppCompatActivity {
 
@@ -83,10 +81,9 @@ public class LeagueInfoDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_match_result_detail);
+        setContentView(R.layout.activity_league_info_detail);
         ButterKnife.bind(this);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), matchStatsParentViewBitmap));
         setSharedElementTransitionDuration(this, getResources().getInteger(R.integer.shared_element_animation_duration));
         setupSwipeGesture(this, headerTextView, rootCard);
 
