@@ -76,13 +76,13 @@ node('docker') {
 			sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
 			sh "./gradlew clean :app:assembleDebug"
 			  echo  '********************************************************************************'
-			currentBuild.result = 'SUCCESS'
-			updateJIRA('Build Success')
+			//currentBuild.result = 'SUCCESS'
+			//updateJIRA('Build Success')
 
 		} catch (Exception err) {
 
-			currentBuild.result = 'FAILURE'
-			updateJIRA('Build Failure')
+			//currentBuild.result = 'FAILURE'
+			//updateJIRA('Build Failure')
 		}	        
     }
 
