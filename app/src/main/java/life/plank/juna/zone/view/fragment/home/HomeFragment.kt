@@ -31,9 +31,9 @@ import life.plank.juna.zone.util.AuthUtil
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
-import life.plank.juna.zone.util.facilis.findLastFragment
-import life.plank.juna.zone.util.facilis.findPopupDialog
 import life.plank.juna.zone.util.facilis.pushPopup
+import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
+import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.hideAndShowBoomMenu
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.util.setupBoomMenu
@@ -45,7 +45,6 @@ import life.plank.juna.zone.view.adapter.UserFeedAdapter
 import life.plank.juna.zone.view.adapter.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
-import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
 import net.openid.appauth.AuthorizationService
 import retrofit2.Response
 import rx.Subscriber
@@ -94,7 +93,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         setupOnBoardingBottomSheet()
         initBottomSheetRecyclerView()
-        prepareFullScreenRecyclerView()
 
         initRecyclerView()
         initZoneRecyclerView()
@@ -278,27 +276,14 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         signUpDialog.show()
     }
 
-    override fun prepareFullScreenRecyclerView() {}
-
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {}
 
-    override fun moveItem(position: Int, previousPosition: Int) {}
-
-    override fun setBlurBackgroundAndShowFullScreenTiles(setFlag: Boolean, position: Int) {
-        isTileFullScreenActive = setFlag
-        if (setFlag) {
-            childFragmentManager.pushPopup(
-                    R.id.peek_popup_container,
-                    FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
-                    FeedItemPeekPopup.TAG
-            )
-        } else {
-            childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)?.run { dismiss() }
-        }
-    }
-
-    override fun dismissFullScreenRecyclerView() {
-        setBlurBackgroundAndShowFullScreenTiles(false, 0)
+    override fun showFeedItemPeekPopup(position: Int) {
+        childFragmentManager.pushPopup(
+                R.id.peek_popup_container,
+                FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
+                FeedItemPeekPopup.TAG
+        )
     }
 
     override fun onDestroy() {
@@ -314,19 +299,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     override fun onBackPressed(): Boolean {
-        val popupDialog = childFragmentManager.findPopupDialog(FeedItemPeekPopup.TAG)
-        val postDetailContainerFragment = childFragmentManager.findLastFragment(PostDetailContainerFragment.TAG)
-        if (!childFragmentManager.fragments.contains(popupDialog) && !childFragmentManager.fragments.contains(postDetailContainerFragment)) {
-            return true
-        }
-        if (postDetailContainerFragment != null && postDetailContainerFragment.isAdded) {
-            childFragmentManager.popBackStack()
-            return false
-        }
-        if (isTileFullScreenActive || (popupDialog != null && popupDialog.isAdded)) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            return false
-        }
-        return true
+        val areAllPopupsDismissed = childFragmentManager.removeActivePopupsIfAny()
+        val areAllCardsRemoved = childFragmentManager.removeActiveCardsIfAny()
+        return areAllPopupsDismissed && areAllCardsRemoved
     }
 }
