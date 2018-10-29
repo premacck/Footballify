@@ -135,9 +135,6 @@
             android:name=".view.activity.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.LeagueInfoDetailActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.TimelineActivity"
             android:screenOrientation="portrait" />
         <activity

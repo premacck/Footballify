@@ -34,7 +34,6 @@ import life.plank.juna.zone.util.facilis.findPopupDialog
 import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.hideAndShowBoomMenu
 import life.plank.juna.zone.util.setupBoomMenu
-import life.plank.juna.zone.view.activity.LeagueInfoDetailActivity
 import life.plank.juna.zone.view.adapter.FixtureAdapter
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.StandingTableAdapter
@@ -98,13 +97,25 @@ class LeagueInfoFragment : BaseLeagueFragment() {
             }
         }
         see_all_standings.onClick {
-            LeagueInfoDetailActivity.launch(activity, STANDINGS, standingTableAdapter!!.standings as ArrayList<out Parcelable>, standings_layout)
+            childFragmentManager.pushPopup(
+                    R.id.popup_container,
+                    LeagueInfoDetailPopup.newInstance(STANDINGS, standingTableAdapter!!.standings as ArrayList<out Parcelable>),
+                    LeagueInfoDetailPopup.TAG
+            )
         }
         see_more_team_stats.onClick {
-            LeagueInfoDetailActivity.launch(activity, TEAM_STATS, teamStatsAdapter!!.teamStats as ArrayList<out Parcelable>, team_stats_layout)
+            childFragmentManager.pushPopup(
+                    R.id.popup_container,
+                    LeagueInfoDetailPopup.newInstance(TEAM_STATS, teamStatsAdapter!!.teamStats as ArrayList<out Parcelable>),
+                    LeagueInfoDetailPopup.TAG
+            )
         }
         see_more_player_stats.onClick {
-            LeagueInfoDetailActivity.launch(activity, PLAYER_STATS, playerStatsAdapter!!.playerStats as ArrayList<out Parcelable>, player_stats_layout)
+            childFragmentManager.pushPopup(
+                    R.id.popup_container,
+                    LeagueInfoDetailPopup.newInstance(PLAYER_STATS, playerStatsAdapter!!.playerStats as ArrayList<out Parcelable>),
+                    LeagueInfoDetailPopup.TAG
+            )
         }
     }
 
