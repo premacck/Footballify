@@ -147,7 +147,7 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
 
     @Override
     public void onScrubberClick(View view) {
-        if (getParentFragment() instanceof BaseCard && matchDetails != null && ! isNullOrEmpty(matchDetails.getMatchEvents())) {
+        if (getParentFragment() instanceof BaseCard && matchDetails != null && !isNullOrEmpty(matchDetails.getMatchEvents())) {
             pushPopup(
                     getParentFragment().getChildFragmentManager(),
                     R.id.peek_popup_container,
@@ -161,7 +161,7 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onCommentarySeeAllClick(View fromView) {
-        if (getParentFragment() instanceof BaseCard && ! isNullOrEmpty(matchDetails.getCommentary())) {
+        if (getParentFragment() instanceof BaseCard && !isNullOrEmpty(matchDetails.getCommentary())) {
             pushPopup(
                     getParentFragment().getChildFragmentManager(),
                     R.id.peek_popup_container,
@@ -173,7 +173,7 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
 
     @Override
     public void onSeeAllStandingsClick(View fromView) {
-        if (getParentFragment() instanceof BaseCard && ! isNullOrEmpty(matchDetails.getStandingsList())) {
+        if (getParentFragment() instanceof BaseCard && !isNullOrEmpty(matchDetails.getStandingsList())) {
             pushPopup(getParentFragment().getChildFragmentManager(),
                     R.id.peek_popup_container,
                     LeagueInfoDetailPopup.Companion.newInstance(STANDINGS, (ArrayList<? extends Parcelable>) matchDetails.getStandingsList()),
