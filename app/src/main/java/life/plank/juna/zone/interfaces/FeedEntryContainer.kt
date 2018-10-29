@@ -2,7 +2,7 @@ package life.plank.juna.zone.interfaces
 
 import life.plank.juna.zone.data.model.FeedEntry
 
-interface TileContainer {
+interface FeedEntryContainer {
 
     fun dismissFullScreenRecyclerView()
 

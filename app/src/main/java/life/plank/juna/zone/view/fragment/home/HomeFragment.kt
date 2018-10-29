@@ -13,9 +13,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.onboarding_bottom_sheet.*
 import life.plank.juna.zone.R
@@ -57,8 +57,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     lateinit var gson: Gson
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
-    @Inject
-    lateinit var picasso: Picasso
     @Inject
     lateinit var pagerSnapHelper: PagerSnapHelper
 
@@ -139,7 +137,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initRecyclerView() {
-        userFeedAdapter = UserFeedAdapter(this, picasso)
+        userFeedAdapter = UserFeedAdapter(this, Glide.with(this))
         user_feed_recycler_view.adapter = userFeedAdapter
     }
 
@@ -149,7 +147,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initBoardsRecyclerView() {
-        userBoardsAdapter = UserBoardsAdapter(context, restApi, picasso)
+        userBoardsAdapter = UserBoardsAdapter(context, restApi, Glide.with(this))
         user_boards_recycler_view?.adapter = userBoardsAdapter
     }
 
