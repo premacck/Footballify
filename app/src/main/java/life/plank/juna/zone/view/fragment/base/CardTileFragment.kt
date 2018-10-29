@@ -15,6 +15,6 @@ abstract class CardTileFragment : BaseCard(), FeedEntryContainer {
     protected var boardFeedDetailAdapter: BoardFeedDetailAdapter? = null
 
     override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int, target: String) {
-        pushFragment(PostDetailContainerFragment.newInstance(feedEntryList, boardId, position, target), true)
+        pushFragment(PostDetailContainerFragment.newInstance(feedEntryList, boardId, position), true)
     }
 }

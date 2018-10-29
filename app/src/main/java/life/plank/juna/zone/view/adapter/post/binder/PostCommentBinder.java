@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.lang.ref.WeakReference;
 
@@ -35,11 +36,11 @@ import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBinder.PostCommentViewHolder> {
 
     private String fragment;
-    private final Picasso picasso;
+    private final RequestManager glide;
     private final FeedInteractionListener listener;
 
-    public PostCommentBinder(Picasso picasso, FeedInteractionListener listener, String fragment) {
-        this.picasso = picasso;
+    public PostCommentBinder(RequestManager glide, FeedInteractionListener listener, String fragment) {
+        this.glide = glide;
         this.listener = listener;
         this.fragment = fragment;
     }
@@ -62,13 +63,13 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         }
 
         holder.profileNameTextView.setText(item.getCommenterDisplayName());
-        picasso.load(item.getCommenterProfilePicUrl())
-                .resize((int) getDp(20), (int) getDp(20))
+        glide.load(item.getCommenterProfilePicUrl())
+                .apply(RequestOptions.overrideOf((int) getDp(20), (int) getDp(20)))
                 .into(holder.profilePic);
 
         holder.likeTextView.setText(item.getHasLiked() ? R.string.unlike : R.string.like);
         holder.viewRepliesTextView.setVisibility(isNullOrEmpty(item.getReplies()) ? View.GONE : View.VISIBLE);
-        holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(picasso, item.getReplies()));
+        holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(glide, item.getReplies()));
         if (holder.isItemExpanded()) {
             holder.viewRepliesTextView.setText(R.string.hide_replies);
             holder.repliesRecyclerView.setVisibility(View.VISIBLE);
@@ -117,19 +118,19 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         }
 
         @OnClick(R.id.like_text_view)
-        public void likeComment() {
+        void likeComment() {
             likeTextView.setText(likeTextView.getText().toString().equals(getContext().getString(R.string.like)) ? R.string.unlike : R.string.like);
             ref.get().listener.onCommentLiked();
         }
 
         @OnClick(R.id.reply_text_view)
-        public void toggleReplyOnComment() {
+        void toggleReplyOnComment() {
             replyTextView.setText(replyLayout.getVisibility() == View.VISIBLE ? R.string.reply : R.string.cancel);
             replyLayout.setVisibility(replyLayout.getVisibility() == View.VISIBLE ? View.GONE : View.VISIBLE);
         }
 
         @OnClick(R.id.post_reply)
-        public void postReplyOnComment() {
+        void postReplyOnComment() {
             if (replyLayout.getVisibility() == View.VISIBLE) {
                 ref.get().listener.onPostReplyOnComment(replyEditText.getText().toString(), getAdapterPosition(), comment);
             }
@@ -139,7 +140,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         }
 
         @OnClick(R.id.view_replies_text_view)
-        public void ShowCommentReplies() {
+        void ShowCommentReplies() {
             viewRepliesTextView.setText(isItemExpanded() ? R.string.hide_replies : R.string.show_replies);
             toggleItemExpansion();
             repliesRecyclerView.setVisibility(isItemExpanded() ? View.VISIBLE : View.GONE);

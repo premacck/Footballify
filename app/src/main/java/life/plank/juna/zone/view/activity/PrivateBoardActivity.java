@@ -82,7 +82,6 @@ public class PrivateBoardActivity extends BaseBoardActivity {
     Gson gson;
     @Inject
     PagerSnapHelper pagerSnapHelper;
-    @BindView(R.id.faded_card)
     CardView fadedCard;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;

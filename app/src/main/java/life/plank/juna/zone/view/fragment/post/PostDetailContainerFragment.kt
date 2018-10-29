@@ -22,16 +22,14 @@ class PostDetailContainerFragment : BaseCard() {
     private lateinit var feedList: List<FeedEntry>
     private lateinit var boardId: String
     private var position: Int = 0
-    private lateinit var target: String
 
     companion object {
         val TAG: String = PostDetailContainerFragment::class.java.simpleName
-        fun newInstance(feedEntryList: List<FeedEntry>, boardId: String, position: Int, target: String) = PostDetailContainerFragment().apply {
+        fun newInstance(feedEntryList: List<FeedEntry>, boardId: String, position: Int) = PostDetailContainerFragment().apply {
             arguments = Bundle().apply {
                 putParcelableArrayList(findString(R.string.intent_feed_items), feedEntryList as ArrayList<FeedEntry>)
                 putString(findString(R.string.intent_board_id), boardId)
                 putInt(findString(R.string.intent_position), position)
-                putString(findString(R.string.intent_target), target)
             }
         }
     }
@@ -42,7 +40,6 @@ class PostDetailContainerFragment : BaseCard() {
             feedList = getParcelableArrayList(getString(R.string.intent_feed_items))!!
             boardId = getString(getString(R.string.intent_board_id))!!
             position = getInt(getString(R.string.intent_position), 0)
-            target = getString(getString(R.string.intent_target))!!
         }
     }
 
@@ -80,7 +77,7 @@ class PostDetailContainerFragment : BaseCard() {
 
         override fun getItem(position: Int): Fragment? {
             return try {
-                ref.get()?.run { PostDetailFragment.newInstance(feedList[position], boardId, target) }
+                ref.get()?.run { PostDetailFragment.newInstance(feedList[position], boardId) }
             } catch (e: Exception) {
                 null
             }

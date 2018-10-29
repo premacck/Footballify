@@ -103,7 +103,6 @@ public class MatchBoardActivity extends BaseBoardActivity implements PublicBoard
 
     @BindView(R.id.root_card)
     CardView rootCard;
-    @BindView(R.id.faded_card)
     CardView fadedCard;
     @BindView(R.id.blur_background_image_view)
     ImageView blurBackgroundImageView;

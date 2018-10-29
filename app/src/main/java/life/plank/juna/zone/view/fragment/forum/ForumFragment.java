@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -81,7 +82,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_forum, container, false);
         ButterKnife.bind(this, rootView);
-        adapter = new PostCommentAdapter(picasso, this, getString(R.string.forum));
+        adapter = new PostCommentAdapter(Glide.with(this), this, getString(R.string.forum));
         postCommentsRecyclerView.setAdapter(adapter);
         setAdapterData();
         restApi = retrofit.create(RestApi.class);
