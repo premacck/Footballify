@@ -19,7 +19,6 @@ import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.faded_card.*
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -201,9 +200,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         board_toolbar.setupWithViewPager(board_view_pager)
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
-
-    override fun getFadedCard(): CardView? = faded_card
+    override fun getBackgroundBlurLayout(): ViewGroup? = null
 
     override fun getRootCard(): CardView? = root_card
 

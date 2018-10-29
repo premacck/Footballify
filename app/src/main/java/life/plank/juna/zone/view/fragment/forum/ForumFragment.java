@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,8 +48,6 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 public class ForumFragment extends Fragment implements FeedInteractionListener {
 
     private static String matchBoardId;
-    @Inject
-    Picasso picasso;
     @Inject
     @Named("default")
     Retrofit retrofit;

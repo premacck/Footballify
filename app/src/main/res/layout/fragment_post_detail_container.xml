@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/blur_layout"
-    style="@style/MatchParentSize"
+    style="@style/BlurLayoutFullScreen"
     android:animateLayoutChanges="true"
-    app:blk_blurRadius="20"
-    app:blk_downscaleFactor="0.12"
-    app:blk_fps="0"
     tools:context=".view.fragment.post.PostDetailFragment">
 
     <android.support.v7.widget.CardView

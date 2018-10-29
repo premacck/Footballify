@@ -6,6 +6,7 @@ import android.support.annotation.CallSuper
 import android.support.v7.widget.CardView
 import android.view.View
 import android.view.ViewGroup
+import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -16,16 +17,15 @@ abstract class BaseCard : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         adjustWithIndex(getParentActivity().index)
         activity?.let { setupSwipeDownGesture(it) }
+        (getBackgroundBlurLayout() as? BlurLayout)?.startBlur()
     }
 
     private fun adjustWithIndex(index: Int) {
-        getRootFadedCardLayout()?.visibility = if (index > 1) View.VISIBLE else View.GONE
-
         getRootCard()?.setTopMargin(getDp(if (index > 1) 20f else 0f).toInt())
     }
 
     private fun setupSwipeDownGesture(activity: Activity) {
-        getDragHandle()?.setSwipeDownListener(activity, getRootCard()!!, getRootFadedCardLayout())
+        getDragHandle()?.setSwipeDownListener(activity, getRootCard()!!, getBackgroundBlurLayout())
     }
 
     fun moveToBackGround() {
@@ -44,9 +44,7 @@ abstract class BaseCard : BaseFragment() {
         getParentActivity().pushFragment(baseFragment, isAddToBackStack)
     }
 
-    abstract fun getRootFadedCardLayout(): ViewGroup?
-
-    abstract fun getFadedCard(): CardView?
+    abstract fun getBackgroundBlurLayout(): ViewGroup?
 
     abstract fun getRootCard(): CardView?
 
@@ -59,6 +57,7 @@ abstract class BaseCard : BaseFragment() {
     }
 
     override fun onDestroyView() {
+        (getBackgroundBlurLayout() as? BlurLayout)?.pauseBlur()
         dispose()
         super.onDestroyView()
     }

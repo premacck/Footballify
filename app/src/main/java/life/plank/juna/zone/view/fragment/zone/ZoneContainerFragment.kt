@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.zone
 
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -9,7 +8,6 @@ import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.faded_card.*
 import kotlinx.android.synthetic.main.fragment_zone_container.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.facilis.BaseCard
@@ -39,9 +37,7 @@ class ZoneContainerFragment : BaseCard() {
         }
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup? = faded_card_layout
-
-    override fun getFadedCard(): CardView? = faded_card
+    override fun getBackgroundBlurLayout(): ViewGroup? = null
 
     override fun getRootCard(): CardView? = root_card
 

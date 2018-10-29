@@ -58,9 +58,7 @@ class PostDetailContainerFragment : BaseCard() {
         super.onDestroyView()
     }
 
-    override fun getRootFadedCardLayout(): ViewGroup? = blur_layout
-
-    override fun getFadedCard(): CardView? = null
+    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
     override fun getRootCard(): CardView? = root_card
 

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_custom_camera.*
-import kotlinx.android.synthetic.main.faded_card.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
@@ -42,7 +41,7 @@ class CustomCameraActivity : StackableCardActivity() {
         isForImage = intent.getBooleanExtra(getString(R.string.intent_is_camera_for_image), true)
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
 
-        setupSwipeGesture(this, drag_area, root_card, faded_card)
+        setupSwipeGesture(this, drag_area, root_card, null)
         setupViewPager()
     }
 
