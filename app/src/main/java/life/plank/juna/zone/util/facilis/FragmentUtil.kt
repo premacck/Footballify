@@ -51,7 +51,7 @@ fun FragmentManager.movePreviousCardToForeground(tag: String?): String? {
     return null
 }
 
-fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean) {
+fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean = true) {
     if (index < 0) return
     this.beginTransaction()
             .addCustomAnimations(R.anim.float_up, R.anim.sink_up, R.anim.float_down, R.anim.sink_down, index)

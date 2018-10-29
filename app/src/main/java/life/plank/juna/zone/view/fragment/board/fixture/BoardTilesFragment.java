@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.BottomSheetBehavior;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.PagerSnapHelper;
@@ -42,10 +41,9 @@ import life.plank.juna.zone.interfaces.FeedEntryContainer;
 import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.BoardPoll;
-import life.plank.juna.zone.view.activity.MatchBoardActivity;
-import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
+import life.plank.juna.zone.view.fragment.base.BaseFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -57,7 +55,7 @@ import static life.plank.juna.zone.util.BoomMenuUtil.hideAndShowBoomMenu;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
-public class BoardTilesFragment extends Fragment implements OnClickFeedItemListener {
+public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemListener {
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
     @Inject
@@ -258,8 +256,8 @@ public class BoardTilesFragment extends Fragment implements OnClickFeedItemListe
 
     @Override
     public void onItemClick(int position) {
-        if (!isNullOrEmpty(adapter.getBoardFeed()) && getActivity() instanceof MatchBoardActivity) {
-            PostDetailActivity.launch(getActivity(), adapter.getBoardFeed(), boardId, position, ((MatchBoardActivity) getActivity()).getScreenshotLayout(), BOARD);
+        if (! isNullOrEmpty(adapter.getBoardFeed()) && getParentFragment() instanceof FeedEntryContainer) {
+            ((FeedEntryContainer) getParentFragment()).openFeedEntry(adapter.getBoardFeed(), boardId, position, BOARD);
         }
     }
 

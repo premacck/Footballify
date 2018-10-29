@@ -6,13 +6,11 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
 import android.os.Vibrator
 import android.support.design.widget.CoordinatorLayout
-import android.support.v7.widget.CardView
 import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
@@ -32,14 +30,14 @@ fun View.toggleInteraction(isEnabled: Boolean) {
     this.isClickable = isEnabled
 }
 
-fun CardView.moveToBackGround() {
-    translateScaleAnimation(24f, 0.92f).prepare().start()
+fun View.moveToBackGround(index: Int) {
+    translateScaleAnimation(-getDp(if (index > 1) 44f else 24f), 0.92f).prepare().start()
     elevation = 0f
     toggleInteraction(false)
     toggleInteraction(false)
 }
 
-fun CardView.moveToForeGround() {
+fun View.moveToForeGround() {
     translateScaleAnimation(0f, 1f).prepare().start()
     elevation = getDp(8f)
     toggleInteraction(true)
@@ -100,19 +98,22 @@ private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action:
     return object : View.OnTouchListener {
         private var isLongPress = false
 
-        @SuppressLint("ClickableViewAccessibility")
         override fun onTouch(v: View?, event: MotionEvent?): Boolean {
             if (event?.action == MotionEvent.ACTION_DOWN) {
                 isLongPress = true
                 this@getCustomOnLongClickListener.postDelayed({
                     if (isLongPress) {
+                        isLongPress = false
                         val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                         vibrator.vibrate(50)
                         action()
                     }
                 }, longClickDelay.toLong())
             } else if (event?.action == MotionEvent.ACTION_UP) {
-                isLongPress = false
+                if (isLongPress) {
+                    isLongPress = false
+                    performClick()
+                }
                 return false
             }
             return true

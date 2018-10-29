@@ -14,12 +14,11 @@ import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.facilis.onCustomLongClick
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
 class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, private val glide: RequestManager) : RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
 
-    private var userFeed: MutableList<FeedEntry>? = null
+    private var userFeed: MutableList<FeedEntry>
     private var isUpdated: Boolean = false
 
     init {
@@ -34,7 +33,7 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
     override fun onBindViewHolder(holder: UserFeedAdapter.UserFeedViewHolder, position: Int) {
         if (!isNullOrEmpty(userFeed)) {
             updateShimmer(holder, R.color.transparent, false)
-            val feedItem = userFeed!![position].feedItem
+            val feedItem = userFeed[position].feedItem
             if (feedItem.thumbnail != null) {
                 glide.load(feedItem.thumbnail!!.imageUrl)
                         .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder)
@@ -57,7 +56,9 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
                 updateShimmer(holder, R.color.transparent, false)
             }
         }
-        holder.itemView.onClick { /*PostDetailActivity.launch(ref.get().fragment, ref.get().userFeed, null, getAdapterPosition(), ref.get().fragment.getScreenshotLayout(), null)*/ }
+
+        holder.itemView.setOnClickListener { feedEntryContainer.openFeedEntry(userFeed, "", position, "") }
+
         holder.itemView.onCustomLongClick { feedEntryContainer.setBlurBackgroundAndShowFullScreenTiles(true, position) }
     }
 
@@ -70,7 +71,7 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
         }
     }
 
-    override fun getItemCount(): Int = if (userFeed!!.isEmpty()) 12 else userFeed!!.size
+    override fun getItemCount(): Int = if (userFeed.isEmpty()) 12 else userFeed.size
 
     fun setUserFeed(userFeed: MutableList<FeedEntry>) {
         isUpdated = true

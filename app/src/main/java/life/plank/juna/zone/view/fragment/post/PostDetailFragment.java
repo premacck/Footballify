@@ -141,10 +141,10 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
     private EmojiAdapter emojiAdapter;
     private String target;
 
-    public static PostDetailFragment newInstance(@NonNull String feedEntryString, String boardId, String target) {
+    public static PostDetailFragment newInstance(@NonNull FeedEntry feedEntry, String boardId, String target) {
         PostDetailFragment fragment = new PostDetailFragment();
         Bundle args = new Bundle();
-        args.putString(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedEntryString);
+        args.putParcelable(ZoneApplication.getContext().getString(R.string.intent_feed_items), feedEntry);
         args.putString(ZoneApplication.getContext().getString(R.string.intent_board_id), boardId);
         args.putString(ZoneApplication.getContext().getString(R.string.intent_target), target);
         fragment.setArguments(args);
@@ -157,7 +157,7 @@ public class PostDetailFragment extends Fragment implements FeedInteractionListe
         getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            feedEntry = gson.fromJson(args.getString(getString(R.string.intent_feed_items)), FeedEntry.class);
+            feedEntry = args.getParcelable(getString(R.string.intent_feed_items));
             boardId = args.getString(getString(R.string.intent_board_id));
             target = args.getString(getString(R.string.intent_target));
         }

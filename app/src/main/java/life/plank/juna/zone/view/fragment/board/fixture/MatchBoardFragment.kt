@@ -35,12 +35,14 @@ import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
+import life.plank.juna.zone.util.facilis.findLastFragment
 import life.plank.juna.zone.util.facilis.findPopupDialog
 import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
+import life.plank.juna.zone.view.fragment.post.PostDetailContainerFragment
 import retrofit2.Response
 import rx.Subscriber
 import java.lang.ref.WeakReference
@@ -219,14 +221,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         board_toolbar.dispose()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
-        if (!isNullOrEmpty(boardId) && !isBoardActive) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId!!)
-        }
-    }
-
     private fun getBoardIdAndMatchDetails(currentMatchId: Long?) {
         RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId!!)
                 .doOnSubscribe { board_progress_bar!!.visibility = View.VISIBLE }
@@ -353,18 +347,30 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         }
     }
 
-    override fun onBackPressed(): Boolean {
-        return if (isTileFullScreenActive) {
-            setBlurBackgroundAndShowFullScreenTiles(false, 0)
-            false
-        } else {
-            boardFeedDetailAdapter = null
-            boardPagerAdapter = null
-            true
+    override fun onDestroy() {
+        FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
+        if (!isNullOrEmpty(boardId) && !isBoardActive) {
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId!!)
         }
+        boardFeedDetailAdapter = null
+        boardPagerAdapter = null
+        super.onDestroy()
     }
 
-    internal class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
+    override fun onBackPressed(): Boolean {
+        val postDetailContainerFragment = childFragmentManager.findLastFragment(PostDetailContainerFragment.TAG)
+        if (postDetailContainerFragment != null && postDetailContainerFragment.isAdded) {
+            childFragmentManager.popBackStack()
+            return false
+        }
+        if (isTileFullScreenActive) {
+            setBlurBackgroundAndShowFullScreenTiles(false, 0)
+            return false
+        }
+        return true
+    }
+
+    class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
 
         var currentFragment: Fragment? = null
         private val ref: WeakReference<MatchBoardFragment> = WeakReference(matchBoardFragment)

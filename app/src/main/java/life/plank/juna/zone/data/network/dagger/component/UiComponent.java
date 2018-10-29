@@ -26,7 +26,6 @@ import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
-import life.plank.juna.zone.view.activity.post.PostDetailActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
@@ -102,8 +101,6 @@ public interface UiComponent {
     void inject(JoinBoardActivity joinBoardActivity);
 
     void inject(SelectZoneActivity selectZoneActivity);
-
-    void inject(PostDetailActivity postDetailActivity);
 
     void inject(PostDetailFragment postDetailFragment);
 
