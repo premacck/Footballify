@@ -135,12 +135,6 @@
             android:name=".view.activity.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.TimelineActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.CommentaryActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.BoardPreviewActivity"
             android:screenOrientation="portrait" />
         <activity

@@ -29,10 +29,12 @@ import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
+import life.plank.juna.zone.data.model.Commentary;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
@@ -40,8 +42,6 @@ import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.facilis.BaseCard;
-import life.plank.juna.zone.view.activity.CommentaryActivity;
-import life.plank.juna.zone.view.activity.TimelineActivity;
 import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 import life.plank.juna.zone.view.fragment.football.LeagueInfoDetailPopup;
@@ -62,9 +62,7 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 import static life.plank.juna.zone.util.facilis.FragmentUtilKt.pushPopup;
-import static life.plank.juna.zone.view.activity.base.BaseBoardActivity.boardParentViewBitmap;
 
 public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
 
@@ -149,11 +147,13 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
 
     @Override
     public void onScrubberClick(View view) {
-        if (matchDetails != null && !isNullOrEmpty(matchDetails.getMatchEvents())) {
-            if (boardParentViewBitmap == null) {
-                boardParentViewBitmap = loadBitmap(Objects.requireNonNull(getActivity()).getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getContext());
-            }
-            TimelineActivity.launch(getActivity(), view, matchDetails.getMatchId(), matchDetails.getMatchEvents(), matchDetails);
+        if (getParentFragment() instanceof BaseCard && matchDetails != null && !isNullOrEmpty(matchDetails.getMatchEvents())) {
+            pushPopup(
+                    getParentFragment().getChildFragmentManager(),
+                    R.id.peek_popup_container,
+                    TimelinePopup.Companion.newInstance(matchDetails.getMatchId(), (ArrayList<MatchEvent>) matchDetails.getMatchEvents(), matchDetails),
+                    CommentaryPopup.Companion.getTag()
+            );
         } else
             Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
@@ -161,17 +161,19 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onCommentarySeeAllClick(View fromView) {
-        if (matchDetails != null && !isNullOrEmpty(matchDetails.getCommentary())) {
-            if (boardParentViewBitmap == null) {
-                boardParentViewBitmap = loadBitmap(getActivity().getWindow().getDecorView(), getActivity().getWindow().getDecorView(), getActivity());
-            }
-            CommentaryActivity.launch(getActivity(), fromView, matchDetails.getCommentary());
+        if (getParentFragment() instanceof BaseCard && !isNullOrEmpty(matchDetails.getCommentary())) {
+            pushPopup(
+                    getParentFragment().getChildFragmentManager(),
+                    R.id.peek_popup_container,
+                    CommentaryPopup.Companion.newInstance((ArrayList<Commentary>) matchDetails.getCommentary()),
+                    CommentaryPopup.Companion.getTag()
+            );
         }
     }
 
     @Override
     public void onSeeAllStandingsClick(View fromView) {
-        if (getParentFragment() instanceof BaseCard && matchDetails.getStandingsList() != null) {
+        if (getParentFragment() instanceof BaseCard && !isNullOrEmpty(matchDetails.getStandingsList())) {
             pushPopup(getParentFragment().getChildFragmentManager(),
                     R.id.peek_popup_container,
                     LeagueInfoDetailPopup.Companion.newInstance(STANDINGS, (ArrayList<? extends Parcelable>) matchDetails.getStandingsList()),
