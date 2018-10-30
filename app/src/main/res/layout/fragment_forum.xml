@@ -10,8 +10,15 @@
         android:id="@+id/post_comments_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/post_comment_layout"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/item_post_comment" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/post_comment_layout"
+        android:background="@color/light_grey" />
 
     <RelativeLayout
         android:id="@+id/post_comment_layout"
