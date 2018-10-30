@@ -118,6 +118,19 @@ fun View.setTopMargin(topMargin: Int) {
     }
 }
 
+fun vibrate(millis: Long) {
+    val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+    vibrator.vibrate(millis)
+}
+
+fun View.longClickWithVibrate(action: () -> Unit) {
+    setOnLongClickListener {
+        vibrate(20)
+        action()
+        return@setOnLongClickListener true
+    }
+}
+
 fun View.onCustomLongClick(longClickDelay: Int = 300, action: () -> Unit) {
     setOnTouchListener(getCustomOnLongClickListener(longClickDelay) { action() })
 }
@@ -149,8 +162,7 @@ private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action:
                     this@getCustomOnLongClickListener.postDelayed({
                         if (isLongPress && arePointsWithinBounds()) {
                             isLongPress = false
-                            val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                            vibrator.vibrate(18)
+                            vibrate(20)
                             action()
                         }
                     }, longClickDelay.toLong())
