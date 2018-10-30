@@ -44,8 +44,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
 
     @BindView(R.id.lock)
     ImageView lockImageView;
-    @BindView(R.id.following_text_view)
-    TextView followBtn;
+    @BindView(R.id.following_button)
+    ImageView followBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
     @BindView(R.id.comment_count)
@@ -111,8 +111,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     }
 
     private void initViews(Context context) {
-        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
-        }
+
+    }
 
 
     @Override
@@ -134,7 +134,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     }
 
     private void addInfoTilesListener() {
-        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
     }
 
     @Override
