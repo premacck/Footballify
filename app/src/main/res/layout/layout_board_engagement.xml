@@ -3,37 +3,53 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent_white_two"
-    android:paddingEnd="10dp"
+    android:elevation="2dp"
     android:paddingStart="11dp"
     android:paddingTop="6dp"
-    android:elevation="2dp"
+    android:paddingEnd="10dp"
     android:paddingBottom="6dp">
 
-    <TextView
-        android:id="@+id/following_text_view"
-        style="@style/following_text_view_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/following_button"
+        android:layout_width="10dp"
+        android:layout_height="12dp"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:text="@string/following" />
+        android:layout_marginStart="12dp"
+        android:src="@drawable/ic_following" />
+
+    <TextView
+        android:id="@+id/change_picture_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="15dp"
+        android:layout_toStartOf="@+id/following_button"
+        android:background="@drawable/white_border_button"
+        android:fontFamily="@font/rajdhani_medium"
+        android:gravity="center"
+        android:padding="1dp"
+        android:text="@string/info"
+        android:textAllCaps="true"
+        android:textColor="@color/white"
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/people_count"
-        android:drawableStart="@drawable/ic_people"
-        style="@style/EngagementLayout" />
+        style="@style/EngagementLayout"
+        android:drawableStart="@drawable/ic_people" />
 
     <TextView
         android:id="@+id/comment_count"
+        style="@style/EngagementLayout"
         android:layout_toEndOf="@+id/people_count"
-        android:drawableStart="@drawable/ic_card"
-        style="@style/EngagementLayout" />
+        android:drawableStart="@drawable/ic_card" />
 
     <TextView
         android:id="@+id/likes_count"
-        android:drawableStart="@drawable/ic_likes"
-        android:layout_toEndOf="@+id/comment_count"
+        style="@style/EngagementLayout"
         android:layout_toStartOf="@+id/following_text_view"
-        style="@style/EngagementLayout" />
+        android:layout_toEndOf="@+id/comment_count"
+        android:drawableStart="@drawable/ic_likes" />
 
 </RelativeLayout>

@@ -80,9 +80,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     ImageButton optionsMenu;
     @BindView(R.id.share_btn)
     ImageButton shareBtn;
-
-    @BindView(R.id.following_text_view)
-    TextView followBtn;
+    @BindView(R.id.following_button)
+    ImageView followBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
     @BindView(R.id.comment_count)
@@ -194,7 +193,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     private void addInfoTilesListener() {
-        followBtn.setOnClickListener(view -> listener.followClicked(followBtn));
+
         switch (matchTimeValue) {
             case MATCH_LIVE:
                 if (baseTime > 0) {

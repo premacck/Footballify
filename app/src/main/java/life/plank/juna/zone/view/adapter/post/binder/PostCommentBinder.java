@@ -63,7 +63,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         }
 
         holder.profileNameTextView.setText(item.getCommenterDisplayName());
-        glide.load(item.getCommenterProfilePicUrl())
+        glide.load(item.getCommenterProfilePictureUrl())
                 .apply(RequestOptions.overrideOf((int) getDp(20), (int) getDp(20)))
                 .into(holder.profilePic);
 
