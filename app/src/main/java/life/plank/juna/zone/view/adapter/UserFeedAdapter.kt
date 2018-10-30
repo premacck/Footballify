@@ -13,7 +13,7 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
-import life.plank.juna.zone.util.facilis.onCustomLongClick
+import life.plank.juna.zone.util.facilis.longClickWithVibrate
 import java.util.*
 
 class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, private val glide: RequestManager) : RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
@@ -59,7 +59,7 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
 
         holder.itemView.setOnClickListener { feedEntryContainer.openFeedEntry(userFeed, "", position, "") }
 
-        holder.itemView.onCustomLongClick { feedEntryContainer.showFeedItemPeekPopup(position) }
+        holder.itemView.longClickWithVibrate { feedEntryContainer.showFeedItemPeekPopup(position) }
     }
 
     private fun updateShimmer(holder: UserFeedAdapter.UserFeedViewHolder, @ColorRes color: Int, isStarted: Boolean) {

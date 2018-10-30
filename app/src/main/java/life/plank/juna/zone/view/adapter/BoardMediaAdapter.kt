@@ -11,23 +11,19 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.interfaces.OnClickFeedItemListener
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentColor
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentText
-import life.plank.juna.zone.util.facilis.onCustomLongClick
+import life.plank.juna.zone.util.masonry.base.AsymmetricItem
+import life.plank.juna.zone.util.masonry.widget.WrappedAsymmetricRecyclerAdapter
 import java.util.*
 
 /**
  * Created by plank-prachi on 4/10/2018.
  */
-class BoardMediaAdapter(private val glide: RequestManager, private val listener: OnClickFeedItemListener) : RecyclerView.Adapter<BoardMediaAdapter.BoardMediaViewHolder>() {
+class BoardMediaAdapter(private val glide: RequestManager) : WrappedAsymmetricRecyclerAdapter<BoardMediaAdapter.BoardMediaViewHolder>() {
 
-    private val boardFeed: MutableList<FeedEntry>
-
-    init {
-        this.boardFeed = ArrayList()
-    }
+    private val boardFeed: MutableList<FeedEntry> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardMediaViewHolder {
         return BoardMediaViewHolder(
@@ -80,9 +76,6 @@ class BoardMediaAdapter(private val glide: RequestManager, private val listener:
                 }
             }
         }
-
-        view.setOnClickListener { listener.onItemClick(position) }
-        view.onCustomLongClick { listener.onItemLongClick(position) }
     }
 
     private fun setVisibility(holder: BoardMediaViewHolder, commentTextViewVisibility: Int, tileImageViewVisibility: Int, playBtnVisibility: Int) {
@@ -107,6 +100,8 @@ class BoardMediaAdapter(private val glide: RequestManager, private val listener:
     }
 
     fun getBoardFeed(): List<FeedEntry> = boardFeed
+
+    override fun getItem(position: Int): AsymmetricItem = boardFeed[position]
 
     override fun getItemCount(): Int = boardFeed.size
 
