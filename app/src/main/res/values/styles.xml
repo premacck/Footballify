@@ -109,6 +109,14 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <style name="MatchInfoTabLayout" parent="Base.Widget.Design.TabLayout">
+        <item name="tabTextColor">@color/grey_0_7</item>
+        <item name="tabSelectedTextColor">@color/text_hint_label_color</item>
+        <item name="tabIndicatorColor">@color/text_hint_label_color</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabTextAppearance">@style/MatchInfoTabTextAppearance</item>
+    </style>
+
     <style name="InfoTilesTabLayout" parent="Base.Widget.Design.TabLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -119,11 +127,19 @@
         <item name="tabTextAppearance">@style/MyCustomTabTextAppearance</item>
     </style>
 
+
     <style name="MyCustomTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:fontFamily">@font/rajdhani_semibold</item>
         <item name="android:textSize">10sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="MatchInfoTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:fontFamily">@font/rajdhani_semibold</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/grey_0_7</item>
     </style>
 
     <style name="TeamStatsTextView">

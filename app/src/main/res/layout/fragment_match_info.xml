@@ -48,6 +48,59 @@
                 android:textColor="@color/grey"
                 android:textSize="16sp" />
 
+            <android.support.design.widget.TabLayout
+                android:id="@+id/info_tiles_tab_layout"
+                style="@style/MatchInfoTabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_below="@+id/vs"
+                android:layout_marginTop="10dp"
+                android:background="@color/background_color">
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/prematch_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PREMATCH" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/lineups_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LINEUPS" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/stats_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="STATS" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/media_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MEDIA" />
+
+                <android.support.design.widget.TabItem
+                    android:id="@+id/people_tab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PEOPLE" />
+            </android.support.design.widget.TabLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/info_view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/info_tiles_tab_layout"
+                android:nestedScrollingEnabled="false" />
+
+            <ProgressBar
+                android:id="@+id/info_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
         </RelativeLayout>
 
         <ImageView
