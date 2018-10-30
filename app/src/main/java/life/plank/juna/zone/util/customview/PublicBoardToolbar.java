@@ -82,6 +82,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     ImageButton shareBtn;
     @BindView(R.id.following_button)
     ImageView followBtn;
+    @BindView(R.id.match_info_button)
+    TextView matchInfoBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
     @BindView(R.id.comment_count)
@@ -179,6 +181,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void dispose() {
         listener = null;
         followBtn.setOnClickListener(null);
+        matchInfoBtn.setOnClickListener(null);
         optionsMenu.setOnClickListener(null);
         switch (matchTimeValue) {
             case MATCH_LIVE:
@@ -193,7 +196,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     private void addInfoTilesListener() {
-
+        matchInfoBtn.setOnClickListener(view -> listener.infoClicked(matchInfoBtn));
         switch (matchTimeValue) {
             case MATCH_LIVE:
                 if (baseTime > 0) {
