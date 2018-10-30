@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -83,6 +84,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
         postCommentsRecyclerView.setAdapter(adapter);
         setAdapterData();
         restApi = retrofit.create(RestApi.class);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
         getComments();
         return rootView;
