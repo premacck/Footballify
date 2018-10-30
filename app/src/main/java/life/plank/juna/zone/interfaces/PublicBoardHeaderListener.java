@@ -4,7 +4,7 @@ import android.widget.TextView;
 
 public interface PublicBoardHeaderListener {
 
-    void followClicked(TextView followBtn);
+    void infoClicked(TextView infoBtn);
 
     void onMatchTimeStateChange();
 }
