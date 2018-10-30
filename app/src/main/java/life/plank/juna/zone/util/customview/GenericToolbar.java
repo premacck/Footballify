@@ -46,6 +46,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     ImageView lockImageView;
     @BindView(R.id.following_button)
     ImageView followBtn;
+    @BindView(R.id.match_info_button)
+    TextView matchInfoBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
     @BindView(R.id.comment_count)
@@ -91,6 +93,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         shareBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         optionsMenu.setVisibility(array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         followBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
+        matchInfoBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         infoTilesTabLayout.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false));
         array.recycle();
@@ -109,11 +112,6 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
             showOptionPopup(activity, point, popupType, null, -400, 100);
         });
     }
-
-    private void initViews(Context context) {
-
-    }
-
 
     @Override
     public void initListeners(Fragment fragment) {
@@ -134,12 +132,14 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     }
 
     private void addInfoTilesListener() {
+        matchInfoBtn.setOnClickListener(view -> listener.infoClicked(matchInfoBtn));
     }
 
     @Override
     public void dispose() {
         listener = null;
         followBtn.setOnClickListener(null);
+        matchInfoBtn.setOnClickListener(null);
         optionsMenu.setOnClickListener(null);
     }
 
@@ -211,6 +211,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         shareBtn.setVisibility(INVISIBLE);
         optionsMenu.setVisibility(INVISIBLE);
         followBtn.setVisibility(INVISIBLE);
+        matchInfoBtn.setVisibility(INVISIBLE);
         infoTilesTabLayout.setVisibility(INVISIBLE);
     }
 }

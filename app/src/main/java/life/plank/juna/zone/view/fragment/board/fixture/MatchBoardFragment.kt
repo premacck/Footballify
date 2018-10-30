@@ -295,19 +295,8 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply()
     }
 
-    override fun followClicked(followBtn: TextView) {
-        if (isBoardActive) {
-            val id = getString(R.string.board_id_prefix) + boardId!!
-            if (followBtn.text.toString().equals(getString(R.string.follow), ignoreCase = true)) {
-                followBtn.setText(R.string.unfollow)
-                FirebaseMessaging.getInstance().subscribeToTopic(id)
-            } else {
-                followBtn.setText(R.string.follow)
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(id)
-            }
-        } else {
-            Toast.makeText(context, R.string.board_not_active, Toast.LENGTH_LONG).show()
-        }
+    override fun infoClicked(infoBtn: TextView) {
+        pushFragment(MatchInfoFragment.newInstance(fixture, league), true)
     }
 
     override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
