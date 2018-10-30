@@ -60,6 +60,16 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
             Typeface typeface = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "fonts/rajdhani_semibold.ttf");
             holder.likeTextView.setTypeface(typeface);
             holder.replyTextView.setTypeface(typeface);
+            holder.viewRepliesTextView.setVisibility(View.GONE);
+        }else{
+            holder.viewRepliesTextView.setVisibility(isNullOrEmpty(item.getReplies()) ? View.GONE : View.VISIBLE);
+            if (holder.isItemExpanded()) {
+                holder.viewRepliesTextView.setText(R.string.hide_replies);
+                holder.repliesRecyclerView.setVisibility(View.VISIBLE);
+            } else {
+                holder.viewRepliesTextView.setText(R.string.show_replies);
+                holder.repliesRecyclerView.setVisibility(View.GONE);
+            }
         }
 
         holder.profileNameTextView.setText(item.getCommenterDisplayName());
@@ -68,15 +78,9 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
                 .into(holder.profilePic);
 
         holder.likeTextView.setText(item.getHasLiked() ? R.string.unlike : R.string.like);
-        holder.viewRepliesTextView.setVisibility(isNullOrEmpty(item.getReplies()) ? View.GONE : View.VISIBLE);
         holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(glide, item.getReplies()));
-        if (holder.isItemExpanded()) {
-            holder.viewRepliesTextView.setText(R.string.hide_replies);
-            holder.repliesRecyclerView.setVisibility(View.VISIBLE);
-        } else {
-            holder.viewRepliesTextView.setText(R.string.show_replies);
-            holder.repliesRecyclerView.setVisibility(View.GONE);
-        }
+
+
     }
 
     @Override
