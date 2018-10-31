@@ -93,16 +93,15 @@
     </style>
 
     <style name="ZoneSelection">
-        <item name="android:layout_width">112dp</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">23dp</item>
-        <item name="android:layout_marginStart">12dp</item>
-        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_margin">6dp</item>
         <item name="android:checked">true</item>
+        <item name="android:elevation">2dp</item>
         <item name="android:background">@drawable/unselected_text_view_bg</item>
         <item name="android:fontFamily">@font/rajdhani_semibold</item>
         <item name="android:paddingBottom">2dp</item>
-        <item name="android:paddingStart">0dp</item>
-        <item name="android:paddingEnd">7dp</item>
         <item name="android:paddingTop">2dp</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">@color/grey</item>

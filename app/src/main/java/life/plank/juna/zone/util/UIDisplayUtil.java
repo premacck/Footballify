@@ -321,19 +321,21 @@ public class UIDisplayUtil {
 
     public static void toggleZone(Context context, ToggleButton view, boolean isChecked) {
         view.setChecked(!isChecked);
+        int verticalPadding = (int) getDp(2);
         if (!isChecked) {
             view.setBackground(context.getDrawable(R.drawable.unselected_text_view_bg));
-            view.setElevation(getDp(2));
+            view.setElevation(verticalPadding);
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
             view.setTextColor(context.getColor(R.color.grey));
             view.setGravity(Gravity.CENTER);
+            view.setPadding(0, verticalPadding, 0, verticalPadding);
         } else {
             view.setBackground(context.getDrawable(R.drawable.selected_textview_bg));
             view.setElevation(getDp(5));
             view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_close_tag, 0);
             view.setTextColor(context.getColor(R.color.white));
-            view.setGravity(Gravity.START);
-            view.setPadding(50, 10, 10, 10);
+            view.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+            view.setPadding((int) getDp(13), verticalPadding, (int) getDp(6), verticalPadding);
         }
     }
 

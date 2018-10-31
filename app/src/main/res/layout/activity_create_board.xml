@@ -1,125 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent_layout"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
-    tools:context=".view.activity.CreateBoardActivity">
+    style="@style/MatchParentSize">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:id="@+id/parent_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+        android:background="@color/white"
+        tools:context=".view.activity.board.CreateBoardActivity">
 
-        <life.plank.juna.zone.util.customview.ZoneToolBar
-            android:id="@+id/tool_bar"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:title="@string/board_maker" />
+            android:gravity="start"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/background_color"
-            android:paddingRight="15dp"
-            android:paddingBottom="15dp">
-
-            <TextView
-                android:id="@+id/user_greeting"
-                android:layout_width="wrap_content"
+            <life.plank.juna.zone.util.customview.ZoneToolBar
+                android:id="@+id/tool_bar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/raleway_regular"
-                android:lineSpacingExtra="8sp"
-                android:text="Hi Kiran"
-                android:textColor="@color/grey"
-                android:textSize="20sp" />
+                app:title="@string/board_maker" />
 
-            <TextView
-                android:id="@+id/description"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/user_greeting"
-                android:layout_marginStart="17dp"
-                android:layout_marginTop="11dp"
-                android:fontFamily="@font/raleway_regular"
-                android:lineSpacingExtra="6sp"
-                android:text="@string/choose_the_zone_which_your_board_belongs_to"
-                android:textColor="@color/grey"
-                android:textSize="16sp" />
+                android:background="@color/background_color"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
 
-            <ToggleButton
-                android:id="@+id/football"
-                style="@style/ZoneSelection"
-                android:layout_below="@+id/description"
-                android:elevation="2dp"
-                android:textOff="@string/football"
-                android:textOn="@string/football" />
+                <TextView
+                    android:id="@+id/user_greeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/raleway_regular"
+                    android:lineSpacingExtra="8sp"
+                    android:textColor="@color/grey"
+                    android:textSize="20sp" />
 
-            <ToggleButton
-                android:id="@+id/music"
-                style="@style/ZoneSelection"
-                android:layout_below="@+id/description"
-                android:layout_toEndOf="@+id/football"
-                android:elevation="2dp"
-                android:textOff="@string/music"
-                android:textOn="@string/music" />
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/user_greeting"
+                    android:layout_marginTop="11dp"
+                    android:fontFamily="@font/raleway_regular"
+                    android:lineSpacingExtra="6sp"
+                    android:text="@string/choose_the_zone_which_your_board_belongs_to"
+                    android:textColor="@color/grey"
+                    android:textSize="16sp" />
 
-            <ToggleButton
-                android:id="@+id/drama"
-                style="@style/ZoneSelection"
-                android:layout_below="@+id/description"
-                android:layout_toEndOf="@+id/music"
-                android:elevation="2dp"
-                android:textOff="@string/drama"
-                android:textOn="@string/drama" />
+                <LinearLayout
+                    android:id="@+id/zone_selection_row_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/description"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="3dp">
 
-            <ToggleButton
-                android:id="@+id/tune"
-                style="@style/ZoneSelection"
-                android:layout_below="@+id/drama"
-                android:layout_marginBottom="2dp"
-                android:elevation="2dp"
-                android:textOff="@string/tune"
-                android:textOn="@string/tune" />
+                    <ToggleButton
+                        android:id="@+id/football"
+                        style="@style/ZoneSelection"
+                        android:textOff="@string/football"
+                        android:textOn="@string/football" />
 
-            <ToggleButton
-                android:id="@+id/skill"
-                style="@style/ZoneSelection"
-                android:layout_below="@+id/music"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/tune"
-                android:elevation="2dp"
-                android:textOff="@string/skill"
-                android:textOn="@string/skill" />
+                    <ToggleButton
+                        android:id="@+id/music"
+                        style="@style/ZoneSelection"
+                        android:textOff="@string/music"
+                        android:textOn="@string/music" />
 
-            <ToggleButton
-                android:id="@+id/other"
-                style="@style/ZoneSelection"
-                android:layout_below="@+id/drama"
-                android:layout_marginBottom="2dp"
-                android:layout_toEndOf="@+id/skill"
-                android:elevation="2dp"
-                android:textOff="@string/other"
-                android:textOn="@string/other" />
+                    <ToggleButton
+                        android:id="@+id/drama"
+                        style="@style/ZoneSelection"
+                        android:textOff="@string/drama"
+                        android:textOn="@string/drama" />
+                </LinearLayout>
 
-        </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/zone_selection_row_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/zone_selection_row_1"
+                    android:layout_marginBottom="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="6dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="6dp">
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp">
+                    <ToggleButton
+                        android:id="@+id/tune"
+                        style="@style/ZoneSelection"
+                        android:textOff="@string/tune"
+                        android:textOn="@string/tune" />
+
+                    <ToggleButton
+                        android:id="@+id/skill"
+                        style="@style/ZoneSelection"
+                        android:textOff="@string/skill"
+                        android:textOn="@string/skill" />
+
+                    <ToggleButton
+                        android:id="@+id/other"
+                        style="@style/ZoneSelection"
+                        android:textOff="@string/other"
+                        android:textOn="@string/other" />
+                </LinearLayout>
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/private_board_setup_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/raleway_regular"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/now_let_s_setup_your_football_board"
@@ -130,21 +134,20 @@
                 android:id="@+id/board_name_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/private_board_setup_title"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="17dp">
+                android:layout_marginEnd="16dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/board_name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="25"
                     android:backgroundTint="@color/grey_0_5"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/board_name"
                     android:inputType="text"
+                    android:maxLength="25"
                     android:textColorHint="@color/grey_0_5"
                     android:textSize="16sp" />
 
@@ -154,11 +157,10 @@
                 android:id="@+id/board_description_text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/board_name_text_input"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginEnd="17dp">
+                android:layout_marginEnd="16dp">
 
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/board_description_edit_text"
@@ -177,9 +179,9 @@
                 android:id="@+id/pick_a_color_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/board_description_text_input"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/raleway_regular"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/pick_a_color_theme_for_your_board"
@@ -190,9 +192,9 @@
                 android:id="@+id/private_board_color_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/pick_a_color_title"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="16dp"
                 android:paddingTop="6dp"
                 android:paddingBottom="6dp"
                 app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
@@ -202,9 +204,9 @@
                 android:id="@+id/board_icon_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/private_board_color_list"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/raleway_regular"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/and_a_board_icon"
@@ -214,10 +216,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/board_icon_text_view"
-                android:layout_marginStart="17dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="17dp"
+                android:layout_marginEnd="16dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -234,7 +235,7 @@
                 <Button
                     android:id="@+id/upload_board_icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="20dp"
+                    android:layout_height="30dp"
                     android:background="@drawable/blue_border_button"
                     android:text="@string/upload"
                     android:textColor="@color/others_color_grey"
@@ -242,20 +243,26 @@
 
             </LinearLayout>
 
-        </RelativeLayout>
+            <Button
+                android:id="@+id/create_board_button"
+                android:layout_width="222dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_background"
+                android:fontFamily="@font/raleway_bold"
+                android:text="@string/preview_and_create"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="19sp" />
 
-        <Button
-            android:id="@+id/create_board_button"
-            android:layout_width="222dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/button_background"
-            android:fontFamily="@font/raleway_bold"
-            android:text="@string/preview_and_create"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="19sp" />
+        </LinearLayout>
 
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+
+    <FrameLayout
+        android:id="@+id/board_maker_fragment_container"
+        style="@style/MatchParentSize" />
+
+</FrameLayout>

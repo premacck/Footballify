@@ -23,7 +23,7 @@
         android:layout_marginStart="12dp"
         android:layout_weight="16"
         android:fontFamily="@font/raleway_medium"
-        android:textSize="24sp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/toolbar_user_greeting"
