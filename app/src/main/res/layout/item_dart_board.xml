@@ -51,7 +51,7 @@
                 android:layout_centerInParent="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="13dp"
-                android:src="@drawable/ic_default_profile" />
+                android:src="@drawable/ozil_image" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -112,17 +112,30 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/darts"
+                android:id="@+id/darts_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bio"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/rajdhani_medium"
-                android:text="5.2k Darts thrown"
+                android:text="51"
                 android:textColor="@color/dark_sky_blue"
                 android:textSize="10sp" />
 
             <TextView
+                android:id="@+id/darts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bio"
+                android:layout_marginTop="15dp"
+                android:layout_toEndOf="@+id/darts_count"
+                android:fontFamily="@font/rajdhani_medium"
+                android:text=" Darts thrown"
+                android:textColor="@color/dark_sky_blue"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/throw_dart_button"
                 android:layout_width="80dp"
                 android:layout_height="15dp"
                 android:layout_below="@+id/bio"

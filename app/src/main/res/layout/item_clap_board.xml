@@ -40,6 +40,24 @@
             android:layout_marginTop="13dp"
             android:src="@drawable/ozil_image" />
 
+        <ImageView
+            android:id="@+id/crown_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/clapboard_image"
+            android:layout_alignTop="@+id/clapboard_image"
+            android:src="@drawable/ic_crown"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/clap_image_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/clapboard_image"
+            android:layout_alignBottom="@+id/clapboard_image"
+            android:src="@drawable/ic_clap"
+            android:visibility="invisible" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,17 +116,29 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/claps"
+                android:id="@+id/claps_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bio"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/rajdhani_medium"
-                android:text="12.6k Claps"
+                android:text="12"
                 android:textColor="@color/dark_sky_blue"
                 android:textSize="10sp" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/bio"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/claps_count"
+                android:fontFamily="@font/rajdhani_medium"
+                android:text=" Claps"
+                android:textColor="@color/dark_sky_blue"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/clap_button"
                 android:layout_width="80dp"
                 android:layout_height="15dp"
                 android:layout_below="@+id/bio"
