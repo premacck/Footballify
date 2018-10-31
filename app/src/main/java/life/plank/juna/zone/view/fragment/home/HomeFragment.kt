@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.support.v7.widget.PagerSnapHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -58,8 +57,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     lateinit var gson: Gson
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
-    @Inject
-    lateinit var pagerSnapHelper: PagerSnapHelper
 
     private var authService: AuthorizationService? = null
     private var onBoardingBottomSheetBehavior: BottomSheetBehavior<*>? = null
@@ -290,7 +287,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         if (authService != null) {
             authService!!.dispose()
         }
-        boardFeedDetailAdapter = null
         onBoardingAdapter = null
         userBoardsAdapter = null
         userFeedAdapter = null

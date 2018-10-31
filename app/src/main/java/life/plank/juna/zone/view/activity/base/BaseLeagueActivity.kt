@@ -9,7 +9,7 @@ import com.squareup.picasso.Picasso
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 
-abstract class BaseLeagueActivity : StackableCardActivity() {
+abstract class BaseLeagueActivity : BaseCardActivity() {
 
     protected lateinit var leagueViewModel: LeagueViewModel
 

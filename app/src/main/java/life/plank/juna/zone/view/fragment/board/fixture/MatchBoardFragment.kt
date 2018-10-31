@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.CardView
-import android.support.v7.widget.PagerSnapHelper
 import android.util.Log
 import android.util.Pair
 import android.view.LayoutInflater
@@ -55,8 +54,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     lateinit var picasso: Picasso
     @Inject
     lateinit var gson: Gson
-    @Inject
-    lateinit var pagerSnapHelper: PagerSnapHelper
 
     private var currentMatchId: Long = 0
     private var isBoardActive: Boolean = false
@@ -312,7 +309,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         if (!isNullOrEmpty(boardId) && !isBoardActive) {
             FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId!!)
         }
-        boardFeedDetailAdapter = null
         boardPagerAdapter = null
         super.onDestroy()
     }
