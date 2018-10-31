@@ -57,7 +57,7 @@
                     android:id="@+id/player_image"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@color/purple" />
+                    android:src="@drawable/player_m_art" />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -138,7 +138,8 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/player_image_two"
                     android:layout_width="60dp"
-                    android:layout_height="60dp" />
+                    android:layout_height="60dp"
+                    android:src="@drawable/player_a_lacazette"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
