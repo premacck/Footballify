@@ -30,6 +30,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Zones;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.OnClickZoneItemListener;
+import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.adapter.ZoneAdapter;
 import retrofit2.Response;
 import rx.Subscriber;

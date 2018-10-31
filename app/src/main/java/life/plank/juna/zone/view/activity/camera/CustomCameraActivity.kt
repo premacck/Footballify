@@ -73,6 +73,8 @@ class CustomCameraActivity : StackableCardActivity() {
         }
     }
 
+    override fun getFragmentContainer(): Int = R.id.main_fragment_container
+
     override fun getScreenshotLayout(): View {
         return root_card
     }

@@ -33,9 +33,9 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.firebase.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
-import life.plank.juna.zone.view.activity.HomeActivity;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
+import life.plank.juna.zone.view.activity.home.HomeActivity;
 
 import static life.plank.juna.zone.util.AppConstants.LIVE_EVENT_TYPE;
 

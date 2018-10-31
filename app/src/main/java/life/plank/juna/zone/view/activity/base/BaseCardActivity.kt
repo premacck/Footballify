@@ -1,14 +1,14 @@
 package life.plank.juna.zone.view.activity.base
 
+import android.support.annotation.IdRes
 import android.support.v4.app.FragmentManager
 import android.util.Log
-import life.plank.juna.zone.R
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.findLastFragment
 import life.plank.juna.zone.util.facilis.moveCurrentCardToBackground
 import life.plank.juna.zone.util.facilis.movePreviousCardToForeground
 import life.plank.juna.zone.util.facilis.pushFragment
-import life.plank.juna.zone.view.activity.HomeActivity
+import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
@@ -18,6 +18,10 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
     private var currentFragmentTag: String? = null
 
     fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
+        if (getFragmentContainer() == -1) {
+            throw IllegalStateException("No ID for Main fragment container given")
+        }
+
         if (index < 0) return
 
         if (index > 0) {
@@ -27,7 +31,7 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
         }
 
         currentFragmentTag = fragment.javaClass.simpleName + index
-        supportFragmentManager.pushFragment(R.id.main_fragment_container, fragment, currentFragmentTag!!, index, isAddToBackStack)
+        supportFragmentManager.pushFragment(getFragmentContainer(), fragment, currentFragmentTag!!, index, isAddToBackStack)
         index++
     }
 
@@ -53,6 +57,9 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
             } // Do nothing here if the fragment's onBackPressed() returns false
         } else super.onBackPressed()
     }
+
+    @IdRes
+    abstract fun getFragmentContainer(): Int
 
     override fun onBackPressed() {
         try {
