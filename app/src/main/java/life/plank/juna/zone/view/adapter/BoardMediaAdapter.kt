@@ -8,14 +8,14 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
+import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
+import com.prembros.asymmetricrecyclerview.widget.WrappedAsymmetricRecyclerAdapter
 import kotlinx.android.synthetic.main.item_board_tile.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentColor
 import life.plank.juna.zone.util.UIDisplayUtil.getCommentText
-import life.plank.juna.zone.util.masonry.base.AsymmetricItem
-import life.plank.juna.zone.util.masonry.widget.WrappedAsymmetricRecyclerAdapter
 import java.util.*
 
 /**
