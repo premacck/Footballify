@@ -21,7 +21,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bvapp.arcmenulibrary.ArcMenu;
 import com.google.gson.Gson;
+import com.prembros.asymmetricrecyclerview.base.AsymmetricRecyclerViewListener;
+import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerView;
+import com.prembros.asymmetricrecyclerview.widget.AsymmetricRecyclerViewAdapter;
 import com.squareup.picasso.Picasso;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -38,9 +43,9 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.binder.PollBindingModel;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.FeedEntryContainer;
-import life.plank.juna.zone.interfaces.OnClickFeedItemListener;
 import life.plank.juna.zone.util.BoomMenuUtil;
 import life.plank.juna.zone.util.customview.BoardPoll;
+import life.plank.juna.zone.util.facilis.ViewUtilKt;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseFragment;
@@ -53,8 +58,9 @@ import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.UIDisplayUtil.setupFeedEntryByMasonryLayout;
 
-public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemListener {
+public class BoardTilesFragment extends BaseFragment implements AsymmetricRecyclerViewListener {
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
     @Inject
@@ -67,7 +73,7 @@ public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemL
     @BindView(R.id.poll)
     BoardPoll boardPoll;
     @BindView(R.id.board_tiles_list)
-    RecyclerView boardTilesRecyclerView;
+    AsymmetricRecyclerView boardTilesRecyclerView;
     @BindView(R.id.no_data)
     TextView noDataTextView;
     @BindView(R.id.arc_menu)
@@ -184,8 +190,12 @@ public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemL
         } else {
             boardPoll.setVisibility(View.GONE);
         }
-        adapter = new BoardMediaAdapter(Glide.with(this), this);
-        boardTilesRecyclerView.setAdapter(adapter);
+        adapter = new BoardMediaAdapter(Glide.with(this));
+        boardTilesRecyclerView.setRequestedColumnCount(3);
+        int padding = getResources().getDimensionPixelSize(R.dimen.recycler_padding);
+        boardTilesRecyclerView.setRequestedHorizontalSpacing(padding);
+        boardTilesRecyclerView.setClickListener(this);
+        boardTilesRecyclerView.setAdapter(new AsymmetricRecyclerViewAdapter<>(getContext(), boardTilesRecyclerView, adapter));
     }
 
     public void updateNewPost(FeedEntry feedItem) {
@@ -227,6 +237,7 @@ public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemL
                                 List<FeedEntry> feedItemList = response.body();
                                 if (!isNullOrEmpty(feedItemList)) {
                                     updateUi(true, 0);
+                                    setupFeedEntryByMasonryLayout(feedItemList);
                                     adapter.update(feedItemList);
                                     if (getParentFragment() instanceof MatchBoardFragment) {
                                         ((MatchBoardFragment) getParentFragment()).updateFullScreenAdapter(feedItemList);
@@ -254,17 +265,19 @@ public class BoardTilesFragment extends BaseFragment implements OnClickFeedItemL
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void fireOnItemClick(int index, @NotNull View v) {
         if (! isNullOrEmpty(adapter.getBoardFeed()) && getParentFragment() instanceof FeedEntryContainer) {
-            ((FeedEntryContainer) getParentFragment()).openFeedEntry(adapter.getBoardFeed(), boardId, position, BOARD);
+            ((FeedEntryContainer) getParentFragment()).openFeedEntry(adapter.getBoardFeed(), boardId, index, BOARD);
         }
     }
 
     @Override
-    public void onItemLongClick(int position) {
+    public boolean fireOnItemLongClick(int index, @NotNull View v) {
         if (getParentFragment() instanceof FeedEntryContainer) {
-            ((FeedEntryContainer) getParentFragment()).showFeedItemPeekPopup(position);
+            ViewUtilKt.vibrate(20);
+            ((FeedEntryContainer) getParentFragment()).showFeedItemPeekPopup(index);
         }
+        return true;
     }
 
     public void moveItem(int fromPosition, int toPosition) {
