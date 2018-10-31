@@ -17,7 +17,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -29,10 +28,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.net.HttpURLConnection;
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -49,8 +45,7 @@ import life.plank.juna.zone.data.model.Thumbnail;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.customview.GenericToolbar;
-import life.plank.juna.zone.view.activity.base.BaseBoardActivity;
-import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
+import life.plank.juna.zone.view.activity.base.BaseCardActivity;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
@@ -58,7 +53,6 @@ import life.plank.juna.zone.view.fragment.forum.ForumFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 
-import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
 
@@ -66,7 +60,7 @@ import static life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture;
  * Created by plank-dhamini on 25/7/2018.
  */
 
-public class PrivateBoardActivity extends BaseBoardActivity {
+public class PrivateBoardActivity extends BaseCardActivity {
     private static final String TAG = PrivateBoardActivity.class.getSimpleName();
     static String boardId;
     private static RestApi staticRestApi;
@@ -249,53 +243,24 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         }
     }
 
-    public void prepareFullScreenRecyclerView() {
-        setupBottomSheet();
-        initBottomSheetRecyclerView();
-        pagerSnapHelper.attachToRecyclerView(boardTilesFullRecyclerView);
-        boardFeedDetailAdapter = new BoardFeedDetailAdapter(restApi, boardId, true, emojiBottomSheetBehavior, BOARD);
-        boardTilesFullRecyclerView.setAdapter(boardFeedDetailAdapter);
-    }
-
-    @Override
-    public void updateFullScreenAdapter(List<FeedEntry> feedEntryList) {
-        boardFeedDetailAdapter.update(feedEntryList);
-    }
-
-    @Override
-    public void showFeedItemPeekPopup(int position) {
-        boardTilesFullRecyclerView.scrollToPosition(position);
-        recyclerViewDragArea.setVisibility(View.VISIBLE);
-        boardTilesFullRecyclerView.setVisibility(View.VISIBLE);
-        boardBlurBackgroundImageView.setVisibility(View.VISIBLE);
-    }
+    public void prepareFullScreenRecyclerView() {}
 
     @OnClick(R.id.board_blur_background_image_view)
     public void dismissFullScreenRecyclerView() {
         emojiBottomSheetBehavior.setPeekHeight(0);
         emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        showFeedItemPeekPopup(0);
     }
 
     @Override
     public void onBackPressed() {
         emojiBottomSheetBehavior.setPeekHeight(0);
         emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-        if (isTileFullScreenActive) {
-            showFeedItemPeekPopup(0);
-        } else {
-            boardFeedDetailAdapter = null;
-            pagerAdapter = null;
-            Intent intent = new Intent(PrivateBoardActivity.this, UserProfileActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            super.onBackPressed();
-            overridePendingTransition(R.anim.float_down, R.anim.sink_down);
-        }
-    }
-
-    @Override
-    public void openFeedEntry(@NotNull List<FeedEntry> feedEntryList, @NotNull String boardId, int position, @NotNull String target) {
+        pagerAdapter = null;
+        Intent intent = new Intent(PrivateBoardActivity.this, UserProfileActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        super.onBackPressed();
+        overridePendingTransition(R.anim.float_down, R.anim.sink_down);
     }
 
     static class PrivateBoardPagerAdapter extends FragmentPagerAdapter {
