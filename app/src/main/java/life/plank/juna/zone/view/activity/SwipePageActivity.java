@@ -237,4 +237,9 @@ public class SwipePageActivity extends StackableCardActivity implements SearchVi
     public void onItemClicked(String objectId, Boolean isSelected) {
         //TODO: handle on item click
     }
+
+    @Override
+    public int getFragmentContainer() {
+        return -1;
+    }
 }

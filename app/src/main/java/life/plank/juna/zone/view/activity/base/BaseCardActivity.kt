@@ -18,6 +18,10 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
     private var currentFragmentTag: String? = null
 
     fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
+        if (getFragmentContainer() == -1) {
+            throw IllegalStateException("No ID for Main fragment container given")
+        }
+
         if (index < 0) return
 
         if (index > 0) {

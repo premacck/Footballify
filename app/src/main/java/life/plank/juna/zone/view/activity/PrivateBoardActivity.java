@@ -345,4 +345,9 @@ public class PrivateBoardActivity extends BaseBoardActivity {
             return currentFragment;
         }
     }
+
+    @Override
+    public int getFragmentContainer() {
+        return -1;
+    }
 }
