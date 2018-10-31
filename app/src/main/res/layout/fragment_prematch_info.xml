@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_color"
     tools:context=".view.fragment.board.fixture.PrematchInfoFragment">
 
-    <!-- TODO: Update fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <include layout="@layout/item_keyboard" />
+
+    </RelativeLayout>
 </FrameLayout>
