@@ -83,16 +83,21 @@ class MatchInfoFragment : BaseCard() {
         private val ref: WeakReference<MatchInfoFragment> = WeakReference(matchInfoFragment)
 
         override fun getItem(position: Int): Fragment? {
-            return when (position) {
-                //TODO: Replace dummy fragment with required fragment
-                0 -> ref.get()?.run { DummyFragment() }
-                1 -> ref.get()?.run { DummyFragment() }
-                2 -> ref.get()?.run { DummyFragment() }
-                3 -> ref.get()?.run { DummyFragment() }
-                4 -> ref.get()?.run { DummyFragment() }
-                5 -> ref.get()?.run { DummyFragment() }
-                else -> null
+            ref.get()?.run {
+                return when (position) {
+                    //TODO: Replace dummy fragment with required fragment
+                    0 -> DummyFragment()
+                    1 -> DummyFragment()
+                    2 -> DummyFragment()
+                    3 -> DummyFragment()
+                    4 -> DummyFragment()
+                    5 -> DummyFragment()
+                    else -> {
+                        null
+                    }
+                }
             }
+            return null
         }
 
         override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
