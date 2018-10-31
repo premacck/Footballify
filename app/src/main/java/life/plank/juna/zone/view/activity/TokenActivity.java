@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,7 +34,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -43,11 +41,13 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.PreferenceManager.saveAuthState;
+import static life.plank.juna.zone.util.PreferenceManager.saveSignInUserDetails;
 import static life.plank.juna.zone.util.PreferenceManager.saveTokens;
 import static life.plank.juna.zone.util.PreferenceManager.saveTokensValidity;
+import static life.plank.juna.zone.util.PreferenceManager.setUserLoggedIn;
 
 /**
  * Client to the Native Oauth library.
@@ -200,15 +200,15 @@ public class TokenActivity extends AppCompatActivity {
                     public void onNext(Response<User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                //TODO: Investigate why the response.body is saved
-                                SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
-                                prefEditor.putBoolean(getString(R.string.pref_is_logged_in), true).apply();
-
-                                UIDisplayUtil.saveSignInUserDetails(TokenActivity.this, response.body());
-                                if (response.body().getUserPreferences().isEmpty()) {
-                                    startActivity(new Intent(TokenActivity.this, SelectZoneActivity.class));
-                                } else {
-                                    HomeActivity.Companion.launch(TokenActivity.this, false);
+                                setUserLoggedIn();
+                                User user = response.body();
+                                if (user != null) {
+                                    saveSignInUserDetails(user);
+                                    if (isNullOrEmpty(user.getUserPreferences())) {
+                                        startActivity(new Intent(TokenActivity.this, SelectZoneActivity.class));
+                                    } else {
+                                        HomeActivity.Companion.launch(TokenActivity.this, false);
+                                    }
                                 }
                                 finish();
                                 break;
