@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -33,6 +32,7 @@ import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
+import life.plank.juna.zone.view.activity.base.BaseActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
@@ -48,7 +48,7 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
 
-public class UserProfileActivity extends AppCompatActivity {
+public class UserProfileActivity extends BaseActivity {
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
     public static Bitmap parentViewBitmap = null;
@@ -92,7 +92,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private RestApi restApi;
     private UserBoardsAdapter userBoardsAdapter;
     private String username;
-
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
@@ -192,7 +191,7 @@ public class UserProfileActivity extends AppCompatActivity {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());
                             username = model.getDisplayName();
-                            if (response.body().getProfilePictureUrl() != null) {
+                            if (model.getProfilePictureUrl() != null) {
                                 picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
                                 toolbar.setProfilePic(model.getProfilePictureUrl());
                             }
@@ -204,8 +203,8 @@ public class UserProfileActivity extends AppCompatActivity {
                             }
                             locationTextView.setText(location);
                             SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
-                            editor.putString(getString(R.string.pref_profile_pic_url), response.body().getProfilePictureUrl()).apply();
-                            editor.putString(getString(R.string.pref_display_name), response.body().getDisplayName());
+                            editor.putString(getString(R.string.pref_profile_pic_url), model.getProfilePictureUrl()).apply();
+                            editor.putString(getString(R.string.pref_display_name), model.getDisplayName());
                         }
                     }
                 });

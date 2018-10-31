@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,130 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.CardView
+        <include
             android:id="@+id/keyboard"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="8dp">     </android.support.v7.widget.CardView>
+            layout="@layout/item_keyboard" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/clapboard_card"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_below="@+id/keyboard"
-            android:layout_margin="10dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="8dp">     
+        <include
+            android:id="@+id/clap_board"
+            layout="@layout/item_clap_board" />
 
-            <RelativeLayout
-                android:id="@+id/clapboard_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/clapboard_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="3dp"
-                    android:fontFamily="@font/raleway_semibold"
-                    android:lineSpacingExtra="3sp"
-                    android:textColor="@color/grey"
-                    android:textSize="12sp"
-                    tools:text="Clap Board" />
-
-                <ImageView
-                    android:id="@+id/clapboard_image"
-                    android:layout_width="125dp"
-                    android:layout_height="119dp"
-                    android:layout_below="@+id/clapboard_text"
-                    android:layout_marginLeft="5dp"
-                    android:src="@color/faded_red" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="36dp"
-                    android:layout_toRightOf="@+id/clapboard_image">
-
-                    <TextView
-                        android:id="@+id/player_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:textColor="@color/grey"
-                        android:textSize="14sp"
-                        tools:text="Mesut Özil" />
-
-                    <ImageView
-                        android:id="@+id/team_logo"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_below="@+id/player_name"
-                        android:src="@drawable/ic_arsenal_logo" />
-
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/circle_image_view"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_below="@+id/player_name"
-                        android:layout_marginLeft="12dp"
-                        android:layout_toRightOf="@+id/team_logo"
-                        android:src="#fd0010" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/player_name"
-                        android:layout_marginLeft="8dp"
-                        android:layout_toRightOf="@id/circle_image_view"
-                        android:textColor="@color/grey"
-                        android:textSize="14sp"
-                        tools:text="Attacking Midfield" />
-
-                    <TextView
-                        android:id="@+id/bio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/team_logo"
-                        android:fontFamily="@font/rajdhani_medium"
-                        android:textColor="@color/grey"
-                        android:textSize="10sp"
-                        tools:text="You expect that he becomes the leader and takes the responsibility to lead the team to success." />
-
-
-                    <TextView
-                        android:id="@+id/claps"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/bio"
-                        android:layout_marginTop="10dp"
-                        android:textColor="@color/dark_sky_blue"
-                        android:textSize="10sp"
-                        tools:text="12.6k Claps" />
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/bio"
-                        android:layout_marginTop="10dp"
-                        android:layout_toRightOf="@id/claps"
-                        android:background=""
-                        android:gravity="center_horizontal"
-                        android:textColor="@color/dark_sky_blue"
-                        android:textSize="10sp"
-                        tools:text="CLAP" />
-
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-
-        </android.support.v7.widget.CardView>
     </RelativeLayout>
 </FrameLayout>
