@@ -1,8 +1,8 @@
 package life.plank.juna.zone.data.model
 
 import android.os.Parcelable
+import com.prembros.asymmetricrecyclerview.base.AsymmetricItem
 import kotlinx.android.parcel.Parcelize
-import life.plank.juna.zone.util.masonry.base.AsymmetricItem
 
 @Parcelize
 data class FeedEntry(
