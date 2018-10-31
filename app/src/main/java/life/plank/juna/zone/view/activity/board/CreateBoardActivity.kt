@@ -104,7 +104,10 @@ class CreateBoardActivity : BaseCardActivity() {
 
     @OnClick(R.id.create_board_button)
     fun onCreateBoardButtonClicked() {
+        board_name_edit_text.clearFocus()
+        board_description_edit_text.clearFocus()
         hideSoftKeyboard(create_board_button)
+
         val board = Board(
                 board_name_edit_text.text!!.toString().trim(),
                 getString(R.string.private_lowercase),
