@@ -25,8 +25,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.view.activity.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.PrivateBoardActivity;
+import life.plank.juna.zone.view.activity.board.CreateBoardActivity;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -99,10 +99,9 @@ public class UserBoardsAdapter extends RecyclerView.Adapter<UserBoardsAdapter.Us
     }
 
     private void launchBoardMaker() {
-
         SharedPreferences editor = getSharedPrefs(context.getString(R.string.pref_user_details));
         String username = editor.getString(context.getString(R.string.pref_display_name), context.getString(R.string.na));
-        CreateBoardActivity.launch(context, username);
+        CreateBoardActivity.Companion.launch(context, username);
     }
 
     private void navigateToBoard(String boardId, String boardName) {

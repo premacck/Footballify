@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -98,7 +97,6 @@ public class BoardPreviewActivity extends AppCompatActivity {
         toolbar.setupForPreview();
         titleTextView.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
-        getWindow().getDecorView().setBackground(new BitmapDrawable(getResources(), CreateBoardActivity.parentViewBitmap));
     }
 
     @OnClick({R.id.create_board_button})
