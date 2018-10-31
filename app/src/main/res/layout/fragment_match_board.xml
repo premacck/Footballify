@@ -40,7 +40,7 @@
         </RelativeLayout>
 
         <ImageView
-            style="@style/DragHandleImageView"
+            style="@style/DragHandleLightImageView"
             android:contentDescription="@string/thumbnail" />
 
         <View
