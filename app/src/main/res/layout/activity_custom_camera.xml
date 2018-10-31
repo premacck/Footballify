@@ -11,11 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="12dp"
+        android:animateLayoutChanges="true"
         android:orientation="vertical"
-        app:cardUseCompatPadding="true"
         app:cardCornerRadius="8dp"
         app:cardElevation="6dp"
-        android:animateLayoutChanges="true">
+        app:cardUseCompatPadding="true">
 
         <life.plank.juna.zone.util.customview.VerticalViewPager
             android:id="@+id/camera_view_pager"
@@ -31,5 +31,10 @@
         android:drawableTop="@drawable/drag_handle_dark"
         android:elevation="6dp"
         android:paddingTop="29dp" />
+
+    <FrameLayout
+        android:id="@+id/main_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </RelativeLayout>
