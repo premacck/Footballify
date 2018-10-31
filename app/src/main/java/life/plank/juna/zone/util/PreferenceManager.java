@@ -15,8 +15,10 @@ import java.util.Objects;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItem;
+import life.plank.juna.zone.data.model.User;
 
 import static life.plank.juna.zone.ZoneApplication.getContext;
+import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 /**
@@ -115,6 +117,29 @@ public class PreferenceManager {
     public static Boolean getSharedPrefsBoolean(String sharedPrefs, String preferenceKey) {
         SharedPreferences sharedPreference = getContext().getSharedPreferences(sharedPrefs, 0);
         return sharedPreference.getBoolean(preferenceKey, false);
+    }
+
+    public static void setUserLoggedIn() {
+        getSharedPrefs(findString(R.string.pref_login_credentails)).edit().putBoolean(findString(R.string.pref_is_logged_in), true).apply();
+    }
+
+    public static void saveSignInUserDetails(User body) {
+        SharedPreferences.Editor editor = getSharedPrefs(findString(R.string.pref_user_details)).edit();
+        editor.putString(findString(R.string.pref_object_id), body.getObjectId());
+        editor.putString(findString(R.string.pref_display_name), body.getDisplayName());
+        editor.putString(findString(R.string.pref_email_address), body.getEmailAddress());
+        editor.putString(findString(R.string.pref_country), body.getCountry());
+        editor.putString(findString(R.string.pref_city), body.getCity());
+        editor.putString(findString(R.string.pref_profile_pic_url), body.getProfilePictureUrl());
+        editor.apply();
+    }
+
+    public static void saveProfilePicUrl(String url) {
+        getSharedPrefs(findString(R.string.pref_user_details)).edit().putString(findString(R.string.pref_profile_pic_url), url).apply();
+    }
+
+    public static String getSavedProfilePicUrl() {
+        return getSharedPrefs(findString(R.string.pref_user_details)).getString(findString(R.string.pref_profile_pic_url), findString(R.string.na));
     }
 
 //    TODO: remove this class when pin functionality is done in backend

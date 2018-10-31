@@ -84,7 +84,6 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Emoji;
 import life.plank.juna.zone.data.model.FeedEntry;
-import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.web.WebCardActivity;
 
@@ -201,17 +200,6 @@ public class UIDisplayUtil {
             e.printStackTrace();
         }
         return str;
-    }
-
-    public static void saveSignInUserDetails(Context context, User body) {
-        SharedPreferences.Editor editor = context.getSharedPreferences(context.getString(R.string.pref_user_details), MODE_PRIVATE).edit();
-        editor.putString(context.getString(R.string.pref_object_id), body.getObjectId());
-        editor.putString(context.getString(R.string.pref_display_name), body.getDisplayName());
-        editor.putString(context.getString(R.string.pref_email_address), body.getEmailAddress());
-        editor.putString(context.getString(R.string.pref_country), body.getCountry());
-        editor.putString(context.getString(R.string.pref_city), body.getCity());
-        editor.putString(context.getString(R.string.pref_profile_pic_url), body.getProfilePictureUrl());
-        editor.apply();
     }
 
     public static SharedPreferences getSignupUserData(Context context) {

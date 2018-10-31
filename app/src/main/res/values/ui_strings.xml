@@ -203,5 +203,9 @@
     <string name="stats">STATS</string>
     <string name="media">MEDIA</string>
     <string name="people">PEOPLE</string>
+    <string name="edit_personal_info">Edit Personal Info</string>
+    <string name="change_picture">Change Picture</string>
+    <string name="remove_picture">Remove Picture</string>
+    <string name="save">Save</string>
 
 </resources>

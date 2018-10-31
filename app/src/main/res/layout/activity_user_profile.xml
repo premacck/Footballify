@@ -49,7 +49,7 @@
                     <Button
                         android:id="@+id/edit_profile_button"
                         android:layout_width="83dp"
-                        android:layout_height="14dp"
+                        android:layout_height="20dp"
                         android:layout_alignTop="@+id/personal_info_text_view"
                         android:layout_alignBottom="@+id/personal_info_text_view"
                         android:layout_alignParentEnd="true"
@@ -397,5 +397,11 @@
         app:borderWidth="0dp"
         app:fabCustomSize="70dp"
         android:src="@drawable/ic_home_purple"/>
+
+    <FrameLayout
+        android:id="@+id/popup_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="8dp" />
 
 </RelativeLayout>

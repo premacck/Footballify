@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,11 +31,13 @@ import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
+import life.plank.juna.zone.util.facilis.FragmentUtilKt;
 import life.plank.juna.zone.view.activity.base.BaseActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
+import life.plank.juna.zone.view.fragment.profile.EditProfilePopup;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
@@ -46,12 +47,11 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.DataUtil.equalsNullString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.UIDisplayUtil.loadBitmap;
+import static life.plank.juna.zone.util.facilis.FragmentUtilKt.removeActivePopupsIfAny;
 
 public class UserProfileActivity extends BaseActivity {
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
-    public static Bitmap parentViewBitmap = null;
 
     @BindView(R.id.edit_profile_button)
     Button editProfileButton;
@@ -118,8 +118,12 @@ public class UserProfileActivity extends BaseActivity {
 
     @OnClick(R.id.edit_profile_button)
     public void editUserProfile() {
-        parentViewBitmap = loadBitmap(getWindow().getDecorView(), getWindow().getDecorView(), this);
-        EditProfileActivity.launch(this);
+        FragmentUtilKt.pushPopup(
+                getSupportFragmentManager(),
+                R.id.popup_container,
+                EditProfilePopup.Companion.newInstance(),
+                EditProfilePopup.Companion.getTAG()
+        );
     }
 
     private void initRecyclerView() {
@@ -213,5 +217,10 @@ public class UserProfileActivity extends BaseActivity {
     @OnClick(R.id.home_fab)
     public void goHome() {
         HomeActivity.Companion.launch(this, true);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (removeActivePopupsIfAny(getSupportFragmentManager())) super.onBackPressed();
     }
 }

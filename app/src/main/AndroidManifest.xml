@@ -136,9 +136,6 @@
             android:name=".view.activity.BoardPreviewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.EditProfileActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.JoinBoardActivity"
             android:screenOrientation="portrait" />
 
@@ -166,7 +163,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".view.activity.settings.SettingsContainerActivity"></activity>
+        <activity android:name=".view.activity.settings.SettingsContainerActivity" />
     </application>
 
 </manifest>
