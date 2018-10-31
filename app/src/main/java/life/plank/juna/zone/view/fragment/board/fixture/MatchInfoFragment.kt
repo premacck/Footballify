@@ -2,11 +2,15 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 
 import android.os.Bundle
+import android.support.design.widget.TabLayout
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.CardView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.fragment_match_info.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -14,12 +18,14 @@ import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.facilis.BaseCard
+import java.lang.ref.WeakReference
 
 class MatchInfoFragment : BaseCard() {
 
     private var currentMatchId: Long = 0
     private lateinit var league: League
     private var fixture: MatchFixture? = null
+    private var infoPagerAdapter: MatchInfoFragment.InfoPagerAdapter? = null
 
     override fun getBackgroundBlurLayout(): ViewGroup? = null
 
@@ -61,5 +67,48 @@ class MatchInfoFragment : BaseCard() {
         super.onViewCreated(view, savedInstanceState)
         home_team.text = fixture?.homeTeam?.name
         visiting_team.text = fixture?.awayTeam?.name
+        setupViewPagerWithFragments()
+    }
+
+    private fun setupViewPagerWithFragments() {
+        infoPagerAdapter = MatchInfoFragment.InfoPagerAdapter(childFragmentManager, this)
+        info_view_pager.adapter = infoPagerAdapter
+        info_view_pager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(info_tiles_tab_layout))
+        info_tiles_tab_layout.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(info_view_pager))
+    }
+
+    class InfoPagerAdapter(supportFragmentManager: FragmentManager, matchInfoFragment: MatchInfoFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
+
+        var currentFragment: Fragment? = null
+        private val ref: WeakReference<MatchInfoFragment> = WeakReference(matchInfoFragment)
+
+        override fun getItem(position: Int): Fragment? {
+            ref.get()?.run {
+                return when (position) {
+                    //TODO: Replace dummy fragment with required fragment
+                    0 -> DummyFragment()
+                    1 -> DummyFragment()
+                    2 -> DummyFragment()
+                    3 -> DummyFragment()
+                    4 -> DummyFragment()
+                    5 -> DummyFragment()
+                    else -> {
+                        null
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+
+        override fun getCount(): Int = 5
+
+        override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
+            if (currentFragment !== `object`) {
+                currentFragment = `object` as Fragment
+            }
+            super.setPrimaryItem(container, position, `object`)
+        }
     }
 }
