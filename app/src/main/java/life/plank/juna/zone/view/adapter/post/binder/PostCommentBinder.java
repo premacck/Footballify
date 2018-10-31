@@ -78,9 +78,9 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
                 .into(holder.profilePic);
 
         holder.likeTextView.setText(item.getHasLiked() ? R.string.unlike : R.string.like);
-        holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(glide, item.getReplies()));
-
-
+        if (!isNullOrEmpty(item.getReplies())) {
+            holder.repliesRecyclerView.setAdapter(new CommentReplyAdapter(glide, item.getReplies()));
+        }
     }
 
     @Override
