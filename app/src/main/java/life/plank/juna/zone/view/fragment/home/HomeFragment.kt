@@ -108,7 +108,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         feed_header.setProfilePic(editor.getString(getString(R.string.pref_profile_pic_url), null))
     }
 
-    override fun getSecondaryFragmentResId(): Int = R.id.peek_popup_container
+    override fun getSecondaryFragmentId(): Int = R.id.peek_popup_container
 
     private fun initBottomSheetRecyclerView() {
         onBoardingAdapter = OnboardingAdapter(activity)
