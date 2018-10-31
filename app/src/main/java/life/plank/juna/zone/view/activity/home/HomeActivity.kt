@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.activity
+package life.plank.juna.zone.view.activity.home
 
 import android.app.Activity
 import android.os.Bundle
@@ -27,4 +27,6 @@ class HomeActivity : BaseCardActivity() {
 
         pushFragment(HomeFragment.newInstance())
     }
+
+    override fun getFragmentContainer(): Int = R.id.main_fragment_container
 }

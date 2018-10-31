@@ -36,6 +36,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;

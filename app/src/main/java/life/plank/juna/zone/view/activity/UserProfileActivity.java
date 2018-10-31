@@ -33,6 +33,7 @@ import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
+import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;

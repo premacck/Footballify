@@ -12,4 +12,6 @@ class ZoneActivity : BaseCardActivity() {
         setContentView(R.layout.activity_zone)
         pushFragment(ZoneContainerFragment.newInstance())
     }
+
+    override fun getFragmentContainer(): Int = R.id.main_fragment_container
 }
