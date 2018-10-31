@@ -6,18 +6,17 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.view.View
 import android.view.ViewGroup
 import butterknife.ButterKnife
 import kotlinx.android.synthetic.main.activity_custom_camera.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
-import life.plank.juna.zone.view.activity.base.StackableCardActivity
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.camera.CameraFragment
 import life.plank.juna.zone.view.fragment.camera.CustomGalleryFragment
 
-class CustomCameraActivity : StackableCardActivity() {
+class CustomCameraActivity : BaseCardActivity() {
 
     var isForImage: Boolean = false
     lateinit var boardId: String
@@ -74,10 +73,6 @@ class CustomCameraActivity : StackableCardActivity() {
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container
-
-    override fun getScreenshotLayout(): View {
-        return root_card
-    }
 
     override fun onBackPressed() {
         if (pagerAdapter.currentFragment is CustomGalleryFragment) {

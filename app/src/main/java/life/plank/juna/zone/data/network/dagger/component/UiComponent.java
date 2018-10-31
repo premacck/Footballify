@@ -15,7 +15,6 @@ import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
-import life.plank.juna.zone.view.activity.SwipePageActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.UserProfileActivity;
@@ -55,8 +54,6 @@ public interface UiComponent {
     void inject(CreateBoardActivity createBoardActivity);
 
     void inject(BoardPreviewActivity boardPreviewActivity);
-
-    void inject(SwipePageActivity swipePageActivity);
 
     void inject(UploadActivity uploadActivity);
 

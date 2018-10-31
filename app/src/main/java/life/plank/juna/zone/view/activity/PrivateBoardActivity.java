@@ -201,11 +201,6 @@ public class PrivateBoardActivity extends BaseBoardActivity {
         emojiBottomSheetBehavior.setPeekHeight(0);
     }
 
-    @Override
-    public View getScreenshotLayout() {
-        return rootCard;
-    }
-
     private void setupViewPagerWithFragments() {
         pagerAdapter = new PrivateBoardPagerAdapter(getSupportFragmentManager(), board);
         viewPager.setAdapter(pagerAdapter);
@@ -269,7 +264,6 @@ public class PrivateBoardActivity extends BaseBoardActivity {
 
     @Override
     public void showFeedItemPeekPopup(int position) {
-        boardBlurBackgroundImageView.setImageBitmap(boardParentViewBitmap);
         boardTilesFullRecyclerView.scrollToPosition(position);
         recyclerViewDragArea.setVisibility(View.VISIBLE);
         boardTilesFullRecyclerView.setVisibility(View.VISIBLE);

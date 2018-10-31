@@ -91,9 +91,6 @@
         </provider>
 
         <activity
-            android:name=".view.activity.SwipePageActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.AudioRecorderActivity"
             android:screenOrientation="portrait" />
         <activity
