@@ -6,4 +6,5 @@
     <dimen name="text_12sp">12sp</dimen>
     <dimen name="text_8sp">8sp</dimen>
     <dimen name="vertical_divider_width">1dp</dimen>
+    <dimen name="recycler_padding">2dp</dimen>
 </resources>

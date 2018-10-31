@@ -68,7 +68,6 @@
     <string name="today">Today</string>
     <string name="tomorrow">Tomorrow</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="private_board">Private Board</string>
     <string name="timeline_activity">timeline_activity</string>
     <string name="board_pop_up">BoardPopUp</string>
@@ -95,8 +94,5 @@
     <string name="media_file_prefix_pattern">yyyy_MMdd_ss</string>
     <string name="rotation_x">rotationX</string>
     <string name="rotation_y">rotationY</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="row_item_info">item %s in row with height %s consumes %s area</string>
 </resources>

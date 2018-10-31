@@ -83,6 +83,7 @@ import java.util.List;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Emoji;
+import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.web.WebCardActivity;
@@ -632,5 +633,17 @@ public class UIDisplayUtil {
 
     public static int findColor(@ColorRes int color) {
         return ZoneApplication.getContext().getColor(color);
+    }
+
+    public static int getMasonryLayoutCellSpan(int position) {
+        return position % 18 == 0 || position % 18 == 10 ? 2 : 1;
+    }
+
+    public static void setupFeedEntryByMasonryLayout(List<FeedEntry> feedEntryList) {
+        for (FeedEntry feedEntry : feedEntryList) {
+            int position = feedEntryList.indexOf(feedEntry);
+            feedEntry.setCSpan(getMasonryLayoutCellSpan(position));
+            feedEntry.setRSpan(feedEntry.getCSpan());
+        }
     }
 }
