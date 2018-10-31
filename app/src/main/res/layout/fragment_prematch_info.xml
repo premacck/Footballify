@@ -6,17 +6,26 @@
     android:background="@color/background_color"
     tools:context=".view.fragment.board.fixture.PrematchInfoFragment">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/keyboard"
-            layout="@layout/item_keyboard" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <include
-            android:id="@+id/clap_board"
-            layout="@layout/item_clap_board" />
+            <include
+                android:id="@+id/keyboard"
+                layout="@layout/item_keyboard" />
 
-    </RelativeLayout>
+            <include
+                android:id="@+id/clap_board"
+                layout="@layout/item_clap_board" />
+
+            <include
+                android:id="@+id/dart_board"
+                layout="@layout/item_dart_board" />
+        </RelativeLayout>
+    </ScrollView>
+
 </FrameLayout>

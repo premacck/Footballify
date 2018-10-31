@@ -5,7 +5,7 @@
     android:id="@+id/clapboard_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/keyboard"
+    android:layout_below="@+id/clap_board"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
@@ -26,19 +26,33 @@
             android:layout_marginTop="5dp"
             android:fontFamily="@font/raleway_semibold"
             android:lineSpacingExtra="3sp"
-            android:text="Clap Board"
+            android:text="Dart Board"
             android:textColor="@color/grey"
             android:textSize="12sp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <RelativeLayout
             android:id="@+id/clapboard_image"
-            android:layout_width="113dp"
-            android:layout_height="113dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/clapboard_text"
-            android:layout_centerVertical="true"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="13dp"
-            android:src="@drawable/ozil_image" />
+            android:layout_marginTop="25dp">
+
+            <ImageView
+                android:layout_width="113dp"
+                android:layout_height="113dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_dartboard" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/dart_board_player_image"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="13dp"
+                android:src="@drawable/ic_default_profile" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -55,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
                 android:fontFamily="@font/rajdhani_semibold"
-                android:text="Mesut Özil"
+                android:text="Adrián"
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
@@ -64,7 +78,7 @@
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_below="@+id/player_name"
-                android:src="@drawable/ic_arsenal_logo" />
+                android:src="@drawable/ic_burnley_logo" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circle_image_view"
@@ -73,7 +87,7 @@
                 android:layout_below="@+id/player_name"
                 android:layout_marginStart="12dp"
                 android:layout_toEndOf="@+id/team_logo"
-                android:src="#fd0010" />
+                android:src="@color/purple" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +96,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_toEndOf="@id/circle_image_view"
                 android:fontFamily="@font/rajdhani_medium"
-                android:text="Attacking Midfield"
+                android:text="Goalkeeper"
                 android:textColor="@color/grey"
                 android:textSize="14sp" />
 
@@ -93,18 +107,18 @@
                 android:layout_below="@+id/team_logo"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/rajdhani_medium"
-                android:text="You expect that he becomes the leader and takes the responsibility to lead the team to success."
+                android:text="Adrian has been supreme for West Ham lately whilst Joe Hart has been a disaster. But going off this display it would seem that some of the Englishman has rubbed off on the Spaniard."
                 android:textColor="@color/grey"
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/claps"
+                android:id="@+id/darts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bio"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/rajdhani_medium"
-                android:text="12.6k Claps"
+                android:text="5.2k Darts thrown"
                 android:textColor="@color/dark_sky_blue"
                 android:textSize="10sp" />
 
@@ -113,14 +127,13 @@
                 android:layout_height="15dp"
                 android:layout_below="@+id/bio"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:background="@drawable/blue_border_button"
                 android:fontFamily="@font/rajdhani_medium"
                 android:gravity="center"
-                android:text="CLAP"
+                android:text="THROW DART"
                 android:textColor="@color/accent"
                 android:textSize="10sp" />
-
         </RelativeLayout>
 
     </RelativeLayout>
