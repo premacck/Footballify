@@ -169,7 +169,7 @@
                     android:backgroundTint="@color/grey_0_5"
                     android:fontFamily="@font/rajdhani_medium"
                     android:hint="@string/board_description"
-                    android:inputType="text"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:textColorHint="@color/grey_0_5"
                     android:textSize="16sp" />
 

@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import io.alterac.blurkit.BlurLayout
@@ -24,6 +23,7 @@ import life.plank.juna.zone.util.UIDisplayUtil
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView
 import life.plank.juna.zone.util.facilis.floatUp
+import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -76,7 +76,7 @@ class EditProfilePopup : BaseBlurPopup() {
     }
 
     override fun dismiss() {
-        root_card.startAnimation(AnimationUtils.loadAnimation(context, R.anim.sink_down))
+        root_card.sinkDown()
         super.dismiss()
     }
 

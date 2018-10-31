@@ -33,6 +33,7 @@ fun FragmentManager.removeActivePopupsIfAny(): Boolean {
     for (popup in fragments.reversed()) {
         if (popup is BaseBlurPopup && popup.isAdded) {
             popup.dismiss()
+            beginTransaction().remove(popup).commit()
             return false
         }
     }

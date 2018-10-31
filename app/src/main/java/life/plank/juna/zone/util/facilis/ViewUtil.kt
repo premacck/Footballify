@@ -1,4 +1,4 @@
-@file:Suppress("DEPRECATION")
+@file:Suppress("DEPRECATI()ON")
 
 package life.plank.juna.zone.util.facilis
 
@@ -83,7 +83,14 @@ fun View.fadeOut() {
 }
 
 fun View.floatUp() {
-    postDelayed({ startAnimation(AnimationUtils.loadAnimation(context, R.anim.float_up)) }, 20)
+    postDelayed({
+        startAnimation(AnimationUtils.loadAnimation(context, R.anim.float_up))
+        visibility = View.VISIBLE
+    }, 20)
+}
+
+fun View.sinkDown() {
+    startAnimation(AnimationUtils.loadAnimation(context, R.anim.sink_down))
 }
 
 fun BlurLayout.beginBlur() {
@@ -133,6 +140,16 @@ fun View.longClickWithVibrate(action: () -> Unit) {
 
 fun View.onCustomLongClick(longClickDelay: Int = 300, action: () -> Unit) {
     setOnTouchListener(getCustomOnLongClickListener(longClickDelay) { action() })
+}
+
+fun View.onDebouncingClick(action: () -> Unit) {
+    setOnClickListener {
+        if (isEnabled) {
+            isEnabled = false
+            action()
+            postDelayed({ isEnabled = true }, 50)
+        }
+    }
 }
 
 private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action: () -> Unit): View.OnTouchListener {

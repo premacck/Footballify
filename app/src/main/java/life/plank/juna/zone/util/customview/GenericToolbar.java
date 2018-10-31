@@ -42,6 +42,8 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     @BindView(R.id.options_menu)
     ImageButton optionsMenu;
 
+    @BindView(R.id.drag_handle)
+    ImageView dragHandle;
     @BindView(R.id.lock)
     ImageView lockImageView;
     @BindView(R.id.following_button)
@@ -95,6 +97,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         followBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         matchInfoBtn.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         infoTilesTabLayout.setVisibility(array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
+        dragHandle.setVisibility(array.getInt(R.styleable.GenericToolbar_dragHandleVisibility, 0) == 0 ? VISIBLE : INVISIBLE);
         showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false));
         array.recycle();
     }
