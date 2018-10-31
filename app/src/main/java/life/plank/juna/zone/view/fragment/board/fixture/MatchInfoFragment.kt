@@ -86,7 +86,7 @@ class MatchInfoFragment : BaseCard() {
             ref.get()?.run {
                 return when (position) {
                     //TODO: Replace dummy fragment with required fragment
-                    0 -> DummyFragment()
+                    0 -> PrematchInfoFragment()
                     1 -> DummyFragment()
                     2 -> DummyFragment()
                     3 -> DummyFragment()
