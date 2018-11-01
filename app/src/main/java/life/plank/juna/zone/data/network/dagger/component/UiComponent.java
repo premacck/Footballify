@@ -14,12 +14,12 @@ import life.plank.juna.zone.view.activity.SignUpActivity;
 import life.plank.juna.zone.view.activity.SplashScreenActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
-import life.plank.juna.zone.view.activity.UserProfileActivity;
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
+import life.plank.juna.zone.view.activity.home.HomeActivity;
+import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
-import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
@@ -85,8 +85,6 @@ public interface UiComponent {
 
     void inject(SplashScreenActivity splashScreenActivity);
 
-    void inject(UserBoardsAdapter userBoardsAdapter);
-
     void inject(EditProfilePopup editProfilePopup);
 
     void inject(JoinBoardActivity joinBoardActivity);
@@ -120,6 +118,9 @@ public interface UiComponent {
     void inject(LineupFragment lineupFragment);
 
     void inject(MatchStatsFragment matchStatsFragment);
+
+    void inject(HomeActivity homeActivity);
+
     @Subcomponent.Builder
     interface Builder {
         UiComponent build();

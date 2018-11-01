@@ -44,13 +44,11 @@ fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t
             })
 }
 
-fun launchPrivateBoard(boardId: String, restApi: RestApi, resId: Int, fragmentManager: FragmentManager) {
-    RestApiAggregator.getPrivateBoardToOpen(boardId, restApi).smartSubscribe({
+fun RestApi.launchPrivateBoard(boardId: String, resId: Int, fragmentManager: FragmentManager) {
+    RestApiAggregator.getPrivateBoardToOpen(boardId, this).smartSubscribe({
         Log.e("launchPrivateBoard", "onError(): ", it)
         ZoneApplication.getContext().toast(R.string.could_not_navigate_to_board)
     }, {
-        it?.run {
-            fragmentManager.launchPrivateBoard(resId, this)
-        }
+        it?.run { fragmentManager.launchPrivateBoard(resId, this) }
     })
 }
