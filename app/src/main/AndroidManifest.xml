@@ -130,7 +130,7 @@
             android:name=".view.activity.InviteToBoardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.UserProfileActivity"
+            android:name=".view.activity.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".view.activity.JoinBoardActivity"
