@@ -3,6 +3,8 @@
     <string name="intent_open_from">OPEN_FROM</string>
     <string name="intent_api">API</string>
     <string name="intent_board">board_intent</string>
+    <string name="intent_private_board">private_board_intent</string>
+    <string name="intent_private_board_id">private_board_id_intent</string>
     <string name="intent_zone_live_data">zone_live_data</string>
     <string name="intent_board_id">BOARD_ID</string>
     <string name="intent_comment_title">title</string>

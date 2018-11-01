@@ -5,9 +5,11 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
     return this.findFragmentByTag(tag) as? BaseCard
@@ -27,6 +29,14 @@ fun FragmentManager.findLastFragment(tag: String?): BaseFragment? {
 
 fun FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
     return findFragmentByTag(tag) as? BaseBlurPopup
+}
+
+fun FragmentManager.removePrivateBoardIfExists() {
+    for (fragment in fragments) {
+        if (fragment is PrivateBoardFragment) {
+            beginTransaction().remove(fragment).commit()
+        }
+    }
 }
 
 fun FragmentManager.removeActivePopupsIfAny(): Boolean {
@@ -99,4 +109,9 @@ fun FragmentTransaction.addCustomAnimations(@AnimRes enter: Int, @AnimRes exit: 
 
 fun FragmentTransaction.addToBackStack(addFlag: Boolean = true, tag: String): FragmentTransaction {
     return if (addFlag) this.addToBackStack(tag) else this
+}
+
+fun FragmentManager.launchPrivateBoard(resId: Int, board: Board) {
+    removePrivateBoardIfExists()
+    pushFragment(resId, PrivateBoardFragment.newInstance(board), PrivateBoardFragment.TAG, backStackEntryCount)
 }
