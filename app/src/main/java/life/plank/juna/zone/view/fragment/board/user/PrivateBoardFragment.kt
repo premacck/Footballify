@@ -10,15 +10,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import android.support.v7.widget.CardView
-import android.support.v7.widget.PagerSnapHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import life.plank.juna.zone.R
@@ -29,14 +25,17 @@ import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.data.model.Thumbnail
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants
+import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
-import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
-import life.plank.juna.zone.view.activity.UserProfileActivity
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
-import retrofit2.Response
-import rx.Subscriber
+import life.plank.juna.zone.view.fragment.forum.ForumFragment
+import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
@@ -47,10 +46,6 @@ class PrivateBoardFragment : CardTileFragment() {
     lateinit var restApi: RestApi
     @Inject
     lateinit var picasso: Picasso
-    @Inject
-    lateinit var gson: Gson
-    @Inject
-    lateinit var pagerSnapHelper: PagerSnapHelper
 
     private lateinit var feedEntries: List<FeedEntry>
     lateinit var boardId: String
@@ -64,23 +59,17 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     companion object {
-        private val TAG = PrivateBoardFragment::class.java.simpleName
+        val TAG: String = PrivateBoardFragment::class.java.simpleName
         fun newInstance(board: Board): PrivateBoardFragment = PrivateBoardFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(getString(R.string.intent_board), board)
-            }
+            arguments = Bundle().apply { putParcelable(findString(R.string.intent_board), board) }
         }
-
-        //        TODO: remove when removing PrivateBoardActivity
-        fun deletePrivateBoard() {}
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ZoneApplication.getApplication().uiComponent.inject(this)
-        if (arguments != null && arguments!!.containsKey(getString(R.string.intent_board))) {
-            board = arguments?.getParcelable(getString(R.string.intent_board))!!
-        }
+        board = arguments?.getParcelable(getString(R.string.intent_board))!!
+        boardId = board.id
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -89,9 +78,7 @@ class PrivateBoardFragment : CardTileFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
-        editor.getString(getString(R.string.pref_display_name), getString(R.string.na))
 
-        boardId = board.id
         if (board.owner.displayName == editor.getString(getString(R.string.pref_display_name), getString(R.string.na))) {
             private_board_toolbar.setUpPrivateBoardPopUp(activity, getString(R.string.private_board_owner_popup))
         } else {
@@ -169,31 +156,25 @@ class PrivateBoardFragment : CardTileFragment() {
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
     fun deletePrivateBoard() {
-        restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<JsonObject>>() {
-            override fun onCompleted() {
-                Log.i(TAG, "onCompleted: ")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.e(TAG, "onError: $e")
-                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onNext(response: Response<JsonObject>) {
-                when (response.code()) {
-                    HttpURLConnection.HTTP_NO_CONTENT -> {
-                        Toast.makeText(ZoneApplication.getContext(), R.string.board_deletion, Toast.LENGTH_LONG).show()
-                        val intent = Intent(ZoneApplication.getContext(), UserProfileActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        ZoneApplication.getContext().startActivity(intent)
+        restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "onError: ", it)
+            toast(R.string.something_went_wrong)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_NO_CONTENT -> {
+                    toast(R.string.board_deletion)
+                    if (parentFragment != null && parentFragment is BaseCard) {
+                        (parentFragment as BaseCard).childFragmentManager.beginTransaction().remove(this).commit()
+                    } else if (activity is BaseCardActivity) {
+                        (activity as BaseCardActivity).supportFragmentManager.beginTransaction().remove(this).commit()
                     }
-                    else -> Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show()
                 }
+                else -> toast(R.string.something_went_wrong)
             }
         })
     }
 
-    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
+    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny() && childFragmentManager.removeActiveCardsIfAny()
 
     internal class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
 
@@ -201,13 +182,14 @@ class PrivateBoardFragment : CardTileFragment() {
 
         override fun getItem(position: Int): Fragment? {
             return when (position) {
-                0 -> PrivateBoardInfoFragment.newInstance(board.description, board.id, board.owner.displayName, board.name)
-                1 -> BoardTilesFragment.newInstance(board.id, true)
+                0 -> ForumFragment.newInstance(board.id)
+                1 -> PrivateBoardInfoFragment.newInstance(board.description, board.id, board.owner.displayName, board.name)
+                2 -> BoardTilesFragment.newInstance(board.id, true)
                 else -> null
             }
         }
 
-        override fun getCount(): Int = 2
+        override fun getCount(): Int = 3
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {

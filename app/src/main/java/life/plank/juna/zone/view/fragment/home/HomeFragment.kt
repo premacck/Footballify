@@ -294,9 +294,5 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         super.onDestroy()
     }
 
-    override fun onBackPressed(): Boolean {
-        val areAllPopupsDismissed = childFragmentManager.removeActivePopupsIfAny()
-        val areAllCardsRemoved = childFragmentManager.removeActiveCardsIfAny()
-        return areAllPopupsDismissed && areAllCardsRemoved
-    }
+    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny() && childFragmentManager.removeActiveCardsIfAny()
 }

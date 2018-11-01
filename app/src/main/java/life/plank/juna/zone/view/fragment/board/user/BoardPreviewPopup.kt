@@ -16,12 +16,12 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
-import life.plank.juna.zone.util.execute
+import life.plank.juna.zone.util.common.launchWithPrivateBoard
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.smartSubscribe
-import life.plank.juna.zone.view.activity.PrivateBoardActivity
+import life.plank.juna.zone.view.activity.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -110,32 +110,15 @@ class BoardPreviewPopup : BaseBlurPopup() {
                     toast(R.string.could_not_create_board)
                 }, {
                     when (it.code()) {
-                        HttpURLConnection.HTTP_OK -> navigateToBoard(it.body(), token)
+                        HttpURLConnection.HTTP_OK -> navigateToBoard(it.body())
                         HttpURLConnection.HTTP_CONFLICT -> toast(R.string.board_name_already_exists)
                         else -> toast(R.string.could_not_create_board)
                     }
                 })
     }
 
-    private fun navigateToBoard(boardId: String?, token: String) {
-        restApi.getBoardById(boardId, token)
-                .subscribeOn(rx.schedulers.Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .smartSubscribe({
-                    Log.e(TAG, it.message)
-                    toast(R.string.could_not_navigate_to_board)
-                }, {
-                    when (it.code()) {
-                        HttpURLConnection.HTTP_OK -> {
-                            dismiss()
-                            PrivateBoardActivity.launch(activity, it.body())
-                            followBoard(boardId)
-                            activity?.finish()
-                        }
-                        else -> toast(R.string.could_not_navigate_to_board)
-                    }
-                })
+    private fun navigateToBoard(boardId: String?) {
+        activity?.launchWithPrivateBoard<UserProfileActivity>(boardId!!)
+        activity?.finish()
     }
-
-    private fun followBoard(boardId: String?) = restApi.followBoard(getToken(), boardId).execute()
 }
