@@ -95,12 +95,11 @@
                 android:layout_below="@+id/info_tiles_tab_layout"
                 android:nestedScrollingEnabled="false" />
 
-            <!--TODO: uncomment once code is implemented-->
-            <!--<ProgressBar-->
-            <!--android:id="@+id/info_progress_bar"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerInParent="true" />-->
+            <ProgressBar
+                android:id="@+id/info_progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
 
         </RelativeLayout>
 
