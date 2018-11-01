@@ -152,8 +152,8 @@ class MatchInfoFragment : BaseCard() {
             }
         }
         try {
-            if (infoPagerAdapter?.currentFragment is BoardInfoFragment) {
-                (infoPagerAdapter?.currentFragment as? BoardInfoFragment)?.updateZoneLiveData(zoneLiveData)
+            if (infoPagerAdapter?.currentFragment is LineupFragment) {
+                (infoPagerAdapter?.currentFragment as? LineupFragment)?.updateZoneLiveData(zoneLiveData)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -214,7 +214,7 @@ class MatchInfoFragment : BaseCard() {
                 return when (position) {
                     //TODO: Replace dummy fragment with required fragment
                     0 -> PrematchInfoFragment()
-                    1 -> BoardInfoFragment.newInstance(gson.toJson(matchDetails))
+                    1 -> LineupFragment.newInstance(gson.toJson(matchDetails))
                     2 -> DummyFragment()
                     3 -> DummyFragment()
                     4 -> DummyFragment()

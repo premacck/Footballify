@@ -23,6 +23,7 @@ import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
+import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
@@ -114,6 +115,9 @@ public interface UiComponent {
     void inject(FixtureFragment fixtureFragment);
 
     void inject(MatchInfoFragment matchInfoFragment);
+
+    void inject(LineupFragment lineupFragment);
+
     @Subcomponent.Builder
     interface Builder {
         UiComponent build();
