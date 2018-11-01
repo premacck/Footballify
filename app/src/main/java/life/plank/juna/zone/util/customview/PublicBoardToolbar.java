@@ -21,7 +21,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.Date;
 import java.util.TimeZone;
@@ -101,7 +102,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     private boolean isFavourite;
     private boolean isNotificationOn;
     private boolean isFollowing;
-    private int layoutRefreshState = -1;;
+    private int layoutRefreshState = -1;
+    ;
     private int matchTimeValue;
     private long lastStopTime;
     private long baseTime;
@@ -237,11 +239,11 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         scoreView.setText(score);
     }
 
-    public void prepare(Picasso picasso, MatchFixture fixture, String leagueLogoUrl) {
+    public void prepare(MatchFixture fixture, String leagueLogoUrl) {
         this.fixture = fixture;
-        setLeagueLogo(picasso, leagueLogoUrl);
-        setHomeTeamLogo(picasso, fixture.getHomeTeam().getLogoLink());
-        setVisitingTeamLogo(picasso, fixture.getAwayTeam().getLogoLink());
+        setLeagueLogo(leagueLogoUrl);
+        setHomeTeamLogo(fixture.getHomeTeam().getLogoLink());
+        setVisitingTeamLogo(fixture.getAwayTeam().getLogoLink());
         setScore(getSeparator(fixture, winPointer, true));
         setBoardTitle(ZoneApplication.getContext().getString(R.string.matchday_) + fixture.getMatchDay());
         switch (getMatchTimeValue(fixture.getMatchStartTime(), false)) {
@@ -356,12 +358,12 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     @Override
-    public void setLeagueLogo(Picasso picasso, String logoUrl) {
-        picasso.load(logoUrl)
-                .centerInside()
-                .resize((int) getDp(30), (int) getDp(30))
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+    public void setLeagueLogo(String logoUrl) {
+        Glide.with(this).load(logoUrl)
+                .apply(RequestOptions.centerInsideTransform()
+                        .override((int) getDp(30), (int) getDp(30))
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(leagueLogoView);
     }
 
@@ -370,12 +372,12 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         if (resource != 0) leagueLogoView.setImageResource(resource);
     }
 
-    public void setHomeTeamLogo(Picasso picasso, String logoUrl) {
-        picasso.load(logoUrl)
-                .centerInside()
-                .resize((int) getDp(30), (int) getDp(30))
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+    public void setHomeTeamLogo(String logoUrl) {
+        Glide.with(this).load(logoUrl)
+                .apply(RequestOptions.centerInsideTransform()
+                        .override((int) getDp(30), (int) getDp(30))
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(homeTeamLogoView);
     }
 
@@ -383,12 +385,12 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         if (resource != 0) homeTeamLogoView.setImageResource(resource);
     }
 
-    public void setVisitingTeamLogo(Picasso picasso, String logoUrl) {
-        picasso.load(logoUrl)
-                .centerInside()
-                .resize((int) getDp(30), (int) getDp(30))
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+    public void setVisitingTeamLogo(String logoUrl) {
+        Glide.with(this).load(logoUrl)
+                .apply(RequestOptions.centerInsideTransform()
+                        .override((int) getDp(30), (int) getDp(30))
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(visitingTeamLogoView);
     }
 

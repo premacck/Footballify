@@ -15,7 +15,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.messaging.FirebaseMessaging
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_private_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -45,8 +44,6 @@ class PrivateBoardFragment : CardTileFragment() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
-    @Inject
-    lateinit var picasso: Picasso
 
     private lateinit var feedEntries: List<FeedEntry>
     lateinit var boardId: String
@@ -89,7 +86,7 @@ class PrivateBoardFragment : CardTileFragment() {
 
         private_board_toolbar.setTitle(board.name)
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
-        private_board_toolbar.setLeagueLogo(picasso, board.boardIconUrl)
+        private_board_toolbar.setLeagueLogo(board.boardIconUrl)
         private_board_toolbar.setBackgroundColor(Color.parseColor(board.color))
         root_card.setCardBackgroundColor(Color.parseColor(board.color))
 
