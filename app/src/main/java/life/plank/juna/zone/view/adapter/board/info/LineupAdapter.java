@@ -13,9 +13,7 @@ import java.util.List;
 
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
-import life.plank.juna.zone.data.model.binder.HighlightsBindingModel;
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
-import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel;
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 import life.plank.juna.zone.view.adapter.board.info.binder.CommentaryBinder;
@@ -68,16 +66,10 @@ public class LineupAdapter extends RecyclerAdapter {
     /**
      * Method for populating components of a past or live match
      * <br/>Consists of:
-     * <br/>Scrubber, from {@link MatchHighlightsBinder}
-     * <br/>Commentary, from {@link CommentaryBinder}
-     * <br/>Match stats, from {@link MatchStatsBinder}
      * <br/>Lineups, from {@link LineupsBinder}
      * <br/>Substitutions, from {@link SubstitutionBinder}
      */
     private void preparePastOrLiveMatchAdapter() {
-
-        initAndAddHighlightsDataManager();
-        initAndAddMatchStatsDataManager();
         initAndAddLineupsDataManager();
         initAndAddSubstitutionDataManager();
     }
@@ -89,7 +81,6 @@ public class LineupAdapter extends RecyclerAdapter {
      * <br/>Lineups, from {@link LineupsBinder}
      */
     private void prepareRecentMatchAdapter() {
-
         initAndAddLineupsDataManager();
         addScheduledMatchFooter();
     }
@@ -101,18 +92,7 @@ public class LineupAdapter extends RecyclerAdapter {
      * <br/>Team stats, from {@link TeamStatsBinder}
      */
     private void prepareRecentMatchAdapterWhenBoardIsActive() {
-
         addScheduledMatchFooter();
-    }
-
-    private void initAndAddHighlightsDataManager() {
-        DataItemManager<HighlightsBindingModel> highlightsDataManager = new DataItemManager<>(this, HighlightsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(highlightsDataManager, new MatchHighlightsBinder(activity));
-    }
-
-    private void initAndAddMatchStatsDataManager() {
-        DataItemManager<MatchStatsBindingModel> matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(matchStatsDataManager, new MatchStatsBinder(picasso));
     }
 
     private void initAndAddLineupsDataManager() {

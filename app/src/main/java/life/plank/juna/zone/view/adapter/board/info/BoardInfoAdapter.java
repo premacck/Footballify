@@ -105,7 +105,6 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private void preparePastOrLiveMatchAdapter() {
         //TODO: Remove this check once BoardInfo usage is removed from MatchBoardFragment
         if (isLineupFragment) {
-            initAndAddHighlightsDataManager();
             initAndAddCommentaryDataManager();
             initAndAddMatchStatsDataManager();
         } else {
