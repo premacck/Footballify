@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,26 +26,35 @@ import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.RestApiAggregator;
-import life.plank.juna.zone.data.model.Lineups;
+import life.plank.juna.zone.data.model.Commentary;
+import life.plank.juna.zone.data.model.LiveScoreData;
+import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.view.adapter.board.info.LineupAdapter;
+import life.plank.juna.zone.util.FixtureListUpdateTask;
+import life.plank.juna.zone.util.facilis.BaseCard;
+import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
-import retrofit2.Response;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
+import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
 import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
+import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
+import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
+import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
+import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
+import static life.plank.juna.zone.util.facilis.FragmentUtilKt.pushPopup;
 
-public class LineupFragment extends BaseBoardFragment {
+public class MatchStatsFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
 
-    private static final String TAG = LineupFragment.class.getSimpleName();
+    private static final String TAG = MatchStatsFragment.class.getSimpleName();
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -61,14 +70,14 @@ public class LineupFragment extends BaseBoardFragment {
     Picasso picasso;
 
     private MatchDetails matchDetails;
-    private LineupAdapter adapter;
+    private BoardInfoAdapter adapter;
     private long timeDiffOfMatchFromNow;
 
-    public LineupFragment() {
+    public MatchStatsFragment() {
     }
 
-    public static LineupFragment newInstance(String matchDetailsObjectString) {
-        LineupFragment fragment = new LineupFragment();
+    public static MatchStatsFragment newInstance(String matchDetailsObjectString) {
+        MatchStatsFragment fragment = new MatchStatsFragment();
         Bundle args = new Bundle();
         args.putString(ZoneApplication.getContext().getString(R.string.intent_board), matchDetailsObjectString);
         fragment.setArguments(args);
@@ -99,7 +108,7 @@ public class LineupFragment extends BaseBoardFragment {
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new LineupAdapter(matchDetails, picasso, getActivity());
+        adapter = new BoardInfoAdapter(matchDetails, picasso, getActivity(), this, true);
         boardInfoRecyclerView.setAdapter(adapter);
     }
 
@@ -124,13 +133,47 @@ public class LineupFragment extends BaseBoardFragment {
         }
     }
 
+    @Override
+    public void onScrubberClick(View view) {
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void onCommentarySeeAllClick(View fromView) {
+        if (getParentFragment() instanceof BaseCard && !isNullOrEmpty(matchDetails.getCommentary())) {
+            pushPopup(
+                    getParentFragment().getChildFragmentManager(),
+                    R.id.peek_popup_container,
+                    CommentaryPopup.Companion.newInstance((ArrayList<Commentary>) matchDetails.getCommentary()),
+                    CommentaryPopup.Companion.getTag()
+            );
+        }
+    }
+
+    @Override
+    public void onSeeAllStandingsClick(View fromView) {
+    }
+
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
         switch (zoneLiveData.getLiveDataType()) {
+            case SCORE_DATA:
+                LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
+                updateScoreLocally(matchDetails, scoreData);
+                FixtureListUpdateTask.update(MatchFixture.Companion.from(matchDetails), scoreData, null, true);
+                break;
+            case TIME_STATUS_DATA:
+                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
+                updateTimeStatusLocally(matchDetails, timeStatus);
+                FixtureListUpdateTask.update(MatchFixture.Companion.from(matchDetails), null, timeStatus, false);
+                break;
+            case COMMENTARY_DATA:
+                adapter.updateCommentaries(zoneLiveData.getCommentaryList(gson), false);
+                break;
             case MATCH_EVENTS:
                 adapter.updateMatchEventsAndSubstitutions(zoneLiveData.getMatchEventList(gson), false);
                 break;
-            case LINEUPS_DATA:
-                getLineupFormation();
+            case MATCH_STATS_DATA:
+                adapter.updateMatchStats(zoneLiveData.getMatchStats(gson), 0);
                 break;
             default:
                 break;
@@ -139,6 +182,10 @@ public class LineupFragment extends BaseBoardFragment {
 
     @Override
     public void handlePreMatchData(@org.jetbrains.annotations.Nullable Pair<? extends List<Standings>, ? extends List<TeamStats>> pair) {
+        if (pair != null) {
+            matchDetails.setStandingsList(pair.getFirst());
+            matchDetails.setTeamStatsList(pair.getSecond());
+        }
         if (adapter != null) adapter.setPreMatchData();
     }
 
@@ -160,49 +207,14 @@ public class LineupFragment extends BaseBoardFragment {
                     public void onError(Throwable e) {
                         Log.e(TAG, "getPostMatchData : " + e.getMessage());
                         if (adapter != null) {
-                            adapter.setLineups();
+                            adapter.setMatchStats();
                         }
                     }
 
                     @Override
                     public void onNext(MatchDetails matchDetails) {
                         if (adapter != null) {
-                            adapter.setLineups();
-                        }
-                    }
-                });
-    }
-
-    /**
-     * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
-     */
-    private void getLineupFormation() {
-        restApi.getLineUpsData(matchDetails.getMatchId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<Lineups>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
-                    }
-
-                    @Override
-                    public void onNext(Response<Lineups> response) {
-                        Lineups lineups = response.body();
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-//                                Updating the adapter only if live lineups fetch is successful
-                                if (lineups != null && adapter != null) {
-                                    prepareRecyclerView();
-                                }
-                                break;
-                            default:
-                                break;
+                            adapter.setMatchStats();
                         }
                     }
                 });

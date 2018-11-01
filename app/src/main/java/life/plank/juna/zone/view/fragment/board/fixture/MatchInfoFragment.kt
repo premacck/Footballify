@@ -158,6 +158,13 @@ class MatchInfoFragment : BaseCard() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+        try {
+            if (infoPagerAdapter?.currentFragment is MatchStatsFragment) {
+                (infoPagerAdapter?.currentFragment as? MatchStatsFragment)?.updateZoneLiveData(zoneLiveData)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun getBoardIdAndMatchDetails(currentMatchId: Long?) {
@@ -215,7 +222,7 @@ class MatchInfoFragment : BaseCard() {
                     //TODO: Replace dummy fragment with required fragment
                     0 -> PrematchInfoFragment()
                     1 -> LineupFragment.newInstance(gson.toJson(matchDetails))
-                    2 -> DummyFragment()
+                    2 -> MatchStatsFragment.newInstance(gson.toJson(matchDetails))
                     3 -> DummyFragment()
                     4 -> DummyFragment()
                     5 -> DummyFragment()

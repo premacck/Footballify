@@ -120,7 +120,7 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new BoardInfoAdapter(matchDetails, picasso, getActivity(), this);
+        adapter = new BoardInfoAdapter(matchDetails, picasso, getActivity(), this, false);
         boardInfoRecyclerView.setAdapter(adapter);
     }
 

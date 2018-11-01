@@ -54,6 +54,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private MatchDetails matchDetails;
     private Activity activity;
     private BoardInfoAdapterListener listener;
+    private Boolean isLineupFragment;
 
     private DataItemManager<ScrubberBindingModel> scrubberDataManager;
     private DataItemManager<HighlightsBindingModel> highlightsDataManager;
@@ -64,11 +65,12 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private DataItemManager<StandingsBindingModel> standingsDataManager;
     private DataItemManager<TeamStatsBindingModel> teamStatsDataManager;
 
-    public BoardInfoAdapter(MatchDetails matchDetails, Picasso picasso, Activity activity, BoardInfoAdapterListener listener) {
+    public BoardInfoAdapter(MatchDetails matchDetails, Picasso picasso, Activity activity, BoardInfoAdapterListener listener, Boolean isLineupFragment) {
         this.matchDetails = matchDetails;
         this.picasso = picasso;
         this.activity = activity;
         this.listener = listener;
+        this.isLineupFragment = isLineupFragment;
 
         @MatchTimeVal int matchTimeValue = getMatchTimeValue(matchDetails.getMatchStartTime(), true);
         switch (matchTimeValue) {
@@ -101,12 +103,19 @@ public class BoardInfoAdapter extends RecyclerAdapter {
      * <br/>Substitutions, from {@link SubstitutionBinder}
      */
     private void preparePastOrLiveMatchAdapter() {
-        initAndAddScrubberDataManager();
-        initAndAddHighlightsDataManager();
-        initAndAddCommentaryDataManager();
-        initAndAddMatchStatsDataManager();
-        initAndAddLineupsDataManager();
-        initAndAddSubstitutionDataManager();
+        //TODO: Remove this check once BoardInfo usage is removed from MatchBoardFragment
+        if (isLineupFragment) {
+            initAndAddHighlightsDataManager();
+            initAndAddCommentaryDataManager();
+            initAndAddMatchStatsDataManager();
+        } else {
+            initAndAddScrubberDataManager();
+            initAndAddHighlightsDataManager();
+            initAndAddCommentaryDataManager();
+            initAndAddMatchStatsDataManager();
+            initAndAddLineupsDataManager();
+            initAndAddSubstitutionDataManager();
+        }
     }
 
     /**

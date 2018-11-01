@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.adapter.board.info.binder;
+package life.plank.juna.zone.view.adapter.board.info;
 
 import android.app.Activity;
 
@@ -18,14 +18,20 @@ import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
 import life.plank.juna.zone.data.model.binder.MatchStatsBindingModel;
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
+import life.plank.juna.zone.view.adapter.board.info.binder.CommentaryBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.LineupsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchHighlightsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchStatsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.ScheduledMatchFooterBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.StandingsBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.SubstitutionBinder;
+import life.plank.juna.zone.view.adapter.board.info.binder.TeamStatsBinder;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER;
-import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
 
