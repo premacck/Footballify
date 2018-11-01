@@ -144,7 +144,7 @@ public class LineupsBinder extends ItemBinder<LineupsBindingModel, LineupsBinder
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if(lineupsBindingModel.getLineups()!=null) {
+            if (lineupsBindingModel.getLineups() != null) {
                 lineupsBindingModel.setLineups(getIntegratedLineups(lineupsBindingModel.getLineups(), lineupsBindingModel.getMatchEventList()));
             }
             return null;
