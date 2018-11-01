@@ -133,9 +133,6 @@
             android:name=".view.activity.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.BoardPreviewActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.JoinBoardActivity"
             android:screenOrientation="portrait" />
 

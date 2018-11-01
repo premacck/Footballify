@@ -4,7 +4,6 @@ import dagger.Subcomponent;
 import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
-import life.plank.juna.zone.view.activity.BoardPreviewActivity;
 import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
@@ -27,6 +26,7 @@ import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
+import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup;
@@ -53,7 +53,7 @@ public interface UiComponent {
 
     void inject(CreateBoardActivity createBoardActivity);
 
-    void inject(BoardPreviewActivity boardPreviewActivity);
+    void inject(BoardPreviewPopup boardPreviewPopup);
 
     void inject(UploadActivity uploadActivity);
 

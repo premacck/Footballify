@@ -18,10 +18,11 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
 import life.plank.juna.zone.util.UIDisplayUtil
 import life.plank.juna.zone.util.UIDisplayUtil.*
-import life.plank.juna.zone.view.activity.BoardPreviewActivity
+import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter
 import life.plank.juna.zone.view.adapter.BoardIconAdapter
+import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
@@ -103,15 +104,19 @@ class CreateBoardActivity : BaseCardActivity() {
 
     @OnClick(R.id.create_board_button)
     fun onCreateBoardButtonClicked() {
+        board_name_edit_text.clearFocus()
+        board_description_edit_text.clearFocus()
+        hideSoftKeyboard(create_board_button)
+
         val board = Board(
-                board_name_edit_text.text!!.toString().trim { it <= ' ' },
+                board_name_edit_text.text!!.toString().trim(),
                 getString(R.string.private_lowercase),
-                zone!!.toLowerCase().trim { it <= ' ' },
-                board_description_edit_text.text!!.toString().trim { it <= ' ' },
+                zone!!.toLowerCase().trim(),
+                board_description_edit_text.text!!.toString().trim(),
                 boardColorThemeAdapter.selectedColor!!
         )
 
-        createBoard(board, boardIconAdapter.selectedPath)
+        boardIconAdapter.selectedPath?.run { createBoard(board, this) }
     }
 
     @OnClick(R.id.upload_board_icon)
@@ -161,11 +166,17 @@ class CreateBoardActivity : BaseCardActivity() {
         )
     }
 
-    private fun createBoard(board: Board, file: String?) {
+    private fun createBoard(board: Board, file: String) {
         if (isNullOrEmpty(file)) {
             toast(R.string.select_image_to_upload)
             return
         }
-        BoardPreviewActivity.launch(this, board, file)
+        pushPopup(BoardPreviewPopup.newInstance(board, file))
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.removeActivePopupsIfAny()) {
+            finish()
+        }
     }
 }
