@@ -12,20 +12,7 @@
 
     <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
 
-    <string name="header_fa_cup">FA CUP</string>
-    <string name="round_fa_cup">FIFTH ROUND</string>
-    <string name="team_one_fa_cup">Wigan</string>
-    <string name="team_two_fa_cup">Man City</string>
-    <string name="header_league">LEAGUE ONE</string>
-    <string name="team_one_league">Blackburn</string>
-    <string name="team_two_league">Bury</string>
-    <string name="header_south">NATIONAL LEAGUE SOUTH</string>
-    <string name="team_one_south">Wealdstone</string>
-    <string name="team_two_south">Gloucester City</string>
-    <string name="serial_number">1</string>
     <string name="title_activity_video_player">VideoPlayerActivity</string>
-    <string name="liverpool">LiverPool</string>
-    <string name="sun_11_13">Sun, 11/13</string>
 
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
@@ -42,7 +29,6 @@
     <string name="match_id_string">match_id</string>
 
     //todo change this date with original timestamp
-    <string name="simple_date_format">dd-mm-yyyy</string>
     <string name="image_format">image/*</string>
     <string name="select_audio">Select Audio</string>
 
@@ -59,10 +45,6 @@
     <string name="board_id_prefix">Board-</string>
     <string name="juna_logo">Juna logo</string>
     <string name="profile_pic">Profile pic</string>
-    <string name="add_board">Add board</string>
-    <string name="season_name">season_name</string>
-    <string name="league_name">league_name</string>
-    <string name="country_name">country_name</string>
     <string name="matchday_">Matchday&#160;</string>
     <string name="round_">Round&#160;</string>
     <string name="today">Today</string>

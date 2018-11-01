@@ -3,5 +3,4 @@
     <integer name="opaque">255</integer>
     <integer name="visiblilty_160">160</integer>
     <integer name="zone_grid_layout_param">22</integer>
-    <integer name="shared_element_animation_duration">240</integer>
 </resources>

@@ -5,9 +5,6 @@
     <string name="pref_email_address">emailAddress</string>
     <string name="pref_country">country</string>
     <string name="pref_city">city</string>
-    <string name="pref_identity_provider">identityProvider</string>
-    <string name="pref_given_name">givenName</string>
-    <string name="pref_surname">surname</string>
     <string name="pref_enter_board_id">enter_board_id</string>
     <string name="pref_match">match_pref</string>
     <string name="pref_home_team_logo">home_team_logo</string>
