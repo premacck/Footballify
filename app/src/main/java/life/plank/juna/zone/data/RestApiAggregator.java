@@ -17,6 +17,7 @@ import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -149,6 +150,32 @@ public class RestApiAggregator {
                                 Log.e("getLeagueInfo", "playerStatsResponse : " + playerStatsResponse.code() + " : " + playerStatsResponse.message());
                             }
                             return leagueInfo;
+                        })
+                )
+        );
+    }
+
+    /**
+     * Method to get and Follow the Private board while opening the {@link PrivateBoardFragment}
+     */
+    public static Observable<Board> getPrivateBoardToOpen(String boardId, RestApi restApi) {
+        return afterSubscribingAndObservingOn(
+                Observable.zip(
+                        restApi.getBoardById(boardId, getToken()),
+                        restApi.followBoard(getToken(), boardId),
+                        ((boardResponse, jsonObjectResponse) -> {
+                            if (jsonObjectResponse.code() != HTTP_OK) {
+                                String error = "FollowBoard: " + jsonObjectResponse.code() + " : " + jsonObjectResponse.message();
+                                Log.e("getPrivateBoardToOpen", error);
+                            }
+                            switch (boardResponse.code()) {
+                                case HTTP_OK:
+                                    return boardResponse.body();
+                                default:
+                                    String error = "Error in boardResponse: " + boardResponse.code() + " : " + boardResponse.message();
+                                    Log.e("getPrivateBoardToOpen", error);
+                                    return boardResponse.body();
+                            }
                         })
                 )
         );

@@ -41,6 +41,4 @@
 
     </io.alterac.blurkit.BlurLayout>
 
-    <include layout="@layout/emoji_bottom_sheet" />
-
 </android.support.design.widget.CoordinatorLayout>

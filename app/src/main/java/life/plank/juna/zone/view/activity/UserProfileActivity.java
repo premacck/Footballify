@@ -32,14 +32,13 @@ import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.util.facilis.FragmentUtilKt;
-import life.plank.juna.zone.view.activity.base.BaseActivity;
+import life.plank.juna.zone.view.activity.base.BaseCardActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.adapter.GetCoinsAdapter;
 import life.plank.juna.zone.view.adapter.LastTransactionsAdapter;
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter;
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -47,9 +46,10 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.DataUtil.equalsNullString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.common.IntentUtilKt.handlePrivateBoardIntent;
 import static life.plank.juna.zone.util.facilis.FragmentUtilKt.removeActivePopupsIfAny;
 
-public class UserProfileActivity extends BaseActivity {
+public class UserProfileActivity extends BaseCardActivity {
 
     private static final String TAG = UserProfileActivity.class.getSimpleName();
 
@@ -80,7 +80,7 @@ public class UserProfileActivity extends BaseActivity {
 
     @Inject
     @Named("default")
-    Retrofit retrofit;
+    RestApi restApi;
     @Inject
     Gson gson;
     @Inject
@@ -89,9 +89,7 @@ public class UserProfileActivity extends BaseActivity {
     LastTransactionsAdapter lastTransactionsAdapter;
     @Inject
     GetCoinsAdapter getCoinsAdapter;
-    private RestApi restApi;
     private UserBoardsAdapter userBoardsAdapter;
-    private String username;
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserProfileActivity.class));
@@ -104,16 +102,22 @@ public class UserProfileActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
-        restApi = retrofit.create(RestApi.class);
         toolbar.setTitle(getString(R.string.settings));
         initRecyclerView();
         getUserBoards();
+
+        handlePrivateBoardIntent(this, restApi, R.id.popup_container);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         getUserDetails();
+    }
+
+    @Override
+    public int getFragmentContainer() {
+        return R.id.popup_container;
     }
 
     @OnClick(R.id.edit_profile_button)
@@ -194,7 +198,6 @@ public class UserProfileActivity extends BaseActivity {
                         if (model != null) {
                             nameTextView.setText(model.getDisplayName());
                             emailTextView.setText(model.getEmailAddress());
-                            username = model.getDisplayName();
                             if (model.getProfilePictureUrl() != null) {
                                 picasso.load(model.getProfilePictureUrl()).into(profilePictureImageView);
                                 toolbar.setProfilePic(model.getProfilePictureUrl());

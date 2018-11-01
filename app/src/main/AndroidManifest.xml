@@ -160,7 +160,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".view.activity.settings.SettingsContainerActivity" />
     </application>
 
 </manifest>
