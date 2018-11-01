@@ -6,6 +6,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.facilis.launchMatchBoard
 import life.plank.juna.zone.util.facilis.launchPrivateBoard
 import org.jetbrains.anko.toast
 import rx.Observable
@@ -50,5 +51,14 @@ fun RestApi.launchPrivateBoard(boardId: String, resId: Int, fragmentManager: Fra
         ZoneApplication.getContext().toast(R.string.could_not_navigate_to_board)
     }, {
         it?.run { fragmentManager.launchPrivateBoard(resId, this) }
+    })
+}
+
+fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, resId: Int, fragmentManager: FragmentManager) {
+    RestApiAggregator.getBoardAndMatchDetails(this, footballRestApi, matchId).smartSubscribe({
+        Log.e("launchMatchBoard", "onError(): ", it)
+        ZoneApplication.getContext().toast(R.string.could_not_navigate_to_board)
+    }, {
+        it?.second?.run { fragmentManager.launchMatchBoard(resId, this) }
     })
 }

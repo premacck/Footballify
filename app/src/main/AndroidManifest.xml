@@ -159,6 +159,7 @@
             android:name=".view.activity.zone.ZoneActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
+            android:parentActivityName=".view.activity.home.HomeActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 

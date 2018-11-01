@@ -77,7 +77,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     companion object {
-        private val TAG = MatchBoardFragment::class.java.simpleName
+        val TAG: String = MatchBoardFragment::class.java.simpleName
         fun newInstance(fixture: MatchFixture, league: League): MatchBoardFragment = MatchBoardFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(findString(R.string.intent_fixture_data), fixture)

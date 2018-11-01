@@ -18,6 +18,7 @@ import life.plank.juna.zone.view.activity.board.CreateBoardActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
+import life.plank.juna.zone.view.activity.zone.ZoneActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
@@ -114,6 +115,8 @@ public interface UiComponent {
     void inject(MatchInfoFragment matchInfoFragment);
 
     void inject(HomeActivity homeActivity);
+
+    void inject(ZoneActivity zoneActivity);
 
     @Subcomponent.Builder
     interface Builder {
