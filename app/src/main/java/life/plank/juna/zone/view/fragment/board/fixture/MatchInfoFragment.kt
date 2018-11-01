@@ -2,7 +2,6 @@ package life.plank.juna.zone.view.fragment.board.fixture
 
 
 import android.content.*
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -19,7 +18,6 @@ import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.fragment_match_board.*
 import kotlinx.android.synthetic.main.fragment_match_info.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -143,12 +141,10 @@ class MatchInfoFragment : BaseCard() {
             }
             AppConstants.BOARD_ACTIVATED -> {
                 isBoardActive = true
-                clearColorFilter()
                 setupViewPagerWithFragments()
             }
             AppConstants.BOARD_DEACTIVATED -> {
                 isBoardActive = false
-                applyInactiveBoardColorFilter()
                 UIDisplayUtil.showBoardExpirationDialog(activity) { dialog, _ ->
                     setupViewPagerWithFragments()
                     dialog.cancel()
@@ -193,10 +189,8 @@ class MatchInfoFragment : BaseCard() {
                                 if (isBoardActive) {
                                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId!!)
                                     FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
-                                } else
-                                    applyInactiveBoardColorFilter()
-                            } else
-                                applyInactiveBoardColorFilter()
+                                }
+                            }
                             setupViewPagerWithFragments()
                         } else {
                             Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
@@ -208,14 +202,6 @@ class MatchInfoFragment : BaseCard() {
     fun saveBoardId() {
         val boardIdEditor: SharedPreferences.Editor = activity?.getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE)!!.edit()
         boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply()
-    }
-
-    private fun clearColorFilter() {
-        board_parent_layout!!.background.clearColorFilter()
-    }
-
-    private fun applyInactiveBoardColorFilter() {
-        board_parent_layout!!.background.setColorFilter(UIDisplayUtil.findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
     }
 
     class InfoPagerAdapter(supportFragmentManager: FragmentManager, matchInfoFragment: MatchInfoFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
