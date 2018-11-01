@@ -21,7 +21,7 @@ import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.smartSubscribe
-import life.plank.juna.zone.view.activity.UserProfileActivity
+import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody

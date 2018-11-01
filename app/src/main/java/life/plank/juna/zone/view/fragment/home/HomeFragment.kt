@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -19,9 +18,7 @@ import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.onboarding_bottom_sheet.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
@@ -30,14 +27,16 @@ import life.plank.juna.zone.util.AuthUtil
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
-import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.setupBoomMenu
 import life.plank.juna.zone.util.setupWith
 import life.plank.juna.zone.view.activity.UserNotificationActivity
-import life.plank.juna.zone.view.activity.UserProfileActivity
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.adapter.OnboardingAdapter
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter
 import life.plank.juna.zone.view.adapter.UserFeedAdapter
@@ -45,8 +44,7 @@ import life.plank.juna.zone.view.adapter.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
-import retrofit2.Response
-import rx.Subscriber
+import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
@@ -146,8 +144,10 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initBoardsRecyclerView() {
-        userBoardsAdapter = UserBoardsAdapter(context, restApi, Glide.with(this))
-        user_boards_recycler_view?.adapter = userBoardsAdapter
+        if (activity is BaseCardActivity) {
+            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, Glide.with(this))
+            user_boards_recycler_view?.adapter = userBoardsAdapter
+        }
     }
 
     private fun setUpUserZoneAdapter(userPreferenceList: List<UserPreference>?) {
@@ -161,57 +161,38 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
             user_zone_recycler_view.visibility = View.GONE
             return
         }
-
-        restApi.getUser(getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<User>>() {
-            override fun onCompleted() {
-                Log.d(TAG, "getUserZones(): onCompleted")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.e(TAG, "getUserZones(): onError: $e")
-                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onNext(response: Response<User>) {
-                when (response.code()) {
-                    HttpURLConnection.HTTP_OK -> {
-                        val user = response.body()
-                        if (user != null) {
-                            setUpUserZoneAdapter(user.userPreferences)
-                        }
+        restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getUserZones(): onError: ", it)
+            toast(R.string.something_went_wrong)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    val user = it.body()
+                    if (user != null) {
+                        setUpUserZoneAdapter(user.userPreferences)
                     }
-                    HttpURLConnection.HTTP_NOT_FOUND -> Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_zones, Toast.LENGTH_LONG).show()
-                    else -> Log.e(TAG, response.message())
                 }
+                HttpURLConnection.HTTP_NOT_FOUND -> toast(R.string.failed_to_retrieve_zones)
+                else -> Log.e(TAG, it.message())
             }
         })
     }
 
     private fun getUserFeed() {
         val userFeedApiCall = if (isNullOrEmpty(getToken())) restApi.getUserFeed() else restApi.getUserFeed(getToken())
-        userFeedApiCall.setObserverThreadsAndSubscribe(object : Subscriber<Response<List<FeedEntry>>>() {
-            override fun onCompleted() {
-                Log.e(TAG, "getUserFeed(): onCompleted: ")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.e(TAG, "getUserFeed(): onError(): $e")
-                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onNext(response: Response<List<FeedEntry>>) {
-                when (response.code()) {
-                    HttpURLConnection.HTTP_OK -> {
-                        feedEntries = response.body() as ArrayList<FeedEntry>
-                        if (!isNullOrEmpty(feedEntries)) {
-                            userFeedAdapter!!.setUserFeed(feedEntries)
-                        } else
-                            Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show()
-                    }
-                    HttpURLConnection.HTTP_NOT_FOUND -> Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show()
-                    else -> Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show()
+        userFeedApiCall.setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getUserFeed(): onError(): ", it)
+            toast(R.string.something_went_wrong)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    feedEntries = it.body() as ArrayList<FeedEntry>
+                    if (!isNullOrEmpty(feedEntries)) {
+                        userFeedAdapter!!.setUserFeed(feedEntries)
+                    } else
+                        toast(R.string.failed_to_retrieve_feed)
                 }
-
+                else -> toast(R.string.failed_to_retrieve_feed)
             }
         })
     }
@@ -219,27 +200,19 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private fun getUserBoards() {
         if (isNullOrEmpty(getToken())) return
 
-        restApi.getFollowingBoards(getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<List<Board>>>() {
-            override fun onCompleted() {
-                Log.e(TAG, "getUserBoards(): onCompleted: ")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.e(TAG, "getUserBoards(): onError(): $e")
-                Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-            }
-
-            override fun onNext(response: Response<List<Board>>) {
-                when (response.code()) {
-                    HttpURLConnection.HTTP_OK -> {
-                        if (response.body() != null) {
-                            userBoardsAdapter!!.setUserBoards(response.body())
-                        } else
-                            user_boards_recycler_view.visibility = View.GONE
-                    }
-                    HttpURLConnection.HTTP_NOT_FOUND -> user_boards_recycler_view.visibility = View.GONE
-                    else -> Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show()
+        restApi.getFollowingBoards(getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getUserBoards(): onError(): ", it)
+            toast(R.string.something_went_wrong)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    if (it.body() != null) {
+                        userBoardsAdapter!!.setUserBoards(it.body()!!)
+                    } else
+                        user_boards_recycler_view.visibility = View.GONE
                 }
+                HttpURLConnection.HTTP_NOT_FOUND -> user_boards_recycler_view.visibility = View.GONE
+                else -> toast(R.string.failed_to_retrieve_board)
             }
         })
     }
@@ -248,7 +221,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         if (isNullOrEmpty(getToken())) {
             showPopup()
         } else {
-            UserProfileActivity.launch(activity)
+            activity?.launch<UserProfileActivity>()
         }
     }
 

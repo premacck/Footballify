@@ -28,6 +28,7 @@ import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
@@ -77,6 +78,7 @@ class PrivateBoardFragment : CardTileFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        root_card.floatUp()
         val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
 
         if (board.owner.displayName == editor.getString(getString(R.string.pref_display_name), getString(R.string.na))) {
@@ -182,8 +184,8 @@ class PrivateBoardFragment : CardTileFragment() {
 
         override fun getItem(position: Int): Fragment? {
             return when (position) {
-                0 -> ForumFragment.newInstance(board.id)
-                1 -> PrivateBoardInfoFragment.newInstance(board.description, board.id, board.owner.displayName, board.name)
+                0 -> PrivateBoardInfoFragment.newInstance(board.description, board.id, board.owner.displayName, board.name)
+                1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
                 else -> null
             }
