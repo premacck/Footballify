@@ -61,4 +61,6 @@
     <string name="tap_for_photo_hold_for_video">Tap for photo, hold for video</string>
     <string name="failed_to_get_audio_file">Failed to get audio file</string>
     <string name="no_id_for_fragment_container">No ID for Main fragment container given</string>
+    <string name="already_following_board">You are already following this board</string>
+    <string name="cannot_follow_board">Sorry, but you cannot follow this board</string>
 </resources>

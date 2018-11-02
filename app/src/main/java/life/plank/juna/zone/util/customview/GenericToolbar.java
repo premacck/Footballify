@@ -18,7 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -151,12 +152,12 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
     }
 
     @Override
-    public void setLeagueLogo(Picasso picasso, String logoUrl) {
-        picasso.load(logoUrl)
-                .centerInside()
-                .resize((int) getDp(30), (int) getDp(30))
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+    public void setLeagueLogo(String logoUrl) {
+        Glide.with(this).load(logoUrl)
+                .apply(RequestOptions.centerInsideTransform()
+                        .override((int) getDp(30), (int) getDp(30))
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(logoImageView);
     }
 

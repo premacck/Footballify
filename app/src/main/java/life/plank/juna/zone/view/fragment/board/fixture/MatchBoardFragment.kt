@@ -17,7 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -50,8 +49,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     lateinit var restApi: RestApi
     @field: [Inject Named("footballData")]
     lateinit var footballRestApi: RestApi
-    @Inject
-    lateinit var picasso: Picasso
     @Inject
     lateinit var gson: Gson
 
@@ -105,7 +102,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        board_toolbar.prepare(picasso, fixture, league.thumbUrl)
+        board_toolbar.prepare(fixture, league.thumbUrl)
         getBoardIdAndMatchDetails(currentMatchId)
         board_toolbar.setUpPopUp(activity, currentMatchId)
     }
@@ -231,7 +228,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                             val board = boardMatchDetailsPair.first
                             if (matchDetails != null) {
                                 matchDetails!!.league = league
-                                board_toolbar.prepare(picasso, MatchFixture.from(matchDetails!!), league.thumbUrl)
+                                board_toolbar.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
                             }
                             if (board != null) {
                                 boardId = board.id

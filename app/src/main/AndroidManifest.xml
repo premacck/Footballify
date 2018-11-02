@@ -133,7 +133,7 @@
             android:name=".view.activity.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.JoinBoardActivity"
+            android:name=".view.activity.board.JoinBoardActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

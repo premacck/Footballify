@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.squareup.picasso.Picasso
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_board_preview.*
 import life.plank.juna.zone.R
@@ -38,8 +37,6 @@ class BoardPreviewPopup : BaseBlurPopup() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
-    @Inject
-    lateinit var picasso: Picasso
 
     private lateinit var board: Board
     private lateinit var filePath: String
@@ -71,7 +68,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
         preview_toolbar.setTitle(board.name)
         board_parent_layout.setCardBackgroundColor(Color.parseColor(board.color))
         description.text = board.description
-        preview_toolbar.setLeagueLogo(picasso, Uri.fromFile(File(filePath)).toString())
+        preview_toolbar.setLeagueLogo(Uri.fromFile(File(filePath)).toString())
 
         preview_toolbar.setupForPreview()
 
