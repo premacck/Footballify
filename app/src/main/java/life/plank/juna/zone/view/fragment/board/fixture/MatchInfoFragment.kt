@@ -54,7 +54,7 @@ class MatchInfoFragment : BaseCard() {
     private var fixture: MatchFixture? = null
     private var infoPagerAdapter: MatchInfoFragment.InfoPagerAdapter? = null
     private var isBoardActive: Boolean = false
-
+    private var matchBoardId: String? = null
     override fun getBackgroundBlurLayout(): ViewGroup? = null
 
     override fun getRootCard(): CardView? = info_root_card
@@ -63,10 +63,11 @@ class MatchInfoFragment : BaseCard() {
 
     companion object {
         private val TAG = MatchInfoFragment::class.java.simpleName
-        fun newInstance(fixture: MatchFixture?, league: League): MatchInfoFragment = MatchInfoFragment().apply {
+        fun newInstance(fixture: MatchFixture?, league: League, boardId: String?): MatchInfoFragment = MatchInfoFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(DataUtil.findString(R.string.intent_fixture_data), fixture)
                 putParcelable(DataUtil.findString(R.string.intent_league), league)
+                matchBoardId = boardId
             }
         }
     }
@@ -224,8 +225,7 @@ class MatchInfoFragment : BaseCard() {
                     1 -> LineupFragment.newInstance(gson.toJson(matchDetails))
                     2 -> MatchStatsFragment.newInstance(gson.toJson(matchDetails))
                     3 -> DummyFragment()
-                    4 -> DummyFragment()
-                    5 -> DummyFragment()
+                    4 -> BoardMembersFragment.newInstance(matchBoardId)
                     else -> {
                         null
                     }

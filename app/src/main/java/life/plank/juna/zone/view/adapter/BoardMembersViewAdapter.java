@@ -3,6 +3,7 @@ package life.plank.juna.zone.view.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,9 +34,9 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
     private String boardId;
     private String displayName;
     private String boardName;
-    private PrivateBoardInfoFragment fragment;
+    private Fragment fragment;
 
-    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, PrivateBoardInfoFragment fragment, String displayName,
+    public BoardMembersViewAdapter(List<User> userList, Context context, String boardId, Fragment fragment, String displayName,
                                    Picasso picasso, String boardName) {
         this.context = context;
         this.userList = userList;
@@ -63,7 +65,7 @@ public class BoardMembersViewAdapter extends RecyclerView.Adapter<BoardMembersVi
 
         holder.profileImageView.setOnClickListener(view -> {
             if (userList.get(position).getDisplayName().equals(context.getString(R.string.invite_string))) {
-                parentViewBitmap = loadBitmap(fragment.getActivity().getWindow().getDecorView(), fragment.getActivity().getWindow().getDecorView(), context);
+                parentViewBitmap = loadBitmap(Objects.requireNonNull(fragment.getActivity()).getWindow().getDecorView(), fragment.getActivity().getWindow().getDecorView(), context);
                 Intent inviteToBoard = new Intent(context, InviteToBoardActivity.class);
                 inviteToBoard.putExtra(context.getString(R.string.intent_board_id), boardId);
                 inviteToBoard.putExtra(context.getString(R.string.board_title), context.getString(R.string.invite_people_to) + " " + boardName + " " +

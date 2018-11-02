@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -38,6 +39,8 @@ import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import retrofit2.Response
 import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -244,6 +247,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                                 applyInactiveBoardColorFilter()
 
                             getBoardPolls()
+                            followBoard()
                         } else {
                             Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
                         }
@@ -290,7 +294,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun infoClicked(infoBtn: TextView) {
-        pushFragment(MatchInfoFragment.newInstance(fixture, league), true)
+        pushFragment(MatchInfoFragment.newInstance(fixture, league, boardId), true)
     }
 
     override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
@@ -311,6 +315,25 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
+
+    //Follow board by default when entered. Nothing to do on receiving the response code
+    fun followBoard() {
+        restApi.followBoard(getToken(), boardId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<Response<JsonObject>>() {
+                    override fun onCompleted() {
+                        Log.i(TAG, "onCompleted")
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.e(TAG, e.message)
+                    }
+
+                    override fun onNext(response: Response<JsonObject>) {
+                    }
+                })
+    }
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
 
@@ -357,4 +380,5 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             super.setPrimaryItem(container, position, `object`)
         }
     }
+
 }
