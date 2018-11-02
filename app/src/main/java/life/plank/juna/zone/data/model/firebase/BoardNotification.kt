@@ -11,13 +11,13 @@ data class BoardNotification(
         var thumbnailHeight: Int = 0,
         var imageUrl: String?,
         var action: String = "",
-        var actor: String = "",
+        var actor: String? = "",
         var title: String = "",
         var foreignId: Long = 0,
 
         var userId: String = "",
         var inviteeUserId: String = "",
-        var invitationLink: String = "",
-        var inviterName: String = "",
+        var invitationLink: String? = "",
+        var inviterName: String? = "",
         var boardId: String = ""
 ) : Parcelable

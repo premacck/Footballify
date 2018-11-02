@@ -14,15 +14,14 @@ import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.util.Date;
@@ -34,10 +33,11 @@ import life.plank.juna.zone.data.model.firebase.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import life.plank.juna.zone.view.activity.JoinBoardActivity;
-import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
+import life.plank.juna.zone.view.activity.zone.ZoneActivity;
 
 import static life.plank.juna.zone.util.AppConstants.LIVE_EVENT_TYPE;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 public class PushNotificationFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = PushNotificationFirebaseMessagingService.class.getSimpleName();
@@ -113,30 +113,37 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         Uri defaultSoundUri;
         String messageBody;
 
-        if (boardNotification.getInvitationLink() != null) {
-
+        if (!isNullOrEmpty(boardNotification.getInvitationLink())) {
             messageBody = boardNotification.getInviterName()
                     + " invited you to join "
                     + boardNotification.getBoardId()
                     + " board";
+
+            Intent intent = new Intent(this, JoinBoardActivity.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .putExtra(getString(R.string.board_id_prefix), boardNotification.getBoardId());
+            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
+            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         } else {
             messageBody = boardNotification.getActor()
                     + " "
                     + boardNotification.getAction()
                     + "ed" + " " + "an" + " "
                     + boardNotification.getContentType();
-        }
 
-        if (boardNotification.getInvitationLink() != null) {
-            Intent intent = new Intent(this, JoinBoardActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra(getString(R.string.board_id_prefix), boardNotification.getBoardId());
-            pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
-            defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        } else {
-            Intent msgIntent = new Intent(this, boardNotification.getForeignId() == 0 ? PrivateBoardActivity.class : HomeActivity.class);
-            msgIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            msgIntent.putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
+            Intent msgIntent;
+
+            if (boardNotification.getForeignId() == 0) {
+//                open private board in HomeActivity
+                msgIntent = new Intent(this, HomeActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(getString(R.string.intent_private_board_id), boardNotification.getBoardId());
+            } else {
+//                open Match Board in ZoneActivity
+                msgIntent = new Intent(this, ZoneActivity.class)
+                        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
+            }
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);
             defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         }
@@ -145,20 +152,24 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         //Will be done in the next pull request
         if (boardNotification.getImageUrl() != null) {
             try {
-                bitmap = Picasso.with(getApplicationContext()).load(boardNotification.getImageUrl()).get();
-            } catch (IOException e) {
-                Log.e(TAG, e.getMessage());
+                bitmap = Glide.with(getApplicationContext())
+                        .asBitmap()
+                        .load(boardNotification.getImageUrl())
+                        .submit(200, 200)
+                        .get();
+            } catch (Exception e) {
+                Log.e(TAG, "Loading with Glide: ", e);
             }
         }
 
         SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
         String userName = sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA");
         //TODO: refactor this after the push notification is generalised
-        if (boardNotification.getActor() != null) {
+        if (!isNullOrEmpty(boardNotification.getActor())) {
             if (!boardNotification.getActor().equals(userName)) {
                 sendNotification(messageBody, defaultSoundUri, pendingIntent);
             }
-        } else if (boardNotification.getInviterName() != null) {
+        } else if (!isNullOrEmpty(boardNotification.getInviterName())) {
             sendNotification(messageBody, defaultSoundUri, pendingIntent);
         }
 

@@ -6,9 +6,12 @@ import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Board
+import life.plank.juna.zone.data.model.MatchDetails
+import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
@@ -31,9 +34,9 @@ fun FragmentManager.findPopupDialog(tag: String): BaseBlurPopup? {
     return findFragmentByTag(tag) as? BaseBlurPopup
 }
 
-fun FragmentManager.removePrivateBoardIfExists() {
+inline fun <reified T : BaseFragment> FragmentManager.removeBoardIfExists() {
     for (fragment in fragments) {
-        if (fragment is PrivateBoardFragment) {
+        if (fragment is T) {
             beginTransaction().remove(fragment).commit()
         }
     }
@@ -112,6 +115,11 @@ fun FragmentTransaction.addToBackStack(addFlag: Boolean = true, tag: String): Fr
 }
 
 fun FragmentManager.launchPrivateBoard(resId: Int, board: Board) {
-    removePrivateBoardIfExists()
+    removeBoardIfExists<PrivateBoardFragment>()
     pushFragment(resId, PrivateBoardFragment.newInstance(board), PrivateBoardFragment.TAG, backStackEntryCount)
+}
+
+fun FragmentManager.launchMatchBoard(resId: Int, matchDetails: MatchDetails) {
+    removeBoardIfExists<MatchBoardFragment>()
+    pushFragment(resId, MatchBoardFragment.newInstance(MatchFixture.from(matchDetails), matchDetails.league!!), MatchBoardFragment.TAG, backStackEntryCount)
 }
