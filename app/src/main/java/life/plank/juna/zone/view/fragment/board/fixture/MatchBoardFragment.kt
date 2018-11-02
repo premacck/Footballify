@@ -33,6 +33,7 @@ import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
@@ -244,6 +245,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                                 applyInactiveBoardColorFilter()
 
                             getBoardPolls()
+                            followBoard()
                         } else {
                             Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
                         }
@@ -290,7 +292,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun infoClicked(infoBtn: TextView) {
-        pushFragment(MatchInfoFragment.newInstance(fixture, league), true)
+        pushFragment(MatchInfoFragment.newInstance(fixture, league, boardId), true)
     }
 
     override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
@@ -311,6 +313,13 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
+
+    //Follow board by default when entered. Nothing to do on receiving the response code
+    fun followBoard() {
+        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, it.message)
+        }, {})
+    }
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
 
@@ -357,4 +366,5 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             super.setPrimaryItem(container, position, `object`)
         }
     }
+
 }
