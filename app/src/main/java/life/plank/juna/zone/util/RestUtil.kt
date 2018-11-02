@@ -5,9 +5,12 @@ import android.util.Log
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
+import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.facilis.launchMatchBoard
 import life.plank.juna.zone.util.facilis.launchPrivateBoard
+import life.plank.juna.zone.util.facilis.removeBoardIfExists
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import org.jetbrains.anko.toast
 import rx.Observable
 import rx.Subscriber
@@ -54,11 +57,14 @@ fun RestApi.launchPrivateBoard(boardId: String, resId: Int, fragmentManager: Fra
     })
 }
 
-fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, resId: Int, fragmentManager: FragmentManager) {
+fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, resId: Int, baseCardActivity: BaseCardActivity) {
     RestApiAggregator.getBoardAndMatchDetails(this, footballRestApi, matchId).smartSubscribe({
         Log.e("launchMatchBoard", "onError(): ", it)
         ZoneApplication.getContext().toast(R.string.could_not_navigate_to_board)
     }, {
-        it?.second?.run { fragmentManager.launchMatchBoard(resId, this) }
+        it?.second?.run {
+            baseCardActivity.supportFragmentManager.removeBoardIfExists<MatchBoardFragment>()
+            baseCardActivity.pushFragment(MatchBoardFragment.newInstance(MatchFixture.from(this), this.league!!), true)
+        }
     })
 }

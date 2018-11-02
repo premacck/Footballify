@@ -56,7 +56,7 @@ fun BaseCardActivity.handleMatchBoardIntentIfAny(restApi: RestApi, footballRestA
                 footballRestApi,
                 intent.getLongExtra(getString(R.string.match_id_string), 0),
                 getFragmentContainer(),
-                supportFragmentManager
+                this
         )
     }
 }
