@@ -28,9 +28,6 @@ import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.facilis.pushPopup
-import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
-import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.setupBoomMenu
 import life.plank.juna.zone.util.setupWith
@@ -109,8 +106,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         super.onResume()
         getUserBoards()
     }
-
-    override fun getSecondaryFragmentId(): Int = R.id.peek_popup_container
 
     private fun initBottomSheetRecyclerView() {
         onBoardingAdapter = OnboardingAdapter(activity)
@@ -210,7 +205,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
-                    if (it.body() != null) {
+                    if (!isNullOrEmpty(it.body())) {
                         userBoardsAdapter!!.setUserBoards(it.body()!!)
                     } else
                         user_boards_recycler_view.visibility = View.GONE
@@ -252,13 +247,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {}
 
-    override fun showFeedItemPeekPopup(position: Int) {
-        childFragmentManager.pushPopup(
-                R.id.peek_popup_container,
-                FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position),
-                FeedItemPeekPopup.TAG
-        )
-    }
+    override fun showFeedItemPeekPopup(position: Int) = pushPopup(FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position))
 
     override fun onDestroy() {
         if (authService != null) {
@@ -270,6 +259,4 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         userZoneAdapter = null
         super.onDestroy()
     }
-
-    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny() && childFragmentManager.removeActiveCardsIfAny()
 }

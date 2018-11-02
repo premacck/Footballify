@@ -239,8 +239,8 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
                                     updateUi(true, 0);
                                     setupFeedEntryByMasonryLayout(feedItemList);
                                     adapter.update(feedItemList);
-                                    if (getParentFragment() instanceof MatchBoardFragment) {
-                                        ((MatchBoardFragment) getParentFragment()).updateFullScreenAdapter(feedItemList);
+                                    if (getParentFragment() instanceof FeedEntryContainer) {
+                                        ((FeedEntryContainer) getParentFragment()).updateFullScreenAdapter(feedItemList);
                                     }
                                 } else
                                     updateUi(false, R.string.board_yet_to_be_populated);

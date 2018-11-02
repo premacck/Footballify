@@ -6,7 +6,6 @@ import android.util.Log
 import life.plank.juna.zone.R
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.*
-import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
@@ -51,7 +50,7 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
     }
 
     private fun startPoppingFragment() {
-        val lastFragment = supportFragmentManager.findLastFragment(currentFragmentTag)
+        val lastFragment = supportFragmentManager.findLastFragment()
         if (lastFragment != null) {
             if (lastFragment.onBackPressed()) {
                 if (index > 0) {
@@ -66,21 +65,11 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
 
     override fun onBackPressed() {
         try {
-            if (this is HomeActivity) {
-                supportFragmentManager.findLastFragment()?.run {
-                    if (onBackPressed()) {
-                        if (supportFragmentManager.backStackEntryCount > 0) {
-                            popBackStack()
-                        } else {
-                            super.onBackPressed()
-                        }
-                    }
-                }
-                return
+            if (supportFragmentManager.removeActivePopupsIfAny()) {
+                if (!isNullOrEmpty(previousFragmentTag)) {
+                    startPoppingFragment()
+                } else super.onBackPressed()
             }
-            if (!isNullOrEmpty(previousFragmentTag)) {
-                startPoppingFragment()
-            } else super.onBackPressed()
         } catch (e: Exception) {
             Log.e("onBackPressed()", "ERROR : ", e)
             startPoppingFragment()

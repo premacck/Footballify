@@ -50,7 +50,6 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
-import static life.plank.juna.zone.util.facilis.FragmentUtilKt.pushPopup;
 
 public class MatchStatsFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
 
@@ -141,12 +140,7 @@ public class MatchStatsFragment extends BaseBoardFragment implements BoardInfoAd
     @Override
     public void onCommentarySeeAllClick(View fromView) {
         if (getParentFragment() instanceof BaseCard && !isNullOrEmpty(matchDetails.getCommentary())) {
-            pushPopup(
-                    getParentFragment().getChildFragmentManager(),
-                    R.id.peek_popup_container,
-                    CommentaryPopup.Companion.newInstance((ArrayList<Commentary>) matchDetails.getCommentary()),
-                    CommentaryPopup.Companion.getTag()
-            );
+            ((BaseCard) getParentFragment()).pushPopup(CommentaryPopup.Companion.newInstance((ArrayList<Commentary>) matchDetails.getCommentary()));
         }
     }
 

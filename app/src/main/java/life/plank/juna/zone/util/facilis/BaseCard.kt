@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
+import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 
 abstract class BaseCard : BaseFragment() {
@@ -43,6 +44,8 @@ abstract class BaseCard : BaseFragment() {
     fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
         getParentActivity().pushFragment(baseFragment, isAddToBackStack)
     }
+
+    fun pushPopup(dialogFragment: BaseDialogFragment) = getParentActivity().pushPopup(dialogFragment)
 
     abstract fun getBackgroundBlurLayout(): ViewGroup?
 

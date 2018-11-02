@@ -5,11 +5,9 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.util.Log
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 
 fun FragmentManager.findCard(tag: String): BaseCard? {
     return this.findFragmentByTag(tag) as? BaseCard
@@ -20,7 +18,12 @@ fun FragmentManager.findLastCard(): BaseCard? {
 }
 
 fun FragmentManager.findLastFragment(): BaseFragment? {
-    return this.fragments[this.backStackEntryCount] as? BaseFragment
+    for (fragment in fragments.reversed()) {
+        if (fragment is BaseFragment) {
+            return fragment
+        }
+    }
+    return null
 }
 
 fun FragmentManager.findLastFragment(tag: String?): BaseFragment? {
@@ -41,9 +44,10 @@ inline fun <reified T : BaseFragment> FragmentManager.removeBoardIfExists() {
 
 fun FragmentManager.removeActivePopupsIfAny(): Boolean {
     for (popup in fragments.reversed()) {
-        if (popup is BaseBlurPopup && popup.isAdded) {
-            popup.dismiss()
-            beginTransaction().remove(popup).commit()
+        if (popup is BaseDialogFragment && popup.isAdded) {
+            if (popup.onBackPressed()) {
+                popup.smartDismiss { popBackStack() }
+            }
             return false
         }
     }
@@ -54,7 +58,7 @@ fun FragmentManager.removeActiveCardsIfAny(): Boolean {
     for (card in fragments.reversed()) {
         if (card is BaseCard && card.isAdded) {
             return if (card.onBackPressed()) {
-                beginTransaction().remove(card).commit()
+                popBackStack()
                 false
             } else true
         }
@@ -73,7 +77,7 @@ fun FragmentManager.moveCurrentCardToBackground(tag: String?) {
 }
 
 fun FragmentManager.movePreviousCardToForeground(tag: String?): String? {
-    val lastFragment = findLastFragment(tag)
+    val lastFragment = findLastFragment()
     lastFragment?.run {
         if (lastFragment is BaseCard) {
             lastFragment.moveToForeGround()
@@ -109,9 +113,4 @@ fun FragmentTransaction.addCustomAnimations(@AnimRes enter: Int, @AnimRes exit: 
 
 fun FragmentTransaction.addToBackStack(addFlag: Boolean = true, tag: String): FragmentTransaction {
     return if (addFlag) this.addToBackStack(tag) else this
-}
-
-fun FragmentManager.launchPrivateBoard(resId: Int, board: Board) {
-    removeBoardIfExists<PrivateBoardFragment>()
-    pushFragment(resId, PrivateBoardFragment.newInstance(board), PrivateBoardFragment.TAG, backStackEntryCount + 1)
 }
