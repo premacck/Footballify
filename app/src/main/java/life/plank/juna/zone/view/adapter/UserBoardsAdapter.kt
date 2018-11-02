@@ -2,6 +2,7 @@ package life.plank.juna.zone.view.adapter
 
 import android.graphics.Color
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +49,7 @@ class UserBoardsAdapter(
                 holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].name!!) }
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("onBindViewHolder() ", "ERROR: ", e)
         }
     }
 
@@ -69,7 +70,7 @@ class UserBoardsAdapter(
         if (boardName == findString(R.string.new_)) {
             launchBoardMaker()
         } else {
-            restApi.launchPrivateBoard(boardId, activity.getFragmentContainer(), activity.supportFragmentManager)
+            restApi.launchPrivateBoard(boardId, activity)
         }
     }
 

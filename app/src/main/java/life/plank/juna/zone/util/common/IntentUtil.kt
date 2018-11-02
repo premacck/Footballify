@@ -5,7 +5,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.facilis.launchPrivateBoard
+import life.plank.juna.zone.util.facilis.removeBoardIfExists
 import life.plank.juna.zone.util.launchMatchBoard
 import life.plank.juna.zone.util.launchPrivateBoard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -34,15 +34,11 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithPrivateBoard(boardI
  */
 fun BaseCardActivity.handlePrivateBoardIntentIfAny(restApi: RestApi) {
     if (intent.hasExtra(getString(R.string.intent_private_board))) {
-        supportFragmentManager.launchPrivateBoard(
-                getFragmentContainer(),
-                intent.getParcelableExtra(getString(R.string.intent_private_board))
-        )
+        launchPrivateBoard(intent.getParcelableExtra(getString(R.string.intent_private_board)))
     } else if (intent.hasExtra(getString(R.string.intent_private_board_id))) {
         restApi.launchPrivateBoard(
                 intent.getStringExtra(getString(R.string.intent_private_board_id)),
-                getFragmentContainer(),
-                supportFragmentManager
+                this
         )
     }
 }
@@ -58,4 +54,9 @@ fun BaseCardActivity.handleMatchBoardIntentIfAny(restApi: RestApi, footballRestA
                 this
         )
     }
+}
+
+fun BaseCardActivity.launchPrivateBoard(board: Board) {
+    supportFragmentManager.removeBoardIfExists<PrivateBoardFragment>()
+    pushFragment(PrivateBoardFragment.newInstance(board), true)
 }

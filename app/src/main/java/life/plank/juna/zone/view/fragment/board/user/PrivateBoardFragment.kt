@@ -51,6 +51,7 @@ class PrivateBoardFragment : CardTileFragment() {
     lateinit var boardId: String
     lateinit var board: Board
     private var pagerAdapter: PrivateBoardPagerAdapter? = null
+    private val deleteBoardListener = View.OnClickListener { deletePrivateBoard() }
 
     private val mMessageReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -81,9 +82,9 @@ class PrivateBoardFragment : CardTileFragment() {
         val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
 
         if (board.owner.displayName == editor.getString(getString(R.string.pref_display_name), getString(R.string.na))) {
-            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_OWNER_POPUP)
+            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_OWNER_POPUP, deleteBoardListener)
         } else {
-            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_USER_POPUP)
+            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_USER_POPUP, deleteBoardListener)
         }
 
         private_board_toolbar.setTitle(board.name)
@@ -147,7 +148,11 @@ class PrivateBoardFragment : CardTileFragment() {
 
     override fun onPause() {
         super.onPause()
-        context?.unregisterReceiver(mMessageReceiver)
+        try {
+            context?.unregisterReceiver(mMessageReceiver)
+        } catch (e: Exception) {
+            Log.e("unregisterReceiver()", "ERROR", e)
+        }
     }
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
@@ -156,7 +161,7 @@ class PrivateBoardFragment : CardTileFragment() {
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
-    fun deletePrivateBoard() {
+    private fun deletePrivateBoard() {
         restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: ", it)
             toast(R.string.something_went_wrong)
@@ -165,9 +170,9 @@ class PrivateBoardFragment : CardTileFragment() {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
                     toast(R.string.board_deletion)
                     if (parentFragment != null && parentFragment is BaseCard) {
-                        (parentFragment as BaseCard).childFragmentManager.beginTransaction().remove(this).commit()
+                        (parentFragment as BaseCard).getParentActivity().popBackStack()
                     } else if (activity is BaseCardActivity) {
-                        (activity as BaseCardActivity).supportFragmentManager.beginTransaction().remove(this).commit()
+                        (activity as BaseCardActivity).popBackStack()
                     }
                 }
                 else -> toast(R.string.something_went_wrong)
@@ -183,7 +188,7 @@ class PrivateBoardFragment : CardTileFragment() {
 
         override fun getItem(position: Int): Fragment? {
             return when (position) {
-                0 -> PrivateBoardInfoFragment.newInstance(board.description, board.id, board.owner.displayName, board.name)
+                0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.name!!)
                 1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
                 else -> null

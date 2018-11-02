@@ -38,7 +38,7 @@ abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackCha
         index++
     }
 
-    private fun popBackStack() {
+    fun popBackStack() {
         if (index <= 0) return
         index--
         supportFragmentManager.popBackStackImmediate()
