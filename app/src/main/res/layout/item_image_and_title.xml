@@ -4,7 +4,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingStart="3dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="3dp"
+    android:paddingBottom="10dp">
 
     <RelativeLayout
         android:id="@+id/image_layout"
@@ -41,8 +44,7 @@
         android:lineSpacingExtra="5sp"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Anna Jule"
         android:textColor="@color/grey"
-        android:textSize="10sp" />
+        android:textSize="@dimen/text_10sp" />
 
 </RelativeLayout>

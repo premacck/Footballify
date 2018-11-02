@@ -32,6 +32,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/feed_header"
                     android:nestedScrollingEnabled="false"
+                    android:clipToPadding="false"
+                    android:paddingStart="9dp"
+                    android:paddingEnd="9dp"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_image_and_title" />
 
@@ -40,8 +43,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/user_boards_recycler_view"
-                    android:layout_marginStart="6dp"
-                    android:layout_marginEnd="6dp"
+                    android:clipToPadding="false"
+                    android:paddingStart="3dp"
+                    android:paddingEnd="3dp"
                     android:nestedScrollingEnabled="false"
                     app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                     tools:listitem="@layout/item_zone_user_feed" />

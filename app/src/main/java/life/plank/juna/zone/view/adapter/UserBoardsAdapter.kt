@@ -23,7 +23,8 @@ import java.util.*
 class UserBoardsAdapter(
         private val activity: BaseCardActivity,
         private val restApi: RestApi,
-        private val glide: RequestManager
+        private val glide: RequestManager,
+        private val isTitleShown: Boolean
 ) : RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder>() {
 
     private var boardList: MutableList<Board> = ArrayList()
@@ -34,6 +35,7 @@ class UserBoardsAdapter(
 
     override fun onBindViewHolder(holder: UserBoardsAdapter.UserBoardsViewHolder, position: Int) {
         try {
+            holder.itemView.title.visibility = if (isTitleShown) View.VISIBLE else View.GONE
             if (boardList[position].name == findString(R.string.new_)) {
                 holder.itemView.title.text = boardList[position].name
                 holder.itemView.image.setImageDrawable(ZoneApplication.getContext().getDrawable(R.drawable.new_board_circle))
