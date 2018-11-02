@@ -139,13 +139,13 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initZoneRecyclerView() {
-        userZoneAdapter = UserZoneAdapter(context, userPreferences as MutableList<UserPreference>?)
+        userZoneAdapter = UserZoneAdapter(activity!!, userPreferences)
         user_zone_recycler_view?.adapter = userZoneAdapter
     }
 
     private fun initBoardsRecyclerView() {
         if (activity is BaseCardActivity) {
-            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, Glide.with(this))
+            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, Glide.with(this), false)
             user_boards_recycler_view?.adapter = userBoardsAdapter
         }
     }

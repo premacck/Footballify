@@ -182,6 +182,7 @@
                 <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:minHeight="140dp"
                     android:paddingStart="6dp"
                     android:paddingTop="6dp"
                     android:paddingEnd="6dp"
@@ -202,8 +203,10 @@
                         android:id="@+id/my_boards_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:paddingStart="9dp"
+                        android:paddingEnd="9dp"
                         android:layout_below="@+id/my_boards_title_text_view"
-                        android:layout_toStartOf="@+id/create_board_button"
                         app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                         tools:listitem="@layout/item_image_and_title" />
 

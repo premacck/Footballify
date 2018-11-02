@@ -79,7 +79,7 @@ class UserProfileActivity : BaseCardActivity() {
 
     private fun initRecyclerView() {
         my_boards_list.layoutManager = GridLayoutManager(applicationContext, 5)
-        userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this))
+        userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
         my_boards_list.adapter = userBoardsAdapter
         get_coins_list.adapter = getCoinsAdapter
         last_transactions_list.adapter = lastTransactionsAdapter
