@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.activity;
 
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -32,7 +31,6 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.OnItemClickListener;
-import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter;
 import life.plank.juna.zone.view.adapter.SearchViewAdapter;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -71,7 +69,6 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
         restApi = retrofit.create(RestApi.class);
         initRecyclerView();
         search.setQueryHint(getString(R.string.search_query_hint));
-        blurBackgroundImageView.setBackground(new BitmapDrawable(getResources(), BoardMembersViewAdapter.parentViewBitmap));
         boardTitle.setText(getIntent().getStringExtra(getString(R.string.board_title)));
     }
 

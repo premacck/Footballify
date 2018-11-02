@@ -50,7 +50,7 @@ abstract class BaseCard : BaseFragment() {
 
     abstract fun getDragHandle(): View?
 
-    private fun getParentActivity(): BaseCardActivity {
+    fun getParentActivity(): BaseCardActivity {
         if (activity is BaseCardActivity)
             return activity as BaseCardActivity
         else throw IllegalStateException("Fragment must be attached to a BaseCardActivity")

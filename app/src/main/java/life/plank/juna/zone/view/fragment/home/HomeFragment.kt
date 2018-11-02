@@ -100,10 +100,14 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         arc_menu.setupWith(nestedScrollView)
 
         getUserFeed()
-        getUserBoards()
 
         feed_header.initListeners(this)
         feed_header.setProfilePic(editor.getString(getString(R.string.pref_profile_pic_url), null))
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getUserBoards()
     }
 
     override fun getSecondaryFragmentId(): Int = R.id.peek_popup_container
