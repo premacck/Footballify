@@ -57,7 +57,7 @@ fun RestApi.launchPrivateBoard(boardId: String, resId: Int, fragmentManager: Fra
     })
 }
 
-fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, resId: Int, baseCardActivity: BaseCardActivity) {
+fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, baseCardActivity: BaseCardActivity) {
     RestApiAggregator.getBoardAndMatchDetails(this, footballRestApi, matchId).smartSubscribe({
         Log.e("launchMatchBoard", "onError(): ", it)
         ZoneApplication.getContext().toast(R.string.could_not_navigate_to_board)
