@@ -17,7 +17,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_match_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -34,13 +33,12 @@ import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import retrofit2.Response
 import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -318,21 +316,9 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     //Follow board by default when entered. Nothing to do on receiving the response code
     fun followBoard() {
-        restApi.followBoard(getToken(), boardId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<JsonObject>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "onCompleted")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, e.message)
-                    }
-
-                    override fun onNext(response: Response<JsonObject>) {
-                    }
-                })
+        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, it.message)
+        }, {})
     }
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {

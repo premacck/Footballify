@@ -14,12 +14,10 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter
-import retrofit2.Response
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
@@ -35,14 +33,19 @@ class BoardMembersFragment : Fragment() {
     private var userList = ArrayList<User>()
 
     private val TAG = BoardMembersFragment::class.java.simpleName
+    private lateinit var matchBoardId: String
 
     companion object {
-        private lateinit var matchBoardId: String
-        fun newInstance(boardId: String?): BoardMembersFragment {
-            val fragment = BoardMembersFragment()
-            matchBoardId = boardId!!
-            return fragment
+        fun newInstance(boardId: String?) = BoardMembersFragment().apply {
+            arguments = Bundle().apply {
+                putString(findString(R.string.intent_board_id), boardId)
+            }
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        matchBoardId = arguments?.getString(getString(R.string.intent_board_id))!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -66,27 +69,16 @@ class BoardMembersFragment : Fragment() {
     }
 
     private fun getMembers() {
-        restApi.getBoardMembers(matchBoardId, getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<List<User>>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "getBoardMembers : Completed")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, e.message)
-                    }
-
-                    override fun onNext(response: Response<List<User>>) {
-                        when (response.code()) {
-                            HttpURLConnection.HTTP_OK -> {
-                                boardMembersViewAdapter.update(response.body())
-                            }
-                            else -> Toast.makeText(context, R.string.failed_to_retrieve_members, Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                })
+        restApi.getBoardMembers(matchBoardId, getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getMembers(): " + it.message)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    boardMembersViewAdapter.update(it.body())
+                }
+                else -> Toast.makeText(context, R.string.failed_to_retrieve_members, Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }
 
