@@ -24,6 +24,8 @@ import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.data.model.Thumbnail
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants
+import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
+import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.facilis.BaseCard
@@ -79,9 +81,9 @@ class PrivateBoardFragment : CardTileFragment() {
         val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
 
         if (board.owner.displayName == editor.getString(getString(R.string.pref_display_name), getString(R.string.na))) {
-            private_board_toolbar.setUpPrivateBoardPopUp(activity, getString(R.string.private_board_owner_popup))
+            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_OWNER_POPUP)
         } else {
-            private_board_toolbar.setUpPrivateBoardPopUp(activity, getString(R.string.private_board_user_popup))
+            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_USER_POPUP)
         }
 
         private_board_toolbar.setTitle(board.name)
