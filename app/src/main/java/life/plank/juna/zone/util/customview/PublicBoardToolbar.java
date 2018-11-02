@@ -39,6 +39,7 @@ import life.plank.juna.zone.interfaces.PublicBoardHeaderListener;
 import life.plank.juna.zone.util.DateUtil;
 import life.plank.juna.zone.util.NumberFormatter;
 
+import static life.plank.juna.zone.util.AppConstants.BOARD_POPUP;
 import static life.plank.juna.zone.util.AppConstants.FOUR_HOURS_MILLIS;
 import static life.plank.juna.zone.util.AppConstants.FULL_TIME_LOWERCASE;
 import static life.plank.juna.zone.util.AppConstants.GMT;
@@ -157,7 +158,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
             Point point = new Point();
             point.x = location[0];
             point.y = location[1];
-            showOptionPopup(activity, point, activity.getString(R.string.board_pop_up), currentMatchId, -400, 100);
+            showOptionPopup(activity, point, BOARD_POPUP, currentMatchId, -400, 100);
         });
     }
 

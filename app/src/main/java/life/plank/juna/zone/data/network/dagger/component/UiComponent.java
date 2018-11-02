@@ -6,7 +6,6 @@ import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
-import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
 import life.plank.juna.zone.view.activity.SignUpActivity;
@@ -73,8 +72,6 @@ public interface UiComponent {
     void inject(BoardInfoFragment boardInfoFragment);
 
     void inject(TimelinePopup timelinePopup);
-
-    void inject(PrivateBoardActivity privateBoardActivity);
 
     void inject(CommentaryPopup commentaryPopup);
 

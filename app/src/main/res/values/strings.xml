@@ -52,14 +52,10 @@
 
     <string name="private_board">Private Board</string>
     <string name="timeline_activity">timeline_activity</string>
-    <string name="board_pop_up">BoardPopUp</string>
-    <string name="home_pop_up">HomePopUp</string>
     <string name="juna_user_topic">JunaUser-</string>
     <string name="media_type_image">image/png</string>
     <string name="media_type_video">video/mp4</string>
     <string name="media_type_audio">audio/mpeg</string>
-    <string name="private_board_owner_popup">PrivateBoardOwnerPopUp</string>
-    <string name="private_board_user_popup">PrivateBoardUserPopUp</string>
     <string name="text_content_type">text/plain</string>
     <string name="blue_color">blue_bg</string>
     <string name="purple_color">purple_bg</string>

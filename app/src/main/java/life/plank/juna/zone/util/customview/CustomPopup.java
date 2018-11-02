@@ -14,8 +14,12 @@ import android.widget.TextView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.view.activity.PrivateBoardActivity;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
+
+import static life.plank.juna.zone.util.AppConstants.BOARD_POPUP;
+import static life.plank.juna.zone.util.AppConstants.HOME_POPUP;
+import static life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP;
+import static life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP;
 
 public class CustomPopup {
 
@@ -37,43 +41,41 @@ public class CustomPopup {
         TextView popupItemThree = layout.findViewById(R.id.popup_item_three);
         TextView popupItemFour = layout.findViewById(R.id.popup_item_four);
 
-        if (popUpType.equals(context.getString(R.string.board_pop_up))) {
+        switch (popUpType) {
+            case BOARD_POPUP:
+                popupItemThree.setText(R.string.unfollow_board_popup);
+                popupItemThree.setOnClickListener(view -> {
+                    optionPopUp.dismiss();
+                    FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
+                });
 
-            popupItemThree.setText(R.string.unfollow_board_popup);
-            popupItemThree.setOnClickListener(view -> {
-                optionPopUp.dismiss();
-                FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
-            });
+                popupItemFour.setText(R.string.report_board_popup);
+                popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+                break;
+            case PRIVATE_BOARD_OWNER_POPUP:
+                popupItemThree.setText(R.string.delete_board_popup);
+                popupItemThree.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
 
-            popupItemFour.setText(R.string.report_board_popup);
-            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+                popupItemThree.setOnClickListener(view -> {
+                    optionPopUp.dismiss();
+//                TODO: Add delete method from PrivateBoardFragment after removing memory leaks
+                });
 
+                popupItemFour.setText(R.string.settings_board_popup);
+                popupItemFour.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
+                popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+                break;
+            case PRIVATE_BOARD_USER_POPUP:
+                popupItemThree.setText(R.string.unfollow_board_popup);
+                popupItemThree.setOnClickListener(view -> {
+                    optionPopUp.dismiss();
+                });
 
-        } else if (popUpType.equals(context.getString(R.string.private_board_owner_popup))) {
-
-            popupItemThree.setText(R.string.delete_board_popup);
-            popupItemThree.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
-
-            popupItemThree.setOnClickListener(view -> {
-                optionPopUp.dismiss();
-//                TODO: replace with deletePrivateBoard() function of PrivateBoardFragment
-                PrivateBoardActivity.deletePrivateBoard();
-            });
-
-            popupItemFour.setText(R.string.settings_board_popup);
-            popupItemFour.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
-            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
-
-
-        } else if (popUpType.equals(context.getString(R.string.private_board_user_popup))) {
-
-            popupItemThree.setText(R.string.unfollow_board_popup);
-            popupItemThree.setOnClickListener(view -> {
-                optionPopUp.dismiss();
-            });
-
-            popupItemFour.setText(R.string.report_board_popup);
-            popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+                popupItemFour.setText(R.string.report_board_popup);
+                popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+                break;
+            case HOME_POPUP:
+                break;
         }
 
         // Creating the PopupWindow
@@ -84,19 +86,17 @@ public class CustomPopup {
         optionPopUp.setFocusable(true);
 
         //Clear the default translucent background
-        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
+        optionPopUp.setBackgroundDrawable(null);
 
         // Displaying the popup at the specified location, + offsets.
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
     }
-
 
     //TODO: Refactor this entire class after complete functionality.
     public static void showPrivateBoardOptionPopup(View parentview, View fragmentRootView, String userId) {
         LinearLayout viewGroup = fragmentRootView.findViewById(R.id.owner_options_popup);
         LayoutInflater layoutInflater = (LayoutInflater) fragmentRootView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
-
 
         int[] location = new int[2];
 

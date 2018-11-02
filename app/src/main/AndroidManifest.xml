@@ -117,9 +117,6 @@
             android:name=".view.activity.SignInActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".view.activity.PrivateBoardActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".view.activity.board.CreateBoardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />

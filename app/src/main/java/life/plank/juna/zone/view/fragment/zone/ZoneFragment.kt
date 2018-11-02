@@ -21,6 +21,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
+import life.plank.juna.zone.util.AppConstants.HOME_POPUP
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
@@ -99,7 +100,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         val point = Point()
         point.x = location[0]
         point.y = location[1]
-        showOptionPopup(activity, point, getString(R.string.home_pop_up), null, -440, 100)
+        showOptionPopup(activity, point, HOME_POPUP, null, -440, 100)
     }
 
     private fun setUpData() {

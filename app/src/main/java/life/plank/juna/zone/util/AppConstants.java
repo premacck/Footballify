@@ -7,7 +7,9 @@ import android.support.annotation.StringDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.*;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_HOME;
+import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -135,6 +137,11 @@ public class AppConstants {
     public static final int FOUR_HOURS_MILLIS = 14400000;
     public static final int TWO_HOURS_MILLIS = 7200000;
     public static final int ONE_HOUR_MILLIS = 3600000;
+
+    public static final String BOARD_POPUP = "BoardPopUp";
+    public static final String HOME_POPUP = "HomePopUp";
+    public static final String PRIVATE_BOARD_USER_POPUP = "PrivateBoardUserPopUp";
+    public static final String PRIVATE_BOARD_OWNER_POPUP = "PrivateBoardOwnerPopUp";
 
     @Retention(RetentionPolicy.RUNTIME)
     @StringDef({HOME, DRAW, AWAY})
