@@ -13,6 +13,7 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.customview.CustomPopup
 import life.plank.juna.zone.view.activity.InviteToBoardActivity
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.newTask
@@ -21,7 +22,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 class BoardMembersViewAdapter(
         private var userList: MutableList<User>,
         private val boardId: String,
-        private val fragment: PrivateBoardInfoFragment,
+        private val fragment: BaseFragment,
         private val displayName: String,
         private val boardName: String
 ) : RecyclerView.Adapter<BoardMembersViewAdapter.BoardMembersViewHolder>() {
@@ -61,8 +62,10 @@ class BoardMembersViewAdapter(
     private fun showOptionsPopup(holder: BoardMembersViewHolder, position: Int) {
         if (PreferenceManager.getSharedPrefs(findString(R.string.pref_user_details))
                         .getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA") == displayName) {
-            fragment.userPosition = position
-            CustomPopup.showPrivateBoardOptionPopup(holder.itemView.image, fragment, userList[position].objectId!!)
+            if (fragment is PrivateBoardInfoFragment) {
+                fragment.userPosition = position
+                CustomPopup.showPrivateBoardOptionPopup(holder.itemView.image, fragment, userList[position].objectId!!)
+            }
         }
     }
 
