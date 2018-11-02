@@ -18,12 +18,13 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter
+import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class BoardMembersFragment : Fragment() {
+class BoardMembersFragment : BaseFragment() {
 
     @field: [Inject Named("footballData")]
     lateinit var restApi: RestApi
@@ -64,7 +65,7 @@ class BoardMembersFragment : Fragment() {
     private fun initRecyclerView() {
         board_members_recycler_view.layoutManager = GridLayoutManager(context, 5)
         //TODO: Send board and display name when invite workflow is fixed
-        boardMembersViewAdapter = BoardMembersViewAdapter(userList, context, matchBoardId, this, "", picasso, "")
+        boardMembersViewAdapter = BoardMembersViewAdapter(userList, matchBoardId, this, "", "")
         board_members_recycler_view.adapter = boardMembersViewAdapter
     }
 
@@ -74,7 +75,7 @@ class BoardMembersFragment : Fragment() {
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
-                    boardMembersViewAdapter.update(it.body())
+                    boardMembersViewAdapter.update(it.body()!!)
                 }
                 else -> Toast.makeText(context, R.string.failed_to_retrieve_members, Toast.LENGTH_SHORT).show()
             }
