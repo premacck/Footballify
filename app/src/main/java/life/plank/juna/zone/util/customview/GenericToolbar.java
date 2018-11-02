@@ -103,7 +103,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
         array.recycle();
     }
 
-    public void setUpPrivateBoardPopUp(Activity activity, String popupType) {
+    public void setUpPrivateBoardPopUp(Activity activity, String popupType, View.OnClickListener deleteListener) {
         optionsMenu.setOnClickListener(view -> {
             int[] location = new int[2];
 
@@ -113,7 +113,7 @@ public class GenericToolbar extends FrameLayout implements CustomViewListener, E
             Point point = new Point();
             point.x = location[0];
             point.y = location[1];
-            showOptionPopup(activity, point, popupType, null, -400, 100);
+            showOptionPopup(activity, point, popupType, null, -400, 100, deleteListener);
         });
     }
 

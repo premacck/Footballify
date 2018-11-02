@@ -25,7 +25,7 @@ public class CustomPopup {
 
     private static PopupWindow optionPopUp;
 
-    public static void showOptionPopup(final Activity context, Point p, String popUpType, Long currentMatchId, int offsetX, int offsetY) {
+    public static void showOptionPopup(final Activity context, Point p, String popUpType, Long currentMatchId, int offsetX, int offsetY, View.OnClickListener... deletePrivateBoardListeners) {
 
         LinearLayout viewGroup = context.findViewById(R.id.popup);
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -56,20 +56,19 @@ public class CustomPopup {
                 popupItemThree.setText(R.string.delete_board_popup);
                 popupItemThree.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_delete, 0, 0, 0);
 
-                popupItemThree.setOnClickListener(view -> {
-                    optionPopUp.dismiss();
-//                TODO: Add delete method from PrivateBoardFragment after removing memory leaks
-                });
-
+                if (deletePrivateBoardListeners != null && deletePrivateBoardListeners.length > 0) {
+                    popupItemThree.setOnClickListener(view -> {
+                        optionPopUp.dismiss();
+                        deletePrivateBoardListeners[0].onClick(view);
+                    });
+                }
                 popupItemFour.setText(R.string.settings_board_popup);
                 popupItemFour.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_gear, 0, 0, 0);
                 popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
                 break;
             case PRIVATE_BOARD_USER_POPUP:
                 popupItemThree.setText(R.string.unfollow_board_popup);
-                popupItemThree.setOnClickListener(view -> {
-                    optionPopUp.dismiss();
-                });
+                popupItemThree.setOnClickListener(view -> optionPopUp.dismiss());
 
                 popupItemFour.setText(R.string.report_board_popup);
                 popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
@@ -90,17 +89,18 @@ public class CustomPopup {
 
         // Displaying the popup at the specified location, + offsets.
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, p.x + offsetX, p.y + offsetY);
+
+        setOnDismissListener();
     }
 
     //TODO: Refactor this entire class after complete functionality.
-    public static void showPrivateBoardOptionPopup(View parentview, View fragmentRootView, String userId) {
-        LinearLayout viewGroup = fragmentRootView.findViewById(R.id.owner_options_popup);
-        LayoutInflater layoutInflater = (LayoutInflater) fragmentRootView.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View layout = layoutInflater.inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
+    public static void showPrivateBoardOptionPopup(View parentView, PrivateBoardInfoFragment fragment, String userId) {
+        LinearLayout viewGroup = fragment.rootView.findViewById(R.id.owner_options_popup);
+        View layout = LayoutInflater.from(fragment.rootView.getContext()).inflate(R.layout.owner_options_for_admin_or_user_popup, viewGroup);
 
         int[] location = new int[2];
 
-        parentview.getLocationOnScreen(location);
+        parentView.getLocationOnScreen(location);
 
         //Initialize the Point with x, and y positions
         Point point = new Point();
@@ -111,12 +111,11 @@ public class CustomPopup {
 
         TextView popupItemOne = layout.findViewById(R.id.kick);
         popupItemOne.setOnClickListener(view -> {
-            PrivateBoardInfoFragment.deletePrivateBoardMember(userId);
+            fragment.deletePrivateBoardMember(userId);
             optionPopUp.dismiss();
         });
 
-
-        optionPopUp = new PopupWindow(fragmentRootView.getContext());
+        optionPopUp = new PopupWindow(fragment.getContext());
         optionPopUp.setContentView(layout);
         optionPopUp.setWidth(LinearLayout.LayoutParams.WRAP_CONTENT);
         optionPopUp.setHeight(LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -127,6 +126,8 @@ public class CustomPopup {
 
         // Displaying the popup at the specified location, + offsets.
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, point.x, point.y);
+
+        setOnDismissListener();
     }
 
     public static void showAdminOptionsPopup(View view, View fragmentRootView) {
@@ -153,10 +154,15 @@ public class CustomPopup {
         optionPopUp.setFocusable(true);
 
         //Clear the default translucent background
-        optionPopUp.setBackgroundDrawable(new BitmapDrawable());
+        optionPopUp.setBackgroundDrawable(null);
 
         // Displaying the popup at the specified location, + offsets.
         optionPopUp.showAtLocation(layout, Gravity.NO_GRAVITY, point.x, point.y);
+
+        setOnDismissListener();
     }
 
+    private static void setOnDismissListener() {
+        optionPopUp.setOnDismissListener(() -> optionPopUp = null);
+    }
 }
