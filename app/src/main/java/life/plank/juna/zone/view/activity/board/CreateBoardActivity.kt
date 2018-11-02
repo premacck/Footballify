@@ -7,9 +7,6 @@ import android.os.Bundle
 import android.provider.MediaStore.Images.Media
 import android.view.View
 import android.widget.ToggleButton
-import butterknife.ButterKnife
-import butterknife.OnClick
-import butterknife.OnTextChanged
 import com.facebook.internal.Utility.isNullOrEmpty
 import kotlinx.android.synthetic.main.activity_create_board.*
 import life.plank.juna.zone.R
@@ -18,11 +15,14 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
 import life.plank.juna.zone.util.UIDisplayUtil
 import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.facilis.onClick
+import life.plank.juna.zone.util.facilis.onTextChanged
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter
 import life.plank.juna.zone.view.adapter.BoardIconAdapter
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup
+import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 
@@ -49,8 +49,6 @@ class CreateBoardActivity : BaseCardActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_board)
-        ButterKnife.bind(this)
-
         ZoneApplication.getApplication().uiComponent.inject(this)
 
         zones = arrayOf(football, music, drama, tune, skill, other)
@@ -68,17 +66,23 @@ class CreateBoardActivity : BaseCardActivity() {
         }
         tool_bar.isNotificationViewVisible(View.GONE)
         user_greeting.text = getString(R.string.hi_user, intent.getStringExtra(ZoneApplication.getContext().getString(R.string.username)))
+
+        setupListeners()
     }
 
     override fun getFragmentContainer(): Int = R.id.board_maker_fragment_container
 
-    @OnTextChanged(R.id.board_name_edit_text, R.id.board_description_edit_text)
-    fun onTextFieldUpdated() {
-        validateCreateBoardContent()
+    private fun setupListeners() {
+        arrayOf(football, music, drama, tune, skill, other).onClick { toggleView(it as ToggleButton) }
+
+        arrayOf(board_name_edit_text, board_description_edit_text).onTextChanged { validateCreateBoardContent() }
+
+        create_board_button.onClick { onCreateBoardButtonClicked() }
+
+        upload_board_icon.onClick { onUploadButtonClicked() }
     }
 
-    @OnClick(R.id.football, R.id.music, R.id.drama, R.id.tune, R.id.skill, R.id.other)
-    fun toggleView(view: ToggleButton) {
+    private fun toggleView(view: ToggleButton) {
         for (zoneView in zones!!) {
             if (zoneView.id == view.id) {
                 checkAction(zoneView, !zoneView.isChecked)
@@ -102,8 +106,7 @@ class CreateBoardActivity : BaseCardActivity() {
         toggleZone(this, toggleButton, isChecked)
     }
 
-    @OnClick(R.id.create_board_button)
-    fun onCreateBoardButtonClicked() {
+    private fun onCreateBoardButtonClicked() {
         board_name_edit_text.clearFocus()
         board_description_edit_text.clearFocus()
         hideSoftKeyboard(create_board_button)
@@ -119,8 +122,7 @@ class CreateBoardActivity : BaseCardActivity() {
         boardIconAdapter.selectedPath?.run { createBoard(board, this) }
     }
 
-    @OnClick(R.id.upload_board_icon)
-    fun onUploadButtonClicked() {
+    private fun onUploadButtonClicked() {
         if (UIDisplayUtil.checkPermission(this@CreateBoardActivity)) {
             getImageResourceFromGallery()
         } else {

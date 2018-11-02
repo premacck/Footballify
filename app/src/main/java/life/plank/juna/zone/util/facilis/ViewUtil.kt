@@ -16,6 +16,7 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
+import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
@@ -23,6 +24,7 @@ import io.alterac.blurkit.BlurLayout
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
 fun Display.getScreenSize(): IntArray {
     val size = Point()
@@ -196,6 +198,20 @@ private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action:
                 }
             }
             return true
+        }
+    }
+}
+
+inline fun <reified T : View> Array<T>.onClick(crossinline action: (view: View) -> Unit) {
+    for (view in this) {
+        view.onDebouncingClick { action(view) }
+    }
+}
+
+inline fun <reified T : View> Array<T>.onTextChanged(crossinline action: () -> Unit) {
+    for (view in this) {
+        if (view is EditText) {
+            view.textChangedListener { onTextChanged { _, _, _, _ -> action() } }
         }
     }
 }
