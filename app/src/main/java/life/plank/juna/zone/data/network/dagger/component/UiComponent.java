@@ -23,8 +23,10 @@ import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
+import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchInfoFragment;
+import life.plank.juna.zone.view.fragment.board.fixture.MatchStatsFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
@@ -112,6 +114,10 @@ public interface UiComponent {
     void inject(FixtureFragment fixtureFragment);
 
     void inject(MatchInfoFragment matchInfoFragment);
+
+    void inject(LineupFragment lineupFragment);
+
+    void inject(MatchStatsFragment matchStatsFragment);
 
     void inject(HomeActivity homeActivity);
 
