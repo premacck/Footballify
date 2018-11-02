@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.board.user
 
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -74,7 +73,6 @@ class PrivateBoardInfoFragment : BaseFragment() {
     }
 
     private fun initRecyclerView() {
-        board_members_recycler_view.layoutManager = GridLayoutManager(context, 5)
         boardMembersViewAdapter = BoardMembersViewAdapter(userList, boardId, this, displayName, boardName)
         board_members_recycler_view.adapter = boardMembersViewAdapter
     }

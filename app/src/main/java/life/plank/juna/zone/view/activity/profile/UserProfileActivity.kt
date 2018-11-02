@@ -15,8 +15,6 @@ import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.handlePrivateBoardIntentIfAny
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.pushPopup
-import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
@@ -66,11 +64,7 @@ class UserProfileActivity : BaseCardActivity() {
 
     private fun setOnClickListeners() {
         edit_profile_button.onDebouncingClick {
-            supportFragmentManager.pushPopup(
-                    R.id.popup_container,
-                    EditProfilePopup.newInstance(),
-                    EditProfilePopup.TAG
-            )
+            pushPopup(EditProfilePopup.newInstance())
         }
         home_fab.onDebouncingClick { HomeActivity.launch(this, true) }
     }
@@ -121,9 +115,5 @@ class UserProfileActivity : BaseCardActivity() {
                 editor.putString(getString(R.string.pref_display_name), user.displayName)
             }
         })
-    }
-
-    override fun onBackPressed() {
-        if (supportFragmentManager.removeActivePopupsIfAny()) super.onBackPressed()
     }
 }

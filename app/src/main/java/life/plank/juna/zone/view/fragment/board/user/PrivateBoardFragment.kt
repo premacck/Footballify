@@ -30,8 +30,6 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.facilis.removeActiveCardsIfAny
-import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
@@ -179,8 +177,6 @@ class PrivateBoardFragment : CardTileFragment() {
             }
         })
     }
-
-    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny() && childFragmentManager.removeActiveCardsIfAny()
 
     internal class PrivateBoardPagerAdapter(fm: FragmentManager, private val board: Board) : FragmentPagerAdapter(fm) {
 

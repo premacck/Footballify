@@ -30,7 +30,6 @@ import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getDateDiffFromToday
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
-import life.plank.juna.zone.util.facilis.pushPopup
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setupBoomMenu
 import life.plank.juna.zone.util.setupWith
@@ -93,29 +92,17 @@ class LeagueInfoFragment : BaseLeagueFragment() {
     private fun setOnClickListeners() {
         see_all_fixtures.onClick {
             if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                childFragmentManager.pushPopup(R.id.popup_container, FixtureFragment.newInstance(league), FixtureFragment.TAG)
+                pushPopup(FixtureFragment.newInstance(league))
             }
         }
         see_all_standings.onClick {
-            childFragmentManager.pushPopup(
-                    R.id.popup_container,
-                    LeagueInfoDetailPopup.newInstance(STANDINGS, standingTableAdapter!!.standings as ArrayList<out Parcelable>),
-                    LeagueInfoDetailPopup.TAG
-            )
+            pushPopup(LeagueInfoDetailPopup.newInstance(STANDINGS, standingTableAdapter!!.standings as ArrayList<out Parcelable>))
         }
         see_more_team_stats.onClick {
-            childFragmentManager.pushPopup(
-                    R.id.popup_container,
-                    LeagueInfoDetailPopup.newInstance(TEAM_STATS, teamStatsAdapter!!.teamStats as ArrayList<out Parcelable>),
-                    LeagueInfoDetailPopup.TAG
-            )
+            pushPopup(LeagueInfoDetailPopup.newInstance(TEAM_STATS, teamStatsAdapter!!.teamStats as ArrayList<out Parcelable>))
         }
         see_more_player_stats.onClick {
-            childFragmentManager.pushPopup(
-                    R.id.popup_container,
-                    LeagueInfoDetailPopup.newInstance(PLAYER_STATS, playerStatsAdapter!!.playerStats as ArrayList<out Parcelable>),
-                    LeagueInfoDetailPopup.TAG
-            )
+            pushPopup(LeagueInfoDetailPopup.newInstance(PLAYER_STATS, playerStatsAdapter!!.playerStats as ArrayList<out Parcelable>))
         }
     }
 
@@ -264,16 +251,18 @@ class LeagueInfoFragment : BaseLeagueFragment() {
                 }
                 matchFixtures = if (matchFixtures.size >= 4) ArrayList(matchFixtures.subList(0, 4)) else matchFixtures
                 uiThread {
-                    if (!isNullOrEmpty(matchFixtures)) {
-                        if (fixtureAdapter != null) {
-                            fixtureAdapter!!.update(matchFixtures)
+                    if (it.isAdded) {
+                        if (!isNullOrEmpty(matchFixtures)) {
+                            if (fixtureAdapter != null) {
+                                fixtureAdapter!!.update(matchFixtures)
+                            }
+                            fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
+                            see_all_fixtures.isEnabled = true
+                            see_all_fixtures.isClickable = true
+                            updateUI(true, fixtures_section_list, see_all_fixtures, fixture_no_data)
                         }
-                        fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
-                        see_all_fixtures.isEnabled = true
-                        see_all_fixtures.isClickable = true
-                        updateUI(true, fixtures_section_list, see_all_fixtures, fixture_no_data)
+                        fixture_progress_bar.visibility = View.GONE
                     }
-                    fixture_progress_bar.visibility = View.GONE
                 }
             }
         }

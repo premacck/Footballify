@@ -149,7 +149,7 @@ fun View.onDebouncingClick(action: () -> Unit) {
         if (isEnabled) {
             isEnabled = false
             action()
-            postDelayed({ isEnabled = true }, 50)
+            postDelayed({ isEnabled = true }, 100)
         }
     }
 }
