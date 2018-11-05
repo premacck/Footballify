@@ -262,7 +262,7 @@
                         android:id="@+id/post_comments_list"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@+id/description_text_view"
+                        android:layout_below="@+id/top_layout_separator"
                         android:nestedScrollingEnabled="false"
                         android:visibility="gone"
                         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
