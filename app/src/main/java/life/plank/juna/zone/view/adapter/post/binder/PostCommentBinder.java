@@ -30,14 +30,15 @@ import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter;
 import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DateUtil.getCommentDateAndTimeFormat;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
 public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBinder.PostCommentViewHolder> {
 
-    private String fragment;
     private final RequestManager glide;
     private final FeedInteractionListener listener;
+    private String fragment;
 
     public PostCommentBinder(RequestManager glide, FeedInteractionListener listener, String fragment) {
         this.glide = glide;
@@ -61,7 +62,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
             holder.likeTextView.setTypeface(typeface);
             holder.replyTextView.setTypeface(typeface);
             holder.viewRepliesTextView.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.viewRepliesTextView.setVisibility(isNullOrEmpty(item.getReplies()) ? View.GONE : View.VISIBLE);
             if (holder.isItemExpanded()) {
                 holder.viewRepliesTextView.setText(R.string.hide_replies);
@@ -73,6 +74,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         }
 
         holder.profileNameTextView.setText(item.getCommenterDisplayName());
+        holder.commentTime.setText(getCommentDateAndTimeFormat(item.getTime()));
         glide.load(item.getCommenterProfilePictureUrl())
                 .apply(RequestOptions.overrideOf((int) getDp(20), (int) getDp(20)))
                 .into(holder.profilePic);

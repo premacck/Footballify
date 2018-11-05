@@ -225,6 +225,13 @@ public interface RestApi {
                                                              @Query("time") String time,
                                                              @Header("Authorization") String authHeader);
 
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/comments/{commentId}")
+    Observable<Response<FeedItemCommentReply>> postReplyOnBoardComment(@Body String reply,
+                                                                       @Path("commentId") String commentId,
+                                                                       @Path("boardId") String boardId,
+                                                                       @Query("time") String time,
+                                                                       @Header("Authorization") String authHeader);
+
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
                                                                 @Path("feedItemId") String feedItemId,

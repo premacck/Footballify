@@ -35,22 +35,27 @@ import static life.plank.juna.zone.util.DataUtil.formatInt;
 
 @SuppressLint("ConstantLocale")
 public class DateUtil {
-
     private static final String TIMELINE_HEADER_DATE_STRING = "EEE, dd MMM";
     private static final String ISO_DATE_STRING = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
     private static final String HEADER_DATE_STRING = "EEE dd MMM yyyy";
     private static final String SCHEDULED_DATE_STRING = "EEE dd MM";
     private static final String FUTURE_DATE_FORM_STRING = "HH:mm";
     private static final String MINUTE_SECOND_TIME_STRING = "mm:ss";
     private static final String HOUR_MINUTE_SECOND_TIME_STRING = "HH:mm:ss";
+    public static final SimpleDateFormat HOUR_MINUTE_SECOND_DATE_FORMAT = new SimpleDateFormat(HOUR_MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final String SCHEDULED_MATCH_DATE_STRING = "EEE dd/MM\nK.mm aaa";
-    public static final SimpleDateFormat ISO_DATE_FORMAT = new SimpleDateFormat(ISO_DATE_STRING, Locale.getDefault());
+    private static final String COMMENT_TIME_DATE_STRING = "dd MMM yyyy, hh:mma";
+    public static final SimpleDateFormat COMMENT_TIME_DATE_FORMAT = new SimpleDateFormat(COMMENT_TIME_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat TIMELINE_HEADER_DATE_FORMAT = new SimpleDateFormat(TIMELINE_HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
     private static final SimpleDateFormat MINUTE_SECOND_TIME_FORMAT = new SimpleDateFormat(MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final SimpleDateFormat SCHEDULED_MATCH_DATE_FORMAT = new SimpleDateFormat(SCHEDULED_MATCH_DATE_STRING, Locale.getDefault());
-    public static final SimpleDateFormat HOUR_MINUTE_SECOND_DATE_FORMAT = new SimpleDateFormat(HOUR_MINUTE_SECOND_TIME_STRING, Locale.getDefault());
+
+    public static String getCommentDateAndTimeFormat(Date date) {
+        return COMMENT_TIME_DATE_FORMAT.format(date);
+    }
 
     private static Date getIsoFormattedDate(String dateString) throws ParseException {
         return ISO_DATE_FORMAT.parse(dateString);
@@ -205,9 +210,10 @@ public class DateUtil {
      * <br/>-> MATCH_ABOUT_TO_START_BOARD_ACTIVE:
      * <br/>-> MATCH_SCHEDULED_TODAY:
      * <br/>-> MATCH_SCHEDULED_LATER:
+     *
      * @param matchStartTime the match's start time
-     * @param isForBoard It should be true when calling this method to get time values of a match
-     *                   to update the board info components, false otherwise.
+     * @param isForBoard     It should be true when calling this method to get time values of a match
+     *                       to update the board info components, false otherwise.
      * @return an int value, which is one of {@link MatchTimeVal} annotation
      */
     @MatchTimeVal
@@ -227,8 +233,7 @@ public class DateUtil {
 //                    Completed sometime today
                     return MATCH_COMPLETED_TODAY;
                 }
-            }
-            else if (timeDiff <= ONE_DAY_MILLIS) {
+            } else if (timeDiff <= ONE_DAY_MILLIS) {
                 if (timeDiff <= ONE_HOUR_MILLIS && isForBoard) {
 //                    match is about to start in one hour
                     return MATCH_ABOUT_TO_START;

@@ -30,6 +30,7 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedItemComment;
+import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.FeedInteractionListener;
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter;
@@ -43,6 +44,8 @@ import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
+import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
@@ -92,7 +95,6 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
 
     //TODO: Remove hard coded data after backend integration.
     public void setAdapterData() {
-
         List<FeedItemComment> commentList = new ArrayList<>();
         adapter.setComments(commentList);
 
@@ -188,6 +190,45 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
 
     @Override
     public void onPostReplyOnComment(String reply, int position, FeedItemComment comment) {
+
+        restApi.postReplyOnBoardComment(reply, comment.getId(), matchBoardId, getRequestDateStringOfNow(), getToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Response<FeedItemCommentReply>>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.i("", "onCompleted");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("", e.getMessage());
+                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onNext(Response<FeedItemCommentReply> response) {
+                        switch (response.code()) {
+                            case HTTP_OK:
+                            case HTTP_CREATED:
+                                if (isNullOrEmpty(comment.getReplies())) {
+                                    comment.setReplies(new ArrayList<>());
+                                }
+                                FeedItemCommentReply commentReply = response.body();
+                                if (commentReply != null) {
+                                    comment.getReplies().add(0, commentReply);
+                                    adapter.onReplyPostedOnComment(position, comment);
+                                }
+                                break;
+                            case HTTP_NOT_FOUND:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
 
     }
 }
