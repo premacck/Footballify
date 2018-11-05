@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.post.binder;
 
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -21,6 +23,7 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedItemComment;
@@ -31,6 +34,7 @@ import static life.plank.juna.zone.ZoneApplication.getContext;
 import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getCommentDateAndTimeFormat;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
@@ -48,7 +52,7 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
 
     @Override
     public PostCommentViewHolder create(LayoutInflater inflater, ViewGroup parent) {
-        return new PostCommentViewHolder(inflater.inflate(R.layout.item_post_comment, parent, false), this);
+        return new PostCommentViewHolder(inflater.inflate(R.layout.item_post_comment, parent, false), this, glide);
     }
 
     @Override
@@ -109,6 +113,8 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         RelativeLayout replyLayout;
         @BindView(R.id.reply_edit_text)
         EditText replyEditText;
+        @BindView(R.id.commenter_image)
+        CircleImageView commenterImage;
         @BindView(R.id.post_reply)
         ImageButton postReply;
         @BindView(R.id.replies_list)
@@ -117,10 +123,14 @@ public class PostCommentBinder extends ItemBinder<FeedItemComment, PostCommentBi
         TextView commentTime;
         private FeedItemComment comment;
 
-        PostCommentViewHolder(View itemView, PostCommentBinder postCommentBinder) {
+        PostCommentViewHolder(View itemView, PostCommentBinder postCommentBinder, RequestManager glide) {
             super(itemView);
             this.ref = new WeakReference<>(postCommentBinder);
             ButterKnife.bind(this, itemView);
+
+            SharedPreferences editor = getSharedPrefs(findString(R.string.pref_user_details));
+            glide.load(editor.getString(findString(R.string.pref_profile_pic_url), "NA"))
+                    .into(commenterImage);
         }
 
         @OnClick(R.id.like_text_view)

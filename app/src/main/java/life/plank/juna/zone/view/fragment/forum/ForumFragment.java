@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.fragment.forum;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import javax.inject.Named;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedItemComment;
@@ -44,8 +47,10 @@ import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
+import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
+import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
@@ -55,16 +60,20 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     @Inject
     @Named("default")
     Retrofit retrofit;
+
     @BindView(R.id.post_comments_list)
     RecyclerView postCommentsRecyclerView;
     @BindView(R.id.post_comment)
     TextView postComment;
     @BindView(R.id.comment_edit_text)
     EditText commentEditText;
+    @BindView(R.id.commenter_image)
+    CircleImageView commenterImage;
     String date;
 
     private PostCommentAdapter adapter;
     private RestApi restApi;
+    private RequestManager glide;
 
     public static ForumFragment newInstance(String boardId) {
         ForumFragment fragment = new ForumFragment();
@@ -76,6 +85,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getApplication().getUiComponent().inject(this);
+        this.glide = Glide.with(this);
     }
 
     @Nullable
@@ -89,6 +99,12 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
         restApi = retrofit.create(RestApi.class);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
+
+        SharedPreferences editor = getSharedPrefs(findString(R.string.pref_user_details));
+
+        glide.load(editor.getString(findString(R.string.pref_profile_pic_url), "NA"))
+                .into(commenterImage);
+
         getComments();
         return rootView;
     }
