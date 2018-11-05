@@ -38,12 +38,6 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="25dp">
 
-            <ImageView
-                android:layout_width="113dp"
-                android:layout_height="113dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_dartboard" />
-
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/dart_board_player_image"
                 android:layout_width="75dp"
@@ -52,6 +46,13 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="13dp"
                 android:src="@drawable/player_adrian" />
+
+            <ImageView
+                android:layout_width="113dp"
+                android:layout_height="113dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_dartboard" />
+
         </RelativeLayout>
 
         <RelativeLayout

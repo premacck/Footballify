@@ -23,8 +23,6 @@ class PrematchInfoFragment : Fragment() {
         clap_button.setOnClickListener {
             //TODO: Replace with actual value of claps
             claps_count.text = (claps_count.text.toString().toInt() + 1).toString()
-            crown_image_view.visibility = View.VISIBLE
-            clap_image_view.visibility = View.VISIBLE
         }
 
         throw_dart_button.setOnClickListener {
