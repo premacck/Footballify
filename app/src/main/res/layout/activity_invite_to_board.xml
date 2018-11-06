@@ -64,6 +64,8 @@
                 android:background="@drawable/blue_border_button"
                 android:fontFamily="@font/raleway_semibold"
                 android:text="@string/invite_string"
+                android:enabled="false"
+                android:alpha="0.5"
                 android:textAllCaps="false"
                 android:textColor="@color/accent"
                 android:textSize="20sp" />

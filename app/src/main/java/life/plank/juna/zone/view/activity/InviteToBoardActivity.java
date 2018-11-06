@@ -6,6 +6,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -50,6 +51,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     SearchView search;
     @BindView(R.id.title)
     TextView boardTitle;
+    @BindView(R.id.invite_user)
+    Button inviteButton;
     @Inject
     Picasso picasso;
     Set<User> userSet = new HashSet<>();
@@ -160,6 +163,11 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                 });
     }
 
+    private void setButtonState(Boolean state, Float alpha) {
+        inviteButton.setEnabled(state);
+        inviteButton.setAlpha(alpha);
+    }
+
     @Override
     public boolean onQueryTextSubmit(String s) {
         return true;
@@ -168,14 +176,15 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     @Override
     public boolean onQueryTextChange(String s) {
         if (!s.isEmpty()) {
+            setButtonState(true, 1f);
             getSearchedUsers(s);
         } else {
+            setButtonState(false, .5f);
             userList.clear();
             adapter.notifyDataSetChanged();
         }
         return true;
     }
-
 
     @Override
     public void onItemClicked(String objectId, Boolean isSelected) {
