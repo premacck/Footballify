@@ -1,5 +1,3 @@
-@file:Suppress("DEPRECATI()ON")
-
 package life.plank.juna.zone.util.facilis
 
 import android.animation.Animator
@@ -38,7 +36,7 @@ fun View.toggleInteraction(isEnabled: Boolean) {
 }
 
 fun View.moveToBackGround(index: Int) {
-    translateScaleAnimation(-getDp(if (index > 1) 44f else 24f), 0.92f).prepare().start()
+    translateScaleAnimation(-getDp(if (index > 0) 44f else 24f), 0.92f).prepare().start()
     elevation = 0f
     toggleInteraction(false)
     toggleInteraction(false)

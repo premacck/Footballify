@@ -66,8 +66,8 @@ fun FragmentManager.removeActiveCardsIfAny(): Boolean {
     return true
 }
 
-fun FragmentManager.moveCurrentCardToBackground(tag: String?) {
-    val lastFragment = findFragmentByTag(tag)
+fun FragmentManager.moveCurrentCardToBackground() {
+    val lastFragment = findLastFragment()
     lastFragment?.run {
         if (lastFragment is BaseCard) {
             lastFragment.moveToBackGround()
@@ -76,16 +76,14 @@ fun FragmentManager.moveCurrentCardToBackground(tag: String?) {
     }
 }
 
-fun FragmentManager.movePreviousCardToForeground(tag: String?): String? {
+fun FragmentManager.movePreviousCardToForeground() {
     val lastFragment = findLastFragment()
     lastFragment?.run {
         if (lastFragment is BaseCard) {
             lastFragment.moveToForeGround()
         }
         onResume()
-        return lastFragment.previousFragmentTag
     }
-    return null
 }
 
 fun FragmentManager.pushFragment(resId: Int, card: BaseFragment, tag: String, index: Int, isAddToBackStack: Boolean = true) {

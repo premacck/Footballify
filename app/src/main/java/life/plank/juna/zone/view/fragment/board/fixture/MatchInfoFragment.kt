@@ -17,7 +17,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_match_info.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -45,8 +44,7 @@ class MatchInfoFragment : BaseCard() {
     lateinit var restApi: RestApi
     @field: [Inject Named("footballData")]
     lateinit var footballRestApi: RestApi
-    @Inject
-    lateinit var picasso: Picasso
+
     private var matchDetails: MatchDetails? = null
     private var boardId: String? = null
     private var currentMatchId: Long = 0
@@ -80,12 +78,6 @@ class MatchInfoFragment : BaseCard() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_match_info, container, false)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ZoneApplication.getApplication().uiComponent.inject(this)
@@ -99,6 +91,9 @@ class MatchInfoFragment : BaseCard() {
             currentMatchId = intent.getLong(getString(R.string.match_id_string), 0)
         }
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_match_info, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -218,20 +213,17 @@ class MatchInfoFragment : BaseCard() {
         private val ref: WeakReference<MatchInfoFragment> = WeakReference(matchInfoFragment)
 
         override fun getItem(position: Int): Fragment? {
-            ref.get()?.run {
-                return when (position) {
+            return ref.get()?.run {
+                when (position) {
                     //TODO: Replace dummy fragment with required fragment
-                    0 -> PrematchInfoFragment()
+                    0 -> PreMatchInfoFragment()
                     1 -> LineupFragment.newInstance(gson.toJson(matchDetails))
                     2 -> MatchStatsFragment.newInstance(gson.toJson(matchDetails))
                     3 -> DummyFragment()
                     4 -> BoardMembersFragment.newInstance(matchBoardId)
-                    else -> {
-                        null
-                    }
+                    else -> null
                 }
             }
-            return null
         }
 
         override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE

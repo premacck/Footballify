@@ -1,72 +1,88 @@
 package life.plank.juna.zone.view.activity.base
 
 import android.support.annotation.IdRes
-import android.support.v4.app.FragmentManager
 import android.util.Log
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
+import life.plank.juna.zone.data.model.League
+import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 
-abstract class BaseCardActivity : BaseActivity(), FragmentManager.OnBackStackChangedListener {
+abstract class BaseCardActivity : BaseActivity() {
 
     var index: Int = 0
-    private var previousFragmentTag: String? = null
-    private var currentFragmentTag: String? = null
 
     fun pushPopup(popupDialog: BaseDialogFragment) {
         if (getFragmentContainer() == -1) throw IllegalStateException(getString(R.string.no_id_for_fragment_container))
 
-        supportFragmentManager.pushPopup(getFragmentContainer(), popupDialog, popupDialog.javaClass.simpleName)
+        if (index < 0) return
+
+        index++
+        supportFragmentManager.pushPopup(getFragmentContainer(), popupDialog, popupDialog.javaClass.simpleName + index)
     }
 
     fun pushFragment(fragment: BaseFragment, isAddToBackStack: Boolean = false) {
         if (getFragmentContainer() == -1) throw IllegalStateException(getString(R.string.no_id_for_fragment_container))
 
-        if (index < 0) return
-
-        if (index > 0) {
-            previousFragmentTag = currentFragmentTag
-            fragment.previousFragmentTag = previousFragmentTag
-            supportFragmentManager.moveCurrentCardToBackground(previousFragmentTag)
+        if (index >= 0) {
+            supportFragmentManager.moveCurrentCardToBackground()
         }
 
-        currentFragmentTag = fragment.javaClass.simpleName + index
-        supportFragmentManager.pushFragment(getFragmentContainer(), fragment, currentFragmentTag!!, index, isAddToBackStack)
-        index++
+        if (isAddToBackStack) index++
+        supportFragmentManager.pushFragment(getFragmentContainer(), fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
+    }
+
+    fun openBoardFromFixtureList(matchFixture: MatchFixture, league: League) {
+        onBackPressed()
+        async {
+            delay(300)
+            runOnUiThread { pushFragment(MatchBoardFragment.newInstance(matchFixture, league), true) }
+        }
     }
 
     fun popBackStack() {
         if (index <= 0) return
         index--
         supportFragmentManager.popBackStackImmediate()
-        currentFragmentTag = previousFragmentTag
-        previousFragmentTag = supportFragmentManager.movePreviousCardToForeground(previousFragmentTag)
-    }
-
-    override fun onBackStackChanged() {
-        index = supportFragmentManager.backStackEntryCount
+        supportFragmentManager.movePreviousCardToForeground()
     }
 
     private fun startPoppingFragment() {
-        val lastFragment = supportFragmentManager.findLastFragment()
-        if (lastFragment != null) {
-            if (lastFragment.onBackPressed()) {
+        supportFragmentManager.findLastFragment()?.run {
+            if (this.onBackPressed()) {
                 if (index > 0) {
                     popBackStack()
                 } else super.onBackPressed()
             } // Do nothing here if the fragment's onBackPressed() returns false
-        } else super.onBackPressed()
+        } ?: super.onBackPressed()
     }
 
     @IdRes
     abstract fun getFragmentContainer(): Int
 
+    private fun removeActivePopupsIfAny(): Boolean {
+        for (popup in supportFragmentManager.fragments.reversed()) {
+            if (popup is BaseDialogFragment && popup.isAdded) {
+                if (popup.onBackPressed()) {
+                    popup.smartDismiss {
+                        index--
+                        supportFragmentManager.popBackStackImmediate()
+                    }
+                }
+                return false
+            }
+        }
+        return true
+    }
+
     override fun onBackPressed() {
         try {
-            if (supportFragmentManager.removeActivePopupsIfAny()) {
-                if (!isNullOrEmpty(previousFragmentTag)) {
+            if (removeActivePopupsIfAny()) {
+                if (index > 0) {
                     startPoppingFragment()
                 } else super.onBackPressed()
             }
