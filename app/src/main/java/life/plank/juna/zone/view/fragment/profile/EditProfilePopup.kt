@@ -158,8 +158,6 @@ class EditProfilePopup : BaseBlurPopup() {
                         }
                         else -> errorToast(R.string.upload_failed, it)
                     }
-
-                }
-                )
+                })
     }
 }
