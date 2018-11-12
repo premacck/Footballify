@@ -8,8 +8,6 @@ import android.support.v4.app.Fragment
  */
 abstract class BaseFragment : Fragment() {
 
-    var previousFragmentTag: String? = null
-
     /**
      * Function for child fragment to notify the activity whether they are ready to exit or not
      * @return false when the fragment needs to do it's own actions when back is pressed, true otherwise

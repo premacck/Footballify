@@ -10,13 +10,10 @@ import kotlinx.android.synthetic.main.item_clap_board.*
 import kotlinx.android.synthetic.main.item_dart_board.*
 import life.plank.juna.zone.R
 
-class PrematchInfoFragment : Fragment() {
+class PreMatchInfoFragment : Fragment() {
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_prematch_info, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_prematch_info, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
-import life.plank.juna.zone.util.facilis.SwipeDownToDismissListener
 import life.plank.juna.zone.util.facilis.beginBlur
 import life.plank.juna.zone.util.facilis.fadeOut
+import life.plank.juna.zone.util.facilis.setSwipeDownListener
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
@@ -35,19 +35,13 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
         super.onStop()
     }
 
-    private fun setupSwipeDownToCloseGesture() {
-        getDragHandle()?.setOnTouchListener(object : SwipeDownToDismissListener(activity!!, getDragHandle()!!, getRootView()!!, getBlurLayout()) {
-            override fun onSwipeDown() {
-                dismiss()
-            }
-        })
-    }
+    private fun setupSwipeDownToCloseGesture() = getDragHandle()?.setSwipeDownListener(activity!!, getRootView()!!, getBlurLayout())
 
     fun pushFragment(baseFragment: BaseFragment, isAddToBackStack: Boolean = false) {
         getParentActivity()?.pushFragment(baseFragment, isAddToBackStack)
     }
 
-    private fun getParentActivity(): BaseCardActivity? {
+    protected fun getParentActivity(): BaseCardActivity? {
         return activity as? BaseCardActivity
     }
 

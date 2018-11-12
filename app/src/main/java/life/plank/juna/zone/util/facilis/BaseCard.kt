@@ -16,18 +16,12 @@ abstract class BaseCard : BaseFragment() {
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        adjustWithIndex(getParentActivity().index)
+        getRootCard()?.setTopMargin(getDp(if (getParentActivity().index > 0) 20f else 0f).toInt())
         activity?.let { setupSwipeDownGesture(it) }
         (getBackgroundBlurLayout() as? BlurLayout)?.beginBlur()
     }
 
-    private fun adjustWithIndex(index: Int) {
-        getRootCard()?.setTopMargin(getDp(if (index > 1) 20f else 0f).toInt())
-    }
-
-    private fun setupSwipeDownGesture(activity: Activity) {
-        getDragHandle()?.setSwipeDownListener(activity, getRootCard()!!, getBackgroundBlurLayout())
-    }
+    private fun setupSwipeDownGesture(activity: Activity) = getDragHandle()?.setSwipeDownListener(activity, getRootCard()!!, getBackgroundBlurLayout())
 
     fun moveToBackGround() {
         getRootCard()?.moveToBackGround(getParentActivity().index)

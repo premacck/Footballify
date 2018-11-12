@@ -32,7 +32,6 @@ import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
-import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
@@ -311,8 +310,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         boardPagerAdapter = null
         super.onDestroy()
     }
-
-    override fun onBackPressed(): Boolean = childFragmentManager.removeActivePopupsIfAny()
 
     //Follow board by default when entered. Nothing to do on receiving the response code
     fun followBoard() {
