@@ -14,6 +14,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.handlePrivateBoardIntentIfAny
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -23,7 +24,6 @@ import life.plank.juna.zone.view.adapter.LastTransactionsAdapter
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
 import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.toast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
@@ -88,8 +88,8 @@ class UserProfileActivity : BaseCardActivity() {
                     boards.add(board)
                     userBoardsAdapter?.setUserBoards(boards)
                 }
-                HttpURLConnection.HTTP_NOT_FOUND -> toast(R.string.cannot_find_user_boards)
-                else -> toast(R.string.something_went_wrong)
+                HttpURLConnection.HTTP_NOT_FOUND -> errorToast(R.string.cannot_find_user_boards, it)
+                else -> errorToast(R.string.something_went_wrong, it)
             }
         })
     }

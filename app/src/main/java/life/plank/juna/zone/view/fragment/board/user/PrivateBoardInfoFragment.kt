@@ -13,6 +13,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getSharedPrefs
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -80,7 +81,6 @@ class PrivateBoardInfoFragment : BaseFragment() {
     private fun getMembers() {
         restApi.getBoardMembers(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: ", it)
-            toast(R.string.something_went_wrong)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
@@ -92,7 +92,7 @@ class PrivateBoardInfoFragment : BaseFragment() {
                     }
                     boardMembersViewAdapter?.update(userList)
                 }
-                else -> toast(R.string.failed_to_retrieve_members)
+                else -> errorToast(R.string.failed_to_retrieve_members, it)
             }
         })
     }
@@ -100,7 +100,6 @@ class PrivateBoardInfoFragment : BaseFragment() {
     fun deletePrivateBoardMember(userId: String) {
         restApi.deleteUserFromPrivateBoard(boardId, userId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: ", it)
-            toast(R.string.something_went_wrong)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
@@ -108,7 +107,7 @@ class PrivateBoardInfoFragment : BaseFragment() {
                     boardMembersViewAdapter?.notifyDataSetChanged()
                     toast(R.string.user_deleted)
                 }
-                else -> toast(R.string.something_went_wrong)
+                else -> errorToast(R.string.something_went_wrong, it)
             }
         })
     }

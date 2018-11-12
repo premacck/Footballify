@@ -12,6 +12,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.common.launchWithPrivateBoard
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
@@ -50,14 +51,13 @@ class JoinBoardActivity : AppCompatActivity() {
     private fun getBoardDetails(boardId: String) {
         restApi.getBoardById(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getBoardDetails(): ", it)
-            toast(R.string.could_not_navigate_to_board)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
                     board = it.body()
                     updateUi(board!!)
                 }
-                else -> toast(R.string.could_not_navigate_to_board)
+                else -> errorToast(R.string.could_not_navigate_to_board, it)
             }
         })
     }
@@ -80,7 +80,6 @@ class JoinBoardActivity : AppCompatActivity() {
     private fun followBoard() {
         restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "followBoard(): ", it)
-            toast(R.string.could_not_navigate_to_board)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_CREATED -> {
@@ -94,7 +93,7 @@ class JoinBoardActivity : AppCompatActivity() {
                 }
                 HttpURLConnection.HTTP_FORBIDDEN -> toast(R.string.cannot_follow_board)
                 HttpURLConnection.HTTP_NOT_FOUND -> toast(R.string.failed_to_follow_board)
-                else -> toast(R.string.something_went_wrong)
+                else -> errorToast(R.string.something_went_wrong, it)
             }
         })
     }
