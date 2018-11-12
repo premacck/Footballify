@@ -28,6 +28,7 @@ import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.floatUp
@@ -36,7 +37,6 @@ import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
-import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
@@ -166,7 +166,7 @@ class PrivateBoardFragment : CardTileFragment() {
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
-                    toast(R.string.board_deletion)
+                    customToast(R.string.board_deletion)
                     if (parentFragment != null && parentFragment is BaseCard) {
                         (parentFragment as BaseCard).getParentActivity().popBackStack()
                     } else if (activity is BaseCardActivity) {

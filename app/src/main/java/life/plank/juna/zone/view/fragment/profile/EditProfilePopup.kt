@@ -22,16 +22,16 @@ import life.plank.juna.zone.util.PreferenceManager.*
 import life.plank.juna.zone.util.UIDisplayUtil
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView
+import life.plank.juna.zone.util.customToast
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.sinkDown
+import life.plank.juna.zone.util.smartSubscribe
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.support.v4.toast
-import retrofit2.Response
-import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.File
@@ -93,7 +93,7 @@ class EditProfilePopup : BaseBlurPopup() {
             if (UIDisplayUtil.checkPermission(activity!!)) {
                 getImageResourceFromGallery()
             } else {
-                toast(R.string.add_permission)
+                customToast(R.string.add_permission)
             }
         }
         dob_edit_text.onClick { showCalendar() }
@@ -142,30 +142,24 @@ class EditProfilePopup : BaseBlurPopup() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { profile_picture_uploading_progress.visibility = View.VISIBLE }
                 .doOnTerminate { profile_picture_uploading_progress.visibility = View.GONE }
-                .subscribe(object : Subscriber<Response<String>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "onCompleted: ")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, e.message)
-                        toast(R.string.upload_failed)
-                    }
-
-                    override fun onNext(response: Response<String>) {
-                        when (response.code()) {
-                            HttpURLConnection.HTTP_NO_CONTENT -> {
+                .smartSubscribe({
+                    Log.e(TAG, it.message)
+                    errorToast(R.string.upload_failed, it)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_NO_CONTENT -> {
 //                                val bitmap = MediaStore.Images.Media.getBitmap(ZoneApplication.getContext().contentResolver, profilePicUri)
 //                                profile_picture_image_view.setImageBitmap(bitmap)
-                                Glide.with(this@EditProfilePopup)
-                                        .load(profilePicUri)
-                                        .apply(RequestOptions.overrideOf(getDp(72f).toInt(), getDp(72f).toInt()))
-                                        .into(profile_picture_image_view)
-                                saveProfilePicUrl(response.body())
-                            }
-                            else -> toast(R.string.upload_failed)
+                            Glide.with(this@EditProfilePopup)
+                                    .load(profilePicUri)
+                                    .apply(RequestOptions.overrideOf(getDp(72f).toInt(), getDp(72f).toInt()))
+                                    .into(profile_picture_image_view)
+                            saveProfilePicUrl(it.body())
                         }
+                        else -> errorToast(R.string.upload_failed, it)
                     }
-                })
+
+                }
+                )
     }
 }

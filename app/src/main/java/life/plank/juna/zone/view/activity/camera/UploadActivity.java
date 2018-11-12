@@ -32,7 +32,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.net.HttpURLConnection;
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -67,6 +66,8 @@ import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.customToast;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
 import static life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView;
@@ -305,6 +306,7 @@ public class UploadActivity extends AppCompatActivity {
                         progressDialog.cancel();
                         Log.e(TAG, "onError: postMediaContentToServer" + e);
                         progressBar.setVisibility(View.INVISIBLE);
+                        errorToast(R.string.something_went_wrong, e);
                         Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
                     }
 
@@ -313,12 +315,11 @@ public class UploadActivity extends AppCompatActivity {
                         progressDialog.cancel();
                         switch (jsonObjectResponse.code()) {
                             case HttpsURLConnection.HTTP_CREATED:
-                                Toast.makeText(UploadActivity.this, R.string.upload_successful, Toast.LENGTH_SHORT).show();
+                                customToast(R.string.upload_successful);
                                 finish();
                                 break;
-                            case HttpURLConnection.HTTP_INTERNAL_ERROR:
-                            case HttpURLConnection.HTTP_BAD_REQUEST:
-                                Toast.makeText(UploadActivity.this, R.string.upload_failed, Toast.LENGTH_SHORT).show();
+                            default:
+                                errorToast(R.string.upload_failed, jsonObjectResponse);
                                 break;
                         }
                     }

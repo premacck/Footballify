@@ -30,9 +30,6 @@ import life.plank.juna.zone.view.adapter.FootballLeagueAdapter
 import life.plank.juna.zone.view.adapter.SearchViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import org.jetbrains.anko.support.v4.find
-import org.jetbrains.anko.support.v4.toast
-import retrofit2.Response
-import rx.Subscriber
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
@@ -107,7 +104,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         if (NetworkStatus.isNetworkAvailable(parent_layout, context)) {
             getFootballFeed()
         } else {
-            toast(R.string.no_internet_connection)
+            customToast(R.string.no_internet_connection)
         }
     }
 
@@ -141,27 +138,19 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     }
 
     private fun getSearchedUsers(displayName: String) {
-        restApi.getSearchedUsers(getToken(), displayName).setObserverThreadsAndSubscribe(object : Subscriber<Response<List<User>>>() {
-            override fun onCompleted() {
-                Log.d(TAG, "onCompleted")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.e(TAG, "onError: $e")
-                toast(R.string.something_went_wrong)
-            }
-
-            override fun onNext(response: Response<List<User>>) {
-                when (response.code()) {
-                    HttpURLConnection.HTTP_OK -> searchViewAdapter.update(response.body())
+        restApi.getSearchedUsers(getToken(), displayName).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getSearchedUsers() : onError: ", it)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> searchViewAdapter.update(it.body())
                     HttpURLConnection.HTTP_NOT_FOUND -> {
                         userList.clear()
                         searchViewAdapter.notifyDataSetChanged()
                     }
-                    else -> Log.e(TAG, response.message())
+                else -> Log.e(TAG, it.message())
                 }
             }
-        })
+        )
     }
 
     override fun onQueryTextSubmit(s: String): Boolean {

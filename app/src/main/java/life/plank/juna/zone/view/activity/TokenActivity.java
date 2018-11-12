@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;
@@ -48,6 +47,7 @@ import static life.plank.juna.zone.util.PreferenceManager.saveSignInUserDetails;
 import static life.plank.juna.zone.util.PreferenceManager.saveTokens;
 import static life.plank.juna.zone.util.PreferenceManager.saveTokensValidity;
 import static life.plank.juna.zone.util.PreferenceManager.setUserLoggedIn;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
  * Client to the Native Oauth library.
@@ -193,7 +193,7 @@ public class TokenActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -213,9 +213,10 @@ public class TokenActivity extends AppCompatActivity {
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
+                                errorToast(R.string.user_name_not_found, response);
                                 break;
                             default:
+                                errorToast(R.string.something_went_wrong, response);
                                 Log.e(TAG, response.message());
                                 break;
                         }
