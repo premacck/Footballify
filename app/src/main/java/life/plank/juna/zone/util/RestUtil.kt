@@ -1,16 +1,23 @@
 package life.plank.juna.zone.util
 
+import android.annotation.SuppressLint
+import android.support.annotation.StringRes
 import android.util.Log
+import android.widget.TextView
+import android.widget.Toast
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.common.launchPrivateBoard
 import life.plank.juna.zone.util.facilis.removeBoardIfExists
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
+import org.jetbrains.anko.layoutInflater
 import org.jetbrains.anko.toast
+import retrofit2.Response
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
@@ -41,7 +48,10 @@ fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t
             .subscribe(object : Subscriber<T>() {
                 override fun onCompleted() {}
 
-                override fun onError(e: Throwable) = onError(e)
+                override fun onError(e: Throwable) {
+                    errorToast(R.string.something_went_wrong, e)
+                    onError(e)
+                }
 
                 override fun onNext(t: T) = onNext(t)
             })
@@ -66,4 +76,18 @@ fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, baseCardAc
             baseCardActivity.pushFragment(MatchBoardFragment.newInstance(MatchFixture.from(this), this.league!!), true)
         }
     })
+}
+
+fun errorToast(@StringRes prependMessage: Int, response: Response<*>) = getCustomToast("${findString(prependMessage)}\n\nCode: ${response.code()}\nMessage: ${response.body()}").show()
+
+fun errorToast(@StringRes prependMessage: Int, error: Throwable) = getCustomToast("${findString(prependMessage)}\n\n${error.message!!}").show()
+
+@SuppressLint("InflateParams")
+fun getCustomToast(message: CharSequence): Toast {
+    val toast = Toast(ZoneApplication.getContext())
+    toast.duration = Toast.LENGTH_LONG
+    toast.view = ZoneApplication.getContext().layoutInflater.inflate(R.layout.item_toast, null)
+    val toastTextView = toast.view.findViewById<TextView>(R.id.toast_text_view)
+    toastTextView.text = message
+    return toast
 }

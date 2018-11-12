@@ -22,15 +22,12 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.AuthUtil
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.setupBoomMenu
-import life.plank.juna.zone.util.setupWith
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -41,7 +38,6 @@ import life.plank.juna.zone.view.adapter.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
-import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
@@ -162,7 +158,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         }
         restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserZones(): onError: ", it)
-            toast(R.string.something_went_wrong)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
@@ -171,8 +166,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                         setUpUserZoneAdapter(user.userPreferences)
                     }
                 }
-                HttpURLConnection.HTTP_NOT_FOUND -> toast(R.string.failed_to_retrieve_zones)
-                else -> Log.e(TAG, it.message())
+                else -> errorToast(R.string.failed_to_retrieve_zones, it)
             }
         })
     }
@@ -181,7 +175,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         val userFeedApiCall = if (isNullOrEmpty(getToken())) restApi.getUserFeed() else restApi.getUserFeed(getToken())
         userFeedApiCall.setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserFeed(): onError(): ", it)
-            toast(R.string.something_went_wrong)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
@@ -189,9 +182,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                     if (!isNullOrEmpty(feedEntries)) {
                         userFeedAdapter!!.setUserFeed(feedEntries)
                     } else
-                        toast(R.string.failed_to_retrieve_feed)
+                        errorToast(R.string.failed_to_retrieve_feed, it)
                 }
-                else -> toast(R.string.failed_to_retrieve_feed)
+                else -> errorToast(R.string.failed_to_retrieve_feed, it)
             }
         })
     }
@@ -201,7 +194,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         restApi.getFollowingBoards(getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserBoards(): onError(): ", it)
-            toast(R.string.something_went_wrong)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
@@ -211,7 +203,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                         user_boards_recycler_view.visibility = View.GONE
                 }
                 HttpURLConnection.HTTP_NOT_FOUND -> user_boards_recycler_view.visibility = View.GONE
-                else -> toast(R.string.failed_to_retrieve_board)
+                else -> errorToast(R.string.failed_to_retrieve_board, it)
             }
         })
     }

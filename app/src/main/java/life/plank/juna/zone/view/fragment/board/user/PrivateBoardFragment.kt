@@ -28,6 +28,7 @@ import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
@@ -162,7 +163,6 @@ class PrivateBoardFragment : CardTileFragment() {
     private fun deletePrivateBoard() {
         restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: ", it)
-            toast(R.string.something_went_wrong)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
@@ -173,7 +173,7 @@ class PrivateBoardFragment : CardTileFragment() {
                         (activity as BaseCardActivity).popBackStack()
                     }
                 }
-                else -> toast(R.string.something_went_wrong)
+                else -> errorToast(R.string.something_went_wrong, it)
             }
         })
     }

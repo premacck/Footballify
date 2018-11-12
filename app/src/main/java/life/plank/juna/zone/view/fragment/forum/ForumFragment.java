@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -31,7 +30,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
@@ -44,7 +42,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_CREATED;
-import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.DataUtil.findString;
@@ -53,6 +50,7 @@ import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 public class ForumFragment extends Fragment implements FeedInteractionListener {
 
@@ -137,11 +135,8 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
                             case HTTP_OK:
                                 adapter.setComments(response.body());
                                 break;
-                            case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_get_feed_comments, Toast.LENGTH_SHORT).show();
-                                break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_get_feed_comments, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_get_feed_comments, response);
                                 break;
                         }
                     }
@@ -168,7 +163,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
 
                     @Override
                     public void onError(Throwable e) {
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_post_comment, e);
                     }
 
                     @Override
@@ -179,11 +174,8 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
                                 commentEditText.setText(null);
                                 adapter.addComment(response.body());
                                 break;
-                            case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
-                                break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_post_comment, response);
                                 break;
                         }
                     }
@@ -219,7 +211,7 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
                     @Override
                     public void onError(Throwable e) {
                         Log.e("", e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_post_reply, e);
                     }
 
                     @Override
@@ -236,11 +228,8 @@ public class ForumFragment extends Fragment implements FeedInteractionListener {
                                     adapter.onReplyPostedOnComment(position, comment);
                                 }
                                 break;
-                            case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
-                                break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_post_reply, response);
                                 break;
                         }
                     }

@@ -1,13 +1,11 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_board_members.*
 import life.plank.juna.zone.R
@@ -16,6 +14,7 @@ import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -77,7 +76,7 @@ class BoardMembersFragment : BaseFragment() {
                 HttpURLConnection.HTTP_OK -> {
                     boardMembersViewAdapter.update(it.body()!!)
                 }
-                else -> Toast.makeText(context, R.string.failed_to_retrieve_members, Toast.LENGTH_SHORT).show()
+                else -> errorToast(R.string.failed_to_retrieve_members, it)
             }
         })
     }
