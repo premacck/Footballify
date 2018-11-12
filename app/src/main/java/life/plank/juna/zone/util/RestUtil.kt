@@ -80,7 +80,7 @@ fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, baseCardAc
 
 fun errorToast(@StringRes prependMessage: Int, response: Response<*>) = getCustomToast("${findString(prependMessage)}\n\nCode: ${response.code()}\nMessage: ${response.body()}").show()
 
-fun errorToast(@StringRes prependMessage: Int, error: Throwable) = getCustomToast("${findString(prependMessage)} \n\n ${error.message!!}").show()
+fun errorToast(@StringRes prependMessage: Int, error: Throwable) = getCustomToast("${findString(prependMessage)}\n\n${error.message!!}").show()
 
 @SuppressLint("InflateParams")
 fun getCustomToast(message: CharSequence): Toast {
