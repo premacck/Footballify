@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.lang.ref.WeakReference;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
 import life.plank.juna.zone.view.adapter.StandingTableAdapter;
 import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
@@ -55,7 +57,7 @@ public class StandingsBinder extends ItemBinder<StandingsBindingModel, Standings
         holder.noStandings.setVisibility(View.INVISIBLE);
         holder.standingsHeader.setVisibility(View.VISIBLE);
         holder.standingRecyclerView.setVisibility(View.VISIBLE);
-        StandingTableAdapter adapter = new StandingTableAdapter(picasso);
+        StandingTableAdapter adapter = new StandingTableAdapter(Glide.with(ZoneApplication.getContext()));
         holder.standingRecyclerView.setAdapter(adapter);
         adapter.update(item.getStandingsList());
         holder.itemView.getLayoutParams().height = (int) getDp(140);

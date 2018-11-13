@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MatchParentSize"
+    app:cardCornerRadius="@dimen/feed_card_corner_radius"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        style="@style/MatchParentSize"
+        android:paddingStart="2dp"
+        android:paddingEnd="2dp">
+
+        <include
+            android:id="@+id/standing_header_layout"
+            layout="@layout/standing_header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/standings_swipe_refresh_layout"
+            style="@style/MatchParentSize"
+            android:layout_below="@+id/standing_header_layout">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/standing_recycler_view"
+                style="@style/MatchParentSize"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+                tools:listitem="@layout/standing_row" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <TextView
+            android:id="@+id/no_standings"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_below="@+id/standing_header_layout"
+            android:fontFamily="@font/rajdhani_light"
+            android:gravity="center"
+            android:text="@string/failed_to_get_standings"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/standings_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

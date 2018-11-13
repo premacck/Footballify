@@ -17,6 +17,8 @@
     <string name="see_all">See All</string>
     <string name="see_more">see More</string>
     <string name="standings">Standings</string>
+    <string name="standings_caps">STANDINGS</string>
+    <string name="fixtures_caps">FIXTURES</string>
     <string name="see_complete_standing">See complete standings</string>
     <string name="choose_at_least_5_topics_of_interest">Choose your topic of interest</string>
     <string name="music">Music</string>

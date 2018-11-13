@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -15,12 +16,12 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.interfaces.LeagueContainer;
 import life.plank.juna.zone.util.BaseRecyclerView;
+import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
 
 import static life.plank.juna.zone.util.AppConstants.TODAY_MATCHES;
 import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.UIDisplayUtil.findColor;
-import static life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.fixtureByMatchDayList;
 
 /**
  * Created by plank-prachi on 4/10/2018.
@@ -28,9 +29,11 @@ import static life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.fix
 public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatchdayAdapter.FixtureMatchDayViewHolder> {
 
     private LeagueContainer leagueContainer;
+    private List<FixtureByMatchDay> fixtureByMatchDayList;
 
     public FixtureMatchdayAdapter(LeagueContainer leagueContainer) {
         this.leagueContainer = leagueContainer;
+        fixtureByMatchDayList = LeagueInfoFragment.Companion.getFixtureByMatchDayList();
     }
 
     @NonNull
@@ -45,6 +48,11 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
     @Override
     public int getItemCount() {
         return isNullOrEmpty(fixtureByMatchDayList) ? 0 : fixtureByMatchDayList.size();
+    }
+
+    public void updateFixtures() {
+        fixtureByMatchDayList = LeagueInfoFragment.Companion.getFixtureByMatchDayList();
+        notifyDataSetChanged();
     }
 
     public static class FixtureMatchDayViewHolder extends BaseRecyclerView.ViewHolder {
@@ -63,7 +71,7 @@ public class FixtureMatchdayAdapter extends BaseRecyclerView.Adapter<FixtureMatc
 
         @Override
         public void bind() {
-            FixtureByMatchDay fixtureByMatchDay = fixtureByMatchDayList.get(getAdapterPosition());
+            FixtureByMatchDay fixtureByMatchDay = ref.get().fixtureByMatchDayList.get(getAdapterPosition());
 
             if (!isNullOrEmpty(fixtureByMatchDay.getFixtureByDateList())) {
                 matchdayHeader.setBackgroundResource(
