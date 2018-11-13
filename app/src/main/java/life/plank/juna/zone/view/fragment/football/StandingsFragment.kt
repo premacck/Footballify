@@ -18,11 +18,11 @@ import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.StandingTableAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
 import javax.inject.Named
 
-class StandingsFragment : BaseFragment() {
+class StandingsFragment : BaseLeagueFragment() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
@@ -51,7 +51,10 @@ class StandingsFragment : BaseFragment() {
 
         getStandings(false)
         standings_swipe_refresh_layout.setOnRefreshListener { getStandings(true) }
+        standing_recycler_view.setupWithParentFragmentBoomMenu()
     }
+
+    override fun getTheLeague() = league
 
     private fun getStandings(isRefreshing: Boolean) {
         restApi.getStandings(league.name, league.seasonName, league.countryName)
@@ -63,7 +66,7 @@ class StandingsFragment : BaseFragment() {
                 })
     }
 
-    fun setStandings(standingsList: List<Standings>?) {
+    private fun setStandings(standingsList: List<Standings>?) {
         standings_progress_bar.visibility = View.GONE
         if (isNullOrEmpty(standingsList)) {
             updateUI(false, standing_recycler_view, no_standings)

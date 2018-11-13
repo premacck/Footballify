@@ -1,72 +1,39 @@
 package life.plank.juna.zone.view.fragment.football
 
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.os.Parcelable
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.CardView
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_league_info.*
-import kotlinx.android.synthetic.main.item_standings.*
-import kotlinx.android.synthetic.main.layout_league_info.*
 import kotlinx.android.synthetic.main.league_toolbar.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
-import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.FixtureByMatchDay
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.MatchFixture
-import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.AppConstants.*
+import life.plank.juna.zone.util.AppConstants.BoomMenuPage
 import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DateUtil.getDateDiffFromToday
+import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.setupBoomMenu
-import life.plank.juna.zone.util.setupWith
-import life.plank.juna.zone.view.adapter.FixtureAdapter
-import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
-import life.plank.juna.zone.view.adapter.StandingTableAdapter
-import life.plank.juna.zone.view.adapter.TeamStatsAdapter
-import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.uiThread
-import java.util.*
-import javax.inject.Inject
-import javax.inject.Named
 
-class LeagueInfoFragment : BaseLeagueFragment() {
+class LeagueInfoFragment : BaseCard() {
 
-    @Inject
-    lateinit var picasso: Picasso
-    @Inject
-    lateinit var gson: Gson
-    @field: [Inject Named("footballData")]
-    lateinit var restApi: RestApi
-    private var fixtureAdapter: FixtureAdapter? = null
-    private var standingTableAdapter: StandingTableAdapter? = null
-    private var playerStatsAdapter: PlayerStatsAdapter? = null
-    private var teamStatsAdapter: TeamStatsAdapter? = null
-    private var isDataLocal: Boolean = false
     private lateinit var league: League
+    private var leagueInfoPagerAdapter: LeagueInfoFragment.LeagueInfoPagerAdapter? = null
 
     companion object {
-        lateinit var fixtureByMatchDayList: MutableList<FixtureByMatchDay>
+        var fixtureByMatchDayList: MutableList<FixtureByMatchDay>? = null
         fun newInstance(league: League) = LeagueInfoFragment().apply { arguments = Bundle().apply { putParcelable(DataUtil.findString(R.string.intent_league), league) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ZoneApplication.getApplication().uiComponent.inject(this)
         arguments?.apply { league = getParcelable(getString(R.string.intent_league))!! }
     }
 
@@ -77,190 +44,72 @@ class LeagueInfoFragment : BaseLeagueFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupBoomMenu(BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME, activity!!, null, arc_menu, null)
 
-        prepareRecyclerViews()
-        getLeagueInfoFromRoomDb()
+        prepareViewPager()
+        league_info_tab_layout.setupWithViewPager(league_info_view_pager)
 
         title.text = league.name
         logo.setImageResource(league.leagueLogo)
         parent_layout.setBackgroundColor(findColor(league.dominantColor!!))
-        arc_menu.setupWith(nestedScrollView)
-
-        setOnClickListeners()
     }
 
-    private fun setOnClickListeners() {
-        see_all_fixtures.onClick {
-            if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                pushPopup(FixtureFragment.newInstance(league))
-            }
-        }
-        see_all_standings.onClick {
-            pushPopup(LeagueInfoDetailPopup.newInstance(STANDINGS, standingTableAdapter!!.standings as ArrayList<out Parcelable>))
-        }
-        see_more_team_stats.onClick {
-            pushPopup(LeagueInfoDetailPopup.newInstance(TEAM_STATS, teamStatsAdapter!!.teamStats as ArrayList<out Parcelable>))
-        }
-        see_more_player_stats.onClick {
-            pushPopup(LeagueInfoDetailPopup.newInstance(PLAYER_STATS, playerStatsAdapter!!.playerStats as ArrayList<out Parcelable>))
-        }
-    }
-
-    override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
+    override fun getBackgroundBlurLayout(): ViewGroup? = null
 
     override fun getRootCard(): CardView? = root_card
 
     override fun getDragHandle(): View? = drag_area
 
-    override fun getGlide() = Glide.with(activity!!)
-
-    override fun getTheGson() = gson
-
-    override fun getTheLeague() = league
-
-    private fun prepareRecyclerViews() {
-        fixtureAdapter = FixtureAdapter(null, this)
-        fixtures_section_list.adapter = fixtureAdapter
-
-        standingTableAdapter = StandingTableAdapter(picasso)
-        standing_recycler_view.adapter = standingTableAdapter
-
-        playerStatsAdapter = PlayerStatsAdapter()
-        player_stats_recycler_view.adapter = playerStatsAdapter
-
-        teamStatsAdapter = TeamStatsAdapter(picasso)
-        team_stats_recycler_view.adapter = teamStatsAdapter
+    private fun prepareViewPager() {
+        leagueInfoPagerAdapter = LeagueInfoPagerAdapter(childFragmentManager, league)
+        league_info_view_pager.adapter = leagueInfoPagerAdapter
     }
 
-    private fun getLeagueInfoFromRoomDb() {
-        isDataLocal = true
-        leagueViewModel.leagueInfoLiveData.observe(this, Observer<LeagueInfo> { handleLeagueInfoData(it) })
-        leagueViewModel.getLeagueInfoFromDb(league.id)
+    fun setMatchday(matchday: Int) {
+        league_matchday.text = getString(R.string.matchday_with_number, matchday)
     }
 
-    private fun getLeagueInfoFromRestApi() {
-        if (isDataLocal) {
-            isDataLocal = false
-            leagueViewModel.getLeagueInfoFromRestApi(league, restApi)
-        }
-    }
-
-    private fun handleLeagueInfoData(leagueInfo: LeagueInfo?) {
-        if (leagueInfo != null) {
-//            Update new data in DB
-            if (!isDataLocal) {
-                leagueViewModel.leagueRepository.insertLeagueInfo(leagueInfo)
-            }
-
-            fixture_progress_bar.visibility = View.GONE
-            if (isNullOrEmpty(leagueInfo.fixtureByMatchDayList)) {
-                updateUI(false, fixtures_section_list, see_all_fixtures, fixture_no_data)
-            } else {
-                fixtureByMatchDayList = leagueInfo.fixtureByMatchDayList.toMutableList()
-                updateFixtures()
-            }
-
-            standings_progress_bar.visibility = View.GONE
-            if (leagueInfo.standingsList == emptyList<Any>() || isNullOrEmpty(leagueInfo.standingsList)) {
-                updateUI(false, standing_recycler_view, see_all_standings, no_standings)
-            } else {
-                updateUI(true, standing_recycler_view, see_all_standings, no_standings)
-                standingTableAdapter!!.update(leagueInfo.standingsList)
-            }
-
-            team_stats_progress_bar.visibility = View.GONE
-            if (leagueInfo.teamStatsList == emptyList<Any>() || isNullOrEmpty(leagueInfo.teamStatsList)) {
-                updateUI(false, team_stats_recycler_view, see_more_team_stats, no_team_stats)
-            } else {
-                updateUI(true, team_stats_recycler_view, see_more_team_stats, no_team_stats)
-                teamStatsAdapter!!.update(leagueInfo.teamStatsList)
-            }
-
-            player_stats_progress_bar.visibility = View.GONE
-            if (leagueInfo.playerStatsList == emptyList<Any>() || isNullOrEmpty(leagueInfo.playerStatsList)) {
-                updateUI(false, player_stats_recycler_view, see_more_player_stats, no_player_stats)
-            } else {
-                updateUI(true, player_stats_recycler_view, see_more_player_stats, no_player_stats)
-                playerStatsAdapter!!.update(leagueInfo.playerStatsList)
-            }
-            getLeagueInfoFromRestApi()
+    fun hideOrShowBoomMenu(scrollY: Int, oldScrollY: Int) {
+        if (scrollY > oldScrollY) {
+            arc_menu.hide()
         } else {
-            getLeagueInfoFromRestApi()
+            arc_menu.show()
         }
     }
 
-    private fun updateUI(available: Boolean, recyclerView: RecyclerView, seeMoreView: TextView, noDataView: TextView) {
-        recyclerView.visibility = if (available) View.VISIBLE else View.INVISIBLE
-        seeMoreView.visibility = if (available) View.VISIBLE else View.GONE
-        noDataView.visibility = if (available) View.GONE else View.VISIBLE
+    fun hideOrShowBoomMenu(dy: Int) {
+        if (dy > 5) {
+            arc_menu.hide()
+        } else if (dy < -5) {
+            arc_menu.show()
+        }
     }
 
     override fun onDestroy() {
-        fixtureAdapter = null
-        standingTableAdapter = null
-        teamStatsAdapter = null
-        playerStatsAdapter = null
-        if (!isNullOrEmpty(fixtureByMatchDayList)) {
-            fixtureByMatchDayList.clear()
-        }
+        leagueInfoPagerAdapter = null
+        fixtureByMatchDayList?.clear()
         super.onDestroy()
     }
 
-    private fun updateFixtures() {
-        fixture_progress_bar.visibility = View.VISIBLE
-        see_all_fixtures.isEnabled = false
-        see_all_fixtures.isClickable = false
-        doAsync {
-            var isPastMatches = true
-            var recyclerViewScrollIndex = 0
-            if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                for (matchDay in fixtureByMatchDayList) {
-                    try {
-                        if (matchDay.daySection == PAST_MATCHES) {
-                            isPastMatches = true
-                            recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay)
-                        } else if (matchDay.daySection == TODAY_MATCHES) {
-                            isPastMatches = false
-                            recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay)
-                        }
-                    } catch (e: Exception) {
-                        Log.e("FixtureAdapterTask", "doInBackground: recyclerViewScrollIndex ", e)
-                    }
+    class LeagueInfoPagerAdapter(fm: FragmentManager?, private val league: League) : FragmentStatePagerAdapter(fm) {
 
-                }
-                var matchFixtures: MutableList<MatchFixture> = ArrayList()
-                val fixtureByDateList = fixtureByMatchDayList[recyclerViewScrollIndex].fixtureByDateList
-                for (fixtureByDate in fixtureByDateList) {
-                    for (matchFixture in fixtureByDate.fixtures) {
-                        try {
-                            if (isPastMatches && getDateDiffFromToday(matchFixture.matchStartTime) <= 0) {
-                                matchFixtures.add(matchFixture)
-                            } else if (getDateDiffFromToday(matchFixture.matchStartTime) <= 1) {
-                                matchFixtures.add(matchFixture)
-                            }
-                        } catch (e: Exception) {
-                            Log.e("FixtureAdapterTask", "doInBackground: getDateDiffFromToday() ", e)
-                        }
+        override fun getItem(position: Int): Fragment? {
+            return when (position) {
+                0 -> FixtureFragment.newInstance(league)
+                1 -> StandingsFragment.newInstance(league)
+                2 -> LeagueStatsFragment.newInstance(league)
+                else -> null
+            }
+        }
 
-                    }
-                }
-                if (isPastMatches) {
-                    matchFixtures.reverse()
-                }
-                matchFixtures = if (matchFixtures.size >= 4) ArrayList(matchFixtures.subList(0, 4)) else matchFixtures
-                uiThread {
-                    if (it.isAdded) {
-                        if (!isNullOrEmpty(matchFixtures)) {
-                            if (fixtureAdapter != null) {
-                                fixtureAdapter!!.update(matchFixtures)
-                            }
-                            fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
-                            see_all_fixtures.isEnabled = true
-                            see_all_fixtures.isClickable = true
-                            updateUI(true, fixtures_section_list, see_all_fixtures, fixture_no_data)
-                        }
-                        fixture_progress_bar.visibility = View.GONE
-                    }
-                }
+        override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
+
+        override fun getCount(): Int = 3
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> findString(R.string.fixtures_caps)
+                1 -> findString(R.string.standings_caps)
+                2 -> findString(R.string.stats)
+                else -> null
             }
         }
     }
