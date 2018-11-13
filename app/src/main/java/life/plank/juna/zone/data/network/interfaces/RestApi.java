@@ -11,6 +11,7 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
+import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchStats;
@@ -254,4 +255,8 @@ public interface RestApi {
     Observable<Response<JsonObject>> postBoardPoll(@Query("userAnswer") String userAnswer,
                                                    @Query("boardId") String boardId,
                                                    @Header("Authorization") String... authHeader);
+
+    @GET(FOOTBALL_SUFFIX + "/teams")
+    Observable<Response<List<FootballTeam>>> getSearchedFootballTeams(@Query("teamNamePart") String teamName,
+                                                                      @Header("Authorization") String authHeader);
 }
