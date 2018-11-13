@@ -67,6 +67,22 @@ class LeagueInfoFragment : BaseCard() {
         league_matchday.text = getString(R.string.matchday_with_number, matchday)
     }
 
+    fun hideOrShowBoomMenu(scrollY: Int, oldScrollY: Int) {
+        if (scrollY > oldScrollY) {
+            arc_menu.hide()
+        } else {
+            arc_menu.show()
+        }
+    }
+
+    fun hideOrShowBoomMenu(dy: Int) {
+        if (dy > 5) {
+            arc_menu.hide()
+        } else if (dy < -5) {
+            arc_menu.show()
+        }
+    }
+
     override fun onDestroy() {
         leagueInfoPagerAdapter = null
         fixtureByMatchDayList?.clear()

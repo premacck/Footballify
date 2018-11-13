@@ -63,6 +63,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
         if (!isNullOrEmpty(fixtureByMatchDayList)) {
             updateFixtures()
         } else getLeagueInfoFromRoomDb()
+        fixtures_section_list.setupWithParentFragmentBoomMenu()
     }
 
     private fun getLeagueInfoFromRoomDb() {
