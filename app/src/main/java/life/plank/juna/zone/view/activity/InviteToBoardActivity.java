@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -40,6 +39,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 public class InviteToBoardActivity extends AppCompatActivity implements SearchView.OnQueryTextListener, OnItemClickListener {
 
@@ -85,7 +85,6 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
     }
 
     private void getSearchedUsers(String displayName) {
-
         restApi.getSearchedUsers(getToken(), displayName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -98,7 +97,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -144,7 +143,7 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -153,10 +152,8 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
                             case HttpURLConnection.HTTP_CREATED:
                                 finish();
                                 break;
-                            case HttpURLConnection.HTTP_BAD_REQUEST:
-                                Toast.makeText(InviteToBoardActivity.this, R.string.invite_user_failed, Toast.LENGTH_SHORT).show();
-                                break;
                             default:
+                                errorToast(R.string.invite_user_failed, response);
                                 break;
                         }
                     }

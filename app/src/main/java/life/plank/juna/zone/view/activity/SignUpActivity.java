@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.util.UUID;
@@ -29,6 +28,8 @@ import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 public class SignUpActivity extends AppCompatActivity {
     String TAG = SignUpActivity.class.getCanonicalName();
@@ -109,7 +110,7 @@ public class SignUpActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -120,9 +121,10 @@ public class SignUpActivity extends AppCompatActivity {
                                 startActivity(intentSubmit);
                                 break;
                             case HttpURLConnection.HTTP_FORBIDDEN:
-                                Toast.makeText(getApplicationContext(), R.string.username_exists, Toast.LENGTH_LONG).show();
+                                errorToast(R.string.username_exists, response);
                                 break;
                             default:
+                                errorToast(R.string.something_went_wrong, response);
                                 Log.e(TAG, response.message());
                                 break;
                         }

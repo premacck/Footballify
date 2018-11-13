@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
 
@@ -32,6 +31,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.checkTokenValidity;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
  * Created by plank-dhamini on 18/7/2018.
@@ -39,7 +39,6 @@ import static life.plank.juna.zone.util.PreferenceManager.getToken;
 
 public class SplashScreenActivity extends AppCompatActivity {
     private static final String TAG = SplashScreenActivity.class.getSimpleName();
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
@@ -98,7 +97,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -117,9 +116,10 @@ public class SplashScreenActivity extends AppCompatActivity {
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(getApplicationContext(), R.string.user_name_not_found, Toast.LENGTH_LONG).show();
+                                errorToast(R.string.user_name_not_found, response);
                                 break;
                             default:
+                                errorToast(R.string.something_went_wrong, response);
                                 Log.e(TAG, response.message());
                                 break;
                         }

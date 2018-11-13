@@ -13,11 +13,11 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getSharedPrefs
 import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import org.jetbrains.anko.support.v4.toast
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
@@ -105,7 +105,7 @@ class PrivateBoardInfoFragment : BaseFragment() {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
                     userList.removeAt(userPosition)
                     boardMembersViewAdapter?.notifyDataSetChanged()
-                    toast(R.string.user_deleted)
+                    customToast(R.string.user_deleted)
                 }
                 else -> errorToast(R.string.something_went_wrong, it)
             }

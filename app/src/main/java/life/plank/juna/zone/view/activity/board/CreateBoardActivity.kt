@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
 import life.plank.juna.zone.util.UIDisplayUtil
 import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.facilis.onClick
 import life.plank.juna.zone.util.facilis.onTextChanged
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
@@ -23,7 +24,6 @@ import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter
 import life.plank.juna.zone.view.adapter.BoardIconAdapter
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 class CreateBoardActivity : BaseCardActivity() {
@@ -126,7 +126,7 @@ class CreateBoardActivity : BaseCardActivity() {
         if (UIDisplayUtil.checkPermission(this@CreateBoardActivity)) {
             getImageResourceFromGallery()
         } else {
-            toast(R.string.add_permission)
+            customToast(R.string.add_permission)
         }
     }
 
@@ -142,12 +142,12 @@ class CreateBoardActivity : BaseCardActivity() {
                         isIconSelected = true
                         validateCreateBoardContent()
                     } else {
-                        toast(R.string.image_not_supported)
+                        customToast(R.string.image_not_supported)
                     }
                 }
                 Activity.RESULT_CANCELED -> {/*Do nothing*/
                 }
-                else -> toast(R.string.failed_to_process_image)
+                else -> customToast(R.string.failed_to_process_image)
             }
         }
     }
@@ -170,7 +170,7 @@ class CreateBoardActivity : BaseCardActivity() {
 
     private fun createBoard(board: Board, file: String) {
         if (isNullOrEmpty(file)) {
-            toast(R.string.select_image_to_upload)
+            customToast(R.string.select_image_to_upload)
             return
         }
         pushPopup(BoardPreviewPopup.newInstance(board, file))

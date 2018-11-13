@@ -16,14 +16,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,12 +35,10 @@ import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.EmojiHashMap;
 import retrofit2.Response;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 import static java.net.HttpURLConnection.HTTP_CREATED;
 import static java.net.HttpURLConnection.HTTP_INTERNAL_ERROR;
 import static java.net.HttpURLConnection.HTTP_NOT_FOUND;
@@ -54,13 +50,13 @@ import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.NEWS;
 import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
 import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
@@ -232,78 +228,6 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         notifyDataSetChanged();
     }
 
-    private void retrieveFeeEntries() {
-        Observable<Response<List<FeedEntry>>> userFeedApiCall = isNullOrEmpty(getToken()) ? restApi.getUserFeed() : restApi.getUserFeed(getToken());
-        userFeedApiCall.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<List<FeedEntry>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.e(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "In onError()" + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<List<FeedEntry>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                List<FeedEntry> feedEntries = response.body();
-                                if (feedEntries != null) {
-                                    update(feedEntries);
-                                } else
-                                    Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_feed, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-
-                    }
-                });
-    }
-
-    private void retrieveBoardById() {
-
-        restApi.getBoardFeedItems(boardId, getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<List<FeedEntry>>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i(TAG, "onCompleted: ");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "On Error()" + e);
-                        Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
-                    }
-
-                    @Override
-                    public void onNext(Response<List<FeedEntry>> response) {
-                        switch (response.code()) {
-                            case HttpURLConnection.HTTP_OK:
-                                update(response.body());
-                                break;
-                            case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
-                                break;
-                            default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_retrieve_board, Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                    }
-                });
-    }
-
     private void pinItem(FeedEntry feedEntry, int position) {
         restApi.pinFeedItem(feedEntry.getFeedItem().getId(), BOARD, boardId, getRequestDateStringOfNow(), getToken())
                 .subscribeOn(Schedulers.io())
@@ -317,7 +241,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "pinItem() " + e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_pin_feed, e);
                     }
 
                     @Override
@@ -334,13 +258,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 notifyItemMoved(position, 0);
                                 break;
                             case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_find_feed, response);
                                 break;
                             case HTTP_INTERNAL_ERROR:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.already_pinned_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.already_pinned_feed, response);
                                 break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_pin_feed, response);
                                 break;
                         }
                     }
@@ -360,7 +284,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "unpinItem() " + e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_unpin_feed, e);
                     }
 
                     @Override
@@ -376,13 +300,13 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
                                 notifyItemMoved(position, feedEntry.getFeedInteractions().getPreviousPosition());
                                 break;
                             case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_find_feed, response);
                                 break;
                             case HTTP_INTERNAL_ERROR:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.already_removed_pin, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.already_removed_pin, response);
                                 break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_unpin_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_unpin_feed, response);
                                 break;
                         }
                     }

@@ -5,6 +5,7 @@ import android.util.Pair;
 
 import java.util.List;
 
+import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.local.model.LeagueInfo;
 import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
@@ -25,6 +26,7 @@ import rx.schedulers.Schedulers;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
  * Class for Aggregating multiple API calls.
@@ -151,6 +153,26 @@ public class RestApiAggregator {
                             }
                             return leagueInfo;
                         })
+                )
+        );
+    }
+
+    public static Observable<Pair<List<TeamStats>, List<PlayerStats>>> getLeagueStats(League league, RestApi restApi) {
+        return afterSubscribingAndObservingOn(
+                Observable.zip(
+                        restApi.getTeamStats(league.getName(), league.getSeasonName(), league.getCountryName()),
+                        restApi.getPlayerStats(league.getName(), league.getSeasonName(), league.getCountryName()),
+                        (teamStatsResponse, playerStatsResponse) -> {
+                            if (teamStatsResponse.code() != HTTP_OK) {
+                                Log.e("getLeagueInfo", "teamStatsResponse : " + teamStatsResponse.code() + " : " + teamStatsResponse.message());
+                                errorToast(R.string.failed_to_get_team_stats, teamStatsResponse);
+                            }
+                            if (playerStatsResponse.code() != HTTP_OK) {
+                                Log.e("getLeagueInfo", "playerStatsResponse : " + playerStatsResponse.code() + " : " + playerStatsResponse.message());
+                                errorToast(R.string.failed_to_get_player_stats, teamStatsResponse);
+                            }
+                            return new Pair<>(teamStatsResponse.body(), playerStatsResponse.body());
+                        }
                 )
         );
     }

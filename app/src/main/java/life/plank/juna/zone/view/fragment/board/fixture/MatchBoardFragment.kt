@@ -25,15 +25,13 @@ import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.PollBindingModel
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.util.AppConstants
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.*
-import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import retrofit2.Response
@@ -103,8 +101,10 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         board_toolbar.prepare(fixture, league.thumbUrl)
-        getBoardIdAndMatchDetails(currentMatchId)
         board_toolbar.setUpPopUp(activity, currentMatchId)
+        context.doAfterDelay(300) {
+            getBoardIdAndMatchDetails(currentMatchId)
+        }
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
@@ -190,7 +190,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         board_toolbar.setupWithViewPager(board_view_pager)
     }
 
-    override fun getBackgroundBlurLayout(): ViewGroup? = null
+    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
     override fun getRootCard(): CardView? = root_card
 
@@ -228,7 +228,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                             val board = boardMatchDetailsPair.first
                             if (matchDetails != null) {
                                 matchDetails!!.league = league
-                                board_toolbar.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
+                                board_toolbar?.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
                             }
                             if (board != null) {
                                 boardId = board.id
@@ -246,7 +246,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                             getBoardPolls()
                             followBoard()
                         } else {
-                            Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+                            customToast(R.string.something_went_wrong)
                         }
                     }
                 })
@@ -278,11 +278,11 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun clearColorFilter() {
-        board_parent_layout!!.background.clearColorFilter()
+        board_parent_layout?.background?.clearColorFilter()
     }
 
     private fun applyInactiveBoardColorFilter() {
-        board_parent_layout!!.background.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
+        board_parent_layout?.background?.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
     }
 
     fun saveBoardId() {
@@ -313,9 +313,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     //Follow board by default when entered. Nothing to do on receiving the response code
     fun followBoard() {
-        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, it.message)
-        }, {})
+        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message) }, {})
     }
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {

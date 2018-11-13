@@ -2,15 +2,10 @@ package life.plank.juna.zone.view.activity.base
 
 import android.support.annotation.IdRes
 import android.util.Log
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
-import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 
 abstract class BaseCardActivity : BaseActivity() {
 
@@ -34,14 +29,6 @@ abstract class BaseCardActivity : BaseActivity() {
 
         if (isAddToBackStack) index++
         supportFragmentManager.pushFragment(getFragmentContainer(), fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
-    }
-
-    fun openBoardFromFixtureList(matchFixture: MatchFixture, league: League) {
-        onBackPressed()
-        async {
-            delay(300)
-            runOnUiThread { pushFragment(MatchBoardFragment.newInstance(matchFixture, league), true) }
-        }
     }
 
     fun popBackStack() {

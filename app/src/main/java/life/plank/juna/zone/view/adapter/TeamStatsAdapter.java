@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,7 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,22 +26,23 @@ import life.plank.juna.zone.data.model.TeamStats;
 public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.TeamStateViewHolder> {
 
     private List<TeamStats> teamStatsList;
-    private Picasso picasso;
+    private RequestManager glide;
 
-    public TeamStatsAdapter(Picasso picasso) {
-        this.picasso = picasso;
+    public TeamStatsAdapter(RequestManager glide) {
+        this.glide = glide;
         this.teamStatsList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public TeamStateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TeamStateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.team_stats_row, parent, false);
         return new TeamStateViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TeamStateViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TeamStateViewHolder holder, int position) {
         holder.teamStatsSerialNumber.setText(String.valueOf(position + 1));
         holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsList.get(position).getTeamName()));
         holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsList.get(position).getWin()));
@@ -49,10 +52,10 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         holder.teamsStatsShotTextView.setText(String.valueOf(teamStatsList.get(position).getShot()));
         holder.teamStatsRedCardTextView.setText(String.valueOf(teamStatsList.get(position).getRedCard()));
         holder.teamStatsYellowCardTextView.setText(String.valueOf(teamStatsList.get(position).getYellowCard()));
-        picasso.load(teamStatsList.get(position).getFootballTeamLogo())
-                .fit().centerCrop()
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+        glide.load(teamStatsList.get(position).getFootballTeamLogo())
+                .apply(RequestOptions.centerCropTransform()
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(holder.teamStatsTeamLogo);
     }
 
@@ -70,7 +73,7 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         return teamStatsList;
     }
 
-    public class TeamStateViewHolder extends RecyclerView.ViewHolder {
+    static class TeamStateViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.team_stats_team_logo)
         ImageView teamStatsTeamLogo;
         @BindView(R.id.team_stats_team_name_text_view)

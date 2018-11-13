@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.bumptech.glide.Glide
 import com.squareup.picasso.Picasso
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_league_info_detail.*
@@ -53,13 +54,13 @@ class LeagueInfoDetailPopup : BaseBlurPopup() {
         header.text = viewToLoad
         when (viewToLoad) {
             AppConstants.STANDINGS -> {
-                standingTableAdapter = StandingTableAdapter(picasso)
+                standingTableAdapter = StandingTableAdapter(Glide.with(this))
                 standing_recycler_view.adapter = standingTableAdapter!!
                 standingTableAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
                 toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE)
             }
             AppConstants.TEAM_STATS -> {
-                teamStatsAdapter = TeamStatsAdapter(picasso)
+                teamStatsAdapter = TeamStatsAdapter(Glide.with(this))
                 standing_recycler_view.adapter = teamStatsAdapter!!
                 teamStatsAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
                 toggleStatsHeaderVisibility(LinearLayout.GONE, LinearLayout.VISIBLE, LinearLayout.GONE)

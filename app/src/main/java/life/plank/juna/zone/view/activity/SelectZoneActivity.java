@@ -8,7 +8,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -38,6 +37,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
  * Created by plank-dhamini on 18/7/2018.
@@ -91,7 +91,7 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "retrieveZones() : onError()" + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -101,10 +101,10 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
                                 setUpAdapterWithNewData(response.body());
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                Toast.makeText(SelectZoneActivity.this, R.string.failed_to_retrieve_zones, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_retrieve_zones, response);
                                 break;
                             default:
-                                Toast.makeText(SelectZoneActivity.this, R.string.something_went_wrong, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.something_went_wrong, response);
                                 break;
                         }
 
@@ -134,8 +134,8 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
                                 startActivity(new Intent(SelectZoneActivity.this, HomeActivity.class));
                                 finish();
                                 break;
-                            case HttpURLConnection.HTTP_INTERNAL_ERROR:
                             default:
+                                errorToast(R.string.something_went_wrong, response);
                                 break;
                         }
                     }
