@@ -24,11 +24,11 @@ import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.smartSubscribe
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter
-import life.plank.juna.zone.view.fragment.base.FlatFragment
+import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
 import javax.inject.Named
 
-class LeagueStatsFragment : FlatFragment() {
+class LeagueStatsFragment : BaseLeagueFragment() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
@@ -54,7 +54,10 @@ class LeagueStatsFragment : FlatFragment() {
         setAdapters()
         getLeagueStats(false)
         league_stats_swipe_refresh_layout.setOnRefreshListener { getLeagueStats(true) }
+        league_stats_nested_scroll_view.setupWithParentFragmentBoomMenu()
     }
+
+    override fun getTheLeague() = league
 
     private fun setAdapters() {
         teamStatsAdapter = TeamStatsAdapter(Glide.with(this))
