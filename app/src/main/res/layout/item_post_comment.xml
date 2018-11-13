@@ -11,54 +11,6 @@
         layout="@layout/item_base_comment" />
 
     <TextView
-        android:id="@+id/like_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/base_comment"
-        android:layout_marginStart="40dp"
-        android:fontFamily="@font/rajdhani_medium"
-        android:foreground="@drawable/ripple_dark_rect"
-        android:paddingStart="10dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="4dp"
-        android:text="@string/like"
-        android:textColor="@color/black_50"
-        android:textSize="@dimen/text_10sp" />
-
-    <TextView
-        android:id="@+id/reply_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/base_comment"
-        android:layout_toEndOf="@+id/like_text_view"
-        android:fontFamily="@font/rajdhani_medium"
-        android:foreground="@drawable/ripple_dark_rect"
-        android:paddingStart="10dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="4dp"
-        android:text="@string/reply"
-        android:textColor="@color/black_50"
-        android:textSize="@dimen/text_10sp" />
-
-    <TextView
-        android:id="@+id/view_replies_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/base_comment"
-        android:layout_toEndOf="@+id/reply_text_view"
-        android:fontFamily="@font/rajdhani_medium"
-        android:foreground="@drawable/ripple_dark_rect"
-        android:paddingStart="10dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="4dp"
-        android:text="@string/view_4_replies_sample"
-        android:textColor="@color/black_50"
-        android:textSize="@dimen/text_10sp" />
-
-    <TextView
         android:id="@+id/comment_time_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,7 +27,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/like_text_view"
+        android:layout_below="@+id/base_comment"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="20dp"
         android:animateLayoutChanges="true"
