@@ -74,4 +74,5 @@
     <string name="rotation_y">rotationY</string>
     <string name="row_item_info">item %s in row with height %s consumes %s area</string>
     <string name="board_type_football_match">FootballMatch</string>
+    <string name="team_not_found">Team not found</string>
 </resources>

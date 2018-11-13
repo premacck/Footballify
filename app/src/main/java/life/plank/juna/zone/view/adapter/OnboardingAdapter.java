@@ -9,22 +9,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.data.model.League;
+import life.plank.juna.zone.data.model.FootballTeam;
 
 public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.FootballFeedViewHolder> {
 
-    private List<League> leagueList;
+    private List<FootballTeam> teamList;
     private Context context;
 
-    public OnboardingAdapter(Context activity) {
+    public OnboardingAdapter(Context activity, List<FootballTeam> teamList) {
         this.context = activity;
-        this.leagueList = new ArrayList<>();
+        this.teamList = teamList;
     }
 
     @Override
@@ -35,22 +37,27 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
 
     @Override
     public void onBindViewHolder(FootballFeedViewHolder holder, int position) {
-        League league = leagueList.get(position);
-        holder.title.setText(league.getName());
-        holder.image.setImageDrawable(context.getResources().getDrawable(league.getLeagueLogo()));
-        holder.cardView.setCardBackgroundColor(context.getColor(league.getDominantColor()));
+        FootballTeam team = teamList.get(position);
+        holder.title.setText(team.getName());
+        Glide.with(context).load(team.getLogoLink())
+                .apply(RequestOptions.centerInsideTransform()
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
+                .into(holder.image);
+        //TODO: Set card colour after backend returns it
     }
 
     @Override
     public int getItemCount() {
-        return leagueList.size();
+        return teamList.size();
     }
 
-    public void setLeagueList(List<League> footballFeeds) {
-        if (footballFeeds == null) {
+    public void setTeamList(List<FootballTeam> footballTeams) {
+        if (footballTeams == null) {
             return;
         }
-        leagueList.addAll(footballFeeds);
+        teamList.clear();
+        teamList.addAll(footballTeams);
         notifyDataSetChanged();
     }
 
