@@ -148,8 +148,6 @@ class EditProfilePopup : BaseBlurPopup() {
                 }, {
                     when (it.code()) {
                         HttpURLConnection.HTTP_NO_CONTENT -> {
-//                                val bitmap = MediaStore.Images.Media.getBitmap(ZoneApplication.getContext().contentResolver, profilePicUri)
-//                                profile_picture_image_view.setImageBitmap(bitmap)
                             Glide.with(this@EditProfilePopup)
                                     .load(profilePicUri)
                                     .apply(RequestOptions.overrideOf(getDp(72f).toInt(), getDp(72f).toInt()))
@@ -158,8 +156,6 @@ class EditProfilePopup : BaseBlurPopup() {
                         }
                         else -> errorToast(R.string.upload_failed, it)
                     }
-
-                }
-                )
+                })
     }
 }
