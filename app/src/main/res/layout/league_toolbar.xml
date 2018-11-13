@@ -65,34 +65,4 @@
 
     </RelativeLayout>
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent_white_two"
-        android:elevation="2dp"
-        android:paddingStart="11dp"
-        android:paddingTop="6dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="6dp">
-
-        <TextView
-            android:id="@+id/people_count"
-            style="@style/EngagementLayout"
-            android:drawableStart="@drawable/ic_people" />
-
-        <TextView
-            android:id="@+id/following_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="18dp"
-            android:fontFamily="@font/rajdhani_medium"
-            android:gravity="center_horizontal"
-            android:text="@string/following"
-            android:textColor="#ffffff"
-            android:textSize="@dimen/text_10sp" />
-
-    </RelativeLayout>
-
 </LinearLayout>

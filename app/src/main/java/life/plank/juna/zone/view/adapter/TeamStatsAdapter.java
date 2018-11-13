@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,10 +26,13 @@ import life.plank.juna.zone.data.model.TeamStats;
 public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.TeamStateViewHolder> {
 
     private List<TeamStats> teamStatsList;
-    private Picasso picasso;
+    private RequestManager glide;
 
-    public TeamStatsAdapter(Picasso picasso) {
-        this.picasso = picasso;
+    //    TODO: Remove this in the next pull request
+    public TeamStatsAdapter(Picasso picasso) {}
+
+    public TeamStatsAdapter(RequestManager glide) {
+        this.glide = glide;
         this.teamStatsList = new ArrayList<>();
     }
 
@@ -49,10 +54,10 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         holder.teamsStatsShotTextView.setText(String.valueOf(teamStatsList.get(position).getShot()));
         holder.teamStatsRedCardTextView.setText(String.valueOf(teamStatsList.get(position).getRedCard()));
         holder.teamStatsYellowCardTextView.setText(String.valueOf(teamStatsList.get(position).getYellowCard()));
-        picasso.load(teamStatsList.get(position).getFootballTeamLogo())
-                .fit().centerCrop()
-                .placeholder(R.drawable.ic_place_holder)
-                .error(R.drawable.ic_place_holder)
+        glide.load(teamStatsList.get(position).getFootballTeamLogo())
+                .apply(RequestOptions.centerCropTransform()
+                        .placeholder(R.drawable.ic_place_holder)
+                        .error(R.drawable.ic_place_holder))
                 .into(holder.teamStatsTeamLogo);
     }
 
