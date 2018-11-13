@@ -2,7 +2,8 @@
 <io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/root_blur_layout"
-    style="@style/BlurLayoutFullScreen">
+    style="@style/BlurLayoutFullScreen"
+    android:elevation="8dp">
 
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"

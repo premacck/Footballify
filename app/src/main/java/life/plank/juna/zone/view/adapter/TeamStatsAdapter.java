@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,23 +28,21 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
     private List<TeamStats> teamStatsList;
     private RequestManager glide;
 
-    //    TODO: Remove this in the next pull request
-    public TeamStatsAdapter(Picasso picasso) {}
-
     public TeamStatsAdapter(RequestManager glide) {
         this.glide = glide;
         this.teamStatsList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
-    public TeamStateViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TeamStateViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.team_stats_row, parent, false);
         return new TeamStateViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TeamStateViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TeamStateViewHolder holder, int position) {
         holder.teamStatsSerialNumber.setText(String.valueOf(position + 1));
         holder.teamStatsTeamNameTextView.setText(String.valueOf(teamStatsList.get(position).getTeamName()));
         holder.teamStatsWinsTextView.setText(String.valueOf(teamStatsList.get(position).getWin()));
@@ -75,7 +73,7 @@ public class TeamStatsAdapter extends RecyclerView.Adapter<TeamStatsAdapter.Team
         return teamStatsList;
     }
 
-    public class TeamStateViewHolder extends RecyclerView.ViewHolder {
+    static class TeamStateViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.team_stats_team_logo)
         ImageView teamStatsTeamLogo;
         @BindView(R.id.team_stats_team_name_text_view)

@@ -9,11 +9,11 @@ import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchFixture;
+import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
 import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
-import static life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.fixtureByMatchDayList;
 
 /**
  * Class to update live scores and time status in fixtures' list (in the background thread).
@@ -51,10 +51,10 @@ public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
     }
 
     private MatchFixture findInFixtureList(MatchFixture matchFixture) {
-        if (isNullOrEmpty(fixtureByMatchDayList) || matchFixture == null)
+        if (isNullOrEmpty(LeagueInfoFragment.Companion.getFixtureByMatchDayList()) || matchFixture == null)
             return null;
 
-        for (FixtureByMatchDay fixtureByMatchDay : fixtureByMatchDayList) {
+        for (FixtureByMatchDay fixtureByMatchDay : LeagueInfoFragment.Companion.getFixtureByMatchDayList()) {
             for (FixtureByDate fixtureByDate : fixtureByMatchDay.getFixtureByDateList()) {
                 for (MatchFixture fixture : fixtureByDate.getFixtures()) {
                     if (Objects.equals(fixture.getMatchId(), matchFixture.getMatchId())) {

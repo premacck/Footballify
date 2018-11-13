@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,6 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     private RequestManager glide;
     private List<Standings> standingsList;
-
-    //    TODO: Remove this in the next pull request
-    public StandingTableAdapter(Picasso picasso) {}
 
     public StandingTableAdapter(RequestManager glide) {
         this.glide = glide;
