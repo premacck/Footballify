@@ -35,6 +35,7 @@ import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup;
 import life.plank.juna.zone.view.fragment.football.FixtureFragment;
 import life.plank.juna.zone.view.fragment.football.LeagueInfoDetailPopup;
+import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
 import life.plank.juna.zone.view.fragment.football.LeagueStatsFragment;
 import life.plank.juna.zone.view.fragment.football.StandingsFragment;
 import life.plank.juna.zone.view.fragment.forum.ForumFragment;
