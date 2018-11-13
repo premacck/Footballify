@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_image_and_title.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -43,10 +44,32 @@ class UserBoardsAdapter(
                 holder.itemView.image.borderColor = findColor(R.color.white)
                 holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].name!!) }
             } else {
-                holder.itemView.title.text = boardList[position].name
-                glide.load(boardList[position].boardIconUrl).into(holder.itemView.image!!)
-                holder.itemView.image.borderColor = Color.parseColor(boardList[position].color)
-                holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].name!!) }
+                if (boardList[position].boardType == findString(R.string.board_type_football_match)) {
+                    holder.itemView.home_team_logo.visibility = View.VISIBLE
+                    holder.itemView.visiting_team_logo.visibility = View.VISIBLE
+                    holder.itemView.title.text = boardList[position].name
+
+                    glide.load(R.drawable.circle_background_white)
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                            .into(holder.itemView.image)
+
+                    glide.load(boardList[position].boardEvent!!.homeTeamLogo)
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                            .into(holder.itemView.home_team_logo)
+                    glide.load(boardList[position].boardEvent!!.awayTeamLogo)
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                            .into(holder.itemView.visiting_team_logo)
+                    boardList[position].id
+                    boardList[position].name
+                    holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].boardType) }
+                } else {
+                    holder.itemView.title.text = boardList[position].name
+                    glide.load(boardList[position].boardIconUrl)
+                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
+                            .into(holder.itemView.image!!)
+                    holder.itemView.image.borderColor = Color.parseColor(boardList[position].color)
+                    holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].name!!) }
+                }
             }
         } catch (e: Exception) {
             Log.e("onBindViewHolder() ", "ERROR: ", e)
@@ -67,10 +90,12 @@ class UserBoardsAdapter(
     }
 
     private fun navigateToBoard(boardId: String, boardName: String) {
-        if (boardName == findString(R.string.new_)) {
-            launchBoardMaker()
-        } else {
-            restApi.launchPrivateBoard(boardId, activity)
+        when (boardName) {
+            findString(R.string.new_) -> launchBoardMaker()
+            findString(R.string.board_type_football_match) -> {
+                //TODO: Navigate to public board
+            }
+            else -> restApi.launchPrivateBoard(boardId, activity)
         }
     }
 
