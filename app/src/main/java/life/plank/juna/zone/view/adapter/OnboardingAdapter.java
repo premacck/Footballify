@@ -44,6 +44,28 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
                         .placeholder(R.drawable.ic_place_holder)
                         .error(R.drawable.ic_place_holder))
                 .into(holder.image);
+
+        //TODO: Fix center alignment issue with the card
+        holder.cardView.setOnClickListener(view -> {
+            ViewGroup.LayoutParams params = holder.cardView.getLayoutParams();
+            if (holder.followTick.getVisibility() == View.VISIBLE) {
+                holder.followTick.setVisibility(View.INVISIBLE);
+                holder.cardView.setAlpha(context.getResources().getInteger(R.integer.opaque));
+                holder.title.setVisibility(View.VISIBLE);
+
+                params.width = holder.cardView.getMeasuredWidth() + context.getResources().getInteger(R.integer.team_grid_layout_width_param);
+                params.height = holder.cardView.getMeasuredHeight() + context.getResources().getInteger(R.integer.team_grid_layout_height_param);
+
+            } else {
+                holder.followTick.setVisibility(View.VISIBLE);
+                holder.cardView.setAlpha(context.getResources().getInteger(R.integer.visiblilty_160));
+                holder.title.setVisibility(View.INVISIBLE);
+
+                params.width = holder.cardView.getMeasuredWidth() - context.getResources().getInteger(R.integer.team_grid_layout_width_param);
+                params.height = holder.cardView.getMeasuredHeight() - context.getResources().getInteger(R.integer.team_grid_layout_height_param);
+            }
+            holder.cardView.setLayoutParams(params);
+        });
         //TODO: Set card colour after backend returns it
     }
 
@@ -64,6 +86,8 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
     static class FootballFeedViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.image)
         ImageView image;
+        @BindView(R.id.follow_image_view)
+        ImageView followTick;
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.card)
