@@ -40,11 +40,12 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
     @Override
     public void onBindViewHolder(@NonNull PostCommentReplyViewHolder holder, int position) {
         holder.commentTextView.setText(replies.get(position).getMessage());
+        holder.viewRepliesTextView.setVisibility(View.INVISIBLE);
         holder.profileNameTextView.setText(replies.get(position).getCommenterDisplayName());
         glide.load(replies.get(position).getCommenterProfilePicUrl())
                 .apply(RequestOptions.overrideOf((int) getDp(20), (int) getDp(20)))
                 .into(holder.profilePic);
-        
+
     }
 
     @Override
@@ -60,6 +61,8 @@ public class CommentReplyAdapter extends RecyclerView.Adapter<CommentReplyAdapte
         TextView profileNameTextView;
         @BindView(R.id.comment_text_view)
         TextView commentTextView;
+        @BindView(R.id.view_replies_text_view)
+        TextView viewRepliesTextView;
 
         PostCommentReplyViewHolder(View itemView) {
             super(itemView);
