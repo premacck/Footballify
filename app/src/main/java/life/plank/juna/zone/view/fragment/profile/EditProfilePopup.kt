@@ -32,6 +32,7 @@ import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.runOnUiThread
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.File
@@ -140,8 +141,8 @@ class EditProfilePopup : BaseBlurPopup() {
         restApi.uploadProfilePicture(image, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { profile_picture_uploading_progress.visibility = View.VISIBLE }
-                .doOnTerminate { profile_picture_uploading_progress.visibility = View.GONE }
+                .doOnSubscribe { runOnUiThread { profile_picture_uploading_progress.visibility = View.VISIBLE } }
+                .doOnTerminate { runOnUiThread { profile_picture_uploading_progress.visibility = View.GONE } }
                 .smartSubscribe({
                     Log.e(TAG, it.message)
                     errorToast(R.string.upload_failed, it)
