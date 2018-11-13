@@ -1,37 +1,39 @@
 package life.plank.juna.zone.view.fragment.football
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.VISIBLE
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.fragment_fixture.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.local.model.LeagueInfo
 import life.plank.juna.zone.data.model.League
-import life.plank.juna.zone.data.model.MatchFixture
+import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 import life.plank.juna.zone.interfaces.LeagueContainer
 import life.plank.juna.zone.util.AppConstants.PAST_MATCHES
 import life.plank.juna.zone.util.AppConstants.TODAY_MATCHES
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.facilis.fadeOut
 import life.plank.juna.zone.view.adapter.FixtureMatchdayAdapter
-import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
+import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.fixtureByMatchDayList
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import javax.inject.Inject
+import javax.inject.Named
 
-class FixtureFragment : BaseBlurPopup(), LeagueContainer {
+class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
-    @Inject
-    lateinit var gson: Gson
+    @field: [Inject Named("footballData")]
+    lateinit var restApi: RestApi
+
+    private var isDataLocal: Boolean = false
+    private var leagueInfo: LeagueInfo = LeagueInfo()
     private lateinit var league: League
-
     private var fixtureMatchdayAdapter: FixtureMatchdayAdapter? = null
 
     companion object {
@@ -42,57 +44,68 @@ class FixtureFragment : BaseBlurPopup(), LeagueContainer {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ZoneApplication.getApplication().uiComponent.inject(this)
-
         if (arguments == null) {
             onNoMatchesFound()
             return
         }
         league = arguments?.getParcelable(getString(R.string.intent_league))!!
+        leagueInfo.league = league
+        leagueViewModel = ViewModelProviders.of(this).get(LeagueViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_fixture, container, false)
 
-    override fun onStart() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         fixtureMatchdayAdapter = FixtureMatchdayAdapter(this)
         fixtures_section_list.adapter = fixtureMatchdayAdapter
-        super.onStart()
+        if (!isNullOrEmpty(fixtureByMatchDayList)) {
+            updateFixtures()
+        } else getLeagueInfoFromRoomDb()
     }
 
-    override fun doOnStart() {
-        blur_layout.visibility = VISIBLE
-        root_card.visibility = VISIBLE
-        updateFixtureAdapter()
+    private fun getLeagueInfoFromRoomDb() {
+        isDataLocal = true
+        leagueViewModel.leagueInfoLiveData.observe(this, Observer<LeagueInfo> { handleLeagueInfoData(it) })
+        leagueViewModel.getLeagueInfoFromDb(league.id)
     }
 
-    override fun doOnStop() {
-        fixtureMatchdayAdapter = null
+    private fun getLeagueInfoFromRestApi() {
+        if (isDataLocal) {
+            isDataLocal = false
+            leagueViewModel.getLeagueInfoFromRestApi(league, restApi)
+        }
     }
 
-    override fun doOnDismiss() {
-        fixtures_section_list?.fadeOut()
+    private fun handleLeagueInfoData(leagueInfo: LeagueInfo?) {
+        if (leagueInfo != null) {
+            this.leagueInfo = leagueInfo
+//            Update new data in DB
+            if (!isDataLocal) {
+                leagueViewModel.leagueRepository.insertLeagueInfo(leagueInfo)
+            }
+
+            fixtureByMatchDayList = leagueInfo.fixtureByMatchDayList.toMutableList()
+            updateFixtures()
+
+            getLeagueInfoFromRestApi()
+        } else {
+            getLeagueInfoFromRestApi()
+        }
     }
 
-    override fun getBlurLayout(): BlurLayout? = blur_layout
-
-    override fun getRootView(): View? = root_card
-
-    override fun getBackgroundLayout(): ViewGroup? = root_layout
-
-    override fun getDragHandle(): View? = drag_area
-
-    override fun getGlide() = Glide.with(activity!!)
-
-    override fun getTheGson() = gson
+    private fun updateFixtures() {
+        if (!isNullOrEmpty(fixtureByMatchDayList)) {
+            updateFixtureAdapter()
+        } else onNoMatchesFound()
+    }
 
     override fun getTheLeague() = league
 
-    override fun onFixtureSelected(matchFixture: MatchFixture, league: League) {
-        getParentActivity()?.openBoardFromFixtureList(matchFixture, league)
-    }
-
     private fun onNoMatchesFound() {
         no_data.visibility = View.VISIBLE
+        progress_bar.visibility = View.GONE
         fixtures_section_list.visibility = View.GONE
     }
 
@@ -100,17 +113,35 @@ class FixtureFragment : BaseBlurPopup(), LeagueContainer {
         progress_bar.visibility = View.VISIBLE
         doAsync {
             var recyclerViewScrollIndex = 0
-            if (!isNullOrEmpty(fixtureByMatchDayList)) {
-                for (matchDay in fixtureByMatchDayList) {
-                    if (matchDay.daySection == PAST_MATCHES || matchDay.daySection == TODAY_MATCHES) {
-                        recyclerViewScrollIndex = fixtureByMatchDayList.indexOf(matchDay)
+            fixtureByMatchDayList?.run {
+                if (!isNullOrEmpty(this)) {
+                    for (matchDay in this) {
+                        if (matchDay.daySection == PAST_MATCHES) {
+                            recyclerViewScrollIndex =
+                                    if (this.indexOf(matchDay) < this.size - 1) {
+                                        this.indexOf(matchDay) + 1
+                                    } else {
+                                        this.indexOf(matchDay)
+                                    }
+                        } else if (matchDay.daySection == TODAY_MATCHES) {
+                            recyclerViewScrollIndex = this.indexOf(matchDay)
+                        }
                     }
                 }
             }
             uiThread {
+                fixtureByMatchDayList?.run {
+                    (parentFragment as? LeagueInfoFragment)?.setMatchday(this[recyclerViewScrollIndex].matchDay)
+                }
                 progress_bar.visibility = View.GONE
+                fixtureMatchdayAdapter?.updateFixtures()
                 fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
             }
         }
+    }
+
+    override fun onDestroy() {
+        fixtureMatchdayAdapter = null
+        super.onDestroy()
     }
 }
