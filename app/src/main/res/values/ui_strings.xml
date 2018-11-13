@@ -200,4 +200,7 @@
     <string name="save">Save</string>
     <string name="zone_logo">Zone logo</string>
     <string name="matchday_with_number">Matchday %1$d</string>
+    <string name="search_teams">Search for teams</string>
+    <string name="follow_teams">Follow your teams</string>
+
 </resources>

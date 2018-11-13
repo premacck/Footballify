@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
@@ -19,12 +20,12 @@ import kotlinx.android.synthetic.main.onboarding_bottom_sheet.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
+import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.launch
@@ -42,7 +43,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
 
-class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
+class HomeFragment : FlatTileFragment(), ZoneToolbarListener, SearchView.OnQueryTextListener {
 
     @Inject
     lateinit var gson: Gson
@@ -57,6 +58,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private var userBoardsAdapter: UserBoardsAdapter? = null
     private val userPreferences = ArrayList<UserPreference>()
     private var feedEntries = ArrayList<FeedEntry>()
+    private var teamList = ArrayList<FootballTeam>()
 
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
@@ -86,7 +88,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         initZoneRecyclerView()
         initBoardsRecyclerView()
 
-        getLeagues()
         getUserZones()
 
         setUpToolbarAndBoomMenu()
@@ -96,20 +97,34 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         feed_header.initListeners(this)
         feed_header.setProfilePic(editor.getString(getString(R.string.pref_profile_pic_url), null))
+        search_view.setOnQueryTextListener(this)
     }
+
 
     override fun onResume() {
         super.onResume()
         getUserBoards()
     }
 
-    private fun initBottomSheetRecyclerView() {
-        onBoardingAdapter = OnboardingAdapter(activity)
-        onboarding_recycler_view.adapter = onBoardingAdapter
+    override fun onQueryTextSubmit(s: String?): Boolean {
+        return true
     }
 
-    private fun getLeagues() {
-        onBoardingAdapter?.setLeagueList(getStaticLeagues())
+    override fun onQueryTextChange(s: String?): Boolean {
+        if (s != null) {
+            if (!s.isEmpty()) {
+                getFootballTeams(s)
+            } else {
+                teamList.clear()
+                onBoardingAdapter?.notifyDataSetChanged()
+            }
+        }
+        return true
+    }
+
+    private fun initBottomSheetRecyclerView() {
+        onBoardingAdapter = OnboardingAdapter(activity, teamList)
+        onboarding_recycler_view.adapter = onBoardingAdapter
     }
 
     private fun setupOnBoardingBottomSheet() {
@@ -149,6 +164,23 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         userPreferences.clear()
         userPreferences.addAll(userPreferenceList!!)
         userZoneAdapter!!.notifyDataSetChanged()
+    }
+
+    private fun getFootballTeams(teamName: String) {
+        restApi.getSearchedFootballTeams(teamName, getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getFootballTeamDetails: ", it)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    onBoardingAdapter?.setTeamList(it.body())
+                }
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                    teamList.clear()
+                    onBoardingAdapter?.notifyDataSetChanged()
+                }
+                else -> errorToast(R.string.team_not_found, it)
+            }
+        })
     }
 
     private fun getUserZones() {
