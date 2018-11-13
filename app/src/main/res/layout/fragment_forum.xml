@@ -6,11 +6,27 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
+    <TextView
+        android:id="@+id/no_comment_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:fontFamily="@font/rajdhani_regular"
+        android:foreground="@drawable/ripple_dark_rect_curved_corners"
+        android:gravity="center"
+        android:text="@string/failed_to_get_feed_comments_tap_to_retry"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/post_comments_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="40dp"
+        android:clipToPadding="false"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:listitem="@layout/item_post_comment" />
 
@@ -67,4 +83,5 @@
             android:textSize="12sp" />
 
     </RelativeLayout>
+
 </RelativeLayout>

@@ -9,12 +9,10 @@ import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.CardView
 import android.util.Log
-import android.util.Pair
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
@@ -25,17 +23,19 @@ import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.PollBindingModel
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.util.*
+import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.*
+import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
+import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
-import retrofit2.Response
-import rx.Subscriber
+import org.jetbrains.anko.support.v4.runOnUiThread
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -52,7 +52,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     private var currentMatchId: Long = 0
     private var isBoardActive: Boolean = false
-    private var boardId: String? = null
+    private lateinit var boardId: String
     private lateinit var league: League
     private var fixture: MatchFixture? = null
     private var matchDetails: MatchDetails? = null
@@ -210,89 +210,66 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     private fun getBoardIdAndMatchDetails(currentMatchId: Long?) {
         RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId!!)
-                .doOnSubscribe { board_progress_bar!!.visibility = View.VISIBLE }
-                .doOnTerminate { board_progress_bar!!.visibility = View.GONE }
-                .subscribe(object : Subscriber<Pair<Board, MatchDetails>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "onCompleted: getBoardIdAndMatchDetails")
-                    }
+                .doOnSubscribe { runOnUiThread { board_progress_bar!!.visibility = View.VISIBLE } }
+                .doOnTerminate { runOnUiThread { board_progress_bar!!.visibility = View.GONE } }
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "In onError() : getBoardIdAndMatchDetails", it)
+                }, {
+                    if (it != null) {
+                        matchDetails = it.second
+                        val board = it.first
+                        if (matchDetails != null) {
+                            matchDetails!!.league = league
+                            board_toolbar?.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
+                        }
+                        if (board != null) {
+                            boardId = board.id
+                            saveBoardId()
+                            isBoardActive = board.isActive!!
 
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, "In onError() : getBoardIdAndMatchDetails$e")
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
-                    }
-
-                    override fun onNext(boardMatchDetailsPair: Pair<Board, MatchDetails>?) {
-                        if (boardMatchDetailsPair != null) {
-                            matchDetails = boardMatchDetailsPair.second
-                            val board = boardMatchDetailsPair.first
-                            if (matchDetails != null) {
-                                matchDetails!!.league = league
-                                board_toolbar?.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
-                            }
-                            if (board != null) {
-                                boardId = board.id
-                                saveBoardId()
-                                isBoardActive = board.isActive!!
-
-                                if (isBoardActive) {
-                                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId!!)
-                                    FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
-                                } else
-                                    applyInactiveBoardColorFilter()
+                            if (isBoardActive) {
+                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.board_id_prefix) + boardId)
+                                FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
                             } else
                                 applyInactiveBoardColorFilter()
+                        } else
+                            applyInactiveBoardColorFilter()
 
-                            getBoardPolls()
-                            followBoard()
-                        } else {
-                            customToast(R.string.something_went_wrong)
-                        }
+                        getBoardPolls()
+                        followBoard()
+                    } else {
+                        customToast(R.string.something_went_wrong)
                     }
                 })
     }
 
     private fun getBoardPolls() {
-        restApi.getBoardPoll(boardId, getToken()).setObserverThreadsAndSubscribe(object : Subscriber<Response<Poll>>() {
-            override fun onCompleted() {
-                Log.i(TAG, "getBoardPolls() : onCompleted")
-            }
-
-            override fun onError(e: Throwable) {
-                Log.e(TAG, "getBoardPolls() : ", e)
-            }
-
-            override fun onNext(response: Response<Poll>) {
-                when (response.code()) {
-                    HttpURLConnection.HTTP_OK -> {
-                        poll = response.body()
-                        setupViewPagerWithFragments()
-                    }
-                    HttpURLConnection.HTTP_NOT_FOUND -> {
-                    }
-                    else -> {
-                    }
+        restApi.getBoardPoll(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getBoardPolls() : ", it)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    poll = it.body()
+                    setupViewPagerWithFragments()
+                }
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                }
+                else -> {
                 }
             }
         })
     }
 
-    private fun clearColorFilter() {
-        board_parent_layout?.background?.clearColorFilter()
-    }
+    private fun clearColorFilter() = board_parent_layout?.background?.clearColorFilter()
 
-    private fun applyInactiveBoardColorFilter() {
-        board_parent_layout?.background?.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
-    }
+    private fun applyInactiveBoardColorFilter() = board_parent_layout?.background?.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
 
-    fun saveBoardId() {
+    private fun saveBoardId() {
         val boardIdEditor: SharedPreferences.Editor = activity?.getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE)!!.edit()
         boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply()
     }
 
-    override fun infoClicked(infoBtn: TextView) {
-        pushFragment(MatchInfoFragment.newInstance(fixture, league, boardId), true)
-    }
+    override fun infoClicked(infoBtn: TextView) = pushFragment(MatchInfoFragment.newInstance(fixture, league, boardId), true)
 
     override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
 
@@ -305,14 +282,14 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     override fun onDestroy() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         if (!isNullOrEmpty(boardId) && !isBoardActive) {
-            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId!!)
+            FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.board_id_prefix) + boardId)
         }
         boardPagerAdapter = null
         super.onDestroy()
     }
 
     //Follow board by default when entered. Nothing to do on receiving the response code
-    fun followBoard() {
+    private fun followBoard() {
         restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message) }, {})
     }
 

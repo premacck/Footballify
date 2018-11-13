@@ -11,18 +11,21 @@
         layout="@layout/item_base_comment" />
 
     <TextView
-        android:id="@+id/comment_time_text"
+        android:id="@+id/view_replies_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/base_comment"
-        android:layout_alignParentEnd="true"
-        android:fontFamily="@font/rajdhani_regular"
+        android:layout_alignBottom="@+id/base_comment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:foreground="@drawable/ripple_dark_rect"
+        android:paddingStart="10dp"
         android:paddingTop="4dp"
+        android:paddingEnd="10dp"
         android:paddingBottom="4dp"
-        android:text="20 Oct 2018, 15.30pm"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_10sp"
-        android:visibility="gone" />
+        android:text="@string/view_4_replies_sample"
+        android:textColor="@color/black_50"
+        android:textSize="@dimen/text_10sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
