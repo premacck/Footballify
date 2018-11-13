@@ -7,7 +7,9 @@ import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Context
 import android.graphics.Point
+import android.os.Build
 import android.os.SystemClock
+import android.os.VibrationEffect
 import android.os.Vibrator
 import android.support.design.widget.CoordinatorLayout
 import android.view.*
@@ -19,9 +21,12 @@ import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import io.alterac.blurkit.BlurLayout
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
 fun Display.getScreenSize(): IntArray {
@@ -127,7 +132,12 @@ fun View.setTopMargin(topMargin: Int) {
 
 fun vibrate(millis: Long) {
     val vibrator = ZoneApplication.getContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    vibrator.vibrate(millis)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        vibrator.vibrate(VibrationEffect.createOneShot(millis, VibrationEffect.DEFAULT_AMPLITUDE))
+    } else {
+        @Suppress("DEPRECATION")
+        vibrator.vibrate(millis)
+    }
 }
 
 fun View.longClickWithVibrate(action: () -> Unit) {
@@ -211,5 +221,13 @@ inline fun <reified T : View> Array<T>.onTextChanged(crossinline action: () -> U
         if (view is EditText) {
             view.textChangedListener { onTextChanged { _, _, _, _ -> action() } }
         }
+    }
+}
+
+@Suppress("DeferredResultUnused")
+fun Context?.doAfterDelay(delayMillis: Int, action: () -> Unit) {
+    async {
+        delay(delayMillis)
+        this@doAfterDelay?.run { runOnUiThread { action() } }
     }
 }
