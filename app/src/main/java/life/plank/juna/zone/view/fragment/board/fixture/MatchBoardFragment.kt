@@ -31,6 +31,7 @@ import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import retrofit2.Response
@@ -100,8 +101,10 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         board_toolbar.prepare(fixture, league.thumbUrl)
-        getBoardIdAndMatchDetails(currentMatchId)
         board_toolbar.setUpPopUp(activity, currentMatchId)
+        context.doAfterDelay(300) {
+            getBoardIdAndMatchDetails(currentMatchId)
+        }
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
@@ -187,7 +190,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
         board_toolbar.setupWithViewPager(board_view_pager)
     }
 
-    override fun getBackgroundBlurLayout(): ViewGroup? = null
+    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
     override fun getRootCard(): CardView? = root_card
 
@@ -225,7 +228,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                             val board = boardMatchDetailsPair.first
                             if (matchDetails != null) {
                                 matchDetails!!.league = league
-                                board_toolbar.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
+                                board_toolbar?.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
                             }
                             if (board != null) {
                                 boardId = board.id
@@ -275,11 +278,11 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun clearColorFilter() {
-        board_parent_layout!!.background.clearColorFilter()
+        board_parent_layout?.background?.clearColorFilter()
     }
 
     private fun applyInactiveBoardColorFilter() {
-        board_parent_layout!!.background.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
+        board_parent_layout?.background?.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
     }
 
     fun saveBoardId() {
