@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 
@@ -29,6 +28,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
 
 public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder> {
@@ -77,7 +77,7 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -88,7 +88,7 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
                                 emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                                 break;
                             default:
-                                Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                                errorToast(R.string.something_went_wrong, response);
                                 break;
                         }
                     }

@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
@@ -44,6 +43,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.RestUtilKt.customToast;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 public class PostCommentActivity extends AppCompatActivity {
     String TAG = PostCommentActivity.class.getSimpleName();
@@ -109,7 +110,7 @@ public class PostCommentActivity extends AppCompatActivity {
     @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
         if (commentEditText.getText().toString().isEmpty()) {
-            Toast.makeText(this, R.string.please_enter_comment, Toast.LENGTH_LONG).show();
+            customToast(R.string.please_enter_comment);
         } else {
             postCommentOnBoardFeed(commentBg + "$" + commentEditText.getText().toString(), boardId, AppConstants.ROOT_COMMENT, userId, date);
         }
@@ -193,7 +194,7 @@ public class PostCommentActivity extends AppCompatActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "onError: " + e);
-                        Toast.makeText(getApplicationContext(), R.string.something_went_wrong, Toast.LENGTH_LONG).show();
+                        errorToast(R.string.something_went_wrong, e);
                     }
 
                     @Override
@@ -201,14 +202,14 @@ public class PostCommentActivity extends AppCompatActivity {
 
                         switch (jsonObjectResponse.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                Toast.makeText(PostCommentActivity.this, R.string.comment_posted_successfully, Toast.LENGTH_SHORT).show();
+                                customToast(R.string.comment_posted_successfully);
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_BAD_REQUEST:
-                                Toast.makeText(PostCommentActivity.this, R.string.enter_text_to_be_posted, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.enter_text_to_be_posted, jsonObjectResponse);
                                 break;
                             default:
-                                Toast.makeText(PostCommentActivity.this, R.string.could_not_post_comment, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.could_not_post_comment, jsonObjectResponse);
                                 break;
                         }
                     }

@@ -25,15 +25,12 @@ import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.PollBindingModel
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
-import life.plank.juna.zone.util.AppConstants
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.*
-import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.util.setObserverThreadsAndSubscribe
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import retrofit2.Response
@@ -246,7 +243,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                             getBoardPolls()
                             followBoard()
                         } else {
-                            Toast.makeText(context, R.string.something_went_wrong, Toast.LENGTH_LONG).show()
+                            customToast(R.string.something_went_wrong)
                         }
                     }
                 })
@@ -313,9 +310,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     //Follow board by default when entered. Nothing to do on receiving the response code
     fun followBoard() {
-        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, it.message)
-        }, {})
+        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message) }, {})
     }
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {

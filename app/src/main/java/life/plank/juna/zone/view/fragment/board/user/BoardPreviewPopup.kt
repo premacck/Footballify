@@ -16,6 +16,8 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.launchWithPrivateBoard
+import life.plank.juna.zone.util.customToast
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.sinkDown
@@ -25,7 +27,6 @@ import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import org.jetbrains.anko.support.v4.toast
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.File
@@ -104,12 +105,12 @@ class BoardPreviewPopup : BaseBlurPopup() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .smartSubscribe({
                     Log.e(TAG, it.message)
-                    toast(R.string.could_not_create_board)
+                    errorToast(R.string.could_not_create_board, it)
                 }, {
                     when (it.code()) {
                         HttpURLConnection.HTTP_OK -> navigateToBoard(it.body())
-                        HttpURLConnection.HTTP_CONFLICT -> toast(R.string.board_name_already_exists)
-                        else -> toast(R.string.could_not_create_board)
+                        HttpURLConnection.HTTP_CONFLICT -> customToast(R.string.board_name_already_exists)
+                        else -> errorToast(R.string.could_not_create_board, it)
                     }
                 })
     }

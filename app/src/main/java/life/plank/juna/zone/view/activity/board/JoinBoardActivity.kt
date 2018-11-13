@@ -12,11 +12,11 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.common.launchWithPrivateBoard
+import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
-import org.jetbrains.anko.toast
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
@@ -87,12 +87,12 @@ class JoinBoardActivity : AppCompatActivity() {
                     finish()
                 }
                 HttpURLConnection.HTTP_CONFLICT -> {
-                    toast(R.string.already_following_board)
+                    customToast(R.string.already_following_board)
                     launchWithPrivateBoard<HomeActivity>(boardId)
                     finish()
                 }
-                HttpURLConnection.HTTP_FORBIDDEN -> toast(R.string.cannot_follow_board)
-                HttpURLConnection.HTTP_NOT_FOUND -> toast(R.string.failed_to_follow_board)
+                HttpURLConnection.HTTP_FORBIDDEN -> customToast(R.string.cannot_follow_board)
+                HttpURLConnection.HTTP_NOT_FOUND -> customToast(R.string.failed_to_follow_board)
                 else -> errorToast(R.string.something_went_wrong, it)
             }
         })

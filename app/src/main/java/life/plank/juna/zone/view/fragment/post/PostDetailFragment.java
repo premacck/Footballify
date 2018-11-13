@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.bumptech.glide.Glide;
@@ -77,6 +76,7 @@ import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
 import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.getBoldText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getClickableLink;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
@@ -333,7 +333,7 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "pinItem() " + e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_pin_feed, e);
                     }
 
                     @Override
@@ -346,13 +346,13 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                                 pinImageView.setImageResource(R.drawable.ic_pin_active);
                                 break;
                             case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_find_feed, response);
                                 break;
                             case HTTP_INTERNAL_ERROR:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.already_pinned_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.already_pinned_feed, response);
                                 break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_pin_feed, response);
                                 break;
                         }
                     }
@@ -377,7 +377,7 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, "unpinItem() " + e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_pin_feed, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_unpin_feed, e);
                     }
 
                     @Override
@@ -390,13 +390,13 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                                 pinImageView.setImageResource(R.drawable.ic_pin_inactive);
                                 break;
                             case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_find_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_find_feed, response);
                                 break;
                             case HTTP_INTERNAL_ERROR:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.already_removed_pin, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.already_removed_pin, response);
                                 break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_unpin_feed, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_unpin_feed, response);
                                 break;
                         }
                     }
@@ -510,7 +510,7 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_post_comment, e);
                     }
 
                     @Override
@@ -521,11 +521,8 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                                 commentEditText.setText(null);
                                 adapter.addComment(response.body());
                                 break;
-                            case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
-                                break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_comment, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_post_comment, response);
                                 break;
                         }
                     }
@@ -565,7 +562,7 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                     @Override
                     public void onError(Throwable e) {
                         Log.e(TAG, e.getMessage());
-                        Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                        errorToast(R.string.failed_to_post_reply, e);
                     }
 
                     @Override
@@ -582,11 +579,8 @@ public class PostDetailFragment extends BaseFragment implements FeedInteractionL
                                     adapter.onReplyPostedOnComment(position, comment);
                                 }
                                 break;
-                            case HTTP_NOT_FOUND:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
-                                break;
                             default:
-                                Toast.makeText(ZoneApplication.getContext(), R.string.failed_to_post_reply, Toast.LENGTH_SHORT).show();
+                                errorToast(R.string.failed_to_post_reply, response);
                                 break;
                         }
                     }
