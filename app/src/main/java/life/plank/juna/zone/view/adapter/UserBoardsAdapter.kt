@@ -61,7 +61,10 @@ class UserBoardsAdapter(
                             .into(holder.itemView.visiting_team_logo)
                     boardList[position].id
                     boardList[position].name
-                    holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].boardType) }
+                    holder.itemView.image.onDebouncingClick {
+                        navigateToBoard(boardList[position].id, boardList[position].boardType,
+                                boardList[position].boardEvent!!.foreignId.toLong())
+                    }
                 } else {
                     holder.itemView.title.text = boardList[position].name
                     glide.load(boardList[position].boardIconUrl)
@@ -89,11 +92,12 @@ class UserBoardsAdapter(
         CreateBoardActivity.launch(activity, username!!)
     }
 
-    private fun navigateToBoard(boardId: String, boardName: String) {
+    private fun navigateToBoard(boardId: String, boardName: String, matchId: Long = 0) {
         when (boardName) {
             findString(R.string.new_) -> launchBoardMaker()
             findString(R.string.board_type_football_match) -> {
-                //TODO: Navigate to public board
+                //TODO: uncomment once backend returns league info
+                //restApi.launchMatchBoard(restApi, matchId, activity)
             }
             else -> restApi.launchPrivateBoard(boardId, activity)
         }
