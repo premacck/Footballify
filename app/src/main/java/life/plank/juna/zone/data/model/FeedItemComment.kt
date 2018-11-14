@@ -15,5 +15,5 @@ data class FeedItemComment(
         var hasLiked: Boolean,
         var replyCount: Long,
         var time: Date,
-        var replies: @RawValue List<FeedItemCommentReply>?
+        var replies: @RawValue List<FeedItemComment>? = null
 ) : Parcelable

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:paddingBottom="6dp">
 
     <include
         android:id="@+id/base_comment"
@@ -31,8 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/base_comment"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginStart="24dp"
         android:animateLayoutChanges="true"
         android:orientation="vertical">
 

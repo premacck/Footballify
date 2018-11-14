@@ -4,7 +4,6 @@ import android.util.Log
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.CommentEvent
 import life.plank.juna.zone.data.model.FeedItemComment
-import life.plank.juna.zone.data.model.FeedItemCommentReply
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
@@ -47,7 +46,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
 
     abstract fun onCommentSuccessful(feedItemComment: FeedItemComment)
 
-    abstract fun onReplySuccessful(feedItemCommentReply: FeedItemCommentReply?, comment: FeedItemComment?, position: Int)
+    abstract fun onReplySuccessful(feedItemComment: FeedItemComment, comment: FeedItemComment?, position: Int)
 
     protected fun postCommentOrReply(commentOrReply: String, commentEvent: CommentEvent, isCommentOrReplyOnBoard: Boolean = true, comment: FeedItemComment? = null, position: Int = 0) {
         hideSoftKeyboard(activity?.window?.decorView)
@@ -96,25 +95,25 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                 })
     }
 
-    private fun postReplyOnBoardComment(reply: String, commentEvent: CommentEvent, comment: FeedItemComment?, position: Int) {
+    private fun postReplyOnBoardComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
         getTheRestApi().postReplyOnBoardComment(reply, commentEvent.parentCommentId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("replyOnBoard()", "ERROR: ", it)
                 }, {
                     when (it.code()) {
-                        HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), comment, position)
+                        HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), parentComment, position)
                         else -> errorToast(R.string.failed_to_post_reply, it)
                     }
                 })
     }
 
-    private fun postReplyOnFeedItemComment(reply: String, commentEvent: CommentEvent, comment: FeedItemComment?, position: Int) {
+    private fun postReplyOnFeedItemComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
         getTheRestApi().postReplyOnComment(reply, commentEvent.feedItemId, commentEvent.parentCommentId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("replyOnFeedItem()", "ERROR: ", it)
                 }, {
                     when (it.code()) {
-                        HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), comment, position)
+                        HttpURLConnection.HTTP_OK, HttpURLConnection.HTTP_CREATED -> handleReplyResponse(it.body(), parentComment, position)
                         else -> errorToast(R.string.failed_to_post_reply, it)
                     }
                 })
@@ -127,21 +126,10 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
         }
     }
 
-    private fun handleReplyResponse(feedItemCommentReply: FeedItemCommentReply?, comment: FeedItemComment?, position: Int) {
-        feedItemCommentReply?.run {
+    private fun handleReplyResponse(feedItemComment: FeedItemComment?, parentComment: FeedItemComment?, position: Int) {
+        feedItemComment?.run {
             addNameAndPhotoIfNotPresent()
-            onReplySuccessful(this, comment, position)
-        }
-    }
-
-    //    TODO: remove when merging FeedItemComment and FeedItemCommentReply
-    private fun FeedItemCommentReply.addNameAndPhotoIfNotPresent() {
-        val prefs = PreferenceManager.getSharedPrefs(getString(R.string.pref_user_details))!!
-        if (DataUtil.isNullOrEmpty(commenterDisplayName)) {
-            commenterDisplayName = prefs.getString(getString(R.string.pref_display_name), "")!!
-        }
-        if (DataUtil.isNullOrEmpty(commenterProfilePicUrl)) {
-            commenterProfilePicUrl = prefs.getString(getString(R.string.pref_profile_pic_url), null)
+            onReplySuccessful(this, parentComment, position)
         }
     }
 

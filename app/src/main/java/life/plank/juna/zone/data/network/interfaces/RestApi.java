@@ -9,7 +9,6 @@ import java.util.Set;
 import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItemComment;
-import life.plank.juna.zone.data.model.FeedItemCommentReply;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Lineups;
@@ -227,11 +226,11 @@ public interface RestApi {
                                                              @Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/comments/{commentId}")
-    Observable<Response<FeedItemCommentReply>> postReplyOnBoardComment(@Body String reply,
-                                                                       @Path("commentId") String commentId,
-                                                                       @Path("boardId") String boardId,
-                                                                       @Query("time") String time,
-                                                                       @Header("Authorization") String authHeader);
+    Observable<Response<FeedItemComment>> postReplyOnBoardComment(@Body String reply,
+                                                                  @Path("commentId") String commentId,
+                                                                  @Path("boardId") String boardId,
+                                                                  @Query("time") String time,
+                                                                  @Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments")
     Observable<Response<FeedItemComment>> postCommentOnFeedItem(@Body String comment,
@@ -241,12 +240,12 @@ public interface RestApi {
                                                                 @Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/comments/{commentId}")
-    Observable<Response<FeedItemCommentReply>> postReplyOnComment(@Body String reply,
-                                                                  @Path("feedItemId") String feedItemId,
-                                                                  @Path("commentId") String commentId,
-                                                                  @Query("boardId") String boardId,
-                                                                  @Query("time") String time,
-                                                                  @Header("Authorization") String authHeader);
+    Observable<Response<FeedItemComment>> postReplyOnComment(@Body String reply,
+                                                             @Path("feedItemId") String feedItemId,
+                                                             @Path("commentId") String commentId,
+                                                             @Query("boardId") String boardId,
+                                                             @Query("time") String time,
+                                                             @Header("Authorization") String authHeader);
 
     @GET(ZONE_BACKEND_SUFFIX + "/getPoll")
     Observable<Response<Poll>> getBoardPoll(@Query("boardId") String boardId, @Header("Authorization") String... authHeader);
