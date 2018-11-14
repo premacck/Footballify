@@ -98,34 +98,35 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
-        val title = intent.getStringExtra(getString(R.string.intent_comment_title))
-        val contentType = intent.getStringExtra(getString(R.string.intent_content_type))
-        val thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0)
-        val thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0)
-        val imageUrl = intent.getStringExtra(getString(R.string.intent_image_url))
-        val feed = FeedEntry()
-        val feedItem = FeedItem()
+        if (intent.hasExtra(getString(R.string.intent_content_type))) {
+            val title = intent.getStringExtra(getString(R.string.intent_comment_title))
+            val contentType = intent.getStringExtra(getString(R.string.intent_content_type))
+            val thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0)
+            val thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0)
+            val imageUrl = intent.getStringExtra(getString(R.string.intent_image_url))
+            val feed = FeedEntry()
+            val feedItem = FeedItem()
 
-        feed.feedItem = feedItem
-        feed.feedItem.contentType = contentType
-        if (contentType == AppConstants.ROOT_COMMENT) {
-            feed.feedItem.title = title
-        } else {
-            val thumbnail = Thumbnail()
-            thumbnail.imageWidth = thumbnailWidth
-            thumbnail.imageHeight = thumbnailHeight
-            thumbnail.imageUrl = imageUrl
-            feed.feedItem.thumbnail = thumbnail
-            feed.feedItem.url = imageUrl
-        }
-        try {
-            if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
-                (pagerAdapter!!.currentFragment as BoardTilesFragment).updateNewPost(feed)
+            feed.feedItem = feedItem
+            feed.feedItem.contentType = contentType
+            if (contentType == AppConstants.ROOT_COMMENT) {
+                feed.feedItem.title = title
+            } else {
+                val thumbnail = Thumbnail()
+                thumbnail.imageWidth = thumbnailWidth
+                thumbnail.imageHeight = thumbnailHeight
+                thumbnail.imageUrl = imageUrl
+                feed.feedItem.thumbnail = thumbnail
+                feed.feedItem.url = imageUrl
             }
-        } catch (e: Exception) {
-            Log.e(TAG, e.message)
+            try {
+                if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
+                    (pagerAdapter!!.currentFragment as BoardTilesFragment).updateNewPost(feed)
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, e.message)
+            }
         }
-
     }
 
     private fun setupViewPagerWithFragments() {

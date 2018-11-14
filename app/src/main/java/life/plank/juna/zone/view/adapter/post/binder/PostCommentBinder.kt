@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.item_post_comment.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.model.FeedItemCommentReply
-import life.plank.juna.zone.interfaces.FeedInteractionListener
 import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
@@ -22,8 +21,13 @@ import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.UIDisplayUtil.*
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter
+import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 
-class PostCommentBinder(private val glide: RequestManager, private val listener: FeedInteractionListener, private val fragment: String) : ItemBinder<FeedItemComment, PostCommentBinder.PostCommentViewHolder>() {
+class PostCommentBinder(
+        private val glide: RequestManager,
+        private val commentContainerFragment: BaseCommentContainerFragment,
+        private val fragment: String
+) : ItemBinder<FeedItemComment, PostCommentBinder.PostCommentViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): PostCommentViewHolder {
         return PostCommentViewHolder(inflater.inflate(R.layout.item_post_comment, parent, false))
@@ -71,8 +75,11 @@ class PostCommentBinder(private val glide: RequestManager, private val listener:
 
     private fun PostCommentViewHolder.setOnclickListeners(item: FeedItemComment) {
         itemView.like_text_view.onDebouncingClick {
+            when (itemView.like_text_view.text.toString()) {
+                findString(R.string.like) -> commentContainerFragment.onCommentLiked()
+                findString(R.string.unlike) -> commentContainerFragment.onCommentUnliked()
+            }
             itemView.like_text_view.setText(if (itemView.like_text_view.text.toString() == findString(R.string.like)) R.string.unlike else R.string.like)
-            listener.onCommentLiked()
         }
         itemView.reply_text_view.onDebouncingClick {
             itemView.reply_text_view.setText(if (itemView.reply_layout.visibility == View.VISIBLE) R.string.reply else R.string.cancel)
@@ -87,7 +94,7 @@ class PostCommentBinder(private val glide: RequestManager, private val listener:
         }
         itemView.post_reply.onDebouncingClick {
             if (itemView.reply_layout.visibility == View.VISIBLE) {
-                listener.onPostReplyOnComment(itemView.reply_edit_text.text.toString(), adapterPosition, item)
+                commentContainerFragment.onPostReplyOnComment(itemView.reply_edit_text.text.toString(), adapterPosition, item)
             }
             itemView.reply_edit_text.text = null
             itemView.reply_edit_text.clearFocus()
