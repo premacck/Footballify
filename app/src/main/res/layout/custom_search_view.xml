@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="8dp"
+    android:paddingTop="4dp"
+    android:paddingRight="8dp"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_search" />
+
+    <EditText
+        android:id="@+id/search_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/rajdhani_medium"
+        android:hint="@string/search_teams"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:maxLength="25"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColorHint="@color/grey_0_5"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/voice_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_mic" />
+
+</LinearLayout>
