@@ -18,7 +18,6 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.Auth
 import life.plank.juna.zone.util.PreferenceManager.CurrentUser
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
@@ -46,7 +45,6 @@ class EditProfilePopup : BaseBlurPopup() {
     lateinit var restApi: RestApi
 
     private var filePath: String? = null
-    private lateinit var profilePicString: String
 
     companion object {
         val TAG: String = EditProfilePopup::class.java.simpleName
@@ -56,21 +54,17 @@ class EditProfilePopup : BaseBlurPopup() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ZoneApplication.getApplication().uiComponent.inject(this)
-        profilePicString = PreferenceManager.CurrentUser.getProfilePicUrl()
-        UIDisplayUtil.checkPermission(activity)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_edit_profile, container, false)
 
     override fun doOnStart() {
         root_card.floatUp()
-        if (!isNullOrEmpty(profilePicString) && profilePicString != getString(R.string.na)) {
-            Glide.with(this)
-                    .load(profilePicString)
-                    .apply(RequestOptions.errorOf(R.drawable.ic_default_profile)
-                            .placeholder(R.drawable.ic_default_profile))
-                    .into(profile_picture_image_view)
-        }
+        Glide.with(this)
+                .load(PreferenceManager.CurrentUser.getProfilePicUrl())
+                .apply(RequestOptions.errorOf(R.drawable.ic_default_profile)
+                        .placeholder(R.drawable.ic_default_profile))
+                .into(profile_picture_image_view)
         setOnClickListeners()
     }
 
