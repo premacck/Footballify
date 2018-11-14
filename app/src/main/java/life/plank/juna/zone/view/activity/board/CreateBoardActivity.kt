@@ -13,6 +13,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
+import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.UIDisplayUtil
 import life.plank.juna.zone.util.UIDisplayUtil.*
 import life.plank.juna.zone.util.customToast
@@ -60,10 +61,7 @@ class CreateBoardActivity : BaseCardActivity() {
 
         validateCreateBoardContent()
 
-        val sharedPref = getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
-        if (sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)) != getString(R.string.na)) {
-            tool_bar.setProfilePic(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
-        }
+        tool_bar.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
         tool_bar.isNotificationViewVisible(View.GONE)
         user_greeting.text = getString(R.string.hi_user, intent.getStringExtra(ZoneApplication.getContext().getString(R.string.username)))
 

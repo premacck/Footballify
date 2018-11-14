@@ -14,7 +14,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launchWithPrivateBoard
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast

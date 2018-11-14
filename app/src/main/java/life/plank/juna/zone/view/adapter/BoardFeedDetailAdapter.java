@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.annotation.SuppressLint;
-import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -34,6 +33,7 @@ import life.plank.juna.zone.data.model.FeedItem;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.ColorHashMap;
 import life.plank.juna.zone.util.EmojiHashMap;
+import life.plank.juna.zone.util.PreferenceManager;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -53,9 +53,9 @@ import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DataUtil.pinFeedEntry;
 import static life.plank.juna.zone.util.DataUtil.unpinFeedEntry;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.isFeedItemPinned;
 import static life.plank.juna.zone.util.PreferenceManager.PinManager.toggleFeedItemPin;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
@@ -118,8 +118,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
         if (feedItem.getUser() != null) {
             holder.userNameTextView.setText(feedItem.getUser().getDisplayName());
         } else {
-            SharedPreferences userPref = ZoneApplication.getContext().getSharedPreferences(ZoneApplication.getContext().getString(R.string.pref_login_credentails), 0);
-            String userEmailId = userPref.getString(ZoneApplication.getContext().getString(R.string.pref_email_address), "NA");
+            String userEmailId = PreferenceManager.CurrentUser.getUserEmail();
             holder.userNameTextView.setText(userEmailId);
         }
         holder.feedTitleTextView.setText(feedItem.getTitle());

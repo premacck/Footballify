@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity.profile
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
@@ -12,7 +11,8 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.handlePrivateBoardIntentIfAny
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
@@ -99,22 +99,20 @@ class UserProfileActivity : BaseCardActivity() {
     private fun getUserDetails() {
         restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, "getUserDetails(): ", it) }, {
             val user = it.body()
-            if (user != null) {
-                name_text_view.text = user.displayName
-                email_text_view.text = user.emailAddress
-                if (user.profilePictureUrl != null) {
-                    Glide.with(this).load(user.profilePictureUrl).into(profile_picture_image_view)
-                    settings_toolbar.setProfilePic(user.profilePictureUrl)
+            user?.run {
+                PreferenceManager.CurrentUser.saveUser(user)
+                name_text_view.text = displayName
+                email_text_view.text = emailAddress
+                if (profilePictureUrl != null) {
+                    Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
+                    settings_toolbar.setProfilePic(profilePictureUrl)
                 }
-                val location: String? = if (!DataUtil.isNullOrEmpty(user.city) && !DataUtil.equalsNullString(user.city)) {
-                    user.city + ", " + user.country
+                val location: String? = if (!DataUtil.isNullOrEmpty(city) && !DataUtil.equalsNullString(city)) {
+                    "$city, $country"
                 } else {
-                    user.country
+                    country
                 }
                 location_text_view.text = location
-                val editor = getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE).edit()
-                editor.putString(getString(R.string.pref_profile_pic_url), user.profilePictureUrl).apply()
-                editor.putString(getString(R.string.pref_display_name), user.displayName)
             }
         })
     }

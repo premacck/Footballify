@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.design.widget.BottomSheetBehavior
-import android.support.v4.app.FragmentActivity
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.util.Log
@@ -35,7 +34,8 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.*
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
@@ -49,10 +49,8 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import java.io.IOException
 import java.net.HttpURLConnection.*
-import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
-import kotlin.collections.ArrayList
 
 class PostDetailFragment : BaseCommentContainerFragment() {
 
@@ -157,8 +155,7 @@ class PostDetailFragment : BaseCommentContainerFragment() {
         if (feedEntry.feedItem.user != null) {
             user_name_text_view.text = feedEntry.feedItem.user!!.displayName
         } else {
-            val userPref = Objects.requireNonNull<FragmentActivity>(activity).getSharedPreferences(activity!!.getString(R.string.pref_login_credentails), 0)
-            val userEmailId = userPref.getString(activity!!.getString(R.string.pref_email_address), "NA")
+            val userEmailId = PreferenceManager.CurrentUser.getUserEmail()
             user_name_text_view.text = userEmailId
         }
         feed_title_text_view.text = if (feedEntry.feedItem.contentType != ROOT_COMMENT) feedEntry.feedItem.title else null

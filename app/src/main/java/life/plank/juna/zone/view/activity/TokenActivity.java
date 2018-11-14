@@ -31,8 +31,8 @@ import javax.inject.Named;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -41,12 +41,10 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
-import static life.plank.juna.zone.util.PreferenceManager.saveAuthState;
-import static life.plank.juna.zone.util.PreferenceManager.saveSignInUserDetails;
-import static life.plank.juna.zone.util.PreferenceManager.saveTokens;
-import static life.plank.juna.zone.util.PreferenceManager.saveTokensValidity;
-import static life.plank.juna.zone.util.PreferenceManager.setUserLoggedIn;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.saveAuthState;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.saveTokens;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.saveTokensValidity;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
@@ -184,7 +182,7 @@ public class TokenActivity extends AppCompatActivity {
         restApi.getUser(getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Response<User>>() {
+                .subscribe(new Subscriber<Response<life.plank.juna.zone.data.model.User>>() {
                     @Override
                     public void onCompleted() {
                         Log.d(TAG, "onCompleted");
@@ -197,13 +195,13 @@ public class TokenActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(Response<User> response) {
+                    public void onNext(Response<life.plank.juna.zone.data.model.User> response) {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
-                                setUserLoggedIn();
-                                User user = response.body();
+                                PreferenceManager.CurrentUser.saveUserLoginStatus(true);
+                                life.plank.juna.zone.data.model.User user = response.body();
                                 if (user != null) {
-                                    saveSignInUserDetails(user);
+                                    PreferenceManager.CurrentUser.saveUser(user);
                                     if (isNullOrEmpty(user.getUserPreferences())) {
                                         startActivity(new Intent(TokenActivity.this, SelectZoneActivity.class));
                                     } else {

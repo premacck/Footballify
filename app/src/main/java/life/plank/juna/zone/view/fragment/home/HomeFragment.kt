@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.fragment.home
 
 import android.app.Dialog
-import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -27,7 +26,7 @@ import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -77,10 +76,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, SearchView.OnQuery
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE)
-        val userObjectId = editor.getString(ZoneApplication.getContext().getString(R.string.pref_object_id), getString(R.string.na))
+        val userId = PreferenceManager.CurrentUser.getUserId()
 
-        val topic = getString(R.string.juna_user_topic) + userObjectId!!
+        val topic = getString(R.string.juna_user_topic) + userId!!
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
 
         setupOnBoardingBottomSheet()
@@ -98,7 +96,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, SearchView.OnQuery
         getUserFeed()
 
         feed_header.initListeners(this)
-        feed_header.setProfilePic(editor.getString(getString(R.string.pref_profile_pic_url), null))
+        feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
         search_view.setOnQueryTextListener(this)
     }
 

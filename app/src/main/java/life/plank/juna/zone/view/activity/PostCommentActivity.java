@@ -1,9 +1,7 @@
 package life.plank.juna.zone.view.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +10,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,17 +31,18 @@ import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.AppConstants;
-import life.plank.juna.zone.util.UIDisplayUtil;
+import life.plank.juna.zone.util.PreferenceManager;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefsString;
+import static life.plank.juna.zone.util.AppConstants.ROOT_COMMENT;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.customToast;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
+import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 
 public class PostCommentActivity extends AppCompatActivity {
     String TAG = PostCommentActivity.class.getSimpleName();
@@ -93,18 +91,14 @@ public class PostCommentActivity extends AppCompatActivity {
         restApi = retrofit.create(RestApi.class);
         commentReflectOnPostSurface();
         date = new SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().getTime());
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString(getString(R.string.pref_object_id), getString(R.string.na));
+        userId = PreferenceManager.CurrentUser.getUserId();
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         highlight = getResources().getDrawable(R.drawable.highlight);
 
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
-        if (!sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)).equals(getString(R.string.na))) {
-            picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
-                    .error(R.drawable.ic_default_profile)
-                    .placeholder(R.drawable.ic_default_profile)
-                    .into(profilePicture);
-        }
+        picasso.load(PreferenceManager.CurrentUser.getProfilePicUrl())
+                .error(R.drawable.ic_default_profile)
+                .placeholder(R.drawable.ic_default_profile)
+                .into(profilePicture);
     }
 
     @OnClick({R.id.post_comment})
@@ -112,15 +106,13 @@ public class PostCommentActivity extends AppCompatActivity {
         if (commentEditText.getText().toString().isEmpty()) {
             customToast(R.string.please_enter_comment);
         } else {
-            postCommentOnBoardFeed(commentBg + "$" + commentEditText.getText().toString(), boardId, AppConstants.ROOT_COMMENT, userId, date);
+            postCommentOnBoardFeed(commentBg + "$" + commentEditText.getText().toString(), boardId, userId, date);
         }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.
-                INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        hideSoftKeyboard(postCommentTextView);
         return true;
     }
 
@@ -175,14 +167,11 @@ public class PostCommentActivity extends AppCompatActivity {
 
     private void setColor(int drawable, String drawableText) {
         commentBg = drawableText;
-        cardRelativeLayout.setBackground(getResources().getDrawable(drawable));
+        cardRelativeLayout.setBackground(getResources().getDrawable(drawable, null));
     }
 
-    private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String contentType, String userId, String dateCreated) {
-
-        String token = getString(R.string.bearer) + " " + getSharedPrefsString(getString(R.string.pref_login_credentails), getString(R.string.pref_azure_token));
-
-        restApi.postFeedItemOnBoard(getEditTextValue, boardId, contentType, userId, dateCreated, token)
+    private void postCommentOnBoardFeed(String getEditTextValue, String boardId, String userId, String dateCreated) {
+        restApi.postFeedItemOnBoard(getEditTextValue, boardId, ROOT_COMMENT, userId, dateCreated, getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Response<JsonObject>>() {

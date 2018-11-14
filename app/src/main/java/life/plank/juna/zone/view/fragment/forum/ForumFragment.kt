@@ -15,7 +15,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.clearOnClickListener
 import life.plank.juna.zone.util.facilis.onDebouncingClick
@@ -54,9 +54,8 @@ class ForumFragment : BaseCommentContainerFragment() {
         post_comments_list.adapter = adapter
         setAdapterData()
 
-        val profilePicUrl = PreferenceManager.getSharedPrefs(findString(R.string.pref_user_details)).getString(findString(R.string.pref_profile_pic_url), null)
         Glide.with(this)
-                .load(profilePicUrl)
+                .load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .into(commenter_image)
 
         getComments(false)

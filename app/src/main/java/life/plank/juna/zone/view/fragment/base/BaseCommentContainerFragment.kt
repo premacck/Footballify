@@ -8,7 +8,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
@@ -134,12 +134,11 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
     }
 
     private fun FeedItemComment.addNameAndPhotoIfNotPresent() {
-        val prefs = PreferenceManager.getSharedPrefs(getString(R.string.pref_user_details))!!
         if (DataUtil.isNullOrEmpty(commenterDisplayName)) {
-            commenterDisplayName = prefs.getString(getString(R.string.pref_display_name), "")!!
+            commenterDisplayName = PreferenceManager.CurrentUser.getDisplayName()
         }
         if (DataUtil.isNullOrEmpty(commenterProfilePictureUrl)) {
-            commenterProfilePictureUrl = prefs.getString(getString(R.string.pref_profile_pic_url), null)
+            commenterProfilePictureUrl = PreferenceManager.CurrentUser.getProfilePicUrl()
         }
     }
 

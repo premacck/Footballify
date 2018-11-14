@@ -1,6 +1,9 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -27,7 +30,7 @@ import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.FixtureListUpdateTask
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.util.customToast
@@ -226,7 +229,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                         }
                         if (board != null) {
                             boardId = board.id
-                            saveBoardId()
                             isBoardActive = board.isActive!!
 
                             if (isBoardActive) {
@@ -265,11 +267,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     private fun clearColorFilter() = board_parent_layout?.background?.clearColorFilter()
 
     private fun applyInactiveBoardColorFilter() = board_parent_layout?.background?.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
-
-    private fun saveBoardId() {
-        val boardIdEditor: SharedPreferences.Editor = activity?.getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE)!!.edit()
-        boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply()
-    }
 
     override fun infoClicked(infoBtn: TextView) = pushFragment(MatchInfoFragment.newInstance(fixture, league, boardId), true)
 
