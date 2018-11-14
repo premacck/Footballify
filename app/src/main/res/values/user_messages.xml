@@ -49,10 +49,12 @@
     <string name="view_4_replies_sample">View 4 replies</string>
     <string name="show_replies">Show replies</string>
     <string name="hide_replies">Hide replies</string>
-    <string name="failed_to_get_feed_comments">Failed to get the feed comments.\nTap to retry</string>
+    <string name="failed_to_get_feed_comments">Failed to get the feed comments</string>
+    <string name="failed_to_get_feed_comments_tap_to_retry">Failed to get the feed comments.\nTap to retry</string>
     <string name="failed_to_post_comment">Failed to post comment, please try again</string>
     <string name="failed_to_post_reply">Failed to post reply, please try again</string>
     <string name="be_the_first_to_comment_on_this_post">Be the first to comment on this post!</string>
+    <string name="be_the_first_to_comment_on_this_forum">Be the first to comment on this forum!</string>
     <string name="failed_to_retrieve_zones">Failed to retrieve zones</string>
     <string name="login_signup_to_view_feed">Please login or signup to view the contents of this board</string>
     <string name="login_signup_to_view_profile">Please login or signup to view the your profile</string>

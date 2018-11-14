@@ -3,42 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:paddingTop="5dp"
-    android:paddingEnd="10dp"
-    android:paddingBottom="5dp">
+    android:paddingStart="12dp"
+    android:paddingTop="6dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="4dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_pic"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="7dp"
         android:layout_marginEnd="6dp"
         android:background="@drawable/circle_background_grey"
         app:civ_border_color="@color/grey_10"
         app:civ_border_width="1dp" />
 
     <TextView
-        android:id="@+id/profile_name_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_toEndOf="@+id/profile_pic"
-        android:ellipsize="end"
-        android:fontFamily="@font/rajdhani_semibold"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:textColor="@color/grey"
-        android:textSize="12sp" />
-
-    <TextView
         android:id="@+id/comment_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/profile_name_text_view"
-        android:layout_toEndOf="@+id/profile_name_text_view"
-        android:fontFamily="@font/rajdhani_regular"
+        android:layout_alignTop="@+id/profile_pic"
+        android:layout_toEndOf="@+id/profile_pic"
         android:paddingStart="4dp"
         android:paddingEnd="20dp"
+        android:fontFamily="@font/rajdhani_medium"
         android:textColor="@color/grey"
         android:textSize="12sp" />
 
@@ -75,19 +62,15 @@
         android:textSize="@dimen/text_10sp" />
 
     <TextView
-        android:id="@+id/view_replies_text_view"
+        android:id="@+id/comment_time_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/comment_text_view"
-        android:layout_toEndOf="@+id/reply_text_view"
-        android:fontFamily="@font/rajdhani_medium"
-        android:foreground="@drawable/ripple_dark_rect"
-        android:paddingStart="10dp"
+        android:layout_alignParentEnd="true"
+        android:fontFamily="@font/rajdhani_regular"
         android:paddingTop="4dp"
-        android:paddingEnd="10dp"
         android:paddingBottom="4dp"
-        android:text="@string/view_4_replies_sample"
-        android:textColor="@color/black_50"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_10sp" />
 
 </RelativeLayout>

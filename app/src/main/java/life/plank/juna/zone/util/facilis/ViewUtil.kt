@@ -162,6 +162,8 @@ fun View.onDebouncingClick(action: () -> Unit) {
     }
 }
 
+fun View.clearOnClickListener() = setOnClickListener(null)
+
 private fun View.getCustomOnLongClickListener(longClickDelay: Int = 300, action: () -> Unit): View.OnTouchListener {
     return object : View.OnTouchListener {
         private var isLongPress = false

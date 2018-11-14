@@ -99,9 +99,11 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 public class UIDisplayUtil {
 
     private static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
+    public static final Typeface SEMI_BOLD_TYPEFACE = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "fonts/rajdhani_semibold.ttf");
+    private static final StyleSpan SEMI_BOLD_STYLE = new StyleSpan(SEMI_BOLD_TYPEFACE.getStyle());
 
     //TODO: Remove once implemented on backend
-    public static Emoji[] emoji = new Emoji[]{
+    public static Emoji[] emoji = new Emoji[] {
             new Emoji("winking", R.drawable.ic_emoji_winking, 0x1F609, 324),
             new Emoji("angry", R.drawable.ic_emoji_angry, 0x1F620, 765),
             new Emoji("nauseated", R.drawable.ic_emoji_nauseated, 0x1F922, 987),
@@ -116,10 +118,6 @@ public class UIDisplayUtil {
 //            new Emoji("drool", R.drawable.ic_emoji_drool, 0x1F924),
 //            new Emoji("shush", R.drawable.ic_emoji_shush, 0x1F92B),
     };
-
-    public UIDisplayUtil() {
-
-    }
 
     public static Drawable getCommentColor(String comment) {
         DrawableHashMap.HashMaps(getApplicationContext());
@@ -537,6 +535,14 @@ public class UIDisplayUtil {
         }
     }
 
+    public static void showSoftKeyboard(View view) {
+        if (view != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) ZoneApplication.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            assert inputMethodManager != null;
+            inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
     public static void enableOrDisableView(View view, boolean isEnabled, boolean... isTintRequired) {
         view.setEnabled(isEnabled);
         view.setClickable(isEnabled);
@@ -557,12 +563,24 @@ public class UIDisplayUtil {
     public static int[] getScreenSize(Display display) {
         Point size = new Point();
         display.getSize(size);
-        return new int[]{size.x, size.y};
+        return new int[] {size.x, size.y};
     }
 
     public static SpannableString getBoldText(String text) {
         SpannableString spannableString = new SpannableString(text);
         spannableString.setSpan(BOLD_STYLE, 0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannableString;
+    }
+
+    public static SpannableString getSemiBoldText(String text, @ColorRes int... colorRes) {
+        SpannableString spannableString = new SpannableString(text);
+        spannableString.setSpan(SEMI_BOLD_STYLE, 0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
+        if (colorRes.length > 0) {
+            spannableString.setSpan(
+                    new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), colorRes[0], null)),
+                    0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE
+            );
+        }
         return spannableString;
     }
 

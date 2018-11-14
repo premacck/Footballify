@@ -54,10 +54,8 @@ class UserBoardsAdapter(
                             .into(holder.itemView.image)
 
                     glide.load(boardList[position].boardEvent!!.homeTeamLogo)
-                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                             .into(holder.itemView.home_team_logo)
                     glide.load(boardList[position].boardEvent!!.awayTeamLogo)
-                            .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                             .into(holder.itemView.visiting_team_logo)
                     boardList[position].id
                     boardList[position].name
