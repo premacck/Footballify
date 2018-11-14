@@ -13,7 +13,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter

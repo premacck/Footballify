@@ -15,7 +15,7 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.getSharedPrefs
+import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.launchMatchBoard
@@ -95,9 +95,7 @@ class UserBoardsAdapter(
     }
 
     private fun launchBoardMaker() {
-        val editor = getSharedPrefs(findString(R.string.pref_user_details))
-        val username = editor.getString(findString(R.string.pref_display_name), findString(R.string.na))
-        CreateBoardActivity.launch(activity, username!!)
+        PreferenceManager.CurrentUser.getDisplayName()?.run { CreateBoardActivity.launch(activity, this) }
     }
 
     private fun navigateToBoard(boardId: String, boardName: String, matchId: Long = 0, leagueName: String = "") {

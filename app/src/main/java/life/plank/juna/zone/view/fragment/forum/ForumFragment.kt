@@ -15,13 +15,14 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.clearOnClickListener
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
+import org.jetbrains.anko.support.v4.runOnUiThread
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 import javax.inject.Named
@@ -53,12 +54,11 @@ class ForumFragment : BaseCommentContainerFragment() {
         post_comments_list.adapter = adapter
         setAdapterData()
 
-        val profilePicUrl = PreferenceManager.getSharedPrefs(findString(R.string.pref_user_details)).getString(findString(R.string.pref_profile_pic_url), null)
         Glide.with(this)
-                .load(profilePicUrl)
+                .load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .into(commenter_image)
 
-        getComments()
+        getComments(false)
 
         post_comment.onDebouncingClick {
             if (comment_edit_text.text.toString().isEmpty()) {
@@ -68,6 +68,7 @@ class ForumFragment : BaseCommentContainerFragment() {
                 postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId))
             }
         }
+        forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
     }
 
     //TODO: Remove hard coded data after backend integration.
@@ -76,27 +77,29 @@ class ForumFragment : BaseCommentContainerFragment() {
         adapter!!.setComments(commentList)
     }
 
-    private fun getComments() {
+    private fun getComments(isRefreshing: Boolean) {
         no_comment_text_view.visibility = View.GONE
-        restApi.getCommentsForBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "getComments()", it)
-            errorToast(R.string.failed_to_get_feed_comments, it)
-        }, {
-            when (it.code()) {
-                HTTP_OK -> adapter!!.setComments(it.body())
-                HTTP_NOT_FOUND, HTTP_NO_CONTENT -> {
-                    no_comment_text_view.setText(R.string.be_the_first_to_comment_on_this_forum)
-                    no_comment_text_view.visibility = View.VISIBLE
-                    no_comment_text_view.clearOnClickListener()
-                }
-                else -> {
-                    no_comment_text_view.setText(R.string.failed_to_get_feed_comments_tap_to_retry)
-                    no_comment_text_view.visibility = View.VISIBLE
+        restApi.getCommentsForBoard(boardId, getToken())
+                .doOnTerminate { runOnUiThread { if (isRefreshing) forum_swipe_refresh_layout.isRefreshing = false } }
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "getComments()", it)
                     errorToast(R.string.failed_to_get_feed_comments, it)
-                    no_comment_text_view.onDebouncingClick { getComments() }
-                }
-            }
-        })
+                }, {
+                    when (it.code()) {
+                        HTTP_OK -> adapter!!.setComments(it.body())
+                        HTTP_NOT_FOUND, HTTP_NO_CONTENT -> {
+                            no_comment_text_view.setText(R.string.be_the_first_to_comment_on_this_forum)
+                            no_comment_text_view.visibility = View.VISIBLE
+                            no_comment_text_view.clearOnClickListener()
+                        }
+                        else -> {
+                            no_comment_text_view.setText(R.string.failed_to_get_feed_comments_tap_to_retry)
+                            no_comment_text_view.visibility = View.VISIBLE
+                            errorToast(R.string.failed_to_get_feed_comments, it)
+                            no_comment_text_view.onDebouncingClick { getComments(false) }
+                        }
+                    }
+                })
     }
 
     override fun specifyCommentEvent() {

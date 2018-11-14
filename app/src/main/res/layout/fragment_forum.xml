@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/MatchParentSize"
     android:background="@color/white">
 
     <TextView
@@ -19,16 +18,21 @@
         android:textSize="16sp"
         android:visibility="gone" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/post_comments_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:clipToPadding="false"
-        android:paddingTop="6dp"
-        android:paddingBottom="6dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:listitem="@layout/item_post_comment" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/forum_swipe_refresh_layout"
+        style="@style/MatchParentSize">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/post_comments_list"
+            style="@style/MatchParentSize"
+            android:layout_marginBottom="40dp"
+            android:clipToPadding="false"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_post_comment" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <View
         android:layout_width="match_parent"

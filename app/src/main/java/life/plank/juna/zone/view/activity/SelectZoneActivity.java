@@ -36,7 +36,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**

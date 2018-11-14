@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -22,6 +21,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AuthUtil;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -29,8 +29,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.checkTokenValidity;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.checkTokenValidity;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
@@ -105,14 +105,14 @@ public class SplashScreenActivity extends AppCompatActivity {
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 User user = response.body();
-                                SharedPreferences.Editor editor = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE).edit();
-                                editor.putString(getString(R.string.pref_profile_pic_url), user.getProfilePictureUrl()).apply();
-                                if (isNullOrEmpty(user.getUserPreferences())) {
-                                    startActivity(new Intent(SplashScreenActivity.this, SelectZoneActivity.class));
-                                } else {
-                                    startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                                if (user != null) {
+                                    PreferenceManager.CurrentUser.saveUser(user);
+                                    if (isNullOrEmpty(user.getUserPreferences())) {
+                                        startActivity(new Intent(SplashScreenActivity.this, SelectZoneActivity.class));
+                                    } else {
+                                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                                    }
                                 }
-
                                 finish();
                                 break;
                             case HttpURLConnection.HTTP_NOT_FOUND:

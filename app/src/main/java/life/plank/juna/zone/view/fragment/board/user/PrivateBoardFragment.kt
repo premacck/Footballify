@@ -23,17 +23,14 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.data.model.Thumbnail
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.AppConstants
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.getToken
-import life.plank.juna.zone.util.customToast
-import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
@@ -79,9 +76,8 @@ class PrivateBoardFragment : CardTileFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         root_card.floatUp()
-        val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
 
-        if (board.owner.displayName == editor.getString(getString(R.string.pref_display_name), getString(R.string.na))) {
+        if (board.owner.displayName == PreferenceManager.CurrentUser.getDisplayName()) {
             activity?.let { private_board_toolbar.setUpPrivateBoardPopUp(it, PRIVATE_BOARD_OWNER_POPUP, deleteBoardListener) }
         } else {
             activity?.let { private_board_toolbar.setUpPrivateBoardPopUp(it, PRIVATE_BOARD_USER_POPUP, deleteBoardListener) }

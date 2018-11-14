@@ -5,7 +5,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.RingtoneManager;
@@ -28,9 +27,9 @@ import java.util.Date;
 import java.util.Map;
 
 import life.plank.juna.zone.R;
-import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.firebase.BoardNotification;
 import life.plank.juna.zone.util.AppConstants;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.helper.ISO8601DateSerializer;
 import life.plank.juna.zone.view.activity.board.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
@@ -163,8 +162,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             }
         }
 
-        SharedPreferences sharedPref = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
-        String userName = sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA");
+        String userName = PreferenceManager.CurrentUser.getDisplayName();
         //TODO: refactor this after the push notification is generalised
         if (!isNullOrEmpty(boardNotification.getActor())) {
             if (!boardNotification.getActor().equals(userName)) {

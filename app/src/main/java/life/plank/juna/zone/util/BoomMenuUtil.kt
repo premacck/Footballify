@@ -18,7 +18,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.view.activity.PostCommentActivity
 import life.plank.juna.zone.view.activity.camera.CustomCameraActivity

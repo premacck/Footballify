@@ -16,17 +16,14 @@ import kotlinx.android.synthetic.main.popup_edit_profile.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT
-import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.PreferenceManager.*
-import life.plank.juna.zone.util.UIDisplayUtil
+import life.plank.juna.zone.util.PreferenceManager.Auth
+import life.plank.juna.zone.util.PreferenceManager.CurrentUser
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView
-import life.plank.juna.zone.util.customToast
-import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.sinkDown
-import life.plank.juna.zone.util.smartSubscribe
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -48,7 +45,6 @@ class EditProfilePopup : BaseBlurPopup() {
     lateinit var restApi: RestApi
 
     private var filePath: String? = null
-    private lateinit var profilePicString: String
 
     companion object {
         val TAG: String = EditProfilePopup::class.java.simpleName
@@ -58,21 +54,17 @@ class EditProfilePopup : BaseBlurPopup() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ZoneApplication.getApplication().uiComponent.inject(this)
-        profilePicString = getSavedProfilePicUrl()
-        UIDisplayUtil.checkPermission(activity)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_edit_profile, container, false)
 
     override fun doOnStart() {
         root_card.floatUp()
-        if (!isNullOrEmpty(profilePicString) && profilePicString != getString(R.string.na)) {
-            Glide.with(this)
-                    .load(profilePicString)
-                    .apply(RequestOptions.errorOf(R.drawable.ic_default_profile)
-                            .placeholder(R.drawable.ic_default_profile))
-                    .into(profile_picture_image_view)
-        }
+        Glide.with(this)
+                .load(PreferenceManager.CurrentUser.getProfilePicUrl())
+                .apply(RequestOptions.errorOf(R.drawable.ic_default_profile)
+                        .placeholder(R.drawable.ic_default_profile))
+                .into(profile_picture_image_view)
         setOnClickListeners()
     }
 
@@ -138,7 +130,7 @@ class EditProfilePopup : BaseBlurPopup() {
         val fileToUpload = File(filePath)
         val requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload)
         val image = MultipartBody.Part.createFormData("", fileToUpload.name, requestBody)
-        restApi.uploadProfilePicture(image, getToken())
+        restApi.uploadProfilePicture(image, Auth.getToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { runOnUiThread { profile_picture_uploading_progress.visibility = View.VISIBLE } }
@@ -153,7 +145,7 @@ class EditProfilePopup : BaseBlurPopup() {
                                     .load(profilePicUri)
                                     .apply(RequestOptions.overrideOf(getDp(72f).toInt(), getDp(72f).toInt()))
                                     .into(profile_picture_image_view)
-                            saveProfilePicUrl(it.body())
+                            CurrentUser.saveProfilePicUrl(it.body())
                         }
                         else -> errorToast(R.string.upload_failed, it)
                     }
