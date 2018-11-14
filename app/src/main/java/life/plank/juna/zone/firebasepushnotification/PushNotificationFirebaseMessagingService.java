@@ -142,6 +142,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 //                open Match Board in ZoneActivity
                 msgIntent = new Intent(this, ZoneActivity.class)
                         .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+//                        .putExtra(getString(R.string.intent_league_name), ""/*TODO: insert league name here*/)
                         .putExtra(getString(R.string.match_id_string), boardNotification.getForeignId());
             }
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, msgIntent, PendingIntent.FLAG_ONE_SHOT);

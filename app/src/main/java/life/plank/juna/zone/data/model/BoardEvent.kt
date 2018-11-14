@@ -7,6 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class BoardEvent(
         var type: String,
         var foreignId: Int,
-        var homeTeamLogo: String,
-        var awayTeamLogo: String
+        var homeTeamLogo: String? = null,
+        var awayTeamLogo: String? = null,
+        var leagueName: String? = null
 ) : Parcelable

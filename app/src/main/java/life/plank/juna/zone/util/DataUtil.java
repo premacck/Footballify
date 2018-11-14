@@ -194,7 +194,6 @@ public class DataUtil {
         return newMatchEventList;
     }
 
-    //TODO: Replace the league logo's(Will be done as soon as i get the logo's from design team)
     public static List<League> getStaticLeagues() {
         List<League> footballFeeds = new ArrayList<>();
         footballFeeds.add(new League(
@@ -298,6 +297,18 @@ public class DataUtil {
                 R.drawable.img_europa_logo
         ));
         return footballFeeds;
+    }
+
+    public static League getSpecifiedLeague(String leagueName) {
+        if (isNullOrEmpty(leagueName)) return null;
+
+        List<League> leagues = getStaticLeagues();
+        for (League league : leagues) {
+            if (Objects.equals(league.getName(), leagueName) || league.getName().equalsIgnoreCase(leagueName)) {
+                return league;
+            }
+        }
+        return null;
     }
 
     public static GradientDrawable getLeagueBackground(@ColorRes int leagueColor) {

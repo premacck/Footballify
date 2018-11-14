@@ -21,6 +21,7 @@
     <string name="intent_is_board_active">is_board_active</string>
     <string name="intent_match_fixture">match_fixture</string>
     <string name="intent_league">intent_league</string>
+    <string name="intent_league_name">league_name</string>
     <string name="intent_file_path">filePath</string>
     <string name="board_title">board_title</string>
     <string name="intent_activity_name">activity_name</string>
