@@ -103,6 +103,7 @@ class ForumFragment : BaseFragment(), FeedInteractionListener {
             when (it.code()) {
                 HTTP_OK, HTTP_CREATED -> {
                     comment_edit_text.text = null
+                    no_comment_text_view.visibility = View.GONE
                     adapter!!.addComment(it.body())
                 }
                 else -> errorToast(R.string.failed_to_post_comment, it)
