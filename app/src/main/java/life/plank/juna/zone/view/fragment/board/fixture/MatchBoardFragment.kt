@@ -176,8 +176,8 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             }
         }
         try {
-            if (boardPagerAdapter?.currentFragment is BoardInfoFragment) {
-                (boardPagerAdapter?.currentFragment as? BoardInfoFragment)?.updateZoneLiveData(zoneLiveData)
+            if (boardPagerAdapter?.currentFragment is MatchMediaFragment) {
+                (boardPagerAdapter?.currentFragment as? MatchMediaFragment)?.updateZoneLiveData(zoneLiveData)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -318,8 +318,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
                     0 -> { MatchStatsFragment.newInstance(gson.toJson(matchDetails)) }
                     1 -> { LineupFragment.newInstance(gson.toJson(matchDetails))}
-                    //TODO: Replace boardInfo with media tab
-                    2 -> { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
+                    2 -> { MatchMediaFragment.newInstance(gson.toJson(matchDetails)) }
                     3 -> { ForumFragment.newInstance(boardId) }
                     4 -> {
                         try {
