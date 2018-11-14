@@ -116,16 +116,14 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
     }
 
     override fun onTextChanged(charSequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        if (charSequence != null) {
-            if (!charSequence.isEmpty()) {
-                getFootballTeams(charSequence.toString())
-            } else {
-                teamList.clear()
-                onBoardingAdapter?.notifyDataSetChanged()
-            }
+        if (!isNullOrEmpty(charSequence.toString())) {
+            getFootballTeams(charSequence.toString())
+        } else {
+            teamList.clear()
+            onBoardingAdapter?.notifyDataSetChanged()
         }
-
     }
+
 
     private fun initBottomSheetRecyclerView() {
         onBoardingAdapter = OnboardingAdapter(activity, teamList)
