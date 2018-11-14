@@ -17,12 +17,13 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.binder.ScrubberBindingModel;
 import life.plank.juna.zone.util.DataUtil.ScrubberLoader;
 import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
+import life.plank.juna.zone.view.adapter.board.info.BoardMediaAdapter;
 
 public class ScrubberBinder extends ItemBinder<ScrubberBindingModel, ScrubberBinder.ScrubberViewHolder> {
 
-    private BoardInfoAdapter.BoardInfoAdapterListener listener;
+    private BoardMediaAdapter.BoardMediaAdapterListener listener;
 
-    public ScrubberBinder(BoardInfoAdapter.BoardInfoAdapterListener listener) {
+    public ScrubberBinder(BoardMediaAdapter.BoardMediaAdapterListener listener) {
         this.listener = listener;
     }
 

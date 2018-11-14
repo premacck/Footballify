@@ -160,7 +160,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
 
     private void initAndAddScrubberDataManager() {
         scrubberDataManager = new DataItemManager<>(this, ScrubberBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(scrubberDataManager, new ScrubberBinder(listener));
+      //  addDataManagerAndRegisterBinder(scrubberDataManager, new ScrubberBinder(listener));
     }
 
     private void initAndAddHighlightsDataManager() {

@@ -71,6 +71,8 @@ class UserBoardsAdapter(
                         }
                     }
                     findString(R.string.private_) -> {
+                        holder.itemView.home_team_logo.visibility = View.GONE
+                        holder.itemView.visiting_team_logo.visibility = View.GONE
                         holder.itemView.title.text = boardList[position].name
                         glide.load(boardList[position].boardIconUrl)
                                 .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
