@@ -27,7 +27,7 @@ import rx.schedulers.Schedulers;
 
 import static life.plank.juna.zone.ZoneApplication.getApplication;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.emoji;
 

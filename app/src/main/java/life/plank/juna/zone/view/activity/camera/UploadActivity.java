@@ -3,7 +3,6 @@ package life.plank.juna.zone.view.activity.camera;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,7 +31,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,6 +44,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.util.Image;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.UIDisplayUtil;
 import life.plank.juna.zone.view.fragment.camera.CameraFragment;
 import okhttp3.MediaType;
@@ -65,7 +64,7 @@ import static life.plank.juna.zone.util.AppConstants.GALLERY_IMAGE_RESULT;
 import static life.plank.juna.zone.util.AppConstants.IMAGE;
 import static life.plank.juna.zone.util.AppConstants.VIDEO;
 import static life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.customToast;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.enableOrDisableView;
@@ -131,8 +130,7 @@ public class UploadActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
-        SharedPreferences preference = UIDisplayUtil.getSignupUserData(this);
-        userId = preference.getString(getString(R.string.pref_object_id), getString(R.string.na));
+        userId = PreferenceManager.CurrentUser.getUserId();
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -175,13 +173,11 @@ public class UploadActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         capturedVideoView.setVisibility(type.equals(VIDEO) ? View.VISIBLE : View.GONE);
         capturedImageView.setVisibility(type.equals(VIDEO) ? View.GONE : View.VISIBLE);
-        SharedPreferences sharedPref = getSharedPreferences(getString(R.string.pref_user_details), MODE_PRIVATE);
-        if (!Objects.equals(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)), getString(R.string.na))) {
-            picasso.load(sharedPref.getString(getString(R.string.pref_profile_pic_url), getString(R.string.na)))
-                    .error(R.drawable.ic_default_profile)
-                    .placeholder(R.drawable.ic_default_profile)
-                    .into(profilePicture);
-        }
+
+        picasso.load(PreferenceManager.CurrentUser.getProfilePicUrl())
+                .error(R.drawable.ic_default_profile)
+                .placeholder(R.drawable.ic_default_profile)
+                .into(profilePicture);
     }
 
     public void openGalleryForAudio() {

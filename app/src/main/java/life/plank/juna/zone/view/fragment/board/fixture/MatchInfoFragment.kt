@@ -1,7 +1,10 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
 
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
@@ -186,7 +189,6 @@ class MatchInfoFragment : BaseCard() {
                             }
                             if (board != null) {
                                 boardId = board.id
-                                saveBoardId()
                                 isBoardActive = board.isActive!!
 
                                 if (isBoardActive) {
@@ -200,11 +202,6 @@ class MatchInfoFragment : BaseCard() {
                         }
                     }
                 })
-    }
-
-    fun saveBoardId() {
-        val boardIdEditor: SharedPreferences.Editor = activity?.getSharedPreferences(getString(R.string.pref_enter_board_id), Context.MODE_PRIVATE)!!.edit()
-        boardIdEditor.putString(getString(R.string.pref_enter_board_id), boardId).apply()
     }
 
     class InfoPagerAdapter(supportFragmentManager: FragmentManager, matchInfoFragment: MatchInfoFragment) : FragmentStatePagerAdapter(supportFragmentManager) {

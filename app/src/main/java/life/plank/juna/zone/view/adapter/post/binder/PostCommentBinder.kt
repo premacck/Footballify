@@ -33,8 +33,7 @@ class PostCommentBinder(
     }
 
     override fun bind(holder: PostCommentViewHolder, item: FeedItemComment) {
-        val profilePicUrl = PreferenceManager.getSharedPrefs(findString(R.string.pref_user_details)).getString(findString(R.string.pref_profile_pic_url), null)
-        glide.load(profilePicUrl)
+        glide.load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .into(holder.itemView.commenter_image)
 
         if (fragment == findString(R.string.forum)) {

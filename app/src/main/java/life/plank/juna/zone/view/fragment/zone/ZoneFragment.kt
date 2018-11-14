@@ -23,7 +23,7 @@ import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
 import life.plank.juna.zone.util.AppConstants.HOME_POPUP
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.adapter.FootballLeagueAdapter

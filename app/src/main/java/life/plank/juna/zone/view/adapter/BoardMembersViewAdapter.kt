@@ -60,8 +60,8 @@ class BoardMembersViewAdapter(
     }
 
     private fun showOptionsPopup(holder: BoardMembersViewHolder, position: Int) {
-        if (PreferenceManager.getSharedPrefs(findString(R.string.pref_user_details))
-                        .getString(ZoneApplication.getContext().getString(R.string.pref_display_name), "NA") == displayName) {
+        val userDisplayName = PreferenceManager.CurrentUser.getDisplayName()
+        if (userDisplayName == displayName) {
             if (fragment is PrivateBoardInfoFragment) {
                 fragment.userPosition = position
                 CustomPopup.showPrivateBoardOptionPopup(holder.itemView.image, fragment, userList[position].objectId!!)

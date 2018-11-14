@@ -11,8 +11,8 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager.getSharedPrefs
-import life.plank.juna.zone.util.PreferenceManager.getToken
+import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
@@ -36,7 +36,6 @@ class PrivateBoardInfoFragment : BaseFragment() {
     private var userList = ArrayList<User>()
 
     lateinit var rootView: View
-    private var sharedPref = getSharedPrefs(findString(R.string.pref_user_details))
     private var boardMembersViewAdapter: BoardMembersViewAdapter? = null
 
     companion object {
@@ -85,7 +84,7 @@ class PrivateBoardInfoFragment : BaseFragment() {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
                     userList = it.body() as ArrayList<User>
-                    if (sharedPref.getString(ZoneApplication.getContext().getString(R.string.pref_display_name), getString(R.string.na)) == displayName) {
+                    if (PreferenceManager.CurrentUser.getDisplayName() == displayName) {
                         val inviteUser = User()
                         inviteUser.displayName = getString(R.string.invite_string)
                         userList.add(inviteUser)

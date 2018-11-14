@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.database.Cursor;
@@ -87,7 +86,6 @@ import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
 import life.plank.juna.zone.view.activity.web.WebCardActivity;
 
-import static android.content.Context.MODE_PRIVATE;
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static com.facebook.FacebookSdk.getApplicationContext;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
@@ -198,10 +196,6 @@ public class UIDisplayUtil {
             e.printStackTrace();
         }
         return str;
-    }
-
-    public static SharedPreferences getSignupUserData(Context context) {
-        return context.getSharedPreferences(context.getString(R.string.pref_user_details), MODE_PRIVATE);
     }
 
     public static String getPathForVideo(Uri contentUri, Context mContext) {

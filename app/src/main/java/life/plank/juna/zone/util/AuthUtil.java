@@ -26,11 +26,10 @@ import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.getSavedAuthState;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
-import static life.plank.juna.zone.util.PreferenceManager.saveAuthState;
-import static life.plank.juna.zone.util.PreferenceManager.saveTokens;
-import static life.plank.juna.zone.util.PreferenceManager.saveTokensValidity;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getSavedAuthState;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.saveAuthState;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.saveTokens;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.saveTokensValidity;
 
 public class AuthUtil {
 
@@ -63,10 +62,7 @@ public class AuthUtil {
                             Log.e(TAG, "Failed to retrieve configuration for " + idp.name, ex);
                         } else {
                             if (!isNullOrEmpty(email)) {
-                                getSharedPrefs(activity.getString(R.string.pref_login_credentails))
-                                        .edit()
-                                        .putString(activity.getString(R.string.pref_email_address), email)
-                                        .apply();
+                                PreferenceManager.CurrentUser.saveUserEmail(email);
                             }
                             if (serviceConfiguration != null) {
                                 if (idp.getClientId() == null) {

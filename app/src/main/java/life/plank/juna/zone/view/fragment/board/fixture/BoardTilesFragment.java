@@ -57,7 +57,7 @@ import rx.schedulers.Schedulers;
 import static life.plank.juna.zone.util.AppConstants.BOARD;
 import static life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupFeedEntryByMasonryLayout;
 
 public class BoardTilesFragment extends BaseFragment implements AsymmetricRecyclerViewListener {

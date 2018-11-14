@@ -25,7 +25,7 @@ import rx.schedulers.Schedulers;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.PreferenceManager.getToken;
+import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**

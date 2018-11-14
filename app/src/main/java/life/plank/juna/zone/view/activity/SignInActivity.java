@@ -1,7 +1,6 @@
 package life.plank.juna.zone.view.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -17,10 +16,10 @@ import butterknife.OnTextChanged;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.util.AuthUtil;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 
 import static life.plank.juna.zone.util.DataUtil.isValidEmail;
-import static life.plank.juna.zone.util.PreferenceManager.getSharedPrefs;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -42,10 +41,7 @@ public class SignInActivity extends AppCompatActivity {
         ((ZoneApplication) getApplication()).getUiComponent().inject(this);
 
         ButterKnife.bind(this);
-        getSharedPrefs(getString(R.string.pref_login_credentails))
-                .edit()
-                .putBoolean(getString(R.string.pref_is_logged_in), false)
-                .apply();
+        PreferenceManager.CurrentUser.saveUserLoginStatus(false);
 
         if (getResources().getBoolean(R.bool.is_dev_environment)) {
             emailEditText.setText(getString(R.string.azure_login_username));
@@ -72,8 +68,7 @@ public class SignInActivity extends AppCompatActivity {
                 startActivity(new Intent(this, SignUpActivity.class));
                 break;
             case R.id.skip_login:
-                SharedPreferences.Editor prefEditor = getSharedPrefs(getString(R.string.pref_login_credentails)).edit();
-                prefEditor.putBoolean(getString(R.string.pref_is_logged_in), false).apply();
+                PreferenceManager.CurrentUser.saveUserLoginStatus(false);
                 startActivity(new Intent(SignInActivity.this, HomeActivity.class));
                 break;
 
