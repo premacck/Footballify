@@ -65,7 +65,7 @@ class JoinBoardActivity : AppCompatActivity() {
     private fun updateUi(board: Board) {
         preview_toolbar.setTitle(board.name)
         preview_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
-        preview_toolbar.setLeagueLogo(board.boardIconUrl)
+        preview_toolbar.setLeagueLogo(board.boardIconUrl!!)
         preview_toolbar.setBackgroundColor(Color.parseColor(board.color))
         board_parent_layout.setCardBackgroundColor(Color.parseColor(board.color))
         description.text = board.description

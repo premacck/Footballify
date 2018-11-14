@@ -81,14 +81,14 @@ class PrivateBoardFragment : CardTileFragment() {
         val editor = ZoneApplication.getContext().getSharedPreferences(getString(R.string.pref_user_details), Context.MODE_PRIVATE)
 
         if (board.owner.displayName == editor.getString(getString(R.string.pref_display_name), getString(R.string.na))) {
-            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_OWNER_POPUP, deleteBoardListener)
+            activity?.let { private_board_toolbar.setUpPrivateBoardPopUp(it, PRIVATE_BOARD_OWNER_POPUP, deleteBoardListener) }
         } else {
-            private_board_toolbar.setUpPrivateBoardPopUp(activity, PRIVATE_BOARD_USER_POPUP, deleteBoardListener)
+            activity?.let { private_board_toolbar.setUpPrivateBoardPopUp(it, PRIVATE_BOARD_USER_POPUP, deleteBoardListener) }
         }
 
         private_board_toolbar.setTitle(board.name)
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
-        private_board_toolbar.setLeagueLogo(board.boardIconUrl)
+        private_board_toolbar.setLeagueLogo(board.boardIconUrl!!)
         private_board_toolbar.setBackgroundColor(Color.parseColor(board.color))
         root_card.setCardBackgroundColor(Color.parseColor(board.color))
 
