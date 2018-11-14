@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent_white_two"
+    android:background="@color/transparent_white_one"
     android:elevation="2dp"
     android:paddingStart="11dp"
     android:paddingTop="6dp"
@@ -19,22 +19,6 @@
         android:src="@drawable/ic_following" />
 
     <TextView
-        android:id="@+id/match_info_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="15dp"
-        android:layout_toStartOf="@+id/following_button"
-        android:background="@drawable/white_border_button"
-        android:fontFamily="@font/rajdhani_medium"
-        android:gravity="center"
-        android:padding="1dp"
-        android:text="@string/info"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="10sp" />
-
-    <TextView
         android:id="@+id/people_count"
         style="@style/EngagementLayout"
         android:drawableStart="@drawable/ic_people" />
@@ -48,7 +32,6 @@
     <TextView
         android:id="@+id/likes_count"
         style="@style/EngagementLayout"
-        android:layout_toStartOf="@+id/following_text_view"
         android:layout_toEndOf="@+id/comment_count"
         android:drawableStart="@drawable/ic_likes" />
 

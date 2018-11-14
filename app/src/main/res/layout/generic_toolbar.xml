@@ -70,6 +70,6 @@
 
     <include layout="@layout/layout_board_engagement" />
 
-    <include layout="@layout/layout_info_tiles" />
+    <include layout="@layout/layout_private_board_tabs" />
 
 </LinearLayout>

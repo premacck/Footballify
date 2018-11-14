@@ -313,25 +313,31 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
             get() = ref.get()?.run { BoardTilesFragment.newInstance(boardId, isBoardActive) }
 
         override fun getItem(position: Int): Fragment? {
-            return when (position) {
-                0 -> ref.get()?.run { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
-                1 -> ref.get()?.run { ForumFragment.newInstance(boardId) }
-                2 -> {
-                    try {
-                        return if (ref.get()!!.poll == null) boardTilesFragmentWithoutPoll else boardTilesFragmentWithPoll
-                    } catch (e: Exception) {
-                        Log.e(TAG, "getItem: ", e)
-                        boardTilesFragmentWithoutPoll
+            return ref.get()?.run {
+                when (position) {
+
+                    0 -> { MatchStatsFragment.newInstance(gson.toJson(matchDetails)) }
+                    1 -> { LineupFragment.newInstance(gson.toJson(matchDetails))}
+                    //TODO: Replace boardInfo with media tab
+                    2 -> { BoardInfoFragment.newInstance(gson.toJson(matchDetails)) }
+                    3 -> { ForumFragment.newInstance(boardId) }
+                    4 -> {
+                        try {
+                            return if (ref.get()!!.poll == null) boardTilesFragmentWithoutPoll else boardTilesFragmentWithPoll
+                        } catch (e: Exception) {
+                            Log.e(TAG, "getItem: ", e)
+                            boardTilesFragmentWithoutPoll
+                        }
+                        null
                     }
-                    null
+                    else -> null
                 }
-                else -> null
             }
         }
 
         override fun getItemPosition(`object`: Any): Int = PagerAdapter.POSITION_NONE
 
-        override fun getCount(): Int = 3
+        override fun getCount(): Int = 5
 
         override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
             if (currentFragment !== `object`) {
