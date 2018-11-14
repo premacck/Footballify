@@ -202,5 +202,6 @@
     <string name="matchday_with_number">Matchday %1$d</string>
     <string name="search_teams">Search for teams</string>
     <string name="follow_teams">Follow your teams</string>
+    <string name="failed_to_get_match_details">Failed to get match details</string>
 
 </resources>

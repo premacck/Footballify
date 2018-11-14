@@ -12,8 +12,6 @@ import javax.inject.Named
 
 class ZoneActivity : BaseCardActivity() {
 
-    @field: [Inject Named("default")]
-    lateinit var restApi: RestApi
     @field: [Inject Named("footballData")]
     lateinit var footballRestApi: RestApi
 
@@ -24,7 +22,7 @@ class ZoneActivity : BaseCardActivity() {
 
         pushFragment(ZoneContainerFragment.newInstance())
 
-        handleMatchBoardIntentIfAny(restApi, footballRestApi)
+        handleMatchBoardIntentIfAny(footballRestApi)
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container
