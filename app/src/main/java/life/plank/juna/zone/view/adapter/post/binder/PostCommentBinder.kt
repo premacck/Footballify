@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.item_base_comment.view.*
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedItemComment
-import life.plank.juna.zone.data.model.FeedItemCommentReply
 import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
@@ -39,13 +38,10 @@ class PostCommentBinder(
                 .into(holder.itemView.commenter_image)
 
         if (fragment == findString(R.string.forum)) {
-            val typeface = SEMI_BOLD_TYPEFACE
-            holder.itemView.like_text_view.typeface = typeface
-            holder.itemView.reply_text_view.typeface = typeface
             holder.itemView.view_replies_text_view.visibility = View.GONE
             holder.itemView.replies_list.visibility = View.VISIBLE
         } else {
-            holder.itemView.view_replies_text_view.visibility = if (isNullOrEmpty<FeedItemCommentReply>(item.replies)) View.GONE else View.VISIBLE
+            holder.itemView.view_replies_text_view.visibility = if (isNullOrEmpty(item.replies)) View.GONE else View.VISIBLE
             if (holder.isItemExpanded) {
                 holder.itemView.view_replies_text_view.setText(R.string.hide_replies)
                 holder.itemView.replies_list.visibility = View.VISIBLE
@@ -66,7 +62,7 @@ class PostCommentBinder(
                 .into(holder.itemView.profile_pic)
 
         holder.itemView.like_text_view.setText(if (item.hasLiked) R.string.unlike else R.string.like)
-        if (!isNullOrEmpty<FeedItemCommentReply>(item.replies)) {
+        if (!isNullOrEmpty(item.replies)) {
             holder.itemView.replies_list.adapter = CommentReplyAdapter(glide, item.replies!!)
         }
 

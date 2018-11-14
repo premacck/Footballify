@@ -11,7 +11,6 @@ import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedItemComment
-import life.plank.juna.zone.data.model.FeedItemCommentReply
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
@@ -115,15 +114,13 @@ class ForumFragment : BaseCommentContainerFragment() {
         adapter!!.addComment(feedItemComment)
     }
 
-    override fun onReplySuccessful(feedItemCommentReply: FeedItemCommentReply?, comment: FeedItemComment?, position: Int) {
+    override fun onReplySuccessful(feedItemComment: FeedItemComment, comment: FeedItemComment?, position: Int) {
         comment?.run {
             if (isNullOrEmpty(replies)) {
                 replies = ArrayList()
             }
-            if (feedItemCommentReply != null) {
-                (replies as ArrayList).add(0, feedItemCommentReply)
-                adapter!!.onReplyPostedOnComment(position, this)
-            }
+            (replies as ArrayList).add(0, feedItemComment)
+            adapter!!.onReplyPostedOnComment(position, this)
         }
     }
 }

@@ -31,6 +31,7 @@ import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.BaseCard
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
@@ -89,10 +90,11 @@ class PrivateBoardFragment : CardTileFragment() {
         private_board_toolbar.setTitle(board.name)
         private_board_toolbar.setBoardTitle(if (board.boardType == getString(R.string.public_lowercase)) R.string.public_board else R.string.private_board)
         private_board_toolbar.setLeagueLogo(board.boardIconUrl!!)
-        private_board_toolbar.setBackgroundColor(Color.parseColor(board.color))
-        root_card.setCardBackgroundColor(Color.parseColor(board.color))
+        val color = Color.parseColor(board.color)
+        private_board_toolbar.setBackgroundColor(color)
+        root_card.setCardBackgroundColor(color)
 
-        setupViewPagerWithFragments()
+        context?.doAfterDelay(400) { setupViewPagerWithFragments() }
         val topic = getString(R.string.board_id_prefix) + board.id
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
