@@ -5,15 +5,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.SearchView
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.custom_search_view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.onboarding_bottom_sheet.*
 import life.plank.juna.zone.R
@@ -42,7 +44,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
 
-class HomeFragment : FlatTileFragment(), ZoneToolbarListener, SearchView.OnQueryTextListener {
+class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
 
     @Inject
     lateinit var gson: Gson
@@ -96,8 +98,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, SearchView.OnQuery
         getUserFeed()
 
         feed_header.initListeners(this)
+
+        search_edit_text.addTextChangedListener(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
-        search_view.setOnQueryTextListener(this)
     }
 
 
@@ -106,21 +109,21 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, SearchView.OnQuery
         getUserBoards()
     }
 
-    override fun onQueryTextSubmit(s: String?): Boolean {
-        return true
+    override fun afterTextChanged(p0: Editable?) {
     }
 
-    override fun onQueryTextChange(s: String?): Boolean {
-        if (s != null) {
-            if (!s.isEmpty()) {
-                getFootballTeams(s)
-            } else {
-                teamList.clear()
-                onBoardingAdapter?.notifyDataSetChanged()
-            }
-        }
-        return true
+    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
     }
+
+    override fun onTextChanged(charSequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        if (!isNullOrEmpty(charSequence.toString())) {
+            getFootballTeams(charSequence.toString())
+        } else {
+            teamList.clear()
+            onBoardingAdapter?.notifyDataSetChanged()
+        }
+    }
+
 
     private fun initBottomSheetRecyclerView() {
         onBoardingAdapter = OnboardingAdapter(activity, teamList)

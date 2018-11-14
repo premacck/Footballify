@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
+    android:layout_height="wrap_content"
     android:layout_margin="7dp"
     android:background="@drawable/rounded_dialog"
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    android:paddingEnd="10dp"
     android:paddingStart="10dp"
+    android:paddingEnd="10dp"
     app:behavior_hideable="true"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
@@ -36,23 +36,20 @@
         android:textColor="@color/grey"
         android:textSize="20sp" />
 
-    <SearchView
+    <include
         android:id="@+id/search_view"
+        layout="@layout/custom_search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title"
-        android:iconifiedByDefault="false"
-        android:keyboardNavigationCluster="true"
-        android:queryHint="@string/search_teams"
-        android:textColor="@color/grey" />
+        android:layout_below="@+id/title" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
         android:layout_below="@+id/drag_handle"
-        android:layout_marginEnd="5dp"
+        android:layout_alignParentEnd="true"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="5dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:gravity="end"
         android:text="SKIP"
@@ -64,8 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_view"
-        android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="3"
         tools:listitem="@layout/item_onboarding" />
