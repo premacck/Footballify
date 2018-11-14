@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,8 +18,6 @@ import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.base.BaseCardActivity;
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
-
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAdapter.FootballFeedViewHolder> {
 
@@ -45,15 +41,9 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
         League league = leagueList.get(position);
         holder.feedTitleTextView.setText(league.getName());
         holder.kickoffTime.setText(R.string.match_status);
-        if (!isNullOrEmpty(league.getThumbUrl())) {
-            Picasso.with(activity)
-                    .load(league.getThumbUrl())
-                    .placeholder(R.drawable.ic_place_holder)
-                    .error(R.drawable.ic_place_holder)
-                    .into(holder.feedImageView);
-        } else {
-            holder.feedImageView.setImageResource(R.drawable.ic_place_holder);
-        }
+
+        holder.feedImageView.setImageResource(league.getLeagueLogo());
+
         holder.itemView.setOnClickListener(view -> {
             GlobalVariable.getInstance().setTilePosition(position);
             activity.pushFragment(LeagueInfoFragment.Companion.newInstance(league), true);

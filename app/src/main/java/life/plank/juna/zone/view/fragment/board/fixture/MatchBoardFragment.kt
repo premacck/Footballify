@@ -100,7 +100,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        board_toolbar.prepare(fixture, league.thumbUrl)
+        board_toolbar.prepare(fixture, league.leagueLogo)
         board_toolbar.setUpPopUp(activity, currentMatchId)
         context.doAfterDelay(300) {
             getBoardIdAndMatchDetails(currentMatchId)
@@ -218,9 +218,11 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                     if (it != null) {
                         matchDetails = it.second
                         val board = it.first
-                        if (matchDetails != null) {
-                            matchDetails!!.league = league
-                            board_toolbar?.prepare(MatchFixture.from(matchDetails!!), league.thumbUrl)
+                        matchDetails?.run {
+                            if (league == null) {
+                                league = this@MatchBoardFragment.league
+                            }
+                            board_toolbar?.prepare(MatchFixture.from(this), this@MatchBoardFragment.league.leagueLogo)
                         }
                         if (board != null) {
                             boardId = board.id

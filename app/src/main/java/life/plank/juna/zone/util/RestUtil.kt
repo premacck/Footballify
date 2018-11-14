@@ -8,20 +8,21 @@ import android.widget.Toast
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
-import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.DataUtil.*
+import life.plank.juna.zone.util.common.launchMatchBoard
 import life.plank.juna.zone.util.common.launchPrivateBoard
-import life.plank.juna.zone.util.facilis.removeBoardIfExists
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
+import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.layoutInflater
+import org.jetbrains.anko.uiThread
 import retrofit2.Response
 import rx.Observable
 import rx.Subscriber
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import java.net.HttpURLConnection.HTTP_OK
 
 fun <T> Observable<T>.setObserverThreadsAndSubscribe(subscriber: Subscriber<in T>): Subscription {
     return this.subscribeOn(Schedulers.io())
@@ -56,6 +57,9 @@ fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t
             })
 }
 
+/**
+ * This method MUST be called from the "default" RestApi as the receiver
+ */
 fun RestApi.launchPrivateBoard(boardId: String, baseCardActivity: BaseCardActivity) {
     RestApiAggregator.getPrivateBoardToOpen(boardId, this).smartSubscribe({
         Log.e("launchPrivateBoard", "onError(): ", it)
@@ -65,16 +69,24 @@ fun RestApi.launchPrivateBoard(boardId: String, baseCardActivity: BaseCardActivi
     })
 }
 
-fun RestApi.launchMatchBoard(footballRestApi: RestApi, matchId: Long, baseCardActivity: BaseCardActivity) {
-    RestApiAggregator.getBoardAndMatchDetails(this, footballRestApi, matchId).smartSubscribe({
-        Log.e("launchMatchBoard", "onError(): ", it)
-        customToast(R.string.could_not_navigate_to_board)
-    }, {
-        it?.second?.run {
-            baseCardActivity.supportFragmentManager.removeBoardIfExists<MatchBoardFragment>()
-            baseCardActivity.pushFragment(MatchBoardFragment.newInstance(MatchFixture.from(this), this.league!!), true)
-        }
-    })
+/**
+ * This method MUST be called from the "footballData" RestApi as the receiver
+ */
+fun RestApi.launchMatchBoard(matchId: Long, baseCardActivity: BaseCardActivity, leagueName: String = "") {
+    if (!isNullOrEmpty(leagueName)) {
+        getMatchDetails(matchId).setObserverThreadsAndSmartSubscribe({ Log.e("launchMatchBoard", "onError(): ", it) }, {
+            when (it.code()) {
+                HTTP_OK -> {
+                    val matchDetails = it.body()!!
+                    doAsync {
+                        matchDetails.league = getSpecifiedLeague(leagueName)
+                        uiThread { baseCardActivity.launchMatchBoard(matchDetails) }
+                    }
+                }
+                else -> errorToast(R.string.failed_to_get_match_details, it)
+            }
+        })
+    }
 }
 
 fun customToast(@StringRes message: Int) = getCustomToast(findString(message), Toast.LENGTH_SHORT).show()

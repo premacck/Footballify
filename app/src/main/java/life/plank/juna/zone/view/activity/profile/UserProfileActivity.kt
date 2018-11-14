@@ -32,6 +32,8 @@ class UserProfileActivity : BaseCardActivity() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
+    @field: [Inject Named("footballData")]
+    lateinit var footballRestApi: RestApi
     @Inject
     lateinit var lastTransactionsAdapter: LastTransactionsAdapter
     @Inject
@@ -73,7 +75,7 @@ class UserProfileActivity : BaseCardActivity() {
 
     private fun initRecyclerView() {
         my_boards_list.layoutManager = GridLayoutManager(applicationContext, 5)
-        userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
+        userBoardsAdapter = UserBoardsAdapter(this, restApi, footballRestApi, Glide.with(this), true)
         my_boards_list.adapter = userBoardsAdapter
         get_coins_list.adapter = getCoinsAdapter
         last_transactions_list.adapter = lastTransactionsAdapter

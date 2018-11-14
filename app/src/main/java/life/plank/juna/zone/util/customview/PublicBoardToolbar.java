@@ -231,9 +231,9 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
         scoreView.setText(score);
     }
 
-    public void prepare(MatchFixture fixture, String leagueLogoUrl) {
+    public void prepare(MatchFixture fixture, @DrawableRes int leagueLogo) {
         this.fixture = fixture;
-        setLeagueLogo(leagueLogoUrl);
+        setLeagueLogo(leagueLogo);
         setHomeTeamLogo(fixture.getHomeTeam().getLogoLink());
         setVisitingTeamLogo(fixture.getAwayTeam().getLogoLink());
         setScore(getSeparator(fixture, winPointer, true));
