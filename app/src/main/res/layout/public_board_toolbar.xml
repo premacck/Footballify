@@ -109,6 +109,6 @@
 
     <include layout="@layout/layout_board_engagement" />
 
-    <include layout="@layout/layout_info_tiles" />
+    <include layout="@layout/layout_public_board_tabs" />
 
 </LinearLayout>

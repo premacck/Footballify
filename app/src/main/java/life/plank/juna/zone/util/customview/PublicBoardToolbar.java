@@ -84,19 +84,12 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     ImageButton shareBtn;
     @BindView(R.id.following_button)
     ImageView followBtn;
-    @BindView(R.id.match_info_button)
-    TextView matchInfoBtn;
     @BindView(R.id.people_count)
     TextView peopleCountView;
     @BindView(R.id.comment_count)
     TextView commentCountView;
     @BindView(R.id.likes_count)
     TextView likesCountView;
-
-    @BindView(R.id.lock)
-    ImageView lockImageView;
-    @BindView(R.id.board_type_title)
-    TextView boardTitleView;
     @BindView(R.id.info_tiles_tab_layout)
     TabLayout infoTilesTabLayout;
 
@@ -184,7 +177,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     public void dispose() {
         listener = null;
         followBtn.setOnClickListener(null);
-        matchInfoBtn.setOnClickListener(null);
         optionsMenu.setOnClickListener(null);
         switch (matchTimeValue) {
             case MATCH_LIVE:
@@ -199,7 +191,6 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     }
 
     private void addInfoTilesListener() {
-        matchInfoBtn.setOnClickListener(view -> listener.infoClicked(matchInfoBtn));
         switch (matchTimeValue) {
             case MATCH_LIVE:
                 if (baseTime > 0) {
@@ -411,12 +402,10 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 
     @Override
     public void setBoardTitle(String boardTitle) {
-        boardTitleView.setText(boardTitle);
     }
 
     @Override
     public void showLock(boolean showLock) {
-        lockImageView.setVisibility(showLock ? VISIBLE : GONE);
     }
 
     public boolean isFavourite() {
