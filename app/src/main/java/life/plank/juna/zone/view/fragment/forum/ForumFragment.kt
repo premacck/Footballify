@@ -11,11 +11,10 @@ import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedItemComment
+import life.plank.juna.zone.data.model.FeedItemCommentReply
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.interfaces.FeedInteractionListener
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
-import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.getToken
 import life.plank.juna.zone.util.errorToast
@@ -23,12 +22,12 @@ import life.plank.juna.zone.util.facilis.clearOnClickListener
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
-import life.plank.juna.zone.view.fragment.base.BaseFragment
+import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
 import javax.inject.Named
 
-class ForumFragment : BaseFragment(), FeedInteractionListener {
+class ForumFragment : BaseCommentContainerFragment() {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
@@ -62,14 +61,20 @@ class ForumFragment : BaseFragment(), FeedInteractionListener {
 
         getComments()
 
-        post_comment.onDebouncingClick { postCommentOnBoard() }
+        post_comment.onDebouncingClick {
+            if (comment_edit_text.text.toString().isEmpty()) {
+                comment_edit_text.setError(getString(R.string.please_enter_comment), resources.getDrawable(R.drawable.ic_error, null))
+            } else {
+                post_comment.clearFocus()
+                postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId))
+            }
+        }
     }
 
     //TODO: Remove hard coded data after backend integration.
     private fun setAdapterData() {
         val commentList = ArrayList<FeedItemComment>()
         adapter!!.setComments(commentList)
-
     }
 
     private fun getComments() {
@@ -95,46 +100,30 @@ class ForumFragment : BaseFragment(), FeedInteractionListener {
         })
     }
 
-    private fun postCommentOnBoard() {
-        restApi.postCommentOnBoard(comment_edit_text.text.toString(), boardId, getRequestDateStringOfNow(), getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "postCommentOnBoard()", it)
-            errorToast(R.string.failed_to_post_comment, it)
-        }, {
-            when (it.code()) {
-                HTTP_OK, HTTP_CREATED -> {
-                    comment_edit_text.text = null
-                    no_comment_text_view.visibility = View.GONE
-                    adapter!!.addComment(it.body())
-                }
-                else -> errorToast(R.string.failed_to_post_comment, it)
-            }
-        })
+    override fun specifyCommentEvent() {
+        commentEvent = getCommentEventForBoardComment(boardId)
     }
 
-    override fun onCommentLiked() {}
+    override fun getTheRestApi(): RestApi = restApi
 
-    override fun onCommentDisliked() {}
+    override fun onPostReplyOnComment(reply: String, position: Int, comment: FeedItemComment) =
+            postCommentOrReply(reply, getCommentEventForReply(boardId, comment.id), true, comment)
 
-    override fun onPostCommentOnFeed() {}
+    override fun onCommentSuccessful(feedItemComment: FeedItemComment) {
+        comment_edit_text.text = null
+        no_comment_text_view.visibility = View.GONE
+        adapter!!.addComment(feedItemComment)
+    }
 
-    override fun onPostReplyOnComment(reply: String, position: Int, comment: FeedItemComment) {
-        restApi.postReplyOnBoardComment(reply, comment.id, boardId, getRequestDateStringOfNow(), getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "onPostReplyOnComment(): ", it)
-            errorToast(R.string.failed_to_post_reply, it)
-        }, {
-            when (it.code()) {
-                HTTP_OK, HTTP_CREATED -> {
-                    if (isNullOrEmpty(comment.replies)) {
-                        comment.replies = ArrayList()
-                    }
-                    val commentReply = it.body()
-                    if (commentReply != null) {
-                        (comment.replies as ArrayList).add(0, commentReply)
-                        adapter!!.onReplyPostedOnComment(position, comment)
-                    }
-                }
-                else -> errorToast(R.string.failed_to_post_reply, it)
+    override fun onReplySuccessful(feedItemCommentReply: FeedItemCommentReply?, comment: FeedItemComment?, position: Int) {
+        comment?.run {
+            if (isNullOrEmpty(replies)) {
+                replies = ArrayList()
             }
-        })
+            if (feedItemCommentReply != null) {
+                (replies as ArrayList).add(0, feedItemCommentReply)
+                adapter!!.onReplyPostedOnComment(position, this)
+            }
+        }
     }
 }
