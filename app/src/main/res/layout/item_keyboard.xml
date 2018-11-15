@@ -1,275 +1,282 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    app:cardBackgroundColor="@color/transparent_black_80"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="8dp">
+    android:id="@+id/root_blur_layout"
+    style="@style/BlurLayoutFullScreen">
 
-    <RelativeLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/root_card"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/key_board_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:fontFamily="@font/raleway_semibold"
-            android:lineSpacingExtra="3sp"
-            android:text="Key Board"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/vs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp"
-            android:text="vs"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="8dp">
 
         <RelativeLayout
-            android:id="@+id/clap_player_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/key_board_title"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="35dp"
-            android:layout_toStartOf="@+id/vs">
+            android:layout_width="match_parent"
+            android:layout_height="430dp"
+            android:background="@drawable/board_blur_bg">
 
-            <RelativeLayout
-                android:id="@+id/player_image_layout_one"
+            <TextView
+                android:id="@+id/key_board_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/raleway_semibold"
+                android:lineSpacingExtra="3sp"
+                android:text="Key Board"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/player_background_color_one"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@color/purple"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="2dp" />
+            <TextView
+                android:id="@+id/vs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="100dp"
+                android:text="vs"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/player_image"
-                    android:layout_width="120dp"
-                    android:layout_height="110dp"
-                    android:layout_alignBottom="@id/player_background_color_one"
-                    android:src="@drawable/player_m_art" />
+            <RelativeLayout
+                android:id="@+id/clap_player_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/key_board_title"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="35dp"
+                android:layout_toStartOf="@+id/vs">
 
                 <RelativeLayout
+                    android:id="@+id/player_image_layout_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/player_background_color_one"
-                    android:layout_alignBottom="@+id/player_background_color_one">
+                    android:layout_centerHorizontal="true">
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/player_number_one"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
+                        android:id="@+id/player_background_color_one"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
                         android:src="@color/purple"
                         app:civ_border_color="@color/white"
-                        app:civ_border_width="1dp" />
-
-                    <TextView
-                        android:id="@+id/player_points_one"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:text="7"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/player_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_image_layout_one"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/rajdhani_semibold"
-                android:text="M. Arnautović"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/player_one_points"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/player_name"
-                android:layout_centerHorizontal="true"
-                app:cardBackgroundColor="@color/brownish_yellow"
-                app:cardCornerRadius="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="7.0"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </android.support.v7.widget.CardView>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/player_one_points"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center_horizontal"
-                android:text="2.4k Claps"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/key_board_title"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="30dp"
-            android:layout_toEndOf="@+id/vs">
-
-            <RelativeLayout
-                android:id="@+id/player_image_layout_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/player_background_color_two"
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:src="@color/red"
-                    app:civ_border_color="@color/white"
-                    app:civ_border_width="2dp" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/player_image_two"
-                    android:layout_width="120dp"
-                    android:layout_height="110dp"
-                    android:layout_alignBottom="@id/player_background_color_two"
-                    android:src="@drawable/player_a_lacazette" />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignEnd="@+id/player_background_color_two"
-                    android:layout_alignBottom="@+id/player_background_color_two">
+                        app:civ_border_width="2dp" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/player_number_two"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:src="@color/red"
-                        app:civ_border_color="@color/white"
-                        app:civ_border_width="1dp" />
+                        android:id="@+id/player_image"
+                        android:layout_width="120dp"
+                        android:layout_height="110dp"
+                        android:layout_alignBottom="@id/player_background_color_one"
+                        android:src="@drawable/player_m_art" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/player_background_color_one"
+                        android:layout_alignBottom="@+id/player_background_color_one">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/player_number_one"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@color/purple"
+                            app:civ_border_color="@color/white"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:id="@+id/player_points_one"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:text="7"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/player_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/player_image_layout_one"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/rajdhani_semibold"
+                    android:text="M. Arnautović"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/player_one_points"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/player_name"
+                    android:layout_centerHorizontal="true"
+                    app:cardBackgroundColor="@color/brownish_yellow"
+                    app:cardCornerRadius="5dp">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:fontFamily="@font/rajdhani_semibold"
-                        android:text="9"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="7.0"
                         android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </RelativeLayout>
-            </RelativeLayout>
+                        android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/player_name_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_image_layout_two"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="A. Lacazette"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/player_two_points"
-                android:layout_width="30dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/player_name_two"
-                android:layout_centerHorizontal="true"
-                app:cardBackgroundColor="@color/frog_green"
-                app:cardCornerRadius="5dp">
+                </android.support.v7.widget.CardView>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="8.0"
+                    android:layout_below="@id/player_one_points"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:gravity="center_horizontal"
+                    android:text="2.4k Claps"
                     android:textColor="@color/white"
-                    android:textSize="14sp" />
-            </android.support.v7.widget.CardView>
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/key_board_title"
+                android:layout_marginStart="35dp"
+                android:layout_marginTop="30dp"
+                android:layout_toEndOf="@+id/vs">
+
+                <RelativeLayout
+                    android:id="@+id/player_image_layout_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/player_background_color_two"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:src="@color/red"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="2dp" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/player_image_two"
+                        android:layout_width="120dp"
+                        android:layout_height="110dp"
+                        android:layout_alignBottom="@id/player_background_color_two"
+                        android:src="@drawable/player_a_lacazette" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/player_background_color_two"
+                        android:layout_alignBottom="@+id/player_background_color_two">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/player_number_two"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:src="@color/red"
+                            app:civ_border_color="@color/white"
+                            app:civ_border_width="1dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/rajdhani_semibold"
+                            android:text="9"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/player_name_two"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/player_image_layout_two"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:text="A. Lacazette"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/player_two_points"
+                    android:layout_width="30dp"
+                    android:layout_height="20dp"
+                    android:layout_below="@+id/player_name_two"
+                    android:layout_centerHorizontal="true"
+                    app:cardBackgroundColor="@color/frog_green"
+                    app:cardCornerRadius="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:text="8.0"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+                </android.support.v7.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/player_two_points"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="@font/rajdhani_medium"
+                    android:gravity="center_horizontal"
+                    android:text="2.4k Claps"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/dart_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/clap_player_one"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    android:src="@color/transparent_black_b3"
+                    app:civ_border_color="@color/transparent_white_two"
+                    app:civ_border_width="2dp" />
+
+                <ImageView
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_clap" />
+            </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/player_two_points"
+                android:layout_below="@+id/dart_view"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:gravity="center_horizontal"
-                android:text="2.4k Claps"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:text="@string/clap_player_msg"
+                android:textColor="@color/white_50"
+                android:textSize="14sp" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/dart_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/clap_player_one"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_centerHorizontal="true"
-                android:src="@color/transparent_black_b3"
-                app:civ_border_color="@color/transparent_white_two"
-                app:civ_border_width="2dp" />
-
-            <ImageView
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:layout_centerInParent="true"
-                android:src="@drawable/ic_clap" />
-        </RelativeLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/dart_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:fontFamily="@font/rajdhani_medium"
-            android:gravity="center_horizontal"
-            android:text="@string/clap_player_msg"
-            android:textColor="@color/white_40"
-            android:textSize="14sp" />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</io.alterac.blurkit.BlurLayout>
