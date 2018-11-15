@@ -25,10 +25,9 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/post_comments_list"
             style="@style/MatchParentSize"
-            android:layout_marginBottom="40dp"
             android:clipToPadding="false"
             android:paddingTop="6dp"
-            android:paddingBottom="6dp"
+            android:paddingBottom="40dp"
             app:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/item_post_comment" />
 
@@ -63,7 +62,7 @@
             android:layout_toStartOf="@+id/post_comment"
             android:layout_toEndOf="@+id/commenter_image"
             android:fontFamily="@font/rajdhani_medium"
-            android:hint="@string/write_a_comment"
+            android:hint="@string/write_something"
             android:imeOptions="actionGo"
             android:inputType="textMultiLine"
             android:paddingStart="5dp"
