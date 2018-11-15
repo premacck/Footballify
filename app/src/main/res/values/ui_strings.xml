@@ -205,5 +205,6 @@
     <string name="failed_to_get_match_details">Failed to get match details</string>
     <string name="throw_dart_msg">Tap on the player to throw dart</string>
     <string name="dart_board">Dart Board</string>
+    <string name="clap_player_msg">Drag the clap icon to your player</string>
 
 </resources>
