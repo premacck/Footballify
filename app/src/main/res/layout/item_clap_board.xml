@@ -10,8 +10,7 @@
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="8dp"
-    tools:showIn="@layout/fragment_prematch_info">     
+    app:cardElevation="8dp">     
 
     <RelativeLayout
         android:id="@+id/clapboard_layout"
