@@ -144,7 +144,7 @@ public class CommentaryAdapter extends BaseRecyclerView.Adapter<CommentaryAdapte
                 return getDesignedString(
                         RED_CARD_,
                         rawCommentaryText,
-                        R.color.commentary_red,
+                        R.color.scarlet_red,
                         R.drawable.red_right,
                         true,
                         commentaryView

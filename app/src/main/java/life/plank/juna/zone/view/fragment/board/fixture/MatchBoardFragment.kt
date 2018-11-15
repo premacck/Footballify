@@ -268,8 +268,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     private fun applyInactiveBoardColorFilter() = board_parent_layout?.background?.setColorFilter(findColor(R.color.grey_0_7), PorterDuff.Mode.SRC_OVER)
 
-    override fun infoClicked(infoBtn: TextView) = pushFragment(MatchInfoFragment.newInstance(fixture, league, boardId), true)
-
     override fun onMatchTimeStateChange() = getBoardIdAndMatchDetails(currentMatchId)
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {
