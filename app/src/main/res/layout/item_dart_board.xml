@@ -1,154 +1,222 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/clapboard_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/clap_board"
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="10dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="8dp"
-    tools:showIn="@layout/fragment_prematch_info">     
+    app:cardElevation="8dp">     
 
     <RelativeLayout
         android:id="@+id/clapboard_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/transparent_black_30"
+        android:padding="10dp">
 
         <TextView
-            android:id="@+id/clapboard_text"
+            android:id="@+id/dartboard_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:fontFamily="@font/raleway_semibold"
             android:lineSpacingExtra="3sp"
-            android:text="Dart Board"
-            android:textColor="@color/grey"
-            android:textSize="12sp" />
+            android:text="@string/dart_board"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <RelativeLayout
-            android:id="@+id/clapboard_image"
+            android:id="@+id/dart_player_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/clapboard_text"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="25dp">
+            android:layout_below="@+id/dartboard_text"
+            android:layout_marginTop="45dp"
+            android:layout_toStartOf="@+id/vs_text">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/dart_board_player_image"
-                android:layout_width="75dp"
-                android:layout_height="75dp"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="13dp"
-                android:src="@drawable/player_adrian" />
+            <RelativeLayout
+                android:id="@+id/dart_board_image_view_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-            <ImageView
-                android:layout_width="113dp"
-                android:layout_height="113dp"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_dartboard" />
+                <ImageView
 
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_dartboard" />
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/player_adrian" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/player_name_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dart_board_image_view_one"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:text="Adrian"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/player_points_view_one"
+                android:layout_width="27dp"
+                android:layout_height="18dp"
+                android:layout_below="@+id/player_name_one"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                app:cardBackgroundColor="@color/scarlet_red"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="7.0"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/player_points_view_one"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:gravity="center_horizontal"
+                android:text="2.4k Darts"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/vs_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="125dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center_horizontal"
+            android:text="vs"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dartboard_text"
+            android:layout_marginTop="45dp"
+            android:layout_toEndOf="@+id/vs_text">
+
+            <RelativeLayout
+                android:id="@+id/dart_board_image_view_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:src="@drawable/ic_dartboard" />
+
+                <ImageView
+                    android:layout_width="72dp"
+                    android:layout_height="72dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/player_adrian" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/player_name_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dart_board_image_view_two"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:text="Adrian"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/player_points_view_two"
+                android:layout_width="27dp"
+                android:layout_height="18dp"
+                android:layout_below="@+id/player_name_two"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                app:cardBackgroundColor="@color/scarlet_red"
+                app:cardCornerRadius="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="7.0"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/player_points_view_two"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/rajdhani_medium"
+                android:gravity="center_horizontal"
+                android:text="2.4k Darts"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            android:id="@+id/dart_view"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginTop="36dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toEndOf="@+id/clapboard_image">
-
-            <TextView
-                android:id="@+id/player_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/rajdhani_semibold"
-                android:text="Adrián"
-                android:textColor="@color/grey"
-                android:textSize="14sp" />
-
-            <ImageView
-                android:id="@+id/team_logo"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/player_name"
-                android:src="@drawable/ic_burnley_logo" />
+            android:layout_below="@id/dart_player_one"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/circle_image_view"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_below="@+id/player_name"
-                android:layout_marginStart="12dp"
-                android:layout_toEndOf="@+id/team_logo"
-                android:src="@color/purple" />
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerHorizontal="true"
+                android:src="@color/transparent_black_b3"
+                app:civ_border_color="@color/transparent_white_two"
+                app:civ_border_width="2dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_name"
-                android:layout_marginStart="8dp"
-                android:layout_toEndOf="@id/circle_image_view"
-                android:fontFamily="@font/rajdhani_medium"
-                android:text="Goalkeeper"
-                android:textColor="@color/grey"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/bio"
-                android:layout_width="190dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/team_logo"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:text="Adrian has been supreme for West Ham lately whilst Joe Hart has been a disaster. But going off this display it would seem that some of the Englishman has rubbed off on the Spaniard."
-                android:textColor="@color/grey"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/darts_count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/bio"
-                android:layout_marginTop="15dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:text="51"
-                android:textColor="@color/dark_sky_blue"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/darts"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/bio"
-                android:layout_marginTop="15dp"
-                android:layout_toEndOf="@+id/darts_count"
-                android:fontFamily="@font/rajdhani_medium"
-                android:text=" Darts thrown"
-                android:textColor="@color/dark_sky_blue"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/throw_dart_button"
-                android:layout_width="80dp"
-                android:layout_height="15dp"
-                android:layout_below="@+id/bio"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/blue_border_button"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center"
-                android:text="THROW DART"
-                android:textColor="@color/accent"
-                android:textSize="10sp" />
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_dart" />
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dart_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/throw_dart_msg"
+            android:textColor="@color/white_40"
+            android:textSize="14sp" />
 
     </RelativeLayout>
 

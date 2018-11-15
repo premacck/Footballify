@@ -6,8 +6,7 @@
     android:layout_height="150dp"
     android:layout_margin="10dp"
     app:cardCornerRadius="5dp"
-    app:cardElevation="8dp"
-    tools:showIn="@layout/fragment_prematch_info">
+    app:cardElevation="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
