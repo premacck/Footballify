@@ -1,6 +1,10 @@
 package life.plank.juna.zone.view.fragment.board.fixture
 
+import android.content.ClipData
+import android.content.ClipDescription
+import android.os.Build
 import android.os.Bundle
+import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +16,8 @@ import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 
-class KeyBoardPopup : BaseBlurPopup() {
+class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragListener {
+    private val IMAGE_VIEW_TAG = "CLAP VIEW"
 
     companion object {
         val TAG: String = KeyBoardPopup::class.java.simpleName
@@ -31,6 +36,7 @@ class KeyBoardPopup : BaseBlurPopup() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         root_card.setOnClickListener(null)
+        addListeners()
     }
 
     override fun doOnStart() {
@@ -52,5 +58,108 @@ class KeyBoardPopup : BaseBlurPopup() {
 
 
     override fun getBackgroundLayout(): ViewGroup? = root_blur_layout
+
+    private fun addListeners() {
+        clap_image.setOnLongClickListener(this)
+        clap_image.tag = IMAGE_VIEW_TAG
+
+        player_background_color_one.setOnDragListener(this)
+        player_background_color_two.setOnDragListener(this)
+        //TODO: Replace with player id
+        player_background_color_one.tag = "PlayerOne"
+        player_background_color_two.tag = "PlayerTwo"
+    }
+
+    override fun onLongClick(view: View): Boolean {
+
+        // Create a new ClipData.Item from the ImageView object's tag
+        val item = ClipData.Item(view.tag as CharSequence)
+
+        // Create a new ClipData using the tag as a label, the plain text MIME type, and
+        // the already-created item. This will create a new ClipDescription object within the
+        // ClipData, and set its MIME type entry to "text/plain"
+        val mimeTypes = arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN)
+
+        val data = ClipData(view.tag.toString(), mimeTypes, item)
+
+        // Instantiates the drag shadow builder.
+        val shadowBuilder = View.DragShadowBuilder(view)
+
+        // Starts the drag
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            view.startDragAndDrop(data//data to be dragged
+                    , shadowBuilder //drag shadow
+                    , view//local data about the drag and drop operation
+                    , 0//no needed flags);
+            )
+        } else {
+            view.startDrag(data//data to be dragged
+                    , shadowBuilder //drag shadow
+                    , view//local data about the drag and drop operation
+                    , 0//no needed flags);
+            )
+        }
+
+        //Set view visibility to INVISIBLE as we are going to drag the view
+        view.visibility = View.INVISIBLE
+        return true
+    }
+
+    // This is the method that the system calls when it dispatches a drag event to the listener
+    override fun onDrag(view: View, event: DragEvent): Boolean {
+        // Defines a variable to store the action type for the incoming event
+        val action = event.action
+
+        // Handles each of the expected events
+        when (action) {
+            DragEvent.ACTION_DRAG_STARTED ->
+                // Determines if this View can accept the dragged data
+                return event.clipDescription.hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)
+
+            DragEvent.ACTION_DRAG_ENTERED -> {
+
+                // Invalidate the view to force a redraw
+                view.invalidate()
+
+                return true
+            }
+            DragEvent.ACTION_DRAG_LOCATION ->
+                // Ignore the event
+                return true
+            DragEvent.ACTION_DRAG_EXITED -> {
+                // Invalidate the view to force a redraw
+                view.invalidate()
+
+                return true
+            }
+            DragEvent.ACTION_DROP -> {
+
+                // Invalidates the view to force
+                view.invalidate()
+
+                val v = event.localState as View
+                val owner = v.parent as ViewGroup
+                owner.removeView(v)//remove the dragged view
+                v.visibility = View.INVISIBLE//finally set Visibility to INVISIBLE
+
+                // Returns true. DragEvent.getResult() will return true.
+                return true
+            }
+            DragEvent.ACTION_DRAG_ENDED -> {
+
+                // Invalidates the view to force a redraw
+                view.invalidate()
+                val vv = event.localState as View
+
+                // Does a getResult(), and displays what happened.
+                if (!event.result)
+                    vv.visibility = View.VISIBLE
+
+                // returns true; the value is ignored.
+                return true
+            }
+        }
+        return false
+    }
 }
 
