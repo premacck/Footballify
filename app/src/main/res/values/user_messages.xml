@@ -46,7 +46,7 @@
     <string name="user_deleted">User deleted successfully</string>
     <string name="write_a_reply">Write a reply</string>
     <string name="write_something">Write something</string>
-    <string name="view_n_replies">View %1$d replies</string>
+    <string name="view_n_replies">View %1$s replies</string>
     <string name="show_replies">Show replies</string>
     <string name="hide_replies">Hide replies</string>
     <string name="failed_to_get_feed_comments">Failed to get the feed comments</string>

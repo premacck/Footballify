@@ -11,6 +11,7 @@ import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_base_comment.view.*
 import kotlinx.android.synthetic.main.item_post_comment.view.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
@@ -44,7 +45,8 @@ class PostCommentBinder(
                 holder.itemView.view_replies_text_view.setText(R.string.hide_replies)
                 holder.itemView.replies_list.visibility = View.VISIBLE
             } else {
-                holder.itemView.view_replies_text_view.setText(R.string.show_replies)
+                val replyCount = if (item.replyCount > 0) item.replyCount.toString() else ""
+                holder.itemView.view_replies_text_view.text = ZoneApplication.getContext().getString(R.string.view_n_replies, replyCount)
                 holder.itemView.replies_list.visibility = View.GONE
             }
         }
