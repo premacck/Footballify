@@ -2,37 +2,22 @@ package life.plank.juna.zone.view.adapter.board.info
 
 import android.app.Activity
 import android.view.View
-
 import com.ahamed.multiviewadapter.DataItemManager
 import com.ahamed.multiviewadapter.ItemBinder
 import com.ahamed.multiviewadapter.ItemViewHolder
 import com.ahamed.multiviewadapter.RecyclerAdapter
-import com.squareup.picasso.Picasso
-
-import java.util.ArrayList
-
-import life.plank.juna.zone.data.model.Highlights
-import life.plank.juna.zone.data.model.Lineups
-import life.plank.juna.zone.data.model.MatchDetails
-import life.plank.juna.zone.data.model.MatchStats
-import life.plank.juna.zone.data.model.ScrubberData
+import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.HighlightsBindingModel
 import life.plank.juna.zone.data.model.binder.ScrubberBindingModel
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal
-import life.plank.juna.zone.view.adapter.board.info.binder.MatchHighlightsBinder
-import life.plank.juna.zone.view.adapter.board.info.binder.ScrubberBinder
-
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_LIVE
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_PAST
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_LATER
-import life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_SCHEDULED_TODAY
+import life.plank.juna.zone.util.AppConstants.MatchTimeVal.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getMatchTimeValue
+import life.plank.juna.zone.view.adapter.board.info.binder.MatchHighlightsBinder
+import life.plank.juna.zone.view.adapter.board.info.binder.ScrubberBinder
+import java.util.*
 
-class BoardMediaAdapter(private val matchDetails: MatchDetails, private val picasso: Picasso, private val activity: Activity, private val listener: BoardMediaAdapterListener) : RecyclerAdapter() {
+class BoardMediaAdapter(private val matchDetails: MatchDetails, private val activity: Activity, private val listener: BoardMediaAdapterListener) : RecyclerAdapter() {
 
     private var scrubberDataManager: DataItemManager<ScrubberBindingModel>? = null
     private var highlightsDataManager: DataItemManager<HighlightsBindingModel>? = null
