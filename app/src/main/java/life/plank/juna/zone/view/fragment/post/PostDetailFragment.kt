@@ -16,6 +16,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.RelativeLayout
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -31,15 +32,13 @@ import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.*
-import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
@@ -117,7 +116,7 @@ class PostDetailFragment : BaseCommentContainerFragment() {
                 comment_edit_text.setError(getString(R.string.please_enter_comment), resources.getDrawable(R.drawable.ic_error, null))
             } else {
                 comment_edit_text.clearFocus()
-                postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForFeedItemComment(boardId, feedEntry.feedItem.id!!), false)
+                postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForFeedItemComment(boardId, feedEntry.feedItem.id!!), false, feedEntry.feedItem.id)
             }
         }
         pin_image_view.onDebouncingClick {
@@ -163,11 +162,11 @@ class PostDetailFragment : BaseCommentContainerFragment() {
             description_text_view.visibility = VISIBLE
             description_text_view.movementMethod = LinkMovementMethod.getInstance()
             val stringBuilder = SpannableStringBuilder()
-                    .append(getBoldText(feedEntry.feedItem.source))
+                    .append(feedEntry.feedItem.source?.bold())
                     .append("\n\n")
                     .append(feedEntry.feedItem.summary)
                     .append("\n\n")
-                    .append(getClickableLink(activity, feedEntry.feedItem.url))
+                    .append(feedEntry.feedItem.url?.toClickableWebLink(activity!!))
             description_text_view.text = stringBuilder
         } else {
             description_text_view.visibility = if (feedEntry.feedItem.description == null) GONE else VISIBLE
@@ -262,7 +261,6 @@ class PostDetailFragment : BaseCommentContainerFragment() {
                 feed_text_view.text = getCommentText(comment)
             }
         }
-
     }
 
     private fun pinItem() {
@@ -371,22 +369,25 @@ class PostDetailFragment : BaseCommentContainerFragment() {
 
     override fun getTheRestApi(): RestApi = restApi
 
-    override fun onPostReplyOnComment(reply: String, position: Int, comment: FeedItemComment) =
-            postCommentOrReply(reply, getCommentEventForReply(boardId, comment.id), false, comment, position)
+    override fun getCommentEditText(): EditText = comment_edit_text
 
-    override fun onCommentSuccessful(feedItemComment: FeedItemComment) {
+    override fun onPostReplyOnComment(reply: String, position: Int, parentComment: FeedItemComment) =
+            postReplyOnFeedItemComment(reply, getCommentEventForReply(boardId, parentComment.id), parentComment, position)
+
+    override fun onCommentSuccessful(responseComment: FeedItemComment) {
         comment_edit_text.text = SpannableStringBuilder("")
         hideSoftKeyboard(comment_edit_text)
-        adapter?.addComment(feedItemComment)
+        adapter?.addComment(responseComment)
+        post_comments_list.smoothScrollToPosition(0)
     }
 
-    override fun onReplySuccessful(feedItemComment: FeedItemComment, comment: FeedItemComment?, position: Int) {
-        comment?.run {
+    override fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int) {
+        parentComment?.run {
             if (isNullOrEmpty(replies)) {
                 replies = ArrayList()
             }
-            (replies as ArrayList).add(0, feedItemComment)
-            adapter?.onReplyPostedOnComment(position, this)
+            (replies as ArrayList).add(replyPosition, responseReply)
+            adapter?.onReplyPostedOnComment(parentCommentPosition, this)
         }
     }
 }

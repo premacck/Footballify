@@ -17,73 +17,23 @@
         android:layout_alignBottom="@+id/base_comment"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/rajdhani_medium"
+        android:fontFamily="@font/rajdhani_semibold"
         android:foreground="@drawable/ripple_dark_rect"
         android:paddingStart="10dp"
         android:paddingTop="4dp"
         android:paddingEnd="10dp"
         android:paddingBottom="4dp"
-        android:text="@string/view_4_replies_sample"
-        android:textColor="@color/black_50"
+        android:textColor="@color/black"
         android:textSize="@dimen/text_10sp" />
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/replies_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/base_comment"
         android:layout_marginStart="24dp"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/replies_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_base_comment" />
-
-        <RelativeLayout
-            android:id="@+id/reply_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/commenter_image"
-                android:layout_width="11dp"
-                android:layout_height="11dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="5dp" />
-
-            <EditText
-                android:id="@+id/reply_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@id/commenter_image"
-                android:fontFamily="@font/rajdhani_medium"
-                android:hint="@string/write_a_reply"
-                android:imeOptions="actionGo"
-                android:inputType="textMultiLine"
-                android:paddingStart="5dp"
-                android:paddingEnd="32dp"
-                android:textColor="@color/grey"
-                android:textSize="@dimen/text_10sp"
-                tools:ignore="Autofill" />
-
-            <ImageButton
-                android:id="@+id/post_reply"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:background="@color/transparent"
-                android:contentDescription="@string/send"
-                android:padding="8dp"
-                android:src="@drawable/ic_send" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
+        android:nestedScrollingEnabled="false"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        tools:listitem="@layout/item_base_comment" />
 
 </RelativeLayout>

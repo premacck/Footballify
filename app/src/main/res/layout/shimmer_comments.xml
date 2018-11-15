@@ -15,20 +15,10 @@
         android:background="@drawable/circle_background_grey" />
 
     <View
-        android:id="@+id/name"
-        android:layout_width="60dp"
-        android:layout_height="14dp"
-        android:layout_toEndOf="@+id/dp"
-        android:layout_marginTop="3dp"
-        android:background="@color/circle_background_color" />
-
-    <View
         android:id="@+id/comment"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_toEndOf="@+id/name"
-        android:layout_marginTop="3dp"
-        android:layout_marginStart="6dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="5dp"
         android:background="@color/circle_background_color"
@@ -37,35 +27,60 @@
         android:textSize="@dimen/text_10sp" />
 
     <View
+        android:id="@+id/like"
+        android:layout_width="40dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/comment"
+        android:layout_alignStart="@+id/comment"
+        android:background="@color/circle_background_color" />
+
+    <View
+        android:id="@+id/reply"
+        android:layout_width="40dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/comment"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/like"
+        android:background="@color/circle_background_color" />
+
+    <View
         android:id="@+id/dp1"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="6dp"
         android:layout_marginTop="10dp"
-        android:layout_below="@+id/comment"
+        android:layout_below="@+id/like"
         android:background="@drawable/circle_background_grey" />
 
     <View
-        android:id="@+id/name1"
-        android:layout_width="60dp"
-        android:layout_height="14dp"
-        android:layout_toEndOf="@+id/dp1"
-        android:layout_below="@+id/comment"
-        android:layout_marginTop="13dp"
-        android:background="@color/circle_background_color" />
-
-    <View
+        android:id="@+id/comment1"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_toEndOf="@+id/name1"
-        android:layout_marginTop="13dp"
-        android:layout_below="@+id/comment"
-        android:layout_marginStart="6dp"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/dp1"
+        android:layout_marginBottom="5dp"
         android:layout_marginEnd="28dp"
+        android:layout_toEndOf="@+id/dp1"
         android:background="@color/circle_background_color"
         android:fontFamily="@font/rajdhani_regular"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_10sp" />
+
+    <View
+        android:id="@+id/like1"
+        android:layout_width="40dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/comment1"
+        android:layout_alignStart="@+id/comment1"
+        android:background="@color/circle_background_color" />
+
+    <View
+        android:id="@+id/reply1"
+        android:layout_width="40dp"
+        android:layout_height="15dp"
+        android:layout_below="@+id/comment1"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/like1"
+        android:background="@color/circle_background_color" />
 
 </life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
