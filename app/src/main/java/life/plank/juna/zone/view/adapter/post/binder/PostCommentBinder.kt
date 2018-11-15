@@ -16,9 +16,11 @@ import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getCommentDateAndTimeFormat
-import life.plank.juna.zone.util.PreferenceManager
-import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.color
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.formatMentions
+import life.plank.juna.zone.util.semiBold
 import life.plank.juna.zone.view.adapter.post.CommentReplyAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 
@@ -33,9 +35,6 @@ class PostCommentBinder(
     }
 
     override fun bind(holder: PostCommentViewHolder, item: FeedItemComment) {
-        glide.load(PreferenceManager.CurrentUser.getProfilePicUrl())
-                .into(holder.itemView.commenter_image)
-
         if (fragment == findString(R.string.forum)) {
             holder.itemView.view_replies_text_view.visibility = View.GONE
             holder.itemView.replies_list.visibility = View.VISIBLE
@@ -51,9 +50,9 @@ class PostCommentBinder(
         }
 
         holder.itemView.comment_text_view.text =
-                SpannableStringBuilder(getSemiBoldText(item.commenterDisplayName, R.color.black))
+                SpannableStringBuilder(item.commenterDisplayName.semiBold().color(R.color.black))
                         .append(AppConstants.SPACE)
-                        .append(item.message)
+                        .append(item.message.formatMentions())
         holder.itemView.comment_time_text.text = getCommentDateAndTimeFormat(item.time)
 
         glide.load(item.commenterProfilePictureUrl)
@@ -61,8 +60,9 @@ class PostCommentBinder(
                 .into(holder.itemView.profile_pic)
 
         holder.itemView.like_text_view.setText(if (item.hasLiked) R.string.unlike else R.string.like)
-        if (!isNullOrEmpty(item.replies)) {
-            holder.itemView.replies_list.adapter = CommentReplyAdapter(glide, item.replies!!)
+
+        item.replies?.run {
+            holder.itemView.replies_list.adapter = CommentReplyAdapter(glide, item, holder.adapterPosition, this, commentContainerFragment)
         }
 
         holder.setOnclickListeners(item)
@@ -77,23 +77,7 @@ class PostCommentBinder(
             itemView.like_text_view.setText(if (itemView.like_text_view.text.toString() == findString(R.string.like)) R.string.unlike else R.string.like)
         }
         itemView.reply_text_view.onDebouncingClick {
-            itemView.reply_text_view.setText(if (itemView.reply_layout.visibility == View.VISIBLE) R.string.reply else R.string.cancel)
-            itemView.reply_layout.visibility = if (itemView.reply_layout.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-            if (itemView.reply_layout.visibility == View.VISIBLE) {
-                itemView.reply_edit_text.requestFocus()
-                showSoftKeyboard(itemView.reply_edit_text)
-            } else {
-                itemView.reply_edit_text.clearFocus()
-                hideSoftKeyboard(itemView.reply_edit_text)
-            }
-        }
-        itemView.post_reply.onDebouncingClick {
-            if (itemView.reply_layout.visibility == View.VISIBLE) {
-                commentContainerFragment.onPostReplyOnComment(itemView.reply_edit_text.text.toString(), adapterPosition, item)
-            }
-            itemView.reply_edit_text.text = null
-            itemView.reply_edit_text.clearFocus()
-            hideSoftKeyboard(itemView.reply_edit_text)
+            commentContainerFragment.replyAction(itemView.reply_text_view, item.commenterDisplayName, item, adapterPosition)
         }
         itemView.view_replies_text_view.onDebouncingClick {
             itemView.view_replies_text_view.setText(if (isItemExpanded) R.string.hide_replies else R.string.show_replies)

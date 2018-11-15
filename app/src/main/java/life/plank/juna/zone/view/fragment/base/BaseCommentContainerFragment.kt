@@ -1,26 +1,44 @@
 package life.plank.juna.zone.view.fragment.base
 
 import android.util.Log
+import android.widget.EditText
+import android.widget.TextView
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.CommentEvent
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.DataUtil
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
-import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard
-import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
+import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 
 abstract class BaseCommentContainerFragment : BaseFragment() {
 
     protected lateinit var commentEvent: CommentEvent
+    private var isReply: Boolean = false
+    private var parentComment: FeedItemComment? = null
+    private var parentCommentPosition: Int = -1
+    private var replyPosition: Int = -1
 
     override fun onStart() {
         super.onStart()
         specifyCommentEvent()
+        getCommentEditText().textChangedListener {
+            onTextChanged { charSequence, _, _, _ ->
+                if (charSequence == null) resetReplyProperties()
+                charSequence?.run { if (isEmpty()) resetReplyProperties() }
+            }
+        }
+    }
+
+    private fun resetReplyProperties() {
+        isReply = false
+        parentComment = null
+        parentCommentPosition = -1
+        replyPosition = -1
     }
 
     fun getCommentEventForBoardComment(boardId: String): CommentEvent {
@@ -42,23 +60,45 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
 
     abstract fun getTheRestApi(): RestApi
 
-    abstract fun onPostReplyOnComment(reply: String, position: Int, comment: FeedItemComment)
+    abstract fun getCommentEditText(): EditText
 
-    abstract fun onCommentSuccessful(feedItemComment: FeedItemComment)
+    abstract fun onPostReplyOnComment(reply: String, position: Int, parentComment: FeedItemComment)
 
-    abstract fun onReplySuccessful(feedItemComment: FeedItemComment, comment: FeedItemComment?, position: Int)
+    abstract fun onCommentSuccessful(responseComment: FeedItemComment)
 
-    protected fun postCommentOrReply(commentOrReply: String, commentEvent: CommentEvent, isCommentOrReplyOnBoard: Boolean = true, comment: FeedItemComment? = null, position: Int = 0) {
+    abstract fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int)
+
+    fun replyAction(replyTextView: TextView, commenterDisplayName: String, parentComment: FeedItemComment, parentCommentPosition: Int, replyPosition: Int = -1) {
+        if (replyTextView.text == getString(R.string.reply)) {
+            replyTextView.setText(R.string.cancel)
+            val mentionText = "[$commenterDisplayName] ".semiBold()
+            getCommentEditText().setText(mentionText)
+            getCommentEditText().setSelection(mentionText.length)
+            getCommentEditText().requestFocus()
+            showSoftKeyboard(getCommentEditText())
+            isReply = true
+            this.parentComment = parentComment
+            this.parentCommentPosition = parentCommentPosition
+            this.replyPosition = replyPosition + 1
+        } else {
+            replyTextView.setText(R.string.reply)
+            getCommentEditText().text = null
+            getCommentEditText().clearFocus()
+            hideSoftKeyboard(getCommentEditText())
+            resetReplyProperties()
+        }
+    }
+
+    protected fun postCommentOrReply(commentOrReply: String, commentEvent: CommentEvent, isCommentOrReplyOnBoard: Boolean = true, feedItemId: String? = null) {
         hideSoftKeyboard(activity?.window?.decorView)
+        if (isReply) {
+            commentEvent.isReply = true
+            commentEvent.parentCommentId = parentComment?.id
+            commentEvent.feedItemId = feedItemId
+        }
         if (commentEvent.isReply) {
 //            Posting a reply
-            if (isCommentOrReplyOnBoard) {
-//                On the specified board's comment
-                postReplyOnBoardComment(commentOrReply, commentEvent, comment, position)
-            } else {
-//                 On the specified Feed item's comment
-                postReplyOnFeedItemComment(commentOrReply, commentEvent, comment, position)
-            }
+            parentComment?.run { onPostReplyOnComment(commentOrReply, parentCommentPosition, this) }
         } else {
 //            Posting a comment
             if (isCommentOrReplyOnBoard) {
@@ -95,7 +135,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                 })
     }
 
-    private fun postReplyOnBoardComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
+    protected fun postReplyOnBoardComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
         getTheRestApi().postReplyOnBoardComment(reply, commentEvent.parentCommentId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("replyOnBoard()", "ERROR: ", it)
@@ -107,7 +147,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
                 })
     }
 
-    private fun postReplyOnFeedItemComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
+    protected fun postReplyOnFeedItemComment(reply: String, commentEvent: CommentEvent, parentComment: FeedItemComment?, position: Int) {
         getTheRestApi().postReplyOnComment(reply, commentEvent.feedItemId, commentEvent.parentCommentId, commentEvent.boardId, getRequestDateStringOfNow(), getToken())
                 .setObserverThreadsAndSmartSubscribe({
                     Log.e("replyOnFeedItem()", "ERROR: ", it)
@@ -129,7 +169,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
     private fun handleReplyResponse(feedItemComment: FeedItemComment?, parentComment: FeedItemComment?, position: Int) {
         feedItemComment?.run {
             addNameAndPhotoIfNotPresent()
-            onReplySuccessful(this, parentComment, position)
+            onReplySuccessful(this, parentComment, position, replyPosition)
         }
     }
 

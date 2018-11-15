@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.EditText
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_forum.*
 import life.plank.juna.zone.R
@@ -61,9 +62,7 @@ class ForumFragment : BaseCommentContainerFragment() {
         getComments(false)
 
         post_comment.onDebouncingClick {
-            if (comment_edit_text.text.toString().isEmpty()) {
-                comment_edit_text.setError(getString(R.string.please_enter_comment), resources.getDrawable(R.drawable.ic_error, null))
-            } else {
+            if (!comment_edit_text.text.toString().isEmpty()) {
                 post_comment.clearFocus()
                 postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId))
             }
@@ -108,22 +107,26 @@ class ForumFragment : BaseCommentContainerFragment() {
 
     override fun getTheRestApi(): RestApi = restApi
 
-    override fun onPostReplyOnComment(reply: String, position: Int, comment: FeedItemComment) =
-            postCommentOrReply(reply, getCommentEventForReply(boardId, comment.id), true, comment)
+    override fun getCommentEditText(): EditText = comment_edit_text
 
-    override fun onCommentSuccessful(feedItemComment: FeedItemComment) {
+    override fun onPostReplyOnComment(reply: String, position: Int, parentComment: FeedItemComment) =
+            postReplyOnBoardComment(reply, getCommentEventForReply(boardId, parentComment.id), parentComment, position)
+
+    override fun onCommentSuccessful(responseComment: FeedItemComment) {
         comment_edit_text.text = null
         no_comment_text_view.visibility = View.GONE
-        adapter!!.addComment(feedItemComment)
+        adapter!!.addComment(responseComment)
+        post_comments_list.smoothScrollToPosition(0)
     }
 
-    override fun onReplySuccessful(feedItemComment: FeedItemComment, comment: FeedItemComment?, position: Int) {
-        comment?.run {
+    override fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int) {
+        comment_edit_text.text = null
+        parentComment?.run {
             if (isNullOrEmpty(replies)) {
                 replies = ArrayList()
             }
-            (replies as ArrayList).add(0, feedItemComment)
-            adapter!!.onReplyPostedOnComment(position, this)
+            (replies as ArrayList).add(replyPosition, responseReply)
+            adapter!!.onReplyPostedOnComment(parentCommentPosition, this)
         }
     }
 }

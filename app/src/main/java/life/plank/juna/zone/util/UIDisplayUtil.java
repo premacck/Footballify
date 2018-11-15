@@ -43,11 +43,7 @@ import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -84,7 +80,6 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Emoji;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.util.customview.TopGravityDrawable;
-import life.plank.juna.zone.view.activity.web.WebCardActivity;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -96,9 +91,9 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 
 public class UIDisplayUtil {
 
-    private static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
+    public static final StyleSpan BOLD_STYLE = new StyleSpan(Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "rajdhani_bold.ttf").getStyle());
     public static final Typeface SEMI_BOLD_TYPEFACE = Typeface.createFromAsset(ZoneApplication.getContext().getAssets(), "fonts/rajdhani_semibold.ttf");
-    private static final StyleSpan SEMI_BOLD_STYLE = new StyleSpan(SEMI_BOLD_TYPEFACE.getStyle());
+    public static final StyleSpan SEMI_BOLD_STYLE = new StyleSpan(SEMI_BOLD_TYPEFACE.getStyle());
 
     //TODO: Remove once implemented on backend
     public static Emoji[] emoji = new Emoji[] {
@@ -558,44 +553,6 @@ public class UIDisplayUtil {
         Point size = new Point();
         display.getSize(size);
         return new int[] {size.x, size.y};
-    }
-
-    public static SpannableString getBoldText(String text) {
-        SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(BOLD_STYLE, 0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-        return spannableString;
-    }
-
-    public static SpannableString getSemiBoldText(String text, @ColorRes int... colorRes) {
-        SpannableString spannableString = new SpannableString(text);
-        spannableString.setSpan(SEMI_BOLD_STYLE, 0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE);
-        if (colorRes.length > 0) {
-            spannableString.setSpan(
-                    new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), colorRes[0], null)),
-                    0, text.length(), SPAN_EXCLUSIVE_EXCLUSIVE
-            );
-        }
-        return spannableString;
-    }
-
-    public static SpannableString getClickableLink(Activity activity, String url) {
-        SpannableString spannableString = new SpannableString(url);
-        spannableString.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(@NonNull View widget) {
-                WebCardActivity.launch(activity, url);
-            }
-
-            @Override
-            public void updateDrawState(@NonNull TextPaint ds) {
-                super.updateDrawState(ds);
-                ds.setUnderlineText(true);
-            }
-        }, 0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannableString.setSpan(
-                new ForegroundColorSpan(ResourcesCompat.getColor(ZoneApplication.getContext().getResources(), R.color.dark_sky_blue, null)),
-                0, url.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return spannableString;
     }
 
     public static String getEmojiByUnicode(int unicode) {
