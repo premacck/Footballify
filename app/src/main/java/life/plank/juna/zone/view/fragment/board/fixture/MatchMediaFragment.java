@@ -1,12 +1,10 @@
 package life.plank.juna.zone.view.fragment.board.fixture;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +13,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,9 +25,6 @@ import butterknife.ButterKnife;
 import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.RestApiAggregator;
-import life.plank.juna.zone.data.model.Commentary;
-import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
@@ -45,19 +39,10 @@ import life.plank.juna.zone.util.facilis.BaseCard;
 import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
 import life.plank.juna.zone.view.adapter.board.info.BoardMediaAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
-import life.plank.juna.zone.view.fragment.football.LeagueInfoDetailPopup;
-import retrofit2.Response;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
-import static life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA;
 import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
-import static life.plank.juna.zone.util.AppConstants.LINEUPS_DATA;
-import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
 import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
-import static life.plank.juna.zone.util.AppConstants.STANDINGS;
 import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
@@ -120,7 +105,7 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new BoardMediaAdapter(matchDetails, picasso, getActivity(), this::onScrubberClick);
+        adapter = new BoardMediaAdapter(matchDetails, getActivity(), this::onScrubberClick);
         boardInfoRecyclerView.setAdapter(adapter);
     }
 
