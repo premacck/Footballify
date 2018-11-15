@@ -206,5 +206,9 @@
     <string name="throw_dart_msg">Tap on the player to throw dart</string>
     <string name="dart_board">Dart Board</string>
     <string name="clap_player_msg">Drag the clap icon to your player</string>
+    <string name="dartboard">Dartboard</string>
+    <string name="dartboard_player">Dartboard player</string>
+    <string name="vs">vs</string>
+    <string name="go_to_forum">Go to forum</string>
 
 </resources>
