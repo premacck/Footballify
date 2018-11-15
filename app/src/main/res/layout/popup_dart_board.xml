@@ -6,13 +6,13 @@
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/clapboard_card"
+        android:id="@+id/dartboard_card"
         style="@style/CardView.Root"
         android:layout_height="wrap_content"
         android:layout_gravity="center">     
 
         <RelativeLayout
-            android:id="@+id/clapboard_layout"
+            android:id="@+id/dartboard_layout"
             style="@style/MatchParentSize"
             android:background="@drawable/bg_translucent_card">
 
