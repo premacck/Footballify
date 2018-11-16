@@ -61,7 +61,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
 
                 ViewGroup.LayoutParams params = holder.zoneCard.getLayoutParams();
                 params.width = holder.zoneCard.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
-                params.height = holder.zoneCard.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
+                params.height = holder.zoneCard.getMeasuredHeight() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 holder.zoneCard.setLayoutParams(params);
                 onClickZoneItemListener.onItemClick(zone.getId(), false);
 
@@ -73,7 +73,7 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 ViewGroup.LayoutParams params = holder.zoneCard.getLayoutParams();
 
                 params.width = holder.zoneCard.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
-                params.height = holder.zoneCard.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
+                params.height = holder.zoneCard.getMeasuredHeight() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
                 holder.zoneCard.setLayoutParams(params);
                 onClickZoneItemListener.onItemClick(zone.getId(), true);
             }
