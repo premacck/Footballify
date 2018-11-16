@@ -18,15 +18,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.FootballTeam;
+import life.plank.juna.zone.interfaces.OnClickZoneItemListener;
 
 public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.FootballFeedViewHolder> {
 
     private List<FootballTeam> teamList;
     private Context context;
+    private OnClickZoneItemListener onClickZoneItemListener;
 
-    public OnboardingAdapter(Context activity, List<FootballTeam> teamList) {
+    public OnboardingAdapter(Context activity, List<FootballTeam> teamList, OnClickZoneItemListener onClickZoneItemListener) {
         this.context = activity;
         this.teamList = teamList;
+        this.onClickZoneItemListener = onClickZoneItemListener;
     }
 
     @Override
@@ -55,6 +58,8 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
 
                 params.width = holder.cardView.getMeasuredWidth() + context.getResources().getInteger(R.integer.team_grid_layout_width_param);
                 params.height = holder.cardView.getMeasuredHeight() + context.getResources().getInteger(R.integer.team_grid_layout_height_param);
+                onClickZoneItemListener.onItemClick(team.getName(), false);
+
 
             } else {
                 holder.followTick.setVisibility(View.VISIBLE);
@@ -63,6 +68,8 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
 
                 params.width = holder.cardView.getMeasuredWidth() - context.getResources().getInteger(R.integer.team_grid_layout_width_param);
                 params.height = holder.cardView.getMeasuredHeight() - context.getResources().getInteger(R.integer.team_grid_layout_height_param);
+                onClickZoneItemListener.onItemClick(team.getName(), true);
+
             }
             holder.cardView.setLayoutParams(params);
         });

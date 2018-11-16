@@ -266,4 +266,12 @@ public interface RestApi {
     @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/dart")
     Observable<Response<JsonObject>> postDart(@Path("boardId") String boardId,
                                               @Body User player);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/users/zonePreferences")
+    Observable<Response<String>> postTeamPreferences(@Query("zone") String zone,
+                                                     @Body Set<String> teamList,
+                                                     @Header("Authorization") String authHeader);
+
+    @GET(FOOTBALL_SUFFIX + "/teams/popular")
+    Observable<Response<List<FootballTeam>>> getPopularTeams(@Header("Authorization") String authHeader);
 }
