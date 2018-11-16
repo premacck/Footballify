@@ -193,7 +193,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
                     onBoardingAdapter?.setTeamList(it.body())
-                    //TODO: To be done once implemented on the backend
                 }
                 else -> errorToast(R.string.popular_team_not_found, it)
             }
@@ -205,8 +204,9 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
             Log.e(TAG, "Team Preference details: ", it)
         }, {
             when (it.code()) {
-                HttpURLConnection.HTTP_CREATED -> {
-                    //TODO: To be done once implemented on the backend
+                HttpURLConnection.HTTP_NO_CONTENT -> {
+                    onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
+                    onBoardingBottomSheetBehavior?.peekHeight = 0
                 }
                 else -> errorToast(R.string.team_pref_not_found, it)
             }
