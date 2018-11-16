@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:background="@color/black_50"
+    android:foreground="@drawable/ripple_dark_rect">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/keyboard_player_one"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="32.5dp"
+        android:layout_toStartOf="@+id/vs_text"
+        android:src="@drawable/player_a_lacazette"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="1dp"
+        app:civ_circle_background_color="@color/purple" />
+
+    <TextView
+        android:id="@+id/vs_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="5dp"
+        android:fontFamily="@font/rajdhani_medium"
+        android:gravity="center_horizontal"
+        android:text="@string/vs"
+        android:textColor="@color/white"
+        android:textSize="14sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/keyboard_player_two"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="32.5dp"
+        android:layout_toEndOf="@+id/vs_text"
+        android:src="@drawable/player_m_art"
+        app:civ_border_color="@color/white"
+        app:civ_border_width="1dp"
+        app:civ_circle_background_color="@color/red" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/transparent_black_b3"
+        android:fontFamily="@font/rajdhani_bold"
+        android:maxLines="1"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:text="@string/key_board"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>
