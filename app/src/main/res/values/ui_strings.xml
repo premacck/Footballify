@@ -213,5 +213,6 @@
     <string name="get_tickets">Get Tickets</string>
     <string name="key_board">Key Board</string>
     <string name="n_darts">%1$d Darts</string>
+    <string name="boards">BOARDS</string>
 
 </resources>
