@@ -109,7 +109,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun onResume() {
         super.onResume()
-        getUserBoards()
+        context?.doAfterDelay(1000) { getUserBoards() }
     }
 
     private fun initBottomSheetRecyclerView() {
