@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,10 +59,10 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 holder.zoneTitle.setVisibility(View.VISIBLE);
                 holder.followersCount.setVisibility(View.VISIBLE);
 
-                ViewGroup.LayoutParams params = holder.zoneImageView.getLayoutParams();
-                params.width = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
-                params.height = holder.zoneImageView.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
-                holder.zoneImageView.setLayoutParams(params);
+                ViewGroup.LayoutParams params = holder.zoneCard.getLayoutParams();
+                params.width = holder.zoneCard.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
+                params.height = holder.zoneCard.getMeasuredWidth() + context.getResources().getInteger(R.integer.zone_grid_layout_param);
+                holder.zoneCard.setLayoutParams(params);
                 onClickZoneItemListener.onItemClick(zone.getId(), false);
 
             } else {
@@ -69,11 +70,11 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
                 holder.zoneImageView.setAlpha(context.getResources().getInteger(R.integer.visiblilty_160));
                 holder.zoneTitle.setVisibility(View.INVISIBLE);
                 holder.followersCount.setVisibility(View.INVISIBLE);
-                ViewGroup.LayoutParams params = holder.zoneImageView.getLayoutParams();
+                ViewGroup.LayoutParams params = holder.zoneCard.getLayoutParams();
 
-                params.width = holder.zoneImageView.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
-                params.height = holder.zoneImageView.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
-                holder.zoneImageView.setLayoutParams(params);
+                params.width = holder.zoneCard.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
+                params.height = holder.zoneCard.getMeasuredWidth() - context.getResources().getInteger(R.integer.zone_grid_layout_param);
+                holder.zoneCard.setLayoutParams(params);
                 onClickZoneItemListener.onItemClick(zone.getId(), true);
             }
         });
@@ -88,6 +89,8 @@ public class ZoneAdapter extends RecyclerView.Adapter<ZoneAdapter.ZoneViewHolder
 
         @BindView(R.id.zone_image_view)
         ImageView zoneImageView;
+        @BindView(R.id.zone_card)
+        CardView zoneCard;
         @BindView(R.id.zone_title_text_view)
         TextView zoneTitle;
         @BindView(R.id.followers_count_layout)

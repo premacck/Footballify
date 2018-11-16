@@ -1,9 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_color"
-    android:orientation="vertical"
-    android:weightSum="10">
+    android:layout_height="match_parent">
 
     <life.plank.juna.zone.util.customview.ZoneToolBar
         android:id="@+id/feed_header"
@@ -11,10 +9,13 @@
         android:layout_height="wrap_content" />
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/feed_header"
         android:layout_marginStart="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"
         android:fontFamily="@font/raleway_medium"
         android:gravity="start"
         android:lineSpacingExtra="8sp"
@@ -26,15 +27,21 @@
         android:id="@+id/board_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="8" />
+        android:layout_above="@id/follow_button"
+        android:layout_below="@+id/title"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp" />
 
     <Button
         android:id="@+id/follow_button"
         android:layout_width="187dp"
         android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/button_background"
         android:fontFamily="@font/raleway_bold"
         android:text="@string/follow"
@@ -42,4 +49,4 @@
         android:textColor="@color/white"
         android:textSize="20sp" />
 
-</LinearLayout>
+</RelativeLayout>
