@@ -214,5 +214,7 @@
     <string name="key_board">Key Board</string>
     <string name="n_darts">%1$d Darts</string>
     <string name="boards">BOARDS</string>
+    <string name="react_to_this_board">React to this Board</string>
+    <string name="reaction">Reaction</string>
 
 </resources>
