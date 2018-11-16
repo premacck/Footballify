@@ -43,17 +43,17 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         setTitle(array.getString(R.styleable.GenericToolbar_toolbarTitle))
         setBoardTitle(array.getString(R.styleable.GenericToolbar_boardTypeTitle))
         setLeagueLogo(array.getResourceId(R.styleable.GenericToolbar_logo, R.drawable.ic_board_beer))
-        share_btn!!.visibility = if (array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
-        options_menu!!.visibility = if (array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
-        following_button!!.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
-        info_tiles_tab_layout!!.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
-        drag_handle!!.visibility = if (array.getInt(R.styleable.GenericToolbar_dragHandleVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
+        share_btn?.visibility = if (array.getInt(R.styleable.GenericToolbar_shareButtonVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
+        options_menu?.visibility = if (array.getInt(R.styleable.GenericToolbar_optionsMenuVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
+        following_button?.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
+        info_tiles_tab_layout?.visibility = if (array.getInt(R.styleable.GenericToolbar_followingTextVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
+        drag_handle?.visibility = if (array.getInt(R.styleable.GenericToolbar_dragHandleVisibility, 0) == 0) View.VISIBLE else View.INVISIBLE
         showLock(array.getBoolean(R.styleable.GenericToolbar_isLockVisible, false))
         array.recycle()
     }
 
     fun setUpPrivateBoardPopUp(activity: Activity, popupType: String, deleteListener: View.OnClickListener) {
-        options_menu!!.setOnClickListener { view ->
+        options_menu?.setOnClickListener { view ->
             val location = IntArray(2)
 
             view.getLocationOnScreen(location)
@@ -83,12 +83,12 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
 
     override fun dispose() {
         listener = null
-        following_button!!.setOnClickListener(null)
-        options_menu!!.setOnClickListener(null)
+        following_button?.setOnClickListener(null)
+        options_menu?.setOnClickListener(null)
     }
 
     fun setTitle(title: String?) {
-        this.title!!.text = title
+        this.title?.text = title
     }
 
     override fun setLeagueLogo(logoUrl: String) {
@@ -101,27 +101,27 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     override fun setLeagueLogo(@DrawableRes resource: Int) {
-        logo!!.setImageResource(resource)
+        logo?.setImageResource(resource)
     }
 
     override fun setPeopleCount(peopleCount: String) {
-        people_count!!.text = peopleCount
+        people_count?.text = peopleCount
     }
 
     override fun setCommentCount(commentsCount: String) {
-        comment_count!!.text = commentsCount
+        comment_count?.text = commentsCount
     }
 
     override fun setBoardTitle(boardTitle: String?) {
-        board_type_title!!.text = boardTitle
+        board_type_title?.text = boardTitle
     }
 
     fun setBoardTitle(@StringRes boardTitle: Int) {
-        board_type_title!!.setText(boardTitle)
+        board_type_title?.setText(boardTitle)
     }
 
     override fun showLock(showLock: Boolean) {
-        lock!!.visibility = if (showLock) View.VISIBLE else View.GONE
+        lock?.visibility = if (showLock) View.VISIBLE else View.GONE
     }
 
     override fun isFollowing(): Boolean {
@@ -138,13 +138,13 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
 
     override fun setupWithViewPager(viewPager: ViewPager) {
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout))
-        info_tiles_tab_layout!!.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+        info_tiles_tab_layout?.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
     }
 
     fun setupForPreview() {
-        share_btn!!.visibility = View.INVISIBLE
-        options_menu!!.visibility = View.INVISIBLE
-        following_button!!.visibility = View.INVISIBLE
-        info_tiles_tab_layout!!.visibility = View.INVISIBLE
+        share_btn?.visibility = View.INVISIBLE
+        options_menu?.visibility = View.INVISIBLE
+        following_button?.visibility = View.INVISIBLE
+        info_tiles_tab_layout?.visibility = View.INVISIBLE
     }
 }
