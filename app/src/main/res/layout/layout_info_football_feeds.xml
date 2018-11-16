@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/football_feed_background"
-    android:padding="10dp">
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:id="@+id/feed_info_text_view"
@@ -25,6 +27,7 @@
         android:drawablePadding="8dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="3sp"
+        android:padding="5dp"
         android:text="@string/_1_4m"
         android:textColor="@color/white"
         android:textSize="12sp" />
@@ -40,11 +43,13 @@
         android:drawablePadding="8dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="3sp"
+        android:padding="5dp"
         android:text="@string/_3_8m"
         android:textColor="@color/white"
         android:textSize="12sp" />
 
     <TextView
+        android:id="@+id/number_of_interactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/feed_info_text_view"
@@ -54,8 +59,32 @@
         android:drawablePadding="8dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:lineSpacingExtra="3sp"
+        android:padding="5dp"
         android:text="@string/_16_2m"
         android:textColor="@color/white"
         android:textSize="12sp" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/board_info_tab_layout"
+        style="@style/InfoTilesTabLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/feed_info_text_view"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="20dp"
+        android:layout_toEndOf="@+id/number_of_interactions">
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/boards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/boards" />
+
+        <android.support.design.widget.TabItem
+            android:id="@+id/info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/info" />
+    </android.support.design.widget.TabLayout>
 
 </RelativeLayout>
