@@ -248,12 +248,11 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
                                 setUpUserZoneAdapter(user.userPreferences)
                                 onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
 
-                                if (user.userPreferences!![0].zonePreferences.teams!!.isEmpty()) {
+                                if (isNullOrEmpty(user.userPreferences!![0].zonePreferences)) {
                                     onboarding_bottom_sheet.visibility = View.VISIBLE
                                     onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
                                     onBoardingBottomSheetBehavior?.peekHeight = 1000
                                 }
-
                             } else {
                                 onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                             }
