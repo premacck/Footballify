@@ -24,12 +24,13 @@ import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardMembersFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
-import life.plank.juna.zone.view.fragment.board.fixture.KeyBoardPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.LineupFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchMediaFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.MatchStatsFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
+import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup;
+import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup;
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
@@ -129,6 +130,8 @@ public interface UiComponent {
     void inject(MatchMediaFragment matchMediaFragment);
 
     void inject(KeyBoardPopup keyBoardPopup);
+
+    void inject(DartBoardPopup dartBoardPopup);
 
     @Subcomponent.Builder
     interface Builder {
