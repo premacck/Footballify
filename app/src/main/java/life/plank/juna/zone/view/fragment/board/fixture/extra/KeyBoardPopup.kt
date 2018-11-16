@@ -1,4 +1,4 @@
-package life.plank.juna.zone.view.fragment.board.fixture
+package life.plank.juna.zone.view.fragment.board.fixture.extra
 
 import android.content.ClipData
 import android.content.ClipDescription
