@@ -33,24 +33,26 @@ class ForumFragment : BaseCommentContainerFragment() {
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
 
-    lateinit var boardId: String
+    private var boardId: String? = null
     private var adapter: PostCommentAdapter? = null
 
     companion object {
         private val TAG = ForumFragment::class.java.simpleName
-        fun newInstance(boardId: String) = ForumFragment().apply { arguments = Bundle().apply { putString(findString(R.string.intent_board_id), boardId) } }
+        fun newInstance(boardId: String?) = ForumFragment().apply { arguments = Bundle().apply { putString(findString(R.string.intent_board_id), boardId) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getApplication().uiComponent.inject(this)
-        arguments?.run { boardId = getString(getString(R.string.intent_board_id))!! }
+        arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        if (boardId == null) return
+        
         adapter = PostCommentAdapter(Glide.with(this), this, getString(R.string.forum))
         post_comments_list.adapter = adapter
         setAdapterData()
@@ -62,9 +64,9 @@ class ForumFragment : BaseCommentContainerFragment() {
         getComments(false)
 
         post_comment.onDebouncingClick {
-            if (!comment_edit_text.text.toString().isEmpty()) {
+            if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
                 post_comment.clearFocus()
-                postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId))
+                postCommentOrReply(comment_edit_text.text.toString(), getCommentEventForBoardComment(boardId!!))
             }
         }
         forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
@@ -102,15 +104,20 @@ class ForumFragment : BaseCommentContainerFragment() {
     }
 
     override fun specifyCommentEvent() {
-        commentEvent = getCommentEventForBoardComment(boardId)
+        boardId?.run {
+            commentEvent = getCommentEventForBoardComment(this)
+        }
     }
 
     override fun getTheRestApi(): RestApi = restApi
 
     override fun getCommentEditText(): EditText = comment_edit_text
 
-    override fun onPostReplyOnComment(reply: String, position: Int, parentComment: FeedItemComment) =
-            postReplyOnBoardComment(reply, getCommentEventForReply(boardId, parentComment.id), parentComment, position)
+    override fun onPostReplyOnComment(reply: String, position: Int, parentComment: FeedItemComment) {
+        boardId?.run {
+            postReplyOnBoardComment(reply, getCommentEventForReply(this, parentComment.id), parentComment, position)
+        }
+    }
 
     override fun onCommentSuccessful(responseComment: FeedItemComment) {
         comment_edit_text.text = null
