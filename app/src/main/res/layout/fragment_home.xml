@@ -25,12 +25,14 @@
                 android:id="@+id/user_boards_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layoutAnimation="@anim/layout_anim_float_left"
                 android:layout_below="@+id/feed_header"
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 android:paddingStart="9dp"
                 android:paddingEnd="9dp"
-                android:visibility="invisible"
+                android:minHeight="80dp"
+                android:visibility="visible"
                 app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_image_and_title" />
 
@@ -50,6 +52,7 @@
                 android:clipToPadding="false"
                 android:nestedScrollingEnabled="false"
                 android:paddingStart="3dp"
+                android:layoutAnimation="@anim/layout_anim_float_left"
                 android:paddingEnd="3dp"
                 android:visibility="invisible"
                 app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
@@ -71,6 +74,7 @@
                 android:layout_margin="5dp"
                 android:nestedScrollingEnabled="false"
                 android:visibility="invisible"
+                android:layoutAnimation="@anim/layout_anim_float_up"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="3"
                 tools:listitem="@layout/item_board_grid_row" />
