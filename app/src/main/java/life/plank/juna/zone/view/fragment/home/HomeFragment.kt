@@ -5,8 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
-import android.text.Editable
-import android.text.TextWatcher
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -30,6 +29,8 @@ import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
+import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
+import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -40,11 +41,12 @@ import life.plank.juna.zone.view.adapter.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
+import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
 
-class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
+class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     @Inject
     lateinit var gson: Gson
@@ -86,44 +88,29 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
         setupOnBoardingBottomSheet()
         initBottomSheetRecyclerView()
 
-        initRecyclerView()
-        initZoneRecyclerView()
+        startShimmers()
         initBoardsRecyclerView()
+        initFeedRecyclerView()
+        initZoneRecyclerView()
 
-        getUserZones()
+        context?.doAfterDelay(1000) {
+            getUserZones()
+            getUserFeed()
+        }
 
         setUpToolbarAndBoomMenu()
         arc_menu.setupWith(nestedScrollView)
 
-        getUserFeed()
+        prepareSearchEditText()
 
         feed_header.initListeners(this)
-
-        search_edit_text.addTextChangedListener(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
     }
 
-
     override fun onResume() {
         super.onResume()
-        getUserBoards()
+        context?.doAfterDelay(1000) { getUserBoards() }
     }
-
-    override fun afterTextChanged(p0: Editable?) {
-    }
-
-    override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-    }
-
-    override fun onTextChanged(charSequence: CharSequence?, p1: Int, p2: Int, p3: Int) {
-        if (!isNullOrEmpty(charSequence.toString())) {
-            getFootballTeams(charSequence.toString())
-        } else {
-            teamList.clear()
-            onBoardingAdapter?.notifyDataSetChanged()
-        }
-    }
-
 
     private fun initBottomSheetRecyclerView() {
         onBoardingAdapter = OnboardingAdapter(activity, teamList)
@@ -133,6 +120,19 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
     private fun setupOnBoardingBottomSheet() {
         onBoardingBottomSheetBehavior = BottomSheetBehavior.from(onboarding_bottom_sheet)
         onBoardingBottomSheetBehavior?.peekHeight = 0
+    }
+
+    private fun prepareSearchEditText() {
+        search_edit_text.textChangedListener {
+            onTextChanged { charSequence, _, _, _ ->
+                if (!isNullOrEmpty(charSequence.toString())) {
+                    getFootballTeams(charSequence.toString())
+                } else {
+                    teamList.clear()
+                    onBoardingAdapter?.notifyDataSetChanged()
+                }
+            }
+        }
     }
 
     private fun setUpToolbarAndBoomMenu() {
@@ -146,7 +146,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
         }
     }
 
-    private fun initRecyclerView() {
+    private fun initFeedRecyclerView() {
         userFeedAdapter = UserFeedAdapter(this, Glide.with(this))
         user_feed_recycler_view.adapter = userFeedAdapter
     }
@@ -188,6 +188,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
 
     private fun getUserZones() {
         if (isNullOrEmpty(getToken())) {
+            onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
+            shimmer_user_zones.visibility = View.GONE
             user_zone_recycler_view.visibility = View.GONE
             return
         }
@@ -199,9 +201,15 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
                     val user = it.body()
                     if (user != null) {
                         setUpUserZoneAdapter(user.userPreferences)
+                        onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
+                    } else {
+                        onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                     }
                 }
-                else -> errorToast(R.string.failed_to_retrieve_zones, it)
+                else -> {
+                    errorToast(R.string.failed_to_retrieve_zones, it)
+                    onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
+                }
             }
         })
     }
@@ -216,16 +224,29 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
                     feedEntries = it.body() as ArrayList<FeedEntry>
                     if (!isNullOrEmpty(feedEntries)) {
                         userFeedAdapter!!.setUserFeed(feedEntries)
-                    } else
+                        onRecyclerViewContentsLoaded(user_feed_recycler_view, shimmer_user_feed)
+                    } else {
                         errorToast(R.string.failed_to_retrieve_feed, it)
+                        onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                    }
                 }
-                else -> errorToast(R.string.failed_to_retrieve_feed, it)
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                    onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                }
+                else -> {
+                    errorToast(R.string.failed_to_retrieve_feed, it)
+                    onRecyclerViewContentsFailedToLoad(user_feed_recycler_view, shimmer_user_feed)
+                }
             }
         })
     }
 
     private fun getUserBoards() {
-        if (isNullOrEmpty(getToken())) return
+        if (isNullOrEmpty(getToken())) {
+            shimmer_user_boards.visibility = View.GONE
+            user_boards_recycler_view.visibility = View.GONE
+            return
+        }
 
         restApi.getFollowingBoards(getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserBoards(): onError(): ", it)
@@ -234,11 +255,17 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
                 HttpURLConnection.HTTP_OK -> {
                     if (!isNullOrEmpty(it.body())) {
                         userBoardsAdapter!!.setUserBoards(it.body()!!)
-                    } else
-                        user_boards_recycler_view.visibility = View.GONE
+                        onRecyclerViewContentsLoaded(user_boards_recycler_view, shimmer_user_boards)
+                    } else onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
                 }
-                HttpURLConnection.HTTP_NOT_FOUND -> user_boards_recycler_view.visibility = View.GONE
-                else -> errorToast(R.string.failed_to_retrieve_board, it)
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                    shimmer_user_boards.visibility = View.GONE
+                    user_boards_recycler_view.visibility = View.GONE
+                }
+                else -> {
+                    errorToast(R.string.failed_to_retrieve_board, it)
+                    onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
+                }
             }
         })
     }
@@ -270,6 +297,24 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, TextWatcher {
         val window = signUpDialog.window
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         signUpDialog.show()
+    }
+
+    private fun startShimmers() {
+        (shimmer_user_boards as ShimmerRelativeLayout).startShimmerAnimation()
+        (shimmer_user_feed as ShimmerRelativeLayout).startShimmerAnimation()
+        (shimmer_user_zones as ShimmerRelativeLayout).startShimmerAnimation()
+    }
+
+    private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: View) {
+        recyclerView.visibility = View.VISIBLE
+        (shimmerRelativeLayout as? ShimmerRelativeLayout)?.stopShimmerAnimation()
+        shimmerRelativeLayout.visibility = View.INVISIBLE
+    }
+
+    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: View) {
+        recyclerView.visibility = View.INVISIBLE
+        (shimmerRelativeLayout as? ShimmerRelativeLayout)?.stopShimmerAnimation()
+        (shimmerRelativeLayout as? ShimmerRelativeLayout)?.alpha = 0.2f
     }
 
     override fun updateFullScreenAdapter(feedEntryList: List<FeedEntry>) {}

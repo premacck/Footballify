@@ -79,4 +79,5 @@
     <color name="white_50">#99ffffff</color>
     <color name="brownish_yellow">#c2b803</color>
     <color name="white_40">#66ffffff</color>
+    <color name="grey_shimmer">#ebebeb</color>
 </resources>

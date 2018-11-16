@@ -7,91 +7,103 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <RelativeLayout
-        android:id="@+id/parent_layout"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <life.plank.juna.zone.util.customview.ZoneToolBar
+                android:id="@+id/feed_header"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content" />
 
-                <life.plank.juna.zone.util.customview.ZoneToolBar
-                    android:id="@+id/feed_header"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_boards_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layoutAnimation="@anim/layout_anim_float_left"
+                android:layout_below="@+id/feed_header"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="9dp"
+                android:paddingEnd="9dp"
+                android:minHeight="80dp"
+                android:visibility="visible"
+                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                tools:listitem="@layout/item_image_and_title" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/user_boards_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/feed_header"
-                    android:nestedScrollingEnabled="false"
-                    android:clipToPadding="false"
-                    android:paddingStart="9dp"
-                    android:paddingEnd="9dp"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-                    tools:listitem="@layout/item_image_and_title" />
+            <include
+                android:id="@+id/shimmer_user_boards"
+                layout="@layout/shimmer_user_boards"
+                android:layout_width="match_parent"
+                android:layout_height="78dp"
+                android:layout_alignTop="@+id/user_boards_recycler_view"
+                android:layout_alignBottom="@+id/user_boards_recycler_view" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/user_zone_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_boards_recycler_view"
-                    android:clipToPadding="false"
-                    android:paddingStart="3dp"
-                    android:paddingEnd="3dp"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
-                    tools:listitem="@layout/item_zone_user_feed" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_zone_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_below="@+id/user_boards_recycler_view"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:paddingStart="3dp"
+                android:layoutAnimation="@anim/layout_anim_float_left"
+                android:paddingEnd="3dp"
+                android:visibility="invisible"
+                app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
+                tools:listitem="@layout/item_zone_user_feed" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/user_feed_recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/user_zone_recycler_view"
-                    android:layout_margin="5dp"
-                    android:nestedScrollingEnabled="false"
-                    app:layoutManager="android.support.v7.widget.GridLayoutManager"
-                    app:spanCount="3"
-                    tools:listitem="@layout/item_board_grid_row" />
+            <include
+                android:id="@+id/shimmer_user_zones"
+                layout="@layout/shimmer_user_zones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_zone_recycler_view"
+                android:layout_alignBottom="@+id/user_zone_recycler_view" />
 
-            </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/user_feed_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/user_zone_recycler_view"
+                android:layout_margin="5dp"
+                android:nestedScrollingEnabled="false"
+                android:visibility="invisible"
+                android:layoutAnimation="@anim/layout_anim_float_up"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="3"
+                tools:listitem="@layout/item_board_grid_row" />
 
-        </android.support.v4.widget.NestedScrollView>
+            <include
+                android:id="@+id/shimmer_user_feed"
+                layout="@layout/shimmer_user_feed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/user_feed_recycler_view" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="gone" />
+        </RelativeLayout>
 
-        <com.bvapp.arcmenulibrary.ArcMenu
-            android:id="@+id/arc_menu"
-            style="@style/ArcMenuDefault" />
+    </android.support.v4.widget.NestedScrollView>
 
-        <ImageView
-            android:id="@+id/board_blur_background_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/blur_background"
-            android:scaleType="centerCrop"
-            android:visibility="invisible" />
-
-    </RelativeLayout>
+    <com.bvapp.arcmenulibrary.ArcMenu
+        android:id="@+id/arc_menu"
+        style="@style/ArcMenuDefault"
+        android:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/peek_popup_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true" />
+        android:animateLayoutChanges="true"
+        android:visibility="gone" />
 
-    <include layout="@layout/onboarding_bottom_sheet" />
+    <include
+        layout="@layout/onboarding_bottom_sheet"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>
