@@ -258,4 +258,8 @@ public interface RestApi {
     @GET(FOOTBALL_SUFFIX + "/teams")
     Observable<Response<List<FootballTeam>>> getSearchedFootballTeams(@Query("teamNamePart") String teamName,
                                                                       @Header("Authorization") String authHeader);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/clap")
+    Observable<Response<JsonObject>> postClap(@Path("boardId") String boardId,
+                                              @Body User player);
 }
