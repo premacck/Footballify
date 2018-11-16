@@ -10,7 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
-import kotlinx.android.synthetic.main.item_keyboard.*
+import kotlinx.android.synthetic.main.popup_key_board.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
@@ -39,7 +39,7 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.item_keyboard, container, false)
+        return inflater.inflate(R.layout.popup_key_board, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

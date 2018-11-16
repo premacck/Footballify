@@ -70,8 +70,7 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
     @Inject
-    public
-    Picasso picasso;
+    public Picasso picasso;
     @BindView(R.id.tile_content_layout)
     LinearLayout tileContentLayout;
     @BindView(R.id.extras_layout)

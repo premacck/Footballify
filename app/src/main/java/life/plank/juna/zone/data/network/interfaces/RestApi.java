@@ -262,4 +262,8 @@ public interface RestApi {
     @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/clap")
     Observable<Response<JsonObject>> postClap(@Path("boardId") String boardId,
                                               @Body User player);
+
+    @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/dart")
+    Observable<Response<JsonObject>> postDart(@Path("boardId") String boardId,
+                                              @Body User player);
 }
