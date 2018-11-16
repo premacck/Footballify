@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<life.plank.juna.zone.util.customview.ShimmerRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="120dp"
@@ -31,4 +31,4 @@
         android:layout_marginBottom="5dp"
         android:layout_marginStart="5dp" />
 
-</life.plank.juna.zone.util.customview.ShimmerRelativeLayout>
+</RelativeLayout>
