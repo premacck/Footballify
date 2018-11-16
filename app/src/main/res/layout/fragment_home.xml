@@ -37,7 +37,6 @@
                 tools:listitem="@layout/item_image_and_title" />
 
             <include
-                android:id="@+id/shimmer_user_boards"
                 layout="@layout/shimmer_user_boards"
                 android:layout_width="match_parent"
                 android:layout_height="78dp"
@@ -59,7 +58,6 @@
                 tools:listitem="@layout/item_zone_user_feed" />
 
             <include
-                android:id="@+id/shimmer_user_zones"
                 layout="@layout/shimmer_user_zones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,7 +78,6 @@
                 tools:listitem="@layout/item_board_grid_row" />
 
             <include
-                android:id="@+id/shimmer_user_feed"
                 layout="@layout/shimmer_user_feed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
