@@ -132,15 +132,17 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
                         }
                     }
                 }
-                isFixtureListReady = true
             }
             uiThread {
-                fixtureByMatchDayList?.run {
-                    (parentFragment as? LeagueInfoFragment)?.setMatchday(this[recyclerViewScrollIndex].matchDay)
-                }
                 progress_bar.visibility = View.GONE
                 fixtureMatchdayAdapter?.updateFixtures()
-                fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
+                if (!isFixtureListReady) {
+                    fixtureByMatchDayList?.run {
+                        (parentFragment as? LeagueInfoFragment)?.setMatchday(this[recyclerViewScrollIndex].matchDay)
+                    }
+                    fixtures_section_list.scrollToPosition(recyclerViewScrollIndex)
+                    isFixtureListReady = true
+                }
             }
         }
     }
