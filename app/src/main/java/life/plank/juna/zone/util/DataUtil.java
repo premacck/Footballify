@@ -95,6 +95,10 @@ public class DataUtil {
         return s == null || s.isEmpty();
     }
 
+    public static boolean isNullOrEmpty(Object s) {
+        return s == null;
+    }
+
     public static boolean isNullOrEmpty(CharSequence s) {
         return s == null;
     }
@@ -560,16 +564,6 @@ public class DataUtil {
         return matchEventList;
     }
 
-    static class MatchEventComparator implements Comparator<MatchEvent> {
-        @Override
-        public int compare(MatchEvent o1, MatchEvent o2) {
-            if (Objects.equals(o1.getMinute(), o2.getMinute())) {
-                return Integer.compare(o1.getExtraMinute(), o2.getExtraMinute());
-            }
-            return Integer.compare(o1.getMinute(), o2.getMinute());
-        }
-    }
-
     public static Lineups getIntegratedLineups(Lineups lineups, List<MatchEvent> matchEvents) {
         for (MatchEvent matchEvent : matchEvents) {
             if (matchEvent.isHomeTeam()) {
@@ -604,6 +598,16 @@ public class DataUtil {
                     }
                 }
             }
+        }
+    }
+
+    static class MatchEventComparator implements Comparator<MatchEvent> {
+        @Override
+        public int compare(MatchEvent o1, MatchEvent o2) {
+            if (Objects.equals(o1.getMinute(), o2.getMinute())) {
+                return Integer.compare(o1.getExtraMinute(), o2.getExtraMinute());
+            }
+            return Integer.compare(o1.getMinute(), o2.getMinute());
         }
     }
 

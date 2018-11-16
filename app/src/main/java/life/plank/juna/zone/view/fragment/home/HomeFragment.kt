@@ -237,25 +237,32 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
             user_zone_recycler_view.visibility = View.GONE
             return
         }
-        restApi.getUser(getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "getUserZones(): onError: ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    val user = it.body()
-                    if (user != null) {
-                        setUpUserZoneAdapter(user.userPreferences)
-                        onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
-                    } else {
-                        onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
+        restApi.getUser(getToken())
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "getUserZones(): onError: ", it)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_OK -> {
+                            val user = it.body()
+                            if (user != null) {
+                                setUpUserZoneAdapter(user.userPreferences)
+                                onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
+
+                                if (isNullOrEmpty(user.userPreferences!![0].zonePreferences)) {
+                                    onboarding_bottom_sheet.visibility = View.VISIBLE
+                                    onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
+                                    onBoardingBottomSheetBehavior?.peekHeight = 1000
+                                }
+                            } else {
+                                onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
+                            }
+                        }
+                        else -> {
+                            errorToast(R.string.failed_to_retrieve_zones, it)
+                            onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
+                        }
                     }
-                }
-                else -> {
-                    errorToast(R.string.failed_to_retrieve_zones, it)
-                    onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
-                }
-            }
-        })
+                })
     }
 
     private fun getUserFeed() {

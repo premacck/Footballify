@@ -256,10 +256,12 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
                                         ((FeedEntryContainer) getParentFragment()).updateFullScreenAdapter(feedItemList);
                                     }
                                 } else
-                                    updateUi(false, R.string.board_yet_to_be_populated);
-                                break;
+                                    //TODO: Uncomment later
+                                    // updateUi(false, R.string.board_yet_to_be_populated);
+                                    break;
                             case HttpURLConnection.HTTP_NOT_FOUND:
-                                updateUi(false, R.string.board_yet_to_be_populated);
+                                //TODO: Uncomment later
+                                //  updateUi(false, R.string.board_yet_to_be_populated);
                                 break;
                             default:
                                 updateUi(false, R.string.failed_to_retrieve_board);
@@ -293,7 +295,7 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
 
     @Override
     public void fireOnItemClick(int index, @NotNull View v) {
-        if (! isNullOrEmpty(adapter.getBoardFeed()) && getParentFragment() instanceof FeedEntryContainer) {
+        if (!isNullOrEmpty(adapter.getBoardFeed()) && getParentFragment() instanceof FeedEntryContainer) {
             ((FeedEntryContainer) getParentFragment()).openFeedEntry(adapter.getBoardFeed(), boardId, index, BOARD);
         }
     }
