@@ -210,5 +210,8 @@
     <string name="dartboard_player">Dartboard player</string>
     <string name="vs">vs</string>
     <string name="go_to_forum">Go to forum</string>
+    <string name="get_tickets">Get Tickets</string>
+    <string name="key_board">Key Board</string>
+    <string name="n_darts">%1$d Darts</string>
 
 </resources>

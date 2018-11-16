@@ -1,269 +1,353 @@
 <?xml version="1.0" encoding="utf-8"?>
 <io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/blur_layout"
     style="@style/BlurLayoutFullScreen"
-    android:id="@+id/blur_layout">
+    android:visibility="visible">
 
-    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/dartboard_card"
-        style="@style/CardView.Root"
+    <RelativeLayout
+        android:id="@+id/dartboard_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center">     
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:background="@drawable/bg_translucent_card"
+        android:elevation="8dp">
 
-        <RelativeLayout
-            android:id="@+id/dartboard_layout"
+        <View
+            android:id="@+id/drag_area"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+        <ImageView
+            style="@style/DragHandleLightImageView"
+            android:contentDescription="@string/thumbnail" />
+
+        <TextView
+            android:id="@+id/dartboard_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_toStartOf="@+id/go_to_forum"
+            android:fontFamily="@font/raleway_semibold"
+            android:gravity="center_vertical"
+            android:text="@string/dart_board"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/go_to_forum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/dartboard_text"
+            android:layout_alignBottom="@+id/dartboard_text"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="18dp"
+            android:background="@drawable/white_border_button"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/go_to_forum"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="13sp" />
+
+        <ImageView
+            android:id="@+id/dartboard_one"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@+id/dartboard_text"
+            android:layout_marginTop="45dp"
+            android:layout_toStartOf="@+id/vs_text"
+            android:contentDescription="@string/dartboard"
+            android:src="@drawable/ic_dartboard" />
+
+        <FrameLayout
+            android:id="@+id/dart_layout_one"
             style="@style/MatchParentSize"
-            android:background="@drawable/bg_translucent_card">
-
-            <View
-                android:id="@+id/drag_area"
-                android:layout_width="match_parent"
-                android:layout_height="60dp" />
+            android:layout_alignStart="@+id/dartboard_one"
+            android:layout_alignTop="@+id/dartboard_one"
+            android:layout_alignEnd="@+id/dartboard_one"
+            android:layout_alignBottom="@+id/dartboard_one">
 
             <ImageView
-                style="@style/DragHandleImageView"
-                android:contentDescription="@string/thumbnail" />
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/dartboard_player"
+                android:src="@drawable/player_m_art" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/player_name_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dartboard_one"
+            android:layout_alignStart="@+id/dartboard_one"
+            android:layout_alignEnd="@+id/dartboard_one"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <FrameLayout
+            android:id="@+id/player_points_view_one_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_name_one"
+            android:layout_alignStart="@+id/dartboard_one"
+            android:layout_alignEnd="@+id/dartboard_one"
+            android:layout_marginBottom="8dp">
 
             <TextView
-                android:id="@+id/dartboard_text"
+                android:id="@+id/player_points_view_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="18dp"
-                android:layout_toStartOf="@+id/go_to_forum"
-                android:fontFamily="@font/raleway_semibold"
-                android:gravity="center_vertical"
-                android:text="@string/dart_board"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/go_to_forum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/dartboard_text"
-                android:layout_alignBottom="@+id/dartboard_text"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="18dp"
-                android:background="@drawable/white_border_button"
-                android:fontFamily="@font/rajdhani_medium"
+                android:layout_gravity="center"
+                android:background="@drawable/scarlet_red_curved_corners"
                 android:gravity="center"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/go_to_forum"
-                android:textAllCaps="true"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="6.2"
                 android:textColor="@color/white"
-                android:textSize="13sp" />
-
-            <ImageView
-                android:id="@+id/dartboard_one"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_below="@+id/dartboard_text"
-                android:layout_marginTop="45dp"
-                android:layout_toStartOf="@+id/vs_text"
-                android:contentDescription="@string/dartboard"
-                android:src="@drawable/ic_dartboard" />
-
-            <FrameLayout
-                android:id="@+id/dart_layout_one"
-                style="@style/MatchParentSize"
-                android:layout_alignStart="@+id/dartboard_one"
-                android:layout_alignTop="@+id/dartboard_one"
-                android:layout_alignEnd="@+id/dartboard_one"
-                android:layout_alignBottom="@+id/dartboard_one">
-
-                <ImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/dartboard_player"
-                    android:src="@drawable/player_adrian" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/player_name_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dartboard_one"
-                android:layout_alignStart="@+id/dartboard_one"
-                android:layout_alignEnd="@+id/dartboard_one"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="6dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center"
-                android:text="Adrian"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <FrameLayout
-                android:id="@+id/player_points_view_one_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_name_one"
-                android:layout_alignStart="@+id/dartboard_one"
-                android:layout_alignEnd="@+id/dartboard_one"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:id="@+id/player_points_view_one"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/scarlet_red_curved_corners"
-                    android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="4dp"
-                    android:text="7.0"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/dart_count_one"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_points_view_one_layout"
-                android:layout_alignStart="@+id/dartboard_one"
-                android:layout_alignEnd="@+id/dartboard_one"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center_horizontal"
-                android:text="2.4k Darts"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/vs_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="125dp"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center_horizontal"
-                android:text="@string/vs"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <ImageView
-                android:id="@+id/dartboard_two"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_below="@+id/dartboard_text"
-                android:layout_marginTop="45dp"
-                android:layout_toEndOf="@+id/vs_text"
-                android:contentDescription="@string/dartboard"
-                android:src="@drawable/ic_dartboard" />
-
-            <FrameLayout
-                android:id="@+id/dart_layout_two"
-                style="@style/MatchParentSize"
-                android:layout_alignStart="@+id/dartboard_two"
-                android:layout_alignTop="@+id/dartboard_two"
-                android:layout_alignEnd="@+id/dartboard_two"
-                android:layout_alignBottom="@+id/dartboard_two">
-
-                <ImageView
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/dartboard_player"
-                    android:src="@drawable/player_adrian" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/player_name_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dartboard_two"
-                android:layout_alignStart="@+id/dartboard_two"
-                android:layout_alignEnd="@+id/dartboard_two"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="6dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center"
-                android:text="Adrian"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <FrameLayout
-                android:id="@+id/player_points_view_two_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_name_two"
-                android:layout_alignStart="@+id/dartboard_two"
-                android:layout_alignEnd="@+id/dartboard_two"
-                android:layout_marginBottom="8dp">
-
-                <TextView
-                    android:id="@+id/player_points_view_two"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:background="@drawable/scarlet_red_curved_corners"
-                    android:gravity="center"
-                    android:paddingStart="8dp"
-                    android:paddingTop="4dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="4dp"
-                    android:text="7.0"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/dart_count_two"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/player_points_view_two_layout"
-                android:layout_alignStart="@+id/dartboard_two"
-                android:layout_alignEnd="@+id/dartboard_two"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center_horizontal"
-                android:text="2.4k Darts"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/dart_view"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_below="@id/dart_count_one"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:scaleType="center"
-                android:src="@drawable/ic_dart"
-                app:civ_border_color="@color/transparent_white_two"
-                app:civ_border_width="2dp"
-                app:civ_circle_background_color="@color/transparent_black_30" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dart_view"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:fontFamily="@font/rajdhani_medium"
-                android:gravity="center_horizontal"
-                android:text="@string/throw_dart_msg"
-                android:textColor="@color/white_40"
                 android:textSize="14sp" />
 
-        </RelativeLayout>
+        </FrameLayout>
 
-    </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/dart_count_one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_points_view_one_layout"
+            android:layout_alignStart="@+id/dartboard_one"
+            android:layout_alignEnd="@+id/dartboard_one"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/n_darts"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/vs_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="125dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/vs"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/dartboard_two"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_below="@+id/dartboard_text"
+            android:layout_marginTop="45dp"
+            android:layout_toEndOf="@+id/vs_text"
+            android:contentDescription="@string/dartboard"
+            android:src="@drawable/ic_dartboard" />
+
+        <FrameLayout
+            android:id="@+id/dart_layout_two"
+            style="@style/MatchParentSize"
+            android:layout_alignStart="@+id/dartboard_two"
+            android:layout_alignTop="@+id/dartboard_two"
+            android:layout_alignEnd="@+id/dartboard_two"
+            android:layout_alignBottom="@+id/dartboard_two">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/dartboard_player"
+                android:src="@drawable/player_adrian" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/player_name_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dartboard_two"
+            android:layout_alignStart="@+id/dartboard_two"
+            android:layout_alignEnd="@+id/dartboard_two"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <FrameLayout
+            android:id="@+id/player_points_view_two_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_name_two"
+            android:layout_alignStart="@+id/dartboard_two"
+            android:layout_alignEnd="@+id/dartboard_two"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:id="@+id/player_points_view_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/scarlet_red_curved_corners"
+                android:gravity="center"
+                android:paddingStart="8dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="8dp"
+                android:paddingBottom="4dp"
+                android:text="4.5"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/dart_count_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/player_points_view_two_layout"
+            android:layout_alignStart="@+id/dartboard_two"
+            android:layout_alignEnd="@+id/dartboard_two"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/n_darts"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <ImageView
+            android:id="@+id/dart_view"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_below="@id/dart_count_one"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/bg_circle_translucent_black"
+            android:contentDescription="@string/dartboard"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_dart" />
+
+        <life.plank.juna.zone.util.customview.CircularTextView
+            android:id="@+id/dart_remaining_count_text_view"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignTop="@+id/dart_view"
+            android:layout_alignEnd="@+id/dart_view"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:ctv_solid_color="@color/scarlet_red"
+            app:ctv_stroke_color="@color/white"
+            app:ctv_stroke_width="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dart_view"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="18dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:gravity="center_horizontal"
+            android:text="@string/throw_dart_msg"
+            android:textColor="@color/white_40"
+            android:textSize="14sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="450dp">
+
+            <ImageView
+                android:id="@+id/thrown_dart_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="168dp"
+                android:contentDescription="@string/dartboard"
+                android:rotation="80"
+                android:scaleType="center"
+                android:src="@drawable/ic_dart"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/thrown_dart_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="105dp"
+                android:layout_marginTop="165dp"
+                android:contentDescription="@string/dartboard"
+                android:scaleType="center"
+                android:src="@drawable/ic_dart"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/thrown_dart_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:layout_marginTop="110dp"
+                android:contentDescription="@string/dartboard"
+                android:rotation="330"
+                android:scaleType="center"
+                android:src="@drawable/ic_dart"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/thrown_dart_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="220dp"
+                android:layout_marginTop="168dp"
+                android:contentDescription="@string/dartboard"
+                android:rotation="80"
+                android:scaleType="center"
+                android:src="@drawable/ic_dart"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/thrown_dart_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="285dp"
+                android:layout_marginTop="165dp"
+                android:contentDescription="@string/dartboard"
+                android:scaleType="center"
+                android:src="@drawable/ic_dart"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/thrown_dart_6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="280dp"
+                android:layout_marginTop="110dp"
+                android:contentDescription="@string/dartboard"
+                android:rotation="330"
+                android:scaleType="center"
+                android:src="@drawable/ic_dart"
+                android:visibility="invisible" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
 
 </io.alterac.blurkit.BlurLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    android:background="@color/black_50"
+    android:foreground="@drawable/ripple_dark_rect">
+
+    <ImageView
+        android:id="@+id/dartboard_one"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/get_tickets"
+        android:src="@drawable/football_tickets" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/blue_gradient"
+        android:fontFamily="@font/rajdhani_bold"
+        android:maxLines="1"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:text="@string/get_tickets"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</RelativeLayout>
