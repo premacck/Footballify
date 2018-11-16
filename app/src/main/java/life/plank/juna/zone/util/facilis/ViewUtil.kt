@@ -83,9 +83,7 @@ fun ViewPropertyAnimator.listener(onAnimationEnd: () -> Unit): ViewPropertyAnima
     })
 }
 
-fun View.fadeOut() {
-    animate().alpha(0f).setDuration(280).start()
-}
+fun View.fadeOut() = animate().alpha(0f).setDuration(280).start()
 
 fun View.floatUp() {
     postDelayed({
@@ -94,9 +92,7 @@ fun View.floatUp() {
     }, 20)
 }
 
-fun View.sinkDown() {
-    startAnimation(AnimationUtils.loadAnimation(context, R.anim.sink_down))
-}
+fun View.sinkDown() = startAnimation(AnimationUtils.loadAnimation(context, R.anim.sink_down))
 
 fun BlurLayout.beginBlur() {
     postDelayed({
@@ -148,9 +144,7 @@ fun View.longClickWithVibrate(action: () -> Unit) {
     }
 }
 
-fun View.onCustomLongClick(longClickDelay: Int = 300, action: () -> Unit) {
-    setOnTouchListener(getCustomOnLongClickListener(longClickDelay) { action() })
-}
+fun View.onCustomLongClick(longClickDelay: Int = 300, action: () -> Unit) = setOnTouchListener(getCustomOnLongClickListener(longClickDelay) { action() })
 
 fun View.onDebouncingClick(action: () -> Unit) {
     setOnClickListener {

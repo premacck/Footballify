@@ -37,6 +37,7 @@ import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
@@ -49,6 +50,9 @@ import life.plank.juna.zone.util.facilis.ViewUtilKt;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
 import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseFragment;
+import life.plank.juna.zone.view.fragment.base.CardTileFragment;
+import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup;
+import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -261,6 +265,20 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
         noDataTextView.setVisibility(isDataAvailable ? View.GONE : View.VISIBLE);
         if (noDataTextView.getText().toString().isEmpty() && message != 0) {
             noDataTextView.setText(message);
+        }
+    }
+
+    @OnClick(R.id.dart_board)
+    public void openDartBoard() {
+        if (getParentFragment() != null && getParentFragment() instanceof CardTileFragment) {
+            ((CardTileFragment) getParentFragment()).pushPopup(DartBoardPopup.Companion.newInstance());
+        }
+    }
+
+    @OnClick(R.id.key_board)
+    public void openKeyBoard() {
+        if (getParentFragment() != null && getParentFragment() instanceof CardTileFragment) {
+            ((CardTileFragment) getParentFragment()).pushPopup(KeyBoardPopup.Companion.newInstance());
         }
     }
 
