@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ import life.plank.juna.zone.view.fragment.base.BaseFragment;
 import life.plank.juna.zone.view.fragment.base.CardTileFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup;
+import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,6 +72,10 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
     @Inject
     public
     Picasso picasso;
+    @BindView(R.id.tile_content_layout)
+    LinearLayout tileContentLayout;
+    @BindView(R.id.extras_layout)
+    LinearLayout extrasLayout;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
     @BindView(R.id.swipe_refresh_layout)
@@ -166,6 +172,10 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
             arcMenu.setOnClickListener((view1) -> Toast.makeText(getContext(), R.string.board_not_active, Toast.LENGTH_SHORT).show());
         }
         swipeRefreshLayout.setOnRefreshListener(() -> getBoardFeed(true));
+
+        if (getParentFragment() instanceof PrivateBoardFragment) {
+            tileContentLayout.removeView(extrasLayout);
+        }
     }
 
     @Override
