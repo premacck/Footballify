@@ -32,6 +32,7 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
     lateinit var restApi: RestApi
 
     private var isDataLocal: Boolean = false
+    private var isFixtureListReady: Boolean = false
     private var leagueInfo: LeagueInfo = LeagueInfo()
     private lateinit var league: League
     private var fixtureMatchdayAdapter: FixtureMatchdayAdapter? = null
@@ -114,21 +115,24 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
         progress_bar.visibility = View.VISIBLE
         doAsync {
             var recyclerViewScrollIndex = 0
-            fixtureByMatchDayList?.run {
-                if (!isNullOrEmpty(this)) {
-                    for (matchDay in this) {
-                        if (matchDay.daySection == PAST_MATCHES) {
-                            recyclerViewScrollIndex =
-                                    if (this.indexOf(matchDay) < this.size - 1) {
-                                        this.indexOf(matchDay) + 1
-                                    } else {
-                                        this.indexOf(matchDay)
-                                    }
-                        } else if (matchDay.daySection == TODAY_MATCHES) {
-                            recyclerViewScrollIndex = this.indexOf(matchDay)
+            if (!isFixtureListReady) {
+                fixtureByMatchDayList?.run {
+                    if (!isNullOrEmpty(this)) {
+                        for (matchDay in this) {
+                            if (matchDay.daySection == PAST_MATCHES) {
+                                recyclerViewScrollIndex =
+                                        if (this.indexOf(matchDay) < this.size - 1) {
+                                            this.indexOf(matchDay) + 1
+                                        } else {
+                                            this.indexOf(matchDay)
+                                        }
+                            } else if (matchDay.daySection == TODAY_MATCHES) {
+                                recyclerViewScrollIndex = this.indexOf(matchDay)
+                            }
                         }
                     }
                 }
+                isFixtureListReady = true
             }
             uiThread {
                 fixtureByMatchDayList?.run {

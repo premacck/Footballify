@@ -15,7 +15,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
@@ -55,7 +54,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     private var currentMatchId: Long = 0
     private var isBoardActive: Boolean = false
-    private lateinit var boardId: String
+    private var boardId: String? = null
     private lateinit var league: League
     private var fixture: MatchFixture? = null
     private var matchDetails: MatchDetails? = null
@@ -135,7 +134,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                 (boardPagerAdapter!!.currentFragment as BoardTilesFragment).updateNewPost(feed)
             }
         } catch (e: Exception) {
-            Log.e(TAG, e.message)
+            Log.e(TAG, "setDataReceivedFromPushNotification(): ", e)
         }
 
     }
@@ -236,11 +235,12 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
                                 FirebaseMessaging.getInstance().subscribeToTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
                             } else
                                 applyInactiveBoardColorFilter()
+
+                            getBoardPolls()
+                            followBoard()
                         } else
                             applyInactiveBoardColorFilter()
 
-                        getBoardPolls()
-                        followBoard()
                     } else {
                         customToast(R.string.something_went_wrong)
                     }
@@ -287,7 +287,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     //Follow board by default when entered. Nothing to do on receiving the response code
     private fun followBoard() {
-        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, it.message) }, {})
+        restApi.followBoard(getToken(), boardId).setObserverThreadsAndSmartSubscribe({ Log.e(TAG, "followBoard(): ", it) }, {})
     }
 
     class BoardPagerAdapter(supportFragmentManager: FragmentManager, matchBoardFragment: MatchBoardFragment) : FragmentStatePagerAdapter(supportFragmentManager) {
