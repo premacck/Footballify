@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipDescription
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.DragEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,20 @@ import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.item_keyboard.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
+import life.plank.juna.zone.data.model.User
+import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.sinkDown
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
+import javax.inject.Inject
+import javax.inject.Named
 
 class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragListener {
     private val IMAGE_VIEW_TAG = "CLAP VIEW"
+
+    @field: [Inject Named("default")]
+    lateinit var restApi: RestApi
 
     companion object {
         val TAG: String = KeyBoardPopup::class.java.simpleName
@@ -133,7 +142,8 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
                 return true
             }
             DragEvent.ACTION_DROP -> {
-
+                
+                postClap(view.tag.toString())
                 // Invalidates the view to force
                 view.invalidate()
 
@@ -160,6 +170,16 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
             }
         }
         return false
+    }
+
+    private fun postClap(playerId: String) {
+        restApi.postClap(playerId, User(id = playerId))
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e("postClap()", "ERROR: ", it)
+                }, {
+                    //TODO: Handle response
+                    Log.d("postClap()", "Response: " + it.code())
+                })
     }
 }
 
