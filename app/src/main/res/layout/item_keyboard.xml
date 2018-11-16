@@ -18,17 +18,44 @@
             android:layout_height="430dp"
             android:background="@drawable/board_blur_bg">
 
+            <View
+                android:id="@+id/drag_area"
+                android:layout_width="match_parent"
+                android:layout_height="60dp" />
+
+            <ImageView
+                style="@style/DragHandleLightImageView"
+                android:contentDescription="@string/thumbnail" />
+
             <TextView
                 android:id="@+id/key_board_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="18dp"
                 android:fontFamily="@font/raleway_semibold"
                 android:lineSpacingExtra="3sp"
                 android:text="Key Board"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/go_to_forum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/key_board_title"
+                android:layout_alignBottom="@+id/key_board_title"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="18dp"
+                android:background="@drawable/white_border_button"
+                android:fontFamily="@font/rajdhani_medium"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="@string/go_to_forum"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/vs"

@@ -60,7 +60,7 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
 
-    override fun getDragHandle(): View? = null
+    override fun getDragHandle(): View? = drag_area
 
 
     override fun getRootView(): View? = root_card
