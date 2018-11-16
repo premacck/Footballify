@@ -26,6 +26,7 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.interfaces.OnClickZoneItemListener
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
@@ -34,6 +35,7 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -49,7 +51,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
 
-class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
+class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemListener {
 
     @Inject
     lateinit var gson: Gson
@@ -67,6 +69,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private val userPreferences = ArrayList<UserPreference>()
     private var feedEntries = ArrayList<FeedEntry>()
     private var teamList = ArrayList<FootballTeam>()
+    var teamSet: MutableSet<String> = HashSet<String>()
+
 
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
@@ -108,6 +112,16 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         feed_header.initListeners(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+        next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
+        getPopularTeams()
+    }
+
+    override fun onItemClick(id: String?, isSelected: Boolean?) {
+        if (isSelected!!) {
+            teamSet.add(id!!)
+        } else {
+            teamSet.remove(id)
+        }
     }
 
     override fun onResume() {
@@ -116,7 +130,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initBottomSheetRecyclerView() {
-        onBoardingAdapter = OnboardingAdapter(activity, teamList)
+        onBoardingAdapter = OnboardingAdapter(activity, teamList, this)
         onboarding_recycler_view.adapter = onBoardingAdapter
     }
 
@@ -170,6 +184,33 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         userPreferences.clear()
         userPreferences.addAll(userPreferenceList!!)
         userZoneAdapter!!.notifyDataSetChanged()
+    }
+
+    private fun getPopularTeams() {
+        restApi.getPopularTeams(getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "Popular Team details: ", it)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_OK -> {
+                    onBoardingAdapter?.setTeamList(it.body())
+                    //TODO: To be done once implemented on the backend
+                }
+                else -> errorToast(R.string.popular_team_not_found, it)
+            }
+        })
+    }
+
+    private fun postTeamPref(zone: String) {
+        restApi.postTeamPreferences(zone, teamSet, getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "Team Preference details: ", it)
+        }, {
+            when (it.code()) {
+                HttpURLConnection.HTTP_CREATED -> {
+                    //TODO: To be done once implemented on the backend
+                }
+                else -> errorToast(R.string.team_pref_not_found, it)
+            }
+        })
     }
 
     private fun getFootballTeams(teamName: String) {

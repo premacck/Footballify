@@ -44,6 +44,7 @@
         android:layout_below="@+id/title" />
 
     <TextView
+        android:id="@+id/next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/drag_handle"
@@ -52,7 +53,7 @@
         android:layout_marginEnd="5dp"
         android:fontFamily="@font/rajdhani_semibold"
         android:gravity="end"
-        android:text="SKIP"
+        android:text="NEXT"
         android:textColor="@color/dark_sky_blue"
         android:textSize="14sp" />
 
