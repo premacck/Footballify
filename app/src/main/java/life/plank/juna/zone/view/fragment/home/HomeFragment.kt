@@ -17,6 +17,9 @@ import com.google.gson.Gson
 import kotlinx.android.synthetic.main.custom_search_view.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.onboarding_bottom_sheet.*
+import kotlinx.android.synthetic.main.shimmer_user_boards.*
+import kotlinx.android.synthetic.main.shimmer_user_feed.*
+import kotlinx.android.synthetic.main.shimmer_user_zones.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
@@ -80,10 +83,10 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val userId = PreferenceManager.CurrentUser.getUserId()
-
-        val topic = getString(R.string.juna_user_topic) + userId!!
-        FirebaseMessaging.getInstance().subscribeToTopic(topic)
+        PreferenceManager.CurrentUser.getUserId()?.run {
+            val topic = getString(R.string.juna_user_topic) + this
+            FirebaseMessaging.getInstance().subscribeToTopic(topic)
+        }
 
         setupOnBoardingBottomSheet()
         initBottomSheetRecyclerView()
@@ -300,20 +303,20 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun startShimmers() {
-        (shimmer_user_boards as ShimmerRelativeLayout).startShimmerAnimation()
-        (shimmer_user_feed as ShimmerRelativeLayout).startShimmerAnimation()
-        (shimmer_user_zones as ShimmerRelativeLayout).startShimmerAnimation()
+        shimmer_user_boards.startShimmerAnimation()
+        shimmer_user_feed.startShimmerAnimation()
+        shimmer_user_zones.startShimmerAnimation()
     }
 
-    private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: View) {
+    private fun onRecyclerViewContentsLoaded(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
         recyclerView.visibility = View.VISIBLE
-        (shimmerRelativeLayout as? ShimmerRelativeLayout)?.stopShimmerAnimation()
+        shimmerRelativeLayout.stopShimmerAnimation()
         shimmerRelativeLayout.visibility = View.INVISIBLE
     }
 
-    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: View) {
+    private fun onRecyclerViewContentsFailedToLoad(recyclerView: RecyclerView, shimmerRelativeLayout: ShimmerRelativeLayout) {
         recyclerView.visibility = View.INVISIBLE
-        (shimmerRelativeLayout as? ShimmerRelativeLayout)?.stopShimmerAnimation()
+        shimmerRelativeLayout.stopShimmerAnimation()
         (shimmerRelativeLayout as? ShimmerRelativeLayout)?.alpha = 0.2f
     }
 
