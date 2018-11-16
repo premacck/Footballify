@@ -265,4 +265,24 @@
         <item name="android:layout_gravity">end</item>
     </style>
 
+    <style name="UserBoardsShimmer">
+        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">35dp</item>
+        <item name="android:background">@drawable/shimmer_circle</item>
+        <item name="android:layout_marginEnd">27dp</item>
+    </style>
+
+    <style name="UserZonesShimmer">
+        <item name="android:layout_height">140dp</item>
+        <item name="android:layout_width">323dp</item>
+        <item name="android:background">@drawable/shimmer_rectangle</item>
+        <item name="android:layout_marginEnd">25dp</item>
+    </style>
+
+    <style name="UserFeedShimmer">
+        <item name="android:layout_height">98dp</item>
+        <item name="android:layout_width">98dp</item>
+        <item name="android:background">@drawable/shimmer_rectangle</item>
+        <item name="android:layout_margin">12.5dp</item>
+    </style>
 </resources>
