@@ -65,7 +65,7 @@
         android:textSize="12sp" />
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/info_tiles_tab_layout"
+        android:id="@+id/board_info_tab_layout"
         style="@style/InfoTilesTabLayout"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
@@ -75,13 +75,13 @@
         android:layout_toEndOf="@+id/number_of_interactions">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/info"
+            android:id="@+id/boards"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/boards" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/forum"
+            android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/info" />
