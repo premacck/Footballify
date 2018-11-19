@@ -44,7 +44,7 @@ public class RestServiceModule {
     @Named("default")
     public Retrofit getRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.backend_demo_base_url))
+                .baseUrl(ZoneApplication.getContext().getString(R.string.backend_base_url))
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(nullOnEmptyConverterFactory)
@@ -57,7 +57,7 @@ public class RestServiceModule {
     @Named("footballData")
     public Retrofit getFootballData(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.backend_demo_base_url))
+                .baseUrl(ZoneApplication.getContext().getString(R.string.backend_base_url))
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(nullOnEmptyConverterFactory)

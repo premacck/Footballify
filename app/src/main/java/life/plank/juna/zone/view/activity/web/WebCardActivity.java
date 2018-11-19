@@ -29,7 +29,7 @@ public class WebCardActivity extends AppCompatActivity {
 
     public static void launch(Activity from, String url) {
         Intent intent = new Intent(from, WebCardActivity.class);
-        intent.putExtra(from.getString(R.string.backend_demo_base_url), url);
+        intent.putExtra(from.getString(R.string.backend_base_url), url);
         from.startActivity(intent);
         from.overridePendingTransition(R.anim.float_up, R.anim.sink_up);
     }
@@ -42,7 +42,7 @@ public class WebCardActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         setupSwipeGesture(this, dragArea, rootCard);
 
-        String url = getIntent().getStringExtra(getString(R.string.backend_demo_base_url));
+        String url = getIntent().getStringExtra(getString(R.string.backend_base_url));
         webView.setWebChromeClient(new WebChromeClient());
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl(url);
