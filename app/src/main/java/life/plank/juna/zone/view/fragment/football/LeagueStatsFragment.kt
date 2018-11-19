@@ -26,7 +26,6 @@ import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
-import javax.inject.Named
 
 class LeagueStatsFragment : BaseLeagueFragment() {
 

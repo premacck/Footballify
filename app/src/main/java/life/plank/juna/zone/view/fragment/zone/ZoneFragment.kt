@@ -33,7 +33,6 @@ import org.jetbrains.anko.support.v4.find
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClickListener {
 

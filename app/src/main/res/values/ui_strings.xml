@@ -218,5 +218,6 @@
     <string name="reaction">Reaction</string>
     <string name="failed_to_get_poll">Failed to get poll</string>
     <string name="failed_to_get_poll_answer">Failed to get poll answer</string>
+    <string name="emoji">Emoji</string>
 
 </resources>

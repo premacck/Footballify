@@ -37,7 +37,6 @@ import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
 class PrivateBoardFragment : CardTileFragment() {
 
@@ -158,6 +157,8 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
+
+    override fun getTheBoardId(): String? = boardId
 
     private fun deletePrivateBoard() {
         restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({

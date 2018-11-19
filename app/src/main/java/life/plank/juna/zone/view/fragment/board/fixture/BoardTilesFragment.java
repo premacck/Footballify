@@ -34,7 +34,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -190,7 +189,7 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
     }
 
     private void initEmojiBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getContext(), "", emojiBottomSheetBehavior);
+        emojiAdapter = new EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
     }
 

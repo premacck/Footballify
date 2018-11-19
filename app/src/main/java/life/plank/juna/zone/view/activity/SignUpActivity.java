@@ -14,7 +14,6 @@ import java.net.HttpURLConnection;
 import java.util.UUID;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

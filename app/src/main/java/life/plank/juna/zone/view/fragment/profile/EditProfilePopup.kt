@@ -37,7 +37,6 @@ import java.net.HttpURLConnection
 import java.text.DateFormatSymbols
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class EditProfilePopup : BaseBlurPopup() {
 

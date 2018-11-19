@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
 import android.view.*
 import android.view.animation.Animation
@@ -26,6 +27,7 @@ import kotlinx.coroutines.experimental.delay
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.view.adapter.EmojiAdapter
 import org.jetbrains.anko.runOnUiThread
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 
@@ -226,4 +228,27 @@ fun Context?.doAfterDelay(delayMillis: Int, action: () -> Unit) {
         delay(delayMillis)
         this@doAfterDelay?.run { runOnUiThread { action() } }
     }
+}
+
+fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
+    state = BottomSheetBehavior.STATE_EXPANDED
+    this.peekHeight = peekHeight
+}
+
+fun BottomSheetBehavior<*>.showFor(feedItemId: String?, peekHeight: Int = 850) {
+    show(peekHeight)
+    EmojiAdapter.feedId = feedItemId
+}
+
+fun BottomSheetBehavior<*>.hide() {
+    state = BottomSheetBehavior.STATE_HIDDEN
+    peekHeight = 0
+}
+
+fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
+    if (peekHeight > 0 || state != BottomSheetBehavior.STATE_HIDDEN) {
+        hide()
+        return false
+    }
+    return true
 }

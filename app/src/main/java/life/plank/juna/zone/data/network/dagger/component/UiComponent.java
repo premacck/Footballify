@@ -20,7 +20,6 @@ import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.activity.zone.ZoneActivity;
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter;
-import life.plank.juna.zone.view.adapter.EmojiAdapter;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardMembersFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
@@ -97,8 +96,6 @@ public interface UiComponent {
     void inject(PostDetailFragment postDetailFragment);
 
     void inject(UserNotificationActivity userNotificationActivity);
-
-    void inject(EmojiAdapter emojiAdapter);
 
     void inject(HomeFragment homeFragment);
 

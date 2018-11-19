@@ -60,6 +60,7 @@ import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentColor;
 import static life.plank.juna.zone.util.UIDisplayUtil.getCommentText;
 import static life.plank.juna.zone.util.UIDisplayUtil.getDp;
+import static life.plank.juna.zone.util.facilis.ViewUtilKt.showFor;
 
 /**
  * Created by plank-prachi on 1/30/2018.
@@ -210,11 +211,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         });
 
-        holder.reactionView.setOnClickListener(view -> {
-            emojiBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            emojiBottomSheetBehavior.setPeekHeight(850);
-            EmojiAdapter.feedId = feedsListItem.get(position).getFeedItem().getId();
-        });
+        holder.reactionView.setOnClickListener(view -> showFor(emojiBottomSheetBehavior, feedsListItem.get(position).getFeedItem().getId(), 850));
     }
 
     @Override
