@@ -15,13 +15,15 @@ import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.PlayerStats;
-import life.plank.juna.zone.data.model.Poll;
 import life.plank.juna.zone.data.model.ScrubberData;
 import life.plank.juna.zone.data.model.SignUpModel;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.User;
 import life.plank.juna.zone.data.model.Zones;
+import life.plank.juna.zone.data.model.poll.Poll;
+import life.plank.juna.zone.data.model.poll.PollAnswerRequest;
+import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -45,6 +47,7 @@ public interface RestApi {
 
     String FOOTBALL_SUFFIX = "demo/football";
     String ZONE_BACKEND_SUFFIX = "demo/backend";
+    String FEED_FLOWS_SUFFIX = "demo/feedflows";
 
     //working
     @GET(FOOTBALL_SUFFIX + "/seasons/standings")
@@ -247,25 +250,23 @@ public interface RestApi {
                                                              @Query("time") String time,
                                                              @Header("Authorization") String authHeader);
 
-    @GET(ZONE_BACKEND_SUFFIX + "/getPoll")
-    Observable<Response<Poll>> getBoardPoll(@Query("boardId") String boardId, @Header("Authorization") String... authHeader);
+    @GET(FEED_FLOWS_SUFFIX + "/polls/getPoll")
+    Observable<Response<Poll>> getBoardPoll(@Query("boardId") String boardId, @Header("Authorization") String authHeader);
 
-    @POST(ZONE_BACKEND_SUFFIX + "/postPoll")
-    Observable<Response<JsonObject>> postBoardPoll(@Query("userAnswer") String userAnswer,
-                                                   @Query("boardId") String boardId,
-                                                   @Header("Authorization") String... authHeader);
+    @GET(FEED_FLOWS_SUFFIX + "/polls/userSelection")
+    Observable<Response<PollAnswerResponse>> getBoardPollAnswer(@Query("pollId") long pollId, @Header("Authorization") String authHeader);
+
+    @POST(FEED_FLOWS_SUFFIX + "/polls/userSelection")
+    Observable<Response<PollAnswerResponse>> postBoardPollAnswer(@Body PollAnswerRequest pollAnswer, @Header("Authorization") String authHeader);
 
     @GET(FOOTBALL_SUFFIX + "/teams")
-    Observable<Response<List<FootballTeam>>> getSearchedFootballTeams(@Query("teamNamePart") String teamName,
-                                                                      @Header("Authorization") String authHeader);
+    Observable<Response<List<FootballTeam>>> getSearchedFootballTeams(@Query("teamNamePart") String teamName, @Header("Authorization") String authHeader);
 
     @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/clap")
-    Observable<Response<JsonObject>> postClap(@Path("boardId") String boardId,
-                                              @Body User player);
+    Observable<Response<JsonObject>> postClap(@Path("boardId") String boardId, @Body User player);
 
     @POST(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/dart")
-    Observable<Response<JsonObject>> postDart(@Path("boardId") String boardId,
-                                              @Body User player);
+    Observable<Response<JsonObject>> postDart(@Path("boardId") String boardId, @Body User player);
 
     @POST(ZONE_BACKEND_SUFFIX + "/users/zonePreferences")
     Observable<Response<String>> postTeamPreferences(@Query("zone") String zone,

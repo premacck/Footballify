@@ -23,6 +23,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.RestApiAggregator
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.model.binder.PollBindingModel
+import life.plank.juna.zone.data.model.poll.Poll
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
 import life.plank.juna.zone.util.AppConstants
@@ -39,7 +40,6 @@ import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.lang.ref.WeakReference
-import java.net.HttpURLConnection
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -248,19 +248,11 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun getBoardPolls() {
-        restApi.getBoardPoll(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
+        RestApiAggregator.getPoll(restApi, boardId).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getBoardPolls() : ", it)
         }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    poll = it.body()
-                    setupViewPagerWithFragments()
-                }
-                HttpURLConnection.HTTP_NOT_FOUND -> {
-                }
-                else -> {
-                }
-            }
+            poll = it
+            setupViewPagerWithFragments()
         })
     }
 

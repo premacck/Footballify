@@ -11,13 +11,16 @@ import com.bumptech.glide.RequestManager
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_poll.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.data.model.Poll
 import life.plank.juna.zone.data.model.binder.PollBindingModel
-import life.plank.juna.zone.util.AppConstants.LIVE
-import life.plank.juna.zone.util.AppConstants.PollValue
+import life.plank.juna.zone.data.model.poll.Poll
+import life.plank.juna.zone.data.model.poll.PollAnswerRequest
+import life.plank.juna.zone.interfaces.PollContainer
+import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.AppConstants.PollValue.*
 import life.plank.juna.zone.util.DateUtil
-import life.plank.juna.zone.util.UIDisplayUtil
+import life.plank.juna.zone.util.UIDisplayUtil.getDp
+import life.plank.juna.zone.util.UIDisplayUtil.getDrawableTopTarget
+import life.plank.juna.zone.util.facilis.toggleInteraction
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.util.*
 
@@ -25,6 +28,7 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     private lateinit var glide: RequestManager
     private lateinit var pollBindingModel: PollBindingModel
+    private lateinit var pollContainer: PollContainer
 
     init {
         init(context)
@@ -34,18 +38,21 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         View.inflate(context, R.layout.item_poll, this)
     }
 
-    fun prepare(glide: RequestManager, pollBindingModel: PollBindingModel) {
+    fun prepare(glide: RequestManager, pollBindingModel: PollBindingModel, pollContainer: PollContainer) {
         this.glide = glide
         this.pollBindingModel = pollBindingModel
+        this.pollContainer = pollContainer
+
+//        Loading stadium image
         glide.load(pollBindingModel.background).into(background_image_view)
 
 //        Loading logos
-        loadImage(pollBindingModel.homeTeamLogo, poll_first_answer, UIDisplayUtil.getDp(8f), UIDisplayUtil.getDp(12f))
-        loadImage(pollBindingModel.awayTeamLogo, poll_third_answer, UIDisplayUtil.getDp(8f), UIDisplayUtil.getDp(12f))
+        loadImage(pollBindingModel.homeTeamLogo, poll_first_answer, getDp(28f), getDp(28f))
+        loadImage(pollBindingModel.awayTeamLogo, poll_third_answer, getDp(28f), getDp(28f))
 
 //        Loading league logo
         glide.load(pollBindingModel.leagueLogo)
-                .apply(RequestOptions.overrideOf(UIDisplayUtil.getDp(20f).toInt(), UIDisplayUtil.getDp(20f).toInt()))
+                .apply(RequestOptions.overrideOf(getDp(20f).toInt(), getDp(20f).toInt()))
                 .into(league_logo)
 
 //        Loading time to kick-off
@@ -64,23 +71,23 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
                 }
             }.start()
         }
-        setPollProgress(pollBindingModel.poll)
+        setPollProgress()
 
-//        Loading header
-        poll_header.text =
-                if (pollBindingModel.poll.canAnswer) {
-                    context.getString(R.string.who_will_win_today)
-                } else {
-                    getAnswer(pollBindingModel)
-                }
+        pollBindingModel.poll.run {
+            //            Loading question
+            poll_header.text = if (userSelection == 0) question else getAnswer(pollBindingModel)
 
-//        Loading team names
-        poll_first_answer.text = pollBindingModel.homeTeamName
-        poll_third_answer.text = pollBindingModel.awayTeamName
+//            Loading team names
+            poll_first_answer.text = choices[0].choice
+            poll_second_answer.text = choices[1].choice
+            poll_third_answer.text = choices[2].choice
 
-//        Loading votes
-        val voteString: String = pollBindingModel.poll.totalVotes.toString() + context.getString(R.string._votes)
-        total_votes.text = voteString
+//            Loading votes
+            total_votes.text = context.getString(R.string._votes, totalVotes)
+
+//            Setting option buttons' state (whether they should be enabled or disabled
+            setOptionsState(pollBindingModel.poll.userSelection)
+        }
 
 //        Setting on-click listeners
         poll_first_answer.onClick { onPollSelectionPerformed(HOME) }
@@ -88,39 +95,41 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         poll_third_answer.onClick { onPollSelectionPerformed(AWAY) }
     }
 
-    private fun onPollSelectionPerformed(@PollValue pollValue: String) {
-        pollBindingModel.poll.userAnswer = pollValue
-        pollSelected(pollBindingModel.poll)
+    private fun onPollSelectionPerformed(@PollValue pollValue: Int) {
+        pollBindingModel.poll.userSelection = pollValue
+        pollContainer.onPollSelected(PollAnswerRequest(pollBindingModel.poll.id, pollValue))
     }
 
-    private fun pollSelected(poll: Poll) {
+    fun pollSelected(poll: Poll) {
         background_image_view.imageTintList = ColorStateList.valueOf(context.getColor(R.color.transparent_black_b3))
-        pollBindingModel.poll.canAnswer = false
-        pollBindingModel.poll.userAnswer = poll.userAnswer
+        pollBindingModel.poll.userSelection = poll.userSelection
         poll_header.text = getAnswer(pollBindingModel)
 
-        poll_first_answer.isEnabled = false
-        poll_second_answer.isEnabled = false
-        poll_third_answer.isEnabled = false
-
-        val homePercent = "${poll.homeTeamPercent}%"
+        val homePercent = "${poll.choices[0].percentage}%"
         poll_first_answer.text = homePercent
-        val drawPercent = "${poll.drawPercent}%"
+        val drawPercent = "${poll.choices[1].percentage}%"
         poll_second_answer.text = drawPercent
-        val awayPercent = "${poll.awayTeamPercent}%"
+        val awayPercent = "${poll.choices[2].percentage}%"
         poll_third_answer.text = awayPercent
 
-        poll_first_answer.background = context.getDrawable(R.drawable.bg_red_translucent_card)
-        poll_third_answer.background = context.getDrawable(R.drawable.bg_blue_translucent_card)
-        when (poll.userAnswer) {
-            HOME -> {
-                setAlpha(1f, 0.5f, 0.5f)
-            }
-            AWAY -> {
-                setAlpha(0.5f, 0.5f, 1f)
-            }
-            else -> {
-                setAlpha(0.5f, 1f, 0.5f)
+        setOptionsState(poll.userSelection)
+    }
+
+    private fun setOptionsState(selectedOption: Int) {
+        poll_first_answer.toggleInteraction(selectedOption == 0)
+        poll_second_answer.toggleInteraction(selectedOption == 0)
+        poll_third_answer.toggleInteraction(selectedOption == 0)
+        if (selectedOption == 0) {
+            poll_first_answer.alpha = 1f
+            poll_second_answer.alpha = 1f
+            poll_third_answer.alpha = 1f
+        } else {
+            poll_first_answer.background = context.getDrawable(R.drawable.bg_red_translucent_card)
+            poll_third_answer.background = context.getDrawable(R.drawable.bg_blue_translucent_card)
+            when (selectedOption) {
+                HOME -> setAlpha(1f, 0.5f, 0.5f)
+                AWAY -> setAlpha(0.5f, 0.5f, 1f)
+                else -> setAlpha(0.5f, 1f, 0.5f)
             }
         }
     }
@@ -134,32 +143,29 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private fun loadImage(logo: String, button: Button, width: Float, height: Float) {
         glide.load(logo)
                 .apply(RequestOptions.overrideOf(width.toInt(), height.toInt()))
-                .into(UIDisplayUtil.getDrawableTopTarget(button))
+                .into(getDrawableTopTarget(button))
     }
 
     private fun getAnswer(pollBindingModel: PollBindingModel): String {
-        setPollProgress(pollBindingModel.poll)
+        setPollProgress()
         val stringBuilder = StringBuilder()
-        return when (pollBindingModel.poll.userAnswer) {
-            HOME -> stringBuilder.append(pollBindingModel.poll.homeTeamPercent)
-                    .appendPercentSays()
-                    .append(pollBindingModel.homeTeamName)
-            AWAY -> stringBuilder.append(pollBindingModel.poll.awayTeamPercent)
-                    .appendPercentSays()
-                    .append(pollBindingModel.awayTeamName)
-            else -> stringBuilder.append(pollBindingModel.poll.drawPercent)
-                    .appendPercentSays()
-                    .append(DRAW)
-        }.toString()
+        pollBindingModel.run {
+            return when (poll.userSelection) {
+                HOME -> stringBuilder.append(poll.choices[0].percentage).appendPercentSaysAndResult(homeTeamName)
+                AWAY -> stringBuilder.append(poll.choices[2].percentage).appendPercentSaysAndResult(awayTeamName)
+                else -> stringBuilder.append(poll.choices[1].percentage).appendPercentSaysAndResult(DRAW_STRING)
+            }.toString()
+        }
     }
 
-    private fun StringBuilder.appendPercentSays(): StringBuilder {
-        return this.append("%").append(" says ")
-    }
+    private fun StringBuilder.appendPercentSaysAndResult(result: String): StringBuilder =
+            this.append("%").append(" says ").append(result)
 
-    private fun setPollProgress(poll: Poll) {
-        poll_progress_bar.visibility = if (poll.canAnswer) View.INVISIBLE else View.VISIBLE
-        poll_progress_bar.progress = poll.homeTeamPercent
-        poll_progress_bar.secondaryProgress = poll.homeTeamPercent + poll.drawPercent
+    private fun setPollProgress() {
+        pollBindingModel.run {
+            poll_progress_bar.visibility = if (poll.userSelection == 0) View.INVISIBLE else View.VISIBLE
+            poll_progress_bar.progress = poll.choices[0].percentage
+            poll_progress_bar.secondaryProgress = poll.choices[0].percentage + poll.choices[1].percentage
+        }
     }
 }
