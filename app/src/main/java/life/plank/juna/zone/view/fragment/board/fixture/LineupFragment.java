@@ -53,7 +53,6 @@ public class LineupFragment extends BaseBoardFragment {
     RecyclerView boardInfoRecyclerView;
 
     @Inject
-    @Named("default")
     RestApi restApi;
     @Inject
     Gson gson;

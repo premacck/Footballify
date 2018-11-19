@@ -30,7 +30,7 @@ import javax.inject.Named
 
 class ForumFragment : BaseCommentContainerFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private var boardId: String? = null

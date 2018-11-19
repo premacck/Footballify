@@ -16,7 +16,7 @@ import javax.inject.Named
 
 class HomeActivity : BaseCardActivity() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     companion object {

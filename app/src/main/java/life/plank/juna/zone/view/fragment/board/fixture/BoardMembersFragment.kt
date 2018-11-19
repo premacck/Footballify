@@ -25,7 +25,7 @@ import javax.inject.Named
 
 class BoardMembersFragment : BaseFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
     @Inject
     lateinit var picasso: Picasso

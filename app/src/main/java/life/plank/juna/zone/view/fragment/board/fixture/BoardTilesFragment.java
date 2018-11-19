@@ -96,7 +96,6 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
     @Inject
     Gson gson;
     @Inject
-    @Named("default")
     RestApi restApi;
     @Inject
     PagerSnapHelper pagerSnapHelper;

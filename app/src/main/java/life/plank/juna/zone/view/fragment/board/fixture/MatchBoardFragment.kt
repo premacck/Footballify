@@ -45,7 +45,7 @@ import javax.inject.Named
 
 class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
     @Inject
     lateinit var gson: Gson
@@ -209,7 +209,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun getBoardIdAndMatchDetails(currentMatchId: Long?) {
-        RestApiAggregator.getBoardAndMatchDetails(restApi, restApi, currentMatchId!!)
+        RestApiAggregator.getBoardAndMatchDetails(restApi, currentMatchId!!)
                 .doOnSubscribe { runOnUiThread { board_progress_bar!!.visibility = View.VISIBLE } }
                 .doOnTerminate { runOnUiThread { board_progress_bar!!.visibility = View.GONE } }
                 .setObserverThreadsAndSmartSubscribe({

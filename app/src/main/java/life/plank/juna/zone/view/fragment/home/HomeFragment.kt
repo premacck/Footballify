@@ -55,7 +55,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
 
     @Inject
     lateinit var gson: Gson
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private var authService: AuthorizationService? = null

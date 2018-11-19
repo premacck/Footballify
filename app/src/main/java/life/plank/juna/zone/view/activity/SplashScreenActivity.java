@@ -43,7 +43,6 @@ public class SplashScreenActivity extends AppCompatActivity {
     @BindView(R.id.animation_view)
     LottieAnimationView animationView;
     @Inject
-    @Named("default")
     RestApi restApi;
     private AuthorizationService authService;
 

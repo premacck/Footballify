@@ -30,7 +30,7 @@ import javax.inject.Named
 
 class LeagueStatsFragment : BaseLeagueFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private var playerStatsAdapter: PlayerStatsAdapter? = null

@@ -38,11 +38,11 @@ public class RestApiAggregator {
      *
      * @return {@link Pair} containing {@link Board} and {@link MatchDetails}
      */
-    public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, RestApi footballRestApi, long matchId) {
+    public static Observable<Pair<Board, MatchDetails>> getBoardAndMatchDetails(RestApi restApi, long matchId) {
         return afterSubscribingAndObservingOn(
                 Observable.zip(
                         restApi.getBoard(matchId, AppConstants.BOARD_TYPE, getToken()),
-                        footballRestApi.getMatchDetails(matchId),
+                        restApi.getMatchDetails(matchId),
                         ((boardResponse, matchDetailsResponse) -> {
                             if (boardResponse.code() != HTTP_OK || matchDetailsResponse.code() != HTTP_OK) {
                                 Log.e("getBoardAndMatchDetails", "boardResponse : " + boardResponse.code() + " : " + boardResponse.message());

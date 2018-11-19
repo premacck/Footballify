@@ -41,7 +41,7 @@ import javax.inject.Named
 
 class EditProfilePopup : BaseBlurPopup() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private var filePath: String? = null

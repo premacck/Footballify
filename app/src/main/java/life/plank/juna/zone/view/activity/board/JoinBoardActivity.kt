@@ -23,7 +23,7 @@ import javax.inject.Named
 
 class JoinBoardActivity : AppCompatActivity() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     lateinit var boardId: String

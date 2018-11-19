@@ -12,7 +12,7 @@ import javax.inject.Named
 
 class ZoneActivity : BaseCardActivity() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     override fun onCreate(savedInstanceState: Bundle?) {
