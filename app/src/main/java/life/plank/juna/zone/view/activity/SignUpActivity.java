@@ -34,7 +34,6 @@ import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 public class SignUpActivity extends AppCompatActivity {
     String TAG = SignUpActivity.class.getCanonicalName();
     @Inject
-    @Named("default")
     Retrofit retrofit;
 
     @BindView(R.id.username_edit_text)

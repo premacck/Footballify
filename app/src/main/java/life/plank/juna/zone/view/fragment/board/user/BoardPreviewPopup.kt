@@ -36,7 +36,7 @@ import javax.inject.Named
 
 class BoardPreviewPopup : BaseBlurPopup() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private lateinit var board: Board

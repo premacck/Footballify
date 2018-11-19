@@ -47,7 +47,6 @@ import static life.plank.juna.zone.util.UIDisplayUtil.hideSoftKeyboard;
 public class PostCommentActivity extends AppCompatActivity {
     String TAG = PostCommentActivity.class.getSimpleName();
     @Inject
-    @Named("default")
     Retrofit retrofit;
     @Inject
     Picasso picasso;

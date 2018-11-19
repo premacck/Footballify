@@ -55,10 +55,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
 
     @Inject
     lateinit var gson: Gson
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
-    @field: [Inject Named("footballData")]
-    lateinit var footballRestApi: RestApi
 
     private var authService: AuthorizationService? = null
     private var onBoardingBottomSheetBehavior: BottomSheetBehavior<*>? = null
@@ -175,7 +173,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
 
     private fun initBoardsRecyclerView() {
         if (activity is BaseCardActivity) {
-            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, footballRestApi, Glide.with(this), false)
+            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, restApi, Glide.with(this), false)
             user_boards_recycler_view?.adapter = userBoardsAdapter
         }
     }

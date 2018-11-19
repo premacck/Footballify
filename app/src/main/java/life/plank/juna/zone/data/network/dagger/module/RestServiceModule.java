@@ -26,36 +26,14 @@ public class RestServiceModule {
 
     @NetworkScope
     @Provides
-    @Named("default")
-    public RestApi provideDefaultRestApi(@Named("default") Retrofit retrofit) {
-        return retrofit.create(RestApi.class);
-    }
-
-    @NetworkScope
-    @Provides
-    @Named("footballData")
-    public RestApi provideFootballRestApi(@Named("footballData") Retrofit retrofit) {
+    public RestApi provideDefaultRestApi(Retrofit retrofit) {
         return retrofit.create(RestApi.class);
     }
 
     //todo:combine these two url feed and Football Data
     @NetworkScope
     @Provides
-    @Named("default")
     public Retrofit getRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
-        return new Retrofit.Builder()
-                .baseUrl(ZoneApplication.getContext().getString(R.string.backend_base_url))
-                .client(okHttpClient)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(nullOnEmptyConverterFactory)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-    }
-
-    @NetworkScope
-    @Provides
-    @Named("footballData")
-    public Retrofit getFootballData(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
         return new Retrofit.Builder()
                 .baseUrl(ZoneApplication.getContext().getString(R.string.backend_base_url))
                 .client(okHttpClient)

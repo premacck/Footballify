@@ -37,7 +37,6 @@ public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.EmojiViewHol
     public static String feedId;
     public BottomSheetBehavior emojiBottomSheetBehavior;
     @Inject
-    @Named("default")
     RestApi restApi;
     private Context context;
     private String boardId;

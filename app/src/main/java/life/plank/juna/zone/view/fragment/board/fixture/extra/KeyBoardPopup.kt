@@ -25,7 +25,7 @@ import javax.inject.Named
 class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragListener {
     private val IMAGE_VIEW_TAG = "CLAP VIEW"
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     companion object {

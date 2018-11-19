@@ -58,7 +58,6 @@ public class TokenActivity extends AppCompatActivity {
     private static final String EXTRA_AUTH_SERVICE_DISCOVERY = "authServiceDiscovery";
     private static final String EXTRA_AUTH_STATE = "authState";
     @Inject
-    @Named("default")
     Retrofit retrofit;
     private AuthState mAuthState;
     @Inject

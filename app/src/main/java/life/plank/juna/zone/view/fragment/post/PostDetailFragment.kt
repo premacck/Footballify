@@ -53,7 +53,7 @@ import javax.inject.Named
 
 class PostDetailFragment : BaseCommentContainerFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     lateinit var feedEntry: FeedEntry
