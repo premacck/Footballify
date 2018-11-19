@@ -65,4 +65,5 @@
     <string name="no_id_for_fragment_container">No ID for Main fragment container given</string>
     <string name="already_following_board">You are already following this board</string>
     <string name="cannot_follow_board">Sorry, but you cannot follow this board</string>
+    <string name="select_team">Select atleast one team</string>
 </resources>

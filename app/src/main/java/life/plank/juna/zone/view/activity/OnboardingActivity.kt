@@ -6,8 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.custom_search_view.*
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_onboarding.*
+import kotlinx.android.synthetic.main.custom_search_view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballTeam
@@ -102,16 +103,20 @@ class OnboardingActivity : BaseCard(), OnClickZoneItemListener {
     }
 
     private fun postTeamPref(zone: String) {
-        restApi.postTeamPreferences(zone, teamSet, PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(OnboardingActivity.TAG, "Team Preference details: ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_NO_CONTENT -> {
-                    (activity!!.launch<ZoneActivity>())
+        if (!teamSet.isEmpty()) {
+            restApi.postTeamPreferences(zone, teamSet, PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
+                Log.e(OnboardingActivity.TAG, "Team Preference details: ", it)
+            }, {
+                when (it.code()) {
+                    HttpURLConnection.HTTP_NO_CONTENT -> {
+                        (activity!!.launch<ZoneActivity>())
+                    }
+                    else -> errorToast(R.string.team_pref_not_found, it)
                 }
-                else -> errorToast(R.string.team_pref_not_found, it)
-            }
-        })
+            })
+        } else {
+            Toast.makeText(context, getString(R.string.select_team), Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun getFootballTeams(teamName: String) {
