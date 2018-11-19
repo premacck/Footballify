@@ -20,7 +20,6 @@ import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
-import javax.inject.Named
 
 class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragListener {
     private val IMAGE_VIEW_TAG = "CLAP VIEW"

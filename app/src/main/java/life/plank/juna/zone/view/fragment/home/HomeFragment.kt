@@ -51,7 +51,6 @@ import net.openid.appauth.AuthorizationService
 import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
 class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemListener {
 

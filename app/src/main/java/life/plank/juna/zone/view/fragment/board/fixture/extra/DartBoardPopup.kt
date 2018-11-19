@@ -19,7 +19,6 @@ import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.throwDart
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
-import javax.inject.Named
 
 class DartBoardPopup : BaseBlurPopup() {
 

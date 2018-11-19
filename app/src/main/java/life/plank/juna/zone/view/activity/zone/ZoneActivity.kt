@@ -8,7 +8,6 @@ import life.plank.juna.zone.util.common.handleMatchBoardIntentIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.zone.ZoneContainerFragment
 import javax.inject.Inject
-import javax.inject.Named
 
 class ZoneActivity : BaseCardActivity() {
 

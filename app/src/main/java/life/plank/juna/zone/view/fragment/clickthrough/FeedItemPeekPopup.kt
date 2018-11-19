@@ -23,7 +23,6 @@ import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 @Suppress("DeferredResultUnused")
 class FeedItemPeekPopup : BaseBlurPopup() {

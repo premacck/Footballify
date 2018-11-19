@@ -37,7 +37,6 @@ import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
 class PrivateBoardFragment : CardTileFragment() {
 

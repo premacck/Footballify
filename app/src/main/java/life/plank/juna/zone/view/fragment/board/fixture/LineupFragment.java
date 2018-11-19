@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Objects;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

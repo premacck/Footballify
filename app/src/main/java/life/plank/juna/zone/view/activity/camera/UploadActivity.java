@@ -33,7 +33,6 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.net.ssl.HttpsURLConnection;
 
 import butterknife.BindView;

@@ -20,7 +20,6 @@ import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.StandingTableAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
-import javax.inject.Named
 
 class StandingsFragment : BaseLeagueFragment() {
 

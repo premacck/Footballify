@@ -24,7 +24,6 @@ import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment.Companion.
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import javax.inject.Inject
-import javax.inject.Named
 
 class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
