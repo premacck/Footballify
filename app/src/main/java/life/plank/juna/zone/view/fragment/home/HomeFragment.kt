@@ -187,6 +187,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
     }
 
     private fun getPopularTeams() {
+        if (isNullOrEmpty(getToken()))
+            return
         restApi.getPopularTeams(getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "Popular Team details: ", it)
         }, {
