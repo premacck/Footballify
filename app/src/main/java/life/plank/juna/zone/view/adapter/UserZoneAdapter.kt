@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
+import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.view.activity.OnboardingActivity
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
 
 class UserZoneAdapter(
@@ -28,7 +31,12 @@ class UserZoneAdapter(
         holder.itemView.total_post_count!!.text = zone?.contributionCount.toString()
         holder.itemView.interaction_count!!.text = zone?.interactionCount.toString()
 
-        holder.itemView.onDebouncingClick { activity.launch<ZoneActivity>() }
+        if (DataUtil.isNullOrEmpty(userPreferenceList[0].zonePreferences)) {
+            holder.itemView.onDebouncingClick { (activity as? BaseCardActivity)?.pushFragment(OnboardingActivity.newInstance()) }
+        } else {
+            holder.itemView.onDebouncingClick { (activity.launch<ZoneActivity>()) }
+        }
+
     }
 
     override fun getItemCount(): Int = userPreferenceList.size

@@ -158,6 +158,12 @@
             android:screenOrientation="portrait"
             android:parentActivityName=".view.activity.home.HomeActivity"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".view.activity.OnboardingActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".view.activity.home.HomeActivity"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
     </application>
 
 </manifest>
