@@ -17,7 +17,7 @@
         <RelativeLayout style="@style/MatchParentSize">
 
             <RelativeLayout
-                android:id="@+id/onboarding_bottom_sheet"
+                android:id="@+id/onboarding_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="7dp"
@@ -30,7 +30,6 @@
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/drag_handle"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/raleway_medium"
                     android:lineSpacingExtra="8sp"
@@ -49,7 +48,6 @@
                     android:id="@+id/next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/drag_handle"
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="5dp"
