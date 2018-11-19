@@ -6,6 +6,10 @@
     style="@style/MatchParentSize"
     android:animateLayoutChanges="true">
 
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blur_layout"
+        style="@style/BlurLayoutFullScreen"/>
+
     <android.support.v7.widget.CardView
         android:id="@+id/onboarding_root_card"
         style="@style/CardView.Root">

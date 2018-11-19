@@ -27,7 +27,7 @@ import javax.inject.Inject
 
 class OnboardingActivity : BaseCard(), OnClickZoneItemListener {
 
-    override fun getBackgroundBlurLayout(): ViewGroup? = null
+    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
     override fun getRootCard(): CardView? = onboarding_root_card
 
@@ -60,8 +60,6 @@ class OnboardingActivity : BaseCard(), OnClickZoneItemListener {
         super.onViewCreated(view, savedInstanceState)
 
         ZoneApplication.getApplication().uiComponent.inject(this)
-
-        pushFragment(ZoneContainerFragment.newInstance())
 
         initBottomSheetRecyclerView()
         prepareSearchEditText()
