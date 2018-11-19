@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,19 +13,15 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.custom_search_view.*
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlinx.android.synthetic.main.onboarding_bottom_sheet.*
 import kotlinx.android.synthetic.main.shimmer_user_boards.*
 import kotlinx.android.synthetic.main.shimmer_user_feed.*
 import kotlinx.android.synthetic.main.shimmer_user_zones.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
-import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.interfaces.OnClickZoneItemListener
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
@@ -35,7 +30,6 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -46,12 +40,10 @@ import life.plank.juna.zone.view.adapter.UserZoneAdapter
 import life.plank.juna.zone.view.fragment.base.FlatTileFragment
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup
 import net.openid.appauth.AuthorizationService
-import org.jetbrains.anko.sdk27.coroutines.textChangedListener
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
-class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemListener {
+class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     @Inject
     lateinit var gson: Gson
@@ -59,16 +51,11 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
     lateinit var restApi: RestApi
 
     private var authService: AuthorizationService? = null
-    private var onBoardingBottomSheetBehavior: BottomSheetBehavior<*>? = null
-    private var onBoardingAdapter: OnboardingAdapter? = null
     private var userFeedAdapter: UserFeedAdapter? = null
     private var userZoneAdapter: UserZoneAdapter? = null
     private var userBoardsAdapter: UserBoardsAdapter? = null
     private val userPreferences = ArrayList<UserPreference>()
     private var feedEntries = ArrayList<FeedEntry>()
-    private var teamList = ArrayList<FootballTeam>()
-    var teamSet: MutableSet<String> = HashSet<String>()
-
 
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
@@ -90,9 +77,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
             FirebaseMessaging.getInstance().subscribeToTopic(topic)
         }
 
-//        setupOnBoardingBottomSheet()
-//        initBottomSheetRecyclerView()
-
         startShimmers()
         initBoardsRecyclerView()
         initFeedRecyclerView()
@@ -106,49 +90,14 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
         setUpToolbarAndBoomMenu()
         arc_menu.setupWith(nestedScrollView)
 
-    //    prepareSearchEditText()
-
         feed_header.initListeners(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
-    //    next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
-        getPopularTeams()
-    }
-
-    override fun onItemClick(id: String?, isSelected: Boolean?) {
-        if (isSelected!!) {
-            teamSet.add(id!!)
-        } else {
-            teamSet.remove(id)
-        }
     }
 
     override fun onResume() {
         super.onResume()
         context?.doAfterDelay(1000) { getUserBoards() }
     }
-
-//    private fun initBottomSheetRecyclerView() {
-//        onBoardingAdapter = OnboardingAdapter(activity, teamList, this)
-//        onboarding_recycler_view.adapter = onBoardingAdapter
-//    }
-//
-//    private fun setupOnBoardingBottomSheet() {
-//        onBoardingBottomSheetBehavior = BottomSheetBehavior.from(onboarding_bottom_sheet)
-//        onBoardingBottomSheetBehavior?.peekHeight = 0
-//    }
-
-//    private fun prepareSearchEditText() {
-//        search_edit_text.textChangedListener {
-//            onTextChanged { charSequence, _, _, _ ->
-//                if (!isNullOrEmpty(charSequence.toString())) {
-//                    getFootballTeams(charSequence.toString())
-//                } else {
-//                    teamList.clear()
-//                    onBoardingAdapter?.notifyDataSetChanged()
-//                }
-//            }
-//        }
-//    }
 
     private fun setUpToolbarAndBoomMenu() {
         if (isNullOrEmpty(getToken())) {
@@ -184,52 +133,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
         userZoneAdapter!!.notifyDataSetChanged()
     }
 
-    private fun getPopularTeams() {
-        if (isNullOrEmpty(getToken()))
-            return
-        restApi.getPopularTeams(getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "Popular Team details: ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    onBoardingAdapter?.setTeamList(it.body())
-                }
-                else -> errorToast(R.string.popular_team_not_found, it)
-            }
-        })
-    }
-
-    private fun postTeamPref(zone: String) {
-        restApi.postTeamPreferences(zone, teamSet, getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "Team Preference details: ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_NO_CONTENT -> {
-                    onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                    onBoardingBottomSheetBehavior?.peekHeight = 0
-                }
-                else -> errorToast(R.string.team_pref_not_found, it)
-            }
-        })
-    }
-
-    private fun getFootballTeams(teamName: String) {
-        restApi.getSearchedFootballTeams(teamName, getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(TAG, "getFootballTeamDetails: ", it)
-        }, {
-            when (it.code()) {
-                HttpURLConnection.HTTP_OK -> {
-                    onBoardingAdapter?.setTeamList(it.body())
-                }
-                HttpURLConnection.HTTP_NOT_FOUND -> {
-                    teamList.clear()
-                    onBoardingAdapter?.notifyDataSetChanged()
-                }
-                else -> errorToast(R.string.team_not_found, it)
-            }
-        })
-    }
-
     private fun getUserZones() {
         if (isNullOrEmpty(getToken())) {
             onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
@@ -248,11 +151,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
                                 setUpUserZoneAdapter(user.userPreferences)
                                 onRecyclerViewContentsLoaded(user_zone_recycler_view, shimmer_user_zones)
 
-                                if (isNullOrEmpty(user.userPreferences!![0].zonePreferences)) {
-                                    onboarding_bottom_sheet.visibility = View.VISIBLE
-                                    onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
-                                    onBoardingBottomSheetBehavior?.peekHeight = 1000
-                                }
                             } else {
                                 onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)
                             }
@@ -376,7 +274,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
         if (authService != null) {
             authService!!.dispose()
         }
-        onBoardingAdapter = null
         userBoardsAdapter = null
         userFeedAdapter = null
         userZoneAdapter = null
