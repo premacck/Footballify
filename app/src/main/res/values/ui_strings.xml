@@ -186,7 +186,7 @@
     <string name="draw">Draw</string>
     <string name="who_will_win_today">Who will win today?</string>
     <string name="kick_off_in_">Kick-off in&#160;</string>
-    <string name="_votes">&#160;Votes</string>
+    <string name="_votes">%1$d Votes</string>
     <string name="forum">FORUM</string>
     <string name="swipe_up_for_more">Swipe up for more</string>
     <string name="prematch">PREMATCH</string>
@@ -216,5 +216,7 @@
     <string name="boards">BOARDS</string>
     <string name="react_to_this_board">React to this Board</string>
     <string name="reaction">Reaction</string>
+    <string name="failed_to_get_poll">Failed to get poll</string>
+    <string name="failed_to_get_poll_answer">Failed to get poll answer</string>
 
 </resources>

@@ -43,9 +43,13 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.binder.PollBindingModel;
+import life.plank.juna.zone.data.model.poll.PollAnswerRequest;
+import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.interfaces.FeedEntryContainer;
+import life.plank.juna.zone.interfaces.PollContainer;
 import life.plank.juna.zone.util.BoomMenuUtil;
+import life.plank.juna.zone.util.RestUtilKt;
 import life.plank.juna.zone.util.customview.BoardPoll;
 import life.plank.juna.zone.util.facilis.ViewUtilKt;
 import life.plank.juna.zone.view.adapter.BoardMediaAdapter;
@@ -66,7 +70,7 @@ import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
 import static life.plank.juna.zone.util.UIDisplayUtil.setupFeedEntryByMasonryLayout;
 
-public class BoardTilesFragment extends BaseFragment implements AsymmetricRecyclerViewListener {
+public class BoardTilesFragment extends BaseFragment implements AsymmetricRecyclerViewListener, PollContainer {
 
     private static final String TAG = BoardTilesFragment.class.getSimpleName();
     @Inject
@@ -198,7 +202,7 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
     private void initRecyclerViews() {
         if (pollBindingModel != null) {
             boardPoll.setVisibility(View.VISIBLE);
-            boardPoll.prepare(Glide.with(getActivity()), pollBindingModel);
+            boardPoll.prepare(Glide.with(getActivity()), pollBindingModel, this);
         } else {
             boardPoll.setVisibility(View.GONE);
         }
@@ -310,5 +314,26 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
 
     public void moveItem(int fromPosition, int toPosition) {
         adapter.notifyItemMoved(fromPosition, toPosition);
+    }
+
+    @Override
+    public void onPollSelected(@NonNull PollAnswerRequest pollAnswerRequest) {
+        RestUtilKt.setObserverThreadsAndSmartSubscribe(
+                restApi.postBoardPollAnswer(pollAnswerRequest, getToken()),
+                (throwable -> {
+                    Log.e(TAG, "onPollSelected(): ", throwable);
+                    return null;
+                }),
+                (pollAnswerResponse -> {
+                    PollAnswerResponse pollAnswer = pollAnswerResponse.body();
+                    if (pollAnswer != null) {
+                        pollBindingModel.getPoll().setTotalVotes(pollAnswer.getTotalVotes());
+                        pollBindingModel.getPoll().setUserSelection(pollAnswer.getUserSelection());
+                        pollBindingModel.getPoll().setChoices(pollAnswer.getChoices());
+                        boardPoll.pollSelected(pollBindingModel.getPoll());
+                    }
+                    return null;
+                })
+        );
     }
 }

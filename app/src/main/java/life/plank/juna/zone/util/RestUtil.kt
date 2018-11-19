@@ -95,6 +95,8 @@ fun errorToast(@StringRes prependMessage: Int, response: Response<*>) = getCusto
 
 fun errorToast(@StringRes prependMessage: Int, error: Throwable) = getCustomToast("${findString(prependMessage)}\n\n${error.message!!}").show()
 
+fun errorLog(tag: String, @StringRes prependMessage: Int, response: Response<*>) = Log.e(tag, findString(prependMessage) + " Code: " + response.code() + " Message: " + response.message())
+
 @SuppressLint("InflateParams")
 fun getCustomToast(message: CharSequence, duration: Int = Toast.LENGTH_LONG): Toast {
     val toast = Toast(ZoneApplication.getContext())
