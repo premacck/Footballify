@@ -43,8 +43,8 @@ import rx.Observable;
 
 public interface RestApi {
 
-    String FOOTBALL_SUFFIX = "/football-demo";
-    String ZONE_BACKEND_SUFFIX = "/backend-demo";
+    String FOOTBALL_SUFFIX = "demo/football";
+    String ZONE_BACKEND_SUFFIX = "demo/backend";
 
     //working
     @GET(FOOTBALL_SUFFIX + "/seasons/standings")
