@@ -71,8 +71,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
     private val userPreferences = ArrayList<UserPreference>()
     private var feedEntries = ArrayList<FeedEntry>()
     private var teamList = ArrayList<FootballTeam>()
-    var teamSet: MutableSet<String> = HashSet<String>()
-
+    var teamSet: MutableSet<String> = HashSet()
 
     companion object {
         private val TAG = HomeFragment::class.java.simpleName
