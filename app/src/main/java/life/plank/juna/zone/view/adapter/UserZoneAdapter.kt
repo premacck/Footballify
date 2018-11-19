@@ -23,10 +23,10 @@ class UserZoneAdapter(
 
     override fun onBindViewHolder(holder: UserZoneAdapter.UserZoneViewHolder, position: Int) {
         val (zone) = userPreferenceList[position]
-        holder.itemView.football!!.text = zone.name
-        holder.itemView.follower_count!!.text = zone.followerCount.toString()
-        holder.itemView.total_post_count!!.text = zone.contributionCount.toString()
-        holder.itemView.interaction_count!!.text = zone.interactionCount.toString()
+        holder.itemView.football!!.text = zone?.name
+        holder.itemView.follower_count!!.text = zone?.followerCount.toString()
+        holder.itemView.total_post_count!!.text = zone?.contributionCount.toString()
+        holder.itemView.interaction_count!!.text = zone?.interactionCount.toString()
 
         holder.itemView.onDebouncingClick { activity.launch<ZoneActivity>() }
     }
