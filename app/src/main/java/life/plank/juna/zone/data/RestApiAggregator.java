@@ -16,6 +16,8 @@ import life.plank.juna.zone.data.model.MatchStats;
 import life.plank.juna.zone.data.model.PlayerStats;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
+import life.plank.juna.zone.data.model.poll.Poll;
+import life.plank.juna.zone.data.model.poll.PollAnswerResponse;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.AppConstants;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
@@ -26,6 +28,7 @@ import rx.schedulers.Schedulers;
 import static java.net.HttpURLConnection.HTTP_OK;
 import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
 import static life.plank.juna.zone.util.PreferenceManager.Auth.getToken;
+import static life.plank.juna.zone.util.RestUtilKt.errorLog;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
 /**
@@ -201,6 +204,35 @@ public class RestApiAggregator {
                         })
                 )
         );
+    }
+
+    public static Observable<Poll> getPoll(RestApi restApi, String boardId) {
+        return restApi.getBoardPoll(boardId, getToken())
+                .flatMap(pollResponse -> {
+                    Poll poll = pollResponse.body();
+                    if (pollResponse.code() != HTTP_OK || poll == null) {
+                        errorLog("getPoll()", R.string.failed_to_get_poll, pollResponse);
+                        return restApi.getBoardPollAnswer(0, getToken());
+                    }
+                    return restApi.getBoardPollAnswer(poll.getId(), getToken());
+                }, (pollResponse, pollAnswerResponse) -> {
+                    Poll poll = pollResponse.body();
+                    if (pollResponse.code() != HTTP_OK) {
+                        errorLog("getPoll()", R.string.failed_to_get_poll, pollResponse);
+                        return poll;
+                    }
+                    if (pollAnswerResponse.code() != HTTP_OK) {
+                        errorLog("getPoll()", R.string.failed_to_get_poll, pollAnswerResponse);
+                        return poll;
+                    }
+                    PollAnswerResponse pollAnswer = pollAnswerResponse.body();
+                    if (poll != null && pollAnswer != null) {
+                        poll.setTotalVotes(pollAnswer.getTotalVotes());
+                        poll.setUserSelection(pollAnswer.getUserSelection());
+                        poll.setChoices(pollAnswer.getChoices());
+                    }
+                    return poll;
+                });
     }
 
     /**

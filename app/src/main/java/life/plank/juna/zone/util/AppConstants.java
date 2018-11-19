@@ -2,7 +2,6 @@ package life.plank.juna.zone.util;
 
 
 import android.support.annotation.IntDef;
-import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -142,13 +141,14 @@ public class AppConstants {
     public static final String HOME_POPUP = "HomePopUp";
     public static final String PRIVATE_BOARD_USER_POPUP = "PrivateBoardUserPopUp";
     public static final String PRIVATE_BOARD_OWNER_POPUP = "PrivateBoardOwnerPopUp";
+    public static final String DRAW_STRING = "Draw";
 
     @Retention(RetentionPolicy.RUNTIME)
-    @StringDef({HOME, DRAW, AWAY})
+    @IntDef({HOME, DRAW, AWAY})
     public @interface PollValue {
-        String HOME = "Home";
-        String DRAW = "Draw";
-        String AWAY = "Away";
+        int HOME = 1;
+        int DRAW = 2;
+        int AWAY = 3;
     }
 
     @Retention(RetentionPolicy.SOURCE)

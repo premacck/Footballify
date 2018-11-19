@@ -65,7 +65,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/bg_white_translucent_card"
         android:backgroundTintMode="src_atop"
         android:drawableTop="@drawable/ic_whistle_vertical_white"
