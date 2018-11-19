@@ -41,7 +41,7 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
     lateinit var gson: Gson
     @Inject
     lateinit var picasso: Picasso
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     lateinit var bottomSheetBehavior: BottomSheetBehavior<*>

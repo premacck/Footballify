@@ -56,7 +56,6 @@ public class SelectZoneActivity extends AppCompatActivity implements OnClickZone
     Set<String> zoneIdList = new HashSet<>();
 
     @Inject
-    @Named("default")
     RestApi restApi;
     private ArrayList<Zones> zones = new ArrayList<>();
     Zones zone = new Zones();

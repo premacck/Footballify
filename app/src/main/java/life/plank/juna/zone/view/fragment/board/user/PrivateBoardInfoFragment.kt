@@ -25,7 +25,7 @@ import javax.inject.Named
 
 class PrivateBoardInfoFragment : BaseFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     var userPosition: Int = 0

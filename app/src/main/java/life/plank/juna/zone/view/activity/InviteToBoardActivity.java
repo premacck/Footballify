@@ -45,7 +45,6 @@ public class InviteToBoardActivity extends AppCompatActivity implements SearchVi
 
     private static final String TAG = InviteToBoardActivity.class.getSimpleName();
     @Inject
-    @Named("default")
     Retrofit retrofit;
     @BindView(R.id.search_view)
     SearchView search;

@@ -61,7 +61,6 @@ public class MatchStatsFragment extends BaseBoardFragment implements BoardInfoAd
     RecyclerView boardInfoRecyclerView;
 
     @Inject
-    @Named("footballData")
     RestApi restApi;
     @Inject
     Gson gson;

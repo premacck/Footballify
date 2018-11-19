@@ -24,7 +24,7 @@ import javax.inject.Named
 
 class StandingsFragment : BaseLeagueFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private var standingTableAdapter: StandingTableAdapter? = null

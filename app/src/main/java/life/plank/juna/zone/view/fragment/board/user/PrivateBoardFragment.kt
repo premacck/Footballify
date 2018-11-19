@@ -41,7 +41,7 @@ import javax.inject.Named
 
 class PrivateBoardFragment : CardTileFragment() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private lateinit var feedEntries: List<FeedEntry>

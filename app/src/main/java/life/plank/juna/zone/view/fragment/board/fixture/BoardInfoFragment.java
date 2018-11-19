@@ -73,7 +73,6 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
     RecyclerView boardInfoRecyclerView;
 
     @Inject
-    @Named("footballData")
     RestApi restApi;
     @Inject
     Gson gson;

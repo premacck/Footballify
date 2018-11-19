@@ -81,7 +81,6 @@ public class UploadActivity extends AppCompatActivity {
     private static final int CAMERA_AND_STORAGE_PERMISSIONS = 15;
 
     @Inject
-    @Named("default")
     RestApi restApi;
     @Inject
     Picasso picasso;

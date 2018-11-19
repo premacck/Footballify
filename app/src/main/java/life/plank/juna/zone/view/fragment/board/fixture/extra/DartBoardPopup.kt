@@ -23,7 +23,7 @@ import javax.inject.Named
 
 class DartBoardPopup : BaseBlurPopup() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private var remainingDarts: Int = 3

@@ -28,7 +28,7 @@ import javax.inject.Named
 @Suppress("DeferredResultUnused")
 class FeedItemPeekPopup : BaseBlurPopup() {
 
-    @field: [Inject Named("default")]
+    @Inject
     lateinit var restApi: RestApi
 
     private lateinit var feedEntries: List<FeedEntry>
