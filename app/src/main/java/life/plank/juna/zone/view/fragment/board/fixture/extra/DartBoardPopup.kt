@@ -48,6 +48,9 @@ class DartBoardPopup : BaseBlurPopup() {
         dart_layout_one.tag = "PlayerOne"
         dart_layout_two.tag = "PlayerTwo"
 
+        dart_count_one.text = getString(R.string.n_darts, 45)
+        dart_count_two.text = getString(R.string.n_darts, 84)
+
         dart_layout_one.onDebouncingClick {
             postDart(dart_layout_one.tag.toString())
             throwDart(thrown_dart_1, thrown_dart_2, thrown_dart_3)

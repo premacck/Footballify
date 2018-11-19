@@ -268,6 +268,8 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
+    override fun getTheBoardId(): String? = boardId
+
     override fun onDestroy() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
         if (!isNullOrEmpty(boardId) && !isBoardActive) {

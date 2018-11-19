@@ -6,8 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Emoji(
         var name: String?,
-        //update emojiUrl to string once implemented on backend
-        var emojiUrl: Int?,
+        var emojiDrawable: Int?,
         var reaction: Int?,
-        var reactionCount: Int?
+        var reactionCount: Int = 0
 ) : Parcelable

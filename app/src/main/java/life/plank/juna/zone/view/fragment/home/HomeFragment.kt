@@ -35,7 +35,9 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.facilis.hide
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.show
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -207,8 +209,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_NO_CONTENT -> {
-                    onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_HIDDEN
-                    onBoardingBottomSheetBehavior?.peekHeight = 0
+                    onBoardingBottomSheetBehavior?.hide()
                 }
                 else -> errorToast(R.string.team_pref_not_found, it)
             }
@@ -252,8 +253,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
 
                                 if (isNullOrEmpty(user.userPreferences!![0].zonePreferences)) {
                                     onboarding_bottom_sheet.visibility = View.VISIBLE
-                                    onBoardingBottomSheetBehavior?.state = BottomSheetBehavior.STATE_EXPANDED
-                                    onBoardingBottomSheetBehavior?.peekHeight = 1000
+                                    onBoardingBottomSheetBehavior?.show(1000)
                                 }
                             } else {
                                 onRecyclerViewContentsFailedToLoad(user_zone_recycler_view, shimmer_user_zones)

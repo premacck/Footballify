@@ -16,6 +16,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.facilis.hideIfShown
 import life.plank.juna.zone.util.facilis.zoomOut
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
@@ -31,7 +32,7 @@ class FeedItemPeekPopup : BaseBlurPopup() {
     lateinit var restApi: RestApi
 
     private lateinit var feedEntries: List<FeedEntry>
-    var boardFeedDetailAdapter: BoardFeedDetailAdapter? = null
+    private var boardFeedDetailAdapter: BoardFeedDetailAdapter? = null
     private var emojiBottomSheetBehavior: BottomSheetBehavior<*>? = null
     private var emojiAdapter: EmojiAdapter? = null
     private var boardId: String? = null
@@ -57,9 +58,9 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         super.onCreate(savedInstanceState)
         arguments?.run {
             feedEntries = getParcelableArrayList(getString(R.string.intent_feed_items))!!
-            boardId = getString(getString(R.string.intent_board_id))
+            boardId = getString(getString(R.string.intent_board_id), "")
             isBoardActive = getBoolean(getString(R.string.intent_is_board_active))
-            target = getString(getString(R.string.intent_target))
+            target = getString(getString(R.string.intent_target), "")
             position = getInt(getString(R.string.intent_position))
         }
         ZoneApplication.getApplication().uiComponent.inject(this)
@@ -74,10 +75,7 @@ class FeedItemPeekPopup : BaseBlurPopup() {
     }
 
     override fun dismiss() {
-        if (emojiBottomSheetBehavior?.peekHeight!! > 0 || emojiBottomSheetBehavior?.state != BottomSheetBehavior.STATE_COLLAPSED) {
-            emojiBottomSheetBehavior!!.peekHeight = 0
-            emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-        } else {
+        if (emojiBottomSheetBehavior?.hideIfShown() != false) {
             board_tiles_full_recycler_view?.zoomOut()
             super.dismiss()
         }
@@ -92,11 +90,13 @@ class FeedItemPeekPopup : BaseBlurPopup() {
     override fun getBackgroundLayout(): ViewGroup? = root_peek_layout
 
     private fun initBottomSheet() {
-        emojiAdapter = EmojiAdapter(ZoneApplication.getContext(), if (boardId == null) "" else boardId, emojiBottomSheetBehavior)
-        emoji_recycler_view.adapter = emojiAdapter
-        emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
-        emojiBottomSheetBehavior?.peekHeight = 0
-        emoji_bottom_sheet.visibility = View.VISIBLE
+        boardId?.run {
+            emojiAdapter = EmojiAdapter(restApi, this, emojiBottomSheetBehavior)
+            emoji_recycler_view.adapter = emojiAdapter
+            emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
+            emojiBottomSheetBehavior?.peekHeight = 0
+            emoji_bottom_sheet.visibility = View.VISIBLE
+        }
     }
 
     private fun initRecyclerView() {
@@ -108,12 +108,5 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
     }
 
-    override fun onBackPressed(): Boolean {
-        if (emojiBottomSheetBehavior?.peekHeight!! > 0 || emojiBottomSheetBehavior?.state != BottomSheetBehavior.STATE_COLLAPSED) {
-            emojiBottomSheetBehavior!!.peekHeight = 0
-            emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
-            return false
-        }
-        return true
-    }
+    override fun onBackPressed(): Boolean = emojiBottomSheetBehavior?.hideIfShown() ?: true
 }

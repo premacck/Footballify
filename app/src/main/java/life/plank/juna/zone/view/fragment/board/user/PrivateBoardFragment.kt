@@ -159,6 +159,8 @@ class PrivateBoardFragment : CardTileFragment() {
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
 
+    override fun getTheBoardId(): String? = boardId
+
     private fun deletePrivateBoard() {
         restApi.deleteBoard(boardId, getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "onError: ", it)

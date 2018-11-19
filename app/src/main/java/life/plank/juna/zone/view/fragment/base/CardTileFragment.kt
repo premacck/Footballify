@@ -15,7 +15,9 @@ abstract class CardTileFragment : BaseCard(), FeedEntryContainer {
             pushFragment(PostDetailContainerFragment.newInstance(feedEntryList, boardId, position), true)
 
     override fun showFeedItemPeekPopup(position: Int) =
-            pushPopup(FeedItemPeekPopup.newInstance(getFeedEntries(), null, true, null, position))
+            pushPopup(FeedItemPeekPopup.newInstance(getFeedEntries(), getTheBoardId(), true, null, position))
 
     abstract fun getFeedEntries(): List<FeedEntry>
+
+    abstract fun getTheBoardId(): String?
 }

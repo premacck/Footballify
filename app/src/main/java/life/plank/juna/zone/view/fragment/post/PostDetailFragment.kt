@@ -39,6 +39,7 @@ import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.*
 import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
@@ -84,7 +85,7 @@ class PostDetailFragment : BaseCommentContainerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_post_detail, container, false)
 
     private fun initBottomSheetRecyclerView() {
-        emojiAdapter = EmojiAdapter(activity, boardId, emojiBottomSheetBehavior)
+        emojiAdapter = EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior)
         emoji_recycler_view.adapter = emojiAdapter
         EmojiAdapter.feedId = feedEntry.feedItem.id
     }
@@ -127,9 +128,7 @@ class PostDetailFragment : BaseCommentContainerFragment() {
             }
         }
         reaction_view.onDebouncingClick {
-            emojiBottomSheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
-            emojiBottomSheetBehavior!!.peekHeight = 850
-            EmojiAdapter.feedId = feedEntry.feedItem.id
+            emojiBottomSheetBehavior?.showFor(feedEntry.feedItem.id)
         }
         no_comment_text_view.onDebouncingClick {
             if (no_comment_text_view.text.toString() == getString(R.string.failed_to_get_feed_comments)) getCommentsOnFeed(false)

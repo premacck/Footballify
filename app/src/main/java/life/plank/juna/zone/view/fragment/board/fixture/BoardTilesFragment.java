@@ -191,7 +191,7 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
     }
 
     private void initEmojiBottomSheetRecyclerView() {
-        emojiAdapter = new EmojiAdapter(getContext(), "", emojiBottomSheetBehavior);
+        emojiAdapter = new EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior);
         emojiRecyclerView.setAdapter(emojiAdapter);
     }
 
