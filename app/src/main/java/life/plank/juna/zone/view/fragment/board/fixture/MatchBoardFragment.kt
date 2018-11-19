@@ -47,8 +47,6 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
     @field: [Inject Named("default")]
     lateinit var restApi: RestApi
-    @field: [Inject Named("footballData")]
-    lateinit var footballRestApi: RestApi
     @Inject
     lateinit var gson: Gson
 
@@ -211,7 +209,7 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     private fun getBoardIdAndMatchDetails(currentMatchId: Long?) {
-        RestApiAggregator.getBoardAndMatchDetails(restApi, footballRestApi, currentMatchId!!)
+        RestApiAggregator.getBoardAndMatchDetails(restApi, restApi, currentMatchId!!)
                 .doOnSubscribe { runOnUiThread { board_progress_bar!!.visibility = View.VISIBLE } }
                 .doOnTerminate { runOnUiThread { board_progress_bar!!.visibility = View.GONE } }
                 .setObserverThreadsAndSmartSubscribe({

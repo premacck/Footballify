@@ -28,7 +28,7 @@ import javax.inject.Named
 
 class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
 
-    @field: [Inject Named("footballData")]
+    @field: [Inject Named("default")]
     lateinit var restApi: RestApi
 
     private var isDataLocal: Boolean = false

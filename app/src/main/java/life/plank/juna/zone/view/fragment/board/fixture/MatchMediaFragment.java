@@ -59,7 +59,7 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
     RecyclerView boardInfoRecyclerView;
 
     @Inject
-    @Named("footballData")
+    @Named("default")
     RestApi restApi;
     @Inject
     Gson gson;

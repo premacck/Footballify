@@ -25,7 +25,7 @@ import javax.inject.Named
 
 class BoardMembersFragment : BaseFragment() {
 
-    @field: [Inject Named("footballData")]
+    @field: [Inject Named("default")]
     lateinit var restApi: RestApi
     @Inject
     lateinit var picasso: Picasso

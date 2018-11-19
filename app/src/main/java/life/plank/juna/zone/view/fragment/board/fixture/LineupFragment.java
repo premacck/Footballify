@@ -53,7 +53,7 @@ public class LineupFragment extends BaseBoardFragment {
     RecyclerView boardInfoRecyclerView;
 
     @Inject
-    @Named("footballData")
+    @Named("default")
     RestApi restApi;
     @Inject
     Gson gson;
