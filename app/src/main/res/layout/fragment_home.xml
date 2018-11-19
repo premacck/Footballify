@@ -99,8 +99,8 @@
         android:animateLayoutChanges="true"
         android:visibility="gone" />
 
-    <include
-        layout="@layout/onboarding_bottom_sheet"
-        android:visibility="gone" />
+    <!--<include-->
+        <!--layout="@layout/onboarding_bottom_sheet"-->
+        <!--android:visibility="gone" />-->
 
 </android.support.design.widget.CoordinatorLayout>

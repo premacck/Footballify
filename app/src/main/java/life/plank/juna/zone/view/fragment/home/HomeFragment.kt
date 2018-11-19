@@ -90,8 +90,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
             FirebaseMessaging.getInstance().subscribeToTopic(topic)
         }
 
-        setupOnBoardingBottomSheet()
-        initBottomSheetRecyclerView()
+//        setupOnBoardingBottomSheet()
+//        initBottomSheetRecyclerView()
 
         startShimmers()
         initBoardsRecyclerView()
@@ -106,11 +106,11 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
         setUpToolbarAndBoomMenu()
         arc_menu.setupWith(nestedScrollView)
 
-        prepareSearchEditText()
+    //    prepareSearchEditText()
 
         feed_header.initListeners(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
-        next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
+    //    next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
         getPopularTeams()
     }
 
@@ -127,28 +127,28 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
         context?.doAfterDelay(1000) { getUserBoards() }
     }
 
-    private fun initBottomSheetRecyclerView() {
-        onBoardingAdapter = OnboardingAdapter(activity, teamList, this)
-        onboarding_recycler_view.adapter = onBoardingAdapter
-    }
+//    private fun initBottomSheetRecyclerView() {
+//        onBoardingAdapter = OnboardingAdapter(activity, teamList, this)
+//        onboarding_recycler_view.adapter = onBoardingAdapter
+//    }
+//
+//    private fun setupOnBoardingBottomSheet() {
+//        onBoardingBottomSheetBehavior = BottomSheetBehavior.from(onboarding_bottom_sheet)
+//        onBoardingBottomSheetBehavior?.peekHeight = 0
+//    }
 
-    private fun setupOnBoardingBottomSheet() {
-        onBoardingBottomSheetBehavior = BottomSheetBehavior.from(onboarding_bottom_sheet)
-        onBoardingBottomSheetBehavior?.peekHeight = 0
-    }
-
-    private fun prepareSearchEditText() {
-        search_edit_text.textChangedListener {
-            onTextChanged { charSequence, _, _, _ ->
-                if (!isNullOrEmpty(charSequence.toString())) {
-                    getFootballTeams(charSequence.toString())
-                } else {
-                    teamList.clear()
-                    onBoardingAdapter?.notifyDataSetChanged()
-                }
-            }
-        }
-    }
+//    private fun prepareSearchEditText() {
+//        search_edit_text.textChangedListener {
+//            onTextChanged { charSequence, _, _, _ ->
+//                if (!isNullOrEmpty(charSequence.toString())) {
+//                    getFootballTeams(charSequence.toString())
+//                } else {
+//                    teamList.clear()
+//                    onBoardingAdapter?.notifyDataSetChanged()
+//                }
+//            }
+//        }
+//    }
 
     private fun setUpToolbarAndBoomMenu() {
         if (isNullOrEmpty(getToken())) {

@@ -10,7 +10,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.view.activity.zone.ZoneActivity
+import life.plank.juna.zone.view.activity.OnboardingActivity
 
 class UserZoneAdapter(
         private val activity: Activity,
@@ -28,7 +28,7 @@ class UserZoneAdapter(
         holder.itemView.total_post_count!!.text = zone?.contributionCount.toString()
         holder.itemView.interaction_count!!.text = zone?.interactionCount.toString()
 
-        holder.itemView.onDebouncingClick { activity.launch<ZoneActivity>() }
+        holder.itemView.onDebouncingClick { activity.launch<OnboardingActivity>() }
     }
 
     override fun getItemCount(): Int = userPreferenceList.size
