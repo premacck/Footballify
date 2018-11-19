@@ -32,7 +32,6 @@ import rx.schedulers.Schedulers
 import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
 class BoardPreviewPopup : BaseBlurPopup() {
 

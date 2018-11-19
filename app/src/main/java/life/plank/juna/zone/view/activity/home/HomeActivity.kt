@@ -12,7 +12,6 @@ import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
-import javax.inject.Named
 
 class HomeActivity : BaseCardActivity() {
 

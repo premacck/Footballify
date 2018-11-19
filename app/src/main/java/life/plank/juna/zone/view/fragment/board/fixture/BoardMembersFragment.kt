@@ -21,7 +21,6 @@ import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.net.HttpURLConnection
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class BoardMembersFragment : BaseFragment() {
 

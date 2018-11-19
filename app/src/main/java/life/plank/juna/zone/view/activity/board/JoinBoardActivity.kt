@@ -19,7 +19,6 @@ import life.plank.juna.zone.view.activity.home.HomeActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
 class JoinBoardActivity : AppCompatActivity() {
 

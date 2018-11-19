@@ -19,7 +19,6 @@ import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.throwDart
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
-import javax.inject.Named
 
 class DartBoardPopup : BaseBlurPopup() {
 
@@ -47,6 +46,9 @@ class DartBoardPopup : BaseBlurPopup() {
         //TODO: Replace with playerId
         dart_layout_one.tag = "PlayerOne"
         dart_layout_two.tag = "PlayerTwo"
+
+        dart_count_one.text = getString(R.string.n_darts, 45)
+        dart_count_two.text = getString(R.string.n_darts, 84)
 
         dart_layout_one.onDebouncingClick {
             postDart(dart_layout_one.tag.toString())

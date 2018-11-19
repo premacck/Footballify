@@ -26,7 +26,6 @@ import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.net.HttpURLConnection.*
 import javax.inject.Inject
-import javax.inject.Named
 
 class ForumFragment : BaseCommentContainerFragment() {
 

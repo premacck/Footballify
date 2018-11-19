@@ -27,7 +27,6 @@ import java.net.HttpURLConnection;
 import java.util.Objects;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;

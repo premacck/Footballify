@@ -26,7 +26,6 @@ import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
 import org.jetbrains.anko.intentFor
 import java.net.HttpURLConnection
 import javax.inject.Inject
-import javax.inject.Named
 
 class UserProfileActivity : BaseCardActivity() {
 

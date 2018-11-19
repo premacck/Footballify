@@ -41,7 +41,6 @@ import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import org.jetbrains.anko.support.v4.runOnUiThread
 import java.lang.ref.WeakReference
 import javax.inject.Inject
-import javax.inject.Named
 
 class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
 
@@ -265,6 +264,8 @@ class MatchBoardFragment : CardTileFragment(), PublicBoardHeaderListener {
     }
 
     override fun getFeedEntries(): List<FeedEntry> = feedEntries
+
+    override fun getTheBoardId(): String? = boardId
 
     override fun onDestroy() {
         FirebaseMessaging.getInstance().unsubscribeFromTopic(getString(R.string.pref_football_match_sub) + currentMatchId)
