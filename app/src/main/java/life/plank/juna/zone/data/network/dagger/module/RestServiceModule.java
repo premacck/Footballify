@@ -30,7 +30,6 @@ public class RestServiceModule {
         return retrofit.create(RestApi.class);
     }
 
-    //todo:combine these two url feed and Football Data
     @NetworkScope
     @Provides
     public Retrofit getRetrofit(@Named("header") OkHttpClient okHttpClient, Gson gson, NullOnEmptyConverterFactory nullOnEmptyConverterFactory) {
