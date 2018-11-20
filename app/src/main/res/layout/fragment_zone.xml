@@ -14,9 +14,9 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
             android:layout_alignTop="@+id/feed_header"
             android:layout_alignBottom="@+id/feed_info"
+            android:layout_marginEnd="100dp"
             android:contentDescription="@string/blur_background"
             android:src="@drawable/ic_ball" />
 
@@ -26,12 +26,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include
+        <TextView
             android:id="@+id/feed_info"
-            layout="@layout/layout_info_football_feeds"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/feed_header" />
+            android:layout_below="@+id/feed_header"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/rajdhani_medium"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="@string/football_zone_info"
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/football_feed_recycler_view"
