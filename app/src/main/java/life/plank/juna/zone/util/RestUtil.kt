@@ -43,9 +43,7 @@ fun <T> Observable<T>.execute(): Subscription {
 }
 
 fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t: T) -> Unit): Subscription {
-    return this.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Subscriber<T>() {
+    return subscribe(object : Subscriber<T>() {
                 override fun onCompleted() {}
 
                 override fun onError(e: Throwable) {
@@ -57,9 +55,6 @@ fun <T> Observable<T>.smartSubscribe(onError: (e: Throwable) -> Unit, onNext: (t
             })
 }
 
-/**
- * This method MUST be called from the "default" RestApi as the receiver
- */
 fun RestApi.launchPrivateBoard(boardId: String, baseCardActivity: BaseCardActivity) {
     RestApiAggregator.getPrivateBoardToOpen(boardId, this).smartSubscribe({
         Log.e("launchPrivateBoard", "onError(): ", it)
@@ -69,9 +64,6 @@ fun RestApi.launchPrivateBoard(boardId: String, baseCardActivity: BaseCardActivi
     })
 }
 
-/**
- * This method MUST be called from the "footballData" RestApi as the receiver
- */
 fun RestApi.launchMatchBoard(matchId: Long, baseCardActivity: BaseCardActivity, leagueName: String = "") {
     if (!isNullOrEmpty(leagueName)) {
         getMatchDetails(matchId).setObserverThreadsAndSmartSubscribe({ Log.e("launchMatchBoard", "onError(): ", it) }, {

@@ -181,7 +181,7 @@ public interface RestApi {
     Observable<Response<JsonObject>> followZones(@Header("Authorization") String authHeader, @Body Zones zones);
 
     @GET(ZONE_BACKEND_SUFFIX + "/boards/following")
-    Observable<Response<List<Board>>> getFollowingBoards(@Header("Authorization") String authHeader);
+    Observable<Response<List<Board>>> getFollowingBoards(@Query("zone") String zone, @Header("Authorization") String authHeader);
 
     @GET(FOOTBALL_SUFFIX + "/matches/{matchId}/lineups")
     Observable<Response<Lineups>> getLineUpsData(@Path("matchId") long matchId);
