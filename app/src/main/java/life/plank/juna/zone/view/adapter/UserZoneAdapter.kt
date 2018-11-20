@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_zone_user_feed.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.UserPreference
+import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.facilis.onDebouncingClick
@@ -17,6 +18,7 @@ import life.plank.juna.zone.view.activity.zone.ZoneActivity
 
 class UserZoneAdapter(
         private val activity: Activity,
+        private val restApi: RestApi,
         private val userPreferenceList: MutableList<UserPreference>
 ) : RecyclerView.Adapter<UserZoneAdapter.UserZoneViewHolder>() {
 
@@ -27,6 +29,8 @@ class UserZoneAdapter(
     override fun onBindViewHolder(holder: UserZoneAdapter.UserZoneViewHolder, position: Int) {
         val (zone) = userPreferenceList[position]
         holder.itemView.football!!.text = zone?.name
+
+        holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
 
         if (DataUtil.isNullOrEmpty(userPreferenceList[0].zonePreferences)) {
             holder.itemView.onDebouncingClick { (activity as? BaseCardActivity)?.pushFragment(OnboardingActivity.newInstance()) }
