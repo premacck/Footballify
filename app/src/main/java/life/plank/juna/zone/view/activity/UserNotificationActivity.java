@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
+import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
 import life.plank.juna.zone.view.adapter.NotificationAdapter;
 
@@ -27,7 +28,6 @@ public class UserNotificationActivity extends AppCompatActivity {
     RecyclerView notificationRecyclerView;
     NotificationAdapter notificationAdapter;
     private ArrayList<String> notificationArray = new ArrayList<>();
-
 
     public static void launch(Context packageContext) {
         packageContext.startActivity(new Intent(packageContext, UserNotificationActivity.class));
@@ -52,6 +52,7 @@ public class UserNotificationActivity extends AppCompatActivity {
         ((ZoneApplication) getApplicationContext()).getUiComponent().inject(this);
 
         toolbar.setTitle(getString(R.string.notification));
+        toolbar.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl());
         populateNotificationArray();
         initRecyclerView();
     }
