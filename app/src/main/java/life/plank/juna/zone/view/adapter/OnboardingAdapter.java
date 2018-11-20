@@ -48,7 +48,6 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
                         .error(R.drawable.ic_place_holder))
                 .into(holder.image);
 
-        //TODO: Fix center alignment issue with the card
         holder.cardView.setOnClickListener(view -> {
             ViewGroup.LayoutParams params = holder.cardView.getLayoutParams();
             if (holder.followTick.getVisibility() == View.VISIBLE) {
@@ -59,7 +58,6 @@ public class OnboardingAdapter extends RecyclerView.Adapter<OnboardingAdapter.Fo
                 params.width = holder.cardView.getMeasuredWidth() + context.getResources().getInteger(R.integer.team_grid_layout_width_param);
                 params.height = holder.cardView.getMeasuredHeight() + context.getResources().getInteger(R.integer.team_grid_layout_height_param);
                 onClickZoneItemListener.onItemClick(team.getName(), false);
-
 
             } else {
                 holder.followTick.setVisibility(View.VISIBLE);
