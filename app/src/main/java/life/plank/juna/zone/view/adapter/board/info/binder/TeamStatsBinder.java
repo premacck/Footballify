@@ -50,8 +50,8 @@ public class TeamStatsBinder extends ItemBinder<TeamStatsBindingModel, TeamStats
             return;
         }
 
-        TeamStats homeTeamStats = item.getTeamStatsList().get(0);
-        TeamStats visitingTeamStats = item.getTeamStatsList().get(1);
+        TeamStats homeTeamStats = item.getTeamStatsList().get(1);
+        TeamStats visitingTeamStats = item.getTeamStatsList().get(0);
 
         holder.noDataTextView.setVisibility(View.GONE);
         holder.teamsLogoLayout.setVisibility(View.VISIBLE);
