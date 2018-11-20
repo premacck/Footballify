@@ -51,7 +51,7 @@ class NextMatchLayout @JvmOverloads constructor(
                                 Glide.with(context).load(homeTeamLogo).into(home_team_logo)
                                 Glide.with(context).load(awayTeamLogo).into(visiting_team_logo)
 
-                                match_status.text = context.getString(R.string.match_status, getTimeToNextMatch(matchStartTime))
+                                match_status.text = getTimeToNextMatch(matchStartTime)
                                 match_between.text = displayname
                             }
                         }
