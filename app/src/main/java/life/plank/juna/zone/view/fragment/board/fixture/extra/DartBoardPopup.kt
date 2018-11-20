@@ -39,11 +39,6 @@ class DartBoardPopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.popup_dart_board, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        dartboard_layout.setOnClickListener(null)
-    }
-
     override fun doOnStart() {
         dartboard_layout.floatUp()
         dart_remaining_count_text_view.text = remainingDarts.toString()
