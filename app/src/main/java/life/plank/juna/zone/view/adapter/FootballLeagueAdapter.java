@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import life.plank.juna.zone.R;
+import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.League;
 import life.plank.juna.zone.util.GlobalVariable;
 import life.plank.juna.zone.view.activity.base.BaseCardActivity;
@@ -40,7 +41,8 @@ public class FootballLeagueAdapter extends RecyclerView.Adapter<FootballLeagueAd
     public void onBindViewHolder(@NonNull FootballFeedViewHolder holder, int position) {
         League league = leagueList.get(position);
         holder.feedTitleTextView.setText(league.getName());
-        holder.kickoffTime.setText(R.string.match_status);
+//        TODO: Replace with original time to next match
+        holder.kickoffTime.setText(ZoneApplication.getContext().getString(R.string.match_status, "2hrs 13 mins"));
 
         holder.feedImageView.setImageResource(league.getLeagueLogo());
 

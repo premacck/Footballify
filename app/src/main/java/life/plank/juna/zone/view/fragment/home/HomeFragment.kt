@@ -33,7 +33,6 @@ import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
-import life.plank.juna.zone.view.adapter.OnboardingAdapter
 import life.plank.juna.zone.view.adapter.UserBoardsAdapter
 import life.plank.juna.zone.view.adapter.UserFeedAdapter
 import life.plank.juna.zone.view.adapter.UserZoneAdapter
@@ -116,7 +115,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     }
 
     private fun initZoneRecyclerView() {
-        userZoneAdapter = UserZoneAdapter(activity!!, userPreferences)
+        userZoneAdapter = UserZoneAdapter(activity!!, restApi, userPreferences)
         user_zone_recycler_view?.adapter = userZoneAdapter
     }
 

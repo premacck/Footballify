@@ -25,13 +25,13 @@
                 android:id="@+id/user_boards_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layoutAnimation="@anim/layout_anim_float_left"
                 android:layout_below="@+id/feed_header"
                 android:clipToPadding="false"
+                android:layoutAnimation="@anim/layout_anim_float_left"
+                android:minHeight="80dp"
                 android:nestedScrollingEnabled="false"
                 android:paddingStart="9dp"
                 android:paddingEnd="9dp"
-                android:minHeight="80dp"
                 android:visibility="visible"
                 app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                 tools:listitem="@layout/item_image_and_title" />
@@ -49,9 +49,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_boards_recycler_view"
                 android:clipToPadding="false"
+                android:layoutAnimation="@anim/layout_anim_float_left"
+                android:minHeight="160dp"
                 android:nestedScrollingEnabled="false"
                 android:paddingStart="3dp"
-                android:layoutAnimation="@anim/layout_anim_float_left"
                 android:paddingEnd="3dp"
                 android:visibility="invisible"
                 app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
@@ -70,9 +71,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/user_zone_recycler_view"
                 android:layout_margin="5dp"
+                android:layoutAnimation="@anim/layout_anim_float_up"
                 android:nestedScrollingEnabled="false"
                 android:visibility="invisible"
-                android:layoutAnimation="@anim/layout_anim_float_up"
                 app:layoutManager="android.support.v7.widget.GridLayoutManager"
                 app:spanCount="3"
                 tools:listitem="@layout/item_board_grid_row" />
@@ -89,14 +90,6 @@
 
     <com.bvapp.arcmenulibrary.ArcMenu
         android:id="@+id/arc_menu"
-        style="@style/ArcMenuDefault"
-        android:visibility="gone" />
-
-    <FrameLayout
-        android:id="@+id/peek_popup_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:visibility="gone" />
+        style="@style/ArcMenuDefault" />
 
 </android.support.design.widget.CoordinatorLayout>

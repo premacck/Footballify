@@ -51,12 +51,15 @@ class NextMatchLayout @JvmOverloads constructor(
                                 Glide.with(context).load(homeTeamLogo).into(home_team_logo)
                                 Glide.with(context).load(awayTeamLogo).into(visiting_team_logo)
 
-                                match_status.text = context.getString(R.string.match_status, getTimeToNextMatch(matchStartTime))
+                                match_status.text = getTimeToNextMatch(matchStartTime)
                                 match_between.text = displayname
                             }
                         }
                         else -> {
                             match_between.setText(R.string.next_match_data_not_available)
+                            home_team_logo.visibility = View.INVISIBLE
+                            visiting_team_logo.visibility = View.INVISIBLE
+                            league_logo.visibility = View.INVISIBLE
                             errorToast(R.string.something_went_wrong, it)
                         }
                     }

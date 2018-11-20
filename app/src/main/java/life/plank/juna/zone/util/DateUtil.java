@@ -3,6 +3,7 @@ package life.plank.juna.zone.util;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.content.res.ResourcesCompat;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 
@@ -21,6 +22,7 @@ import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
 
 import static android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE;
 import static life.plank.juna.zone.util.AppConstants.FOUR_HOURS_MILLIS;
+import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START_BOARD_ACTIVE;
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_COMPLETED_TODAY;
@@ -109,7 +111,7 @@ public class DateUtil {
     }
 
     public static long getAbsoluteTimeDiffFromNow(Date date) {
-        return Math.abs(new Date().getTime() - date.getTime());
+        return date.getTime() - new Date().getTime();
     }
 
     public static String getFormattedDate(Context context, MatchFixture MatchFixture) {
@@ -253,9 +255,18 @@ public class DateUtil {
         }
     }
 
-    public static String getTimeToNextMatch(Date matchStartTime) {
-        return TIME_TO_NEXT_MATCH_FORMAT.format(new Date(getAbsoluteTimeDiffFromNow(matchStartTime)))
-                .replace("-", "hrs")
-                .replace(".", "mins");
+    public static SpannableString getTimeToNextMatch(Date matchStartTime) {
+        SpannableString timeToNextMatch;
+        long timeDiffFromNow = getAbsoluteTimeDiffFromNow(matchStartTime);
+        if (timeDiffFromNow > 0) {
+            timeToNextMatch = new SpannableString(ZoneApplication.getContext().getString(
+                    R.string.match_status,
+                    TIME_TO_NEXT_MATCH_FORMAT.format(new Date())
+                            .replace("-", "hrs")
+                            .replace(".", "mins")));
+        } else {
+            timeToNextMatch = StringUtilKt.bold(LIVE, 0, LIVE.length());
+        }
+        return timeToNextMatch;
     }
 }
