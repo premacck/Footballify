@@ -56,7 +56,7 @@ class UserBoardsAdapter(
                         glide.load(R.drawable.circle_background_white)
                                 .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                                 .into(holder.itemView.image)
-
+                        holder.itemView.image.borderColor = findColor(R.color.grey_10)
                         glide.load(boardList[position].boardEvent!!.homeTeamLogo)
                                 .into(holder.itemView.home_team_logo)
                         glide.load(boardList[position].boardEvent!!.awayTeamLogo)
