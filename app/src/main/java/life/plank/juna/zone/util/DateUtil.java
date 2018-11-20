@@ -46,12 +46,14 @@ public class DateUtil {
     public static final SimpleDateFormat HOUR_MINUTE_SECOND_DATE_FORMAT = new SimpleDateFormat(HOUR_MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final String SCHEDULED_MATCH_DATE_STRING = "EEE dd/MM\nK.mm aaa";
     private static final String COMMENT_TIME_DATE_STRING = "dd MMM yyyy, hh:mma";
+    private static final String TIME_TO_NEXT_MATCH_STRING = "hh - mm .";
     public static final SimpleDateFormat COMMENT_TIME_DATE_FORMAT = new SimpleDateFormat(COMMENT_TIME_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat HEADER_DATE_FORMAT = new SimpleDateFormat(HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat TIMELINE_HEADER_DATE_FORMAT = new SimpleDateFormat(TIMELINE_HEADER_DATE_STRING, Locale.getDefault());
     private static final SimpleDateFormat FUTURE_DATE_FORMAT = new SimpleDateFormat(FUTURE_DATE_FORM_STRING, Locale.getDefault());
     private static final SimpleDateFormat MINUTE_SECOND_TIME_FORMAT = new SimpleDateFormat(MINUTE_SECOND_TIME_STRING, Locale.getDefault());
     private static final SimpleDateFormat SCHEDULED_MATCH_DATE_FORMAT = new SimpleDateFormat(SCHEDULED_MATCH_DATE_STRING, Locale.getDefault());
+    private static final SimpleDateFormat TIME_TO_NEXT_MATCH_FORMAT = new SimpleDateFormat(TIME_TO_NEXT_MATCH_STRING, Locale.getDefault());
 
     public static String getCommentDateAndTimeFormat(Date date) {
         return COMMENT_TIME_DATE_FORMAT.format(date);
@@ -249,5 +251,11 @@ public class DateUtil {
                 return MATCH_SCHEDULED_LATER;
             }
         }
+    }
+
+    public static String getTimeToNextMatch(Date matchStartTime) {
+        return TIME_TO_NEXT_MATCH_FORMAT.format(new Date(getAbsoluteTimeDiffFromNow(matchStartTime)))
+                .replace("-", "hrs")
+                .replace(".", "mins");
     }
 }

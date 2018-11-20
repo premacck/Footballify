@@ -15,6 +15,7 @@ import life.plank.juna.zone.data.model.FootballTeam;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchStats;
+import life.plank.juna.zone.data.model.NextMatch;
 import life.plank.juna.zone.data.model.PlayerStats;
 import life.plank.juna.zone.data.model.ScrubberData;
 import life.plank.juna.zone.data.model.SignUpModel;
@@ -157,10 +158,9 @@ public interface RestApi {
     Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
 
     //working
-    @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojiCounts")
+    @GET(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojiCounts")
     Observable<Response<List<Emoji>>> getTopEmoji(@Path("feedItemId") String feedItemId, @Header("Authorization") String authHeader);
 
-    //TODO: verify this api(currently implemented similar to like and dislike)
     //working
     @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojis")
     Observable<Response<JsonObject>> postReaction(@Path("feedItemId") String feedItemId,
@@ -280,4 +280,7 @@ public interface RestApi {
 
     @GET(FOOTBALL_SUFFIX + "/teams/popular")
     Observable<Response<List<FootballTeam>>> getPopularTeams(@Header("Authorization") String authHeader);
+
+    @GET(ZONE_BACKEND_SUFFIX + "/zones/nextEvent")
+    Observable<Response<NextMatch>> getNextEvent(@Query("zone") String zoneName, @Header("Authorization") String authHeader);
 }
