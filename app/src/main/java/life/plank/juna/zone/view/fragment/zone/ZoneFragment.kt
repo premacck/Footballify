@@ -1,6 +1,5 @@
 package life.plank.juna.zone.view.fragment.zone
 
-import android.graphics.Point
 import android.os.Bundle
 import android.support.design.widget.BottomSheetBehavior
 import android.support.v7.widget.GridLayoutManager
@@ -12,7 +11,6 @@ import android.widget.SearchView
 import com.google.gson.Gson
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_zone.*
-import kotlinx.android.synthetic.main.header_football_feeds.*
 import kotlinx.android.synthetic.main.search_people_bottom_sheet.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
@@ -21,10 +19,8 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.OnItemClickListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AND_HOME
-import life.plank.juna.zone.util.AppConstants.HOME_POPUP
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.customview.CustomPopup.showOptionPopup
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.adapter.FootballLeagueAdapter
 import life.plank.juna.zone.view.adapter.SearchViewAdapter
@@ -84,19 +80,6 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         })
         arc_menu.setupWith(football_feed_recycler_view)
 
-        options_image.setOnClickListener { onOptionClick(it) }
-    }
-
-    private fun onOptionClick(view: View) {
-        val location = IntArray(2)
-
-        view.getLocationOnScreen(location)
-
-        //Initialize the Point with x, and y positions
-        val point = Point()
-        point.x = location[0]
-        point.y = location[1]
-        showOptionPopup(activity, point, HOME_POPUP, null, -440, 100)
     }
 
     private fun setUpData() {
@@ -142,13 +125,13 @@ class ZoneFragment : BaseFragment(), SearchView.OnQueryTextListener, OnItemClick
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> searchViewAdapter.update(it.body())
-                    HttpURLConnection.HTTP_NOT_FOUND -> {
-                        userList.clear()
-                        searchViewAdapter.notifyDataSetChanged()
-                    }
-                else -> Log.e(TAG, it.message())
+                HttpURLConnection.HTTP_NOT_FOUND -> {
+                    userList.clear()
+                    searchViewAdapter.notifyDataSetChanged()
                 }
+                else -> Log.e(TAG, it.message())
             }
+        }
         )
     }
 

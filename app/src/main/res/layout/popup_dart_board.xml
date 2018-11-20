@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/blur_layout"
-    style="@style/BlurLayoutFullScreen">
+    style="@style/MatchParentSize">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/blur_layout"
+        style="@style/BlurLayoutFullScreen" />
 
     <RelativeLayout
         android:id="@+id/dartboard_layout"
@@ -11,7 +14,9 @@
         android:layout_gravity="center"
         android:layout_margin="10dp"
         android:background="@drawable/bg_translucent_card"
-        android:elevation="8dp">
+        android:clickable="true"
+        android:elevation="8dp"
+        android:focusable="true">
 
         <View
             android:id="@+id/drag_area"
@@ -349,4 +354,4 @@
 
     </RelativeLayout>
 
-</io.alterac.blurkit.BlurLayout>
+</FrameLayout>

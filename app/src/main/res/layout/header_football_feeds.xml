@@ -27,7 +27,7 @@
         android:textSize="32sp" />
 
     <ImageView
-        android:id="@+id/options_image"
+        android:id="@+id/share_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -36,24 +36,15 @@
         android:paddingEnd="15dp"
         android:paddingBottom="15dp"
         android:scaleType="center"
-        android:src="@drawable/ic_options" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="20dp"
-        android:layout_toStartOf="@+id/options_image"
         android:src="@drawable/ic_share" />
 
     <TextView
         style="@style/following_text_view_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/options_image"
+        android:layout_below="@+id/share_image"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="23dp"
         android:fontFamily="@font/rajdhani_medium"
         android:text="@string/following" />
 </RelativeLayout>

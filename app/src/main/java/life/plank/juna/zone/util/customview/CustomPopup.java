@@ -49,8 +49,8 @@ public class CustomPopup {
                     FirebaseMessaging.getInstance().unsubscribeFromTopic(context.getResources().getString(R.string.pref_football_match_sub) + currentMatchId);
                 });
 
-                popupItemFour.setText(R.string.report_board_popup);
-                popupItemFour.setOnClickListener(view -> optionPopUp.dismiss());
+                popupItemThree.setVisibility(View.GONE);
+                popupItemFour.setVisibility(View.GONE);
                 break;
             case PRIVATE_BOARD_OWNER_POPUP:
                 popupItemThree.setText(R.string.delete_board_popup);
