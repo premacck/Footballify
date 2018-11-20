@@ -17,10 +17,7 @@ import android.view.*
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.widget.*
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
@@ -235,9 +232,9 @@ fun BottomSheetBehavior<*>.show(peekHeight: Int = 850) {
     this.peekHeight = peekHeight
 }
 
-fun BottomSheetBehavior<*>.showFor(feedItemId: String?, peekHeight: Int = 850) {
+fun BottomSheetBehavior<*>.showFor(emojiAdapter: EmojiAdapter, feedItemId: String?, peekHeight: Int = 850) {
+    emojiAdapter.update(feedItemId)
     show(peekHeight)
-    EmojiAdapter.feedId = feedItemId
 }
 
 fun BottomSheetBehavior<*>.hide() {
@@ -251,4 +248,8 @@ fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
         return false
     }
     return true
+}
+
+fun TextView.setEmoji(emoji: Int) {
+    text = StringBuilder().appendCodePoint(emoji).toString()
 }

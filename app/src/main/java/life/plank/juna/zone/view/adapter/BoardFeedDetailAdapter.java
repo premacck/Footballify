@@ -74,13 +74,15 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
     private RestApi restApi;
     private String boardId;
     private boolean isBoardActive;
+    private EmojiAdapter emojiAdapter;
     private BottomSheetBehavior emojiBottomSheetBehavior;
     private String target;
 
-    public BoardFeedDetailAdapter(RestApi restApi, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior, String target) {
+    public BoardFeedDetailAdapter(RestApi restApi, String boardId, boolean isBoardActive, BottomSheetBehavior emojiBottomSheetBehavior, EmojiAdapter emojiAdapter, String target) {
         this.restApi = restApi;
         this.boardId = boardId;
         this.isBoardActive = isBoardActive;
+        this.emojiAdapter = emojiAdapter;
         ColorHashMap.HashMaps(ZoneApplication.getContext());
         EmojiHashMap.HashMaps();
         this.feedsListItem = new ArrayList<>();
@@ -211,7 +213,7 @@ public class BoardFeedDetailAdapter extends RecyclerView.Adapter<BoardFeedDetail
             }
         });
 
-        holder.reactionView.setOnClickListener(view -> showFor(emojiBottomSheetBehavior, feedsListItem.get(position).getFeedItem().getId(), 850));
+        holder.reactionView.setOnClickListener(view -> showFor(emojiBottomSheetBehavior, emojiAdapter, feedsListItem.get(position).getFeedItem().getId(), 850));
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import life.plank.juna.zone.data.model.Board;
+import life.plank.juna.zone.data.model.Emoji;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.FeedItemComment;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
@@ -154,6 +155,10 @@ public interface RestApi {
     //working
     @GET(ZONE_BACKEND_SUFFIX + "/boards/{id}")
     Observable<Response<Board>> getBoardById(@Path("id") String boardId, @Header("Authorization") String authHeader);
+
+    //working
+    @POST(ZONE_BACKEND_SUFFIX + "/activities/{feedItemId}/emojiCounts")
+    Observable<Response<List<Emoji>>> getTopEmoji(@Path("feedItemId") String feedItemId, @Header("Authorization") String authHeader);
 
     //TODO: verify this api(currently implemented similar to like and dislike)
     //working

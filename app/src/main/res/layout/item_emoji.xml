@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="69dp"
+    android:layout_width="match_parent"
     android:layout_height="69dp"
     android:layout_marginEnd="3dp"
     android:layout_marginBottom="2dp"
+    android:minWidth="69dp"
     app:cardBackgroundColor="@color/very_light_pink"
     app:cardCornerRadius="8dp"
     app:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/emoji_view"
+    <TextView
+        android:id="@+id/emoji_text_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
-        android:contentDescription="@string/emoji"
-        android:padding="6dp"
-        android:src="@drawable/ic_emoji_angry" />
+        android:gravity="center"
+        android:minWidth="69dp"
+        android:textSize="30sp" />
 
     <TextView
+        android:id="@+id/emoji_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
@@ -26,7 +27,6 @@
         android:layout_marginEnd="6dp"
         android:fontFamily="@font/rajdhani_medium"
         android:lineHeight="5sp"
-        android:text="654"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_8sp" />
 

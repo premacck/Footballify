@@ -84,9 +84,8 @@ class PostDetailFragment : BaseCommentContainerFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_post_detail, container, false)
 
     private fun initBottomSheetRecyclerView() {
-        emojiAdapter = EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior)
+        emojiAdapter = EmojiAdapter(restApi, boardId, emojiBottomSheetBehavior, feedEntry.feedItem.id)
         emoji_recycler_view.adapter = emojiAdapter
-        EmojiAdapter.feedId = feedEntry.feedItem.id
     }
 
     private fun setupBottomSheet() {
@@ -127,7 +126,7 @@ class PostDetailFragment : BaseCommentContainerFragment() {
             }
         }
         reaction_view.onDebouncingClick {
-            emojiBottomSheetBehavior?.showFor(feedEntry.feedItem.id)
+            emojiBottomSheetBehavior?.showFor(emojiAdapter!!, feedEntry.feedItem.id)
         }
         no_comment_text_view.onDebouncingClick {
             if (no_comment_text_view.text.toString() == getString(R.string.failed_to_get_feed_comments)) getCommentsOnFeed(false)
@@ -149,14 +148,9 @@ class PostDetailFragment : BaseCommentContainerFragment() {
                     .into(profile_pic)
         }
 
-        if (feedEntry.feedItem.user != null) {
-            user_name_text_view.text = feedEntry.feedItem.user!!.displayName
-        } else {
-            val userEmailId = PreferenceManager.CurrentUser.getUserEmail()
-            user_name_text_view.text = userEmailId
-        }
         feed_title_text_view.text = if (feedEntry.feedItem.contentType != ROOT_COMMENT) feedEntry.feedItem.title else null
         if (feedEntry.feedItem.contentType == NEWS) {
+            user_name_text_view.setText(R.string.juna_user_topic)
             description_text_view.visibility = VISIBLE
             description_text_view.movementMethod = LinkMovementMethod.getInstance()
             val stringBuilder = SpannableStringBuilder()
@@ -167,6 +161,11 @@ class PostDetailFragment : BaseCommentContainerFragment() {
                     .append(feedEntry.feedItem.url?.toClickableWebLink(activity!!))
             description_text_view.text = stringBuilder
         } else {
+            if (feedEntry.feedItem.user != null) {
+                user_name_text_view.text = feedEntry.feedItem.user!!.displayName
+            } else {
+                user_name_text_view.text = PreferenceManager.CurrentUser.getDisplayName()
+            }
             description_text_view.visibility = if (feedEntry.feedItem.description == null) GONE else VISIBLE
             description_text_view.text = feedEntry.feedItem.description
         }
