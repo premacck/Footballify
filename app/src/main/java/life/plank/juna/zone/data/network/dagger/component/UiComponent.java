@@ -5,6 +5,7 @@ import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
 import life.plank.juna.zone.view.activity.InviteToBoardActivity;
+import life.plank.juna.zone.view.activity.OnboardingActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
@@ -129,6 +130,8 @@ public interface UiComponent {
     void inject(KeyBoardPopup keyBoardPopup);
 
     void inject(DartBoardPopup dartBoardPopup);
+
+    void inject(OnboardingActivity onboardingActivity);
 
     @Subcomponent.Builder
     interface Builder {
