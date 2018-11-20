@@ -32,14 +32,17 @@ import life.plank.juna.zone.ZoneApplication.getApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.FeedItemComment
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.*
+import life.plank.juna.zone.util.bold
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.showFor
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
+import life.plank.juna.zone.util.toClickableWebLink
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
@@ -162,9 +165,9 @@ class PostDetailFragment : BaseCommentContainerFragment() {
             description_text_view.text = stringBuilder
         } else {
             if (feedEntry.feedItem.user != null) {
-                user_name_text_view.text = feedEntry.feedItem.user!!.displayName
+                user_name_text_view.text = feedEntry.feedItem.user?.displayName
             } else {
-                user_name_text_view.text = PreferenceManager.CurrentUser.getDisplayName()
+                user_name_text_view.visibility = View.INVISIBLE
             }
             description_text_view.visibility = if (feedEntry.feedItem.description == null) GONE else VISIBLE
             description_text_view.text = feedEntry.feedItem.description
