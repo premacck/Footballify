@@ -119,7 +119,7 @@
 
     <string name="lineup_card">Lineup card</string>
     <string name="no_substitutions_yet">No substitutions yet</string>
-    <string name="match_status">Kick-off in 2hrs 13 mins</string>
+    <string name="match_status">Kick-off in %1$s</string>
     <string name="match_between">Bournemouth vs Man. United</string>
     <string name="preview_and_create"><![CDATA[Preview & create]]></string>
     <string name="preview_your_board">Preview your board</string>
@@ -220,5 +220,6 @@
     <string name="failed_to_get_poll_answer">Failed to get poll answer</string>
     <string name="emoji">Emoji</string>
     <string name="failed_to_get_top_emoji">Failed to get top emoji</string>
+    <string name="next_match_data_not_available">Next match data not available</string>
 
 </resources>
