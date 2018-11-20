@@ -96,21 +96,23 @@ public class UIDisplayUtil {
     public static final StyleSpan SEMI_BOLD_STYLE = new StyleSpan(SEMI_BOLD_TYPEFACE.getStyle());
 
     //TODO: Remove once implemented on backend
-    public static Emoji[] emoji = new Emoji[] {
-            new Emoji("winking", R.drawable.ic_emoji_winking, 0x1F609, 324),
-            new Emoji("angry", R.drawable.ic_emoji_angry, 0x1F620, 765),
-            new Emoji("nauseated", R.drawable.ic_emoji_nauseated, 0x1F922, 987),
-            new Emoji("heart", R.drawable.ic_emoji_heart_eyes, 0x1F60D, 124),
-            new Emoji("exploding", R.drawable.ic_emoji_exploding_head, 0x1F92F, 878),
-            //TODO: uncomment after the emoji bottom sheet design is finalised
-//            new Emoji("happy", R.drawable.ic_emoji_happy, 0x1F604),
-//            new Emoji("neutral", R.drawable.ic_emoji_neutral, 0x1F610),
-//            new Emoji("zipped", R.drawable.ic_emoji_zipped_mouth, 0x1F910),
-//            new Emoji("hugging", R.drawable.ic_emoji_hugging, 0x1F917),
-//            new Emoji("vomiting", R.drawable.ic_emoji_vomiting, 0x1F92E),
-//            new Emoji("drool", R.drawable.ic_emoji_drool, 0x1F924),
-//            new Emoji("shush", R.drawable.ic_emoji_shush, 0x1F92B),
-    };
+    public static ArrayList<Emoji> emoji = new ArrayList<>();
+
+    static {
+        emoji.add(new Emoji(0x1F609, 324));
+        emoji.add(new Emoji(0x1F620, 765));
+        emoji.add(new Emoji(0x1F922, 987));
+        emoji.add(new Emoji(0x1F60D, 124));
+        emoji.add(new Emoji(0x1F92F, 878));
+        //TODO: uncomment after the emoji bottom sheet design is finalised
+//        emoji.add(new Emoji(0x1F604, 324)),
+//        emoji.add(new Emoji(0x1F610, 765)),
+//        emoji.add(new Emoji(0x1F910, 987)),
+//        emoji.add(new Emoji(0x1F917, 124)),
+//        emoji.add(new Emoji(0x1F92E, 878)),
+//        emoji.add(new Emoji(0x1F924, 765)),
+//        emoji.add(new Emoji(0x1F92B, 987)),
+    }
 
     public static Drawable getCommentColor(String comment) {
         DrawableHashMap.HashMaps(getApplicationContext());

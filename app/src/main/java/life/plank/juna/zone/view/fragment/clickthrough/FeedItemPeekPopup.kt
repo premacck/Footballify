@@ -90,16 +90,16 @@ class FeedItemPeekPopup : BaseBlurPopup() {
 
     private fun initBottomSheet() {
         boardId?.run {
-            emojiAdapter = EmojiAdapter(restApi, this, emojiBottomSheetBehavior)
-            emoji_recycler_view.adapter = emojiAdapter
             emojiBottomSheetBehavior = BottomSheetBehavior.from(emoji_bottom_sheet)
             emojiBottomSheetBehavior?.peekHeight = 0
+            emojiAdapter = EmojiAdapter(restApi, this, emojiBottomSheetBehavior)
+            emoji_recycler_view.adapter = emojiAdapter
             emoji_bottom_sheet.visibility = View.VISIBLE
         }
     }
 
     private fun initRecyclerView() {
-        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, null)
+        boardFeedDetailAdapter = BoardFeedDetailAdapter(restApi, boardId, isBoardActive, emojiBottomSheetBehavior, emojiAdapter, null)
         board_tiles_full_recycler_view.adapter = boardFeedDetailAdapter
         boardFeedDetailAdapter?.update(feedEntries)
         PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
