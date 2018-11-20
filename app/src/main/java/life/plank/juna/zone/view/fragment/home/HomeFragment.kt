@@ -297,7 +297,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener, OnClickZoneItemLis
             return
         }
 
-        restApi.getFollowingBoards(getToken()).setObserverThreadsAndSmartSubscribe({
+        restApi.getFollowingBoards(getString(R.string.football), getToken()).setObserverThreadsAndSmartSubscribe({
             Log.e(TAG, "getUserBoards(): onError(): ", it)
         }, {
             when (it.code()) {

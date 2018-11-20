@@ -21,14 +21,12 @@ import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.sinkDown
-import life.plank.juna.zone.util.smartSubscribe
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.io.File
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -99,10 +97,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
         val color = RequestBody.create(MediaType.parse(getString(R.string.text_content_type)), board.color!!)
 
         val token = getToken()
-        restApi.createPrivateBoard(board.boardType, name, zone, description, color, image, token)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .smartSubscribe({
+        restApi.createPrivateBoard(board.boardType, name, zone, description, color, image, token).setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, it.message)
                     errorToast(R.string.could_not_create_board, it)
                 }, {

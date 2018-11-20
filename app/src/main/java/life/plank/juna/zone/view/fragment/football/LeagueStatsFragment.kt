@@ -21,7 +21,7 @@ import life.plank.juna.zone.util.AppConstants.TEAM_STATS
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.smartSubscribe
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
 import life.plank.juna.zone.view.adapter.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
@@ -68,7 +68,7 @@ class LeagueStatsFragment : BaseLeagueFragment() {
     private fun getLeagueStats(isRefreshing: Boolean) {
         RestApiAggregator.getLeagueStats(league, restApi)
                 .doOnTerminate { if (isRefreshing) league_stats_swipe_refresh_layout.isRefreshing = false }
-                .smartSubscribe({}, {
+                .setObserverThreadsAndSmartSubscribe({}, {
                     setTeamStats(it.first)
                     setPlayerStats(it.second)
                 })

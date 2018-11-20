@@ -30,8 +30,6 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.io.File
 import java.net.HttpURLConnection
 import java.text.DateFormatSymbols
@@ -130,11 +128,9 @@ class EditProfilePopup : BaseBlurPopup() {
         val requestBody = RequestBody.create(MediaType.parse(getString(R.string.media_type_image)), fileToUpload)
         val image = MultipartBody.Part.createFormData("", fileToUpload.name, requestBody)
         restApi.uploadProfilePicture(image, Auth.getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe { runOnUiThread { profile_picture_uploading_progress.visibility = View.VISIBLE } }
                 .doOnTerminate { runOnUiThread { profile_picture_uploading_progress.visibility = View.GONE } }
-                .smartSubscribe({
+                .setObserverThreadsAndSmartSubscribe({
                     Log.e(TAG, it.message)
                     errorToast(R.string.upload_failed, it)
                 }, {
