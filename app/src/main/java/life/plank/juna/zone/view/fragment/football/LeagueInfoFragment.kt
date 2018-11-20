@@ -107,7 +107,7 @@ class LeagueInfoFragment : BaseCard() {
         override fun getPageTitle(position: Int): CharSequence? {
             return when (position) {
                 0 -> findString(R.string.fixtures_caps)
-                1 -> findString(R.string.standings_caps)
+                1 -> findString(R.string.table_caps)
                 2 -> findString(R.string.stats)
                 else -> null
             }
