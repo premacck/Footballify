@@ -57,6 +57,9 @@ class NextMatchLayout @JvmOverloads constructor(
                         }
                         else -> {
                             match_between.setText(R.string.next_match_data_not_available)
+                            home_team_logo.visibility = View.INVISIBLE
+                            visiting_team_logo.visibility = View.INVISIBLE
+                            league_logo.visibility = View.INVISIBLE
                             errorToast(R.string.something_went_wrong, it)
                         }
                     }
