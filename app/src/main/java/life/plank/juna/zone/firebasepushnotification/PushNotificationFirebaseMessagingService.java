@@ -115,7 +115,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         if (!isNullOrEmpty(boardNotification.getInvitationLink())) {
             messageBody = boardNotification.getInviterName()
                     + " invited you to join "
-                    + boardNotification.getBoardId()
+                    + boardNotification.getBoardName()
                     + " board";
 
             Intent intent = new Intent(this, JoinBoardActivity.class)
