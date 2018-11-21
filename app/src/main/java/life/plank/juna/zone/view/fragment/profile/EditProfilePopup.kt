@@ -23,7 +23,6 @@ import life.plank.juna.zone.util.PreferenceManager.CurrentUser
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView
 import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -65,10 +64,7 @@ class EditProfilePopup : BaseBlurPopup() {
         setOnClickListeners()
     }
 
-    override fun dismiss() {
-        root_card.sinkDown()
-        super.dismiss()
-    }
+    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
