@@ -10,5 +10,5 @@ data class NextMatch(
         var awayTeamLogo: String,
         var matchStartTime: Date,
         var leagueName: String,
-        var displayname: String
+        var displayName: String
 ) : Parcelable
