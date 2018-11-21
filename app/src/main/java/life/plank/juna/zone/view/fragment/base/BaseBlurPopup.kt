@@ -26,7 +26,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
                 doOnStart()
             }
         }
-        getBlurLayout()?.onClick { dismiss() }
+        getBlurLayout()?.onClick { if (onBackPressed()) dismiss() }
     }
 
     override fun onStop() {
@@ -49,13 +49,7 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
     override fun dismiss() {
         getBlurLayout()?.fadeOut()
         doOnDismiss()
-        async {
-            delay(280)
-            try {
-                runOnUiThread { super.dismiss() }
-            } catch (e: Exception) {
-            }
-        }
+        super.dismiss()
     }
 
     /**

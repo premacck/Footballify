@@ -74,10 +74,8 @@ class FeedItemPeekPopup : BaseBlurPopup() {
     }
 
     override fun dismiss() {
-        if (emojiBottomSheetBehavior?.hideIfShown() != false) {
-            board_tiles_full_recycler_view?.zoomOut()
-            super.dismiss()
-        }
+        board_tiles_full_recycler_view?.zoomOut()
+        super.dismiss()
     }
 
     override fun getBlurLayout(): BlurLayout? = blur_layout
