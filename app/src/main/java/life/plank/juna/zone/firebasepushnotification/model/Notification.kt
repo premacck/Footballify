@@ -10,5 +10,6 @@ data class Notification(
         var boardId: String?,
         var boardName: String?,
         var feedItemId: String?,
-        var feedItemMessage: String?
+        var feedItemMessage: String?,
+        var imageUrl: String?
 ) : Parcelable
