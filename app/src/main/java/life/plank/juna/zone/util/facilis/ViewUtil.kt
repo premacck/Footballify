@@ -106,9 +106,9 @@ fun View.floatDown(delayMillis: Long = 50) = animate(R.anim.float_down, delayMil
 
 fun View.floatUp(delayMillis: Long = 20) = animate(R.anim.float_up, delayMillis).then { visibility = View.VISIBLE }
 
-fun View.sinkDown() = animate(R.anim.sink_down)
+fun View.sinkDown() = animate(R.anim.sink_down).then { visibility = View.INVISIBLE }
 
-fun View.sinkUp() = animate(R.anim.sink_up)
+fun View.sinkUp() = animate(R.anim.sink_up).then { visibility = View.INVISIBLE }
 
 fun BlurLayout.beginBlur() {
     postDelayed({

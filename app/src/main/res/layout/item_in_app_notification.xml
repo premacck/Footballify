@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top"
+    android:background="@color/white"
+    android:elevation="8dp">
+
+    <TextView
+        android:id="@+id/notification_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toStartOf="@+id/notification_action"
+        android:drawablePadding="8dp"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+        android:fontFamily="@font/rajdhani_medium"
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="10dp"
+        android:singleLine="true"
+        android:text="@string/lorem_ipsum"
+        android:textColor="@color/grey" />
+
+    <TextView
+        android:id="@+id/notification_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:fontFamily="@font/rajdhani_semibold"
+        android:foreground="@drawable/ripple_dark_rect"
+        android:gravity="center"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="8dp"
+        android:text="@string/dismiss"
+        android:textAllCaps="true"
+        android:textColor="@color/black" />
+
+    <View
+        android:id="@+id/bottom_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/notification_message"
+        android:background="@color/light_grey" />
+
+</RelativeLayout>

@@ -221,5 +221,6 @@
     <string name="emoji">Emoji</string>
     <string name="failed_to_get_top_emoji">Failed to get top emoji</string>
     <string name="next_match_data_not_available">Next match data not available</string>
+    <string name="dismiss">Dismiss</string>
 
 </resources>
