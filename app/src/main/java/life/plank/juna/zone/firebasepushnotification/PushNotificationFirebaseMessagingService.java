@@ -115,7 +115,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
         if (!isNullOrEmpty(boardNotification.getInvitationLink())) {
             messageBody = boardNotification.getInviterName()
                     + " invited you to join "
-                    + boardNotification.getBoardId()
+                    + boardNotification.getBoardName()
                     + " board";
 
             Intent intent = new Intent(this, JoinBoardActivity.class)
@@ -176,7 +176,23 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
 
     private void sendNotification(String messageBody, Uri defaultSoundUri, PendingIntent pendingIntent) {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        getNotificationChannel(notificationManager);
+        NotificationCompat.Builder notificationBuilder = getNotificationBuilder(messageBody, defaultSoundUri, pendingIntent);
+        notificationBuilder.setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap));
+        notificationManager.notify(0, notificationBuilder.build());
+    }
 
+    private NotificationCompat.Builder getNotificationBuilder(String messageBody, Uri defaultSoundUri, PendingIntent pendingIntent) {
+        return new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(messageBody)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentIntent(pendingIntent);
+    }
+
+    private void getNotificationChannel(NotificationManager notificationManager) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, getString(R.string.channel_name), importance);
@@ -187,18 +203,6 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             channel.setShowBadge(false);
             notificationManager.createNotificationChannel(channel);
         }
-
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentIntent(pendingIntent)
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bitmap));
-
-        notificationManager.notify(0, notificationBuilder.build());
     }
 
     /**

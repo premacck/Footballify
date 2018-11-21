@@ -19,5 +19,6 @@ data class BoardNotification(
         var inviteeUserId: String = "",
         var invitationLink: String? = "",
         var inviterName: String? = "",
-        var boardId: String = ""
+        var boardId: String = "",
+        var boardName: String = ""
 ) : Parcelable
