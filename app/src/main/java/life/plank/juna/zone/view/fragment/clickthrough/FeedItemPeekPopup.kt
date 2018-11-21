@@ -17,7 +17,6 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.facilis.hideIfShown
-import life.plank.juna.zone.util.facilis.zoomOut
 import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
 import life.plank.juna.zone.view.adapter.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
@@ -73,10 +72,7 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         initRecyclerView()
     }
 
-    override fun dismiss() {
-        board_tiles_full_recycler_view?.zoomOut()
-        super.dismiss()
-    }
+    override fun dismissAnimation(): Int = R.anim.zoom_out
 
     override fun getBlurLayout(): BlurLayout? = blur_layout
 

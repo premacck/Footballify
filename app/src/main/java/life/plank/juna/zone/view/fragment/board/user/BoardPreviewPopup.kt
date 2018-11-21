@@ -20,7 +20,6 @@ import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
@@ -73,10 +72,7 @@ class BoardPreviewPopup : BaseBlurPopup() {
         create_board_button.onDebouncingClick { createBoard() }
     }
 
-    override fun dismiss() {
-        root_card.sinkDown()
-        super.dismiss()
-    }
+    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 

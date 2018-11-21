@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.support.annotation.AnimRes
 import android.support.design.widget.BottomSheetBehavior
 import android.support.design.widget.CoordinatorLayout
 import android.view.*
@@ -82,16 +83,32 @@ fun ViewPropertyAnimator.listener(onAnimationEnd: () -> Unit): ViewPropertyAnima
     })
 }
 
-fun View.fadeOut() = animate().alpha(0f).setDuration(280).start()
-
-fun View.floatUp() {
-    postDelayed({
-        startAnimation(AnimationUtils.loadAnimation(context, R.anim.float_up))
-        visibility = View.VISIBLE
-    }, 20)
+fun View.animate(@AnimRes anim: Int, delayMillis: Long = 0): Animation {
+    val animation = AnimationUtils.loadAnimation(context, anim)
+    postDelayed({ startAnimation(animation) }, delayMillis)
+    return animation
 }
 
-fun View.sinkDown() = startAnimation(AnimationUtils.loadAnimation(context, R.anim.sink_down))
+fun Animation.then(action: (animation: Animation) -> Unit): Animation {
+    setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationRepeat(animation: Animation) {}
+        override fun onAnimationStart(animation: Animation) {}
+        override fun onAnimationEnd(animation: Animation) {
+            action(animation)
+        }
+    })
+    return this
+}
+
+fun View.fadeOut() = animate().alpha(0f).setDuration(280).start()
+
+fun View.floatDown(delayMillis: Long = 50) = animate(R.anim.float_down, delayMillis).then { visibility = View.VISIBLE }
+
+fun View.floatUp(delayMillis: Long = 20) = animate(R.anim.float_up, delayMillis).then { visibility = View.VISIBLE }
+
+fun View.sinkDown() = animate(R.anim.sink_down)
+
+fun View.sinkUp() = animate(R.anim.sink_up)
 
 fun BlurLayout.beginBlur() {
     postDelayed({
@@ -100,17 +117,7 @@ fun BlurLayout.beginBlur() {
     }, 10)
 }
 
-fun View.zoomOut() {
-    val zoomOutAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_out)
-    zoomOutAnimation.setAnimationListener(object : Animation.AnimationListener {
-        override fun onAnimationStart(animation: Animation?) {}
-        override fun onAnimationRepeat(animation: Animation?) {}
-        override fun onAnimationEnd(animation: Animation?) {
-            visibility = View.INVISIBLE
-        }
-    })
-    startAnimation(zoomOutAnimation)
-}
+fun View.zoomOut() = animate(R.anim.zoom_out)
 
 fun View.setTopMargin(topMargin: Int) {
     val params = layoutParams

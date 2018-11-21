@@ -67,6 +67,8 @@ class CommentaryPopup : BaseBlurPopup() {
         context!!.unregisterReceiver(mMessageReceiver)
     }
 
+    override fun dismissAnimation(): Int = R.anim.sink_down
+
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
     override fun getDragHandle(): View? = drag_area
