@@ -88,9 +88,7 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                 JSONObject jsonObject = new JSONObject(dataPayload);
                 String notificationString = jsonObject.toString();
                 BoardNotification boardNotification = gson.fromJson(notificationString, BoardNotification.class);
-
                 updateBoardActivity(getApplicationContext(), boardNotification);
-
                 sendNotification(boardNotification);
             } else if (dataPayload.containsKey(LIVE_EVENT_TYPE)) {
                 LiveFootballMatchNotifier.notify(getApplicationContext(), gson, dataPayload);
@@ -123,6 +121,8 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
                     .putExtra(getString(R.string.board_id_prefix), boardNotification.getBoardId());
             pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent, PendingIntent.FLAG_ONE_SHOT);
             defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            sendTextNotification(messageBody, defaultSoundUri, pendingIntent);
+            return;
         } else {
             messageBody = boardNotification.getActor()
                     + " "
@@ -168,10 +168,14 @@ public class PushNotificationFirebaseMessagingService extends FirebaseMessagingS
             if (!boardNotification.getActor().equals(userName)) {
                 sendNotification(messageBody, defaultSoundUri, pendingIntent);
             }
-        } else if (!isNullOrEmpty(boardNotification.getInviterName())) {
-            sendNotification(messageBody, defaultSoundUri, pendingIntent);
         }
+    }
 
+    private void sendTextNotification(String messageBody, Uri defaultSoundUri, PendingIntent pendingIntent) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        getNotificationChannel(notificationManager);
+        NotificationCompat.Builder notificationBuilder = getNotificationBuilder(messageBody, defaultSoundUri, pendingIntent);
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     private void sendNotification(String messageBody, Uri defaultSoundUri, PendingIntent pendingIntent) {
