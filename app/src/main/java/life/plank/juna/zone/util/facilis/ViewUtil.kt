@@ -243,11 +243,11 @@ fun BottomSheetBehavior<*>.hide() {
 }
 
 fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
-    if (peekHeight > 0 || state != BottomSheetBehavior.STATE_HIDDEN) {
-        hide()
-        return false
+    if (peekHeight == 0 || state == BottomSheetBehavior.STATE_HIDDEN || state == BottomSheetBehavior.STATE_COLLAPSED) {
+        return true
     }
-    return true
+    hide()
+    return false
 }
 
 fun TextView.setEmoji(emoji: Int) {
