@@ -14,7 +14,6 @@ import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.throwDart
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
@@ -72,9 +71,7 @@ class DartBoardPopup : BaseBlurPopup() {
         }
     }
 
-    override fun doOnDismiss() {
-        dartboard_layout.sinkDown()
-    }
+    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = blur_layout
 

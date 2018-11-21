@@ -1,14 +1,13 @@
 package life.plank.juna.zone.view.fragment.base
 
+import android.support.annotation.AnimRes
 import android.support.annotation.CallSuper
 import android.view.View
 import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
-import life.plank.juna.zone.util.facilis.beginBlur
-import life.plank.juna.zone.util.facilis.fadeOut
-import life.plank.juna.zone.util.facilis.setSwipeDownListener
+import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
@@ -48,8 +47,9 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
     @CallSuper
     override fun dismiss() {
         getBlurLayout()?.fadeOut()
-        doOnDismiss()
-        super.dismiss()
+        getRootView()?.animation?.run {}
+                ?: getRootView()?.animate(dismissAnimation())?.then { super.dismiss() }
+                ?: super.dismiss()
     }
 
     /**
@@ -59,10 +59,8 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
 
     open fun doOnStop() {}
 
-    /**
-     * Method for performing dismiss actions just before the dismiss() is called
-     */
-    open fun doOnDismiss() {}
+    @AnimRes
+    abstract fun dismissAnimation(): Int
 
     abstract fun getBlurLayout(): BlurLayout?
 

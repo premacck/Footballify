@@ -16,7 +16,6 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
@@ -51,19 +50,13 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
         root_card.floatUp()
     }
 
-    override fun dismiss() {
-        root_card.sinkDown()
-        super.dismiss()
-    }
+    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
-
     override fun getDragHandle(): View? = drag_area
 
-
     override fun getRootView(): View? = root_card
-
 
     override fun getBackgroundLayout(): ViewGroup? = root_blur_layout
 
