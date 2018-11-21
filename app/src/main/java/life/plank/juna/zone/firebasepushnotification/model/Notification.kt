@@ -7,8 +7,8 @@ import kotlinx.android.parcel.Parcelize
 data class Notification(
         var action: String = "",
         var from: String = "",
-        var boardId: String = "",
-        var boardName: String = "",
-        var feedItemId: String = "",
-        var feedItemMessage: String = ""
+        var boardId: String?,
+        var boardName: String?,
+        var feedItemId: String?,
+        var feedItemMessage: String?
 ) : Parcelable
