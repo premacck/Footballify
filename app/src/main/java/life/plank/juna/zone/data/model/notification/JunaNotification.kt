@@ -1,10 +1,10 @@
-package life.plank.juna.zone.firebasepushnotification.model
+package life.plank.juna.zone.data.model.notification
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class Notification(
+data class JunaNotification(
         var action: String = "",
         var from: String = "",
         var boardId: String?,
