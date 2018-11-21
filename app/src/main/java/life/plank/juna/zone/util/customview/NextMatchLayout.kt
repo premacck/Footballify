@@ -52,7 +52,7 @@ class NextMatchLayout @JvmOverloads constructor(
                                 Glide.with(context).load(awayTeamLogo).into(visiting_team_logo)
 
                                 match_status.text = getTimeToNextMatch(matchStartTime)
-                                match_between.text = displayname
+                                match_between.text = displayName
                             }
                         }
                         else -> {
