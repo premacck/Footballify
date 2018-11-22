@@ -22,7 +22,10 @@ import rx.Subscriber
  */
 class LeagueViewModel : ViewModel() {
 
-    private val TAG = LeagueViewModel::class.java.simpleName
+    companion object {
+        private val TAG = LeagueViewModel::class.java.simpleName
+    }
+
     val leagueRepository: LeagueRepository = LeagueRepository()
     val leagueInfoLiveData: MutableLiveData<LeagueInfo> = MutableLiveData()
 
@@ -34,11 +37,11 @@ class LeagueViewModel : ViewModel() {
         RestApiAggregator.getLeagueInfo(league, restApi)
                 .subscribe(object : Subscriber<LeagueInfo>() {
                     override fun onCompleted() {
-                        Log.i(TAG, "onCompleted")
+                        Log.i(Companion.TAG, "onCompleted")
                     }
 
                     override fun onError(e: Throwable) {
-                        Log.e(TAG, e.message)
+                        Log.e(Companion.TAG, e.message)
                         Toast.makeText(ZoneApplication.getContext(), R.string.something_went_wrong, Toast.LENGTH_SHORT).show()
                     }
 

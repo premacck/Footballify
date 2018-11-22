@@ -1,6 +1,5 @@
 package life.plank.juna.zone.data.local.dao
 
-import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.*
 import life.plank.juna.zone.data.model.*
 
@@ -11,7 +10,7 @@ interface MatchDetailsDao {
     fun insertMatchDetail(matchDetails: MatchDetails)
 
     @Query("SELECT * FROM MatchDetails where matchId LIKE :matchId LIMIT 1")
-    fun getFixtures(matchId: Long): LiveData<MatchDetails>
+    fun getMatchDetails(matchId: Long): MatchDetails
 
     @Query("UPDATE MatchDetails SET timeStatus = :timeStatus WHERE matchId LIKE :matchId")
     fun updateTimeStatus(timeStatus: String, matchId: Long)

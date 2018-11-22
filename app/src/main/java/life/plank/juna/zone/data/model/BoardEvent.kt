@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class BoardEvent(
         var type: String,
-        var foreignId: Int,
+        var foreignId: Long,
         var homeTeamLogo: String? = null,
         var awayTeamLogo: String? = null,
         var leagueName: String? = null

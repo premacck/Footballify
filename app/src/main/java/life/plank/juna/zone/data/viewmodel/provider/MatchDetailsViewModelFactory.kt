@@ -8,6 +8,6 @@ class MatchDetailsViewModelFactory(private val matchId: Long) : ViewModelProvide
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return MatchDetailViewModel(matchId) as T
+        return MatchDetailViewModel() as T
     }
 }
