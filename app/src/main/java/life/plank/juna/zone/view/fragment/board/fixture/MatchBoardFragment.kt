@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
 import android.support.v7.widget.CardView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -93,13 +94,17 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     }
 
     private fun updateUi() {
-        board_toolbar.prepare(matchDetails, league.leagueLogo)
+        try {
+            board_toolbar.prepare(matchDetails, league.leagueLogo)
 
-        if (!board.isActive) applyInactiveBoardColorFilter()
-        else clearColorFilter()
+            if (!board.isActive) applyInactiveBoardColorFilter()
+            else clearColorFilter()
 
-        setupViewPagerWithFragments()
-        followBoard()
+            setupViewPagerWithFragments()
+            followBoard()
+        } catch (e: Exception) {
+            Log.e(TAG, e.message, e)
+        }
     }
 
     private fun clearColorFilter() = board_parent_layout?.background?.clearColorFilter()
