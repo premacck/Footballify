@@ -94,6 +94,7 @@ class KeyBoardPopup : BaseBlurPopup(), View.OnLongClickListener, View.OnDragList
                     , 0//no needed flags);
             )
         } else {
+            @Suppress("DEPRECATION")
             view.startDrag(data//data to be dragged
                     , shadowBuilder //drag shadow
                     , view//local data about the drag and drop operation

@@ -95,7 +95,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     override fun onResume() {
         super.onResume()
-        context?.doAfterDelay(1000) { getUserBoards() }
+        getUserBoards()
     }
 
     private fun setUpToolbarAndBoomMenu() {
@@ -121,7 +121,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
     private fun initBoardsRecyclerView() {
         if (activity is BaseCardActivity) {
-            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, restApi, Glide.with(this), false)
+            userBoardsAdapter = UserBoardsAdapter(activity as BaseCardActivity, restApi, Glide.with(this), false)
             user_boards_recycler_view?.adapter = userBoardsAdapter
         }
     }
@@ -129,7 +129,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     private fun setUpUserZoneAdapter(userPreferenceList: List<UserPreference>?) {
         userPreferences.clear()
         userPreferences.addAll(userPreferenceList!!)
-        userZoneAdapter!!.notifyDataSetChanged()
+        userZoneAdapter?.notifyDataSetChanged()
     }
 
     private fun getUserZones() {
@@ -171,7 +171,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
                 HttpURLConnection.HTTP_OK -> {
                     feedEntries = it.body() as ArrayList<FeedEntry>
                     if (!isNullOrEmpty(feedEntries)) {
-                        userFeedAdapter!!.setUserFeed(feedEntries)
+                        userFeedAdapter?.setUserFeed(feedEntries)
                         onRecyclerViewContentsLoaded(user_feed_recycler_view, shimmer_user_feed)
                     } else {
                         errorToast(R.string.failed_to_retrieve_feed, it)
@@ -202,7 +202,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
                     if (!isNullOrEmpty(it.body())) {
-                        userBoardsAdapter!!.setUserBoards(it.body()!!)
+                        userBoardsAdapter?.setUserBoards(it.body()!!)
                         onRecyclerViewContentsLoaded(user_boards_recycler_view, shimmer_user_boards)
                     } else onRecyclerViewContentsFailedToLoad(user_boards_recycler_view, shimmer_user_boards)
                 }
@@ -270,9 +270,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
     override fun showFeedItemPeekPopup(position: Int) = pushPopup(FeedItemPeekPopup.newInstance(feedEntries, null, true, null, position))
 
     override fun onDestroy() {
-        if (authService != null) {
-            authService!!.dispose()
-        }
+        authService?.dispose()
         userBoardsAdapter = null
         userFeedAdapter = null
         userZoneAdapter = null

@@ -113,7 +113,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
 
             homeTeamName.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamName.setText(scoreFixture.getAwayTeam().getName());
-            separatorView.setText(getSeparator(scoreFixture, winPointer, false));
+            separatorView.setText(getSeparator(scoreFixture.toMatchDetails(), winPointer, false));
         }
 
         @OnClick(R.id.root_layout)
@@ -169,7 +169,7 @@ public class FixtureAdapter extends BaseRecyclerView.Adapter<BaseRecyclerView.Vi
 
             homeTeamNameTextView.setText(scoreFixture.getHomeTeam().getName());
             visitingTeamNameTextView.setText(scoreFixture.getAwayTeam().getName());
-            scoreTextView.setText(getSeparator(scoreFixture, winPointer, false));
+            scoreTextView.setText(getSeparator(scoreFixture.toMatchDetails(), winPointer, false));
             timeStatusTextView.setText(scoreFixture.getTimeStatus());
             DataUtil.ScrubberLoader.prepare(scrubber, false);
         }

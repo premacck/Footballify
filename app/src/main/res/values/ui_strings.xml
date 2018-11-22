@@ -222,5 +222,6 @@
     <string name="failed_to_get_top_emoji">Failed to get top emoji</string>
     <string name="next_match_data_not_available">Next match data not available</string>
     <string name="dismiss">Dismiss</string>
+    <string name="loading_polls">Loading Polls</string>
 
 </resources>

@@ -170,8 +170,8 @@ public interface RestApi {
                                                   @Header("Authorization") String authHeader);
 
     //working
-    @GET(ZONE_BACKEND_SUFFIX + "/users/displayName")
-    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("displayName") String displayName);
+    @GET(ZONE_BACKEND_SUFFIX + "/users/handle")
+    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("handle") String displayName);
 
     //working
     @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/members")
@@ -283,4 +283,7 @@ public interface RestApi {
 
     @GET(ZONE_BACKEND_SUFFIX + "/zones/nextEvent")
     Observable<Response<NextMatch>> getNextEvent(@Query("zone") String zoneName, @Header("Authorization") String authHeader);
+
+    @GET(ZONE_BACKEND_SUFFIX + "/feedEntries/{id}")
+    Observable<Response<FeedEntry>> getFeedEntry(@Path("id") String feedItemId, @Header("Authorization") String authHeader);
 }

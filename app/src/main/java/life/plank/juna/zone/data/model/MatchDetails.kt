@@ -2,6 +2,7 @@ package life.plank.juna.zone.data.model
 
 import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
@@ -13,7 +14,7 @@ import java.util.*
 @Entity
 @Parcelize
 data class MatchDetails(
-        @PrimaryKey var id: Int?,
+        @PrimaryKey var id: Int,
         @SerializedName("foreignId") @Expose var matchId: Long,
         @Embedded(prefix = "homeTeam_") var homeTeam: @RawValue FootballTeam,
         @Embedded(prefix = "awayTeam_") var awayTeam: @RawValue FootballTeam,
@@ -44,4 +45,16 @@ data class MatchDetails(
         var standingsList: @RawValue List<Standings>?,
         var teamStatsList: @RawValue List<TeamStats>?,
         var scrubberDataList: @RawValue List<ScrubberData>?
-) : Parcelable
+) : Parcelable {
+    @Ignore
+    constructor(
+            id: Int, matchId: Long, homeTeam: FootballTeam, awayTeam: FootballTeam, matchDay: Int?,
+            homeGoals: Int, awayGoals: Int, hometeamFormation: String?, awayteamFormation: String?,
+            homeTeamPenaltyScore: Int, awayTeamPenaltyScore: Int, timeStatus: String?, minute: Int?,
+            extraMinute: Int, matchStartTime: Date, venue: Stadium?, league: League?
+    ) : this(
+            id, matchId, homeTeam, awayTeam, matchDay, homeGoals, awayGoals, hometeamFormation, awayteamFormation, 0, 0,
+            homeTeamPenaltyScore, awayTeamPenaltyScore, "0-0", "0-0", timeStatus, minute, extraMinute, 0, matchStartTime,
+            league, venue, null, null, null, true, null, null, null, null, null
+    )
+}

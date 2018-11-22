@@ -7,9 +7,10 @@ import android.support.v7.widget.RecyclerView
 import com.bumptech.glide.Glide
 import life.plank.juna.zone.data.model.League
 import life.plank.juna.zone.data.model.MatchFixture
+import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.data.viewmodel.LeagueViewModel
 import life.plank.juna.zone.interfaces.LeagueContainer
-import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
+import life.plank.juna.zone.util.common.launchMatchBoard
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment
 
 abstract class BaseLeagueFragment : FlatFragment(), LeagueContainer {
@@ -24,7 +25,7 @@ abstract class BaseLeagueFragment : FlatFragment(), LeagueContainer {
     override fun getGlide() = Glide.with(this)
 
     override fun onFixtureSelected(matchFixture: MatchFixture, league: League) =
-            pushFragment(MatchBoardFragment.newInstance(matchFixture, league))
+            getParentActivity().launchMatchBoard(restApi(), matchFixture.matchId)
 
     protected fun NestedScrollView.setupWithParentFragmentBoomMenu() {
         setOnScrollChangeListener { _, _, scrollY, _, oldScrollY -> (parentFragment as? LeagueInfoFragment)?.hideOrShowBoomMenu(scrollY, oldScrollY) }
@@ -37,4 +38,6 @@ abstract class BaseLeagueFragment : FlatFragment(), LeagueContainer {
             }
         })
     }
+
+    abstract fun restApi(): RestApi
 }

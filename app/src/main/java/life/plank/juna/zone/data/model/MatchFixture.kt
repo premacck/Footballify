@@ -12,7 +12,7 @@ import java.util.*
 @Entity
 @Parcelize
 data class MatchFixture(
-        var id: Int?,
+        var id: Int,
         @SerializedName("foreignId") @Expose var matchId: Long,
         @Embedded(prefix = "homeTeam_") var homeTeam: @RawValue FootballTeam,
         @Embedded(prefix = "awayTeam_") var awayTeam: @RawValue FootballTeam,
@@ -30,27 +30,25 @@ data class MatchFixture(
         @Embedded(prefix = "stadium_") var venue: Stadium?,
         @Embedded(prefix = "league_") var league: League?
 ) : Parcelable {
-    companion object {
-        fun from(matchDetails: MatchDetails): MatchFixture {
-            return MatchFixture(
-                    matchDetails.id,
-                    matchDetails.matchId,
-                    matchDetails.homeTeam,
-                    matchDetails.awayTeam,
-                    matchDetails.matchDay,
-                    matchDetails.homeGoals,
-                    matchDetails.awayGoals,
-                    matchDetails.hometeamFormation,
-                    matchDetails.awayteamFormation,
-                    matchDetails.homeTeamPenaltyScore,
-                    matchDetails.awayTeamPenaltyScore,
-                    matchDetails.timeStatus,
-                    matchDetails.minute,
-                    matchDetails.extraMinute,
-                    matchDetails.matchStartTime,
-                    matchDetails.venue,
-                    matchDetails.league
-            )
-        }
+    fun toMatchDetails(): MatchDetails {
+        return MatchDetails(
+                id,
+                matchId,
+                homeTeam,
+                awayTeam,
+                matchDay,
+                homeGoals,
+                awayGoals,
+                hometeamFormation,
+                awayteamFormation,
+                homeTeamPenaltyScore,
+                awayTeamPenaltyScore,
+                timeStatus,
+                minute,
+                extraMinute,
+                matchStartTime,
+                venue,
+                league
+        )
     }
 }

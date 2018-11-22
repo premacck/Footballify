@@ -4,7 +4,7 @@ import android.os.Bundle
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.common.handleMatchBoardIntentIfAny
+import life.plank.juna.zone.util.common.handleBoardIntentIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.zone.ZoneContainerFragment
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class ZoneActivity : BaseCardActivity() {
 
         pushFragment(ZoneContainerFragment.newInstance())
 
-        handleMatchBoardIntentIfAny(restApi)
+        handleBoardIntentIfAny(restApi)
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container

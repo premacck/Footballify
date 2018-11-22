@@ -13,7 +13,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.common.handlePrivateBoardIntentIfAny
+import life.plank.juna.zone.util.common.handleBoardIntentIfAny
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
@@ -53,7 +53,7 @@ class UserProfileActivity : BaseCardActivity() {
         getUserBoards()
         setOnClickListeners()
 
-        handlePrivateBoardIntentIfAny(restApi)
+        handleBoardIntentIfAny(restApi)
     }
 
     override fun onResume() {
@@ -72,7 +72,7 @@ class UserProfileActivity : BaseCardActivity() {
 
     private fun initRecyclerView() {
         my_boards_list.layoutManager = GridLayoutManager(applicationContext, 5)
-        userBoardsAdapter = UserBoardsAdapter(this, restApi, restApi, Glide.with(this), true)
+        userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
         my_boards_list.adapter = userBoardsAdapter
         get_coins_list.adapter = getCoinsAdapter
         last_transactions_list.adapter = lastTransactionsAdapter
