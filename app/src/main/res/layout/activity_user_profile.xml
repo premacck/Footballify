@@ -10,9 +10,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="120dp"
         android:clipToPadding="false"
-        android:isScrollContainer="true">
+        android:isScrollContainer="true"
+        android:paddingBottom="120dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -98,10 +98,35 @@
                         android:textColor="@color/grey" />
 
                     <TextView
-                        android:id="@+id/email_label_text_view"
+                        android:id="@+id/username_label_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/name_text_view"
+                        android:layout_marginTop="7dp"
+                        android:layout_toEndOf="@+id/profile_picture_image_view"
+                        android:fontFamily="@font/rajdhani_medium"
+                        android:text="@string/username"
+                        android:textColor="@color/black_50"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/username_text_view"
+                        style="@style/Input"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/username_label_text_view"
+                        android:layout_toEndOf="@+id/profile_picture_image_view"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/rajdhani_medium"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textColor="@color/grey" />
+
+                    <TextView
+                        android:id="@+id/email_label_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/username_text_view"
                         android:layout_marginTop="7dp"
                         android:layout_toEndOf="@+id/profile_picture_image_view"
                         android:fontFamily="@font/rajdhani_medium"
@@ -203,10 +228,10 @@
                         android:id="@+id/my_boards_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@+id/my_boards_title_text_view"
                         android:clipToPadding="false"
                         android:paddingStart="9dp"
                         android:paddingEnd="9dp"
-                        android:layout_below="@+id/my_boards_title_text_view"
                         app:layoutManager="life.plank.juna.zone.util.HorizontalLinearLayoutManager"
                         tools:listitem="@layout/item_image_and_title" />
 
@@ -397,9 +422,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="34dp"
         android:backgroundTint="@color/white"
+        android:src="@drawable/ic_home_purple"
         app:borderWidth="0dp"
-        app:fabCustomSize="70dp"
-        android:src="@drawable/ic_home_purple"/>
+        app:fabCustomSize="70dp" />
 
     <FrameLayout
         android:id="@+id/popup_container"
