@@ -113,6 +113,7 @@ public class AppConstants {
     public static final String WIDE_DASH = "  -  ";
     public static final String WIDE_SPACE = "     ";
     public static final String SPACE = "   ";
+    public static final String SINGLE_SPACE = " ";
     public static final String UNDERSCORE = "_";
 
     public static final String NEWS = "News";

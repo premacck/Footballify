@@ -4,6 +4,8 @@
     <string name="intent_board">board_intent</string>
     <string name="intent_private_board">private_board_intent</string>
     <string name="intent_private_board_id">private_board_id_intent</string>
+    <string name="intent_in_app_notification">juna_notification</string>
+    <string name="intent_juna_notification">juna_notification</string>
     <string name="intent_zone_live_data">zone_live_data</string>
     <string name="intent_board_id">BOARD_ID</string>
     <string name="intent_comment_title">title</string>
@@ -14,7 +16,8 @@
     <string name="intent_thumbnail_width">thumbnailWidth</string>
     <string name="intent_image_url">imageUrl</string>
     <string name="intent_position">position</string>
-    <string name="intent_feed_items">feeditems</string>
+    <string name="intent_feed_items">feedItems</string>
+    <string name="intent_feed_item_id">feedItemId</string>
     <string name="intent_audio_path">audio_path</string>
     <string name="intent_load_view">load_view</string>
     <string name="intent_list">list</string>
@@ -28,4 +31,18 @@
     <string name="intent_target">target</string>
     <string name="intent_is_camera_for_image">is_camera_for_image</string>
     <string name="intent_poll_binding_model">poll_binding_model</string>
+
+    <string name="intent_action">action</string>
+    <string name="intent_live_event_type">liveEventType</string>
+    <string name="intent_invite">invite</string>
+    <string name="intent_image">image</string>
+    <string name="intent_video">video</string>
+    <string name="intent_feed_item_comment">feedItemComment</string>
+    <string name="intent_feed_item_reply">feedItemReply</string>
+    <string name="intent_board_comment">boardComment</string>
+    <string name="intent_feed_item_react">feedItemReact</string>
+    <string name="intent_comment_mention">commentMention</string>
+    <string name="intent_reply_mention">replyMention</string>
+    <string name="intent_board_react">boardReact</string>
+    <string name="intent_kick">kick</string>
 </resources>

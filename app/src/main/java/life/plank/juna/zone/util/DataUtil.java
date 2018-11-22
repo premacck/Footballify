@@ -27,14 +27,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.model.Board;
 import life.plank.juna.zone.data.model.Commentary;
 import life.plank.juna.zone.data.model.FeedEntry;
 import life.plank.juna.zone.data.model.Formation;
@@ -72,7 +70,7 @@ import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
 public class DataUtil {
 
-    private static final String[] dummyEvents = new String[]{
+    private static final String[] dummyEvents = new String[] {
             GOAL,
             SUBSTITUTION,
             YELLOW_CARD,
@@ -89,6 +87,10 @@ public class DataUtil {
 
     public static String findString(@StringRes int stringRes) {
         return ZoneApplication.getContext().getString(stringRes);
+    }
+
+    public static String findString(@StringRes int stringRes, Object... formatArgs) {
+        return ZoneApplication.getContext().getString(stringRes, formatArgs);
     }
 
     public static boolean isNullOrEmpty(String s) {
@@ -316,7 +318,7 @@ public class DataUtil {
     }
 
     public static GradientDrawable getLeagueBackground(@ColorRes int leagueColor) {
-        return new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[]{
+        return new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {
                 ColorUtils.compositeColors(ZoneApplication.getContext().getColor(R.color.color_league_gradient), ZoneApplication.getContext().getColor(leagueColor)),
                 ZoneApplication.getContext().getColor(leagueColor)
         });
@@ -422,7 +424,7 @@ public class DataUtil {
         dataSet.setColor(ZoneApplication.getContext().getColor(R.color.mainGradientEnd));
         dataSet.setLineWidth(1f);
         dataSet.setDrawFilled(true);
-        dataSet.setFillDrawable(new GradientDrawable(TOP_BOTTOM, new int[]{
+        dataSet.setFillDrawable(new GradientDrawable(TOP_BOTTOM, new int[] {
                 ZoneApplication.getContext().getColor(R.color.mainGradientTranslucentStart),
                 ZoneApplication.getContext().getColor(R.color.mainGradientTranslucentEnd)
         }));
@@ -496,12 +498,6 @@ public class DataUtil {
             default:
                 return apiTimeStatus;
         }
-    }
-
-    //    TODO : remove this method when this functionality is properly implemented in the backend
-    public static boolean isBoardActive(Board matchBoard) {
-        long currentTime = new Date().getTime();
-        return currentTime >= matchBoard.getStartDate().getTime() && currentTime < matchBoard.getEndDate().getTime();
     }
 
     public static void pinFeedEntry(List<FeedEntry> feedEntryList, FeedEntry feedEntryToPin) {

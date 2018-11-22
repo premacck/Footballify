@@ -38,7 +38,7 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <service android:name=".firebasepushnotification.PushNotificationFirebaseMessagingService">
+        <service android:name=".firebase.JunaNotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -154,12 +154,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".view.activity.zone.ZoneActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".view.activity.home.HomeActivity"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".view.activity.OnboardingActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:parentActivityName=".view.activity.home.HomeActivity"
