@@ -150,7 +150,6 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
             return rootView;
         }
         initRecyclerViews();
-        getBoardPolls();
         BoomMenuUtil.setupWith(arcMenu, nestedScrollView);
         return rootView;
     }
@@ -173,6 +172,9 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
 
         if (getParentFragment() instanceof PrivateBoardFragment) {
             tileContentLayout.removeView(extrasLayout);
+            tileContentLayout.removeView(boardPoll);
+        } else {
+            getBoardPolls();
         }
     }
 
