@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class JunaNotification(
         var action: String = "",
-        var from: String = "",
-        var boardId: String?,
-        var boardName: String?,
-        var feedItemId: String?,
-        var feedItemMessage: String?,
-        var imageUrl: String?
+        var actor: String = "",
+        var boardId: String? = "",
+        var boardName: String? = "",
+        var feedItemId: String? = "",
+        var feedItemMessage: String? = "",
+        var imageUrl: String? = ""
 ) : Parcelable
