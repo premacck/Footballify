@@ -115,7 +115,7 @@ node('docker') {
     }
 
     def publishApkToInternalTestTrackPlayStore(){
-        stage 'Upload Signed APK to Playstore'
+        stage 'Upload Signed APK to Playstore Internal test track'
         sh "./gradlew -Ptrack=internal publishApkRelease"
         echo  '********************************************************************************'
     }
