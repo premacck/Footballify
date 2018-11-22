@@ -117,30 +117,30 @@ public class DataUtil {
         return Objects.equals(s, "null");
     }
 
-    public static String getSeparator(MatchFixture matchFixture, ImageView winPointer, boolean isBoard) {
+    public static String getSeparator(MatchDetails matchDetails, ImageView winPointer, boolean isBoard) {
         winPointer.setVisibility(View.INVISIBLE);
-        int dateDiff = getDateDiffFromToday(matchFixture.getMatchStartTime());
+        int dateDiff = getDateDiffFromToday(matchDetails.getMatchStartTime());
         switch (dateDiff) {
             case -1:
-                return getPastMatchSeparator(matchFixture, winPointer, isBoard);
+                return getPastMatchSeparator(matchDetails, winPointer, isBoard);
             case 0:
-                if (getTimeDiffFromNow(matchFixture.getMatchStartTime()) <= 0) {
-                    return matchFixture.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) + matchFixture.getAwayGoals();
+                if (getTimeDiffFromNow(matchDetails.getMatchStartTime()) <= 0) {
+                    return matchDetails.getHomeGoals() + (isBoard ? DASH : WIDE_DASH) + matchDetails.getAwayGoals();
                 } else {
-                    return getFutureMatchTime(matchFixture.getMatchStartTime());
+                    return getFutureMatchTime(matchDetails.getMatchStartTime());
                 }
             case 1:
-                return getFutureMatchTime(matchFixture.getMatchStartTime());
+                return getFutureMatchTime(matchDetails.getMatchStartTime());
             default:
                 if (dateDiff < -1) {
-                    return getPastMatchSeparator(matchFixture, winPointer, isBoard);
+                    return getPastMatchSeparator(matchDetails, winPointer, isBoard);
                 } else {
-                    return getFutureMatchTime(matchFixture.getMatchStartTime());
+                    return getFutureMatchTime(matchDetails.getMatchStartTime());
                 }
         }
     }
 
-    private static String getPastMatchSeparator(MatchFixture MatchFixture, ImageView winPointer, boolean isBoard) {
+    private static String getPastMatchSeparator(MatchDetails matchDetails, ImageView winPointer, boolean isBoard) {
         String teamNameSeparator;
         int homeWinDrawable = isBoard ?
                 R.drawable.ic_win_home_light :
@@ -148,34 +148,34 @@ public class DataUtil {
         int visitingWinDrawable = isBoard ?
                 R.drawable.ic_win_away_light :
                 R.drawable.ic_win_away_dark;
-        if (MatchFixture.getAwayTeamPenaltyScore() == 0 && MatchFixture.getHomeTeamPenaltyScore() == 0) {
-            if (MatchFixture.getHomeGoals() > MatchFixture.getAwayGoals()) {
+        if (matchDetails.getAwayTeamPenaltyScore() == 0 && matchDetails.getHomeTeamPenaltyScore() == 0) {
+            if (matchDetails.getHomeGoals() > matchDetails.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(homeWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinScore(MatchFixture.getHomeGoals(), MatchFixture.getAwayGoals(), isBoard);
-            } else if (MatchFixture.getAwayGoals() > MatchFixture.getHomeGoals()) {
+                teamNameSeparator = ScoreBuilder.getWinScore(matchDetails.getHomeGoals(), matchDetails.getAwayGoals(), isBoard);
+            } else if (matchDetails.getAwayGoals() > matchDetails.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinScore(MatchFixture.getHomeGoals(), MatchFixture.getAwayGoals(), isBoard);
+                teamNameSeparator = ScoreBuilder.getWinScore(matchDetails.getHomeGoals(), matchDetails.getAwayGoals(), isBoard);
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = ScoreBuilder.getTiedScore(MatchFixture.getHomeGoals(), MatchFixture.getAwayGoals(), isBoard);
+                teamNameSeparator = ScoreBuilder.getTiedScore(matchDetails.getHomeGoals(), matchDetails.getAwayGoals(), isBoard);
             }
         } else {
-            if (MatchFixture.getHomeGoals() > MatchFixture.getAwayGoals()) {
+            if (matchDetails.getHomeGoals() > matchDetails.getAwayGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(homeWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(MatchFixture.getHomeGoals(), MatchFixture.getHomeTeamPenaltyScore(),
-                        MatchFixture.getAwayGoals(), MatchFixture.getAwayTeamPenaltyScore(), isBoard);
-            } else if (MatchFixture.getAwayGoals() > MatchFixture.getHomeGoals()) {
+                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(matchDetails.getHomeGoals(), matchDetails.getHomeTeamPenaltyScore(),
+                        matchDetails.getAwayGoals(), matchDetails.getAwayTeamPenaltyScore(), isBoard);
+            } else if (matchDetails.getAwayGoals() > matchDetails.getHomeGoals()) {
                 winPointer.setVisibility(View.VISIBLE);
                 winPointer.setImageResource(visitingWinDrawable);
-                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(MatchFixture.getHomeGoals(), MatchFixture.getHomeTeamPenaltyScore(),
-                        MatchFixture.getAwayGoals(), MatchFixture.getAwayTeamPenaltyScore(), isBoard);
+                teamNameSeparator = ScoreBuilder.getWinPenaltyScore(matchDetails.getHomeGoals(), matchDetails.getHomeTeamPenaltyScore(),
+                        matchDetails.getAwayGoals(), matchDetails.getAwayTeamPenaltyScore(), isBoard);
             } else {
                 winPointer.setVisibility(View.INVISIBLE);
-                teamNameSeparator = ScoreBuilder.getTiedPenaltyScore(MatchFixture.getHomeGoals(), MatchFixture.getHomeTeamPenaltyScore(),
-                        MatchFixture.getAwayGoals(), MatchFixture.getAwayTeamPenaltyScore(), isBoard);
+                teamNameSeparator = ScoreBuilder.getTiedPenaltyScore(matchDetails.getHomeGoals(), matchDetails.getHomeTeamPenaltyScore(),
+                        matchDetails.getAwayGoals(), matchDetails.getAwayTeamPenaltyScore(), isBoard);
             }
         }
         return teamNameSeparator;

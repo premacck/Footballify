@@ -36,9 +36,13 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
 
     private fun init(context: Context) {
         View.inflate(context, R.layout.item_poll, this)
+        poll_layout.visibility = View.INVISIBLE
+        loading_layout.visibility = View.VISIBLE
     }
 
     fun prepare(glide: RequestManager, pollBindingModel: PollBindingModel, pollContainer: PollContainer) {
+        loading_layout.visibility = View.GONE
+        poll_layout.visibility = View.VISIBLE
         this.glide = glide
         this.pollBindingModel = pollBindingModel
         this.pollContainer = pollContainer
@@ -98,6 +102,7 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
     private fun onPollSelectionPerformed(@PollValue pollValue: Int) {
         pollBindingModel.poll.userSelection = pollValue
         pollContainer.onPollSelected(PollAnswerRequest(pollBindingModel.poll.id, pollValue))
+        setOptionsState(pollValue)
     }
 
     fun pollSelected(poll: Poll) {
@@ -112,7 +117,6 @@ class BoardPoll @JvmOverloads constructor(context: Context, attrs: AttributeSet?
         val awayPercent = "${poll.choices[2].percentage}%"
         poll_third_answer.text = awayPercent
 
-        setOptionsState(poll.userSelection)
     }
 
     private fun setOptionsState(selectedOption: Int) {

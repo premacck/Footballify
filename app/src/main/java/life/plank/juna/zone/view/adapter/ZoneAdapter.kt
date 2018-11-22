@@ -51,7 +51,7 @@ class ZoneAdapter(
 
             } else {
                 itemView.follow_image_view.visibility = View.VISIBLE
-                itemView.zone_image_view.setAlpha(context.resources.getInteger(R.integer.visiblilty_160))
+                itemView.zone_image_view.imageAlpha = context.resources.getInteger(R.integer.visiblilty_160)
                 itemView.zone_title_text_view.visibility = View.INVISIBLE
                 itemView.followers_count_layout.visibility = View.INVISIBLE
 

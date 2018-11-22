@@ -53,6 +53,8 @@ class StandingsFragment : BaseLeagueFragment() {
         standing_recycler_view.setupWithParentFragmentBoomMenu()
     }
 
+    override fun restApi(): RestApi = restApi
+
     override fun getTheLeague() = league
 
     private fun getStandings(isRefreshing: Boolean) {

@@ -28,7 +28,6 @@ import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchEvent;
-import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
@@ -147,12 +146,12 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
             case SCORE_DATA:
                 LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
                 updateScoreLocally(matchDetails, scoreData);
-                FixtureListUpdateTask.update(MatchFixture.Companion.from(matchDetails), scoreData, null, true);
+                FixtureListUpdateTask.update(matchDetails, scoreData, null, true);
                 break;
             case TIME_STATUS_DATA:
                 LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
                 updateTimeStatusLocally(matchDetails, timeStatus);
-                FixtureListUpdateTask.update(MatchFixture.Companion.from(matchDetails), null, timeStatus, false);
+                FixtureListUpdateTask.update(matchDetails, null, timeStatus, false);
                 break;
             case MATCH_STATS_DATA:
                 adapter.updateMatchStats(zoneLiveData.getMatchStats(gson), 0);

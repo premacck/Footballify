@@ -17,9 +17,8 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.UIDisplayUtil.findColor
+import life.plank.juna.zone.util.common.launchPrivateOrMatchBoard
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.util.launchMatchBoard
-import life.plank.juna.zone.util.launchPrivateBoard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity
 import java.util.*
@@ -27,7 +26,6 @@ import java.util.*
 class UserBoardsAdapter(
         private val activity: BaseCardActivity,
         private val restApi: RestApi,
-        private val footballRestApi: RestApi,
         private val glide: RequestManager,
         private val isTitleShown: Boolean
 ) : RecyclerView.Adapter<UserBoardsAdapter.UserBoardsViewHolder>() {
@@ -45,7 +43,7 @@ class UserBoardsAdapter(
                 holder.itemView.title.text = boardList[position].name
                 holder.itemView.image.setImageDrawable(ZoneApplication.getContext().getDrawable(R.drawable.new_board_circle))
                 holder.itemView.image.borderColor = findColor(R.color.white)
-                holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].name!!) }
+                holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position], boardList[position].name!!) }
             } else {
                 when (boardList[position].boardType) {
                     findString(R.string.board_type_football_match) -> {
@@ -65,8 +63,7 @@ class UserBoardsAdapter(
                         boardList[position].name
                         holder.itemView.image.onDebouncingClick {
                             if (!isNullOrEmpty(boardList[position].boardEvent?.leagueName)) {
-                                navigateToBoard(boardList[position].id, boardList[position].boardType,
-                                        boardList[position].boardEvent!!.foreignId.toLong(), boardList[position].boardEvent?.leagueName!!)
+                                navigateToBoard(boardList[position], boardList[position].boardType)
                             }
                         }
                     }
@@ -78,7 +75,7 @@ class UserBoardsAdapter(
                                 .apply(RequestOptions.placeholderOf(R.drawable.ic_place_holder).error(R.drawable.ic_place_holder))
                                 .into(holder.itemView.image!!)
                         holder.itemView.image.borderColor = Color.parseColor(boardList[position].color)
-                        holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position].id, boardList[position].name!!) }
+                        holder.itemView.image.onDebouncingClick { navigateToBoard(boardList[position], boardList[position].name!!) }
                     }
                 }
             }
@@ -98,11 +95,11 @@ class UserBoardsAdapter(
         PreferenceManager.CurrentUser.getDisplayName()?.run { CreateBoardActivity.launch(activity, this) }
     }
 
-    private fun navigateToBoard(boardId: String, boardName: String, matchId: Long = 0, leagueName: String = "") {
-        when (boardName) {
-            findString(R.string.new_) -> launchBoardMaker()
-            findString(R.string.board_type_football_match) -> footballRestApi.launchMatchBoard(matchId, activity, leagueName)
-            else -> restApi.launchPrivateBoard(boardId, activity)
+    private fun navigateToBoard(board: Board, boardName: String) {
+        if (boardName == findString(R.string.new_)) {
+            launchBoardMaker()
+        } else {
+            activity.launchPrivateOrMatchBoard(restApi, board)
         }
     }
 

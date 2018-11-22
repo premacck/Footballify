@@ -11,7 +11,7 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
-import life.plank.juna.zone.util.common.launchWithPrivateBoard
+import life.plank.juna.zone.util.common.launchWithBoard
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
@@ -82,12 +82,12 @@ class JoinBoardActivity : AppCompatActivity() {
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_CREATED -> {
-                    launchWithPrivateBoard<HomeActivity>(boardId)
+                    launchWithBoard<HomeActivity>(boardId)
                     finish()
                 }
                 HttpURLConnection.HTTP_CONFLICT -> {
                     customToast(R.string.already_following_board)
-                    launchWithPrivateBoard<HomeActivity>(boardId)
+                    launchWithBoard<HomeActivity>(boardId)
                     finish()
                 }
                 HttpURLConnection.HTTP_FORBIDDEN -> customToast(R.string.cannot_follow_board)

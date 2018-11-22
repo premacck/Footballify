@@ -31,13 +31,13 @@ class UserZoneAdapter(
         holder.itemView.football!!.text = zone?.name
 
         holder.itemView.time_to_next_match.showNextMatchOnly(restApi)
-
-        if (DataUtil.isNullOrEmpty(userPreferenceList[0].zonePreferences)) {
-            holder.itemView.onDebouncingClick { (activity as? BaseCardActivity)?.pushFragment(OnboardingActivity.newInstance()) }
-        } else {
-            holder.itemView.onDebouncingClick { (activity.launch<ZoneActivity>()) }
+        holder.itemView.onDebouncingClick {
+            if (DataUtil.isNullOrEmpty(userPreferenceList[0].zonePreferences)) {
+                (activity as? BaseCardActivity)?.pushFragment(OnboardingActivity.newInstance(), true)
+            } else {
+                (activity.launch<ZoneActivity>())
+            }
         }
-
     }
 
     override fun getItemCount(): Int = userPreferenceList.size

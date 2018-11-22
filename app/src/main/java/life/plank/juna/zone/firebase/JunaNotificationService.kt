@@ -17,11 +17,11 @@ class JunaNotificationService : FirebaseMessagingService() {
             .create()*/
 
     override fun onNewToken(token: String) {
-        Log.d(TAG, "Refreshed token: $token")
         sendRegistrationToServer(token)
     }
 
     private fun sendRegistrationToServer(token: String) {
+        Log.d(TAG, "Refreshed token: $token")
 //    TODO: Implement this method to send token to your app server.
     }
 

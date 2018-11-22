@@ -8,6 +8,7 @@ import life.plank.juna.zone.data.model.FixtureByDate;
 import life.plank.juna.zone.data.model.FixtureByMatchDay;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.MatchDetails;
 import life.plank.juna.zone.data.model.MatchFixture;
 import life.plank.juna.zone.view.fragment.football.LeagueInfoFragment;
 
@@ -21,25 +22,25 @@ import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
  */
 public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
 
-    private final MatchFixture fixture;
+    private final MatchDetails matchDetails;
     private final LiveScoreData scoreData;
     private final LiveTimeStatus timeStatus;
     private boolean isScoreData;
 
-    public static void update(MatchFixture fixture, LiveScoreData scoreData, LiveTimeStatus timeStatus, boolean isScoreData) {
-        new FixtureListUpdateTask(fixture, scoreData, timeStatus, isScoreData).execute();
-    }
-
-    private FixtureListUpdateTask(MatchFixture fixture, LiveScoreData scoreData, LiveTimeStatus timeStatus, boolean isScoreData) {
-        this.fixture = fixture;
+    private FixtureListUpdateTask(MatchDetails matchDetails, LiveScoreData scoreData, LiveTimeStatus timeStatus, boolean isScoreData) {
+        this.matchDetails = matchDetails;
         this.scoreData = scoreData;
         this.timeStatus = timeStatus;
         this.isScoreData = isScoreData;
     }
 
+    public static void update(MatchDetails fixture, LiveScoreData scoreData, LiveTimeStatus timeStatus, boolean isScoreData) {
+        new FixtureListUpdateTask(fixture, scoreData, timeStatus, isScoreData).execute();
+    }
+
     @Override
     protected Void doInBackground(Void... voids) {
-        MatchFixture matchFixture = findInFixtureList(fixture);
+        MatchFixture matchFixture = findInFixtureList(matchDetails);
         if (matchFixture != null) {
             if (isScoreData) {
                 updateScoreLocally(matchFixture, scoreData);
@@ -50,14 +51,14 @@ public class FixtureListUpdateTask extends AsyncTask<Void, Void, Void> {
         return null;
     }
 
-    private MatchFixture findInFixtureList(MatchFixture matchFixture) {
-        if (isNullOrEmpty(LeagueInfoFragment.Companion.getFixtureByMatchDayList()) || matchFixture == null)
+    private MatchFixture findInFixtureList(MatchDetails matchDetails) {
+        if (isNullOrEmpty(LeagueInfoFragment.Companion.getFixtureByMatchDayList()) || matchDetails == null)
             return null;
 
         for (FixtureByMatchDay fixtureByMatchDay : LeagueInfoFragment.Companion.getFixtureByMatchDayList()) {
             for (FixtureByDate fixtureByDate : fixtureByMatchDay.getFixtureByDateList()) {
                 for (MatchFixture fixture : fixtureByDate.getFixtures()) {
-                    if (Objects.equals(fixture.getMatchId(), matchFixture.getMatchId())) {
+                    if (Objects.equals(fixture.getMatchId(), matchDetails.getMatchId())) {
                         return fixture;
                     }
                 }

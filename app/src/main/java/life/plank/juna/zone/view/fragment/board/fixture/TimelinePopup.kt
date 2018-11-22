@@ -18,7 +18,6 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.MatchEvent
-import life.plank.juna.zone.data.model.MatchFixture
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.DateUtil.getTimelineDateHeader
@@ -39,7 +38,6 @@ class TimelinePopup : BaseBlurPopup() {
 
     private var currentMatchId: Long = 0
     private lateinit var matchDetails: MatchDetails
-    private lateinit var fixture: MatchFixture
     private var adapter: TimelineAdapter? = null
 
     private val mMessageReceiver = object : BroadcastReceiver() {
@@ -66,7 +64,6 @@ class TimelinePopup : BaseBlurPopup() {
         ZoneApplication.getApplication().uiComponent.inject(this)
         currentMatchId = arguments?.getLong(getString(R.string.match_id_string), 0)!!
         matchDetails = arguments?.getParcelable(getString(R.string.intent_match_fixture))!!
-        fixture = MatchFixture.from(matchDetails)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_timeline, container, false)
@@ -101,7 +98,7 @@ class TimelinePopup : BaseBlurPopup() {
         venue_name.text = if (matchDetails.venue != null) matchDetails.venue!!.name else null
         time_status.text = getDisplayTimeStatus(matchDetails.timeStatus!!)
         date.text = getTimelineDateHeader(matchDetails.matchStartTime)
-        score.text = getSeparator(fixture, win_pointer, false)
+        score.text = getSeparator(matchDetails, win_pointer, false)
 
         Glide.with(this)
                 .load(matchDetails.homeTeam.logoLink)
@@ -131,9 +128,9 @@ class TimelinePopup : BaseBlurPopup() {
         when (zoneLiveData!!.liveDataType) {
             SCORE_DATA -> {
                 val scoreData = zoneLiveData.getScoreData(gson)
-                updateScoreLocally(fixture, scoreData)
-                FixtureListUpdateTask.update(fixture, scoreData, null, true)
-                score.text = getSeparator(fixture, win_pointer, false)
+                updateScoreLocally(matchDetails, scoreData)
+                FixtureListUpdateTask.update(matchDetails, scoreData, null, true)
+                score.text = getSeparator(matchDetails, win_pointer, false)
             }
             MATCH_EVENTS -> {
                 val matchEventList = zoneLiveData.getMatchEventList(gson)
@@ -151,9 +148,8 @@ class TimelinePopup : BaseBlurPopup() {
                         adapter!!.updateWhistleEvent(timeStatus)
                     }
                 }
-                updateTimeStatusLocally(fixture, timeStatus)
-                FixtureListUpdateTask.update(fixture, null, timeStatus, false)
-                time_status.text = getDisplayTimeStatus(fixture.timeStatus!!)
+                FixtureListUpdateTask.update(matchDetails, null, timeStatus, false)
+                time_status.text = getDisplayTimeStatus(matchDetails.timeStatus!!)
             }
         }
     }

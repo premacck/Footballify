@@ -56,6 +56,8 @@ class LeagueStatsFragment : BaseLeagueFragment() {
         league_stats_nested_scroll_view.setupWithParentFragmentBoomMenu()
     }
 
+    override fun restApi(): RestApi = restApi
+
     override fun getTheLeague() = league
 
     private fun setAdapters() {

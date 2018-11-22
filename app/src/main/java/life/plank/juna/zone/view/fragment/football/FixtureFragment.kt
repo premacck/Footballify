@@ -102,6 +102,8 @@ class FixtureFragment : BaseLeagueFragment(), LeagueContainer {
         } else onNoMatchesFound()
     }
 
+    override fun restApi(): RestApi = restApi
+
     override fun getTheLeague() = league
 
     private fun onNoMatchesFound() {
