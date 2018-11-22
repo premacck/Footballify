@@ -4,7 +4,7 @@
     <string name="intent_board">board_intent</string>
     <string name="intent_private_board">private_board_intent</string>
     <string name="intent_private_board_id">private_board_id_intent</string>
-    <string name="intent_in_app_notification">juna_notification</string>
+    <string name="intent_in_app_notification">in_app_notification</string>
     <string name="intent_juna_notification">juna_notification</string>
     <string name="intent_zone_live_data">zone_live_data</string>
     <string name="intent_board_id">BOARD_ID</string>
