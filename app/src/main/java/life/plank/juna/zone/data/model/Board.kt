@@ -11,7 +11,7 @@ data class Board(
         var displayname: String?,
         var name: String?,
         var boardType: String,
-        var isActive: Boolean?,
+        var isActive: Boolean = false,
         var boardEvent: BoardEvent?,
         var zone: String?,
         var description: String?,
