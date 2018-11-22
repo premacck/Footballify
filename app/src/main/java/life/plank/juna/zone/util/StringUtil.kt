@@ -61,8 +61,8 @@ fun String.formatMentions(): SpannableString {
 
     while (matcher.find()) {
         try {
-            formattedReply.semiBold(matcher.start(), matcher.end() + 1)
-                    .color(R.color.dark_sky_blue, matcher.start(), matcher.end() + 1)
+            formattedReply.semiBold(matcher.start(), matcher.end())
+                    .color(R.color.dark_sky_blue, matcher.start(), matcher.end())
         } catch (ignored: Exception) {
         }
     }
