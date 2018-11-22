@@ -28,7 +28,7 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
-	executeTests()
+	    executeTests()
         uploadToNexus()
 		
     }
@@ -40,10 +40,10 @@ node('docker') {
     }
 
     def buildReleaseBranch(){
-	buildRelease()
+	    buildRelease()
         executeTests()
         uploadToNexus()
-        publishApkToAlphaTrackPlayStore()
+        publishApkToInternalTestTrackPlayStore()
     }
 
     def buildHotfixBranch(){
@@ -51,7 +51,7 @@ node('docker') {
         buildRelease()
         executeTests()
         uploadToNexus()
-        publishApkToAlphaTrackPlayStore()
+        publishApkToInternalTestTrackPlayStore()
     }
 
     def buildDevelopmentBranch(){
@@ -111,6 +111,12 @@ node('docker') {
     def publishApkToAlphaTrackPlayStore(){
         stage 'Upload Signed APK to Playstore'
         sh "./gradlew -Ptrack=alpha publishApkRelease"
+        echo  '********************************************************************************'
+    }
+
+    def publishApkToInternalTestTrackPlayStore(){
+        stage 'Upload Signed APK to Playstore'
+        sh "./gradlew -Ptrack=internal publishApkRelease"
         echo  '********************************************************************************'
     }
 
