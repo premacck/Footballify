@@ -55,14 +55,14 @@ fun String.toClickableWebLink(activity: Activity): SpannableString {
 fun String.formatMentions(): SpannableString {
     val formattedReply = SpannableString(this)
 
-    if (!contains("[") || !contains("]")) return formattedReply
+    if (!contains("@")) return formattedReply
 
-    val matcher = Pattern.compile("\\[([^]]+)").matcher(this)
+    val matcher = Pattern.compile("@[0-9a-zA-Z._]+").matcher(this)
 
     while (matcher.find()) {
         try {
-            formattedReply.semiBold(matcher.start(), matcher.end() + 1)
-                    .color(R.color.dark_sky_blue, matcher.start(), matcher.end() + 1)
+            formattedReply.semiBold(matcher.start(), matcher.end())
+                    .color(R.color.dark_sky_blue, matcher.start(), matcher.end())
         } catch (ignored: Exception) {
         }
     }
