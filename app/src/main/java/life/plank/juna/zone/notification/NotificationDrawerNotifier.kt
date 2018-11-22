@@ -7,7 +7,6 @@ import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
 import android.graphics.Color
 import android.media.RingtoneManager
-import android.net.Uri
 import android.support.v4.app.NotificationCompat
 import android.text.SpannableStringBuilder
 import android.util.Log
@@ -75,18 +74,15 @@ fun ZoneLiveData.prepareDrawerNotification() {
 }
 
 fun JunaNotification.sendTextNotification(pendingIntent: PendingIntent) {
-    val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    val notificationManager = ZoneApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    getNotificationChannel(notificationManager)
-    val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), defaultSoundUri, pendingIntent)
-    notificationManager.notify(0, notificationBuilder.build())
+    ZoneApplication.getContext()
+            .getNotificationManager()
+            .setNotificationChannel()
+            .notify(0, getNotificationBuilder(buildNotificationMessage(), pendingIntent).build())
 }
 
 fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
-    val defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-    val notificationManager = ZoneApplication.getContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-    getNotificationChannel(notificationManager)
-    val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), defaultSoundUri, pendingIntent)
+    val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
+    val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), pendingIntent)
     try {
         ZoneApplication.getContext().doAsync {
             val bitmap =
@@ -106,17 +102,17 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
     }
 }
 
-fun getNotificationBuilder(messageBody: SpannableStringBuilder, defaultSoundUri: Uri, pendingIntent: PendingIntent): NotificationCompat.Builder {
+fun getNotificationBuilder(messageBody: SpannableStringBuilder, pendingIntent: PendingIntent): NotificationCompat.Builder {
     return NotificationCompat.Builder(ZoneApplication.getContext(), CHANNEL_ID)
             .setContentTitle(findString(app_name))
             .setContentText(messageBody)
             .setAutoCancel(true)
-            .setSound(defaultSoundUri)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setContentIntent(pendingIntent)
 }
 
-fun getNotificationChannel(notificationManager: NotificationManager) {
+fun NotificationManager.setNotificationChannel(): NotificationManager {
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(CHANNEL_ID, findString(channel_name), importance)
@@ -125,6 +121,9 @@ fun getNotificationChannel(notificationManager: NotificationManager) {
         channel.lightColor = Color.BLUE
         channel.enableVibration(true)
         channel.setShowBadge(false)
-        notificationManager.createNotificationChannel(channel)
+        createNotificationChannel(channel)
     }
+    return this
 }
+
+fun Context.getNotificationManager(): NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
