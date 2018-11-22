@@ -1,0 +1,3 @@
+1. User will have to enter his User handle while signing up.
+2. Design for User Profile and Edit profile page updated.
+3. Note: All users are deleted from Azure. Kindly sign up again
