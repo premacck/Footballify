@@ -10,6 +10,7 @@ data class JunaNotification(
         var boardId: String? = "",
         var boardName: String? = "",
         var feedItemId: String? = "",
-        var feedItemMessage: String? = "",
-        var imageUrl: String? = ""
+        var commentMessage: String? = "",
+        var imageUrl: String? = "",
+        var commentId:String? = ""
 ) : Parcelable
