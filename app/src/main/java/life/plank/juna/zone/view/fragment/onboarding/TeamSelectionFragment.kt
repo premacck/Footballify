@@ -1,97 +1,86 @@
-package life.plank.juna.zone.view.activity
+package life.plank.juna.zone.view.fragment.onboarding
 
 import android.os.Bundle
 import android.support.v7.widget.CardView
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
-import kotlinx.android.synthetic.main.activity_onboarding.*
-import kotlinx.android.synthetic.main.custom_search_view.*
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.fragment_team_selection.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FootballTeam
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.interfaces.OnClickZoneItemListener
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
-import life.plank.juna.zone.view.adapter.OnboardingAdapter
-import org.jetbrains.anko.sdk27.coroutines.textChangedListener
+import life.plank.juna.zone.view.adapter.TeamSelectionAdapter
+import life.plank.juna.zone.view.fragment.base.SearchableCard
+import rx.Subscription
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
-class OnboardingActivity : BaseCard(), OnClickZoneItemListener {
-
-    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
-
-    override fun getRootCard(): CardView? = onboarding_root_card
-
-    override fun getDragHandle(): View? = onboarding_drag_area
-
-    companion object {
-        private val TAG = OnboardingActivity::class.java.simpleName
-        fun newInstance(): OnboardingActivity = OnboardingActivity()
-    }
-
-    override fun onItemClick(id: String?, isSelected: Boolean?) {
-        if (isSelected!!) {
-            teamSet.add(id!!)
-        } else {
-            teamSet.remove(id)
-        }
-    }
+class TeamSelectionFragment : SearchableCard() {
 
     @Inject
     lateinit var restApi: RestApi
-    private var onBoardingAdapter: OnboardingAdapter? = null
+    private var onBoardingAdapter: TeamSelectionAdapter? = null
     private var teamList = ArrayList<FootballTeam>()
-    var teamSet: MutableSet<String> = HashSet()
+    private var searchSubscription: Subscription? = null
 
+    companion object {
+        private val TAG = TeamSelectionFragment::class.java.simpleName
+        fun newInstance(): TeamSelectionFragment = TeamSelectionFragment()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(R.layout.activity_onboarding, container, false)
+            inflater.inflate(R.layout.fragment_team_selection, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         ZoneApplication.getApplication().uiComponent.inject(this)
 
         initBottomSheetRecyclerView()
-        prepareSearchEditText()
         next.onDebouncingClick { postTeamPref(getString(R.string.football)) }
         getPopularTeams()
-
     }
+
+    override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
+
+    override fun getRootCard(): CardView? = root_card
+
+    override fun getDragHandle(): View? = drag_area
+
+    override fun searchView(): EditText = search_view
+
+    override fun searchedList(): MutableList<*> = teamList
+
+    override fun searchAdapter(): RecyclerView.Adapter<*>? = onBoardingAdapter
+
+    override fun searchAction(searchString: String) = getFootballTeams(searchString)
+
+    override fun searchDelay(): Long = 500
+
+    override fun searchSubscription(): Subscription? = searchSubscription
 
     private fun initBottomSheetRecyclerView() {
-        onBoardingAdapter = OnboardingAdapter(context, teamList, this)
+        onBoardingAdapter = TeamSelectionAdapter(Glide.with(this), teamList)
         onboarding_recycler_view.adapter = onBoardingAdapter
-    }
-
-    private fun prepareSearchEditText() {
-        search_edit_text.textChangedListener {
-            onTextChanged { charSequence, _, _, _ ->
-                if (!DataUtil.isNullOrEmpty(charSequence.toString())) {
-                    getFootballTeams(charSequence.toString())
-                } else {
-                    teamList.clear()
-                    onBoardingAdapter?.notifyDataSetChanged()
-                }
-            }
-        }
     }
 
     private fun getPopularTeams() {
         if (DataUtil.isNullOrEmpty(PreferenceManager.Auth.getToken()))
             return
         restApi.getPopularTeams(PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(OnboardingActivity.TAG, "Popular Team details: ", it)
+            Log.e(TAG, "Popular Team details: ", it)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
@@ -103,9 +92,9 @@ class OnboardingActivity : BaseCard(), OnClickZoneItemListener {
     }
 
     private fun postTeamPref(zone: String) {
-        if (!teamSet.isEmpty()) {
-            restApi.postTeamPreferences(zone, teamSet, PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
-                Log.e(OnboardingActivity.TAG, "Team Preference details: ", it)
+        if (onBoardingAdapter?.selectedTeamNames?.isEmpty() == false) {
+            restApi.postTeamPreferences(zone, onBoardingAdapter?.selectedTeamNames, PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
+                Log.e(TAG, "Team Preference details: ", it)
             }, {
                 when (it.code()) {
                     HttpURLConnection.HTTP_NO_CONTENT -> {
@@ -120,8 +109,8 @@ class OnboardingActivity : BaseCard(), OnClickZoneItemListener {
     }
 
     private fun getFootballTeams(teamName: String) {
-        restApi.getSearchedFootballTeams(teamName, PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e(OnboardingActivity.TAG, "getFootballTeamDetails: ", it)
+        searchSubscription = restApi.getSearchedFootballTeams(teamName, PreferenceManager.Auth.getToken()).setObserverThreadsAndSmartSubscribe({
+            Log.e(TAG, "getFootballTeamDetails: ", it)
         }, {
             when (it.code()) {
                 HttpURLConnection.HTTP_OK -> {
