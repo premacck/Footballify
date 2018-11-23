@@ -26,7 +26,7 @@ fun JunaNotification.buildNotificationMessage(): SpannableStringBuilder {
             spannableStringBuilder.append(findString(commented_on_board_x, boardName))
         findString(intent_feed_item_comment) ->
             spannableStringBuilder.append(findString(commented_on_your_post))
-        findString(intent_feed_item_reply) ->
+        findString(intent_feed_item_reply), findString(intent_board_comment_reply) ->
             spannableStringBuilder.append(findString(replied_to_your_comment))
         findString(intent_comment_mention) ->
             spannableStringBuilder.append(findString(mentioned_you_in_a_comment))

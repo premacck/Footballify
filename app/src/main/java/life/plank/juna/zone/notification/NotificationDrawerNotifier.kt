@@ -40,13 +40,20 @@ fun JunaNotification.prepareDrawerNotification() {
                     findString(intent_invite) -> {
                         intentFor<JoinBoardActivity>(findString(intent_board_id) to boardId).clearTop()
                     }
-                    findString(intent_image), findString(intent_video), findString(intent_board_react), findString(intent_board_comment) -> {
+                    findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
                         intentFor<HomeActivity>(findString(intent_board_id) to boardId).clearTop()
+                    }
+                    findString(intent_board_comment), findString(intent_board_comment_reply) -> {
+                        intentFor<HomeActivity>(
+                                findString(intent_board_id) to boardId,
+                                findString(intent_comment_id) to commentId
+                        ).clearTop()
                     }
                     findString(intent_feed_item_comment), findString(intent_feed_item_reply), findString(intent_feed_item_react) -> {
                         intentFor<HomeActivity>(
                                 findString(intent_board_id) to boardId,
-                                findString(intent_feed_item_id) to feedItemId
+                                findString(intent_feed_item_id) to feedItemId,
+                                findString(intent_comment_id) to commentId
                         ).clearTop()
                     }
                     else -> intentFor<HomeActivity>().clearTop()
@@ -57,7 +64,8 @@ fun JunaNotification.prepareDrawerNotification() {
     if (actor != PreferenceManager.CurrentUser.getDisplayName()) {
         when (action) {
             findString(intent_invite), findString(intent_board_comment), findString(intent_feed_item_comment),
-            findString(intent_feed_item_reply), findString(intent_feed_item_react), findString(intent_kick) -> {
+            findString(intent_feed_item_reply), findString(intent_feed_item_react), findString(intent_kick),
+            findString(intent_board_comment_reply) -> {
                 sendTextNotification(pendingIntent)
             }
             findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
@@ -89,11 +97,11 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
                     Glide.with(ZoneApplication.getContext())
                             .asBitmap()
                             .load(imageUrl)
-                            .submit(200, 200)
+                            .submit()
                             .get()
-            notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigPicture(bitmap))
             uiThread {
-                notificationManager.notify(0, notificationBuilder.build())
+                notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigLargeIcon(bitmap))
+                notificationManager.notify(1, notificationBuilder.build())
             }
         }
     } catch (e: Exception) {
