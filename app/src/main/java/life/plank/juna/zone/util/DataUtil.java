@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.support.v4.graphics.ColorUtils;
 import android.text.TextUtils;
@@ -91,6 +92,10 @@ public class DataUtil {
 
     public static String findString(@StringRes int stringRes, Object... formatArgs) {
         return ZoneApplication.getContext().getString(stringRes, formatArgs);
+    }
+
+    public static Integer findInt(@IntegerRes int integerRes) {
+        return ZoneApplication.getContext().getResources().getInteger(integerRes);
     }
 
     public static boolean isNullOrEmpty(String s) {
