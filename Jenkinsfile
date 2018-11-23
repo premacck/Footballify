@@ -77,12 +77,12 @@ node('docker') {
 			sh "./gradlew clean :app:assembleDebug"
 			  echo  '********************************************************************************'
 			//currentBuild.result = 'SUCCESS'
-			//updateJIRA('Build Success')
+			updateJIRA('BuildPass')
 
 		} catch (Exception err) {
 
 			//currentBuild.result = 'FAILURE'
-			//updateJIRA('Build Failure')
+			updateJIRA('BuildFail')
 		}	        
     }
 
@@ -141,13 +141,57 @@ node('docker') {
 	
 	def updateJIRA(buildStatus) {
 
-			def branchName = "${env.BRANCH_NAME}"
-			def jiraticket = branchName.find(/JD-\d+/)
-			echo "----JiraTicket: ${jiraticket}----" + buildStatus
-			stage 'Notify JIRA to transition to Code Complete on build Success'
-
-			step([$class: 'hudson.plugins.jira.JiraIssueUpdateBuilder',
-					jqlSearch: "issue = ${jiraticket}",
-					workflowActionName: buildStatus,
-							comment: "Build Success: BUILD URL is ${env.BUILD_URL}"])
+		// Get the JIRAticket from the changelog
+		
+		def publisher = LastChanges.getLastChangesPublisher "LAST_SUCCESSFUL_BUILD", "SIDE", "LINE", true, true, "", "", "", "", ""
+		publisher.publishLastChanges()
+		def changes = publisher.getLastChanges()
+		def jiralist = []
+		for (commit in changes.getCommits()) {
+			def commitInfo = commit.getCommitInfo()
+			def commitMessage = commitInfo.getCommitMessage()
+			jiralist.add((commitMessage =~ /[A-Z]*-\d+/)[0])
+					 
+		}
+		def jiratktlist = jiralist.unique()
+    
+		if (buildStatus == "BuildPass"){	
+			stage('Notify JIRA to transition on build Success'){
+				withEnv(['JIRA_SITE=JIRA']){			    
+					for (i=0;i <jiratktlist.size();i++) {				
+						def issue = jiraGetIssue idOrKey: jiratktlist[i]
+						def statusName = issue.data.fields.status.statusCategory.name.toString()
+					    if (statusName == "Building"){						
+							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is env.BUILD_URL"										
+							def transitionInput =
+							[
+								transition: [
+									id: '91'
+								]
+							]
+							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput		  
+						}
+					}
+				}
+			}	
+		}else if (buildStatus == "BuildFail"){
+			stage('Notify JIRA to transition on build Fail'){
+				withEnv(['JIRA_SITE=JIRA']){
+					for (i=0;i <jiratktlist.size();i++) {
+						def issue = jiraGetIssue idOrKey: jiratktlist[i]
+						def statusName = issue.data.fields.status.statusCategory.name.toString()
+					    if (statusName == "Building"){	
+							def transitionInput =
+							[
+								transition: [
+									id: '101'
+								]
+							]
+							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput
+						}
+					}
+				}
+			}
+		}
+	
 	}
