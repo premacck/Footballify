@@ -6,6 +6,7 @@
     <string name="intent_juna_notification">juna_notification</string>
     <string name="intent_zone_live_data">zone_live_data</string>
     <string name="intent_board_id">BOARD_ID</string>
+    <string name="intent_comment_id">COMMENT_ID</string>
     <string name="intent_comment_title">title</string>
     <string name="intent_content_type">contentType</string>
     <string name="intent_fixture_data">fixtureData</string>
@@ -38,6 +39,7 @@
     <string name="intent_feed_item_comment">feedItemComment</string>
     <string name="intent_feed_item_reply">feedItemReply</string>
     <string name="intent_board_comment">boardComment</string>
+    <string name="intent_board_comment_reply">boardCommentReply</string>
     <string name="intent_feed_item_react">feedItemReact</string>
     <string name="intent_comment_mention">commentMention</string>
     <string name="intent_reply_mention">replyMention</string>
