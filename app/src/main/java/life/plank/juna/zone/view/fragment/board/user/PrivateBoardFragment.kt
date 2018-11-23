@@ -22,15 +22,19 @@ import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.FeedItem
 import life.plank.juna.zone.data.model.Thumbnail
+import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
-import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_OWNER_POPUP
 import life.plank.juna.zone.util.AppConstants.PRIVATE_BOARD_USER_POPUP
 import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.customToast
+import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.util.facilis.doAfterDelay
 import life.plank.juna.zone.util.facilis.floatUp
+import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.CardTileFragment
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment
@@ -95,26 +99,24 @@ class PrivateBoardFragment : CardTileFragment() {
     }
 
     fun setDataReceivedFromPushNotification(intent: Intent) {
-        if (intent.hasExtra(getString(R.string.intent_content_type))) {
-            val title = intent.getStringExtra(getString(R.string.intent_comment_title))
-            val contentType = intent.getStringExtra(getString(R.string.intent_content_type))
-            val thumbnailHeight = intent.getIntExtra(getString(R.string.intent_thumbnail_height), 0)
-            val thumbnailWidth = intent.getIntExtra(getString(R.string.intent_thumbnail_width), 0)
-            val imageUrl = intent.getStringExtra(getString(R.string.intent_image_url))
+
+        if (intent.hasExtra(getString(R.string.intent_juna_notification))) {
+
+            val junaNotification = intent.getParcelableExtra<JunaNotification>(getString(R.string.intent_juna_notification))
+            val imageUrl = junaNotification.imageUrl
             val feed = FeedEntry()
             val feedItem = FeedItem()
 
             feed.feedItem = feedItem
-            feed.feedItem.contentType = contentType
-            if (contentType == AppConstants.ROOT_COMMENT) {
-                feed.feedItem.title = title
-            } else {
-                val thumbnail = Thumbnail()
-                thumbnail.imageWidth = thumbnailWidth
-                thumbnail.imageHeight = thumbnailHeight
-                thumbnail.imageUrl = imageUrl
-                feed.feedItem.thumbnail = thumbnail
-                feed.feedItem.url = imageUrl
+            feed.feedItem.contentType = junaNotification.action
+
+            when (junaNotification.action) {
+                getString(R.string.intent_image) -> {
+                    val thumbnail = Thumbnail()
+                    thumbnail.imageUrl = imageUrl!!
+                    feed.feedItem.thumbnail = thumbnail
+                    feed.feedItem.url = imageUrl
+                }
             }
             try {
                 if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
@@ -140,7 +142,7 @@ class PrivateBoardFragment : CardTileFragment() {
 
     override fun onResume() {
         super.onResume()
-        context?.registerReceiver(mMessageReceiver, IntentFilter(getString(R.string.intent_board)))
+        context?.registerReceiver(mMessageReceiver, IntentFilter(getString(R.string.intent_in_app_notification)))
     }
 
     override fun onPause() {
