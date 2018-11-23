@@ -21,18 +21,15 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.model.UserPreference
-import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.ZoneToolbarListener
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_FULL
-import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launch
 import life.plank.juna.zone.util.customview.ShimmerRelativeLayout
 import life.plank.juna.zone.util.facilis.doAfterDelay
-import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.activity.UserNotificationActivity
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -94,14 +91,6 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         feed_header.initListeners(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
-
-        feed_header.onDebouncingClick {
-            (activity as BaseCardActivity).showNotification(InAppNotification(
-                    findString(R.string.lorem_ipsum),
-                    findString(R.string.now),
-                    "https://egetal.com.au/assets/files/2016/12/gold-diamond-random-ring-katherine-bowman-instagram.jpg"
-            ))
-        }
     }
 
     override fun onResume() {
