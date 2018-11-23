@@ -22,6 +22,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
     private var parentComment: FeedItemComment? = null
     private var parentCommentPosition: Int = -1
     private var replyPosition: Int = -1
+    private var selectedReplyTextView: TextView? = null
 
     override fun onStart() {
         super.onStart()
@@ -35,6 +36,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
     }
 
     private fun resetReplyProperties() {
+        selectedReplyTextView?.text = getString(R.string.reply)
         isReply = false
         parentComment = null
         parentCommentPosition = -1
@@ -70,8 +72,9 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
 
     fun replyAction(replyTextView: TextView, commenterDisplayName: String, parentComment: FeedItemComment, parentCommentPosition: Int, replyPosition: Int = -1) {
         if (replyTextView.text == getString(R.string.reply)) {
+            selectedReplyTextView = replyTextView
             replyTextView.setText(R.string.cancel)
-            val mentionText = "[$commenterDisplayName] ".semiBold()
+            val mentionText = "@$commenterDisplayName ".semiBold()
             getCommentEditText().setText(mentionText)
             getCommentEditText().setSelection(mentionText.length)
             getCommentEditText().requestFocus()
@@ -81,6 +84,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
             this.parentCommentPosition = parentCommentPosition
             this.replyPosition = replyPosition + 1
         } else {
+            selectedReplyTextView = null
             replyTextView.setText(R.string.reply)
             getCommentEditText().text = null
             getCommentEditText().clearFocus()
