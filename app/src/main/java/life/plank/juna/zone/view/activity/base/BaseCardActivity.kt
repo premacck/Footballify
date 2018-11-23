@@ -34,7 +34,7 @@ abstract class BaseCardActivity : BaseActivity() {
         supportFragmentManager.pushFragment(getFragmentContainer(), fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
     }
 
-    fun showNotification(inAppNotification: InAppNotification) {
+    fun showInAppNotification(inAppNotification: InAppNotification) {
         val container = findViewById<ViewGroup>(getFragmentContainer())
         val notificationLayout = container.getIfPresent<InAppNotificationLayout>()
 
