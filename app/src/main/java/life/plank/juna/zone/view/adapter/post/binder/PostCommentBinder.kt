@@ -79,7 +79,7 @@ class PostCommentBinder(
             itemView.like_text_view.setText(if (itemView.like_text_view.text.toString() == findString(R.string.like)) R.string.unlike else R.string.like)
         }
         itemView.reply_text_view.onDebouncingClick {
-            commentContainerFragment.replyAction(itemView.reply_text_view, item.commenterDisplayName, item, adapterPosition)
+            commentContainerFragment.replyAction(itemView.reply_text_view, itemView.base_comment, item.commenterDisplayName, item, adapterPosition)
         }
         itemView.view_replies_text_view.onDebouncingClick {
             itemView.view_replies_text_view.setText(if (isItemExpanded) R.string.hide_replies else R.string.show_replies)

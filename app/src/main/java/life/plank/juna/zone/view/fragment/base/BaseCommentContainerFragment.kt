@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.fragment.base
 
 import android.util.Log
+import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import life.plank.juna.zone.R
@@ -22,6 +23,7 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
     private var parentComment: FeedItemComment? = null
     private var parentCommentPosition: Int = -1
     private var replyPosition: Int = -1
+    private var selectedItemView: View? = null
     private var selectedReplyTextView: TextView? = null
 
     override fun onStart() {
@@ -37,6 +39,8 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
 
     private fun resetReplyProperties() {
         selectedReplyTextView?.text = getString(R.string.reply)
+        selectedItemView?.background = null
+        selectedReplyTextView = null
         isReply = false
         parentComment = null
         parentCommentPosition = -1
@@ -70,9 +74,17 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
 
     abstract fun onReplySuccessful(responseReply: FeedItemComment, parentComment: FeedItemComment?, parentCommentPosition: Int, replyPosition: Int)
 
-    fun replyAction(replyTextView: TextView, commenterDisplayName: String, parentComment: FeedItemComment, parentCommentPosition: Int, replyPosition: Int = -1) {
+    fun replyAction(replyTextView: TextView, itemView: View, commenterDisplayName: String, parentComment: FeedItemComment, parentCommentPosition: Int, replyPosition: Int = -1) {
         if (replyTextView.text == getString(R.string.reply)) {
+//            Resetting old focused items, if any
+            selectedReplyTextView?.text = getString(R.string.reply)
+            selectedItemView?.background = null
+
+//            Setting focus on current item
             selectedReplyTextView = replyTextView
+            selectedItemView = itemView
+            selectedItemView?.background = resources.getDrawable(R.drawable.shimmer_rectangle, null)
+
             replyTextView.setText(R.string.cancel)
             val mentionText = "@$commenterDisplayName ".semiBold()
             getCommentEditText().setText(mentionText)
@@ -84,6 +96,8 @@ abstract class BaseCommentContainerFragment : BaseFragment() {
             this.parentCommentPosition = parentCommentPosition
             this.replyPosition = replyPosition + 1
         } else {
+            selectedReplyTextView = null
+            itemView.background = null
             selectedReplyTextView = null
             replyTextView.setText(R.string.reply)
             getCommentEditText().text = null

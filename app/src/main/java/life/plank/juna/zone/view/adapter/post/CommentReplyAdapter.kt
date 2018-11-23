@@ -47,7 +47,7 @@ class CommentReplyAdapter(
                     .into(profile_pic!!)
 
             reply_text_view.onDebouncingClick {
-                commentContainerFragment.replyAction(reply_text_view, replies[position].commenterDisplayName, parentComment, parentCommentPosition, position)
+                commentContainerFragment.replyAction(reply_text_view, holder.itemView, replies[position].commenterDisplayName, parentComment, parentCommentPosition, position)
             }
         }
     }
