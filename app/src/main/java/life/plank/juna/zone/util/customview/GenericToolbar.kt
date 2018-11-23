@@ -138,6 +138,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
 
     override fun setupWithViewPager(viewPager: ViewPager) {
         viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout))
+        viewPager.setCurrentItem(2, false)
         info_tiles_tab_layout?.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
     }
 

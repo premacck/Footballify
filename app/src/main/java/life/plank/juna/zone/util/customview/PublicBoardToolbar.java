@@ -442,6 +442,7 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
     @Override
     public void setupWithViewPager(ViewPager viewPager) {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout));
+        viewPager.setCurrentItem(4, false);
         infoTilesTabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(viewPager));
     }
 
