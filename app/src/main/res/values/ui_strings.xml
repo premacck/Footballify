@@ -223,5 +223,6 @@
     <string name="next_match_data_not_available">Next match data not available</string>
     <string name="dismiss">Dismiss</string>
     <string name="loading_polls">Loading Polls</string>
+    <string name="proceed">Proceed</string>
 
 </resources>
