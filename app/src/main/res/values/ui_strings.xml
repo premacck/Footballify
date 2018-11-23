@@ -224,5 +224,6 @@
     <string name="dismiss">Dismiss</string>
     <string name="loading_polls">Loading Polls</string>
     <string name="proceed">Proceed</string>
+    <string name="now">Now</string>
 
 </resources>

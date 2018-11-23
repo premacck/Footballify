@@ -2,7 +2,10 @@ package life.plank.juna.zone.view.activity.base
 
 import android.support.annotation.IdRes
 import android.util.Log
+import android.view.ViewGroup
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.model.notification.InAppNotification
+import life.plank.juna.zone.util.customview.InAppNotificationLayout
 import life.plank.juna.zone.util.facilis.*
 import life.plank.juna.zone.view.fragment.base.BaseDialogFragment
 import life.plank.juna.zone.view.fragment.base.BaseFragment
@@ -29,6 +32,21 @@ abstract class BaseCardActivity : BaseActivity() {
 
         if (isAddToBackStack) index++
         supportFragmentManager.pushFragment(getFragmentContainer(), fragment, fragment.javaClass.simpleName + index, index, isAddToBackStack)
+    }
+
+    fun showNotification(inAppNotification: InAppNotification) {
+        val container = findViewById<ViewGroup>(getFragmentContainer())
+        val notificationLayout = container.getIfPresent<InAppNotificationLayout>()
+
+        notificationLayout?.dismiss()?.then {
+            addNotificationView(container, inAppNotification)
+        } ?: addNotificationView(container, inAppNotification)
+    }
+
+    private fun addNotificationView(container: ViewGroup, inAppNotification: InAppNotification) {
+        val notificationLayout = InAppNotificationLayout(this)
+        container.addView(notificationLayout)
+        notificationLayout.load(inAppNotification)
     }
 
     fun popBackStack() {
