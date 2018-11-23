@@ -38,9 +38,14 @@ abstract class BaseCardActivity : BaseActivity() {
         val container = findViewById<ViewGroup>(getFragmentContainer())
         val notificationLayout = container.getIfPresent<InAppNotificationLayout>()
 
-        notificationLayout?.dismiss()?.then {
+        if (notificationLayout == null) {
             addNotificationView(container, inAppNotification)
-        } ?: addNotificationView(container, inAppNotification)
+            return
+        }
+        notificationLayout.dismiss()?.then {
+            container.removeView(notificationLayout)
+            addNotificationView(container, inAppNotification)
+        }
     }
 
     private fun addNotificationView(container: ViewGroup, inAppNotification: InAppNotification) {
