@@ -170,8 +170,8 @@ public interface RestApi {
                                                   @Header("Authorization") String authHeader);
 
     //working
-    @GET(ZONE_BACKEND_SUFFIX + "/users/handle")
-    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("handle") String displayName);
+    @GET(ZONE_BACKEND_SUFFIX + "/users/search")
+    Observable<Response<List<User>>> getSearchedUsers(@Header("Authorization") String authHeader, @Query("q") String displayName);
 
     //working
     @GET(ZONE_BACKEND_SUFFIX + "/boards/{boardId}/members")
