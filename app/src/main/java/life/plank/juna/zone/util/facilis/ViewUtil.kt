@@ -260,3 +260,16 @@ fun BottomSheetBehavior<*>.hideIfShown(): Boolean {
 fun TextView.setEmoji(emoji: Int) {
     text = StringBuilder().appendCodePoint(emoji).toString()
 }
+
+inline fun <reified T : View> ViewGroup.getIfPresent(): T? {
+    if (childCount <= 0) {
+        return null
+    }
+    for (i in 0..childCount) {
+        val child = getChildAt(i)
+        if (child is T) {
+            return child
+        }
+    }
+    return null
+}
