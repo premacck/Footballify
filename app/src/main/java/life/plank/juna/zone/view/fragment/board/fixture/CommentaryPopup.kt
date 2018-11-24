@@ -18,7 +18,6 @@ import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA
 import life.plank.juna.zone.util.DataUtil.*
-import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.view.adapter.CommentaryAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
@@ -53,7 +52,6 @@ class CommentaryPopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_commentary, container, false)
 
     override fun doOnStart() {
-        root_card.floatUp()
         initRecyclerView()
     }
 
@@ -66,8 +64,6 @@ class CommentaryPopup : BaseBlurPopup() {
         super.onPause()
         context!!.unregisterReceiver(mMessageReceiver)
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 
