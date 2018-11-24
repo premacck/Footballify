@@ -201,7 +201,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
             return ref.get()?.run {
                 when (position) {
                     0 -> MatchStatsFragment.newInstance(gson.toJson(matchDetails))
-                    1 -> LineupFragment.newInstance(gson.toJson(matchDetails))
+                    1 -> LineupFragment.newInstance(matchDetails)
                     2 -> MatchMediaFragment.newInstance(gson.toJson(matchDetails))
                     3 -> ForumFragment.newInstance(board.id)
                     4 -> BoardTilesFragment.newInstance(board.id, board.isActive)
