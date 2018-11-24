@@ -225,5 +225,8 @@
     <string name="loading_polls">Loading Polls</string>
     <string name="proceed">Proceed</string>
     <string name="now">Now</string>
+    <string name="search_for_users_or_handles">Search for users or handles</string>
+    <string name="invite_people_to_x_board">Invite people to %1$s board</string>
+    <string name="no_users_found">No users found</string>
 
 </resources>
