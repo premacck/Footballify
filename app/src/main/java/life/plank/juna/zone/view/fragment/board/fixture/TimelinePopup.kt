@@ -23,7 +23,6 @@ import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.DateUtil.getTimelineDateHeader
 import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.UIDisplayUtil.*
-import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.view.adapter.TimelineAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.doAsync
@@ -69,7 +68,6 @@ class TimelinePopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_timeline, container, false)
 
     override fun doOnStart() {
-        root_card.floatUp()
         initRecyclerView()
         mergeCommentaryAndMatchEvents()
     }
@@ -83,8 +81,6 @@ class TimelinePopup : BaseBlurPopup() {
         super.onPause()
         context?.unregisterReceiver(mMessageReceiver)
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 

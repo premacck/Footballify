@@ -18,7 +18,6 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.common.launchWithBoard
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
-import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity
@@ -61,7 +60,6 @@ class BoardPreviewPopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_board_preview, container, false)
 
     override fun doOnStart() {
-        root_card.floatUp()
         preview_toolbar.setTitle(board.name)
         board_parent_layout.setCardBackgroundColor(Color.parseColor(board.color))
         description.text = board.description
@@ -71,8 +69,6 @@ class BoardPreviewPopup : BaseBlurPopup() {
 
         create_board_button.onDebouncingClick { createBoard() }
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 

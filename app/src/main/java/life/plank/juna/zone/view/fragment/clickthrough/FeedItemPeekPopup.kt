@@ -7,7 +7,6 @@ import android.support.v7.widget.PagerSnapHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.emoji_bottom_sheet.*
 import kotlinx.android.synthetic.main.popup_feed_item_peek.*
@@ -72,6 +71,8 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         initRecyclerView()
     }
 
+    override fun enterAnimation(): Int = R.anim.zoom_in
+
     override fun dismissAnimation(): Int = R.anim.zoom_out
 
     override fun getBlurLayout(): BlurLayout? = blur_layout
@@ -98,7 +99,6 @@ class FeedItemPeekPopup : BaseBlurPopup() {
         boardFeedDetailAdapter?.update(feedEntries)
         PagerSnapHelper().attachToRecyclerView(board_tiles_full_recycler_view)
         board_tiles_full_recycler_view.scrollToPosition(position)
-        board_tiles_full_recycler_view.startAnimation(AnimationUtils.loadAnimation(context, R.anim.zoom_in))
     }
 
     override fun onBackPressed(): Boolean = emojiBottomSheetBehavior?.hideIfShown() ?: true
