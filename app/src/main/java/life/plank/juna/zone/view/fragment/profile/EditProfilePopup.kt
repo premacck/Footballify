@@ -22,7 +22,6 @@ import life.plank.juna.zone.util.PreferenceManager.Auth
 import life.plank.juna.zone.util.PreferenceManager.CurrentUser
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.UIDisplayUtil.getPathForGalleryImageView
-import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -55,7 +54,6 @@ class EditProfilePopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_edit_profile, container, false)
 
     override fun doOnStart() {
-        root_card.floatUp()
         Glide.with(this)
                 .load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .apply(RequestOptions.errorOf(R.drawable.ic_default_profile)
@@ -63,8 +61,6 @@ class EditProfilePopup : BaseBlurPopup() {
                 .into(profile_picture_image_view)
         setOnClickListeners()
     }
-
-    override fun dismissAnimation(): Int = R.anim.sink_down
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
 

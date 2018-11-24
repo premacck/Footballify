@@ -4,7 +4,6 @@ import dagger.Subcomponent;
 import life.plank.juna.zone.data.network.dagger.module.AdaptersModule;
 import life.plank.juna.zone.data.network.dagger.module.UiModule;
 import life.plank.juna.zone.data.network.dagger.scope.UiScope;
-import life.plank.juna.zone.view.activity.InviteToBoardActivity;
 import life.plank.juna.zone.view.activity.PostCommentActivity;
 import life.plank.juna.zone.view.activity.SelectZoneActivity;
 import life.plank.juna.zone.view.activity.SignInActivity;
@@ -40,6 +39,7 @@ import life.plank.juna.zone.view.fragment.football.LeagueStatsFragment;
 import life.plank.juna.zone.view.fragment.football.StandingsFragment;
 import life.plank.juna.zone.view.fragment.forum.ForumFragment;
 import life.plank.juna.zone.view.fragment.home.HomeFragment;
+import life.plank.juna.zone.view.fragment.onboarding.SearchUserPopup;
 import life.plank.juna.zone.view.fragment.onboarding.TeamSelectionFragment;
 import life.plank.juna.zone.view.fragment.post.PostDetailFragment;
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup;
@@ -80,8 +80,6 @@ public interface UiComponent {
     void inject(TimelinePopup timelinePopup);
 
     void inject(CommentaryPopup commentaryPopup);
-
-    void inject(InviteToBoardActivity inviteToBoardActivity);
 
     void inject(PrivateBoardInfoFragment privateBoardInfoFragment);
 
@@ -132,6 +130,8 @@ public interface UiComponent {
     void inject(DartBoardPopup dartBoardPopup);
 
     void inject(TeamSelectionFragment teamSelectionFragment);
+
+    void inject(SearchUserPopup searchUserPopup);
 
     @Subcomponent.Builder
     interface Builder {

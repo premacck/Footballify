@@ -12,11 +12,10 @@ import life.plank.juna.zone.data.model.User
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.customview.CustomPopup
-import life.plank.juna.zone.view.activity.InviteToBoardActivity
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.newTask
+import life.plank.juna.zone.view.fragment.onboarding.SearchUserPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 
 class BoardMembersViewAdapter(
@@ -51,12 +50,7 @@ class BoardMembersViewAdapter(
     }
 
     private fun showInviteToBoardPopup() {
-        fragment.activity?.run {
-            startActivity(intentFor<InviteToBoardActivity>(
-                    findString(R.string.intent_board_id) to boardId,
-                    findString(R.string.board_title) to (findString(R.string.invite_people_to) + " " + boardName + " " + findString(R.string.board))
-            ).newTask())
-        }
+        (fragment.activity as? BaseCardActivity)?.pushPopup(SearchUserPopup.newInstance(boardId, boardName))
     }
 
     private fun showOptionsPopup(holder: BoardMembersViewHolder, position: Int) {
