@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.board.match;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class BenchDataAdapter extends BaseRecyclerView.Adapter<BenchDataAdapter.
         matchEventList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
     public SubstitutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new SubstitutionViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bench_data, parent, false), this);
