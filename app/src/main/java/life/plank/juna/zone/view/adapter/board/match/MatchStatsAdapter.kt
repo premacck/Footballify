@@ -14,10 +14,7 @@ import life.plank.juna.zone.util.AppConstants.MatchTimeVal.*
 import life.plank.juna.zone.util.DataUtil.validateAndUpdateList
 import life.plank.juna.zone.util.DateUtil.getMatchTimeValue
 import life.plank.juna.zone.util.facilis.addDataManagerAndRegisterBinder
-import life.plank.juna.zone.view.adapter.board.match.binder.CommentaryBinder
-import life.plank.juna.zone.view.adapter.board.match.binder.MatchStatsBinder
-import life.plank.juna.zone.view.adapter.board.match.binder.StandingsBinder
-import life.plank.juna.zone.view.adapter.board.match.binder.TeamStatsBinder
+import life.plank.juna.zone.view.adapter.board.match.binder.*
 
 
 class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glide: RequestManager, private val listener: MatchStatsListener) : RecyclerAdapter() {
@@ -39,6 +36,7 @@ class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glid
     private fun preparePreMatchStats() {
         initAndAddCommentaryDataManager()
         initAndAddMatchStatsDataManager()
+        addScheduledMatchFooter()
     }
 
     private fun preparePostMatchStats() {
@@ -66,6 +64,10 @@ class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glid
     private fun initAndAddTeamStatsDataManager() {
         teamStatsDataManager = DataItemManager(this, TeamStatsBindingModel.from(matchDetails))
         addDataManagerAndRegisterBinder(teamStatsDataManager, TeamStatsBinder(glide))
+    }
+
+    private fun addScheduledMatchFooter() {
+        addDataManagerAndRegisterBinder(DataItemManager(this, ""), ScheduledMatchFooterBinder())
     }
     //endregion
 

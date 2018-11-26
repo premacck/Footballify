@@ -9,12 +9,12 @@ import com.ahamed.multiviewadapter.ItemViewHolder
 import kotlinx.android.synthetic.main.item_live_commentary_small.view.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.binder.CommentaryBindingModel
+import life.plank.juna.zone.interfaces.MatchStatsListener
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter
 import life.plank.juna.zone.view.adapter.board.match.CommentaryAdapter
 
-class CommentaryBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterListener) : ItemBinder<CommentaryBindingModel, CommentaryBinder.CommentaryViewHolder>() {
+class CommentaryBinder(private val listener: MatchStatsListener) : ItemBinder<CommentaryBindingModel, CommentaryBinder.CommentaryViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): CommentaryViewHolder = CommentaryViewHolder(inflater.inflate(R.layout.item_live_commentary_small, parent, false))
 

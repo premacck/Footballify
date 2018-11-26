@@ -12,11 +12,9 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.binder.StandingsBindingModel
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
-import life.plank.juna.zone.util.facilis.onDebouncingClick
-import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 
-class StandingsBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterListener) : ItemBinder<StandingsBindingModel, StandingsBinder.StandingsViewHolder>() {
+class StandingsBinder : ItemBinder<StandingsBindingModel, StandingsBinder.StandingsViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): StandingsViewHolder = StandingsViewHolder(inflater.inflate(R.layout.item_standings, parent, false))
 
@@ -35,13 +33,11 @@ class StandingsBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterLis
             no_standings.visibility = View.INVISIBLE
             standing_header_layout.visibility = View.VISIBLE
             standing_recycler_view.visibility = View.VISIBLE
-            val adapter = StandingTableAdapter(Glide.with(ZoneApplication.getContext()))
+            val adapter = StandingTableAdapter(Glide.with(ZoneApplication.getContext()), true)
             standing_recycler_view.adapter = adapter
             adapter.update(item.standingsList)
             layoutParams.height = getDp(140f).toInt()
             requestLayout()
-
-            see_all_standings.onDebouncingClick { listener.onSeeAllStandingsClick(this) }
         }
     }
 

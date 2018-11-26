@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -24,9 +25,10 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
+import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.view.adapter.board.match.LineupAdapter;
+import life.plank.juna.zone.view.adapter.board.match.LineupsAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseFragment;
 import retrofit2.Response;
 import rx.Subscriber;
@@ -55,7 +57,7 @@ public class LineupFragment extends BaseFragment {
     Gson gson;
 
     private MatchDetails matchDetails;
-    private LineupAdapter adapter;
+    private LineupsAdapter adapter;
 
     public LineupFragment() {
     }
@@ -87,11 +89,7 @@ public class LineupFragment extends BaseFragment {
     }
 
     private void prepareRecyclerView() {
-        if (adapter != null && boardInfoRecyclerView.getAdapter() != null) {
-            adapter = null;
-            boardInfoRecyclerView.setAdapter(null);
-        }
-        adapter = new LineupAdapter(matchDetails, Glide.with(this), getActivity());
+        adapter = new LineupsAdapter(matchDetails, Glide.with(this));
         boardInfoRecyclerView.setAdapter(adapter);
     }
 
@@ -105,7 +103,10 @@ public class LineupFragment extends BaseFragment {
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
         switch (zoneLiveData.getLiveDataType()) {
             case MATCH_EVENTS:
-                adapter.updateMatchEventsAndSubstitutions(zoneLiveData.getMatchEventList(gson), false);
+                List<MatchEvent> matchEventList = zoneLiveData.getMatchEventList(gson);
+                if (matchEventList != null) {
+                    adapter.updateMatchEventsAndSubstitutions(matchEventList, false);
+                }
                 break;
             case LINEUPS_DATA:
                 getLineupFormation(false);
@@ -143,11 +144,15 @@ public class LineupFragment extends BaseFragment {
                             case HttpURLConnection.HTTP_OK:
                                 Lineups lineups = response.body();
 //                                Updating the adapter only if live lineups fetch is successful
-                                if (lineups != null && adapter != null) {
-                                    matchDetails.setLineups(lineups);
-                                    adapter.setLineups();
-                                }
-                                updateUi(true);
+                                if (lineups != null) {
+                                    if (adapter != null) {
+                                        adapter.setLineups(lineups);
+                                    } else {
+                                        matchDetails.setLineups(lineups);
+                                        prepareRecyclerView();
+                                    }
+                                    updateUi(true);
+                                } else updateUi(false);
                                 break;
                             default:
                                 errorToast(R.string.line_ups_not_available, response);
