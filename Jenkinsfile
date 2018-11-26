@@ -172,7 +172,7 @@ node('docker') {
 							
 							//jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
-							def transitionInput = [transition: [name: 'Pass']]
+							def transitionInput = [transition: [id: '91']]
 							
 							println("TransitionInput: " + transitionInput)
 							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
