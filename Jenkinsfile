@@ -170,15 +170,13 @@ node('docker') {
 					    if ( statusName == "Building" ){
 						    println("statusName: " + statusName + "issueType: " + issueType)
 							
-							//jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
+							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
 							if ( issueType == "Task" ){
 								def transitionInput = [transition: [id: '91']]
-								println("TransitionInput: " + transitionInput)
 								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 							} else if ( issueType == "Bug" ) {
 								def transitionInput = [transition: [id: '61']]
-								println("TransitionInput: " + transitionInput)
 								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 							}
 															  
