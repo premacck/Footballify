@@ -23,7 +23,7 @@ import life.plank.juna.zone.util.DataUtil.*
 import life.plank.juna.zone.util.DateUtil.getTimelineDateHeader
 import life.plank.juna.zone.util.FixtureListUpdateTask
 import life.plank.juna.zone.util.UIDisplayUtil.*
-import life.plank.juna.zone.view.adapter.TimelineAdapter
+import life.plank.juna.zone.view.adapter.board.match.TimelineAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread

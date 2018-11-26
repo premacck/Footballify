@@ -23,8 +23,8 @@ import life.plank.juna.zone.util.AppConstants.BoomMenuPage.BOOM_MENU_SETTINGS_AN
 import life.plank.juna.zone.util.DataUtil.getStaticLeagues
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.adapter.FootballLeagueAdapter
-import life.plank.juna.zone.view.adapter.SearchViewAdapter
+import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
+import life.plank.juna.zone.view.adapter.league.FootballLeagueAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import org.jetbrains.anko.support.v4.find
 import java.net.HttpURLConnection

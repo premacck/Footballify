@@ -16,7 +16,7 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.util.PreferenceManager;
 import life.plank.juna.zone.util.customview.ZoneToolBar;
-import life.plank.juna.zone.view.adapter.NotificationAdapter;
+import life.plank.juna.zone.view.adapter.common.NotificationAdapter;
 
 
 public class UserNotificationActivity extends AppCompatActivity {

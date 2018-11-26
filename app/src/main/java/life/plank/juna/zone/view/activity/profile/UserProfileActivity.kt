@@ -19,9 +19,9 @@ import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
-import life.plank.juna.zone.view.adapter.GetCoinsAdapter
-import life.plank.juna.zone.view.adapter.LastTransactionsAdapter
-import life.plank.juna.zone.view.adapter.UserBoardsAdapter
+import life.plank.juna.zone.view.adapter.board.user.UserBoardsAdapter
+import life.plank.juna.zone.view.adapter.user.GetCoinsAdapter
+import life.plank.juna.zone.view.adapter.user.LastTransactionsAdapter
 import life.plank.juna.zone.view.fragment.profile.EditProfilePopup
 import org.jetbrains.anko.intentFor
 import java.net.HttpURLConnection

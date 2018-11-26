@@ -18,7 +18,7 @@ import life.plank.juna.zone.data.model.Commentary
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.util.AppConstants.COMMENTARY_DATA
 import life.plank.juna.zone.util.DataUtil.*
-import life.plank.juna.zone.view.adapter.CommentaryAdapter
+import life.plank.juna.zone.view.adapter.board.match.CommentaryAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
 

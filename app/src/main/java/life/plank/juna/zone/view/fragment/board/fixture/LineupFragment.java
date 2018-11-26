@@ -29,7 +29,7 @@ import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.view.adapter.board.info.LineupAdapter;
+import life.plank.juna.zone.view.adapter.board.match.LineupAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 import retrofit2.Response;
 import rx.Subscriber;

@@ -22,8 +22,8 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
-import life.plank.juna.zone.view.adapter.TeamStatsAdapter
+import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
+import life.plank.juna.zone.view.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseLeagueFragment
 import javax.inject.Inject
 

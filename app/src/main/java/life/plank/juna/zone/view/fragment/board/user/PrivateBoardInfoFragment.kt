@@ -16,7 +16,7 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.view.adapter.BoardMembersViewAdapter
+import life.plank.juna.zone.view.adapter.board.user.BoardMembersViewAdapter
 import life.plank.juna.zone.view.fragment.base.BaseFragment
 import java.net.HttpURLConnection
 import java.util.*
