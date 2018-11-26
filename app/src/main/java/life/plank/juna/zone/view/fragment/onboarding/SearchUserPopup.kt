@@ -126,4 +126,9 @@ class SearchUserPopup : SearchablePopup() {
     override fun searchAction(searchString: String) = getSearchedUsers(searchString)
 
     override fun searchDelay(): Long = 500
+
+    override fun setButtonState(state: Boolean, alpha: Float) {
+        invite_user.isEnabled = state!!
+        invite_user.alpha = alpha!!
+    }
 }
