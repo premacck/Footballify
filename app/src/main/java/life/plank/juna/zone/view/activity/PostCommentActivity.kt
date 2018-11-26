@@ -58,7 +58,7 @@ class PostCommentActivity : BaseCardActivity() {
         setupSwipeGesture(this, drag_area, root_card, null)
 
         comment_edit_text.requestFocus()
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
