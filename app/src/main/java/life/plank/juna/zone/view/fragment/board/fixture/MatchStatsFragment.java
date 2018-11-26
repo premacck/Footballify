@@ -35,7 +35,7 @@ import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.util.FixtureListUpdateTask;
 import life.plank.juna.zone.util.facilis.BaseCard;
-import life.plank.juna.zone.view.adapter.board.info.BoardInfoAdapter;
+import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 import rx.Subscriber;
 

@@ -16,8 +16,8 @@ import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.facilis.hideIfShown
-import life.plank.juna.zone.view.adapter.BoardFeedDetailAdapter
-import life.plank.juna.zone.view.adapter.EmojiAdapter
+import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter
+import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import java.util.*
 import javax.inject.Inject

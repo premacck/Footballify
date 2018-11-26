@@ -19,7 +19,7 @@ import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import life.plank.juna.zone.view.adapter.SearchViewAdapter
+import life.plank.juna.zone.view.adapter.common.SearchViewAdapter
 import life.plank.juna.zone.view.fragment.base.SearchablePopup
 import java.net.HttpURLConnection
 import javax.inject.Inject

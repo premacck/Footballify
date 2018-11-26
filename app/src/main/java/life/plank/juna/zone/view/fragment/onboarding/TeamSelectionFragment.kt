@@ -22,7 +22,7 @@ import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.view.activity.zone.ZoneActivity
-import life.plank.juna.zone.view.adapter.TeamSelectionAdapter
+import life.plank.juna.zone.view.adapter.onboarding.TeamSelectionAdapter
 import life.plank.juna.zone.view.fragment.base.SearchableCard
 import rx.Subscription
 import java.net.HttpURLConnection

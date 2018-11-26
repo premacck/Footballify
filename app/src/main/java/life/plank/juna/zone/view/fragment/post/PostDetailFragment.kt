@@ -43,7 +43,7 @@ import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.showFor
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
 import life.plank.juna.zone.util.toClickableWebLink
-import life.plank.juna.zone.view.adapter.EmojiAdapter
+import life.plank.juna.zone.view.adapter.common.EmojiAdapter
 import life.plank.juna.zone.view.adapter.post.PostCommentAdapter
 import life.plank.juna.zone.view.fragment.base.BaseCommentContainerFragment
 import retrofit2.Response
