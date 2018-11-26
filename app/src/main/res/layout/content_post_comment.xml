@@ -14,7 +14,7 @@
         android:animateLayoutChanges="true">
 
         <android.support.v7.widget.CardView
-            android:id="@+id/comment_root_card"
+            android:id="@+id/root_card"
             style="@style/CardView.Root"
             android:layout_height="450dp">
 
@@ -91,7 +91,7 @@
                 android:contentDescription="@string/thumbnail" />
 
             <View
-                android:id="@+id/comment_drag_area"
+                android:id="@+id/drag_area"
                 style="@style/DragArea"
                 android:layout_marginStart="60dp"
                 android:layout_marginEnd="60dp" />
@@ -100,10 +100,8 @@
 
     </RelativeLayout>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:id="@+id/main_fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".view.activity.PostCommentActivity" />
+        android:layout_height="match_parent" />
 </RelativeLayout>

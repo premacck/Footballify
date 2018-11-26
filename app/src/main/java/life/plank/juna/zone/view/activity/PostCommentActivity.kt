@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.inputmethod.EditorInfo
 import com.google.gson.JsonObject
@@ -15,8 +14,10 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.AppConstants.ROOT_COMMENT
 import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
+import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
 import life.plank.juna.zone.util.customToast
 import life.plank.juna.zone.util.errorToast
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import retrofit2.Response
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -26,7 +27,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
-class PostCommentActivity : AppCompatActivity() {
+class PostCommentActivity : BaseCardActivity() {
     internal var TAG = PostCommentActivity::class.java.simpleName
 
     @Inject
@@ -37,6 +38,16 @@ class PostCommentActivity : AppCompatActivity() {
     private var userId: String? = null
     private var date: String? = null
     internal lateinit var highlight: Drawable
+
+    companion object {
+
+        fun launch(packageContext: Activity, boardId: String) {
+            val intent = Intent(packageContext, PostCommentActivity::class.java)
+            intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId)
+            packageContext.startActivity(intent)
+            packageContext.overridePendingTransition(R.anim.float_up, R.anim.sink_up)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +60,7 @@ class PostCommentActivity : AppCompatActivity() {
         userId = PreferenceManager.CurrentUser.getUserId()
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
         highlight = resources.getDrawable(R.drawable.highlight)
-
+        setupSwipeGesture(this, drag_area, root_card, null)
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
@@ -71,28 +82,28 @@ class PostCommentActivity : AppCompatActivity() {
 
     private fun commentReflectOnPostSurface() {
 
-        blue.setOnClickListener { v ->
+        blue.setOnClickListener {
             blue.background = highlight
             purple.background = null
             green.background = null
             orange.background = null
             setColor(R.drawable.blue_gradient, getString(R.string.blue_color))
         }
-        purple.setOnClickListener { v ->
+        purple.setOnClickListener {
             blue.background = null
             purple.background = highlight
             green.background = null
             orange.background = null
             setColor(R.drawable.purple_gradient, getString(R.string.purple_color))
         }
-        green.setOnClickListener { v ->
+        green.setOnClickListener {
             blue.background = null
             purple.background = null
             green.background = highlight
             orange.background = null
             setColor(R.drawable.green_gradient, getString(R.string.green_color))
         }
-        orange.setOnClickListener { v ->
+        orange.setOnClickListener {
             blue.background = null
             purple.background = null
             green.background = null
@@ -135,12 +146,11 @@ class PostCommentActivity : AppCompatActivity() {
                 })
     }
 
-    companion object {
+    override fun getFragmentContainer(): Int = R.id.main_fragment_container
 
-        fun launch(packageContext: Activity, boardId: String) {
-            val intent = Intent(packageContext, PostCommentActivity::class.java)
-            intent.putExtra(packageContext.getString(R.string.intent_board_id), boardId)
-            packageContext.startActivity(intent)
-        }
+    override fun onBackPressed() {
+        super.onBackPressed()
+        overridePendingTransition(R.anim.float_down, R.anim.sink_down)
     }
+
 }
