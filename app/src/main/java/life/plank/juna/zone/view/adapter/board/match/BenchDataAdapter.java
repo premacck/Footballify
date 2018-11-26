@@ -65,19 +65,13 @@ public class BenchDataAdapter extends BaseRecyclerView.Adapter<BenchDataAdapter.
             MatchEvent event = ref.get().matchEventList.get(getAdapterPosition());
             if (event.isHomeTeam()) {
                 homePlayerName.setText(event.getPlayerName());
-//                homeRelatedPlayerName.setText(event.getRelatedPlayerName());
                 visitingPlayerName.setVisibility(View.GONE);
-//                visitingRelatedPlayerName.setVisibility(View.GONE);
             } else {
                 visitingPlayerName.setText(event.getPlayerName());
-//                visitingRelatedPlayerName.setText(event.getRelatedPlayerName());
                 homePlayerName.setVisibility(View.GONE);
-//                homeRelatedPlayerName.setVisibility(View.GONE);
             }
             homePlayerName.setCompoundDrawablesWithIntrinsicBounds(event.isHomeTeam() ? R.drawable.ic_substitute_in : 0, 0, 0, 0);
-//            homeRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(event.isHomeTeam() ? R.drawable.ic_substitute_out : 0, 0, 0, 0);
             visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.isHomeTeam() ? 0 : R.drawable.ic_substitute_in, 0);
-//            visitingRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.isHomeTeam() ? 0 : R.drawable.ic_substitute_out, 0);
             String timeText;
             timeText = (event.getExtraMinute() > 0 ?
                     event.getMinute() + " + " + event.getExtraMinute() :
