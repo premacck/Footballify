@@ -29,7 +29,9 @@ abstract class SearchablePopup : BaseBlurPopup() {
             onTextChanged { charSequence, _, _, _ ->
                 if (!charSequence.toString().isEmpty()) {
                     smartQuery { searchAction(charSequence.toString()) }
+                    setButtonState(true,1f)
                 } else {
+                    setButtonState(false,0.5f)
                     searchedList().clear()
                     searchAdapter()?.notifyDataSetChanged()
                 }
@@ -67,4 +69,6 @@ abstract class SearchablePopup : BaseBlurPopup() {
     abstract fun searchAction(searchString: String)
 
     abstract fun searchDelay(): Long
+
+    abstract fun setButtonState(state: Boolean, alpha: Float)
 }

@@ -92,6 +92,7 @@
             android:layout_gravity="center_horizontal|bottom"
             android:layout_marginBottom="20dp"
             android:alpha="0.5"
+            android:enabled="false"
             android:background="@drawable/blue_border_button"
             android:fontFamily="@font/raleway_semibold"
             android:text="@string/invite_string"
