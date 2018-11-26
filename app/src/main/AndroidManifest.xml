@@ -109,7 +109,8 @@
             android:name=".view.activity.PostCommentActivity"
             android:label="@string/title_activity_post_comment"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.activity.SelectZoneActivity"
             android:screenOrientation="portrait" />
