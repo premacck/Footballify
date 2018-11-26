@@ -89,6 +89,8 @@ public class LineupFragment extends BaseFragment {
     }
 
     private void prepareRecyclerView() {
+        if (!isAdded()) return;
+
         adapter = new LineupsAdapter(matchDetails, Glide.with(this));
         boardInfoRecyclerView.setAdapter(adapter);
     }
@@ -120,6 +122,8 @@ public class LineupFragment extends BaseFragment {
      * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
      */
     private void getLineupFormation(boolean isRefreshing) {
+        if (!isAdded()) return;
+
         restApi.getLineUpsData(matchDetails.getMatchId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -133,6 +137,8 @@ public class LineupFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        if (!isAdded()) return;
+
                         Log.e(TAG, "getLineupFormation(): ", e);
                         errorToast(R.string.line_ups_not_available, e);
                         updateUi(false);
@@ -140,6 +146,8 @@ public class LineupFragment extends BaseFragment {
 
                     @Override
                     public void onNext(Response<Lineups> response) {
+                        if (!isAdded()) return;
+
                         switch (response.code()) {
                             case HttpURLConnection.HTTP_OK:
                                 Lineups lineups = response.body();
