@@ -28,6 +28,7 @@ import life.plank.juna.zone.data.model.binder.StandingsBindingModel;
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.data.model.binder.TeamStatsBindingModel;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
+import life.plank.juna.zone.view.adapter.board.match.binder.BenchDataBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.CommentaryBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.LineupsBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.MatchHighlightsBinder;
@@ -35,7 +36,6 @@ import life.plank.juna.zone.view.adapter.board.match.binder.MatchStatsBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.ScheduledMatchFooterBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.ScrubberBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.StandingsBinder;
-import life.plank.juna.zone.view.adapter.board.match.binder.SubstitutionBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.TeamStatsBinder;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
@@ -100,7 +100,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
      * <br/>Commentary, from {@link CommentaryBinder}
      * <br/>Match stats, from {@link MatchStatsBinder}
      * <br/>Lineups, from {@link LineupsBinder}
-     * <br/>Substitutions, from {@link SubstitutionBinder}
+     * <br/>Substitutions, from {@link BenchDataBinder}
      */
     private void preparePastOrLiveMatchAdapter() {
         //TODO: Remove this check once BoardInfo usage is removed from MatchBoardFragment
@@ -186,7 +186,7 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private void initAndAddSubstitutionDataManager() {
         if (!isNullOrEmpty(matchDetails.getMatchEvents())) {
             substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.Companion.from(matchDetails));
-            addDataManagerAndRegisterBinder(substitutionDataManager, new SubstitutionBinder(picasso));
+            addDataManagerAndRegisterBinder(substitutionDataManager, new BenchDataBinder(picasso));
         }
     }
 
