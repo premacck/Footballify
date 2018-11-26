@@ -26,7 +26,7 @@ import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Zones;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
-import life.plank.juna.zone.view.adapter.SelectZoneAdapter;
+import life.plank.juna.zone.view.adapter.onboarding.SelectZoneAdapter;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;

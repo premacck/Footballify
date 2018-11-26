@@ -14,9 +14,9 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.util.AppConstants
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.view.adapter.PlayerStatsAdapter
-import life.plank.juna.zone.view.adapter.StandingTableAdapter
-import life.plank.juna.zone.view.adapter.TeamStatsAdapter
+import life.plank.juna.zone.view.adapter.league.PlayerStatsAdapter
+import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
+import life.plank.juna.zone.view.adapter.league.TeamStatsAdapter
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import javax.inject.Inject
 

@@ -21,8 +21,8 @@ import life.plank.juna.zone.util.facilis.onClick
 import life.plank.juna.zone.util.facilis.onTextChanged
 import life.plank.juna.zone.util.facilis.removeActivePopupsIfAny
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import life.plank.juna.zone.view.adapter.BoardColorThemeAdapter
-import life.plank.juna.zone.view.adapter.BoardIconAdapter
+import life.plank.juna.zone.view.adapter.board.creation.BoardColorThemeAdapter
+import life.plank.juna.zone.view.adapter.board.creation.BoardIconAdapter
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import javax.inject.Inject
