@@ -28,11 +28,7 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
-		println("Current Build Result: " + currentBuild.result)
-		if (currentBuild.result == "SUCCESS"){
-			updateJIRA('BuildPass')
-		} 
-	    executeTests()
+		executeTests()
         uploadToNexus()
 		
     }
@@ -80,13 +76,13 @@ node('docker') {
 			sh 'chmod +x ./gradlew' // DO NOT REMOVE this line, needed for ./gradlew tasks to work.
 			sh "./gradlew clean :app:assembleDebug"
 			  echo  '********************************************************************************'
-			currentBuild.result = 'SUCCESS'
-			//updateJIRA('BuildPass')
+			//currentBuild.result = 'SUCCESS'
+			updateJIRA('BuildPass')
 
 		} catch (Exception err) {
 
-			currentBuild.result = 'FAILURE'
-			//updateJIRA('BuildFail')
+			//currentBuild.result = 'FAILURE'
+			updateJIRA('BuildFail')
 		}	        
     }
 
@@ -192,24 +188,19 @@ node('docker') {
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
 						def issueType = issue.data.fields.issuetype.name
 						
-					    if (statusName == "BUILDING"){	
-							if (issueType == "Task"){
-								def transitionInput =
-								[
-									transition: [
-										id: '101'
-									]
-								]
+					    if ( statusName == "Building" ){
+						    println("statusName: " + statusName + "issueType: " + issueType)
+							
+							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
+							
+							if ( issueType == "Task" ){
+								def transitionInput = [transition: [id: '101']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+							} else if ( issueType == "Bug" ) {
+								def transitionInput = [transition: [id: '171']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 							}
-							else if (issueType == "Bug") {
-								def transitionInput =
-								[
-									transition: [
-										id: '171'
-									]
-								]
-							}
-							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput
+															  
 						}
 					}
 				}
