@@ -105,7 +105,6 @@ class PostDetailFragment : BaseCommentContainerFragment() {
         initBottomSheetRecyclerView()
 
         bindFeetContent()
-        getCommentsOnFeed(false)
 
         initListeners()
     }
