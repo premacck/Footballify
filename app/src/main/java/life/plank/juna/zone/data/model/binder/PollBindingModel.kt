@@ -15,7 +15,7 @@ data class PollBindingModel(
         var awayTeamLogo: String,
         var leagueLogo: Int,
         var matchStartTime: Date,
-        var background: String
+        var background: String? = null
 ) : Parcelable {
     companion object {
         fun from(poll: Poll, matchDetails: MatchDetails): PollBindingModel {
@@ -27,7 +27,7 @@ data class PollBindingModel(
                     matchDetails.awayTeam.logoLink,
                     matchDetails.league?.leagueLogo!!,
                     matchDetails.matchStartTime,
-                    matchDetails.venue?.imagePath!!
+                    matchDetails.venue?.imagePath
             )
         }
     }

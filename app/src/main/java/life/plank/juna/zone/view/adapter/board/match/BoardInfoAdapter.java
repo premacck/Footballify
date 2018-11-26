@@ -293,8 +293,6 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     }
 
     public interface BoardInfoAdapterListener {
-        void onScrubberClick(View fromView);
-
         void onCommentarySeeAllClick(View fromView);
 
         void onSeeAllStandingsClick(View fromView);

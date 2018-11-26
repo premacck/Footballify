@@ -61,6 +61,7 @@ import static life.plank.juna.zone.util.AppConstants.LIVE;
 import static life.plank.juna.zone.util.AppConstants.RED_CARD;
 import static life.plank.juna.zone.util.AppConstants.SECOND_HALF_ENDED_;
 import static life.plank.juna.zone.util.AppConstants.SUBSTITUTION;
+import static life.plank.juna.zone.util.AppConstants.WHISTLE_EVENT;
 import static life.plank.juna.zone.util.AppConstants.WIDE_DASH;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_CARD;
 import static life.plank.juna.zone.util.AppConstants.YELLOW_RED;
@@ -552,7 +553,9 @@ public class DataUtil {
             return null;
         }
 
-        matchEventList.add(new MatchEvent(new LiveTimeStatus(LIVE, 0, 0)));
+        if (!Objects.equals(matchEventList.get(matchEventList.size() - 1).getEventType(), WHISTLE_EVENT)) {
+            matchEventList.add(new MatchEvent(new LiveTimeStatus(LIVE, 0, 0)));
+        }
         for (Commentary commentary : commentaries) {
             if (commentary.getComment().startsWith(FIRST_HALF_ENDED_)) {
                 matchEventList.add(new MatchEvent(new LiveTimeStatus(HT, (int) commentary.getMinute(), (int) commentary.getExtraMinute())));

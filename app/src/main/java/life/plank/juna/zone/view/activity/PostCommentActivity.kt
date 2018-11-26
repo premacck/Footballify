@@ -54,7 +54,7 @@ class PostCommentActivity : BaseCardActivity() {
         date = SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().time)
         userId = PreferenceManager.CurrentUser.getUserId()
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
-        highlight = resources.getDrawable(R.drawable.highlight)
+        highlight = resources.getDrawable(R.drawable.highlight, null)
         setupSwipeGesture(this, drag_area, root_card, null)
 
         comment_edit_text.requestFocus()

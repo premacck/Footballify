@@ -1,17 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.github.mikephil.charting.charts.LineChart xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrubber"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="6dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginStart="5dp"
-    app:cardCornerRadius="8dp"
-    android:animateLayoutChanges="true">
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/scrubber"
-        android:layout_width="match_parent"
-        android:layout_height="70dp" />
-
-</android.support.v7.widget.CardView>
+    android:layout_height="70dp"
+    android:background="@color/white" />
