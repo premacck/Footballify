@@ -11,9 +11,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.notification.InAppNotification
+import life.plank.juna.zone.notification.getNotificationIntent
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.facilis.floatUp
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.facilis.then
 
@@ -43,6 +46,9 @@ class InAppNotificationLayout @JvmOverloads constructor(
                     .apply(RequestOptions.overrideOf(getDp(90f).toInt(), getDp(90f).toInt()))
                     .into(notification_image)
         }
+        in_app_notification_card.onDebouncingClick {
+            ZoneApplication.getContext().startActivity(inAppNotification.junaNotification?.getNotificationIntent())
+        }
         show()
     }
 
@@ -50,7 +56,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
         if (!isShowing) {
             floatUp()
             isShowing = true
-            animHandler.postDelayed(animRunnable, 3000)
+            animHandler.postDelayed(animRunnable, 4000)
         }
     }
 

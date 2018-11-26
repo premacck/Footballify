@@ -37,13 +37,13 @@ class JoinBoardActivity : AppCompatActivity() {
         setContentView(R.layout.activity_join_board)
         ZoneApplication.getApplication().uiComponent.inject(this)
 
-        if (!intent.hasExtra(getString(R.string.board_id_prefix))) {
+        if (!intent.hasExtra(getString(R.string.intent_board_id))) {
 //            Board ID must be passed as an intent to start this activity
             finish()
             return
         }
 
-        boardId = intent.getStringExtra(getString(R.string.board_id_prefix))
+        boardId = intent.getStringExtra(getString(R.string.intent_board_id))
         getBoardDetails(boardId)
     }
 
