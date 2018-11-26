@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.parcel.Parcelize
+import life.plank.juna.zone.data.model.notification.BaseInAppNotification
 
 @Parcelize
 data class ZoneLiveData(
@@ -12,7 +13,7 @@ data class ZoneLiveData(
         var boardTopic: String,
         var liveDataType: String,
         var data: String = ""
-) : Parcelable {
+) : Parcelable, BaseInAppNotification() {
 
     fun getScoreData(gson: Gson): LiveScoreData {
         return gson.fromJson<LiveScoreData>(data, LiveScoreData::class.java)

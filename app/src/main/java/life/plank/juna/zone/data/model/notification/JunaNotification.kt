@@ -13,4 +13,4 @@ data class JunaNotification(
         var commentMessage: String? = "",
         var imageUrl: String? = "",
         var commentId:String? = ""
-) : Parcelable
+) : Parcelable, BaseInAppNotification()
