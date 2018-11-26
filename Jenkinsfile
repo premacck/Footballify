@@ -161,7 +161,7 @@ node('docker') {
 					for (i=0;i <jiratktlist.size();i++) {				
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
-						def issueType = issue.data.fields.issuetype.nam
+						def issueType = issue.data.fields.issuetype.name
 						println(issueType)
 					    if (statusName == "Building"){						
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is env.BUILD_URL"										
