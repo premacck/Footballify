@@ -37,13 +37,15 @@ class MatchStatsAdapter(private val matchDetails: MatchDetails, private val glid
 
     //region Preparations (choosing what to display)
     private fun preparePreMatchStats() {
-        initAndAddCommentaryDataManager()
-        initAndAddMatchStatsDataManager()
+        initAndAddStandingsDataManager()
+        initAndAddTeamStatsDataManager()
+//        TODO: un-comment in next pull request
+//        addScheduledMatchFooter()
     }
 
     private fun preparePostMatchStats() {
-        initAndAddStandingsDataManager()
-        initAndAddTeamStatsDataManager()
+        initAndAddCommentaryDataManager()
+        initAndAddMatchStatsDataManager()
     }
     //endregion
 
