@@ -28,6 +28,10 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
+		println("Current Build Result: " + currentBuild.result)
+		if (currentBuild.result == "SUCCESS"){
+			updateJIRA('BuildPass')
+		} 
 	    executeTests()
         uploadToNexus()
 		
@@ -77,12 +81,12 @@ node('docker') {
 			sh "./gradlew clean :app:assembleDebug"
 			  echo  '********************************************************************************'
 			//currentBuild.result = 'SUCCESS'
-			updateJIRA('BuildPass')
+			//updateJIRA('BuildPass')
 
 		} catch (Exception err) {
 
 			//currentBuild.result = 'FAILURE'
-			updateJIRA('BuildFail')
+			//updateJIRA('BuildFail')
 		}	        
     }
 
