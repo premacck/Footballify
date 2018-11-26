@@ -160,7 +160,7 @@ node('docker') {
 				withEnv(['JIRA_SITE=JIRA']){			    
 					for (i=0;i <jiratktlist.size();i++) {				
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
-						def statusName = issue.data.fields.status.statusCategory.name.toString()
+						def statusName = issue.data.fields.status.name
 						def issueType = issue.data.fields.issuetype.name
 						
 					    if (statusName == "BUILDING"){						
