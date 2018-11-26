@@ -161,6 +161,8 @@ node('docker') {
 					for (i=0;i <jiratktlist.size();i++) {				
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
+						def issueType = issue.data.fields.Type
+						println(issueType)
 					    if (statusName == "Building"){						
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is env.BUILD_URL"										
 							def transitionInput =
@@ -181,7 +183,7 @@ node('docker') {
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
 						def issueType = issue.data.fields.Type
-						println(issueType)
+						
 					    if (statusName == "Building"){	
 							def transitionInput =
 							[
