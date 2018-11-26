@@ -7,7 +7,7 @@ import com.ahamed.multiviewadapter.DataItemManager;
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.ahamed.multiviewadapter.RecyclerAdapter;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +50,7 @@ import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
 
 public class BoardInfoAdapter extends RecyclerAdapter {
 
-    private Picasso picasso;
+    private RequestManager glide;
     private MatchDetails matchDetails;
     private Activity activity;
     private BoardInfoAdapterListener listener;
@@ -65,9 +65,9 @@ public class BoardInfoAdapter extends RecyclerAdapter {
     private DataItemManager<StandingsBindingModel> standingsDataManager;
     private DataItemManager<TeamStatsBindingModel> teamStatsDataManager;
 
-    public BoardInfoAdapter(MatchDetails matchDetails, Picasso picasso, Activity activity, BoardInfoAdapterListener listener, Boolean isLineupFragment) {
+    public BoardInfoAdapter(MatchDetails matchDetails, RequestManager glide, Activity activity, BoardInfoAdapterListener listener, Boolean isLineupFragment) {
         this.matchDetails = matchDetails;
-        this.picasso = picasso;
+        this.glide = glide;
         this.activity = activity;
         this.listener = listener;
         this.isLineupFragment = isLineupFragment;
@@ -175,29 +175,29 @@ public class BoardInfoAdapter extends RecyclerAdapter {
 
     private void initAndAddMatchStatsDataManager() {
         matchStatsDataManager = new DataItemManager<>(this, MatchStatsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(matchStatsDataManager, new MatchStatsBinder(picasso));
+        addDataManagerAndRegisterBinder(matchStatsDataManager, new MatchStatsBinder(glide));
     }
 
     private void initAndAddLineupsDataManager() {
         lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, picasso));
+        addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, glide));
     }
 
     private void initAndAddSubstitutionDataManager() {
         if (!isNullOrEmpty(matchDetails.getMatchEvents())) {
             substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.Companion.from(matchDetails));
-            addDataManagerAndRegisterBinder(substitutionDataManager, new BenchDataBinder(picasso));
+            addDataManagerAndRegisterBinder(substitutionDataManager, new BenchDataBinder(glide));
         }
     }
 
     private void initAndAddStandingsDataManager() {
         standingsDataManager = new DataItemManager<>(this, StandingsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(standingsDataManager, new StandingsBinder(picasso, listener));
+        addDataManagerAndRegisterBinder(standingsDataManager, new StandingsBinder(listener));
     }
 
     private void initAndAddTeamStatsDataManager() {
         teamStatsDataManager = new DataItemManager<>(this, TeamStatsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(teamStatsDataManager, new TeamStatsBinder(picasso));
+        addDataManagerAndRegisterBinder(teamStatsDataManager, new TeamStatsBinder(glide));
     }
 
     private void addScheduledMatchFooter() {

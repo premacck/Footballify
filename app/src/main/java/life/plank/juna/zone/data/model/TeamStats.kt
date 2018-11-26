@@ -7,11 +7,11 @@ import kotlinx.android.parcel.Parcelize
 data class TeamStats(
         var teamName: String?,
         var footballTeamLogo: String?,
-        var win: Long?,
-        var loss: Long?,
-        var goal: Long?,
-        var pass: Long?,
-        var shot: Long?,
-        var yellowCard: Long?,
-        var redCard: Long?
+        var win: Long = 0,
+        var loss: Long = 0,
+        var goal: Long = 0,
+        var pass: Long = 0,
+        var shot: Long = 0,
+        var yellowCard: Long = 0,
+        var redCard: Long = 0
 ) : Parcelable

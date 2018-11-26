@@ -12,8 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -74,8 +74,6 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
     RestApi restApi;
     @Inject
     Gson gson;
-    @Inject
-    Picasso picasso;
 
     private MatchDetails matchDetails;
     private BoardInfoAdapter adapter;
@@ -116,7 +114,7 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new BoardInfoAdapter(matchDetails, picasso, getActivity(), this, false);
+        adapter = new BoardInfoAdapter(matchDetails, Glide.with(this), getActivity(), this, false);
         boardInfoRecyclerView.setAdapter(adapter);
     }
 

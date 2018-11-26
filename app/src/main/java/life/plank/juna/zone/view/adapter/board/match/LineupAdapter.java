@@ -6,7 +6,7 @@ import com.ahamed.multiviewadapter.DataItemManager;
 import com.ahamed.multiviewadapter.ItemBinder;
 import com.ahamed.multiviewadapter.ItemViewHolder;
 import com.ahamed.multiviewadapter.RecyclerAdapter;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,16 +32,16 @@ import static life.plank.juna.zone.util.DateUtil.getMatchTimeValue;
 
 public class LineupAdapter extends RecyclerAdapter {
 
-    private Picasso picasso;
+    private RequestManager glide;
     private MatchDetails matchDetails;
     private Activity activity;
 
     private DataItemManager<LineupsBindingModel> lineupsDataManager;
     private DataItemManager<SubstitutionBindingModel> substitutionDataManager;
 
-    public LineupAdapter(MatchDetails matchDetails, Picasso picasso, Activity activity) {
+    public LineupAdapter(MatchDetails matchDetails, RequestManager glide, Activity activity) {
         this.matchDetails = matchDetails;
-        this.picasso = picasso;
+        this.glide = glide;
         this.activity = activity;
 
         @MatchTimeVal int matchTimeValue = getMatchTimeValue(matchDetails.getMatchStartTime(), true);
@@ -94,13 +94,13 @@ public class LineupAdapter extends RecyclerAdapter {
 
     private void initAndAddLineupsDataManager() {
         lineupsDataManager = new DataItemManager<>(this, LineupsBindingModel.Companion.from(matchDetails));
-        addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, picasso));
+        addDataManagerAndRegisterBinder(lineupsDataManager, new LineupsBinder(activity, glide));
     }
 
     private void initAndAddSubstitutionDataManager() {
         if (!isNullOrEmpty(matchDetails.getMatchEvents())) {
             substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.Companion.from(matchDetails));
-            addDataManagerAndRegisterBinder(substitutionDataManager, new BenchDataBinder(picasso));
+            addDataManagerAndRegisterBinder(substitutionDataManager, new BenchDataBinder(glide));
         }
     }
 
