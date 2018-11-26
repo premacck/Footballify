@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
@@ -35,42 +36,19 @@ fun JunaNotification.prepareDrawerNotification() {
     val pendingIntent = PendingIntent.getActivity(
             ZoneApplication.getContext(),
             0,
-            ZoneApplication.getContext().run {
-                when (action) {
-                    findString(intent_invite) -> {
-                        intentFor<JoinBoardActivity>(findString(intent_board_id) to boardId).clearTop()
-                    }
-                    findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
-                        intentFor<HomeActivity>(findString(intent_board_id) to boardId).clearTop()
-                    }
-                    findString(intent_board_comment), findString(intent_board_comment_reply) -> {
-                        intentFor<HomeActivity>(
-                                findString(intent_board_id) to boardId,
-                                findString(intent_comment_id) to commentId
-                        ).clearTop()
-                    }
-                    findString(intent_feed_item_comment), findString(intent_feed_item_reply), findString(intent_feed_item_react) -> {
-                        intentFor<HomeActivity>(
-                                findString(intent_board_id) to boardId,
-                                findString(intent_feed_item_id) to feedItemId,
-                                findString(intent_comment_id) to commentId
-                        ).clearTop()
-                    }
-                    else -> intentFor<HomeActivity>().clearTop()
-                }
-            },
+            getNotificationIntent(),
             FLAG_ONE_SHOT
     )
     if (actor != PreferenceManager.CurrentUser.getDisplayName()) {
         when (action) {
-            findString(intent_invite), findString(intent_board_comment), findString(intent_feed_item_comment),
-            findString(intent_feed_item_reply), findString(intent_feed_item_react), findString(intent_kick),
-            findString(intent_board_comment_reply) -> {
+            findString(intent_board_comment), findString(intent_feed_item_comment),
+            findString(intent_feed_item_reply), findString(intent_feed_item_react),
+            findString(intent_kick), findString(intent_board_comment_reply) ->
                 sendTextNotification(pendingIntent)
-            }
-            findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
-                sendNotification(pendingIntent)
-            }
+            findString(intent_invite) ->
+                sendNotification(pendingIntent, false)
+            findString(intent_image), findString(intent_video), findString(intent_board_react) ->
+                sendNotification(pendingIntent, true)
         }
     }
 }
@@ -88,7 +66,7 @@ fun JunaNotification.sendTextNotification(pendingIntent: PendingIntent) {
             .notify(0, getNotificationBuilder(buildNotificationMessage(), pendingIntent).build())
 }
 
-fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
+fun JunaNotification.sendNotification(pendingIntent: PendingIntent, isBigImage: Boolean) {
     val notificationManager = ZoneApplication.getContext().getNotificationManager().setNotificationChannel()
     val notificationBuilder = getNotificationBuilder(buildNotificationMessage(), pendingIntent)
     try {
@@ -100,7 +78,11 @@ fun JunaNotification.sendNotification(pendingIntent: PendingIntent) {
                             .submit()
                             .get()
             uiThread {
-                notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigLargeIcon(bitmap))
+                if (isBigImage) {
+                    notificationBuilder.setStyle(NotificationCompat.BigPictureStyle().bigLargeIcon(bitmap))
+                } else {
+                    notificationBuilder.setLargeIcon(bitmap)
+                }
                 notificationManager.notify(1, notificationBuilder.build())
             }
         }
@@ -132,6 +114,33 @@ fun NotificationManager.setNotificationChannel(): NotificationManager {
         createNotificationChannel(channel)
     }
     return this
+}
+
+fun JunaNotification.getNotificationIntent(): Intent {
+    return ZoneApplication.getContext().run {
+        when (action) {
+            findString(intent_invite) -> {
+                intentFor<JoinBoardActivity>(findString(intent_board_id) to boardId).clearTop()
+            }
+            findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
+                intentFor<HomeActivity>(findString(intent_board_id) to boardId).clearTop()
+            }
+            findString(intent_board_comment), findString(intent_board_comment_reply) -> {
+                intentFor<HomeActivity>(
+                        findString(intent_board_id) to boardId,
+                        findString(intent_comment_id) to commentId
+                ).clearTop()
+            }
+            findString(intent_feed_item_comment), findString(intent_feed_item_reply), findString(intent_feed_item_react) -> {
+                intentFor<HomeActivity>(
+                        findString(intent_board_id) to boardId,
+                        findString(intent_feed_item_id) to feedItemId,
+                        findString(intent_comment_id) to commentId
+                ).clearTop()
+            }
+            else -> intentFor<HomeActivity>().clearTop()
+        }
+    }
 }
 
 fun Context.getNotificationManager(): NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
