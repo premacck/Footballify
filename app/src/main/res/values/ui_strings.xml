@@ -229,5 +229,6 @@
     <string name="invite_people_to_x_board">Invite people to %1$s board</string>
     <string name="no_users_found">No users found</string>
     <string name="bench">Bench</string>
+    <string name="stay_tuned_for_the_lineups">Stay tuned for the lineups!\nThey\'ll be shown here when available</string>
 
 </resources>
