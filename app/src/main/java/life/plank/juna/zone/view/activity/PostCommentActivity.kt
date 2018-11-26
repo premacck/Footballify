@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.content_post_comment.*
 import life.plank.juna.zone.R
@@ -17,6 +16,7 @@ import life.plank.juna.zone.util.AppConstants.ROOT_COMMENT
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
+import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
@@ -58,7 +58,7 @@ class PostCommentActivity : BaseCardActivity() {
         setupSwipeGesture(this, drag_area, root_card, null)
 
         comment_edit_text.requestFocus()
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        showSoftKeyboard(comment_edit_text)
 
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
