@@ -14,7 +14,7 @@ import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter
 import life.plank.juna.zone.view.adapter.board.match.CommentaryAdapter
 
-class CommentaryBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterListener) : ItemBinder<CommentaryBindingModel, CommentaryBinder.CommentaryViewHolder>() {
+class CommentaryBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterListener?) : ItemBinder<CommentaryBindingModel, CommentaryBinder.CommentaryViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): CommentaryViewHolder = CommentaryViewHolder(inflater.inflate(R.layout.item_live_commentary_small, parent, false))
 
@@ -36,7 +36,7 @@ class CommentaryBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterLi
             no_data.visibility = View.GONE
             commentary_list.adapter = CommentaryAdapter(item.commentaryList)
 
-            see_all.onDebouncingClick { listener.onCommentarySeeAllClick(this) }
+            see_all.onDebouncingClick { listener?.onCommentarySeeAllClick(this) }
         }
     }
 
