@@ -174,12 +174,14 @@ node('docker') {
 							
 							if ( issueType == "Task" ){
 								def transitionInput = [transition: [id: '91']]
+								println("TransitionInput: " + transitionInput)
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 							} else if ( issueType == "Bug" ) {
 								def transitionInput = [transition: [id: '61']]
+								println("TransitionInput: " + transitionInput)
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 							}
-							
-							println("TransitionInput: " + transitionInput)
-							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+															  
 						}
 					}
 				}
