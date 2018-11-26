@@ -17,6 +17,15 @@ fun FragmentManager.findLastCard(): BaseCard? {
     return fragments[fragments.size - 1] as? BaseCard
 }
 
+inline fun <reified T : Any> FragmentManager.findFragment(): BaseFragment? {
+    for (fragment in fragments.reversed()) {
+        if (fragment is T && fragment is BaseFragment) {
+            return fragment
+        }
+    }
+    return null
+}
+
 fun FragmentManager.findLastFragment(): BaseFragment? {
     for (fragment in fragments.reversed()) {
         if (fragment is BaseFragment) {
