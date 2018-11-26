@@ -16,6 +16,7 @@ import life.plank.juna.zone.util.AppConstants.ROOT_COMMENT
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
+import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
@@ -55,6 +56,10 @@ class PostCommentActivity : BaseCardActivity() {
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
         highlight = resources.getDrawable(R.drawable.highlight)
         setupSwipeGesture(this, drag_area, root_card, null)
+
+        comment_edit_text.requestFocus()
+        showSoftKeyboard(comment_edit_text)
+
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
