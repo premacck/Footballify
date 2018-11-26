@@ -162,15 +162,26 @@ node('docker') {
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
 						def issueType = issue.data.fields.issuetype.name
-						println(issueType)
+						
 					    if (statusName == "Building"){						
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is env.BUILD_URL"										
-							def transitionInput =
-							[
-								transition: [
-									id: '91'
+							
+							if (issueType == "Task"){
+								def transitionInput =
+								[
+									transition: [
+										id: '91'
+									]
 								]
-							]
+							}
+							else if (issueType == "Bug") {
+								def transitionInput =
+								[
+									transition: [
+										id: '61'
+									]
+								]
+							}	
 							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput		  
 						}
 					}
@@ -182,15 +193,25 @@ node('docker') {
 					for (i=0;i <jiratktlist.size();i++) {
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
-						def issueType = issue.data.fields.Type
+						def issueType = issue.data.fields.issuetype.name
 						
 					    if (statusName == "Building"){	
-							def transitionInput =
-							[
-								transition: [
-									id: '101'
+							if (issueType == "Task"){
+								def transitionInput =
+								[
+									transition: [
+										id: '101'
+									]
 								]
-							]
+							}
+							else if (issueType == "Bug") {
+								def transitionInput =
+								[
+									transition: [
+										id: '171'
+									]
+								]
+							}
 							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput
 						}
 					}
