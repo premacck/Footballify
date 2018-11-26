@@ -11,6 +11,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.FeedEntry
 import life.plank.juna.zone.interfaces.FeedEntryContainer
 import life.plank.juna.zone.util.facilis.longClickWithVibrate
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import java.util.*
 
 class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, private val glide: RequestManager) : RecyclerView.Adapter<UserFeedAdapter.UserFeedViewHolder>() {
@@ -39,9 +40,9 @@ class UserFeedAdapter(private val feedEntryContainer: FeedEntryContainer, privat
         } else
             holder.itemView.profile_pic.setImageResource(R.drawable.ic_default_profile)
 
-        //holder.itemView.onDebouncingClick {
-        //feedEntryContainer.openFeedEntry(userFeed, "", position, "")
-        //}
+        holder.itemView.onDebouncingClick {
+            feedEntryContainer.openFeedEntry(userFeed, "", position, "")
+        }
 
         holder.itemView.longClickWithVibrate { feedEntryContainer.showFeedItemPeekPopup(position) }
     }

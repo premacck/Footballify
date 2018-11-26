@@ -34,6 +34,9 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
+    override fun openFeedEntry(feedEntryList: MutableList<FeedEntry>, boardId: String, position: Int, target: String) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     @Inject
     lateinit var restApi: RestApi
