@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import android.view.inputmethod.EditorInfo
 import kotlinx.android.synthetic.main.content_post_comment.*
 import life.plank.juna.zone.R
@@ -55,6 +56,10 @@ class PostCommentActivity : BaseCardActivity() {
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
         highlight = resources.getDrawable(R.drawable.highlight)
         setupSwipeGesture(this, drag_area, root_card, null)
+
+        comment_edit_text.requestFocus()
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+
         comment_edit_text.setOnEditorActionListener { _, actionId, _ ->
             return@setOnEditorActionListener when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
