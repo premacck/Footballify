@@ -243,7 +243,8 @@
                         layout="@layout/shimmer_comments"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/top_layout_separator" />
+                        android:layout_below="@+id/top_layout_separator"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/no_comment_text_view"
@@ -256,7 +257,8 @@
                         android:padding="20dp"
                         android:text="@string/be_the_first_to_comment_on_this_post"
                         android:textColor="@color/grey"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:visibility="gone" />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/post_comments_list"
@@ -282,7 +284,8 @@
         <RelativeLayout
             android:id="@+id/post_comment_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/comment_edit_text"
