@@ -172,7 +172,11 @@ node('docker') {
 							
 							//jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
-							def transitionInput = [transition: [id: '91']]
+							if ( issueType == "Task" ){
+								def transitionInput = [transition: [id: '91']]
+							} else if ( issueType == "Bug" ) {
+								def transitionInput = [transition: [id: '61']]
+							}
 							
 							println("TransitionInput: " + transitionInput)
 							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
