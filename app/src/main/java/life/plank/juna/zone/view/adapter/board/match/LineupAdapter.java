@@ -16,10 +16,10 @@ import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.binder.LineupsBindingModel;
 import life.plank.juna.zone.data.model.binder.SubstitutionBindingModel;
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal;
+import life.plank.juna.zone.view.adapter.board.match.binder.BenchDataBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.LineupsBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.ScheduledMatchFooterBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.StandingsBinder;
-import life.plank.juna.zone.view.adapter.board.match.binder.SubstitutionBinder;
 import life.plank.juna.zone.view.adapter.board.match.binder.TeamStatsBinder;
 
 import static life.plank.juna.zone.util.AppConstants.MatchTimeVal.MATCH_ABOUT_TO_START;
@@ -64,7 +64,7 @@ public class LineupAdapter extends RecyclerAdapter {
      * Method for populating components of a past or live match
      * <br/>Consists of:
      * <br/>Lineups, from {@link LineupsBinder}
-     * <br/>Substitutions, from {@link SubstitutionBinder}
+     * <br/>Substitutions, from {@link BenchDataBinder}
      */
     private void preparePastOrLiveMatchAdapter() {
         initAndAddLineupsDataManager();
@@ -100,7 +100,7 @@ public class LineupAdapter extends RecyclerAdapter {
     private void initAndAddSubstitutionDataManager() {
         if (!isNullOrEmpty(matchDetails.getMatchEvents())) {
             substitutionDataManager = new DataItemManager<>(this, SubstitutionBindingModel.Companion.from(matchDetails));
-            addDataManagerAndRegisterBinder(substitutionDataManager, new SubstitutionBinder(picasso));
+            addDataManagerAndRegisterBinder(substitutionDataManager, new BenchDataBinder(picasso));
         }
     }
 

@@ -1,5 +1,6 @@
 package life.plank.juna.zone.view.adapter.board.match;
 
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +16,18 @@ import life.plank.juna.zone.R;
 import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.util.BaseRecyclerView;
 
-public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAdapter.SubstitutionViewHolder> {
+public class BenchDataAdapter extends BaseRecyclerView.Adapter<BenchDataAdapter.SubstitutionViewHolder> {
 
     private List<MatchEvent> matchEventList;
 
-    public SubstitutionAdapter() {
+    public BenchDataAdapter() {
         matchEventList = new ArrayList<>();
     }
 
+    @NonNull
     @Override
     public SubstitutionViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new SubstitutionViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_substitutes, parent, false), this);
+        return new SubstitutionViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_bench_data, parent, false), this);
     }
 
     @Override
@@ -46,22 +48,17 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
 
     static class SubstitutionViewHolder extends BaseRecyclerView.ViewHolder {
 
+        private final WeakReference<BenchDataAdapter> ref;
         @BindView(R.id.minute)
         TextView minuteTextView;
         @BindView(R.id.home_player_name)
         TextView homePlayerName;
-        @BindView(R.id.home_related_player_name)
-        TextView homeRelatedPlayerName;
         @BindView(R.id.visiting_player_name)
         TextView visitingPlayerName;
-        @BindView(R.id.visiting_related_player_name)
-        TextView visitingRelatedPlayerName;
 
-        private final WeakReference<SubstitutionAdapter> ref;
-
-        SubstitutionViewHolder(View itemView, SubstitutionAdapter substitutionAdapter) {
+        SubstitutionViewHolder(View itemView, BenchDataAdapter benchDataAdapter) {
             super(itemView);
-            this.ref = new WeakReference<>(substitutionAdapter);
+            this.ref = new WeakReference<>(benchDataAdapter);
             ButterKnife.bind(this, itemView);
         }
 
@@ -70,19 +67,13 @@ public class SubstitutionAdapter extends BaseRecyclerView.Adapter<SubstitutionAd
             MatchEvent event = ref.get().matchEventList.get(getAdapterPosition());
             if (event.isHomeTeam()) {
                 homePlayerName.setText(event.getPlayerName());
-                homeRelatedPlayerName.setText(event.getRelatedPlayerName());
                 visitingPlayerName.setVisibility(View.GONE);
-                visitingRelatedPlayerName.setVisibility(View.GONE);
             } else {
                 visitingPlayerName.setText(event.getPlayerName());
-                visitingRelatedPlayerName.setText(event.getRelatedPlayerName());
                 homePlayerName.setVisibility(View.GONE);
-                homeRelatedPlayerName.setVisibility(View.GONE);
             }
             homePlayerName.setCompoundDrawablesWithIntrinsicBounds(event.isHomeTeam() ? R.drawable.ic_substitute_in : 0, 0, 0, 0);
-            homeRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(event.isHomeTeam() ? R.drawable.ic_substitute_out : 0, 0, 0, 0);
             visitingPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.isHomeTeam() ? 0 : R.drawable.ic_substitute_in, 0);
-            visitingRelatedPlayerName.setCompoundDrawablesWithIntrinsicBounds(0, 0, event.isHomeTeam() ? 0 : R.drawable.ic_substitute_out, 0);
             String timeText;
             timeText = (event.getExtraMinute() > 0 ?
                     event.getMinute() + " + " + event.getExtraMinute() :
