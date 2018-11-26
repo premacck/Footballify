@@ -47,16 +47,10 @@ public class PostCommentActivity extends AppCompatActivity {
     String TAG = PostCommentActivity.class.getSimpleName();
     @Inject
     Retrofit retrofit;
-    @Inject
-    Picasso picasso;
+
     @BindView(R.id.comment_edit_text)
     EditText commentEditText;
-    @BindView(R.id.profile_image_view)
-    ImageView profilePicture;
-    @BindView(R.id.comment_text_view)
-    TextView commentTextView;
-    @BindView(R.id.post_comment)
-    TextView postCommentTextView;
+
     @BindView(R.id.blue)
     ImageView blueBg;
     @BindView(R.id.purple)
@@ -93,13 +87,8 @@ public class PostCommentActivity extends AppCompatActivity {
         boardId = getIntent().getStringExtra(getString(R.string.intent_board_id));
         highlight = getResources().getDrawable(R.drawable.highlight);
 
-        picasso.load(PreferenceManager.CurrentUser.getProfilePicUrl())
-                .error(R.drawable.ic_default_profile)
-                .placeholder(R.drawable.ic_default_profile)
-                .into(profilePicture);
     }
 
-    @OnClick({R.id.post_comment})
     public void onViewClicked(View view) {
         if (commentEditText.getText().toString().isEmpty()) {
             customToast(R.string.please_enter_comment);
@@ -108,29 +97,7 @@ public class PostCommentActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        hideSoftKeyboard(postCommentTextView);
-        return true;
-    }
-
     public void commentReflectOnPostSurface() {
-        commentEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //Do nothing
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //Do nothing
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                commentTextView.setText(commentEditText.getText().toString());
-            }
-        });
 
         blueBg.setOnClickListener(v -> {
             blueBg.setBackground(highlight);
