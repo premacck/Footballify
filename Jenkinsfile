@@ -166,7 +166,7 @@ node('docker') {
 					    if ( statusName == "Building" ){
 						    println("statusName: " + statusName)
 							
-							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
+							//jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
 							if ( issueType == "Task" ){
 								def transitionInput = [ transition: [ id: '91' ] ]
