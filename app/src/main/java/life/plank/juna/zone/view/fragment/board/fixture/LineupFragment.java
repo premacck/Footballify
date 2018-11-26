@@ -10,8 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.net.HttpURLConnection;
 import java.util.List;
@@ -54,8 +54,6 @@ public class LineupFragment extends BaseBoardFragment {
     RestApi restApi;
     @Inject
     Gson gson;
-    @Inject
-    Picasso picasso;
 
     private MatchDetails matchDetails;
     private LineupAdapter adapter;
@@ -94,7 +92,7 @@ public class LineupFragment extends BaseBoardFragment {
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new LineupAdapter(matchDetails, picasso, getActivity());
+        adapter = new LineupAdapter(matchDetails, Glide.with(this), getActivity());
         boardInfoRecyclerView.setAdapter(adapter);
     }
 
