@@ -163,7 +163,8 @@ node('docker') {
 						def statusName = issue.data.fields.status.name
 						def issueType = issue.data.fields.issuetype.name
 						println("statusName" + statusName + "issueType" + issueType)
-					    if (statusName == "BUILDING"){						
+					    if ( statusName == "Building" ){
+							println("Status strings match")
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is env.BUILD_URL"										
 							
 							if (issueType == "Task"){
@@ -183,6 +184,8 @@ node('docker') {
 								]
 							}	
 							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput		  
+						} else {
+						  println("strings don't match")
 						}
 					}
 				}
