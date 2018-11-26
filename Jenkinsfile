@@ -162,12 +162,12 @@ node('docker') {
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.name.toString()
 						def issueType = issue.data.fields.issuetype.name.toString()
-						println("statusName" + statusName + "issueType" + issueType)
+						
 					    if ( statusName == "Building" ){
-							println("Status strings match")
+							
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
-							if (issueType == "Task"){
+							if ( issueType == "Task" ){
 								def transitionInput =
 								[
 									transition: [
@@ -175,17 +175,16 @@ node('docker') {
 									]
 								]
 							}
-							else if (issueType == "Bug") {
+							else if ( issueType == "Bug" ) {
 								def transitionInput =
 								[
 									transition: [
 										id: '61'
 									]
 								]
-							}	
-							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput		  
-						} else {
-						  println("strings don't match")
+							}
+							
+							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 						}
 					}
 				}
