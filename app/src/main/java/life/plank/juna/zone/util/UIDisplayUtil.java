@@ -551,6 +551,11 @@ public class UIDisplayUtil {
                 .show();
     }
 
+    public static int[] getScreenSize(@Nullable Activity activity) {
+        if (activity == null) return new int[] {0, 0};
+        return getScreenSize(activity.getWindowManager().getDefaultDisplay());
+    }
+
     public static int[] getScreenSize(Display display) {
         Point size = new Point();
         display.getSize(size);

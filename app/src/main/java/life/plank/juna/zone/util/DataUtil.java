@@ -605,6 +605,17 @@ public class DataUtil {
         }
     }
 
+    public static <T> void validateAndUpdateList(List<T> originalList, List<T> newList, boolean isError) {
+        if (!isError) {
+            if (originalList == null) {
+                originalList = new ArrayList<>();
+            }
+            if (!isNullOrEmpty(newList)) {
+                originalList.addAll(newList);
+            }
+        }
+    }
+
     static class MatchEventComparator implements Comparator<MatchEvent> {
         @Override
         public int compare(MatchEvent o1, MatchEvent o2) {

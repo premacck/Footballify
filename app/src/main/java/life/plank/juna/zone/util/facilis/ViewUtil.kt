@@ -19,6 +19,10 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
+import com.ahamed.multiviewadapter.DataItemManager
+import com.ahamed.multiviewadapter.ItemBinder
+import com.ahamed.multiviewadapter.ItemViewHolder
+import com.ahamed.multiviewadapter.RecyclerAdapter
 import io.alterac.blurkit.BlurLayout
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
@@ -272,4 +276,9 @@ inline fun <reified T : View> ViewGroup.getIfPresent(): T? {
         }
     }
     return null
+}
+
+fun <BM> RecyclerAdapter.addDataManagerAndRegisterBinder(dataManager: DataItemManager<BM>, binderToRegister: ItemBinder<BM, out ItemViewHolder<BM>>) {
+    addDataManager(dataManager)
+    registerBinder(binderToRegister)
 }
