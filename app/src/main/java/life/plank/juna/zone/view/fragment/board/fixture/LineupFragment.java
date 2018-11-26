@@ -9,28 +9,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.net.HttpURLConnection;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.Standings;
-import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
 import life.plank.juna.zone.view.adapter.board.match.LineupAdapter;
-import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
+import life.plank.juna.zone.view.fragment.base.BaseFragment;
 import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -41,7 +38,7 @@ import static life.plank.juna.zone.util.AppConstants.MATCH_EVENTS;
 import static life.plank.juna.zone.util.DataUtil.findString;
 import static life.plank.juna.zone.util.RestUtilKt.errorToast;
 
-public class LineupFragment extends BaseBoardFragment {
+public class LineupFragment extends BaseFragment {
 
     private static final String TAG = LineupFragment.class.getSimpleName();
 
@@ -49,6 +46,8 @@ public class LineupFragment extends BaseBoardFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.list_board_info)
     RecyclerView boardInfoRecyclerView;
+    @BindView(R.id.no_data)
+    TextView noDataTextView;
 
     @Inject
     RestApi restApi;
@@ -116,10 +115,6 @@ public class LineupFragment extends BaseBoardFragment {
         }
     }
 
-    @Override
-    public void handlePreMatchData(@org.jetbrains.annotations.Nullable Pair<? extends List<Standings>, ? extends List<TeamStats>> pair) {
-    }
-
     /**
      * Method for fetching lineups live. invoked by receiving the ZoneLiveData's lineup broadcast
      */
@@ -127,6 +122,7 @@ public class LineupFragment extends BaseBoardFragment {
         restApi.getLineUpsData(matchDetails.getMatchId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe(() -> noDataTextView.setVisibility(View.GONE))
                 .doOnTerminate(() -> {if (isRefreshing) swipeRefreshLayout.setRefreshing(false);})
                 .subscribe(new Subscriber<Response<Lineups>>() {
                     @Override
@@ -136,7 +132,9 @@ public class LineupFragment extends BaseBoardFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("", "onError: " + e);
+                        Log.e(TAG, "getLineupFormation(): ", e);
+                        errorToast(R.string.line_ups_not_available, e);
+                        updateUi(false);
                     }
 
                     @Override
@@ -149,13 +147,21 @@ public class LineupFragment extends BaseBoardFragment {
                                     matchDetails.setLineups(lineups);
                                     adapter.setLineups();
                                 }
+                                updateUi(true);
                                 break;
                             default:
                                 errorToast(R.string.line_ups_not_available, response);
+                                updateUi(false);
                                 break;
                         }
                     }
                 });
+    }
+
+    private void updateUi(boolean isDataAvailable) {
+        boardInfoRecyclerView.setVisibility(isDataAvailable ? View.VISIBLE : View.INVISIBLE);
+        noDataTextView.setVisibility(isDataAvailable ? View.INVISIBLE : View.VISIBLE);
+        noDataTextView.setText(R.string.stay_tuned_for_the_lineups);
     }
 
     @Override
