@@ -310,7 +310,7 @@ public class BoardTilesFragment extends BaseFragment implements AsymmetricRecycl
     @Override
     public void fireOnItemClick(int index, @NotNull View v) {
         if (!isNullOrEmpty(adapter.getBoardFeed()) && getParentFragment() instanceof FeedEntryContainer) {
-            ((FeedEntryContainer) getParentFragment()).openFeedEntry(adapter.getBoardFeed(), boardId, index, BOARD);
+         //   ((FeedEntryContainer) getParentFragment()).openFeedEntry(adapter.getBoardFeed(), boardId, index, BOARD);
         }
     }
 
