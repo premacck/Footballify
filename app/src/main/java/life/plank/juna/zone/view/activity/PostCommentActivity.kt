@@ -6,40 +6,34 @@ import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.inputmethod.EditorInfo
-import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.content_post_comment.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.R.string.blue_color
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.ROOT_COMMENT
-import life.plank.juna.zone.util.PreferenceManager
+import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
-import life.plank.juna.zone.util.customToast
-import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
-import retrofit2.Response
-import rx.Subscriber
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class PostCommentActivity : BaseCardActivity() {
-    internal var TAG = PostCommentActivity::class.java.simpleName
-
     @Inject
     lateinit var restApi: RestApi
 
-    private var commentBg = "blue_bg"
+    private var commentBg = findString(blue_color)
     private var boardId: String? = null
     private var userId: String? = null
     private var date: String? = null
     internal lateinit var highlight: Drawable
 
     companion object {
+        private val TAG = PostCommentActivity::class.java.simpleName
 
         fun launch(packageContext: Activity, boardId: String) {
             val intent = Intent(packageContext, PostCommentActivity::class.java)
@@ -119,29 +113,19 @@ class PostCommentActivity : BaseCardActivity() {
     }
 
     private fun postCommentOnBoardFeed(getEditTextValue: String, boardId: String?, userId: String?, dateCreated: String?) {
+        if (DataUtil.isNullOrEmpty(PreferenceManager.Auth.getToken()))
+            return
         restApi.postFeedItemOnBoard(getEditTextValue, boardId, ROOT_COMMENT, userId, dateCreated, getToken())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<Response<JsonObject>>() {
-                    override fun onCompleted() {
-                        Log.i(TAG, "onCompleted: ")
-                    }
-
-                    override fun onError(e: Throwable) {
-                        Log.e(TAG, "onError: $e")
-                        errorToast(R.string.something_went_wrong, e)
-                    }
-
-                    override fun onNext(jsonObjectResponse: Response<JsonObject>) {
-
-                        when (jsonObjectResponse.code()) {
-                            HttpURLConnection.HTTP_OK -> {
-                                customToast(R.string.comment_posted_successfully)
-                                finish()
-                            }
-                            HttpURLConnection.HTTP_BAD_REQUEST -> errorToast(R.string.enter_text_to_be_posted, jsonObjectResponse)
-                            else -> errorToast(R.string.could_not_post_comment, jsonObjectResponse)
+                .setObserverThreadsAndSmartSubscribe({
+                    Log.e(TAG, "Post Text: ", it)
+                }, {
+                    when (it.code()) {
+                        HttpURLConnection.HTTP_OK -> {
+                            customToast(R.string.comment_posted_successfully)
+                            finish()
                         }
+                        HttpURLConnection.HTTP_BAD_REQUEST -> errorToast(R.string.enter_text_to_be_posted, it)
+                        else -> errorToast(R.string.could_not_post_comment, it)
                     }
                 })
     }
