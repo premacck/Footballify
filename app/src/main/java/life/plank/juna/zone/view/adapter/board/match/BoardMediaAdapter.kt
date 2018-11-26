@@ -6,9 +6,9 @@ import com.ahamed.multiviewadapter.DataItemManager
 import com.ahamed.multiviewadapter.ItemBinder
 import com.ahamed.multiviewadapter.ItemViewHolder
 import com.ahamed.multiviewadapter.RecyclerAdapter
-import life.plank.juna.zone.data.model.*
+import life.plank.juna.zone.data.model.Highlights
+import life.plank.juna.zone.data.model.MatchDetails
 import life.plank.juna.zone.data.model.binder.HighlightsBindingModel
-import life.plank.juna.zone.data.model.binder.ScrubberBindingModel
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal
 import life.plank.juna.zone.util.AppConstants.MatchTimeVal.*
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
@@ -17,20 +17,15 @@ import life.plank.juna.zone.view.adapter.board.match.binder.MatchHighlightsBinde
 import life.plank.juna.zone.view.adapter.board.match.binder.ScrubberBinder
 import java.util.*
 
-class BoardMediaAdapter(private val matchDetails: MatchDetails, private val activity: Activity, private val listener: BoardMediaAdapterListener) : RecyclerAdapter() {
+class BoardMediaAdapter(private val matchDetails: MatchDetails, private val activity: Activity) : RecyclerAdapter() {
 
-    private var scrubberDataManager: DataItemManager<ScrubberBindingModel>? = null
     private var highlightsDataManager: DataItemManager<HighlightsBindingModel>? = null
 
     init {
-
-
         @MatchTimeVal val matchTimeValue = getMatchTimeValue(matchDetails.matchStartTime, true)
         when (matchTimeValue) {
             MATCH_PAST, MATCH_COMPLETED_TODAY, MATCH_LIVE -> preparePastOrLiveMatchAdapter()
-            MATCH_ABOUT_TO_START -> prepareRecentMatchAdapter()
-            MATCH_ABOUT_TO_START_BOARD_ACTIVE -> prepareRecentMatchAdapterWhenBoardIsActive()
-            MATCH_SCHEDULED_TODAY, MATCH_SCHEDULED_LATER -> {
+            MATCH_ABOUT_TO_START, MATCH_ABOUT_TO_START_BOARD_ACTIVE, MATCH_SCHEDULED_TODAY, MATCH_SCHEDULED_LATER -> {
             }
         }
     }
@@ -42,26 +37,7 @@ class BoardMediaAdapter(private val matchDetails: MatchDetails, private val acti
      * <br></br>Scrubber, from [MatchHighlightsBinder]
      */
     private fun preparePastOrLiveMatchAdapter() {
-        initAndAddScrubberDataManager()
         initAndAddHighlightsDataManager()
-    }
-
-    /**
-     * Method for populating components of a match which is about to start in an hour
-     * <br></br>Consists of:
-     * <br></br>Scrubber, from [ScrubberBinder]
-     */
-    private fun prepareRecentMatchAdapter() {
-        initAndAddScrubberDataManager()
-    }
-
-    private fun prepareRecentMatchAdapterWhenBoardIsActive() {
-        initAndAddScrubberDataManager()
-    }
-
-    private fun initAndAddScrubberDataManager() {
-        scrubberDataManager = DataItemManager(this, ScrubberBindingModel.from(matchDetails))
-        addDataManagerAndRegisterBinder(scrubberDataManager!!, ScrubberBinder(listener))
     }
 
     private fun initAndAddHighlightsDataManager() {
@@ -74,41 +50,12 @@ class BoardMediaAdapter(private val matchDetails: MatchDetails, private val acti
         registerBinder(binderToRegister)
     }
 
-    //region Methods to update live match data
-    fun setScrubber() {
-        if (scrubberDataManager != null) {
-            scrubberDataManager!!.setItem(ScrubberBindingModel.from(matchDetails))
-        }
-    }
-
-    fun updateScrubber(scrubberDataList: List<ScrubberData>, isError: Boolean) {
-        validateAndUpdateList(matchDetails.scrubberDataList as MutableList<ScrubberData>?, scrubberDataList, isError)
-        setScrubber()
-    }
-
-    fun updateMatchStats(matchStats: MatchStats?, message: Int) {
-        if (matchStats != null) {
-            matchDetails.matchStats = matchStats
-        }
-        matchDetails.matchStats!!.errorMessage = message
-    }
-
-    fun updateLineups(lineups: Lineups?) {
-        if (lineups != null) {
-            matchDetails.lineups = lineups
-        }
-        matchDetails.lineups!!.errorMessage = 0
-
-    }
-
     fun updateHighlights(highlightsList: List<Highlights>, isError: Boolean) {
         validateAndUpdateList(this.matchDetails.highlights as MutableList<Highlights>?, highlightsList, isError)
         if (highlightsDataManager != null) {
             highlightsDataManager!!.setItem(HighlightsBindingModel.from(matchDetails))
         }
     }
-
-    //endregion
 
     private fun <T> validateAndUpdateList(originalList: MutableList<T>?, newList: List<T>, isError: Boolean) {
         var originalList = originalList

@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -33,7 +32,6 @@ import life.plank.juna.zone.data.model.Lineups;
 import life.plank.juna.zone.data.model.LiveScoreData;
 import life.plank.juna.zone.data.model.LiveTimeStatus;
 import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
@@ -137,14 +135,6 @@ public class BoardInfoFragment extends BaseBoardFragment implements BoardInfoAda
         } else {
             getPostMatchData(isRefreshing);
         }
-    }
-
-    @Override
-    public void onScrubberClick(View view) {
-        if (getParentFragment() instanceof BaseCard && matchDetails != null && !isNullOrEmpty(matchDetails.getMatchEvents())) {
-            ((BaseCard) getParentFragment()).pushPopup(TimelinePopup.Companion.newInstance(matchDetails.getMatchId(), (ArrayList<MatchEvent>) matchDetails.getMatchEvents(), matchDetails));
-        } else
-            Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
 
     @Override

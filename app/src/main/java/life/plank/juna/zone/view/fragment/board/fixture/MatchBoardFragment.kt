@@ -6,11 +6,11 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
 import android.support.v4.view.PagerAdapter
-import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.mikephil.charting.charts.LineChart
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 import kotlinx.android.synthetic.main.fragment_match_board.*
@@ -28,6 +28,7 @@ import life.plank.juna.zone.util.UIDisplayUtil.findColor
 import life.plank.juna.zone.util.UIDisplayUtil.showBoardExpirationDialog
 import life.plank.juna.zone.util.execute
 import life.plank.juna.zone.util.facilis.doAfterDelay
+import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.fragment.base.BaseMatchFragment
 import life.plank.juna.zone.view.fragment.forum.ForumFragment
 import java.lang.ref.WeakReference
@@ -102,6 +103,11 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
             setupViewPagerWithFragments()
             followBoard()
+
+            (item_scrubber as? LineChart)?.run {
+                ScrubberLoader.prepare(this, false)
+                this.onDebouncingClick { pushPopup(TimelinePopup.newInstance(currentMatchId, matchDetails)) }
+            }
         } catch (e: Exception) {
             Log.e(TAG, e.message, e)
         }
@@ -166,7 +172,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
 
     override fun getBackgroundBlurLayout(): ViewGroup? = blur_layout
 
-    override fun getRootCard(): CardView? = root_card
+    override fun getRootCard(): ViewGroup? = root_card
 
     override fun getDragHandle(): View? = drag_area
 

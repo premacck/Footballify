@@ -23,7 +23,12 @@ abstract class BaseBlurPopup : BaseDialogFragment() {
             delay(10)
             runOnUiThread {
                 getBlurLayout()?.beginBlur()
-                getRootView()?.animate(enterAnimation())?.then { getRootView()?.visibility = View.VISIBLE }
+                getRootView()?.run {
+                    animate(enterAnimation()).then {
+                        visibility = View.VISIBLE
+                        isClickable = true
+                    }
+                }
                 setupSwipeDownToCloseGesture()
                 doOnStart()
             }

@@ -1,62 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<io.alterac.blurkit.BlurLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_blur_layout"
-    style="@style/BlurLayoutFullScreen"
+    style="@style/MatchParentSize"
     android:transitionName="@string/timeline_activity">
+
+    <io.alterac.blurkit.BlurLayout
+        android:id="@+id/root_blur_layout"
+        style="@style/BlurLayoutFullScreen" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/root_card"
-        android:layout_width="match_parent"
+        style="@style/CardView.Root"
         android:layout_height="wrap_content"
-        android:minHeight="100dp"
-        android:layout_gravity="center"
-        android:transitionName="@string/commentary"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true">
+        android:layout_gravity="center">
 
-        <RelativeLayout
+        <TextView
+            android:id="@+id/header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/drag_handle_dark"
+            android:fontFamily="@font/raleway_semibold"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:text="@string/commentary"
+            android:textColor="@color/grey"
+            android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/header"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/drag_handle_dark"
-                android:fontFamily="@font/raleway_semibold"
-                android:gravity="center_vertical"
-                android:padding="6dp"
-                android:text="@string/commentary"
-                android:textColor="@color/grey"
-                android:textSize="12sp" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/commentary_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header"
+            android:layout_marginTop="32dp"
+            android:clipToPadding="false"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_commentary" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/commentary_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/header"
-                android:clipToPadding="false"
-                android:paddingBottom="6dp"
-                android:paddingTop="6dp"
-                app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_commentary" />
-
-            <TextView
-                android:id="@+id/no_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="@font/rajdhani_regular"
-                android:text="@string/match_yet_to_start"
-                android:textAllCaps="true"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                android:visibility="gone" />
-
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:fontFamily="@font/rajdhani_regular"
+            android:text="@string/match_yet_to_start"
+            android:textAllCaps="true"
+            android:textColor="@color/grey"
+            android:textSize="16sp"
+            android:visibility="gone" />
 
         <View
             android:id="@+id/drag_area"
@@ -65,4 +59,4 @@
 
     </android.support.v7.widget.CardView>
 
-</io.alterac.blurkit.BlurLayout>
+</FrameLayout>

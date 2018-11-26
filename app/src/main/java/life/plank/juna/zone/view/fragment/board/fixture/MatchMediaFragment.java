@@ -8,12 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,27 +22,17 @@ import butterknife.ButterKnife;
 import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
-import life.plank.juna.zone.data.model.LiveScoreData;
-import life.plank.juna.zone.data.model.LiveTimeStatus;
+import life.plank.juna.zone.data.model.Highlights;
 import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.MatchEvent;
 import life.plank.juna.zone.data.model.Standings;
 import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.util.FixtureListUpdateTask;
-import life.plank.juna.zone.util.facilis.BaseCard;
 import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter;
 import life.plank.juna.zone.view.adapter.board.match.BoardMediaAdapter;
 import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
 
 import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
-import static life.plank.juna.zone.util.AppConstants.MATCH_STATS_DATA;
-import static life.plank.juna.zone.util.AppConstants.SCORE_DATA;
-import static life.plank.juna.zone.util.AppConstants.TIME_STATUS_DATA;
-import static life.plank.juna.zone.util.DataUtil.isNullOrEmpty;
-import static life.plank.juna.zone.util.DataUtil.updateScoreLocally;
-import static life.plank.juna.zone.util.DataUtil.updateTimeStatusLocally;
 import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
 
 public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
@@ -102,35 +90,8 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
             adapter = null;
             boardInfoRecyclerView.setAdapter(null);
         }
-        adapter = new BoardMediaAdapter(matchDetails, getActivity(), this::onScrubberClick);
+        adapter = new BoardMediaAdapter(matchDetails, Objects.requireNonNull(getActivity()));
         boardInfoRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getBoardInfoData(false);
-        swipeRefreshLayout.setOnRefreshListener(() -> getBoardInfoData(true));
-    }
-
-    private void getBoardInfoData(boolean isRefreshing) {
-        if (timeDiffOfMatchFromNow > 0) {
-            if (matchDetails.getLeague() != null) {
-                getPreMatchData(
-                        matchDetails.getLeague(),
-                        Objects.requireNonNull(matchDetails.getHomeTeam().getName()),
-                        Objects.requireNonNull(matchDetails.getAwayTeam().getName())
-                );
-            }
-        }
-    }
-
-    @Override
-    public void onScrubberClick(View view) {
-        if (getParentFragment() instanceof BaseCard && matchDetails != null && !isNullOrEmpty(matchDetails.getMatchEvents())) {
-            ((BaseCard) getParentFragment()).pushPopup(TimelinePopup.Companion.newInstance(matchDetails.getMatchId(), (ArrayList<MatchEvent>) matchDetails.getMatchEvents(), matchDetails));
-        } else
-            Toast.makeText(getContext(), R.string.no_match_events_yet, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -143,21 +104,11 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
         switch (zoneLiveData.getLiveDataType()) {
-            case SCORE_DATA:
-                LiveScoreData scoreData = zoneLiveData.getScoreData(gson);
-                updateScoreLocally(matchDetails, scoreData);
-                FixtureListUpdateTask.update(matchDetails, scoreData, null, true);
-                break;
-            case TIME_STATUS_DATA:
-                LiveTimeStatus timeStatus = zoneLiveData.getLiveTimeStatus(gson);
-                updateTimeStatusLocally(matchDetails, timeStatus);
-                FixtureListUpdateTask.update(matchDetails, null, timeStatus, false);
-                break;
-            case MATCH_STATS_DATA:
-                adapter.updateMatchStats(zoneLiveData.getMatchStats(gson), 0);
-                break;
             case HIGHLIGHTS_DATA:
-                adapter.updateHighlights(zoneLiveData.getHighlightsList(gson), false);
+                List<Highlights> highlightsList = zoneLiveData.getHighlightsList(gson);
+                if (highlightsList != null) {
+                    adapter.updateHighlights(highlightsList, false);
+                }
                 break;
             default:
                 break;

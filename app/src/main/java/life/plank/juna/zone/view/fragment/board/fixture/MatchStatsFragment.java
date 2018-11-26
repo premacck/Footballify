@@ -128,10 +128,6 @@ public class MatchStatsFragment extends BaseBoardFragment implements BoardInfoAd
         }
     }
 
-    @Override
-    public void onScrubberClick(View view) {
-    }
-
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onCommentarySeeAllClick(View fromView) {
