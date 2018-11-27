@@ -120,7 +120,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     private fun setupViewPagerWithFragments() {
         boardPagerAdapter = BoardPagerAdapter(childFragmentManager, this)
         board_view_pager.adapter = boardPagerAdapter
-        board_toolbar.setupWithViewPager(board_view_pager)
+        board_toolbar.setupWithViewPager(board_view_pager, 4)
     }
 
     override fun onInAppNotificationReceived(feedEntry: FeedEntry) {
@@ -213,6 +213,17 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
                     4 -> BoardTilesFragment.newInstance(board.id, board.isActive)
                     else -> null
                 }
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> findString(R.string.stats)
+                1 -> findString(R.string.lineups)
+                2 -> findString(R.string.media)
+                3 -> findString(R.string.forum)
+                4 -> findString(R.string.tiles)
+                else -> null
             }
         }
 

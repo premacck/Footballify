@@ -28,7 +28,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private var isFollowing: Boolean = false
 
-    internal var listener: PublicBoardHeaderListener? = null
+    private var listener: PublicBoardHeaderListener? = null
 
     init {
         init(context, attrs)
@@ -112,7 +112,7 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         comment_count?.text = commentsCount
     }
 
-    override fun setBoardTitle(boardTitle: String?) {
+    override fun setBoardTitle(boardTitle: String) {
         board_type_title?.text = boardTitle
     }
 
@@ -124,22 +124,13 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
         lock?.visibility = if (showLock) View.VISIBLE else View.GONE
     }
 
-    override fun isFollowing(): Boolean {
-        return isFollowing
-    }
-
-    override fun setFollowing(isFollowing: Boolean) {
-        this.isFollowing = isFollowing
-    }
-
-    override fun getInfoTilesTabLayout(): TabLayout? {
+    override fun getInfoTilesTabLayout(): TabLayout {
         return info_tiles_tab_layout
     }
 
-    override fun setupWithViewPager(viewPager: ViewPager) {
-        viewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(infoTilesTabLayout))
-        viewPager.setCurrentItem(2, false)
-        info_tiles_tab_layout?.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(viewPager))
+    override fun setupWithViewPager(viewPager: ViewPager, defaultSelection: Int) {
+        info_tiles_tab_layout.setupWithViewPager(viewPager)
+        viewPager.currentItem = defaultSelection
     }
 
     fun setupForPreview() {

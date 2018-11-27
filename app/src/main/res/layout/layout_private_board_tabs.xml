@@ -42,25 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        style="@style/InfoTilesTabLayout">
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/info" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/forum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/forum" />
-
-        <android.support.design.widget.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/tiles" />
-
-    </android.support.design.widget.TabLayout>
+        style="@style/InfoTilesTabLayout" />
 
 </RelativeLayout>
