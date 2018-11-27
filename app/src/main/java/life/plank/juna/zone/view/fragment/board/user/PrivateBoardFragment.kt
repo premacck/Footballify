@@ -124,6 +124,7 @@ class PrivateBoardFragment : CardTileFragment() {
         pagerAdapter = PrivateBoardPagerAdapter(childFragmentManager, board)
         private_board_view_pager.adapter = pagerAdapter
         val defaultTabSelection = getIntentActionFromActivity()?.run {
+            //            TODO: refine the following hardcoded integer constants
             when (this) {
                 getString(R.string.intent_post), getString(R.string.intent_react) -> 2
                 getString(R.string.intent_comment) -> 1

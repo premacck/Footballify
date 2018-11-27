@@ -122,6 +122,7 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         boardPagerAdapter = BoardPagerAdapter(childFragmentManager, this)
         board_view_pager.adapter = boardPagerAdapter
         val defaultTabSelection = getIntentActionFromActivity()?.run {
+            //            TODO: refine the following hardcoded integer constants
             when (this) {
                 getString(R.string.intent_post), getString(R.string.intent_react) -> 4
                 getString(R.string.intent_comment) -> 3
