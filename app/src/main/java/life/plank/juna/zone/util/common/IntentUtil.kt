@@ -14,10 +14,7 @@ import life.plank.juna.zone.util.facilis.removeBoardIfExists
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
-import org.jetbrains.anko.clearTop
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.uiThread
+import org.jetbrains.anko.*
 import retrofit2.Response
 import java.net.HttpURLConnection
 
@@ -28,7 +25,7 @@ inline fun <reified T : Activity> Activity.launch() = startActivity(intentFor<T>
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board) {
     if (this is T) {
-//        TODO: just launch board by adding getMatchDetails() API call
+        restApi()?.run { launchPrivateOrMatchBoard(this, board) } ?: toast("RestApi is null")
     } else {
         startActivity(intentFor<T>(findString(R.string.intent_board) to board).clearTop())
         finish()
@@ -40,7 +37,9 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board)
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) {
     if (this is T) {
-//        TODO: just launch board by API call
+        restApi()?.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())?.setObserverThreadsAndSmartSubscribe({}, {
+            it.body()?.run { if (restApi() != null) launchPrivateOrMatchBoard(restApi()!!, this) }
+        })
     } else {
         startActivity(intentFor<T>(findString(R.string.intent_board_id) to boardId).clearTop())
         finish()

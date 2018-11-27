@@ -10,6 +10,7 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.data.model.notification.JunaNotification
+import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.notification.handleInAppNotification
 import life.plank.juna.zone.util.customview.InAppNotificationLayout
 import life.plank.juna.zone.util.facilis.BaseNavigationHelperActivity
@@ -61,4 +62,6 @@ abstract class BaseCardActivity : BaseNavigationHelperActivity() {
         container.addView(notificationLayout)
         notificationLayout.load(inAppNotification, this)
     }
+
+    abstract fun restApi(): RestApi?
 }
