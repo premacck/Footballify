@@ -39,15 +39,13 @@ fun JunaNotification.prepareDrawerNotification() {
             getNotificationIntent(),
             FLAG_ONE_SHOT
     )
-    if (actor != PreferenceManager.CurrentUser.getDisplayName()) {
+    if (userDisplayName != PreferenceManager.CurrentUser.getDisplayName()) {
         when (action) {
-            findString(intent_board_comment), findString(intent_feed_item_comment),
-            findString(intent_feed_item_reply), findString(intent_feed_item_react),
-            findString(intent_kick), findString(intent_board_comment_reply) ->
+            findString(intent_comment), findString(intent_react), findString(intent_kick) ->
                 sendTextNotification(pendingIntent)
             findString(intent_invite) ->
                 sendNotification(pendingIntent, false)
-            findString(intent_image), findString(intent_video), findString(intent_board_react) ->
+            findString(intent_post) ->
                 sendNotification(pendingIntent, true)
         }
     }
@@ -122,16 +120,19 @@ fun JunaNotification.getNotificationIntent(): Intent {
             findString(intent_invite) -> {
                 intentFor<JoinBoardActivity>(findString(intent_board_id) to boardId).clearTop()
             }
-            findString(intent_image), findString(intent_video), findString(intent_board_react) -> {
-                intentFor<HomeActivity>(findString(intent_board_id) to boardId).clearTop()
+            findString(intent_post) -> {
+                intentFor<HomeActivity>(
+                        findString(intent_board_id) to boardId,
+                        findString(intent_feed_item_id) to feedItemId
+                ).clearTop()
             }
-            findString(intent_board_comment), findString(intent_board_comment_reply) -> {
+            findString(intent_comment) -> {
                 intentFor<HomeActivity>(
                         findString(intent_board_id) to boardId,
                         findString(intent_comment_id) to commentId
                 ).clearTop()
             }
-            findString(intent_feed_item_comment), findString(intent_feed_item_reply), findString(intent_feed_item_react) -> {
+            findString(intent_react) -> {
                 intentFor<HomeActivity>(
                         findString(intent_board_id) to boardId,
                         findString(intent_feed_item_id) to feedItemId,

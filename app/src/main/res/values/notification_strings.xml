@@ -3,6 +3,7 @@
     <string name="invited_you_to_board_x">invited you to join %1$s board</string>
     <string name="posted_image_on_board_x">posted an image on %1$s board</string>
     <string name="posted_video_on_board_x">posted a video on %1$s board</string>
+    <string name="posted_audio_on_board_x">posted audio on %1$s board</string>
     <string name="reacted_on_board_x">reacted on %1$s board</string>
     <string name="commented_on_board_x">commented on %1$s board</string>
     <string name="commented_on_your_post">commented on your post</string>
