@@ -18,7 +18,6 @@ import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
 import life.plank.juna.zone.view.activity.zone.ZoneActivity;
 import life.plank.juna.zone.view.adapter.common.BoardFeedDetailAdapter;
-import life.plank.juna.zone.view.fragment.board.fixture.BoardInfoFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardMembersFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.BoardTilesFragment;
 import life.plank.juna.zone.view.fragment.board.fixture.CommentaryPopup;
@@ -74,8 +73,6 @@ public interface UiComponent {
     void inject(LeagueInfoDetailPopup leagueInfoDetailPopup);
 
     void inject(BoardTilesFragment boardTilesFragment);
-
-    void inject(BoardInfoFragment boardInfoFragment);
 
     void inject(TimelinePopup timelinePopup);
 

@@ -16,7 +16,7 @@ import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter
 import life.plank.juna.zone.view.adapter.league.StandingTableAdapter
 
-class StandingsBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterListener) : ItemBinder<StandingsBindingModel, StandingsBinder.StandingsViewHolder>() {
+class StandingsBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterListener?) : ItemBinder<StandingsBindingModel, StandingsBinder.StandingsViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): StandingsViewHolder = StandingsViewHolder(inflater.inflate(R.layout.item_standings, parent, false))
 
@@ -41,7 +41,7 @@ class StandingsBinder(private val listener: BoardInfoAdapter.BoardInfoAdapterLis
             layoutParams.height = getDp(140f).toInt()
             requestLayout()
 
-            see_all_standings.onDebouncingClick { listener.onSeeAllStandingsClick(this) }
+            see_all_standings.onDebouncingClick { listener?.onSeeAllStandingsClick(this) }
         }
     }
 
