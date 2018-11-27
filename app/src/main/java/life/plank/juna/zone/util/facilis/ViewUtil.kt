@@ -74,10 +74,18 @@ fun ObjectAnimator.prepare(): ObjectAnimator {
 }
 
 fun View.setSwipeDownListener(activity: Activity, rootView: View, backgroundLayout: ViewGroup? = null) {
-    this.setOnTouchListener(object : SwipeDownToDismissListener(activity, this@setSwipeDownListener, rootView, backgroundLayout) {
-        override fun onSwipeDown() {
-            activity.onBackPressed()
-        }
+    onSwipeDown(activity, rootView, backgroundLayout, { activity.onBackPressed() })
+}
+
+fun View.onSwipeDown(activity: Activity, rootView: View? = null, backgroundLayout: ViewGroup? = null, swipeDownAction: () -> Unit, singleTapAction: () -> Boolean = { false }) {
+    setOnTouchListener(object : SwipeDownToDismissListener(
+            activity,
+            this@onSwipeDown,
+            rootView ?: this@onSwipeDown,
+            backgroundLayout
+    ) {
+        override fun onSwipeDown() = swipeDownAction()
+        override fun onSingleTap(): Boolean = singleTapAction()
     })
 }
 

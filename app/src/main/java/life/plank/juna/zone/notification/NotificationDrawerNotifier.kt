@@ -18,7 +18,6 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.view.activity.board.JoinBoardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import org.jetbrains.anko.clearTop
@@ -39,15 +38,13 @@ fun JunaNotification.prepareDrawerNotification() {
             getNotificationIntent(),
             FLAG_ONE_SHOT
     )
-    if (userDisplayName != PreferenceManager.CurrentUser.getDisplayName()) {
-        when (action) {
-            findString(intent_comment), findString(intent_react), findString(intent_kick) ->
-                sendTextNotification(pendingIntent)
-            findString(intent_invite) ->
-                sendNotification(pendingIntent, false)
-            findString(intent_post) ->
-                sendNotification(pendingIntent, true)
-        }
+    when (action) {
+        findString(intent_comment), findString(intent_react), findString(intent_kick) ->
+            sendTextNotification(pendingIntent)
+        findString(intent_invite) ->
+            sendNotification(pendingIntent, false)
+        findString(intent_post) ->
+            sendNotification(pendingIntent, true)
     }
 }
 
