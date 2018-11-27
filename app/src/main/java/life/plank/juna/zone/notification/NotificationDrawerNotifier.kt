@@ -30,7 +30,7 @@ fun JunaNotification.prepareDrawerNotification() {
     val pendingIntent = PendingIntent.getActivity(
             ZoneApplication.getContext(),
             0,
-            getNotificationIntent(),
+            getSocialNotificationIntent(),
             FLAG_ONE_SHOT
     )
     when (action) {
