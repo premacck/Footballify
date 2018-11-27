@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import io.alterac.blurkit.BlurLayout
 import kotlinx.android.synthetic.main.popup_board_preview.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.Board
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
@@ -33,19 +34,13 @@ class JoinBoardPopup : BaseBlurPopup() {
 
     companion object {
         private val TAG = JoinBoardPopup::class.java.simpleName
-        fun newInstance(action: String, boardId: String) = JoinBoardPopup().apply {
-            arguments = Bundle().apply {
-                putString(findString(R.string.intent_action), action)
-                putString(findString(R.string.intent_board_id), boardId)
-            }
-        }
+        fun newInstance(boardId: String) = JoinBoardPopup().apply { arguments = Bundle().apply { putString(findString(R.string.intent_board_id), boardId) } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.run {
-            boardId = getString(getString(R.string.intent_board_id))!!
-        }
+        ZoneApplication.getApplication().uiComponent.inject(this)
+        arguments?.run { boardId = getString(getString(R.string.intent_board_id))!! }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_board_preview, container, false)
