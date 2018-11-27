@@ -149,7 +149,7 @@ node('docker') {
 	             <p>*********Released**********</p>
 				 <p>Published to play store</p>
                  <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-        to: "praneeth@plank.life,sangeeta@plank.life,dhamini@plank.life,arfaa@plank.life,prem@plank.life,samveg@plank.life,gowtham@plank.life,surya@plank.life,sajad@plank.life,rajguru@plank.life,deepak@plank.life"
+        to: "developers@plank.life"
                   )
     }
 	
