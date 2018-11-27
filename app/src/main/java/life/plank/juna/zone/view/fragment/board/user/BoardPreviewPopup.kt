@@ -60,6 +60,9 @@ class BoardPreviewPopup : BaseBlurPopup() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.popup_board_preview, container, false)
 
     override fun doOnStart() {
+        preview_title.setText(R.string.preview_your_board)
+        create_board_button.visibility = View.VISIBLE
+        board_invite_action_button_layout.visibility = View.GONE
         preview_toolbar.setTitle(board.name)
         board_parent_layout.setCardBackgroundColor(Color.parseColor(board.color))
         description.text = board.description
@@ -103,6 +106,5 @@ class BoardPreviewPopup : BaseBlurPopup() {
 
     private fun navigateToBoard(boardId: String?) {
         activity?.launchWithBoard<UserProfileActivity>(boardId!!)
-        activity?.finish()
     }
 }

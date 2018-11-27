@@ -12,7 +12,6 @@ import life.plank.juna.zone.view.activity.SplashScreenActivity;
 import life.plank.juna.zone.view.activity.TokenActivity;
 import life.plank.juna.zone.view.activity.UserNotificationActivity;
 import life.plank.juna.zone.view.activity.board.CreateBoardActivity;
-import life.plank.juna.zone.view.activity.board.JoinBoardActivity;
 import life.plank.juna.zone.view.activity.camera.UploadActivity;
 import life.plank.juna.zone.view.activity.home.HomeActivity;
 import life.plank.juna.zone.view.activity.profile.UserProfileActivity;
@@ -29,6 +28,7 @@ import life.plank.juna.zone.view.fragment.board.fixture.TimelinePopup;
 import life.plank.juna.zone.view.fragment.board.fixture.extra.DartBoardPopup;
 import life.plank.juna.zone.view.fragment.board.fixture.extra.KeyBoardPopup;
 import life.plank.juna.zone.view.fragment.board.user.BoardPreviewPopup;
+import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment;
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardInfoFragment;
 import life.plank.juna.zone.view.fragment.clickthrough.FeedItemPeekPopup;
@@ -84,7 +84,7 @@ public interface UiComponent {
 
     void inject(EditProfilePopup editProfilePopup);
 
-    void inject(JoinBoardActivity joinBoardActivity);
+    void inject(JoinBoardPopup joinBoardPopup);
 
     void inject(SelectZoneActivity selectZoneActivity);
 

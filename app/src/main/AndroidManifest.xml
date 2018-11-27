@@ -127,9 +127,6 @@
         <activity
             android:name=".view.activity.profile.UserProfileActivity"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".view.activity.board.JoinBoardActivity"
-            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="io.fabric.ApiKey"

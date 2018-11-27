@@ -27,14 +27,25 @@ inline fun <reified T : Activity> Activity.launch() = startActivity(intentFor<T>
  * Function Launch any [BaseCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the [Board] object
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board) {
-    startActivity(intentFor<T>(findString(R.string.intent_board) to board).clearTop())
+    if (this is T) {
+//        TODO: just launch board by adding getMatchDetails() API call
+    } else {
+        startActivity(intentFor<T>(findString(R.string.intent_board) to board).clearTop())
+        finish()
+    }
 }
 
 /**
  * Function Launch [BaseCardActivity] with [PrivateBoardFragment] or [MatchBoardFragment] from any [Activity] with the Private Board's ID
  */
-inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) =
+inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) {
+    if (this is T) {
+//        TODO: just launch board by API call
+    } else {
         startActivity(intentFor<T>(findString(R.string.intent_board_id) to boardId).clearTop())
+        finish()
+    }
+}
 
 /**
  * Function to handle the board/boardId intent (if any) passed to the [BaseCardActivity] and launch [PrivateBoardFragment] or [MatchBoardFragment]
