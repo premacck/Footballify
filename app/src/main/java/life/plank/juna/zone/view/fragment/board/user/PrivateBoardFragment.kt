@@ -131,7 +131,7 @@ class PrivateBoardFragment : CardTileFragment() {
     private fun setupViewPagerWithFragments() {
         pagerAdapter = PrivateBoardPagerAdapter(childFragmentManager, board)
         private_board_view_pager.adapter = pagerAdapter
-        private_board_toolbar.setupWithViewPager(private_board_view_pager)
+        private_board_toolbar.setupWithViewPager(private_board_view_pager, 2)
     }
 
     override fun getBackgroundBlurLayout(): ViewGroup? = root_blur_layout
@@ -189,6 +189,15 @@ class PrivateBoardFragment : CardTileFragment() {
                 0 -> PrivateBoardInfoFragment.newInstance(board.description!!, board.id, board.owner.displayName, board.name!!)
                 1 -> ForumFragment.newInstance(board.id)
                 2 -> BoardTilesFragment.newInstance(board.id, true)
+                else -> null
+            }
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return when (position) {
+                0 -> findString(R.string.info)
+                1 -> findString(R.string.forum)
+                2 -> findString(R.string.tiles)
                 else -> null
             }
         }
