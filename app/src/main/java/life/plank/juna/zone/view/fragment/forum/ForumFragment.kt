@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.EditText
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_forum.*
@@ -44,7 +43,6 @@ class ForumFragment : BaseCommentContainerFragment() {
         super.onCreate(savedInstanceState)
         getApplication().uiComponent.inject(this)
         arguments?.run { boardId = getString(getString(R.string.intent_board_id)) }
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? = inflater.inflate(R.layout.fragment_forum, container, false)
@@ -59,8 +57,6 @@ class ForumFragment : BaseCommentContainerFragment() {
                 .load(PreferenceManager.CurrentUser.getProfilePicUrl())
                 .into(commenter_image)
 
-        getComments(false)
-
         post_comment.onDebouncingClick {
             if (!comment_edit_text.text.toString().isEmpty() && !isNullOrEmpty(boardId)) {
                 post_comment.clearFocus()
@@ -68,6 +64,11 @@ class ForumFragment : BaseCommentContainerFragment() {
             }
         }
         forum_swipe_refresh_layout.setOnRefreshListener { getComments(true) }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getComments(false)
     }
 
     private fun getComments(isRefreshing: Boolean) {

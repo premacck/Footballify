@@ -20,11 +20,11 @@ fun JunaNotification.buildNotificationMessage(): SpannableStringBuilder {
             spannableStringBuilder.append(findString(invited_you_to_board_x))
         findString(intent_post) -> {
             when (feedItemType) {
-                findString(intent_image) ->
+                IMAGE ->
                     spannableStringBuilder.append(findString(posted_image_on_board_x))
-                findString(intent_video) ->
+                VIDEO ->
                     spannableStringBuilder.append(findString(posted_video_on_board_x))
-                findString(intent_audio) ->
+                AUDIO ->
                     spannableStringBuilder.append(findString(posted_audio_on_board_x))
                 ROOT_COMMENT ->
                     spannableStringBuilder.append(findString(posted_on_board_x))

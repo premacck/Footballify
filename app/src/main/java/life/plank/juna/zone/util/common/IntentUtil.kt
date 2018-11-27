@@ -10,7 +10,7 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.facilis.removeBoardIfExists
+import life.plank.juna.zone.util.facilis.removeFragmentIfExists
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
@@ -77,7 +77,7 @@ fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
 }
 
 fun BaseCardActivity.launchPrivateBoard(board: Board) {
-    supportFragmentManager.removeBoardIfExists<PrivateBoardFragment>()
+    removeFragmentIfExists<PrivateBoardFragment>()
     pushFragment(PrivateBoardFragment.newInstance(board), true)
 }
 
@@ -91,7 +91,7 @@ fun BaseCardActivity.launchPrivateBoard(restApi: RestApi, boardId: String) {
 }
 
 fun BaseCardActivity.launchMatchBoard(board: Board, matchDetails: MatchDetails) {
-    supportFragmentManager.removeBoardIfExists<MatchBoardFragment>()
+    removeFragmentIfExists<MatchBoardFragment>()
     pushFragment(MatchBoardFragment.newInstance(board, matchDetails), true)
 }
 

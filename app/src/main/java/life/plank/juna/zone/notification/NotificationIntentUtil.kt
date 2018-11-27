@@ -8,6 +8,7 @@ import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.common.findAndLaunchBoardById
+import life.plank.juna.zone.util.facilis.BaseCard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
 import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
@@ -71,3 +72,6 @@ fun BaseCardActivity.handleNotificationIntentIfAny(restApi: RestApi) {
         }
     }
 }
+
+fun BaseCard.getIntentActionFromActivity(): String? =
+        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_action))
