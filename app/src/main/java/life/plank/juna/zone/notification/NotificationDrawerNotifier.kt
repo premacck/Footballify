@@ -5,7 +5,6 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_ONE_SHOT
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.media.RingtoneManager
 import android.support.v4.app.NotificationCompat
@@ -18,11 +17,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.ZoneLiveData
 import life.plank.juna.zone.data.model.notification.JunaNotification
 import life.plank.juna.zone.util.DataUtil.findString
-import life.plank.juna.zone.view.activity.board.JoinBoardActivity
-import life.plank.juna.zone.view.activity.home.HomeActivity
-import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
 
 private const val CHANNEL_ID = "juna_notification_channel"
@@ -109,36 +104,6 @@ fun NotificationManager.setNotificationChannel(): NotificationManager {
         createNotificationChannel(channel)
     }
     return this
-}
-
-fun JunaNotification.getNotificationIntent(): Intent {
-    return ZoneApplication.getContext().run {
-        when (action) {
-            findString(intent_invite) -> {
-                intentFor<JoinBoardActivity>(findString(intent_board_id) to boardId).clearTop()
-            }
-            findString(intent_post) -> {
-                intentFor<HomeActivity>(
-                        findString(intent_board_id) to boardId,
-                        findString(intent_feed_item_id) to feedItemId
-                ).clearTop()
-            }
-            findString(intent_comment) -> {
-                intentFor<HomeActivity>(
-                        findString(intent_board_id) to boardId,
-                        findString(intent_comment_id) to commentId
-                ).clearTop()
-            }
-            findString(intent_react) -> {
-                intentFor<HomeActivity>(
-                        findString(intent_board_id) to boardId,
-                        findString(intent_feed_item_id) to feedItemId,
-                        findString(intent_comment_id) to commentId
-                ).clearTop()
-            }
-            else -> intentFor<HomeActivity>().clearTop()
-        }
-    }
 }
 
 fun Context.getNotificationManager(): NotificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
