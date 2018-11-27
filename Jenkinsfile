@@ -28,7 +28,7 @@ node('docker') {
 
     def buildFeatureBranch(){
         build()
-	    executeTests()
+		executeTests()
         uploadToNexus()
 		
     }
@@ -160,16 +160,22 @@ node('docker') {
 				withEnv(['JIRA_SITE=JIRA']){			    
 					for (i=0;i <jiratktlist.size();i++) {				
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
-						def statusName = issue.data.fields.status.statusCategory.name.toString()
-					    if (statusName == "Building"){						
-							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is env.BUILD_URL"										
-							def transitionInput =
-							[
-								transition: [
-									id: '91'
-								]
-							]
-							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput		  
+						def statusName = issue.data.fields.status.name.toString()
+						def issueType = issue.data.fields.issuetype.name.toString()
+						
+					    if ( statusName == "Building" ){
+						    println("statusName: " + statusName + "issueType: " + issueType)
+							
+							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
+							
+							if ( issueType == "Task" ){
+								def transitionInput = [transition: [id: '91']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+							} else if ( issueType == "Bug" ) {
+								def transitionInput = [transition: [id: '61']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+							}
+															  
 						}
 					}
 				}
@@ -180,14 +186,21 @@ node('docker') {
 					for (i=0;i <jiratktlist.size();i++) {
 						def issue = jiraGetIssue idOrKey: jiratktlist[i]
 						def statusName = issue.data.fields.status.statusCategory.name.toString()
-					    if (statusName == "Building"){	
-							def transitionInput =
-							[
-								transition: [
-									id: '101'
-								]
-							]
-							jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput
+						def issueType = issue.data.fields.issuetype.name
+						
+					    if ( statusName == "Building" ){
+						    println("statusName: " + statusName + "issueType: " + issueType)
+							
+							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
+							
+							if ( issueType == "Task" ){
+								def transitionInput = [transition: [id: '101']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+							} else if ( issueType == "Bug" ) {
+								def transitionInput = [transition: [id: '171']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+							}
+															  
 						}
 					}
 				}
