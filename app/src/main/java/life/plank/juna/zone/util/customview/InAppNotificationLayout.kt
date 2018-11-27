@@ -1,6 +1,5 @@
 package life.plank.juna.zone.util.customview
 
-import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
@@ -12,15 +11,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.item_in_app_notification.view.*
 import life.plank.juna.zone.R
-import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.notification.InAppNotification
-import life.plank.juna.zone.notification.getNotificationIntent
+import life.plank.juna.zone.notification.getSocialNotificationIntent
+import life.plank.juna.zone.notification.triggerNotificationIntent
 import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.facilis.floatUp
 import life.plank.juna.zone.util.facilis.onSwipeDown
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.facilis.then
+import life.plank.juna.zone.view.activity.base.BaseCardActivity
 
 class InAppNotificationLayout @JvmOverloads constructor(
         context: Context,
@@ -32,14 +32,14 @@ class InAppNotificationLayout @JvmOverloads constructor(
     private var isShowing: Boolean = false
     private val animHandler: Handler = Handler()
     private val animRunnable = Runnable { detach() }
-    private var parentActivity: Activity? = null
+    private var parentActivity: BaseCardActivity? = null
 
     init {
         View.inflate(context, R.layout.item_in_app_notification, this)
         visibility = View.INVISIBLE
     }
 
-    fun load(inAppNotification: InAppNotification, activity: Activity? = null, dismissDelay: Long = 10000) {
+    fun load(inAppNotification: InAppNotification, activity: BaseCardActivity? = null, dismissDelay: Long = 10000) {
         notification_message.text = inAppNotification.message
         notification_sub_message.text = inAppNotification.subMessage
         notification_sub_message.isSelected = true
@@ -84,7 +84,13 @@ class InAppNotificationLayout @JvmOverloads constructor(
     private fun setListeners(inAppNotification: InAppNotification) {
         parentActivity?.run {
             in_app_notification_card.onSwipeDown(this, null, null, { detach() }, {
-                dismiss()?.then { ZoneApplication.getContext().startActivity(inAppNotification.junaNotification?.getNotificationIntent()) }
+                dismiss()?.then {
+                    inAppNotification.junaNotification?.run {
+                        parentActivity?.triggerNotificationIntent(getSocialNotificationIntent())
+                        parentActivity = null
+                    }
+                    detachFormParent()
+                }
                 return@onSwipeDown true
             })
         }
@@ -98,16 +104,18 @@ class InAppNotificationLayout @JvmOverloads constructor(
         }
     }
 
-    private fun detach() {
-        dismiss()?.then { (parent as? ViewGroup)?.removeView(this) }
+    private fun detach() = dismiss()?.then {
+        detachFormParent()
+        parentActivity = null
     }
+
+    private fun detachFormParent() = (parent as? ViewGroup)?.removeView(this)
 
     fun dismiss(): Animation? {
 //        TODO: add notification read API call when it's ready
         if (isShowing) {
             isShowing = false
             animHandler.removeCallbacks(animRunnable)
-            parentActivity = null
             return sinkDown()
         }
         return null

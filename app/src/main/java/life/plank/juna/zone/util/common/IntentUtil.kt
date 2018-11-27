@@ -25,7 +25,8 @@ inline fun <reified T : Activity> Activity.launch() = startActivity(intentFor<T>
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board) {
     if (this is T) {
-        restApi()?.run { launchPrivateOrMatchBoard(this, board) } ?: toast("RestApi is null")
+        restApi()?.run { launchPrivateOrMatchBoard(this, board) }
+                ?: toast(R.string.rest_api_is_null)
     } else {
         startActivity(intentFor<T>(findString(R.string.intent_board) to board).clearTop())
         finish()
@@ -37,9 +38,7 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(board: Board)
  */
 inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: String) {
     if (this is T) {
-        restApi()?.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())?.setObserverThreadsAndSmartSubscribe({}, {
-            it.body()?.run { if (restApi() != null) launchPrivateOrMatchBoard(restApi()!!, this) }
-        })
+        restApi()?.run { findAndLaunchBoardById(this) }
     } else {
         startActivity(intentFor<T>(findString(R.string.intent_board_id) to boardId).clearTop())
         finish()
@@ -50,15 +49,18 @@ inline fun <reified T : BaseCardActivity> Activity.launchWithBoard(boardId: Stri
  * Function to handle the board/boardId intent (if any) passed to the [BaseCardActivity] and launch [PrivateBoardFragment] or [MatchBoardFragment]
  */
 fun BaseCardActivity.handleBoardIntentIfAny(restApi: RestApi) {
+    if (intent.hasExtra(getString(R.string.intent_action))) return
     when {
         intent.hasExtra(getString(R.string.intent_board)) -> launchPrivateOrMatchBoard(restApi, intent.getParcelableExtra(getString(R.string.intent_board)))
-        intent.hasExtra(getString(R.string.intent_board_id)) -> {
-            restApi.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())
-                    .setObserverThreadsAndSmartSubscribe({}, {
-                        it.body()?.run { launchPrivateOrMatchBoard(restApi, this) }
-                    })
-        }
+        intent.hasExtra(getString(R.string.intent_board_id)) -> findAndLaunchBoardById(restApi)
     }
+}
+
+fun BaseCardActivity.findAndLaunchBoardById(restApi: RestApi) {
+    restApi.getBoardById(intent.getStringExtra(getString(R.string.intent_board_id)), getToken())
+            .setObserverThreadsAndSmartSubscribe({}, {
+                it.body()?.run { launchPrivateOrMatchBoard(restApi, this) }
+            })
 }
 
 fun BaseCardActivity.launchPrivateOrMatchBoard(restApi: RestApi, board: Board) {
