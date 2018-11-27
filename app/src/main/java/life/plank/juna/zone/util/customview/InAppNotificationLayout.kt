@@ -1,5 +1,6 @@
 package life.plank.juna.zone.util.customview
 
+import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
@@ -14,9 +15,10 @@ import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.notification.InAppNotification
 import life.plank.juna.zone.notification.getNotificationIntent
+import life.plank.juna.zone.util.DataUtil.isNullOrEmpty
 import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.facilis.floatUp
-import life.plank.juna.zone.util.facilis.onDebouncingClick
+import life.plank.juna.zone.util.facilis.onSwipeDown
 import life.plank.juna.zone.util.facilis.sinkDown
 import life.plank.juna.zone.util.facilis.then
 
@@ -29,35 +31,75 @@ class InAppNotificationLayout @JvmOverloads constructor(
 
     private var isShowing: Boolean = false
     private val animHandler: Handler = Handler()
-    private val animRunnable = Runnable { dismiss()?.then { (parent as? ViewGroup)?.removeView(this) } }
+    private val animRunnable = Runnable { detach() }
+    private var parentActivity: Activity? = null
 
     init {
         View.inflate(context, R.layout.item_in_app_notification, this)
         visibility = View.INVISIBLE
     }
 
-    fun load(inAppNotification: InAppNotification) {
+    fun load(inAppNotification: InAppNotification, activity: Activity? = null, dismissDelay: Long = 10000) {
         notification_message.text = inAppNotification.message
         notification_sub_message.text = inAppNotification.subMessage
         notification_sub_message.isSelected = true
+        parentActivity = activity
+
+//        Check if notification image URL is null or empty, assign imageUrl, or feedItemThumbnailUrl, or boardIconUrl
+//        (whichever is not null gets assigned) in that precedence order
+        inAppNotification.validateImageUrl()
+
+//        If notification image URL is still null or empty, hide image view and expand the width of the message layout
+        if (isNullOrEmpty(inAppNotification.imageUrl)) {
+            notification_image.visibility = View.GONE
+            (notification_message_layout.layoutParams as FrameLayout.LayoutParams).marginStart = 0
+        }
 
         inAppNotification.imageUrl?.run {
             Glide.with(context).load(this)
                     .apply(RequestOptions.overrideOf(getDp(90f).toInt(), getDp(90f).toInt()))
                     .into(notification_image)
         }
-        in_app_notification_card.onDebouncingClick {
-            ZoneApplication.getContext().startActivity(inAppNotification.junaNotification?.getNotificationIntent())
-        }
-        show()
+        setListeners(inAppNotification)
+        show(dismissDelay)
     }
 
-    private fun show() {
+    private fun InAppNotification.validateImageUrl() {
+        if (!isNullOrEmpty(imageUrl)) {
+            return
+        }
+        junaNotification?.run {
+            if (!isNullOrEmpty(imageUrl)) {
+                this@validateImageUrl.imageUrl = imageUrl
+            }
+            if (!isNullOrEmpty(feedItemThumbnailUrl)) {
+                this@validateImageUrl.imageUrl = feedItemThumbnailUrl
+            }
+            if (!isNullOrEmpty(boardIconUrl)) {
+                this@validateImageUrl.imageUrl = boardIconUrl
+            }
+        }
+    }
+
+    private fun setListeners(inAppNotification: InAppNotification) {
+        parentActivity?.run {
+            in_app_notification_card.onSwipeDown(this, null, null, { detach() }, {
+                dismiss()?.then { ZoneApplication.getContext().startActivity(inAppNotification.junaNotification?.getNotificationIntent()) }
+                return@onSwipeDown true
+            })
+        }
+    }
+
+    private fun show(dismissDelay: Long) {
         if (!isShowing) {
             floatUp()
             isShowing = true
-            animHandler.postDelayed(animRunnable, 4000)
+            animHandler.postDelayed(animRunnable, dismissDelay)
         }
+    }
+
+    private fun detach() {
+        dismiss()?.then { (parent as? ViewGroup)?.removeView(this) }
     }
 
     fun dismiss(): Animation? {
@@ -65,6 +107,7 @@ class InAppNotificationLayout @JvmOverloads constructor(
         if (isShowing) {
             isShowing = false
             animHandler.removeCallbacks(animRunnable)
+            parentActivity = null
             return sinkDown()
         }
         return null

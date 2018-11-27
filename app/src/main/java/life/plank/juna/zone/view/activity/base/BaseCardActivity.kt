@@ -59,6 +59,6 @@ abstract class BaseCardActivity : BaseNavigationHelperActivity() {
     private fun addNotificationView(container: ViewGroup, inAppNotification: InAppNotification) {
         val notificationLayout = InAppNotificationLayout(this)
         container.addView(notificationLayout)
-        notificationLayout.load(inAppNotification)
+        notificationLayout.load(inAppNotification, this)
     }
 }

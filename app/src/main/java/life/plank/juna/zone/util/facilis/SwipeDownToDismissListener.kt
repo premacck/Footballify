@@ -60,6 +60,10 @@ abstract class SwipeDownToDismissListener constructor(
         gestureDetector = object : GestureDetector(
                 activity,
                 object : SimpleOnGestureListener() {
+                    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+                        return onSingleTap()
+                    }
+
                     override fun onDown(e: MotionEvent): Boolean {
                         return true
                     }
@@ -83,8 +87,6 @@ abstract class SwipeDownToDismissListener constructor(
         if (backgroundLayout != null) {
             this.backgroundLayout = backgroundLayout
             this.backgroundView = backgroundLayout.getChildAt(0)
-            this.backgroundLayout!!.pivotX = (screenSize[0] / 2).toFloat()
-            this.backgroundLayout!!.pivotY = 0f
         }
     }
 
@@ -248,6 +250,8 @@ abstract class SwipeDownToDismissListener constructor(
     }
 
     abstract fun onSwipeDown()
+
+    open fun onSingleTap(): Boolean = false
 
     companion object {
         private val FREEDOM_NO_TOP = Arrays.asList(SwipeDirection.Down, SwipeDirection.Left, SwipeDirection.Right)!!
