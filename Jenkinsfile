@@ -30,6 +30,7 @@ node('docker') {
         build()
 		executeTests()
         uploadToNexus()
+		emailnotify()
 		
     }
 
@@ -138,6 +139,19 @@ node('docker') {
         sh "./gradlew sonarqube"
         echo  '********************************************************************************'
     }
+	
+	def emailnotify(){
+         stage 'Email'
+       
+       emailext ( 
+       subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
+       body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+	            <p>*********Released*********</p>
+                <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+       to: "deepak@plank.life,rajguru@plank.life"
+     )
+    }
+	
 	
 	def updateJIRA(buildStatus) {
 
