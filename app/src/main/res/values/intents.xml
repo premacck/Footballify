@@ -34,15 +34,13 @@
     <string name="intent_action">action</string>
     <string name="intent_live_event_type">liveEventType</string>
     <string name="intent_invite">invite</string>
+    <string name="intent_post">post</string>
     <string name="intent_image">image</string>
     <string name="intent_video">video</string>
-    <string name="intent_feed_item_comment">feedItemComment</string>
-    <string name="intent_feed_item_reply">feedItemReply</string>
-    <string name="intent_board_comment">boardComment</string>
-    <string name="intent_board_comment_reply">boardCommentReply</string>
-    <string name="intent_feed_item_react">feedItemReact</string>
+    <string name="intent_audio">audio</string>
+    <string name="intent_comment">comment</string>
+    <string name="intent_react">emoji-reacts</string>
     <string name="intent_comment_mention">commentMention</string>
     <string name="intent_reply_mention">replyMention</string>
-    <string name="intent_board_react">boardReact</string>
     <string name="intent_kick">kick</string>
 </resources>
