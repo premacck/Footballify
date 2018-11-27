@@ -14,13 +14,12 @@ import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.util.*
 import life.plank.juna.zone.util.AppConstants.ROOT_COMMENT
 import life.plank.juna.zone.util.DataUtil.findString
+import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
 import life.plank.juna.zone.util.UIDisplayUtil.setupSwipeGesture
 import life.plank.juna.zone.util.UIDisplayUtil.showSoftKeyboard
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import java.net.HttpURLConnection
-import java.text.SimpleDateFormat
-import java.util.*
 import javax.inject.Inject
 
 class PostCommentActivity : BaseCardActivity() {
@@ -30,7 +29,6 @@ class PostCommentActivity : BaseCardActivity() {
     private var commentBg = findString(blue_color)
     private var boardId: String? = null
     private var userId: String? = null
-    private var date: String? = null
     internal lateinit var highlight: Drawable
 
     companion object {
@@ -51,7 +49,6 @@ class PostCommentActivity : BaseCardActivity() {
         (application as ZoneApplication).uiComponent.inject(this)
 
         commentReflectOnPostSurface()
-        date = SimpleDateFormat(getString(R.string.string_format)).format(Calendar.getInstance().time)
         userId = PreferenceManager.CurrentUser.getUserId()
         boardId = intent.getStringExtra(getString(R.string.intent_board_id))
         highlight = resources.getDrawable(R.drawable.highlight, null)
@@ -75,7 +72,7 @@ class PostCommentActivity : BaseCardActivity() {
         if (comment_edit_text.text.toString().isEmpty()) {
             customToast(R.string.please_enter_comment)
         } else {
-            postCommentOnBoardFeed(commentBg + "$" + comment_edit_text.text.toString(), boardId, userId, date)
+            postCommentOnBoardFeed(commentBg + "$" + comment_edit_text.text.toString(), boardId, userId, getRequestDateStringOfNow())
         }
     }
 
@@ -136,6 +133,8 @@ class PostCommentActivity : BaseCardActivity() {
     }
 
     override fun getFragmentContainer(): Int = R.id.main_fragment_container
+
+    override fun restApi(): RestApi? = restApi
 
     override fun onBackPressed() {
         super.onBackPressed()

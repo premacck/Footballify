@@ -97,14 +97,14 @@ class BoardPreviewPopup : BaseBlurPopup() {
                     errorToast(R.string.could_not_create_board, it)
                 }, {
                     when (it.code()) {
-                        HttpURLConnection.HTTP_OK -> navigateToBoard(it.body())
+                        HttpURLConnection.HTTP_OK -> it.body()?.run { navigateToBoard(this) }
                         HttpURLConnection.HTTP_CONFLICT -> customToast(R.string.board_name_already_exists)
                         else -> errorToast(R.string.could_not_create_board, it)
                     }
                 })
     }
 
-    private fun navigateToBoard(boardId: String?) {
-        activity?.launchWithBoard<UserProfileActivity>(boardId!!)
+    private fun navigateToBoard(boardId: String) {
+        activity?.launchWithBoard<UserProfileActivity>(boardId)
     }
 }

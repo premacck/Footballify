@@ -70,6 +70,8 @@ class UserProfileActivity : BaseCardActivity() {
 
     override fun getFragmentContainer(): Int = R.id.popup_container
 
+    override fun restApi(): RestApi? = restApi
+
     private fun initRecyclerView() {
         my_boards_list.layoutManager = GridLayoutManager(applicationContext, 5)
         userBoardsAdapter = UserBoardsAdapter(this, restApi, Glide.with(this), true)
