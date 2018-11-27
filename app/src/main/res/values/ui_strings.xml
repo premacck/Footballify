@@ -230,5 +230,8 @@
     <string name="no_users_found">No users found</string>
     <string name="bench">Bench</string>
     <string name="stay_tuned_for_the_lineups">Stay tuned for the lineups!\nThey\'ll be shown here when available</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
+    <string name="you_have_been_invited_to_this_board">You\'ve been invited to this board</string>
 
 </resources>
