@@ -30,7 +30,7 @@ node('docker') {
         build()
 		executeTests()
         uploadToNexus()
-		emailnotify()
+		
 		
     }
 
