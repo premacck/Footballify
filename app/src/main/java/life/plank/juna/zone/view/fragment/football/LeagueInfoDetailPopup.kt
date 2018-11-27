@@ -52,7 +52,7 @@ class LeagueInfoDetailPopup : BaseBlurPopup() {
         header.text = viewToLoad
         when (viewToLoad) {
             AppConstants.STANDINGS -> {
-                standingTableAdapter = StandingTableAdapter(Glide.with(this))
+                standingTableAdapter = StandingTableAdapter(Glide.with(this), false)
                 standing_recycler_view.adapter = standingTableAdapter!!
                 standingTableAdapter?.update(arguments?.getParcelableArrayList(getString(R.string.intent_list)))
                 toggleStatsHeaderVisibility(LinearLayout.VISIBLE, LinearLayout.GONE, LinearLayout.GONE)

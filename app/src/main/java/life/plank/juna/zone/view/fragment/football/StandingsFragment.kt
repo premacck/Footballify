@@ -45,7 +45,7 @@ class StandingsFragment : BaseLeagueFragment() {
             inflater.inflate(R.layout.fragment_standings, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        standingTableAdapter = StandingTableAdapter(Glide.with(this))
+        standingTableAdapter = StandingTableAdapter(Glide.with(this), false)
         standing_recycler_view.adapter = standingTableAdapter
 
         getStandings(false)

@@ -206,9 +206,9 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
         override fun getItem(position: Int): Fragment? {
             return ref.get()?.run {
                 when (position) {
-                    0 -> MatchStatsFragment.newInstance(gson.toJson(matchDetails))
+                    0 -> MatchStatsFragment.newInstance(matchDetails)
                     1 -> LineupFragment.newInstance(matchDetails)
-                    2 -> MatchMediaFragment.newInstance(gson.toJson(matchDetails))
+                    2 -> MatchMediaFragment.newInstance(matchDetails)
                     3 -> ForumFragment.newInstance(board.id)
                     4 -> BoardTilesFragment.newInstance(board.id, board.isActive)
                     else -> null

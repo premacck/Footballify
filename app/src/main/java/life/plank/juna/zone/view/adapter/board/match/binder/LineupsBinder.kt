@@ -1,6 +1,6 @@
 package life.plank.juna.zone.view.adapter.board.match.binder
 
-import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -26,7 +26,7 @@ import life.plank.juna.zone.util.customview.LineupPlayer
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 
-class LineupsBinder(private val activity: Activity, private val glide: RequestManager) : ItemBinder<LineupsBindingModel, LineupsBinder.LineupsViewHolder>() {
+class LineupsBinder(private val glide: RequestManager) : ItemBinder<LineupsBindingModel, LineupsBinder.LineupsViewHolder>() {
 
     override fun create(inflater: LayoutInflater, parent: ViewGroup): LineupsViewHolder = LineupsViewHolder(inflater.inflate(R.layout.item_line_up, parent, false))
 
@@ -55,8 +55,8 @@ class LineupsBinder(private val activity: Activity, private val glide: RequestMa
                             home_team_lineup_text.text = item.homeFormation
                             visiting_team_lineup_text.text = item.awayFormation
 
-                            prepareLineup(home_team_lineup_layout, item.lineups!!.homeTeamFormation, activity.getColor(R.color.lineup_player_red), true)
-                            prepareLineup(visiting_team_lineup_layout, item.lineups!!.awayTeamFormation, activity.getColor(R.color.purple), false)
+                            prepareLineup(home_team_lineup_layout, item.lineups!!.homeTeamFormation, findColor(R.color.lineup_player_red), true)
+                            prepareLineup(visiting_team_lineup_layout, item.lineups!!.awayTeamFormation, findColor(R.color.purple), false)
                         }
                         loadImage(item.homeTeam?.logoLink, getStartDrawableTarget(home_team_name))
                         loadImage(item.awayTeam?.logoLink, getEndDrawableTarget(visiting_team_name))
@@ -76,19 +76,19 @@ class LineupsBinder(private val activity: Activity, private val glide: RequestMa
     private fun prepareLineup(lineupLayout: LinearLayout, formationsList: List<FormationList>, labelColor: Int, isHomeTeam: Boolean) {
         lineupLayout.removeAllViews()
         for (formations in if (isHomeTeam) formationsList else formationsList.reversed()) {
-            lineupLayout.addView(getLineupLayoutLine(formations, labelColor))
+            lineupLayout.addView(getLineupLayoutLine(lineupLayout.context, formations, labelColor))
         }
     }
 
-    private fun getLineupLayoutLine(formations: List<Formation>, labelColor: Int): LinearLayout {
-        val linearLayout = LinearLayout(activity)
+    private fun getLineupLayoutLine(context: Context, formations: List<Formation>, labelColor: Int): LinearLayout {
+        val linearLayout = LinearLayout(context)
         linearLayout.orientation = LinearLayout.HORIZONTAL
         linearLayout.gravity = Gravity.CENTER
         linearLayout.weightSum = formations.size.toFloat()
         val params = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT, 1f)
         linearLayout.layoutParams = params
         for (formation in formations) {
-            val lineupPlayer = LineupPlayer(activity, formation, labelColor)
+            val lineupPlayer = LineupPlayer(context, formation, labelColor)
             linearLayout.addView(lineupPlayer)
             (lineupPlayer.layoutParams as LinearLayout.LayoutParams).weight = 1f
         }

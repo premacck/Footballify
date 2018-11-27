@@ -26,10 +26,12 @@ import life.plank.juna.zone.data.model.Standings;
 public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdapter.StandingScoreTableViewHolder> {
 
     private RequestManager glide;
+    private boolean isSerialNumberHidden;
     private List<Standings> standingsList;
 
-    public StandingTableAdapter(RequestManager glide) {
+    public StandingTableAdapter(RequestManager glide, boolean isSerialNumberHidden) {
         this.glide = glide;
+        this.isSerialNumberHidden = isSerialNumberHidden;
         this.standingsList = new ArrayList<>();
     }
 
@@ -42,7 +44,12 @@ public class StandingTableAdapter extends RecyclerView.Adapter<StandingTableAdap
 
     @Override
     public void onBindViewHolder(@NonNull StandingScoreTableViewHolder holder, int position) {
-        holder.serialNumberTextView.setText(String.valueOf(position + 1));
+        if (isSerialNumberHidden) {
+            holder.serialNumberTextView.setVisibility(View.GONE);
+        } else {
+            holder.serialNumberTextView.setVisibility(View.VISIBLE);
+            holder.serialNumberTextView.setText(String.valueOf(position + 1));
+        }
         holder.teamNameTextView.setText(standingsList.get(position).getTeamName());
         holder.playedTextView.setText(String.valueOf(standingsList.get(position).getMatchesPlayed()));
         holder.winTextView.setText(String.valueOf(standingsList.get(position).getWins()));

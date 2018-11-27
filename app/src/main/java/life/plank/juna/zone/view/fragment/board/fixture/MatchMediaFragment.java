@@ -13,31 +13,25 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-import java.util.Objects;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import kotlin.Pair;
 import life.plank.juna.zone.R;
 import life.plank.juna.zone.ZoneApplication;
 import life.plank.juna.zone.data.model.Highlights;
 import life.plank.juna.zone.data.model.MatchDetails;
-import life.plank.juna.zone.data.model.Standings;
-import life.plank.juna.zone.data.model.TeamStats;
 import life.plank.juna.zone.data.model.ZoneLiveData;
 import life.plank.juna.zone.data.network.interfaces.RestApi;
-import life.plank.juna.zone.view.adapter.board.match.BoardInfoAdapter;
 import life.plank.juna.zone.view.adapter.board.match.BoardMediaAdapter;
-import life.plank.juna.zone.view.fragment.base.BaseBoardFragment;
+import life.plank.juna.zone.view.fragment.base.BaseFragment;
 
 import static life.plank.juna.zone.util.AppConstants.HIGHLIGHTS_DATA;
-import static life.plank.juna.zone.util.DateUtil.getTimeDiffFromNow;
+import static life.plank.juna.zone.util.DataUtil.findString;
+import static life.plank.juna.zone.util.UIDisplayUtil.getScreenSize;
 
-public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAdapter.BoardInfoAdapterListener {
-
-    private static final String TAG = MatchMediaFragment.class.getSimpleName();
+public class MatchMediaFragment extends BaseFragment {
 
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -53,15 +47,14 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
 
     private MatchDetails matchDetails;
     private BoardMediaAdapter adapter;
-    private long timeDiffOfMatchFromNow;
 
     public MatchMediaFragment() {
     }
 
-    public static MatchMediaFragment newInstance(String matchDetailsObjectString) {
+    public static MatchMediaFragment newInstance(MatchDetails matchDetails) {
         MatchMediaFragment fragment = new MatchMediaFragment();
         Bundle args = new Bundle();
-        args.putString(ZoneApplication.getContext().getString(R.string.intent_board), matchDetailsObjectString);
+        args.putParcelable(findString(R.string.match_id_string), matchDetails);
         fragment.setArguments(args);
         return fragment;
     }
@@ -72,7 +65,7 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
         ZoneApplication.getApplication().getUiComponent().inject(this);
         Bundle args = getArguments();
         if (args != null) {
-            matchDetails = gson.fromJson(args.getString(getString(R.string.intent_board)), MatchDetails.class);
+            matchDetails = args.getParcelable(getString(R.string.match_id_string));
         }
     }
 
@@ -80,26 +73,13 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_board_info, container, false);
         ButterKnife.bind(this, rootView);
-        timeDiffOfMatchFromNow = getTimeDiffFromNow(matchDetails.getMatchStartTime());
         prepareRecyclerView();
         return rootView;
     }
 
     private void prepareRecyclerView() {
-        if (adapter != null && boardInfoRecyclerView.getAdapter() != null) {
-            adapter = null;
-            boardInfoRecyclerView.setAdapter(null);
-        }
-        adapter = new BoardMediaAdapter(matchDetails, Objects.requireNonNull(getActivity()));
+        adapter = new BoardMediaAdapter(matchDetails, getScreenSize(getActivity())[0]);
         boardInfoRecyclerView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onCommentarySeeAllClick(View fromView) {
-    }
-
-    @Override
-    public void onSeeAllStandingsClick(View fromView) {
     }
 
     public void updateZoneLiveData(ZoneLiveData zoneLiveData) {
@@ -112,14 +92,6 @@ public class MatchMediaFragment extends BaseBoardFragment implements BoardInfoAd
                 break;
             default:
                 break;
-        }
-    }
-
-    @Override
-    public void handlePreMatchData(@org.jetbrains.annotations.Nullable Pair<? extends List<Standings>, ? extends List<TeamStats>> pair) {
-        if (pair != null) {
-            matchDetails.setStandingsList(pair.getFirst());
-            matchDetails.setTeamStatsList(pair.getSecond());
         }
     }
 
