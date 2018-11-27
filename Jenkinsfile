@@ -142,16 +142,15 @@ node('docker') {
     }
 	
 	def emailnotify(){
-         stage 'Email'
-       
-       emailext ( 
-       subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
-       body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-	            <p>*********Released*********</p>
-				<p>Published to play store</p>
-                <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
-       to: "deepak@plank.life,rajguru@plank.life"
-     )
+        stage 'Email'
+        emailext ( 
+        subject: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'", 
+        body: """<p>STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+	             <p>*********Released*********</p>
+				 <p>Published to play store</p>
+                 <p>Check console output at "<a href="${env.BUILD_URL}">${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>"</p>""",
+        to: "praneeth@plank.life,sangeeta@plank.life,dhamini@plank.life,arfaa@plank.life,prem@plank.life,samveg@plank.life,gowtham@plank.life,surya@plank.life,sajad@plank.life,rajguru@plank.life,deepak@plank.life"
+                  )
     }
 	
 	
