@@ -19,6 +19,7 @@ import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.model.*
 import life.plank.juna.zone.data.network.interfaces.RestApi
 import life.plank.juna.zone.interfaces.PublicBoardHeaderListener
+import life.plank.juna.zone.notification.getIntentActionFromActivity
 import life.plank.juna.zone.util.AppConstants.*
 import life.plank.juna.zone.util.DataUtil
 import life.plank.juna.zone.util.DataUtil.*
@@ -120,7 +121,14 @@ class MatchBoardFragment : BaseMatchFragment(), PublicBoardHeaderListener {
     private fun setupViewPagerWithFragments() {
         boardPagerAdapter = BoardPagerAdapter(childFragmentManager, this)
         board_view_pager.adapter = boardPagerAdapter
-        board_toolbar.setupWithViewPager(board_view_pager, 4)
+        val defaultTabSelection = getIntentActionFromActivity()?.run {
+            when (this) {
+                getString(R.string.intent_post), getString(R.string.intent_react) -> 4
+                getString(R.string.intent_comment) -> 3
+                else -> 4
+            }
+        } ?: 4
+        board_toolbar.setupWithViewPager(board_view_pager, defaultTabSelection)
     }
 
     override fun onInAppNotificationReceived(feedEntry: FeedEntry) {

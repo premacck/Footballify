@@ -415,8 +415,8 @@ public class PublicBoardToolbar extends Toolbar implements CustomViewListener, E
 
     @Override
     public void setupWithViewPager(@NonNull ViewPager viewPager, int defaultSelection) {
+        viewPager.setCurrentItem(defaultSelection, true);
         infoTilesTabLayout.setupWithViewPager(viewPager);
-        viewPager.setCurrentItem(defaultSelection);
     }
 
     public void setBoardTemperature(BoardTemperature boardTemperature) {

@@ -10,7 +10,9 @@ import life.plank.juna.zone.util.DataUtil.findString
 import life.plank.juna.zone.util.common.findAndLaunchBoardById
 import life.plank.juna.zone.view.activity.base.BaseCardActivity
 import life.plank.juna.zone.view.activity.home.HomeActivity
+import life.plank.juna.zone.view.fragment.board.fixture.MatchBoardFragment
 import life.plank.juna.zone.view.fragment.board.user.JoinBoardPopup
+import life.plank.juna.zone.view.fragment.board.user.PrivateBoardFragment
 import org.jetbrains.anko.clearTop
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
@@ -71,3 +73,9 @@ fun BaseCardActivity.handleNotificationIntentIfAny(restApi: RestApi) {
         }
     }
 }
+
+fun MatchBoardFragment.getIntentActionFromActivity(): String? =
+        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_action))
+
+fun PrivateBoardFragment.getIntentActionFromActivity(): String? =
+        (activity as? BaseCardActivity)?.intent?.getStringExtra(findString(intent_action))

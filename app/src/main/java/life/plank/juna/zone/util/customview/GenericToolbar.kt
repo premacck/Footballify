@@ -129,8 +129,8 @@ class GenericToolbar @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     override fun setupWithViewPager(viewPager: ViewPager, defaultSelection: Int) {
+        viewPager.setCurrentItem(defaultSelection, true)
         info_tiles_tab_layout.setupWithViewPager(viewPager)
-        viewPager.currentItem = defaultSelection
     }
 
     fun setupForPreview() {
