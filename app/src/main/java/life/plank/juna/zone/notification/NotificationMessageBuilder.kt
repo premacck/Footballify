@@ -17,30 +17,38 @@ fun JunaNotification.buildNotificationMessage(): SpannableStringBuilder {
     val spannableStringBuilder = SpannableStringBuilder(userHandle.bold()).append(SINGLE_SPACE)
     when (action) {
         findString(intent_invite) ->
-            spannableStringBuilder.append(findString(invited_you_to_board_x)).append(boardName?.semiBold()).append(findString(_board))
+            spannableStringBuilder.append(findString(invited_you_to_board_x))
         findString(intent_post) -> {
             when (feedItemType) {
                 findString(intent_image) ->
-                    spannableStringBuilder.append(findString(posted_image_on_board_x)).append(boardName?.semiBold()).append(findString(_board))
+                    spannableStringBuilder.append(findString(posted_image_on_board_x))
                 findString(intent_video) ->
-                    spannableStringBuilder.append(findString(posted_video_on_board_x)).append(boardName?.semiBold()).append(findString(_board))
+                    spannableStringBuilder.append(findString(posted_video_on_board_x))
                 findString(intent_audio) ->
-                    spannableStringBuilder.append(findString(posted_audio_on_board_x)).append(boardName?.semiBold()).append(findString(_board))
+                    spannableStringBuilder.append(findString(posted_audio_on_board_x))
                 ROOT_COMMENT ->
-                    spannableStringBuilder.append(findString(posted_on_board_x)).append(boardName?.semiBold()).append(findString(_board))
+                    spannableStringBuilder.append(findString(posted_on_board_x))
             }
         }
         findString(intent_comment) -> {
             if (isNullOrEmpty(parentCommentId)) {
-                spannableStringBuilder.append(findString(commented_on_board_x)).append(boardName?.semiBold()).append(findString(_board))
+                spannableStringBuilder.append(findString(commented_on_board_x))
             } else {
-                spannableStringBuilder.append(findString(replied_on_)).append(boardName?.semiBold()).append(findString(_board))
+                spannableStringBuilder.append(findString(replied_on_))
             }
         }
-        findString(intent_react) -> spannableStringBuilder.append(findString(reacted_on_your_post))
+        findString(intent_react) -> {
+            if (isNullOrEmpty(feedItemId)) {
+                spannableStringBuilder.append(findString(reacted_on_board_x))
+            } else {
+                spannableStringBuilder.append(findString(reacted_on_your_post))
+            }
+        }
     }
-    return spannableStringBuilder
+    return spannableStringBuilder.appendBoard(boardName)
 }
+
+private fun SpannableStringBuilder.appendBoard(name: String?): SpannableStringBuilder = append(name?.semiBold()).append(findString(_board))
 
 /**
  * Method to get suitable text for the social live football data message

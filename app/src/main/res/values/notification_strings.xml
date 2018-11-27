@@ -11,7 +11,7 @@
     <string name="replied_on_">replied on&#160;</string>
     <string name="mentioned_you_in_a_comment">mentioned you in a comment</string>
     <string name="mentioned_you_in_a_reply">mentioned you in a reply</string>
-    <string name="reacted_on_your_post">reacted on your post</string>
+    <string name="reacted_on_your_post">reacted on your post on&#160;</string>
     <string name="kicked_from_board_x">You just got kicked from&#160;</string>
     <string name="_board">&#160;board</string>
 </resources>

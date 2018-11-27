@@ -5,8 +5,9 @@
     <string name="intent_in_app_notification">in_app_notification</string>
     <string name="intent_juna_notification">juna_notification</string>
     <string name="intent_zone_live_data">zone_live_data</string>
-    <string name="intent_board_id">BOARD_ID</string>
-    <string name="intent_comment_id">COMMENT_ID</string>
+    <string name="intent_board_id">board_id</string>
+    <string name="intent_comment_id">comment_id</string>
+    <string name="intent_parent_comment_id">parent_comment_id</string>
     <string name="intent_comment_title">title</string>
     <string name="intent_content_type">contentType</string>
     <string name="intent_fixture_data">fixtureData</string>
