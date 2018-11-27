@@ -51,8 +51,12 @@ class PostCommentBinder(
             }
         }
 
+//        TODO: remove the if block below when backend completes forum comment mentions
+        if (isNullOrEmpty(item.commenterHandle)) {
+            item.commenterHandle = item.commenterDisplayName.replace(" ", "")
+        }
         holder.itemView.comment_text_view.text =
-                SpannableStringBuilder(item.commenterDisplayName.semiBold().color(R.color.black))
+                SpannableStringBuilder(item.commenterHandle.semiBold().color(R.color.black))
                         .append(AppConstants.SPACE)
                         .append(item.message.formatMentions())
         holder.itemView.comment_time_text.text = getCommentDateAndTimeFormat(item.time)
@@ -79,7 +83,7 @@ class PostCommentBinder(
             itemView.like_text_view.setText(if (itemView.like_text_view.text.toString() == findString(R.string.like)) R.string.unlike else R.string.like)
         }
         itemView.reply_text_view.onDebouncingClick {
-            commentContainerFragment.replyAction(itemView.reply_text_view, itemView.base_comment, item.commenterDisplayName, item, adapterPosition)
+            commentContainerFragment.replyAction(itemView.reply_text_view, itemView.base_comment, item.commenterHandle, item, adapterPosition)
         }
         itemView.view_replies_text_view.onDebouncingClick {
             itemView.view_replies_text_view.setText(if (isItemExpanded) R.string.hide_replies else R.string.show_replies)

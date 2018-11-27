@@ -120,6 +120,7 @@ public class PreferenceManager {
             getUserPrefs().edit()
                     .putString(findString(R.string.pref_object_id), user.getObjectId())
                     .putString(findString(R.string.pref_display_name), user.getDisplayName())
+                    .putString(findString(R.string.pref_handle), user.getHandle())
                     .putString(findString(R.string.pref_email_address), user.getEmailAddress())
                     .putString(findString(R.string.pref_profile_pic_url), user.getProfilePictureUrl())
                     .putString(findString(R.string.pref_country), user.getCountry())
@@ -145,6 +146,11 @@ public class PreferenceManager {
 
         public static String getDisplayName() {
             return getUserPrefs().getString(findString(R.string.pref_display_name), null);
+        }
+
+        public static String getHandle() {
+//            TODO: add null as default return value when backend completes forum comment mentions
+            return getUserPrefs().getString(findString(R.string.pref_handle), getDisplayName().replace(" ", ""));
         }
 
         public static String getProfilePicUrl() {

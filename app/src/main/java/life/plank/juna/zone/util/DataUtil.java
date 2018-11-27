@@ -91,7 +91,7 @@ public class DataUtil {
         return ZoneApplication.getContext().getString(stringRes);
     }
 
-    public static String findString(@StringRes int stringRes, Object... formatArgs) {
+    public static CharSequence findString(@StringRes int stringRes, Object... formatArgs) {
         return ZoneApplication.getContext().getString(stringRes, formatArgs);
     }
 

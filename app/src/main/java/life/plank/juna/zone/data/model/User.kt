@@ -10,6 +10,7 @@ data class User(
         var userPreferences: List<UserPreference>? = null,
         var objectId: String? = "",
         var displayName: String = "",
+        var handle: String = "",
         var emailAddress: String = "",
         var country: String? = "",
         var city: String? = "",

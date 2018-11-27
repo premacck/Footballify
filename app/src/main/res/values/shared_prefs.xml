@@ -2,6 +2,7 @@
 <resources>
     <string name="pref_object_id">objectId</string>
     <string name="pref_display_name">displayName</string>
+    <string name="pref_handle">handle</string>
     <string name="pref_email_address">emailAddress</string>
     <string name="pref_country">country</string>
     <string name="pref_city">city</string>
