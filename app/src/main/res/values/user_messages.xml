@@ -44,7 +44,6 @@
     <string name="already_pinned_feed">You have already pinned this feed</string>
     <string name="already_removed_pin">You have already removed the pin on this feed</string>
     <string name="user_deleted">User deleted successfully</string>
-    <string name="write_a_reply">Write a reply</string>
     <string name="write_something">Write something</string>
     <string name="view_n_replies">View %1$s replies</string>
     <string name="show_replies">Show replies</string>
@@ -62,7 +61,6 @@
     <string name="login_signup_to_view_comments">Please login or signup to view and post comments</string>
     <string name="tap_for_photo_hold_for_video">Tap for photo, hold for video</string>
     <string name="failed_to_get_audio_file">Failed to get audio file</string>
-    <string name="no_id_for_fragment_container">No ID for Main fragment container given</string>
     <string name="already_following_board">You are already following this board</string>
     <string name="cannot_follow_board">Sorry, but you cannot follow this board</string>
     <string name="select_team">Select atleast one team</string>
