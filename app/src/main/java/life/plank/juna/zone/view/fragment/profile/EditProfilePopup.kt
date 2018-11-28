@@ -56,6 +56,7 @@ class EditProfilePopup : BaseBlurPopup() {
         name_edit_text.setText(PreferenceManager.CurrentUser.getDisplayName())
         username_edit_text.setText(PreferenceManager.CurrentUser.getHandle())
         email_edit_text.setText(PreferenceManager.CurrentUser.getUserEmail())
+        location_edit_text.setText(PreferenceManager.CurrentUser.getLocation())
     }
 
     private fun showCalendar() {

@@ -132,6 +132,7 @@ class UserProfileActivity : BaseCardActivity() {
                 } else {
                     country
                 }
+                PreferenceManager.CurrentUser.saveLocation(location)
                 location_text_view.text = location
             }
         })

@@ -160,5 +160,13 @@ public class PreferenceManager {
         public static void saveProfilePicUrl(String url) {
             getUserPrefs().edit().putString(findString(R.string.pref_profile_pic_url), url).apply();
         }
+
+        public static void saveLocation(String location) {
+            getUserPrefs().edit().putString(findString(R.string.pref_location), location).apply();
+        }
+
+        public static String getLocation() {
+            return getUserPrefs().getString(findString(R.string.pref_location), null);
+        }
     }
 }
