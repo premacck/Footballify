@@ -185,11 +185,11 @@ node('docker') {
 							
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
-							if ( issueType == "Task" ){
-								def transitionInput = [transition: [id: '91']]
-								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
-							} else if ( issueType == "Bug" ) {
+							if ( issueType == "Bug" ){
 								def transitionInput = [transition: [id: '61']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+							} else {
+								def transitionInput = [transition: [id: '91']]
 								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
 							}
 															  
@@ -210,12 +210,13 @@ node('docker') {
 							
 							jiraAddComment idOrKey: jiratktlist[i], comment: "Build Success: BUILD URL is ${env.BUILD_URL}"										
 							
-							if ( issueType == "Task" ){
-								def transitionInput = [transition: [id: '101']]
-								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
-							} else if ( issueType == "Bug" ) {
+							if ( issueType == "Bug" ){
 								def transitionInput = [transition: [id: '171']]
-								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput
+								
+							} else {
+								def transitionInput = [transition: [id: '101']]
+								jiraTransitionIssue idOrKey: jiratktlist[i], input: transitionInput	  	  
 							}
 															  
 						}
