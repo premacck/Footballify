@@ -58,14 +58,14 @@
     <string name="loss">Loss</string>
     <string name="goal">Goal</string>
     <string name="pass">Pass</string>
-    <string name="shot">Shot</string>
+    <string name="shot">Shots</string>
     <string name="drama">Drama</string>
     <string name="tune">Tune</string>
     <string name="skill">Skill</string>
     <string name="board_name">Board Name</string>
     <string name="board_description">Board Description</string>
     <string name="personal_info">PERSONAL INFO</string>
-    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="edit">EDIT</string>
     <string name="name">Name</string>
     <string name="date_of_birth">Date of Birth</string>
     <string name="location">Location</string>
