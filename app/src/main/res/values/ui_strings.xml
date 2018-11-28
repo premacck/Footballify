@@ -9,11 +9,9 @@
     <string name="post_to">Post to</string>
     <string name="other">Other</string>
     <string name="post">Post</string>
-    <string name="matches_fixture_results">Matches, Fixture &amp; Results</string>
     <string name="team_stats">Team Stats</string>
     <string name="player_stats">Player Stats</string>
     <string name="info">INFO</string>
-    <string name="matches_fixtures_amp_results"><![CDATA[Matches, Fixtures & Results]]></string>
     <string name="see_all">See All</string>
     <string name="see_more">see More</string>
     <string name="standings">Standings</string>
@@ -33,7 +31,6 @@
     <string name="outlook">Outlook</string>
     <string name="gmail">Gmail</string>
     <string name="what_s_on_your_mind">What\'s on your mind?</string>
-    <string name="text_post">Text Post</string>
     <string name="follow">Follow</string>
     <string name="football_zone_info">Global football zone. Cheer, shout and feel the game along with millions around the word!</string>
     <string name="shots">Shots</string>
@@ -115,7 +112,6 @@
     <string name="manager">Manager</string>
     <string name="_8_8">8 – 8</string>
     <string name="no_internet_connection">No internet connection</string>
-    <string name="no_match_events_yet">No match events yet</string>
 
     <string name="lineup_card">Lineup card</string>
     <string name="no_substitutions_yet">No substitutions yet</string>
@@ -173,7 +169,6 @@
         However, this Board is now expired.\nYou can now only view the events and feeds of this board.
     </string>
     <string name="okay">Okay</string>
-    <string name="board">board</string>
     <string name="hi_user">Hi %1$s</string>
     <string name="notification">Notifications</string>
     <string name="camera_flash">Camera flash</string>
@@ -188,14 +183,10 @@
     <string name="_votes">%1$d Votes</string>
     <string name="forum">FORUM</string>
     <string name="swipe_up_for_more">Swipe up for more</string>
-    <string name="prematch">PREMATCH</string>
     <string name="lineups">LINEUPS</string>
     <string name="stats">STATS</string>
     <string name="media">MEDIA</string>
-    <string name="people">PEOPLE</string>
     <string name="edit_personal_info">Edit Personal Info</string>
-    <string name="change_picture">Change Picture</string>
-    <string name="remove_picture">Remove Picture</string>
     <string name="save">Save</string>
     <string name="zone_logo">Zone logo</string>
     <string name="matchday_with_number">Matchday %1$d</string>
@@ -209,18 +200,13 @@
     <string name="dartboard_player">Dartboard player</string>
     <string name="vs">vs</string>
     <string name="go_to_forum">Go to forum</string>
-    <string name="get_tickets">Get Tickets</string>
     <string name="key_board">Key Board</string>
     <string name="n_darts">%1$d Darts</string>
-    <string name="boards">BOARDS</string>
     <string name="react_to_this_board">React to this Board</string>
     <string name="reaction">Reaction</string>
     <string name="failed_to_get_poll">Failed to get poll</string>
-    <string name="failed_to_get_poll_answer">Failed to get poll answer</string>
-    <string name="emoji">Emoji</string>
     <string name="failed_to_get_top_emoji">Failed to get top emoji</string>
     <string name="next_match_data_not_available">Next match data not available</string>
-    <string name="dismiss">Dismiss</string>
     <string name="loading_polls">Loading Polls</string>
     <string name="proceed">Proceed</string>
     <string name="now">Now</string>

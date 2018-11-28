@@ -2,7 +2,4 @@
 <resources>
     <integer name="opaque">255</integer>
     <integer name="visiblilty_160">160</integer>
-    <integer name="zone_grid_layout_param">22</integer>
-    <integer name="team_grid_layout_width_param">14</integer>
-    <integer name="team_grid_layout_height_param">20</integer>
 </resources>

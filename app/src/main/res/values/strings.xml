@@ -5,15 +5,12 @@
     <string name="app_name">Zone</string>
     <string name="facebook_app_id">575013552837571</string>
 
-    <string name="comment_time">17|01-3.30PM | MARK WAHLBERG</string>
-
     <string name="title_activity_video_player">VideoPlayerActivity</string>
 
     <string name="sample_video_url">http://techslides.com/demos/sample-videos/small.mp4</string>
     <string name="application_video_player">JUNA_PLAYER</string>
 
     <string name="_1_4m">1.4M</string>
-    <string name="_3_8m">3.8M</string>
     <string name="_16_2m">16.2M</string>
     <string name="like">Like</string>
     <string name="unlike">Unlike</string>
@@ -28,7 +25,6 @@
     <string name="select_audio">Select Audio</string>
 
     <string name="network_error">Network Error</string>
-    <string name="string_format">yyyy-MM-dd HH:mm:ss</string>
 
     <string name="title_activity_post_comment">PostCommentActivity</string>
     <string name="red">red</string>
@@ -56,7 +52,6 @@
     <string name="purple_color">purple_bg</string>
     <string name="green_color">green_bg</string>
     <string name="orange_color">orange_bg</string>
-    <string name="na">NA</string>
     <string name="screenshot_background_suffix">_bg.png</string>
     <string name="notification_time">1 min ago</string>
     <string name="clear_notifications">CLEAR ALL</string>
