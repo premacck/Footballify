@@ -6,7 +6,6 @@
     <LinearLayout
         android:id="@+id/parent_layout"
         style="@style/MatchParentSize"
-        android:background="@color/background_grey"
         android:orientation="vertical">
 
         <include
@@ -15,7 +14,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:animateLayoutChanges="true"
             android:background="@color/transparent_white_two">
 
@@ -59,9 +58,12 @@
 
                 <View
                     android:id="@+id/view"
-                    android:layout_width="210dp"
+                    android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_alignParentBottom="true"
+                    android:layout_below="@+id/league_info_tab_layout"
+                    android:layout_alignStart="@+id/league_info_tab_layout"
+                    android:layout_alignEnd="@+id/league_info_tab_layout"
+                    android:layout_marginEnd="5dp"
                     android:background="@color/white_76_opaque" />
 
             </RelativeLayout>
