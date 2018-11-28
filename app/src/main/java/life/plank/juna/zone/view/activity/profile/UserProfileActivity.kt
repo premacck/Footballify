@@ -122,6 +122,7 @@ class UserProfileActivity : BaseCardActivity() {
                 PreferenceManager.CurrentUser.saveUser(user)
                 name_text_view.text = displayName
                 email_text_view.text = emailAddress
+                username_text_view.text = handle
                 if (profilePictureUrl != null) {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
                     settings_toolbar.setProfilePic(profilePictureUrl)
