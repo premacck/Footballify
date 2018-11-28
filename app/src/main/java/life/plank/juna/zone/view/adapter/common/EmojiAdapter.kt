@@ -1,6 +1,7 @@
 package life.plank.juna.zone.view.adapter.common
 
 import android.support.design.widget.BottomSheetBehavior
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,62 +9,118 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_emoji.view.*
 import life.plank.juna.zone.R
+import life.plank.juna.zone.data.model.Emoji
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.interfaces.EmojiContainer
 import life.plank.juna.zone.util.DateUtil.getRequestDateStringOfNow
 import life.plank.juna.zone.util.PreferenceManager.Auth.getToken
-import life.plank.juna.zone.util.UIDisplayUtil
+import life.plank.juna.zone.util.UIDisplayUtil.addDefaultEmojis
+import life.plank.juna.zone.util.UIDisplayUtil.getDp
 import life.plank.juna.zone.util.errorToast
 import life.plank.juna.zone.util.facilis.hide
 import life.plank.juna.zone.util.facilis.onDebouncingClick
 import life.plank.juna.zone.util.facilis.setEmoji
 import life.plank.juna.zone.util.setObserverThreadsAndSmartSubscribe
-import java.net.HttpURLConnection.HTTP_CREATED
-import java.net.HttpURLConnection.HTTP_OK
+import java.net.HttpURLConnection.*
 
 class EmojiAdapter(
         private val restApi: RestApi,
-        private val boardId: String,
+        private var boardId: String,
         private val emojiBottomSheetBehavior: BottomSheetBehavior<*>?,
-        private var feedId: String? = null
+        private var feedItemId: String? = null,
+        private val isFeedItem: Boolean,
+        private val emojiContainer: EmojiContainer
 ) : RecyclerView.Adapter<EmojiAdapter.EmojiViewHolder>() {
 
-    private var emojiList = UIDisplayUtil.emoji
+    private var emojiList: MutableList<Emoji> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_emoji, parent, false)
-        return EmojiViewHolder(view)
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmojiViewHolder =
+            EmojiViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_emoji, parent, false))
 
     override fun onBindViewHolder(holder: EmojiViewHolder, position: Int) {
         val emoji = emojiList[position]
+        holder.itemView.run {
+            if (emoji.emoji == 0) {
+                emoji_root_layout.visibility = View.INVISIBLE
+            } else {
+                emoji_root_layout.visibility = View.VISIBLE
+                if (emoji.emojiCount > 0) {
+                    emoji_count.visibility = View.VISIBLE
+                    emoji_count.text = emoji.emojiCount.toString()
+                    (emoji_root_layout.layoutParams as? GridLayoutManager.LayoutParams)?.run {
+                        bottomMargin = getDp(10f).toInt()
+                        emoji_root_layout.layoutParams = this
+                    }
+                } else {
+                    emoji_count.visibility = View.GONE
+                    (emoji_root_layout.layoutParams as? GridLayoutManager.LayoutParams)?.run {
+                        bottomMargin = getDp(2f).toInt()
+                        emoji_root_layout.layoutParams = this
+                    }
+                }
+            }
+            emoji_text_view.setEmoji(emoji.emoji)
 
-        holder.itemView.emoji_count.text = emoji.emojiCount.toString()
-        holder.itemView.emoji_text_view.setEmoji(emoji.emoji)
-
-        holder.itemView.onDebouncingClick { postEmoji(emoji.emoji) }
+            onDebouncingClick { postEmoji(emoji.emoji) }
+        }
     }
 
-    fun update(feedItemId: String?) {
-        feedId = feedItemId
-        if (feedId != null) getTopEmoji()
+    fun update(id: String) {
+        emojiList.clear()
+        if (isFeedItem) {
+            this.feedItemId = id
+            if (this.feedItemId != null) getTopEmoji()
+        } else {
+            this.boardId = id
+            getTopEmoji()
+        }
     }
 
     private fun getTopEmoji() {
-        restApi.getTopEmoji(feedId, getToken()).setObserverThreadsAndSmartSubscribe({
-            Log.e("getTopEmoji()", "ERROR: ", it)
+        val topEmojiCall = if (isFeedItem) {
+            restApi.getTopFeedItemEmoji(feedItemId, getToken())
+        } else {
+            restApi.getTopBoardEmoji(feedItemId, getToken())
+        }
+        topEmojiCall.setObserverThreadsAndSmartSubscribe({
+            Log.e("getTopFeedItemEmoji()", "ERROR: ", it)
+            useDefaultEmoji()
         }, {
             when (it.code()) {
                 HTTP_OK -> {
-                    this.emojiList = it.body() as ArrayList
+                    this.emojiList.addAll(it.body() as ArrayList)
+                    appendDefaultEmoji()
                     notifyDataSetChanged()
                 }
-                else -> errorToast(R.string.failed_to_get_top_emoji, it)
+                HTTP_NOT_FOUND -> useDefaultEmoji()
+                else -> {
+                    useDefaultEmoji()
+                    errorToast(R.string.failed_to_get_top_emoji, it)
+                }
             }
         })
     }
 
+    private fun appendDefaultEmoji() {
+        while (emojiList.size % 5 != 0) {
+            emojiList.add(Emoji())
+        }
+        addDefaultEmojis(emojiList)
+    }
+
+    private fun useDefaultEmoji() {
+        addDefaultEmojis(emojiList)
+        notifyDataSetChanged()
+    }
+
     private fun postEmoji(emoji: Int) {
-        restApi.postReaction(feedId, boardId, emoji, getRequestDateStringOfNow(), getToken()).setObserverThreadsAndSmartSubscribe({
+        emojiContainer.onEmojiPosted(Emoji(emoji, 1))
+        val postEmojiCall = if (isFeedItem) {
+            restApi.postEmojiOnFeedItem(feedItemId, boardId, emoji, getRequestDateStringOfNow(), getToken())
+        } else {
+            restApi.postEmojiOnBoard(feedItemId, emoji, getRequestDateStringOfNow(), getToken())
+        }
+        postEmojiCall.setObserverThreadsAndSmartSubscribe({
             Log.e("postEmoji()", "onError: ", it)
         }, {
             when (it.code()) {
