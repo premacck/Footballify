@@ -166,7 +166,7 @@ class BoardTilesFragment : BaseFragment(), AsymmetricRecyclerViewListener, PollC
     private fun getTopEmoji() {
         restApi.getTopBoardEmoji(boardId, getToken()).setObserverThreadsAndSmartSubscribe({}, {
             var emojiList = it.body()
-            if (isNullOrEmpty(emojiList)) {
+            if (!isNullOrEmpty(emojiList)) {
                 val emoji = emojiList?.get(0)!!
                 reaction_text_view.setEmoji(emoji.emoji)
                 reaction_count.text = emoji.emojiCount.toString()
