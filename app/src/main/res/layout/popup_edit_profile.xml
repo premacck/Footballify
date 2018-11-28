@@ -31,59 +31,11 @@
                 android:textColor="@color/grey"
                 android:textSize="12sp" />
 
-            <ProgressBar
-                android:id="@+id/profile_picture_uploading_progress"
-                android:layout_width="92dp"
-                android:layout_height="92dp"
-                android:layout_below="@+id/edit_text"
-                android:indeterminate="true"
-                android:visibility="gone" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_picture_image_view"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_below="@+id/edit_text"
-                android:layout_margin="10dp"
-                android:src="@drawable/ic_default_profile"
-                app:civ_border_color="@color/grey_10"
-                app:civ_border_width="1dp" />
-
-            <Button
-                android:id="@+id/change_picture_button"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_alignTop="@+id/profile_picture_image_view"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="5dp"
-                android:layout_toEndOf="@+id/profile_picture_image_view"
-                android:background="@drawable/grey_border_button"
-                android:fontFamily="@font/rajdhani_medium"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/change_picture"
-                android:textSize="@dimen/text_10sp" />
-
-            <Button
-                android:id="@+id/remove_picture_button"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_below="@+id/change_picture_button"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="10dp"
-                android:layout_toEndOf="@+id/profile_picture_image_view"
-                android:background="@drawable/grey_border_button"
-                android:fontFamily="@font/rajdhani_medium"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:text="@string/remove_picture"
-                android:textSize="@dimen/text_10sp" />
-
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/name_text_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/profile_picture_image_view"
+                android:layout_below="@id/edit_text"
                 android:layout_gravity="center_horizontal">
 
                 <android.support.design.widget.TextInputEditText
