@@ -6,54 +6,67 @@
     <LinearLayout
         android:id="@+id/parent_layout"
         style="@style/MatchParentSize"
+        android:background="@color/background_grey"
         android:orientation="vertical">
 
         <include
             android:id="@+id/league_toolbar"
             layout="@layout/league_toolbar" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:animateLayoutChanges="true"
-            android:background="@color/transparent_white_two"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:background="@color/transparent_white_two">
 
             <TextView
                 android:id="@+id/league_matchday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="12dp"
                 android:layout_marginEnd="12dp"
                 android:fontFamily="@font/rajdhani_medium"
                 android:text="@string/matchday_"
                 android:textColor="@color/white"
-                android:layout_weight="1"
                 android:textSize="16sp" />
 
-            <android.support.design.widget.TabLayout
-                android:id="@+id/league_info_tab_layout"
-                style="@style/DefaultTabLayout">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true">
 
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fixtures_caps" />
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/league_info_tab_layout"
+                    style="@style/DefaultTabLayout">
 
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/table_caps" />
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fixtures_caps" />
 
-                <android.support.design.widget.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/stats" />
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/table_caps" />
 
-            </android.support.design.widget.TabLayout>
+                    <android.support.design.widget.TabItem
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/stats" />
 
-        </LinearLayout>
+                </android.support.design.widget.TabLayout>
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="210dp"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/white_76_opaque" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/league_info_view_pager"
