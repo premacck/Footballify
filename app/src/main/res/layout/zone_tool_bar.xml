@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="80dp"
     android:background="@color/white"
-    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:weightSum="20">
 
     <ImageView
+        android:id="@+id/juna_Logo"
         android:layout_width="60dp"
         android:layout_height="30dp"
+        android:layout_centerVertical="true"
         android:layout_marginStart="22dp"
-        android:layout_weight="1"
         android:contentDescription="@string/juna_logo"
         android:src="@drawable/img_juna_logo" />
 
@@ -20,8 +20,9 @@
         android:id="@+id/toolbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginStart="12dp"
-        android:layout_weight="16"
+        android:layout_toEndOf="@+id/juna_Logo"
         android:fontFamily="@font/raleway_medium"
         android:textSize="20sp" />
 
@@ -29,8 +30,9 @@
         android:id="@+id/toolbar_user_greeting"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:layout_weight="1"
+        android:layout_toStartOf="@+id/toolbar_notification"
         android:fontFamily="@font/rajdhani_regular"
         android:gravity="center_vertical"
         android:padding="10dp"
@@ -40,23 +42,34 @@
         android:id="@+id/toolbar_notification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
-        android:layout_marginEnd="10dp"
-        android:layout_weight="1"
+        android:layout_marginEnd="20dp"
+        android:layout_toStartOf="@+id/toolbar_profile_pic"
         android:gravity="center_vertical"
-        android:padding="10dp"
         android:src="@drawable/ic_notification_bell" />
+
+    <ImageView
+        android:id="@+id/notification_badge"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_alignTop="@+id/toolbar_notification"
+        android:layout_marginEnd="17dp"
+        android:layout_toStartOf="@+id/toolbar_profile_pic"
+        android:gravity="center_vertical"
+        android:src="@drawable/badge_background" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/toolbar_profile_pic"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
         android:layout_gravity="center"
         android:layout_marginEnd="18dp"
-        android:layout_weight="1"
         android:contentDescription="@string/profile_pic"
         android:src="@drawable/ic_default_profile"
         app:civ_border_color="@color/grey_10"
         app:civ_border_width="1dp" />
 
-</LinearLayout>
+</RelativeLayout>

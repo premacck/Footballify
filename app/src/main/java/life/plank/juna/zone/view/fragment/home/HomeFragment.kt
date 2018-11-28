@@ -91,6 +91,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
 
         feed_header.initListeners(this)
         feed_header.setProfilePic(PreferenceManager.CurrentUser.getProfilePicUrl())
+
     }
 
     override fun onResume() {
@@ -105,6 +106,8 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
             feed_header.isNotificationViewVisible(View.GONE)
             feed_header.userGreeting = getString(R.string.hello_stranger)
         } else {
+            //TODO: show notification badge only if there are new notifications
+            feed_header.showNotificationBadge(true)
             setupBoomMenu(BOOM_MENU_FULL, activity!!, null, arc_menu, null)
         }
     }
@@ -231,6 +234,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
             showPopup()
         } else {
             UserNotificationActivity.launch(context!!)
+            feed_header.showNotificationBadge(false)
         }
     }
 
