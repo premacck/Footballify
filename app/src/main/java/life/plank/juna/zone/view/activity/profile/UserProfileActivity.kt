@@ -125,7 +125,7 @@ class UserProfileActivity : BaseCardActivity() {
                 username_text_view.text = handle
                 if (profilePictureUrl != null) {
                     Glide.with(this@UserProfileActivity).load(profilePictureUrl).into(profile_picture_image_view)
-                    settings_toolbar.setProfilePic(profilePictureUrl)
+                    settings_toolbar.setProfilePic(profilePictureUrl!!)
                 }
                 val location: String? = if (!DataUtil.isNullOrEmpty(city) && !DataUtil.equalsNullString(city)) {
                     "$city, $country"

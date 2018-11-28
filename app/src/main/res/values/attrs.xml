@@ -5,6 +5,10 @@
         <attr name="title" format="string" />
         <attr name="coinCount" format="string" />
         <attr name="profilePic" format="reference" />
+        <attr name="notificationBadgeVisibility" format="enum">
+            <enum name="visible" value="0" />
+            <enum name="invisible" value="1" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CircularAppCompatImageView">
