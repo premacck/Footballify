@@ -230,7 +230,7 @@ class HomeFragment : FlatTileFragment(), ZoneToolbarListener {
         if (isNullOrEmpty(getToken())) {
             showPopup()
         } else {
-            UserNotificationActivity.launch(activity)
+            UserNotificationActivity.launch(context!!)
         }
     }
 
