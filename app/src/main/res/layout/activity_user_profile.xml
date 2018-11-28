@@ -48,14 +48,14 @@
 
                     <Button
                         android:id="@+id/edit_profile_button"
-                        android:layout_width="83dp"
+                        android:layout_width="63dp"
                         android:layout_height="20dp"
                         android:layout_alignTop="@+id/personal_info_text_view"
                         android:layout_alignBottom="@+id/personal_info_text_view"
                         android:layout_alignParentEnd="true"
                         android:background="@drawable/edit_profile_button"
                         android:fontFamily="@font/rajdhani_medium"
-                        android:text="@string/edit_profile"
+                        android:text="@string/edit"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_10sp" />
 
