@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.popup_edit_profile.*
 import life.plank.juna.zone.R
 import life.plank.juna.zone.ZoneApplication
 import life.plank.juna.zone.data.network.interfaces.RestApi
+import life.plank.juna.zone.util.PreferenceManager
 import life.plank.juna.zone.view.fragment.base.BaseBlurPopup
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import java.text.DateFormatSymbols
@@ -35,6 +36,7 @@ class EditProfilePopup : BaseBlurPopup() {
 
     override fun doOnStart() {
         setOnClickListeners()
+        setUserDetails()
     }
 
     override fun getBlurLayout(): BlurLayout? = root_blur_layout
@@ -48,6 +50,12 @@ class EditProfilePopup : BaseBlurPopup() {
     private fun setOnClickListeners() {
         dob_edit_text.onClick { showCalendar() }
         save_button.onClick { dismiss() }
+    }
+
+    private fun setUserDetails() {
+        name_edit_text.setText(PreferenceManager.CurrentUser.getDisplayName())
+        username_edit_text.setText(PreferenceManager.CurrentUser.getHandle())
+        email_edit_text.setText(PreferenceManager.CurrentUser.getUserEmail())
     }
 
     private fun showCalendar() {
