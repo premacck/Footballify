@@ -90,36 +90,6 @@ class PrivateBoardFragment : CardTileFragment() {
         FirebaseMessaging.getInstance().subscribeToTopic(topic)
     }
 
-    fun setDataReceivedFromPushNotification(intent: Intent) {
-
-        if (intent.hasExtra(getString(R.string.intent_juna_notification))) {
-
-            val junaNotification = intent.getParcelableExtra<JunaNotification>(getString(R.string.intent_juna_notification))
-            val imageUrl = junaNotification.imageUrl
-            val feed = FeedEntry()
-            val feedItem = FeedItem()
-
-            feed.feedItem = feedItem
-            feed.feedItem.contentType = junaNotification.action
-
-            when (junaNotification.action) {
-                getString(R.string.intent_image) -> {
-                    val thumbnail = Thumbnail()
-                    thumbnail.imageUrl = imageUrl!!
-                    feed.feedItem.thumbnail = thumbnail
-                    feed.feedItem.url = imageUrl
-                }
-            }
-            try {
-                if (pagerAdapter!!.currentFragment is BoardTilesFragment) {
-                    (pagerAdapter!!.currentFragment as BoardTilesFragment).updateNewPost(feed)
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, e.message)
-            }
-        }
-    }
-
     private fun setupViewPagerWithFragments() {
         pagerAdapter = PrivateBoardPagerAdapter(childFragmentManager, board)
         private_board_view_pager.adapter = pagerAdapter
